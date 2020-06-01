@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {   //username, name, email, role, kolom wajib, standard laravel
             $table->bigIncrements('uuid');
+            $table->uuid('uuid');
             $table->string('username')->unique();
             $table->string('name');
             $table->string('email')->unique();
