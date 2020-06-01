@@ -13,9 +13,18 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {   //code, company, name, email, remark, kolom wajib, standard laravel
             $table->bigIncrements('id');
+            $table->uuid('uuid');
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->string('email')->unique();
 
+            $table->string('remark')->nullable();
+            $table->integer('status')->nullable();
+            $table->string('owned_by')->nullable();
+            $table->integer('created_by');
+            $table->integer('updated_by');
             $table->timestamps();
         });
     }

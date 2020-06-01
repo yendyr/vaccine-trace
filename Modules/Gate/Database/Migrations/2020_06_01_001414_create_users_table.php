@@ -13,13 +13,21 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('users', function (Blueprint $table) {   //username, name, email, role, kolom wajib, standard laravel
+            $table->bigIncrements('uuid');
+            $table->string('username')->unique();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+
+            $table->string('company')->nullable();
+            $table->integer('role');
+            $table->integer('status')->nullable();
+            $table->string('owned_by')->nullable();
+            $table->integer('created_by');
+            $table->integer('updated_by');
             $table->timestamps();
         });
     }
