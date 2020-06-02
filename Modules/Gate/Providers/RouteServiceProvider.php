@@ -14,6 +14,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $moduleNamespace = 'Modules\Gate\Http\Controllers';
 
+    public const HOME = '/gate/user';
+
     /**
      * Called before routes are registered.
      *

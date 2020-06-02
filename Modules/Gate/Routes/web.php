@@ -12,6 +12,8 @@
 */
 
 Route::prefix('gate')->group(function() {
-    Route::get('/', 'GateController@index');
+    Route::resource('/user', 'UserController');
     Route::resource('/company', 'CompanyController');
+    Route::get('/', 'GateController@index');
+
 });
