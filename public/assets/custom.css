@@ -7,13 +7,21 @@
     background: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     /* width: 500px; */
-    height: 400px;
+    height: 300px;
 }
 
-.absolute {
+.absolute{
     position: absolute;
     top: 20px;
     left: 20px;
     width: 158px;
     height: 44px;
+}
+.font-login{
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.font-welcome{
+    font-weight: 600;
+    margin-bottom: 20px;
 }
