@@ -25,3 +25,17 @@
     font-weight: 600;
     margin-bottom: 20px;
 }
+.rounded-c{
+    border-radius: 5px;
+}
+.dropdown-it {
+    background-color: indianred;
+}
+
+.absolute2{
+    position: absolute;
+    top: 5px;
+    left: 22px;
+    width: 25px;
+    height: 25px;
+}
