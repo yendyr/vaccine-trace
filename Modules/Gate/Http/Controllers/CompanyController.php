@@ -20,7 +20,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('gate::company.index');
+        return view('gate::pages.company.index');
     }
 
     /**
@@ -29,7 +29,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('gate::company.create');
+        return view('gate::pages.company.create');
     }
 
     /**
@@ -49,7 +49,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        return view('gate::company.show');
+        return view('gate::pages.company.show');
     }
 
     /**
@@ -59,7 +59,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        return view('gate::company.edit');
+        return view('gate::pages.company.edit');
     }
 
     /**

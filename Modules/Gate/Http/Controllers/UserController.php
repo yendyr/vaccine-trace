@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('gate::user.index');
+        return view('gate::pages.user.index');
     }
 
     /**
@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('gate::user.create');
+        return view('gate::pages.user.create');
     }
 
     /**
@@ -49,7 +49,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return view('gate::user.show');
+        return view('gate::pages.user.show');
     }
 
     /**
@@ -59,7 +59,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('gate::user.edit');
+        return view('gate::pages.user.edit');
     }
 
     /**
