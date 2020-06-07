@@ -1,4 +1,4 @@
-@extends('gate::layouts.master')
+@extends('layouts.master')
 
 @section('content')
     <h1>Welcome</h1>
