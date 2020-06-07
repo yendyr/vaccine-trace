@@ -26,16 +26,16 @@
             <div class="nav-label text-white p-3 mt-2">Gate</div>
         </li>
         <li class="{{ request()->is('gate/user*') ? 'active' : '' }}">
-            <a href="{{ route('gate.user.index')}}"><i class="fa fa-user-o"></i> <span class="nav-label">User</span></a>
+            <a href="{{ route('gate.user.index')}}"><i class="fa fa-user-circle-o"></i> <span class="nav-label">User</span></a>
         </li>
         <li class=" {{ request()->is('gate/company*') ? 'active' : '' }}">
-            <a href="{{ route('gate.company.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Company</span></a>
+            <a href="{{ route('gate.company.index')}}"><i class="fa fa-university"></i> <span class="nav-label">Company</span></a>
         </li>
         <li class="">
             <a href=""><i class="fa fa-address-card-o"></i> <span class="nav-label">Role</span></a>
         </li>
         <li class="">
-            <a href=""><i class="fa fa-id-badge"></i> <span class="nav-label">Role Menu</span></a>
+            <a href=""><i class="fa fa-th-list"></i> <span class="nav-label">Role Menu</span></a>
         </li>
         <li class=" {{ request()->is('gate/test*') ? 'active' : '' }}">
             <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>
