@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateRoleMenusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,20 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {   //username, name, email, role, kolom wajib, standard laravel
+        Schema::create('role_menus', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->string('username')->unique();
-            $table->string('name')->nullable();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-
-            $table->integer('company')->nullable();
-            $table->integer('role');
+            $table->integer('menu_id');
+            $table->integer('user_id');
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
+
+            $table->string('menu_link');
+            $table->integer('add');
+            $table->integer('edit');
+            $table->integer('delete');
             $table->timestamps();
         });
     }
@@ -40,6 +38,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('role_menus');
     }
 }
