@@ -5,6 +5,8 @@ namespace Modules\Gate\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
+use Modules\Gate\Entities\Company;
 
 class CompanyController extends Controller
 {
@@ -20,7 +22,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('gate::pages.company.index');
+        $companies = Company::all();
+        return view('gate::pages.company.index', compact('companies'));
     }
 
     /**
@@ -39,7 +42,25 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'code' => ['required', 'max:255', 'alpha_dash'],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email:rfc,dns', 'max:255'],
+            'remark' => ['required', 'max:255'],
+        ]);
+
+        $companies = new Company();
+        $companies->uuid = Str::uuid();
+        $companies->name = $request->name;
+        $companies->code = $request->code;
+        $companies->email = $request->email;
+        $companies->remark = $request->remark;
+        $companies->owned_by = 0;
+        $companies->status = 1;
+        $companies->created_by = $request->user()->id;
+        $companies->save();
+
+        return redirect('/gate/company')->with('status', 'Company data has been added!');
     }
 
     /**
@@ -47,9 +68,9 @@ class CompanyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(Company $company)
     {
-        return view('gate::pages.company.show');
+        return view('gate::pages.company.show', compact('company'));
     }
 
     /**
@@ -57,9 +78,9 @@ class CompanyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Company $company)
     {
-        return view('gate::pages.company.edit');
+        return view('gate::pages.company.edit', compact('company'));
     }
 
     /**
@@ -68,9 +89,25 @@ class CompanyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Company $company)
     {
-        //
+        $request->validate([
+            'code' => ['required', 'max:255'],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email:rfc,dns', 'max:255'],
+            'remark' => ['required', 'max:255'],
+        ]);
+
+        Company::where('id', $company->id)
+            ->update([
+                'name' => $request->name,
+                'code' => $request->code,
+                'email' => $request->email,
+                'remark' => $request->remark,
+                'updated_by' => $request->user()->id
+            ]);
+
+        return redirect('/gate/company')->with('status', 'Company data has been updated!');
     }
 
     /**
@@ -78,8 +115,9 @@ class CompanyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Company $company)
     {
-        //
+        Company::destroy($company->id);
+        return redirect('/gate/company')->with('status', 'Company data has been deleted!');
     }
 }
