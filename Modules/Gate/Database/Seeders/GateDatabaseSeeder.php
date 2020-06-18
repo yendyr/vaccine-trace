@@ -17,6 +17,8 @@ class GateDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call([
+            RoleTableSeeder::class,
+            CompanyTableSeeder::class,
             UserTableSeeder::class,
         ]);
     }

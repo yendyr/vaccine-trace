@@ -20,20 +20,25 @@ class UserTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $user = User::create([
-            'username' => 'user',
-            'email' => 'user@gmail.com',
-            'password' => bcrypt('password'),
-            'role' => 2,
-            'uuid' => Str::uuid(),
-        ]);
-
         DB::table('users')->insert([
             'username' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'role' => 1,
+            'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+
+        $user = User::create([
+            'username' => 'user',
+            'email' => 'user@gmail.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+            'company' => 1,
+            'owned_by' => 1,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+
     }
 }
