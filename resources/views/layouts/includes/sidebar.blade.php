@@ -4,7 +4,7 @@
             <div class="dropdown profile-element">
                 <img alt="image" class="rounded-circle" src="{{URL::asset('theme/img/profile_small.jpg')}}"/>
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                    <span class="block m-t-xs font-bold">David Williams</span>
+                    <span class="block m-t-xs font-bold">{{\Illuminate\Support\Facades\Auth::user()->name}}</span>
                     <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="logo-element">
-                IN+
+                <img class="absolute2" src="{{URL::asset('theme/img/yems/asset-1.png')}}" alt="">
             </div>
         </li>
         <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
@@ -27,9 +27,12 @@
         </li>
         <li class="{{ request()->is('gate/user*') ? 'active' : '' }}">
             <a href="{{ route('gate.user.index')}}"><i class="fa fa-user-circle-o"></i> <span class="nav-label">User</span></a>
+{{--            <ul class="nav nav-second-level">--}}
+{{--                <li class="{{ request()->is('gate/user*') ? 'active' : '' }}"><a href="{{ route('gate.user.index')}}">Data</a></li>--}}
+{{--            </ul>--}}
         </li>
         <li class=" {{ request()->is('gate/company*') ? 'active' : '' }}">
-            <a href="{{ route('gate.company.index')}}"><i class="fa fa-university"></i> <span class="nav-label">Company</span></a>
+            <a href="{{ route('gate.company.index')}}"><i class="fa fa-building-o"></i> <span class="nav-label">Company</span></a>
         </li>
         <li class="">
             <a href=""><i class="fa fa-address-card-o"></i> <span class="nav-label">Role</span></a>

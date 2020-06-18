@@ -10,69 +10,59 @@
     <link href="{{URL::asset('theme/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('theme/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
 
-    <!-- Toastr style -->
-    <link href="{{URL::asset('theme/css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
-
-    <!-- Gritter -->
-    <link href="{{URL::asset('theme/js/plugins/gritter/jquery.gritter.css')}}" rel="stylesheet">
-
     <link href="{{URL::asset('theme/css/animate.css')}}" rel="stylesheet">
     <link href="{{URL::asset('theme/css/style.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/custom.css')}}" rel="stylesheet">
 
 
 </head>
-<body class="gray-bg">
+<body class="bg-plane">
+    <img class="absolute" src="{{URL::asset('theme/img/yems/smartaircraft logo putih.png')}}" alt="">
 
-    <div class="loginColumns animated fadeInDown">
+    <div class="loginColumns animated fadeInUp">
         <div class="row">
 
             <div class="col-md-6">
-                <div class="card-header text-center">{{ __('Login Gate') }}</div>
+                <h2 class="font-welcome">Welcome!</h2>
+                <p class="text-left">Your Aircraft Reliability, Starts Here! One Stop Solutions and Services for Aviation System
+                </p>
+                <p class="text-left">We offer customizability for every aviation industry needs, and every uniqueness processessin your organization. Some country has some different aviation industry regulation
+                </p>
             </div>
 
             <div class="col-md-6">
                 <div class="ibox-content">
                     <form class="m-t" role="form" method="POST" action="{{ route('login') }}">
                         @csrf
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
 
-                            <div class="col-md-8">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <div class="form-group">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus placeholder="email / username">
 
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-                            </div>
+                            @enderror
                         </div>
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                        <div class="form-group">
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required placeholder="password">
 
-                            <div class="col-md-8">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-                            </div>
+                            @enderror
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary block full-width m-b">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary block full-width m-b">
+                                {{ __('Login') }}
+                            </button>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}">
+                                    <small>Forgot Your Password?</small>
+                                </a>
+                            @endif
                         </div>
 
                     </form>
@@ -84,10 +74,14 @@
         <hr/>
         <div class="row">
             <div class="col-md-6">
-                <strong>Copyright</strong> Smartaircraft
+                <a href="#">
+                    <small>Term and Conditions</small>
+                </a>
             </div>
             <div class="col-md-6 text-right">
-                <small>© {{date('Y')}}</small>
+                <a href="#">
+                    <small>© {{date('Y')}} Smartaircraft.id</small>
+                </a>
             </div>
         </div>
 
