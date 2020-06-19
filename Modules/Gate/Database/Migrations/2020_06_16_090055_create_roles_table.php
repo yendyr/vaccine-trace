@@ -18,9 +18,9 @@ class CreateRolesTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('role_name');
             $table->integer('status')->nullable();
-            $table->integer('owned_by')->nullable();
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
+            $table->integer('owned_by')->nullable()->unsigned();
+            $table->integer('created_by')->nullable()->unsigned();
+            $table->integer('updated_by')->nullable()->unsigned();
             $table->timestamps();
         });
     }

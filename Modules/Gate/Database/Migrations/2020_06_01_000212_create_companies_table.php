@@ -23,8 +23,8 @@ class CreateCompaniesTable extends Migration
             $table->string('remark')->nullable();
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable();
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
+            $table->integer('created_by')->nullable()->unsigned();
+            $table->integer('updated_by')->nullable()->unsigned();
             $table->timestamps();
         });
     }
