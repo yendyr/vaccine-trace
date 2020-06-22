@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class RoleMenu extends Model
 {
-    protected $fillable = [];
+    protected $fillable = [
+        'uuid', 'menu_link', 'role_id', 'menu_id', 'add', 'edit', 'delete', 'owned_by', 'status', 'created_by'
+    ];
 
     protected $table = 'role_menus';
 }
