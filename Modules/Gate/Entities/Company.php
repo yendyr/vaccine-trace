@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    protected $fillable = [];
+    protected $fillable = [
+        'uuid', 'name', 'code', 'email', 'remark', 'owned_by', 'status', 'created_by'
+    ];
 
     /**
      * Retrieve the child model for a bound value.

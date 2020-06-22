@@ -18,7 +18,7 @@ class CompanyTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $company1 = Company::create([
+        $company = Company::create([
             'name' => 'Company 1',
             'code' => 'company1',
             'email' => 'company1@gmail.com',
@@ -26,7 +26,7 @@ class CompanyTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $company2 = Company::create([
+        $company = Company::create([
             'name' => 'Company 2',
             'code' => 'company2',
             'email' => 'company2@gmail.com',

@@ -21,6 +21,7 @@ class GateDatabaseSeeder extends Seeder
             CompanyTableSeeder::class,
             UserTableSeeder::class,
             MenuTableSeeder::class,
+            RoleMenuTableSeeder::class,
         ]);
     }
 }

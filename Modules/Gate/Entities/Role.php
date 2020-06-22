@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['uuid', 'role_name', 'owned_by', 'created_by', 'status'];
 }

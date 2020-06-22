@@ -18,29 +18,29 @@ class MenuTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $menu1 = Menu::create([
+        $menu = Menu::create([
             'menu_link' => 'gate/user',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $menu2 = Menu::create([
+        $menu = Menu::create([
             'menu_link' => 'gate/company',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $menu3 = Menu::create([
+        $menu = Menu::create([
             'menu_link' => 'gate/role',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $menu4 = Menu::create([
-            'menu_link' => 'gate/menu',
+        $menu = Menu::create([
+            'menu_link' => 'gate/role-menu',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,
