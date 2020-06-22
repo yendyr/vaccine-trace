@@ -23,7 +23,7 @@
             <a href="{{ route('dashboard')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
         </li>
         <li>
-            <div class="nav-label text-white p-3 mt-2">Gate</div>
+            <div class="nav-label text-white p-3 mt-2">Modules</div>
         </li>
         <li class="{{ request()->is('gate/*') ? 'active' : '' }}">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Gates</span> <span class="fa arrow"></span></a>
@@ -48,9 +48,6 @@
 
         <li class=" {{ request()->is('gate/test*') ? 'active' : '' }}">
             <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>
-        </li>
-        <li>
-            <div class="nav-label text-white p-3 mt-2">Master</div>
         </li>
     </ul>
 </div>
