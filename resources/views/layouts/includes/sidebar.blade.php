@@ -25,21 +25,27 @@
         <li>
             <div class="nav-label text-white p-3 mt-2">Gate</div>
         </li>
-        <li class="{{ (request()->is('gate/user') || request()->is('gate/user/*')) ? 'active' : '' }}">
-            <a href="{{ route('gate.user.index')}}"><i class="fa fa-user-circle-o"></i> <span class="nav-label">User</span></a>
-{{--            <ul class="nav nav-second-level">--}}
-{{--                <li class="{{ request()->is('gate/user*') ? 'active' : '' }}"><a href="{{ route('gate.user.index')}}">Data</a></li>--}}
-{{--            </ul>--}}
+        <li class="{{ request()->is('gate/*') ? 'active' : '' }}">
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Gates</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+                <li class="{{ (request()->is('gate/user') || request()->is('gate/user/*')) ? 'active' : '' }}">
+                    <a href="{{ route('gate.user.index')}}"><i class="fa fa-user-circle-o"></i> <span class="nav-label">User</span></a>
+{{--                    <ul class="nav nav-second-level">--}}
+{{--                        <li class="{{ request()->is('gate/user*') ? 'active' : '' }}"><a href="{{ route('gate.user.index')}}">Data</a></li>--}}
+{{--                    </ul>--}}
+                </li>
+                <li class=" {{ (request()->is('gate/company') || request()->is('gate/company/*')) ? 'active' : '' }}">
+                    <a href="{{ route('gate.company.index')}}"><i class="fa fa-building-o"></i> <span class="nav-label">Company</span></a>
+                </li>
+                <li class="{{ (request()->is('gate/role') || request()->is('gate/role/*')) ? 'active' : '' }}">
+                    <a href="{{route('gate.role.index')}}"><i class="fa fa-users"></i> <span class="nav-label">Role</span></a>
+                </li>
+                <li class="{{ (request()->is('gate/role-menu') || request()->is('gate/role-menu/*')) ? 'active' : '' }}">
+                    <a href="{{route('gate.role-menu.index')}}"><i class="fa fa-list-alt"></i> <span class="nav-label">Role Menu</span></a>
+                </li>
+            </ul>
         </li>
-        <li class=" {{ (request()->is('gate/company') || request()->is('gate/company/*')) ? 'active' : '' }}">
-            <a href="{{ route('gate.company.index')}}"><i class="fa fa-building-o"></i> <span class="nav-label">Company</span></a>
-        </li>
-        <li class="{{ (request()->is('gate/role') || request()->is('gate/role/*')) ? 'active' : '' }}">
-            <a href="{{route('gate.role.index')}}"><i class="fa fa-users"></i> <span class="nav-label">Role</span></a>
-        </li>
-        <li class="{{ (request()->is('gate/role-menu') || request()->is('gate/role-menu/*')) ? 'active' : '' }}">
-            <a href="{{route('gate.role-menu.index')}}"><i class="fa fa-list-alt"></i> <span class="nav-label">Role Menu</span></a>
-        </li>
+
         <li class=" {{ request()->is('gate/test*') ? 'active' : '' }}">
             <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>
         </li>
