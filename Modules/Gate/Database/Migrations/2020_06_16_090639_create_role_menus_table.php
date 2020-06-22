@@ -17,16 +17,16 @@ class CreateRoleMenusTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->integer('menu_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->integer('status')->nullable();
-            $table->integer('owned_by')->nullable()->unsigned();
-            $table->integer('created_by')->nullable()->unsigned();
-            $table->integer('updated_by')->nullable()->unsigned();
-
+            $table->integer('role_id')->unsigned();
             $table->string('menu_link');
             $table->integer('add');
             $table->integer('edit');
             $table->integer('delete');
+
+            $table->integer('status')->nullable();
+            $table->integer('owned_by')->nullable()->unsigned();
+            $table->integer('created_by')->nullable()->unsigned();
+            $table->integer('updated_by')->nullable()->unsigned();
             $table->timestamps();
         });
     }
