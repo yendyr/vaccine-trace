@@ -16,8 +16,8 @@ class CreateRoleMenusTable extends Migration
         Schema::create('role_menus', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->integer('menu_id')->unsigned();
             $table->integer('role_id')->unsigned();
+            $table->integer('menu_id')->unsigned();
             $table->string('menu_link');
             $table->integer('add');
             $table->integer('edit');

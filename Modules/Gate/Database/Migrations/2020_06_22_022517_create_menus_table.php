@@ -16,8 +16,9 @@ class CreateMenusTable extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->string('menu_link');
             $table->string('parent');
+            $table->string('menu_text');
+            $table->string('menu_link');
 
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();

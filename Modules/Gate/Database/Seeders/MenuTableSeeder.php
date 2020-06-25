@@ -20,6 +20,7 @@ class MenuTableSeeder extends Seeder
 
         $menu = Menu::create([
             'menu_link' => 'gate/user',
+            'menu_text' => 'User',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,
@@ -27,6 +28,7 @@ class MenuTableSeeder extends Seeder
         ]);
         $menu = Menu::create([
             'menu_link' => 'gate/company',
+            'menu_text' => 'Company',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,
@@ -34,6 +36,7 @@ class MenuTableSeeder extends Seeder
         ]);
         $menu = Menu::create([
             'menu_link' => 'gate/role',
+            'menu_text' => 'Role',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,
@@ -41,6 +44,7 @@ class MenuTableSeeder extends Seeder
         ]);
         $menu = Menu::create([
             'menu_link' => 'gate/role-menu',
+            'menu_text' => 'Role-menu',
             'parent' => 'Gate',
             'owned_by' => 0,
             'status' => 1,

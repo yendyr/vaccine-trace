@@ -19,12 +19,12 @@ class RoleTableSeeder extends Seeder
         Model::unguard();
 
         $role = Role::create([
-            'role_name' => 'admin',
+            'role_name' => 'Admin',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $role = Role::create([
-            'role_name' => 'user',
+            'role_name' => 'User',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
