@@ -19,6 +19,9 @@ class CreateMenusTable extends Migration
             $table->string('parent');
             $table->string('menu_text');
             $table->string('menu_link');
+            $table->integer('add');
+            $table->integer('edit');
+            $table->integer('delete');
 
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
