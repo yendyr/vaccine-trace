@@ -42,8 +42,11 @@
             <div class="form-group row"><label class="col-sm-2 col-form-label">Company</label>
                 <div class="col-sm-4">
                     <select class="form-control m-b @error('company') is-invalid @enderror" name="company">
+                        @if($user->company_id == null)
+                            <option disabled selected>-- none --</option>
+                        @endif
                         @foreach($companies as $id => $companyName)
-                            <option {{ ($id == $user->company) ? 'selected' : '' }} value="{{$id}}">{{$companyName}}</option>
+                            <option {{ ($id == $user->company_id) ? 'selected' : '' }} value="{{$id}}">{{$companyName}}</option>
                         @endforeach
                     </select>
                     @error('company')
@@ -56,7 +59,7 @@
                 <div class="col-sm-4">
                     <select class="form-control m-b @error('role') is-invalid @enderror" name="role">
                         @foreach($roles as $id => $role_name)
-                            <option {{ ($id == $user->role) ? 'selected' : '' }} value="{{$id}}">{{$role_name}}</option>
+                            <option {{ ($id == $user->role_id) ? 'selected' : '' }} value="{{$id}}">{{$role_name}}</option>
                         @endforeach
                     </select>
                     @error('role')

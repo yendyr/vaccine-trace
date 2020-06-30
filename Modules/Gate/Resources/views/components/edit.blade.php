@@ -13,7 +13,7 @@
                     </a>
                 </div>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-footer">
                 <form method="post" action="{{$action}}{{$row->id}}">
                 @method('patch')
                 @csrf

@@ -18,6 +18,6 @@ Route::name('gate.')->group(function () {
         Route::resource('/role', 'RoleController');
         Route::resource('/role-menu', 'RoleMenuController');
         Route::get('/', 'GateController@index');
-        Route::view('/test', 'gate::pages.test.index')->name('test.index');
+        //Route::view('/test', 'gate::pages.test.index')->name('test.index');
     });
 });
