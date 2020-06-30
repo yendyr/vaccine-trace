@@ -42,15 +42,39 @@
 
 
     <!-- Data Foo Table-->
-    <script src="{{URL::asset('theme/js/plugins/footable/footable.all.min.js')}}"></script>
-    <script>
-        $(document).ready(function() {
+    <script src="{{URL::asset('theme/js/plugins/dataTables/datatables.min.js')}}"></script>
+    <script src="{{URL::asset('theme/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
 
-            $('.footable').footable();
-            $('.footable2').footable();
+    <!-- Page-Level Scripts -->
+    <script>
+        $(document).ready(function(){
+            $('.dataTables-example').DataTable({
+                pageLength: 25,
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy'},
+                    {extend: 'csv'},
+                    {extend: 'excel', title: 'ExampleFile'},
+                    {extend: 'pdf', title: 'ExampleFile'},
+
+                    {extend: 'print',
+                        customize: function (win){
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ]
+
+            });
 
         });
     </script>
+
 
     <script>
         $(window).bind("scroll", function () {

@@ -14,8 +14,8 @@
 <link href="{{URL::asset('theme/css/animate.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/css/style.css')}}" rel="stylesheet">
 
-<!-- Data Foo Table -->
-<link href="{{URL::asset('theme/css/plugins/footable/footable.core.css')}}" rel="stylesheet">
+<!-- DataTable -->
+<link href="{{URL::asset('theme/css/plugins/dataTables/datatables.min.css')}}" rel="stylesheet">
 
 <!-- Custom -->
 <link href="{{URL::asset('assets/custom.css')}}" rel="stylesheet">
