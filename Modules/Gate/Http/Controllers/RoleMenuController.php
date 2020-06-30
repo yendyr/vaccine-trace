@@ -66,27 +66,6 @@ class RoleMenuController extends Controller
             }
         }
 
-        /*$request->validate([
-            'role' => ['required', 'integer'],
-            'add' => ['integer'],
-            'edit' => ['integer'],
-            'delete' => ['integer'],
-        ]);
-
-        $return = RoleMenu::create([
-            'uuid' => Str::uuid(),
-            'role_id' => $request->role,
-            'menu_id' => $request->menu,
-            'menu_link' => $menu->menu_link,
-            'add' => intval($request->add),
-            'edit' => intval($request->edit),
-            'delete' => intval($request->delete),
-            'status' => 1,
-            'owned_by' => $request->user()->company_id,
-            'created_by' => $request->user()->id,
-        ]);
-        */
-
         return redirect('/gate/role-menu')->with('status', "Role menu's data has been updated!");
     }
 
@@ -151,7 +130,7 @@ class RoleMenuController extends Controller
      */
     public function update(Request $request, RoleMenu $roleMenu)
     {
-        dd($request);
+        dd($request->all());
         $request->validate([
             'role' => ['required', 'integer'],
             'menu' => ['required', 'integer'],
