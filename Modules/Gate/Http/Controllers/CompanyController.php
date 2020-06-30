@@ -49,18 +49,18 @@ class CompanyController extends Controller
             'remark' => ['required', 'max:255'],
         ]);
 
-        $companies = new Company();
-        $companies->uuid = Str::uuid();
-        $companies->name = $request->name;
-        $companies->code = $request->code;
-        $companies->email = $request->email;
-        $companies->remark = $request->remark;
-        $companies->owned_by = 0;
-        $companies->status = 1;
-        $companies->created_by = $request->user()->id;
-        $companies->save();
+        Company::create([
+            'uuid' =>  Str::uuid(),
+            'name' => $request->name,
+            'code' => $request->code,
+            'email' => $request->email,
+            'remark' => $request->remark,
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => $request->user()->id,
+        ]);
 
-        return redirect('/gate/company')->with('status', 'Company data has been added!');
+        return redirect('/gate/company')->with('status', 'a Company data has been added!');
     }
 
     /**
@@ -107,7 +107,7 @@ class CompanyController extends Controller
                 'updated_by' => $request->user()->id
             ]);
 
-        return redirect('/gate/company')->with('status', 'Company data has been updated!');
+        return redirect('/gate/company')->with('status', 'a Company data has been updated!');
     }
 
     /**
@@ -118,6 +118,6 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         Company::destroy($company->id);
-        return redirect('/gate/company')->with('status', 'Company data has been deleted!');
+        return redirect('/gate/company')->with('status', 'a Company data has been deleted!');
     }
 }

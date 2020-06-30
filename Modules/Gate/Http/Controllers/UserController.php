@@ -26,7 +26,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('gate::pages.user.index', compact('users'));
+        $roles = Role::all();
+        return view('gate::pages.user.index', compact(['users', 'roles']));
     }
 
     /**
@@ -52,24 +53,24 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email:rfc,dns', 'max:255'],
-            'role' => ['required', 'int'],
-            'company' => ['int'],
+            'role' => ['required', 'integer'],
+            'company' => ['integer'],
         ]);
 
-        $user = new User();
-        $user->uuid = Str::uuid();
-        $user->username = $request->username;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role = $request->role;
-        $user->company = $request->company;
-        $user->owned_by = $request->company;
-        $user->status = 1;
-        $user->password = Hash::make('$request->username');
-        $user->created_by = $request->user()->id;
-        $user->save();
+        User::create([
+            'uuid' =>  Str::uuid(),
+            'username' => $request->username,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make('$request->username'),
+            'role_id' => $request->role,
+            'company_id' => $request->company,
+            'owned_by' => $request->company,
+            'status' => 1,
+            'created_by' => $request->user()->id,
+        ]);
 
-        return redirect('/gate/user')->with('status', 'User data has been added!');
+        return redirect('/gate/user')->with('status', 'an User data has been added!');
     }
 
     /**
@@ -107,6 +108,7 @@ class UserController extends Controller
             'name' => ['required','string', 'max:255'],
             'email' => ['required', 'email:rfc,dns', 'max:255'],
             'role' => ['required', 'integer'],
+            'company' => ['integer'],
         ]);
 
         User::where('id', $user->id)
@@ -114,11 +116,13 @@ class UserController extends Controller
                 'username' => $request->username,
                 'name' => $request->name,
                 'email' => $request->email,
-                'role' => $request->role,
+                'role_id' => $request->role,
+                'company_id' => $request->company,
+                'owned_by' => $request->company,
                 'updated_by' => $request->user()->id
             ]);
 
-        return redirect('/gate/user')->with('status', 'User data has been updated!');
+        return redirect('/gate/user')->with('status', 'an User data has been updated!');
     }
 
     /**
@@ -129,6 +133,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         User::destroy($user->id);
-        return redirect('/gate/user')->with('status', 'User data has been deleted!');
+        return redirect('/gate/user')->with('status', 'an User data has been deleted!');
     }
 }
