@@ -17,7 +17,7 @@ class CreateCompaniesTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('code')->unique();
-            $table->string('name');
+            $table->string('company_name');
             $table->string('email')->unique();
 
             $table->string('remark')->nullable();
