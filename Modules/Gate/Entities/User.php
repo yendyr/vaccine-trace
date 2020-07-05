@@ -45,4 +45,14 @@ class User extends Authenticatable
      * @param string|null $field
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
 }

@@ -11,4 +11,9 @@ class RoleMenu extends Model
     ];
 
     protected $table = 'role_menus';
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'menu_id');
+    }
 }
