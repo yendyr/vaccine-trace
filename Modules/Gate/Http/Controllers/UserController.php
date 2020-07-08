@@ -121,7 +121,7 @@ class UserController extends Controller
             'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:users'],
             'role' => ['required', 'integer'],
             'company' => ['integer'],
-            'status' => ['numeric|min:0|max:1'],
+            'status' => ['min:0', 'max:1'],
         ]);
 
         User::create([
