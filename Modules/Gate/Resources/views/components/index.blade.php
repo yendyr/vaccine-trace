@@ -19,6 +19,10 @@
                     @endcomponent
                 @endif
 
+                @isset($modals)
+                    {{$modals}}
+                @endisset
+
                 {{$tableContent}}
 
             </div>

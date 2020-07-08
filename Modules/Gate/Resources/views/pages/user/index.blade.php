@@ -1,5 +1,16 @@
 @extends('layouts.master')
 
+@push('header-scripts')
+    <style>
+        .select2-container.select2-container--default.select2-container--open {
+            z-index: 9999999 !important;
+        }
+        .select2{
+            width: 100% !important;
+        }
+    </style>
+@endpush
+
 @section('page-heading')
     @component('components.breadcrumb', ['name' => 'User'])
         <li class="breadcrumb-item active">
@@ -9,68 +20,207 @@
 @endsection
 
 @section('content')
+    @component('components.deleteModal', ['name' => 'User data'])
+    @endcomponent
+
+    @include('gate::components.user.modal')
+
     @component('gate::components.index', ['title' => 'Users data'])
         @slot('tableContent')
+            <div id="form_result"></div>
+
             <div class="table-responsive">
-                <table class="table table-hover dataTables-example">
+                <table id="user-table" class="table table-hover text-center">
                     <thead>
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Username</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Action</th>
-                    </tr>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Company</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @php $i=1; @endphp
-                    @if($users == null)
-                        @for($i = 0; $i < 20; $i++)
-                            <tr class="gradeX">
-                                <td>{{$i}}</td>
-                                <td>user1</td>
-                                <td>User</td>
-                                <td>user@gmail.com</td>
-                                <td>user role</td>
-                                <td>action link</td>
-                            </tr>
-                        @endfor
-                    @else
-                        @foreach($users as $userRow)
-                            <tr class="gradeX text-center">
-                                <td><?= $i;$i++;?></td>
-                                <td>{{$userRow->username}}</td>
-                                <td>{{$userRow->name}}</td>
-                                <td>{{$userRow->email}}</td>
-                                @php
-                                    $role = $roles->find($userRow->role_id);
-                                @endphp
-                                <td>{{$role->role_name}}</td>
-                                <td>
-    {{--                                <a href="user/{{$userRow->id}}" class="btn btn-sm btn-outline btn-info pr-1"><i class="fa fa-eye"> View </i></a>--}}
-    {{--                                <a href="{{ route('gate.user.create')}}" class="btn btn-sm btn-outline btn-primary pr-1"><i class="fa fa-plus-circle"> Add </i> </a>--}}
-                                    <a href="user/{{$userRow->id}}/edit" class="btn btn-sm btn-outline btn-primary pr-1"><i class="fa fa-edit"> Edit </i></a>
-
-                                    <form action="user/{{$userRow->id}}" method="post" class="d-inline">
-                                        @method('delete')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-outline btn-danger "><i class="fa fa-trash"> Delete </i></button>
-                                    </form>
-
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
                     </tbody>
-                    <tfoot>
-                        <tr></tr>
-                    </tfoot>
                 </table>
             </div>
             <div class="col-md-4 offset-md-4 center">
-                <a href="{{ route('gate.user.create')}}" class="btn btn-block btn-primary"><strong>Add User</strong></a>
+                <button type="button" id="createUser" class="btn btn-block btn-primary"><strong>Add User</strong></button>
             </div>
         @endslot
     @endcomponent
+
+    @push('footer-scripts')
+
+    <script>
+        $(document).ready(function () {
+            var userId;
+
+            var table = $('#user-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('gate.user.index')}}",
+                },
+                columns: [
+                    { data: 'username', name: 'username' },
+                    { data: 'name', name: 'name' },
+                    { data: 'email', name: 'email' },
+                    { data: 'role.role_name', name: 'role.role_name' },
+                    { data: 'company.company_name', name: 'company.company_name', defaultContent: "" },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false },
+                ]
+            });
+
+            $('#createUser').click(function () {
+                $('#saveBtn').val("create-user");
+                $('#userForm').trigger("reset");
+                $('#modalTitle').html("Add New User");
+                $('#userModal').modal('show');
+                $('div[class^="invalid-feedback-"]').html('');  //hide all alert with pre-string invalid-feedback
+                $('#userForm').attr('action', '/gate/user');
+                $("#fpassword").parentsUntil('div.modal-body').show();
+                $('#fpassword').removeAttr('disabled');
+                $("input[value='patch']").remove();
+            });
+
+            table.on('click', '.editBtn', function () {
+                $('#userForm').trigger("reset");
+                $('#modalTitle').html("Edit User");
+                userId= $(this).val();
+                let tr = $(this).closest('tr');
+                let data = table.row(tr).data();
+
+                $("#fpassword").parentsUntil('div.modal-body').hide();
+                $('#fpassword').prop( "disabled", true );
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: '_method',
+                    value: 'patch'
+                }).prependTo('#userForm');
+
+                $('#fusername').val(data.username);
+                $('#fname').val(data.name);
+                $('#femail').val(data.email);
+                $('#frole').empty();
+                $('#frole').append('<option value="' + data.role_id + '" selected>' + data.role.role_name + '</option>');
+                $('#fcompany').empty();
+                if (data.company == null){
+                    $('#fcompany').append('<option value="' + data.company_id + '" selected></option>');
+                } else{
+                    $('#fcompany').append('<option value="' + data.company_id + '" selected>' + data.company.company_name + '</option>');
+                }
+                $('#fstatus').find('option').removeAttr('selected');
+                if (data.status == '<p class="text-success">Active</p>'){
+                    $('#fstatus').find('option[value="1"]').attr('selected', '');
+                }else{
+                    $('#fstatus').find('option[value="0"]').attr('selected', '');
+                }
+                $('#saveBtn').val("edit-user");
+                $('#userForm').attr('action', '/gate/user/' + data.id);
+
+                $('div[class^="invalid-feedback-"]').html('');  //hide all alert with pre-string invalid-feedback
+                $('#userModal').modal('show');
+            });
+
+            $('.select2_company').select2({
+                placeholder: 'choose a company',
+                ajax: {
+                    url: "{{route('gate.user.select2.company')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#userModal')
+            });
+            $('.select2_role').select2({
+                placeholder: 'choose a role',
+                ajax: {
+                    url: "{{route('gate.user.select2.role')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#userModal')
+            });
+
+            $('#userForm').on('submit', function (event) {
+                event.preventDefault();
+                $('div[class^="invalid-feedback-"]').html('');
+                let url_action = $(this).attr('action');
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $(
+                            'meta[name="csrf-token"]'
+                        ).attr("content")
+                    },
+                    url: url_action,
+                    method: "POST",
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    error: function(data){
+                        let html = '';
+                        let errors = data.responseJSON.errors;
+                        if (errors) {
+                            $.each(errors, function (index, value) {
+                                $('div.invalid-feedback-'+index).html(value);
+                            })
+                        }
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
+                            $('#form_result').html(data.success);
+                        }
+                        $('#userModal').modal('hide');
+                        $('#user-table').DataTable().ajax.reload();
+                        $('#form_result').html(html);
+                    },
+                });
+            });
+
+            table.on('click', '.deleteBtn', function () {
+                userId = $(this).val();
+                $('#deleteModal').modal('show');
+                $('#delete-form').attr('action', "/gate/user/"+ userId);
+            });
+
+            $('#delete-form').on('submit', function (e) {
+                e.preventDefault();
+                let url_action = $(this).attr('action');
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $(
+                            'meta[name="csrf-token"]'
+                        ).attr("content")
+                    },
+                    url: url_action,
+                    type: "DELETE", //bisa method
+                    beforeSend:function(){
+                        $('#delete-button').text('Deleting...');
+                    },
+                    error: function(data){
+                        if (data.error) {
+                            $('#form_result').attr('class', 'alert alert-danger alert-dismissable font-weight-bold');
+                            $('#form_result').html(data.error);
+                            $('#deleteModal').modal('hide');
+                            $('#user-table').DataTable().ajax.reload();
+                        }
+                    },
+                    success:function(data){
+                        if (data.success){
+                            $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
+                            $('#form_result').html(data.success);
+                            $('#deleteModal').modal('hide');
+                            $('#user-table').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            });
+
+        });
+
+
+    </script>
+    @endpush
+
 @endsection

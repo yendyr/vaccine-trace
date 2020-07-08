@@ -16,7 +16,7 @@
         @slot('formEdit')
             <div class="form-group row"><label class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$company->name}}">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$company->company_name}}">
                     @error('name')
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
