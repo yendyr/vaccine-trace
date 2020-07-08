@@ -7,17 +7,6 @@
     <script src="{{URL::asset('theme/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
     <script src="{{URL::asset('theme/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 
-    <!-- Flot -->
-{{--    <script src="{{URL::asset('theme/js/plugins/flot/jquery.flot.js')}}"></script>--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/flot/jquery.flot.tooltip.min.js')}}"></script>--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/flot/jquery.flot.spline.js')}}"></script>--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/flot/jquery.flot.resize.js')}}"></script>--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/flot/jquery.flot.pie.js')}}"></script>--}}
-
-{{--    <!-- Peity -->--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/peity/jquery.peity.min.js')}}"></script>--}}
-{{--    <script src="{{URL::asset('theme/js/demo/peity-demo.js')}}"></script>--}}
-
     <!-- Custom and plugin javascript -->
     <script src="{{URL::asset('theme/js/inspinia.js')}}"></script>
     <script src="{{URL::asset('theme/js/plugins/pace/pace.min.js')}}"></script>
@@ -25,32 +14,21 @@
     <!-- jQuery UI -->
     <script src="{{URL::asset('theme/js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 
-{{--    <!-- GITTER -->--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/gritter/jquery.gritter.min.js')}}"></script>--}}
-
-{{--    <!-- Sparkline -->--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/sparkline/jquery.sparkline.min.js')}}"></script>--}}
-
-{{--    <!-- Sparkline demo data  -->--}}
-{{--    <script src="{{URL::asset('theme/js/demo/sparkline-demo.js')}}"></script>--}}
-
-{{--    <!-- ChartJS-->--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/chartJs/Chart.min.js')}}"></script>--}}
-
-{{--    <!-- Toastr -->--}}
-{{--    <script src="{{URL::asset('theme/js/plugins/toastr/toastr.min.js')}}"></script>--}}
-
-
-    <!-- Data Foo Table-->
+    <!-- Data Table-->
     <script src="{{URL::asset('theme/js/plugins/dataTables/datatables.min.js')}}"></script>
     <script src="{{URL::asset('theme/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
+    <!-- Select2 -->
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
+        <script src="{{URL::asset('theme/js/plugins/select2/select2.full.min.js')}}"></script>
+
 
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
-                pageLength: 25,
                 responsive: true,
+                searchable: false,
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
                     { extend: 'copy'},
