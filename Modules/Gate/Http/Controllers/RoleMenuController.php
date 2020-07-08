@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Modules\Gate\Entities\Menu;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\RoleMenu;
+use Yajra\DataTables\DataTables;
 
 class RoleMenuController extends Controller
 {
@@ -17,13 +18,126 @@ class RoleMenuController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $menus = Menu::all();
+        if ($request->ajax()) {
+            $data = Menu::latest()->get();
+            $tables =  DataTables::of($data)
+                ->addColumn('add_column', function ($row){
+                    if ($row->add == 1){
+                        return "<input type='checkbox' disabled>";
+                    }
+                    return null;
+                })
+                ->addColumn('edit_column', function ($row){
+                    if ($row->edit == 1){
+                        return "<input type='checkbox' disabled>";
+                    }
+                    return null;
+                })
+                ->addColumn('delete_column', function ($row){
+                    if ($row->delete == 1){
+                        return "<input type='checkbox' disabled>";
+                    }
+                    return null;
+                })
+                ->escapeColumns([])
+                ->make(true);
+
+            return $tables;
+        }
+
         $role = Role::pluck('role_name', 'id');
         $roleId = null;
 
-        return view('gate::pages.role-menu.index', compact(['role', 'menus', 'roleId']));
+        return view('gate::pages.role-menu.index', compact(['role', 'roleId']));
+    }
+
+    public function fetch($roleId, Request $request){
+        $roleMenus = DB::table('role_menus')->get()->where('role_id', $roleId);
+        $menuIds = DB::table('role_menus')->select('menu_id')->where('role_id', $roleId)->distinct()->get();
+        if (count($menuIds) == 0){
+            $menuID = null;
+        } else {
+            foreach ($menuIds as $idx => $menuId){
+                $menuID[$idx+1] = $menuId->menu_id;
+            }
+        }
+
+        if ($request->ajax()) {
+            $data = Menu::latest()->get();
+            $tables =  DataTables::of($data)
+                ->addColumn('menu_text', function ($row) use ($menuID){
+                    if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
+                        //jika role bersangkutan tidak memiliki role menu atau jika role menu yg sesuai dgn roleId gapunya menu
+                        return $row->menu_text . ' <input onchange="reaction(' . $row->id . ')" name="index[' . $row->id . ']" type="checkbox" value="1" data-toggle="collapse" data-target="#demo' . $row->id . '">';
+                    } elseif ($menuID != null && in_array($row->id, $menuID)){
+                        return ('<label>' .$row->menu_text. ' <input onchange="reaction(' .$row->id. ')" checked name="index[' .$row->id. ']"
+                                   type="checkbox" value="1" data-toggle="collapse" data-target="#demo' .$row->id. '"> </label>');
+                    }
+                })
+                ->addColumn('add_column', function ($row) use ($menuID, $roleMenus){
+                    $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
+                    if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
+                        //jika role bersangkutan tidak memiliki role menu atau jika role menu yg sesuai dgn roleId gapunya menu
+                        return '<input '. (($row->add == 1) ? " " : "hidden ") . 'name="add[' . $row->id . ']" type="checkbox" value="1" id="demo' . $row->id . '" class="collapse">';
+                    } elseif ($menuID != null && in_array($row->id, $menuID)){
+                        if ($row->add == 1){
+                            return '<input name="add[' .$row->id. ']" type="checkbox" value="1"  id="demo' .$row->id. '"'
+                                .(($roleMenuRow->add == 1) ? "checked" : "") . ' class="collapse show">';
+                        } //' .(($checked == 1) ? "show" : ""). '
+
+                    }
+                })
+                ->addColumn('edit_column', function ($row) use ($menuID, $roleMenus){
+                    $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
+                    if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
+                        //jika role bersangkutan tidak memiliki role menu atau jika role menu yg sesuai dgn roleId gapunya menu
+                        return '<input '. (($row->edit == 1) ? " " : "hidden ") . 'name="edit[' . $row->id . ']" type="checkbox" value="1" id="demo' . $row->id . '" class="collapse">';
+                    } elseif ($menuID != null && in_array($row->id, $menuID)){
+                        if ($row->edit == 1){
+                            return '<input name="edit[' .$row->id. ']" type="checkbox" value="1"  id="demo' .$row->id. '"'
+                                .(($roleMenuRow->edit == 1) ? "checked" : "") . ' class="collapse show">';
+                        }
+                    }
+                })
+                ->addColumn('delete_column', function ($row) use ($menuID, $roleMenus){
+                    $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
+                    if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
+                        //jika role bersangkutan tidak memiliki role menu atau jika role menu yg sesuai dgn roleId gapunya menu
+                        return '<input '. (($row->delete == 1) ? " " : "hidden ") . 'name="delete[' . $row->id . ']" type="checkbox" value="1" id="demo' . $row->id . '" class="collapse">';
+                    } elseif ($menuID != null && in_array($row->id, $menuID)){
+                        if ($row->delete == 1){
+                            return '<input name="delete[' .$row->id. ']" type="checkbox" value="1"  id="demo' .$row->id. '"'
+                                .(($roleMenuRow->delete == 1) ? "checked" : "") . ' class="collapse show">';
+                        }
+                    }
+                })
+                ->escapeColumns([])
+                ->make(true);
+
+            return $tables;
+        }
+    }
+
+    public function select2Role(Request $request)
+    {
+        $search = $request->q;
+        $query = Role::orderby('role_name','asc')->select('id','role_name');
+        if($search != ''){
+            $query = $query->where('role_name', 'like', '%' .$search. '%');
+        }
+        $roles = $query->get();
+
+        $response = [];
+        foreach($roles as $role){
+            $response['results'][] = [
+                "id"=>$role->id,
+                "text"=>$role->role_name
+            ];
+        }
+
+        return response()->json($response);
     }
 
     /**
@@ -47,18 +161,19 @@ class RoleMenuController extends Controller
     {
         $collection = RoleMenu::where('role_id', $request->role)->get(['id']);
         RoleMenu::destroy($collection->toArray());
+        $collectionMenu = DB::table('menus')->select('id')->orderBy('id')->get();
 
-        for ($i = 0; $i <= count($request['menu']); $i++){
-            if (isset($request->index[$i])){
-                $queryMenu = DB::table('menus')->select('menu_link')->where('id', $request->menu[$i])->first();
+        foreach ($collectionMenu as $i => $menu){
+            if (isset($request->index[$i+1])){ //request->index mulainya dari 1, maka dari itu di +1
+                $queryMenu = DB::table('menus')->select('menu_link')->where('id', $menu->id)->first();
                 $create = RoleMenu::create([
                     'uuid' => Str::uuid(),
                     'role_id' => $request->role,
-                    'menu_id' => $request->menu[$i],
+                    'menu_id' => $menu->id,
                     'menu_link' => $queryMenu->menu_link,
-                    'add' => ( isset($request->add[$i]) ? intval($request->add[$i]) : 0),
-                    'edit' => ( isset($request->edit[$i]) ? intval($request->edit[$i]) : 0),
-                    'delete' => ( isset($request->delete[$i]) ? intval($request->delete[$i]) : 0),
+                    'add' => ( isset($request->add[$i+1]) ? intval($request->add[$i+1]) : 0),
+                    'edit' => ( isset($request->edit[$i+1]) ? intval($request->edit[$i+1]) : 0),
+                    'delete' => ( isset($request->delete[$i+1]) ? intval($request->delete[$i+1]) : 0),
                     'status' => 1,
                     'owned_by' => $request->user()->company_id,
                     'created_by' => $request->user()->id,
@@ -66,7 +181,8 @@ class RoleMenuController extends Controller
             }
         }
 
-        return redirect('/gate/role-menu')->with('status', "Role menu's data has been updated!");
+        return response()->json(['success' => 'Data updated successfully.']);
+//        return redirect('/gate/role-menu')->with('status', "Role menu's data has been updated!");
     }
 
     /**
@@ -74,21 +190,8 @@ class RoleMenuController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($roleId)
+    public function show($roleId, Request $request)
     {
-        $roleMenus = DB::table('role_menus')->get()->where('role_id', $roleId);;
-        $menuIds = DB::table('role_menus')->select('menu_id')->where('role_id', $roleId)->distinct()->get();
-
-        if (count($menuIds) == 0){
-            $menuID = null;
-        } else{
-            $i=0;
-            foreach ($menuIds as $menuId){
-                $menuID[$i] = $menuId->menu_id;
-                $i++;
-            }
-        }
-
         $menus = Menu::all();
         $role = Role::pluck('role_name', 'id');
 

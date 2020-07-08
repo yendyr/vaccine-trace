@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Company;
+use Yajra\DataTables\DataTables;
 
 class CompanyController extends Controller
 {
@@ -20,10 +21,24 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $companies = Company::all();
-        return view('gate::pages.company.index', compact('companies'));
+        if ($request->ajax()) {
+            $data = Company::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = '<a href="company/'. $row->id . '/edit" name="edit" class="edit btn btn-sm btn-outline btn-primary pr-1 mr-2" id="{{$data->id}}">
+                            <i class="fa fa-edit"> Edit </i></a>';
+                    $btn .= '<button type="button" name="delete" class="delete btn btn-sm btn-outline btn-danger pr-1" id="' .$row->id. '">
+                            <i class="fa fa-trash"> Delete </i></button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('gate::pages.company.index');
     }
 
     /**
@@ -43,16 +58,16 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:255', 'alpha_dash'],
+            'code' => ['required', 'max:255', 'alpha_dash', 'unique:companies'],
             'name' => ['required', 'max:255'],
-            'email' => ['required', 'email:rfc,dns', 'max:255'],
+            'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:companies'],
             'remark' => ['required', 'max:255'],
         ]);
 
         Company::create([
             'uuid' =>  Str::uuid(),
-            'name' => $request->name,
             'code' => $request->code,
+            'company_name' => $request->name,
             'email' => $request->email,
             'remark' => $request->remark,
             'owned_by' => $request->user()->company_id,
@@ -100,7 +115,7 @@ class CompanyController extends Controller
 
         Company::where('id', $company->id)
             ->update([
-                'name' => $request->name,
+                'company_name' => $request->name,
                 'code' => $request->code,
                 'email' => $request->email,
                 'remark' => $request->remark,

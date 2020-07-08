@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Role;
+use Yajra\DataTables\DataTables;
 
 class RoleController extends Controller
 {
@@ -14,10 +15,24 @@ class RoleController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::all();
-        return view('gate::pages.role.index', compact('roles'));
+        if ($request->ajax()) {
+            $data = Role::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="'.$row->id.'">
+                    <i class="fa fa-edit"> Edit </i></button>';
+                    $btn .= '<button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger pr-1" value="' .$row->id. '">
+                            <i class="fa fa-trash"> Delete </i></button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('gate::pages.role.index');
     }
 
     /**
@@ -48,7 +63,7 @@ class RoleController extends Controller
             'status' => 1,
         ]);
 
-        return redirect('/gate/role')->with('status', 'a role data has been added!');
+        return response()->json(['success' => 'a new role added successfully.']);
     }
 
     /**
@@ -89,7 +104,7 @@ class RoleController extends Controller
                 'updated_by' => $request->user()->id,
             ]);
 
-        return redirect('/gate/role')->with('status', 'a role data has been updated!');
+        return response()->json(['success' => 'Role data updated successfully.']);
     }
 
     /**
@@ -100,6 +115,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         Role::destroy($role->id);
-        return redirect('/gate/role')->with('status', 'a role data has been deleted!');
+
+        return response()->json(['success' => 'Role data deleted successfully.']);
     }
 }
