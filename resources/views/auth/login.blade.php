@@ -46,9 +46,8 @@
 {{--                        </div>--}}
 
                         <div class="form-group">
-                            <input type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autofocus placeholder="username / password">
-
-                            @error('username')
+                            <input type="text" class="form-control @error('login') is-invalid @enderror" name="login" value="{{ old('login') }}" required autofocus placeholder="username / email">
+                            @error('login')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
