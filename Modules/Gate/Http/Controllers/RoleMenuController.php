@@ -2,6 +2,7 @@
 
 namespace Modules\Gate\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,6 +15,14 @@ use Yajra\DataTables\DataTables;
 
 class RoleMenuController extends Controller
 {
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->authorizeResource(RoleMenu::class, 'roleMenu');
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response

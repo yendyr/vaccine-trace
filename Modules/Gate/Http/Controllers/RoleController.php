@@ -5,12 +5,22 @@ namespace Modules\Gate\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Role;
 use Yajra\DataTables\DataTables;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class RoleController extends Controller
 {
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class, 'role');
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -20,15 +30,25 @@ class RoleController extends Controller
         if ($request->ajax()) {
             $data = Role::latest()->get();
             return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function($row){
-                    $btn = '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="'.$row->id.'">
-                    <i class="fa fa-edit"> Edit </i></button>';
-                    $btn .= '<button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger pr-1" value="' .$row->id. '">
-                            <i class="fa fa-trash"> Delete </i></button>';
-                    return $btn;
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<p class="text-success">Active</p>';
+                    } else{
+                        return '<p class="text-danger">Inactive</p>';
+                    }
                 })
-                ->rawColumns(['action'])
+                ->addColumn('action', function($row){
+                    if(Auth::user()->can('update', Role::class)) {
+                        $btnEdit = '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="'.$row->id.'">
+                                    <i class="fa fa-edit"> Edit </i></button>';
+                    } else{
+                        $btnEdit = '<p class="text-muted">no action authorized</p>';
+                    }
+//                    $btnDelete = '<button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger pr-1" value="' .$row->id. '">
+
+                    return $btnEdit;
+                })
+                ->escapeColumns([])
                 ->make(true);
         }
 
@@ -53,6 +73,7 @@ class RoleController extends Controller
     {
         $request->validate([
             'role_name' => ['required', 'string', 'max:255'],
+            'status' => ['min:0', 'max:1'],
         ]);
 
         Role::create([
@@ -60,7 +81,7 @@ class RoleController extends Controller
             'role_name' => $request->role_name,
             'owned_by' => $request->user()->company_id,
             'created_by' => $request->user()->id,
-            'status' => 1,
+            'status' => $request->status,
         ]);
 
         return response()->json(['success' => 'a new role added successfully.']);
@@ -96,11 +117,13 @@ class RoleController extends Controller
     {
         $request->validate([
             'role_name' => ['required', 'string', 'max:255'],
+            'status' => ['min:0', 'max:1'],
         ]);
 
         Role::where('id', $role->id)
             ->update([
                 'role_name' => $request->role_name,
+                'status' => $request->status,
                 'updated_by' => $request->user()->id,
             ]);
 

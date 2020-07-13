@@ -5,15 +5,19 @@ namespace Modules\Gate\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Company;
 use Yajra\DataTables\DataTables;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CompanyController extends Controller
 {
+    use AuthorizesRequests;
 
     public function __construct()
     {
+        $this->authorizeResource(Company::class, 'company');
         $this->middleware('auth');
     }
 
@@ -23,16 +27,30 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
+//        $this->authorize('viewAny', Company::class);
         if ($request->ajax()) {
             $data = Company::latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = '<a href="company/'. $row->id . '/edit" name="edit" class="edit btn btn-sm btn-outline btn-primary pr-1 mr-2" id="{{$data->id}}">
+                    if(Auth::user()->can('update', Company::class)) {
+                        $btnEdit = '<a href="company/' . $row->id . '/edit" name="edit" class="edit btn btn-sm btn-outline btn-primary pr-1 mr-2" id="{{$data->id}}">
                             <i class="fa fa-edit"> Edit </i></a>';
-                    $btn .= '<button type="button" name="delete" class="delete btn btn-sm btn-outline btn-danger pr-1" id="' .$row->id. '">
+                    } else{
+                        $btnEdit = '';
+                    }
+                    if (Auth::user()->can('delete', Company::class)){
+                        $btnDelete = '<button type="button" name="delete" class="delete btn btn-sm btn-outline btn-danger pr-1" id="' . $row->id . '">
                             <i class="fa fa-trash"> Delete </i></button>';
-                    return $btn;
+                    } else{
+                        $btnDelete = '';
+                    }
+
+                    if ($btnEdit == '' && $btnDelete == ''){
+                        return '<p class="text-muted">no action authorized</p>';
+                    } else{
+                        return $btnEdit.$btnDelete;
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -133,6 +151,6 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         Company::destroy($company->id);
-        return redirect('/gate/company')->with('status', 'a Company data has been deleted!');
+        return response()->json(['success' => 'User data deleted successfully.']);
     }
 }

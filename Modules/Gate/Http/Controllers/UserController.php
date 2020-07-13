@@ -5,6 +5,7 @@ namespace Modules\Gate\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -12,12 +13,15 @@ use Modules\Gate\Entities\Company;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\User;
 use Yajra\DataTables\DataTables;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
 
     public function __construct()
     {
+        $this->authorizeResource(User::class, 'user');
         $this->middleware('auth');
     }
 
@@ -39,11 +43,19 @@ class UserController extends Controller
                     }
                 })
                 ->addColumn('action', function($row){
-                    $btn = '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="'.$row->id.'">
-                    <i class="fa fa-edit"> Edit </i></button>';
+                    if(Auth::user()->can('update', User::class)) {
+                        $btn = '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="' . $row->id . '">
+                                <i class="fa fa-edit"> Edit </i></button>';
+                    }else{
+                        $btn = '';
+                    }
 //                    $btn .= '<button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger pr-1" value="' .$row->id. '">
 //                            <i class="fa fa-trash"> Delete </i></button>';
-                    return $btn;
+                    if ($btn == ''){
+                        return '<p class="text-muted">no action authorized</p>';
+                    } else{
+                        return $btn;
+                    }
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -120,7 +132,7 @@ class UserController extends Controller
             'password' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:users'],
             'role' => ['required', 'integer'],
-            'company' => ['integer'],
+            'company' => ['required', 'integer'],
             'status' => ['min:0', 'max:1'],
         ]);
 
@@ -175,7 +187,7 @@ class UserController extends Controller
             'name' => ['required','string', 'max:255'],
             'email' => ['required', 'email:rfc,dns', 'max:255'],
             'role' => ['required', 'integer'],
-            'company' => ['integer'],
+            'company' => ['required', 'integer'],
             'status' => ['min:0', 'max:1'],
         ]);
 
