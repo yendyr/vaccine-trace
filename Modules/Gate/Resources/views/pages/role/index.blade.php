@@ -16,14 +16,14 @@
 
     @component('gate::components.index', ['title' => 'Roles data'])
         @slot('tableContent')
-            <div id="form_result"></div>
+            <div id="form_result" role="alert"></div>
 
             <div class="table-responsive">
                 <table id="role-table" class="table table-hover text-center">
                     <thead>
                         <tr class="text-center">
-                            <th>#</th>
                             <th>Role Name</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -34,9 +34,11 @@
                     </tfoot>
                 </table>
             </div>
-            <div class="col-md-4 offset-md-4 center">
-                <button type="button" id="createRole" class="btn btn-block btn-primary"><strong>Add Role</strong></button>
-            </div>
+            @can('create', Modules\Gate\Entities\Role::class)
+                <div class="col-md-4 offset-md-4 center">
+                    <button type="button" id="createRole" class="btn btn-block btn-primary"><strong>Add Role</strong></button>
+                </div>
+            @endcan
         @endslot
     @endcomponent
 
@@ -52,8 +54,9 @@
                         url: "{{ route('gate.role.index')}}",
                     },
                     columns: [
-                        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                        {  data: 'role_name', name: 'role_name' },
+                        // { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                        { data: 'role_name', name: 'role_name' },
+                        { data: 'status', name: 'status' },
                         { data: 'action', name: 'action', orderable: false },
                     ]
                 });
@@ -82,6 +85,13 @@
                     }).prependTo('#roleForm');
 
                     $('#frolename').val(data.role_name);
+                    $('#fstatus').find('option').removeAttr('selected');
+                    if (data.status == '<p class="text-success">Active</p>'){
+                        $('#fstatus').find('option[value="1"]').attr('selected', '');
+                    }else{
+                        $('#fstatus').find('option[value="0"]').attr('selected', '');
+                    }
+
                     $('#saveBtn').val("edit-role");
                     $('#roleForm').attr('action', '/gate/role/' + data.id);
 
@@ -102,8 +112,11 @@
                         method: "POST",
                         data: $(this).serialize(),
                         dataType: 'json',
+                        beforeSend:function(){
+                            $('#saveBtn').html('<strong>Saving...</strong>');
+                            $('#saveBtn'). prop('disabled', true);
+                        },
                         error: function(data){
-                            let html = '';
                             let errors = data.responseJSON.errors;
                             if (errors) {
                                 $.each(errors, function (index, value) {
@@ -113,13 +126,19 @@
                         },
                         success: function (data) {
                             if (data.success) {
-                                $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
-                                $('#form_result').html(data.success);
+                                $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                                $('#form_result').html(data.success +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                    '    <span aria-hidden="true">&times;</span>\n' +
+                                    '  </button>');
                             }
                             $('#roleModal').modal('hide');
                             $('#role-table').DataTable().ajax.reload();
-                            $('#form_result').html(html);
                         },
+                        complete: function () {
+                            $('#saveBtn'). prop('disabled', false);
+                            $('#saveBtn').html('<strong>Save Changes</strong>');
+                        }
                     });
                 });
 
@@ -145,16 +164,22 @@
                         },
                         error: function(data){
                             if (data.error) {
-                                $('#form_result').attr('class', 'alert alert-danger alert-dismissable font-weight-bold');
-                                $('#form_result').html(data.error);
+                                $('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
+                                $('#form_result').html(data.error +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                    '    <span aria-hidden="true">&times;</span>\n' +
+                                    '  </button>');
                                 $('#deleteModal').modal('hide');
                                 $('#role-table').DataTable().ajax.reload();
                             }
                         },
                         success:function(data){
                             if (data.success){
-                                $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
-                                $('#form_result').html(data.success);
+                                $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                                $('#form_result').html(data.success +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                    '    <span aria-hidden="true">&times;</span>\n' +
+                                    '  </button>');
                                 $('#deleteModal').modal('hide');
                                 $('#role-table').DataTable().ajax.reload();
                             }

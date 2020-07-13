@@ -46,9 +46,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-4 offset-md-4 center">
-                <button type="button" id="createUser" class="btn btn-block btn-primary"><strong>Add User</strong></button>
-            </div>
+            @can('create', Modules\Gate\Entities\User::class)
+                <div class="col-md-4 offset-md-4 center">
+                    <button type="button" id="createUser" class="btn btn-block btn-primary"><strong>Add User</strong></button>
+                </div>
+            @endcan
         @endslot
     @endcomponent
 
@@ -113,12 +115,14 @@
                 } else{
                     $('#fcompany').append('<option value="' + data.company_id + '" selected>' + data.company.company_name + '</option>');
                 }
+
                 $('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
                     $('#fstatus').find('option[value="1"]').attr('selected', '');
                 }else{
                     $('#fstatus').find('option[value="0"]').attr('selected', '');
                 }
+
                 $('#saveBtn').val("edit-user");
                 $('#userForm').attr('action', '/gate/user/' + data.id);
 
@@ -157,6 +161,10 @@
                     method: "POST",
                     data: $(this).serialize(),
                     dataType: 'json',
+                    beforeSend:function(){
+                        $('#saveBtn').html('<strong>Saving...</strong>');
+                        $('#saveBtn'). prop('disabled', true);
+                    },
                     error: function(data){
                         let html = '';
                         let errors = data.responseJSON.errors;
@@ -166,15 +174,21 @@
                             })
                         }
                     },
-                    success: function (data) {
+                    success:function(data){
                         if (data.success) {
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
-                            $('#form_result').html(data.success);
+                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                            $('#form_result').html(data.success +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                '    <span aria-hidden="true">&times;</span>\n' +
+                                '  </button>');
                         }
                         $('#userModal').modal('hide');
                         $('#user-table').DataTable().ajax.reload();
-                        $('#form_result').html(html);
                     },
+                    complete: function () {
+                        $('#saveBtn'). prop('disabled', false);
+                        $('#saveBtn').html('<strong>Save Changes</strong>');
+                    }
                 });
             });
 
@@ -200,16 +214,22 @@
                     },
                     error: function(data){
                         if (data.error) {
-                            $('#form_result').attr('class', 'alert alert-danger alert-dismissable font-weight-bold');
-                            $('#form_result').html(data.error);
+                            $('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
+                            $('#form_result').html(data.error +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                '    <span aria-hidden="true">&times;</span>\n' +
+                                '  </button>');
                             $('#deleteModal').modal('hide');
                             $('#user-table').DataTable().ajax.reload();
                         }
                     },
                     success:function(data){
                         if (data.success){
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
-                            $('#form_result').html(data.success);
+                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                            $('#form_result').html(data.success +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                '    <span aria-hidden="true">&times;</span>\n' +
+                                '  </button>');
                             $('#deleteModal').modal('hide');
                             $('#user-table').DataTable().ajax.reload();
                         }

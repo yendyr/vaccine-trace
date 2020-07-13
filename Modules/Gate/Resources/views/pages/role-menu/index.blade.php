@@ -22,15 +22,17 @@
     </div>
     @component('gate::components.index', ['title' => 'Role Menu Data'])
         @slot('tableContent')
-        <div id="form_result"></div>
+        <div id="form_result" role="alert"></div>
 
         <div class="table-responsive" id="rolemenu">
             <form id="rolemenu-form">
-                <div class="form-group row col-sm-12 justify-content-center text-center">
-                    <div class="col-sm-4">
-                        <button class="btn btn-block btn-primary" id="saveButton" type="submit">SAVE CHANGES</button>
+                @can('create', Modules\Gate\Entities\RoleMenu::class)
+                    <div class="form-group row col-sm-12 justify-content-start align-items-start text-center">
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" id="saveButton" type="submit">SAVE CHANGES</button>
+                        </div>
                     </div>
-                </div>
+                @endcan
                 <input type="hidden" name="role" value="" id="role-input">
                 <table data-ajaxsource="/gate/role-menu" id="rolemenu-table" class="table table-hover text-center">
                     <thead>
@@ -61,6 +63,8 @@
         $(document).ready(function () {
             var tables = $('#rolemenu-table').DataTable({
                 serverSide: true,
+                paging: false,
+                info: false,
                 ajax: {
                     url: "{{ route('gate.role-menu.index')}}",
                 },
@@ -95,6 +99,8 @@
                 tables = $('#rolemenu-table').DataTable({
                     processing: true,
                     serverSide: true,
+                    paging: false,
+                    info: false,
                     ajax: {
                         url: "/gate/role-menu/datatable/" + roleID,
                     },
@@ -123,19 +129,33 @@
                     method:"POST",
                     data:$(this).serialize(),
                     dataType:"json",
+                    beforeSend:function(){
+                        $('#saveButton').html('<strong>Saving...</strong>');
+                        $('#saveButton'). prop('disabled', true);
+                    },
                     error: function(data){
                         if (data.error) {
-                            $('#form_result').attr('class', 'alert alert-danger alert-dismissable font-weight-bold');
-                            $('#form_result').html(data.error);
+                            $('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
+                            $('#form_result').html(data.error +
+                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                                '    <span aria-hidden="true">&times;</span>\n' +
+                                                '  </button>');
                             $('#rolemenu-table').DataTable().ajax.reload();
                         }
                     },
                     success:function(data){
                         if (data.success){
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
-                            $('#form_result').html(data.success);
+                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                            $('#form_result').html(data.success +
+                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                                '    <span aria-hidden="true">&times;</span>\n' +
+                                                '  </button>');
                             $('#rolemenu-table').DataTable().ajax.reload();
                         }
+                    },
+                    complete: function () {
+                        $('#saveButton'). prop('disabled', false);
+                        $('#saveButton').html('<strong>SAVE CHANGES</strong>');
                     }
                 });
             });

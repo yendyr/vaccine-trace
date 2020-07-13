@@ -13,8 +13,9 @@
     @endcomponent
 
     @component('gate::components.index', ['title' => 'Companies data'])
-
         @slot('tableContent')
+        <div id="form_result"></div>
+
         <div class="table-responsive">
             <table id="company-table" class="table table-hover text-center">
                 <thead>
@@ -33,16 +34,18 @@
                 </tfoot>
             </table>
         </div>
-        <div class="col-md-4 offset-md-4 center">
-            <a href="{{ route('gate.company.create')}}" class="btn btn-block btn-primary"><strong>Add Company</strong></a>
-        </div>
+        @can('create', Modules\Gate\Entities\Company::class)
+            <div class="col-md-4 offset-md-4 center">
+                <a href="{{ route('gate.company.create')}}" class="btn btn-block btn-primary"><strong>Add Company</strong></a>
+            </div>
+        @endcan
         @endslot
     @endcomponent
 
     @push('footer-scripts')
         <script>
             $(document).ready(function () {
-                $('#company-table').DataTable({
+                var table = $('#company-table').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
@@ -56,21 +59,48 @@
                         { data: 'action', name: 'action', orderable: false },
                     ]
                 });
-            });
 
-            var companyId;
-
-            $(document).on('click', '.delete', function () {
-                companyId = $(this).attr('id');
-                $('#deleteModal').modal('show');
-                $('#delete-form').attr('action', "company/"+ companyId);
-            });
-
-            function deletion() {
-                $('#delete-button').click(function () {
-                    $("form[name='deleteForm']").submit();
+                var companyId;
+                table.on('click', '.delete', function () {
+                    companyId = $(this).attr('id');
+                    $('#deleteModal').modal('show');
+                    $('#delete-form').attr('action', "company/"+ companyId);
                 });
-            }
+
+                $('#delete-form').on('submit', function (e) {
+                    e.preventDefault();
+                    let url_action = $(this).attr('action');
+                    $.ajax({
+                        headers: {
+                            "X-CSRF-TOKEN": $(
+                                'meta[name="csrf-token"]'
+                            ).attr("content")
+                        },
+                        url: url_action,
+                        type: "DELETE", //bisa method
+                        beforeSend:function(){
+                            $('#delete-button').text('Deleting...');
+                        },
+                        error: function(data){
+                            if (data.error) {
+                                $('#form_result').attr('class', 'alert alert-danger alert-dismissable font-weight-bold');
+                                $('#form_result').html(data.error);
+                                $('#deleteModal').modal('hide');
+                                $('#company-table').DataTable().ajax.reload();
+                            }
+                        },
+                        success:function(data){
+                            if (data.success){
+                                $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
+                                $('#form_result').html(data.success);
+                                $('#deleteModal').modal('hide');
+                                $('#company-table').DataTable().ajax.reload();
+                            }
+                        }
+                    });
+                });
+            });
+
 
         </script>
     @endpush

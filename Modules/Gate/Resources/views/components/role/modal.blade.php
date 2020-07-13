@@ -17,11 +17,20 @@
                             <div class="invalid-feedback-role_name text-danger"></div>
                         </div>
                     </div>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-6">
+                            <select class="form-control m-b " id="fstatus" name="status">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                            <div class="invalid-feedback-status text-danger"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" type="submit" id="saveBtn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
+                    <button class="btn btn-primary" type="submit" id="saveBtn"><strong>Save changes</strong></button>
                 </div>
             </form>
 

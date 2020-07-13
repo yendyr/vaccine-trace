@@ -60,8 +60,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" type="submit" id="saveBtn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
+                    <button class="btn btn-primary" type="submit" id="saveBtn"><strong>Save changes</strong></button>
                 </div>
             </form>
 
