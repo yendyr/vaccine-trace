@@ -169,7 +169,7 @@ class RoleMenuController extends Controller
     public function select2Role(Request $request)
     {
         $search = $request->q;
-        $query = Role::orderby('role_name','asc')->select('id','role_name');
+        $query = Role::orderby('role_name','asc')->select('id','role_name')->where('status', 1);
         if($search != ''){
             $query = $query->where('role_name', 'like', '%' .$search. '%');
         }
@@ -182,7 +182,6 @@ class RoleMenuController extends Controller
                 "text"=>$role->role_name
             ];
         }
-
         return response()->json($response);
     }
 
