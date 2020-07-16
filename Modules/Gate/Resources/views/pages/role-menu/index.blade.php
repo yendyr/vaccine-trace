@@ -43,6 +43,7 @@
                             <th>Add</th>
                             <th>Edit</th>
                             <th>Delete</th>
+                            <th>Approval</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,6 +76,7 @@
                     { data: 'add_column', name: 'add_column', orderable: false },
                     { data: 'edit_column', name: 'edit_column', orderable: false },
                     { data: 'delete_column', name: 'delete_column', orderable: false },
+                    { data: 'approval_column', name: 'approval_column', orderable: false },
                 ]
             });
 
@@ -111,6 +113,7 @@
                         { data: 'add_column', name: 'add_column', orderable: false },
                         { data: 'edit_column', name: 'edit_column', orderable: false },
                         { data: 'delete_column', name: 'delete_column', orderable: false },
+                        { data: 'approval_column', name: 'approval_column', orderable: false },
                     ]
                 });
             });
@@ -140,7 +143,6 @@
                                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                                                 '    <span aria-hidden="true">&times;</span>\n' +
                                                 '  </button>');
-                            $('#rolemenu-table').DataTable().ajax.reload();
                         }
                     },
                     success:function(data){
@@ -150,10 +152,10 @@
                                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                                                 '    <span aria-hidden="true">&times;</span>\n' +
                                                 '  </button>');
-                            $('#rolemenu-table').DataTable().ajax.reload();
                         }
                     },
                     complete: function () {
+                        $('#rolemenu-table').DataTable().ajax.reload();
                         $('#saveButton'). prop('disabled', false);
                         $('#saveButton').html('<strong>SAVE CHANGES</strong>');
                     }
