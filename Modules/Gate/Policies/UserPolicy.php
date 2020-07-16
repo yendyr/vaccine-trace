@@ -30,11 +30,14 @@ class UserPolicy
      */
     public function viewAny()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/user')->first();
+        )->where('menu_link', 'gate/user')->where('status', 1)
+         ->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        if ($role_menu == null){
+        if ($queryRoleMenu == null){
             return false;
         } else {
             return true;
@@ -60,11 +63,11 @@ class UserPolicy
      */
     public function create()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/user')->first();
 
-        return $role_menu->add == 1;
+        return $queryRoleMenu->add == 1;
     }
 
     /**
@@ -75,11 +78,11 @@ class UserPolicy
      */
     public function update()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/user')->first();
 
-        return $role_menu->edit == 1;
+        return $queryRoleMenu->edit == 1;
     }
 
     /**
@@ -90,11 +93,11 @@ class UserPolicy
      */
     public function delete()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/user')->first();
 
-        return $role_menu->delete == 1;
+        return $queryRoleMenu->delete == 1;
     }
 
     /**
@@ -116,10 +119,10 @@ class UserPolicy
      */
     public function forceDelete()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/user')->first();
 
-        return $role_menu->delete == 1;
+        return $queryRoleMenu->delete == 1;
     }
 }
