@@ -26,7 +26,7 @@
             <div class="nav-label text-white p-3 mt-2">Modules</div>
         </li>
         <li class="{{ request()->is('gate/*') ? 'active' : '' }}">
-            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Gates</span> <span class="fa arrow"></span></a>
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', Modules\Gate\Entities\User::class)
                 <li class="{{ (request()->is('gate/user') || request()->is('gate/user/*')) ? 'active' : '' }}">
