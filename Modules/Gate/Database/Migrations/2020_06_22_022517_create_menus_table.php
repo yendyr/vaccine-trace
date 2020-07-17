@@ -22,6 +22,7 @@ class CreateMenusTable extends Migration
             $table->integer('add');
             $table->integer('edit');
             $table->integer('delete');
+            $table->tinyInteger('approval');
 
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();

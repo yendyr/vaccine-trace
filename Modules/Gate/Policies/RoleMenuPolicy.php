@@ -3,6 +3,7 @@
 namespace Modules\Gate\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Gate\Entities\RoleMenu;

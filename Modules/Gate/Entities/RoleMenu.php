@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RoleMenu extends Model
 {
     protected $fillable = [
-        'uuid', 'menu_link', 'role_id', 'menu_id', 'add', 'edit', 'delete', 'owned_by', 'status', 'created_by'
+        'uuid', 'menu_link', 'role_id', 'menu_id', 'add', 'edit', 'delete', 'approval' , 'owned_by', 'status', 'created_by'
     ];
 
     protected $table = 'role_menus';
@@ -15,5 +15,10 @@ class RoleMenu extends Model
     public function menu()
     {
         return $this->belongsTo(Menu::class, 'menu_id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

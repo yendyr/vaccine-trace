@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Modules\Gate\Entities\Company;
 use Modules\Gate\Entities\Role;
@@ -37,6 +38,19 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-//        Gate::resource('company', CompanyPolicy::class);
+        Gate::before(function ($user) {
+            $queryRoleMenu = RoleMenu::where(
+                'role_id', Auth::user()->role_id
+            )->whereHas('role', function($role){
+                    $role->where('status', 1);
+                })->first();
+
+            if ($queryRoleMenu == null){
+                return false;
+            } else {
+                return true;
+            }
+        });
+
     }
 }

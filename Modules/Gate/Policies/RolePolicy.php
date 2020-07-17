@@ -31,11 +31,11 @@ class RolePolicy
      */
     public function viewAny()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/role')->first();
 
-        if ($role_menu == null){
+        if ($queryRoleMenu == null){
             return false;
         } else {
             return true;
@@ -62,11 +62,11 @@ class RolePolicy
      */
     public function create()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/role')->first();
 
-        return $role_menu->add == 1;
+        return $queryRoleMenu->add == 1;
     }
 
     /**
@@ -78,11 +78,11 @@ class RolePolicy
      */
     public function update()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/role')->first();
 
-        return $role_menu->edit == 1;
+        return $queryRoleMenu->edit == 1;
     }
 
     /**
@@ -94,11 +94,11 @@ class RolePolicy
      */
     public function delete()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/role')->first();
 
-        return $role_menu->delete == 1;
+        return $queryRoleMenu->delete == 1;
     }
 
     /**
@@ -122,10 +122,10 @@ class RolePolicy
      */
     public function forceDelete()
     {
-        $role_menu = RoleMenu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/role')->first();
 
-        return $role_menu->delete == 1;
+        return $queryRoleMenu->delete == 1;
     }
 }

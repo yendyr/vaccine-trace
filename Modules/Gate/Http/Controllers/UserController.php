@@ -67,7 +67,7 @@ class UserController extends Controller
     public function select2Company(Request $request)
     {
         $search = $request->q;
-        $query = Company::orderby('company_name','asc')->select('id','company_name');
+        $query = Company::orderby('company_name','asc')->select('id','company_name')->where('status', 1);
         if($search != ''){
             $query = $query->where('company_name', 'like', '%' .$search. '%');
         }
@@ -81,8 +81,8 @@ class UserController extends Controller
             ];
         }
         $response['results'][] = [
-            "id"=>0,
-            "text"=>'none',
+            "id" => 0,
+            "text" => 'none',
         ];
 
         return response()->json($response);
@@ -91,7 +91,7 @@ class UserController extends Controller
     public function select2Role(Request $request)
     {
         $search = $request->q;
-        $query = Role::orderby('role_name','asc')->select('id','role_name');
+        $query = Role::orderby('role_name','asc')->select('id','role_name')->where('status', 1);
         if($search != ''){
             $query = $query->where('role_name', 'like', '%' .$search. '%');
         }
@@ -141,7 +141,7 @@ class UserController extends Controller
             'username' => $request->username,
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make('$request->username'),
+            'password' => Hash::make($request->password),
             'role_id' => $request->role,
             'company_id' => $request->company,
             'owned_by' => $request->company,

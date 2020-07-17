@@ -47,8 +47,10 @@ class LoginController extends Controller
     {
         $this->validate($request, [
             'login'    => 'required',
+//            'login' => 'exists:users,' . $this->username() . ',status,1',
             'password' => 'required',
-        ]);
+            ]
+        );
 
         $login_type = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL )
             ? 'email'
@@ -58,16 +60,16 @@ class LoginController extends Controller
             $login_type => $request->input('login')
         ]);
 
-        if (Auth::attempt($request->only($login_type, 'password'))) {
+        $request['status'] = 1;
+        if (Auth::attempt($request->only($login_type, 'password', 'status'))) {
             return redirect()->intended($this->redirectPath());
         }
 
         return redirect()->back()
             ->withInput()
             ->withErrors([
-                'login' => 'These credentials do not match our records.',
+                'login' => 'These credentials do not match our records or this account is inactive',
             ]);
     }
-
 
 }
