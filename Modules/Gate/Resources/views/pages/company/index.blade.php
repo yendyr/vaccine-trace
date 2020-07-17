@@ -20,10 +20,10 @@
             <table id="company-table" class="table table-hover text-center">
                 <thead>
                 <tr>
-                    <th>#</th>
                     <th>Name</th>
                     <th>Code</th>
                     <th>Email</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -52,10 +52,10 @@
                         url: "{{ route('gate.company.index')}}",
                     },
                     columns: [
-                        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                         { data: 'company_name', name: 'name'  },
                         { data: 'code', name: 'code'  },
                         { data: 'email', name: 'email' },
+                        { data: 'status', name: 'status' },
                         { data: 'action', name: 'action', orderable: false },
                     ]
                 });

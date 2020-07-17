@@ -31,7 +31,13 @@ class CompanyController extends Controller
         if ($request->ajax()) {
             $data = Company::latest()->get();
             return Datatables::of($data)
-                ->addIndexColumn()
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<p class="text-success">Active</p>';
+                    } else{
+                        return '<p class="text-danger">Inactive</p>';
+                    }
+                })
                 ->addColumn('action', function($row){
                     if(Auth::user()->can('update', Company::class)) {
                         $btnEdit = '<a href="company/' . $row->id . '/edit" name="edit" class="edit btn btn-sm btn-outline btn-primary pr-1 mr-2" id="{{$data->id}}">
@@ -52,7 +58,7 @@ class CompanyController extends Controller
                         return $btnEdit.$btnDelete;
                     }
                 })
-                ->rawColumns(['action'])
+                ->escapeColumns([])
                 ->make(true);
         }
 
@@ -80,6 +86,7 @@ class CompanyController extends Controller
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:companies'],
             'remark' => ['required', 'max:255'],
+            'status' => ['required', 'min:0', 'max:1']
         ]);
 
         Company::create([
@@ -89,7 +96,7 @@ class CompanyController extends Controller
             'email' => $request->email,
             'remark' => $request->remark,
             'owned_by' => $request->user()->company_id,
-            'status' => 1,
+            'status' => $request->status,
             'created_by' => $request->user()->id,
         ]);
 
@@ -125,10 +132,11 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company)
     {
         $request->validate([
-            'code' => ['required', 'max:255'],
+            'code' => ['required', 'max:255', 'alpha_dash'],
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email:rfc,dns', 'max:255'],
             'remark' => ['required', 'max:255'],
+            'status' => ['required', 'min:0', 'max:1']
         ]);
 
         Company::where('id', $company->id)
@@ -137,6 +145,7 @@ class CompanyController extends Controller
                 'code' => $request->code,
                 'email' => $request->email,
                 'remark' => $request->remark,
+                'status' => $request->status,
                 'updated_by' => $request->user()->id
             ]);
 

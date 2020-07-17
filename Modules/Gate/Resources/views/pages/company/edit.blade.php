@@ -46,6 +46,18 @@
                     @enderror
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-6">
+                    <select class="form-control @error('status') is-invalid @enderror" name="status">
+                        <option {{ ($company->status==1) ? 'selected' : ''}} value="1">Active</option>
+                        <option {{ ($company->status==0) ? 'selected' : ''}} value="0">Inactive</option>
+                    </select>
+                    @error('status')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
+                </div>
+            </div>
         @endslot
     @endcomponent
 @endsection
