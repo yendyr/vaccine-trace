@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
-    protected $fillable = [];
+    protected $fillable = [
+        'uuid', 'menu_link', 'menu_text', 'parent', 'add', 'edit', 'delete', 'approval', 'owned_by', 'created_by', 'status'
+    ];
 }
