@@ -5,7 +5,6 @@
                 <img alt="image" class="rounded-circle" src="{{URL::asset('theme/img/profile_small.jpg')}}"/>
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <span class="block m-t-xs font-bold">{{\Illuminate\Support\Facades\Auth::user()->name}}</span>
-                    <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
                     <li><a class="dropdown-item" href="profile.html">Profile</a></li>
