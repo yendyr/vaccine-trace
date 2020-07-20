@@ -25,8 +25,8 @@
         <li>
             <div class="nav-label text-white p-3 mt-2">Modules</div>
         </li>
-        <li class="{{ request()->is('gate/*') ? 'active' : '' }}">
-            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span> <span class="fa arrow"></span></a>
+        <li class="{{ request()->is('gate/*') ? 'active' : '' }} nav-first-level" id="gate">
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Tools</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', Modules\Gate\Entities\User::class)
                 <li class="{{ (request()->is('gate/user') || request()->is('gate/user/*')) ? 'active' : '' }}">
@@ -54,19 +54,38 @@
             </ul>
         </li>
 
-        <li class="{{ request()->is('examples/*') ? 'active' : '' }}">
+        <li class="{{ request()->is('examples/*') ? 'active' : '' }} nav-first-level" id="examples">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Examples</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', \Modules\Examples\Entities\Example::class)
                 <li class="{{ (request()->is('examples/example') || request()->is('examples/example/*')) ? 'active' : '' }}">
-                    <a href="{{ route('examples.example.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Example Menu</span></a>
+                    <a href="{{ route('examples.example.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Approval Example</span></a>
                 </li>
                 @endcan
             </ul>
         </li>
 
-        <li class=" {{ request()->is('gate/test*') ? 'active' : '' }}">
+        <li class=" {{ request()->is('gate/test*') ? 'active' : '' }} nav-first-level" id="testing">
             <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>
         </li>
     </ul>
 </div>
+
+@push('footer-scripts')
+    <script>
+        $(document).ready(function(){
+            var nav1 = $('li#gate ul').children().length;
+            if (nav1 == 0){
+                $('li#gate').remove();
+            }
+            var nav2 = $('li#examples ul').children().length;
+            if (nav2 == 0){
+                $('li#examples').remove();
+            }
+            var nav3 = $('li#testing ul').children().length;
+            if (nav3 == 0){
+                $('li#testing').remove();
+            }
+        });
+    </script>
+@endpush
