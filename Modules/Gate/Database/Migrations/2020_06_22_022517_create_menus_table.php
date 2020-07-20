@@ -20,7 +20,7 @@ class CreateMenusTable extends Migration
             $table->string('menu_text');
             $table->string('menu_link');
             $table->integer('add');
-            $table->integer('edit');
+            $table->integer('update');
             $table->integer('delete');
             $table->tinyInteger('approval');
             $table->tinyInteger('process');

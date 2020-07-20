@@ -41,7 +41,7 @@
                             <th>Menu Link</th>
                             <th>Menu Text</th>
                             <th>Add</th>
-                            <th>Edit</th>
+                            <th>Update</th>
                             <th>Delete</th>
                             <th>Approval</th>
                         </tr>
@@ -74,7 +74,7 @@
                     { data: 'menu_link', name: 'menu_link' },
                     { data: 'menu_text', name: 'menu_text' },
                     { data: 'add_column', name: 'add_column', orderable: false },
-                    { data: 'edit_column', name: 'edit_column', orderable: false },
+                    { data: 'update_column', name: 'update_column', orderable: false },
                     { data: 'delete_column', name: 'delete_column', orderable: false },
                     { data: 'approval_column', name: 'approval_column', orderable: false },
                 ]
@@ -87,7 +87,6 @@
                     dataType: 'json',
                 }
             });
-
 
             $('#saveButton').hide();
             $('.select2_role').on('select2:select', function (e) {
@@ -112,7 +111,7 @@
                         { data: 'menu_link', name: 'menu_link' },
                         { data: 'menu_text', name: 'menu_text' },
                         { data: 'add_column', name: 'add_column', orderable: false },
-                        { data: 'edit_column', name: 'edit_column', orderable: false },
+                        { data: 'update_column', name: 'update_column', orderable: false },
                         { data: 'delete_column', name: 'delete_column', orderable: false },
                         { data: 'approval_column', name: 'approval_column', orderable: false },
                     ]

@@ -86,7 +86,7 @@ class CompanyPolicy
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/company')->first();
 
-        return $queryRoleMenu->edit == 1;
+        return $queryRoleMenu->update == 1;
     }
 
     /**

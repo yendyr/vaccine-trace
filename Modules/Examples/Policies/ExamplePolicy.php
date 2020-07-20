@@ -81,7 +81,7 @@ class ExamplePolicy
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'examples/example')->first();
 
-        return $queryRoleMenu->edit == 1;
+        return $queryRoleMenu->update == 1;
     }
 
     /**

@@ -84,7 +84,7 @@ class RolePolicy
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/role')->first();
 
-        return $queryRoleMenu->edit == 1;
+        return $queryRoleMenu->update == 1;
     }
 
     /**

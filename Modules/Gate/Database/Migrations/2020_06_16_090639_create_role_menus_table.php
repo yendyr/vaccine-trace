@@ -20,7 +20,7 @@ class CreateRoleMenusTable extends Migration
             $table->integer('menu_id')->unsigned();
             $table->string('menu_link');
             $table->integer('add');
-            $table->integer('edit');
+            $table->integer('update');
             $table->integer('delete');
             $table->longText('approval');
             $table->longText('process');

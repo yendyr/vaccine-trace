@@ -38,8 +38,8 @@ class RoleMenuController extends Controller
                     }
                     return null;
                 })
-                ->addColumn('edit_column', function ($row){
-                    if ($row->edit == 1){
+                ->addColumn('update_column', function ($row){
+                    if ($row->update == 1){
                         return "<input type='checkbox' disabled>";
                     }
                     return null;
@@ -104,15 +104,15 @@ class RoleMenuController extends Controller
                         }
                     }
                 })
-                ->addColumn('edit_column', function ($row) use ($menuID, $roleMenus){
+                ->addColumn('update_column', function ($row) use ($menuID, $roleMenus){
                     $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
                     if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
                         //jika role bersangkutan tidak memiliki role menu
-                        return '<input '. (($row->edit == 1) ? " " : "hidden ") . 'name="edit[' . $row->id . ']" type="checkbox" value="1" id="role-menu' . $row->id . '" class="collapse">';
+                        return '<input '. (($row->update == 1) ? " " : "hidden ") . 'name="update[' . $row->id . ']" type="checkbox" value="1" id="role-menu' . $row->id . '" class="collapse">';
                     } elseif ($menuID != null && in_array($row->id, $menuID)){
-                        if ($row->edit == 1){
-                            return '<input name="edit[' .$row->id. ']" type="checkbox" value="1"  id="role-menu' .$row->id. '"'
-                                .(($roleMenuRow->edit == 1) ? "checked" : "") . ' class="collapse show">';
+                        if ($row->update == 1){
+                            return '<input name="update[' .$row->id. ']" type="checkbox" value="1"  id="role-menu' .$row->id. '"'
+                                .(($roleMenuRow->update == 1) ? "checked" : "") . ' class="collapse show">';
                         }
                     }
                 })
@@ -225,7 +225,7 @@ class RoleMenuController extends Controller
                     'menu_id' => $menu->id,
                     'menu_link' => $queryMenu->menu_link,
                     'add' => ( isset($request->add[$i+1]) ? intval($request->add[$i+1]) : 0),
-                    'edit' => ( isset($request->edit[$i+1]) ? intval($request->edit[$i+1]) : 0),
+                    'update' => ( isset($request->update[$i+1]) ? intval($request->update[$i+1]) : 0),
                     'delete' => ( isset($request->delete[$i+1]) ? intval($request->delete[$i+1]) : 0),
                     'approval' => ( isset($request->approval[$i+1]) ? $approvalData : 0),
                     'status' => 1,
@@ -292,7 +292,7 @@ class RoleMenuController extends Controller
             'role' => ['required', 'integer'],
             'menu' => ['required', 'integer'],
             'add' => ['integer'],
-            'edit' => ['integer'],
+            'update' => ['integer'],
             'delete' => ['integer'],
         ]);
 
@@ -304,7 +304,7 @@ class RoleMenuController extends Controller
                 'menu_id' => $request->menu,
                 'menu_link' => $menu->menu_link,
                 'add' => intval($request->add),
-                'edit' => intval($request->edit),
+                'update' => intval($request->update),
                 'delete' => intval($request->delete),
                 'updated_by' => $request->user()->id,
             ]);
