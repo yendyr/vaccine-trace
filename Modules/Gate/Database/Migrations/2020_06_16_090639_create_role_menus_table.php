@@ -23,6 +23,7 @@ class CreateRoleMenusTable extends Migration
             $table->integer('edit');
             $table->integer('delete');
             $table->longText('approval');
+            $table->longText('process');
 
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
