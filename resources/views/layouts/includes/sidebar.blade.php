@@ -54,6 +54,17 @@
             </ul>
         </li>
 
+        <li class="{{ request()->is('examples/*') ? 'active' : '' }}">
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Examples</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+                @can('viewAny', \Modules\Examples\Entities\Example::class)
+                <li class="{{ (request()->is('examples/example') || request()->is('examples/example/*')) ? 'active' : '' }}">
+                    <a href="{{ route('examples.example.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Example Menu</span></a>
+                </li>
+                @endcan
+            </ul>
+        </li>
+
         <li class=" {{ request()->is('gate/test*') ? 'active' : '' }}">
             <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>
         </li>
