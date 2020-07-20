@@ -77,11 +77,11 @@
                             <button type="submit" class="btn btn-primary block full-width m-b">
                                 {{ __('Login') }}
                             </button>
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}">
-                                    <small>Forgot Your Password?</small>
-                                </a>
-                            @endif
+{{--                            @if (Route::has('password.request'))--}}
+{{--                                <a href="{{ route('password.request') }}">--}}
+{{--                                    <small>Forgot Your Password?</small>--}}
+{{--                                </a>--}}
+{{--                            @endif--}}
                         </div>
 
                     </form>
