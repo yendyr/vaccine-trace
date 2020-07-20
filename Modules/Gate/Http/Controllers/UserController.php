@@ -49,8 +49,6 @@ class UserController extends Controller
                     }else{
                         $btn = '';
                     }
-//                    $btn .= '<button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger pr-1" value="' .$row->id. '">
-//                            <i class="fa fa-trash"> Delete </i></button>';
                     if ($btn == ''){
                         return '<p class="text-muted">no action authorized</p>';
                     } else{
@@ -217,4 +215,5 @@ class UserController extends Controller
 
         return response()->json(['success' => 'User data deleted successfully.']);
     }
+
 }

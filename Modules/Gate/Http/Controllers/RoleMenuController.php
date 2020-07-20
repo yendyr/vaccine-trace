@@ -101,7 +101,7 @@ class RoleMenuController extends Controller
                         if ($row->add == 1){
                             return '<input name="add[' .$row->id. ']" type="checkbox" value="1"  id="demo' .$row->id. '"'
                                 .(($roleMenuRow->add == 1) ? "checked" : "") . ' class="collapse show">';
-                        } //' .(($checked == 1) ? "show" : ""). '
+                        }
 
                     }
                 })
@@ -130,7 +130,7 @@ class RoleMenuController extends Controller
                     }
                 })
                 ->addColumn('approval_column', function ($row) use ($menuID, $roleMenus){
-                    $roleMenuRow = $roleMenus->where('menu_id', 1)->first();
+                    $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
                     if( isset($roleMenuRow->approval) ) {
                         $approvalArr = json_decode($roleMenuRow->approval,true);
                         if( is_array($approvalArr) ){

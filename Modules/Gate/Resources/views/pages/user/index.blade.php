@@ -163,7 +163,7 @@
                     dataType: 'json',
                     beforeSend:function(){
                         $('#saveBtn').html('<strong>Saving...</strong>');
-                        $('#saveBtn'). prop('disabled', true);
+                        $('#saveBtn').prop('disabled', true);
                     },
                     error: function(data){
                         let html = '';
@@ -185,8 +185,8 @@
                         $('#userModal').modal('hide');
                         $('#user-table').DataTable().ajax.reload();
                     },
-                    complete: function () {
-                        $('#saveBtn'). prop('disabled', false);
+                    complete:function(){
+                        $('#saveBtn').prop('disabled', false);
                         $('#saveBtn').html('<strong>Save Changes</strong>');
                     }
                 });
