@@ -86,33 +86,32 @@ class RoleMenuController extends Controller
                 ->addColumn('menu_text', function ($row) use ($menuID){ //looping tiap menuRow
                     if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
                         //jika role bersangkutan tidak memiliki role menu
-                        return $row->menu_text . ' <input onchange="reaction(' . $row->id . ')" name="index[' . $row->id . ']" type="checkbox" value="1" data-toggle="collapse" data-target="#demo' . $row->id . '">';
+                        return $row->menu_text . ' <input name="index[' . $row->id . ']" type="checkbox" value="1" data-toggle="collapse" data-target="#role-menu' . $row->id . '">';
                     } elseif ($menuID != null && in_array($row->id, $menuID)){
-                        return ('<label>' .$row->menu_text. ' <input onchange="reaction(' .$row->id. ')" checked name="index[' .$row->id. ']"
-                                   type="checkbox" value="1" data-toggle="collapse" data-target="#demo' .$row->id. '"> </label>');
+                        return ('<label>' .$row->menu_text. ' <input checked name="index[' .$row->id. ']"
+                                type="checkbox" value="1" data-toggle="collapse" data-target="#role-menu' .$row->id. '"> </label>');
                     }
                 })
                 ->addColumn('add_column', function ($row) use ($menuID, $roleMenus){
                     $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
                     if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
                         //jika role bersangkutan tidak memiliki role menu
-                        return '<input '. (($row->add == 1) ? " " : "hidden ") . 'name="add[' . $row->id . ']" type="checkbox" value="1" id="demo' . $row->id . '" class="collapse">';
+                        return '<input '. (($row->add == 1) ? " " : "hidden ") . 'name="add[' . $row->id . ']" type="checkbox" value="1" id="role-menu' . $row->id . '" class="collapse">';
                     } elseif ($menuID != null && in_array($row->id, $menuID)){
                         if ($row->add == 1){
-                            return '<input name="add[' .$row->id. ']" type="checkbox" value="1"  id="demo' .$row->id. '"'
+                            return '<input name="add[' .$row->id. ']" type="checkbox" value="1"  id="role-menu' .$row->id. '"'
                                 .(($roleMenuRow->add == 1) ? "checked" : "") . ' class="collapse show">';
                         }
-
                     }
                 })
                 ->addColumn('edit_column', function ($row) use ($menuID, $roleMenus){
                     $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
                     if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
                         //jika role bersangkutan tidak memiliki role menu
-                        return '<input '. (($row->edit == 1) ? " " : "hidden ") . 'name="edit[' . $row->id . ']" type="checkbox" value="1" id="demo' . $row->id . '" class="collapse">';
+                        return '<input '. (($row->edit == 1) ? " " : "hidden ") . 'name="edit[' . $row->id . ']" type="checkbox" value="1" id="role-menu' . $row->id . '" class="collapse">';
                     } elseif ($menuID != null && in_array($row->id, $menuID)){
                         if ($row->edit == 1){
-                            return '<input name="edit[' .$row->id. ']" type="checkbox" value="1"  id="demo' .$row->id. '"'
+                            return '<input name="edit[' .$row->id. ']" type="checkbox" value="1"  id="role-menu' .$row->id. '"'
                                 .(($roleMenuRow->edit == 1) ? "checked" : "") . ' class="collapse show">';
                         }
                     }
@@ -121,10 +120,10 @@ class RoleMenuController extends Controller
                     $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
                     if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
                         //jika role bersangkutan tidak memiliki role menu
-                        return '<input '. (($row->delete == 1) ? " " : "hidden ") . 'name="delete[' . $row->id . ']" type="checkbox" value="1" id="demo' . $row->id . '" class="collapse">';
+                        return '<input '. (($row->delete == 1) ? " " : "hidden ") . 'name="delete[' . $row->id . ']" type="checkbox" value="1" id="role-menu' . $row->id . '" class="collapse">';
                     } elseif ($menuID != null && in_array($row->id, $menuID)){
                         if ($row->delete == 1){
-                            return '<input name="delete[' .$row->id. ']" type="checkbox" value="1"  id="demo' .$row->id. '"'
+                            return '<input name="delete[' .$row->id. ']" type="checkbox" value="1"  id="role-menu' .$row->id. '"'
                                 .(($roleMenuRow->delete == 1) ? "checked" : "") . ' class="collapse show">';
                         }
                     }
@@ -137,24 +136,27 @@ class RoleMenuController extends Controller
                             $checkboxes = '';
                             if ($row->approval >= 1){
                                 for ($i = 1; $i <= $row->approval; $i++){
-                                    $checkboxes .= ('<label id="demo' .$row->id. '" class="collapse show">approve' .$i.' <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  '
-                                        .((in_array($i, $approvalArr)) ? "checked" : "") . ' ></label><br>');
+                                    $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">approve ' .$i.' 
+                                    <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .((in_array($i, $approvalArr)) ? "checked" : "") . ' >
+                                    </label><br>');
                                 }
                                 return $checkboxes;
                             }
                         } else {
                             $checkboxes = '';
                             for ($i = 1; $i <= $row->approval; $i++){
-                                $checkboxes .= ('<label id="demo' .$row->id. '" class="collapse show">approve' .$i.' <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  '
-                                    .(($row->approval >= 1) ? "" : " hidden") . ' ></label><br>');
+                                $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">approve ' .$i.' 
+                                <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >
+                                </label><br>');
                             }
                             return $checkboxes;
                         }
                     } else {
                         $checkboxes = '';
                         for ($i = 1; $i <= $row->approval; $i++){
-                            $checkboxes .= ('<label id="demo' .$row->id. '" class="collapse">approve' .$i.' <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  '
-                                .(($row->approval >= 1) ? "" : " hidden") . ' ></label><br>');
+                            $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse">approve ' .$i.' 
+                            <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >
+                            </label><br>');
                         }
                         return $checkboxes;
                     }

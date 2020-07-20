@@ -42,20 +42,9 @@ class CompanyController extends Controller
                     if(Auth::user()->can('update', Company::class)) {
                         $btnEdit = '<a href="company/' . $row->id . '/edit" name="edit" class="edit btn btn-sm btn-outline btn-primary pr-1 mr-2" id="{{$data->id}}">
                             <i class="fa fa-edit"> Edit </i></a>';
+                        return $btnEdit;
                     } else{
-                        $btnEdit = '';
-                    }
-                    if (Auth::user()->can('delete', Company::class)){
-                        $btnDelete = '<button type="button" name="delete" class="delete btn btn-sm btn-outline btn-danger pr-1" id="' . $row->id . '">
-                            <i class="fa fa-trash"> Delete </i></button>';
-                    } else{
-                        $btnDelete = '';
-                    }
-
-                    if ($btnEdit == '' && $btnDelete == ''){
-                        return '<p class="text-muted">no action authorized</p>';
-                    } else{
-                        return $btnEdit.$btnDelete;
+                        $btnEdit = '<p class="text-muted">no action authorized</p>';
                     }
                 })
                 ->escapeColumns([])
