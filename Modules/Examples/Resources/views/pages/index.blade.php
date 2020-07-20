@@ -201,6 +201,8 @@
                     exampleId = $(this).val();
                     $('#approveModal').modal('show');
                     $('#approve-form').attr('action', "/examples/example/approve/"+ exampleId);
+                    let titleApprove = $(this).attr('title');
+                    $('div.modal-body').html('Are you sure want to ' + titleApprove + ' this Example data?');
                 });
 
                 $('#approve-form').on('submit', function (e) {
