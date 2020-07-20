@@ -32,7 +32,10 @@ class UserPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/user')->where('status', 1)->first();
+        )->where('menu_link', 'gate/user')->where('status', 1)
+            ->whereHas('role', function($role){
+                $role->where('status', 1);
+            })->first();
 
         if ($queryRoleMenu == null){
             return false;
@@ -123,12 +126,4 @@ class UserPolicy
         return $queryRoleMenu->delete == 1;
     }
 
-    public function approve()
-    {
-        $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/user')->first();
-
-        return $queryRoleMenu->approve >= 1;
-    }
 }

@@ -33,7 +33,9 @@ class RoleMenuPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/role-menu')->first();
+        )->where('menu_link', 'gate/role-menu')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
         if ($queryRoleMenu == null){
             return false;
