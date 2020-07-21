@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    @component('components.deleteModal', ['name' => 'Company data'])
+    @component('components.delete-modal', ['name' => 'Company data'])
     @endcomponent
 
     @component('gate::components.index', ['title' => 'Companies data'])

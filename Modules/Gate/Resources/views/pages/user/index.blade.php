@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-    @component('components.deleteModal', ['name' => 'User data'])
+    @component('components.delete-modal', ['name' => 'User data'])
     @endcomponent
 
     @include('gate::components.user.modal')

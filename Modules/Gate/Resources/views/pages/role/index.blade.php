@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    @component('components.deleteModal', ['name' => 'Role data'])
+    @component('components.delete-modal', ['name' => 'Role data'])
     @endcomponent
 
     @include('gate::components.role.modal')

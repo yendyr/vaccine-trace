@@ -9,9 +9,9 @@
 @endsection
 
 @section('content')
-    @component('components.deleteModal', ['name' => 'Example data'])
+    @component('components.delete-modal', ['name' => 'Example data'])
     @endcomponent
-    @component('components.approveModal', ['name' => 'Example data'])
+    @component('components.approve-modal', ['name' => 'Example data'])
     @endcomponent
 
     @include('examples::components.example.modal')
