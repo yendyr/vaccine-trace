@@ -74,7 +74,8 @@
                     { data: 'company.company_name', name: 'company.company_name', defaultContent: "" },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false },
-                ]
+                    { data: 'password', name: 'password', visible: false },
+                ],
             });
 
             $('#createUser').click(function () {
@@ -84,8 +85,8 @@
                 $('#userModal').modal('show');
                 $('div[class^="invalid-feedback-"]').html('');  //hide all alert with pre-string invalid-feedback
                 $('#userForm').attr('action', '/gate/user');
-                $("#fpassword").parentsUntil('div.modal-body').show();
-                $('#fpassword').removeAttr('disabled');
+                // $("#fpassword").parentsUntil('div.modal-body').show();
+                // $('#fpassword').removeAttr('disabled');
                 $("input[value='patch']").remove();
             });
 
@@ -95,9 +96,9 @@
                 userId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = table.row(tr).data();
-
-                $("#fpassword").parentsUntil('div.modal-body').hide();
-                $('#fpassword').prop( "disabled", true );
+                console.log(data);
+                // $("#fpassword").parentsUntil('div.modal-body').hide();
+                // $('#fpassword').prop( "disabled", true );
                 $('<input>').attr({
                     type: 'hidden',
                     name: '_method',
@@ -107,6 +108,7 @@
                 $('#fusername').val(data.username);
                 $('#fname').val(data.name);
                 $('#femail').val(data.email);
+                $('#fpassword').val(data.password);
                 $('#frole').empty();
                 $('#frole').append('<option value="' + data.role_id + '" selected>' + data.role.role_name + '</option>');
                 $('#fcompany').empty();

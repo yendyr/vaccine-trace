@@ -14,6 +14,11 @@
     <!-- jQuery UI -->
     <script src="{{URL::asset('theme/js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 
+    <!-- Sweet Alert -->
+    <script src="{{URL::asset('theme/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
+{{--    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    documentation: https://sweetalert.js.org/guides/#installation--}}
+
     <!-- Data Table-->
     <script src="{{URL::asset('theme/js/plugins/dataTables/datatables.min.js')}}"></script>
     <script src="{{URL::asset('theme/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>

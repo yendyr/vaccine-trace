@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Company;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\User;
+use Modules\Gate\Rules\MatchOldPassword;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -33,7 +36,7 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $data = User::with(['role:id,role_name', 'company:id,company_name'])
-                ->select('id', 'username', 'email', 'name', 'role_id', 'company_id', 'status');
+                ->select('id', 'username', 'email', 'name', 'password', 'role_id', 'company_id', 'status');
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -44,16 +47,14 @@ class UserController extends Controller
                 })
                 ->addColumn('action', function($row){
                     if(Auth::user()->can('update', User::class)) {
-                        $btn = '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="' . $row->id . '">
+                        return '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="' . $row->id . '">
                                 <i class="fa fa-edit"> Edit </i></button>';
                     }else{
-                        $btn = '';
-                    }
-                    if ($btn == ''){
                         return '<p class="text-muted">no action authorized</p>';
-                    } else{
-                        return $btn;
                     }
+                })
+                ->addColumn('password', function($row){
+                    return $row->password;
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -180,10 +181,17 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if ($user->password == $request->password) {
+            $request->merge(['password' => $user->password]);
+        }else {
+            $request->merge(['password' => Hash::make($request->password)]);
+        }
+
         $request->validate([
             'username' => ['required','string', 'max:255', 'alpha_dash'],
             'name' => ['required','string', 'max:255'],
             'email' => ['required', 'email:rfc,dns', 'max:255'],
+            'password' => ['required', 'string', 'max:255'],
             'role' => ['required', 'integer'],
             'company' => ['required', 'integer'],
             'status' => ['min:0', 'max:1'],
@@ -194,6 +202,7 @@ class UserController extends Controller
                 'username' => $request->username,
                 'name' => $request->name,
                 'email' => $request->email,
+                'password' => $request->password,
                 'role_id' => $request->role,
                 'company_id' => $request->company,
                 'owned_by' => $request->company,
@@ -216,4 +225,22 @@ class UserController extends Controller
         return response()->json(['success' => 'User data deleted successfully.']);
     }
 
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current' => ['required', new MatchOldPassword()],
+            'new' => ['required', 'string', 'max:255'],
+            'confirm' => ['same:new'],
+        ]);
+
+        User::where('id', $request->user()->id)
+            ->update([
+                'password' => Hash::make($request->new),
+                'updated_by' => $request->user()->id
+            ]);
+
+//        Alert::toast('Password changed successfully', 'success');
+//        return back();
+        return response()->json(['success' => 'Your password successfully changed!']);
+    }
 }
