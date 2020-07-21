@@ -239,8 +239,6 @@ class UserController extends Controller
                 'updated_by' => $request->user()->id
             ]);
 
-//        Alert::toast('Password changed successfully', 'success');
-//        return back();
         return response()->json(['success' => 'Your password successfully changed!']);
     }
 }
