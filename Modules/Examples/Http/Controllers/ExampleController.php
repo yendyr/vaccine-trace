@@ -32,7 +32,7 @@ class ExampleController extends Controller
             return DataTables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
-                        return 'Edit';
+                        return 'New';
                     } elseif ($row->status >= 2 && $row->status <= 7){
                         return ('Approve ' . $row->status);
                     } else{
@@ -40,22 +40,24 @@ class ExampleController extends Controller
                     }
                 })
                 ->addColumn('action', function($row){
-                    $btnEdit = '';
+                    $button = '';
 //                    if (Gate::allows('approvable', [$row->status])) {
                     if(Auth::user()->can('approve', [Example::class, $row])) {
                         if ($row->status == 1){
-                            $btnEdit .= '<button class="editBtn btn btn-sm btn-outline btn-primary pb-1 mb-2" value="'.$row->id.'">
+                            $button .= '<button type="button" class="approveBtn btn btn-sm btn-success mr-2" data-toggle="tooltip" title="Approve ' .$row->status. '" 
+                                value="' . $row->id . '"><i class="fa fa-check-circle" id="approve1"></i></button>';
+                            if(Auth::user()->can('update', [Example::class])) {
+                                $button .= '<button class="editBtn btn btn-sm btn-outline btn-primary" value="'.$row->id.'">
                                         <i class="fa fa-edit"> Edit </i></button>';
-                            $btnEdit .= '<br><button type="button" class="approveBtn btn btn-sm btn-success pb-1 mb-2" data-toggle="tooltip" title="Approve ' .$row->status. '" 
-                            value="' . $row->id . '"><i class="fa fa-check-circle" id="approve1"></i></button>';
+                            }
                         } elseif ($row->status >= 2 && $row->status <= 7){
-                            $btnEdit .= '<button type="button" class="approveBtn btn btn-sm btn-success pb-1 mb-2" data-toggle="tooltip" title="Approve ' .$row->status. '" 
+                            $button .= '<button type="button" class="approveBtn btn btn-sm btn-success pb-1 mb-2" data-toggle="tooltip" title="Approve ' .$row->status. '" 
                             value="'.$row->id.'"><i class="fa fa-check-circle" id="approve1"></i></button>';
                         } else{
-                            $btnEdit = '';
+                            $button = '';
                         }
                     }
-                    return $btnEdit;
+                    return $button;
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -128,14 +130,12 @@ class ExampleController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'code' => ['required', 'max:255', 'alpha_dash'],
-            'status' => ['min:0', 'max:1'],
         ]);
 
         Example::where('id', $example->id)
             ->update([
                 'name' => $request->name,
                 'code' => $request->code,
-                'status' => $request->status,
                 'updated_by' => $request->user()->id,
             ]);
 
