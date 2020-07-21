@@ -39,14 +39,11 @@ class RoleController extends Controller
                 })
                 ->addColumn('action', function($row){
                     if(Auth::user()->can('update', Role::class)) {
-                        $btnEdit = '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="'.$row->id.'">
-                                    <i class="fa fa-edit"> Edit </i></button>';
-                    } else{
-                        $btnEdit = '<p class="text-muted">no action authorized</p>';
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        return view('components.action-button', compact(['updateable', 'updateValue']));
                     }
-//                    $btnDelete = '<button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger pr-1" value="' .$row->id. '">
-
-                    return $btnEdit;
+                    return '<p class="text-muted">no action authorized</p>';
                 })
                 ->escapeColumns([])
                 ->make(true);

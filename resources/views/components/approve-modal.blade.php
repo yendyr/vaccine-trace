@@ -1,4 +1,4 @@
-<!-- Modal Delete -->
+<!-- Modal Approve -->
 <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -8,9 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body text-dark">
-                Are you sure to approve this {{$name}} ?
-            </div>
+            <div class="modal-body approve-content"></div>
             <div class="modal-footer">
                 <form class="d-inline" id="approve-form" name="approveForm">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

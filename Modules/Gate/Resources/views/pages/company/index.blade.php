@@ -80,22 +80,31 @@
                         type: "DELETE", //bisa method
                         beforeSend:function(){
                             $('#delete-button').text('Deleting...');
+                            $('#delete-button').prop('disabled', true);
                         },
                         error: function(data){
                             if (data.error) {
-                                $('#form_result').attr('class', 'alert alert-danger alert-dismissable font-weight-bold');
-                                $('#form_result').html(data.error);
-                                $('#deleteModal').modal('hide');
-                                $('#company-table').DataTable().ajax.reload();
+                                $('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
+                                $('#form_result').html(data.error +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                    '    <span aria-hidden="true">&times;</span>\n' +
+                                    '  </button>');
                             }
                         },
                         success:function(data){
                             if (data.success){
-                                $('#form_result').attr('class', 'alert alert-success alert-dismissable font-weight-bold');
-                                $('#form_result').html(data.success);
-                                $('#deleteModal').modal('hide');
-                                $('#company-table').DataTable().ajax.reload();
+                                $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                                $('#form_result').html(data.success +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                    '    <span aria-hidden="true">&times;</span>\n' +
+                                    '  </button>');
                             }
+                        },
+                        complete: function(data) {
+                            $('#delete-button').text('Delete');
+                            $('#deleteModal').modal('hide');
+                            $('#delete-button').prop('disabled', false);
+                            $('#company-table').DataTable().ajax.reload();
                         }
                     });
                 });

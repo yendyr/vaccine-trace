@@ -6,15 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Company;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\User;
 use Modules\Gate\Rules\MatchOldPassword;
-use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -47,11 +44,11 @@ class UserController extends Controller
                 })
                 ->addColumn('action', function($row){
                     if(Auth::user()->can('update', User::class)) {
-                        return '<button class="editBtn btn btn-sm btn-outline btn-primary pr-1 mr-2" value="' . $row->id . '">
-                                <i class="fa fa-edit"> Edit </i></button>';
-                    }else{
-                        return '<p class="text-muted">no action authorized</p>';
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        return view('components.action-button', compact(['updateable', 'updateValue']));
                     }
+                    return '<p class="text-muted">no action authorized</p>';
                 })
                 ->addColumn('password', function($row){
                     return $row->password;

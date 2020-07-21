@@ -11,8 +11,8 @@
 @section('content')
     @component('components.delete-modal', ['name' => 'Example data'])
     @endcomponent
-    @component('components.approve-modal', ['name' => 'Example data'])
-    @endcomponent
+
+    @include('components.approve-modal')
 
     @include('examples::components.example.modal')
 
@@ -202,7 +202,7 @@
                     $('#approveModal').modal('show');
                     $('#approve-form').attr('action', "/examples/example/approve/"+ exampleId);
                     let titleApprove = $(this).attr('title');
-                    $('div.modal-body').html('Are you sure want to ' + titleApprove + ' this Example data?');
+                    $('div.approve-content').html('Are you sure want to ' + titleApprove + ' this Example data?');
                 });
 
                 $('#approve-form').on('submit', function (e) {

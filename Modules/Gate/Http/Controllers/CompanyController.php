@@ -40,12 +40,11 @@ class CompanyController extends Controller
                 })
                 ->addColumn('action', function($row){
                     if(Auth::user()->can('update', Company::class)) {
-                        $btnEdit = '<a href="company/' . $row->id . '/edit" name="edit" class="edit btn btn-sm btn-outline btn-primary pr-1 mr-2" id="{{$data->id}}">
-                            <i class="fa fa-edit"> Edit </i></a>';
-                        return $btnEdit;
-                    } else{
-                        $btnEdit = '<p class="text-muted">no action authorized</p>';
+                        $updateable = 'a';
+                        $href = 'company/' . $row->id . '/edit';
+                        return view('components.action-button', compact(['updateable', 'href']));
                     }
+                    return '<p class="text-muted">no action authorized</p>';
                 })
                 ->escapeColumns([])
                 ->make(true);

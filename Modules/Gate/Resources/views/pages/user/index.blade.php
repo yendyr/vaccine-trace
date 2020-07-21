@@ -213,6 +213,7 @@
                     type: "DELETE", //bisa method
                     beforeSend:function(){
                         $('#delete-button').text('Deleting...');
+                        $('#delete-button').prop('disabled', true);
                     },
                     error: function(data){
                         if (data.error) {
@@ -221,8 +222,6 @@
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                                 '    <span aria-hidden="true">&times;</span>\n' +
                                 '  </button>');
-                            $('#deleteModal').modal('hide');
-                            $('#user-table').DataTable().ajax.reload();
                         }
                     },
                     success:function(data){
@@ -232,9 +231,13 @@
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                                 '    <span aria-hidden="true">&times;</span>\n' +
                                 '  </button>');
-                            $('#deleteModal').modal('hide');
-                            $('#user-table').DataTable().ajax.reload();
                         }
+                    },
+                    complete: function(data) {
+                        $('#delete-button').text('Delete');
+                        $('#deleteModal').modal('hide');
+                        $('#delete-button').prop('disabled', false);
+                        $('#user-table').DataTable().ajax.reload();
                     }
                 });
             });

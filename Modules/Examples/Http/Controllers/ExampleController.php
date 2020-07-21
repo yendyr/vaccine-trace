@@ -40,24 +40,29 @@ class ExampleController extends Controller
                     }
                 })
                 ->addColumn('action', function($row){
-                    $button = '';
 //                    if (Gate::allows('approvable', [$row->status])) {
                     if(Auth::user()->can('approve', [Example::class, $row])) {
                         if ($row->status == 1){
-                            $button .= '<button type="button" class="approveBtn btn btn-sm btn-success mr-2" data-toggle="tooltip" title="Approve ' .$row->status. '" 
-                                value="' . $row->id . '"><i class="fa fa-check-circle" id="approve1"></i></button>';
+                            $approvable = true;
+                            $approveStatus = $row->status;
+                            $approveValue = $row->id;
+
                             if(Auth::user()->can('update', [Example::class])) {
-                                $button .= '<button class="editBtn btn btn-sm btn-outline btn-primary" value="'.$row->id.'">
-                                        <i class="fa fa-edit"> Edit </i></button>';
+                                $updateable = 'button';
+                                $updateValue = $row->id;
                             }
+                            return view('components.action-button', compact([
+                                'approvable', 'approveValue', 'approveStatus', 'updateable', 'updateValue'
+                            ]));
                         } elseif ($row->status >= 2 && $row->status <= 7){
-                            $button .= '<button type="button" class="approveBtn btn btn-sm btn-success pb-1 mb-2" data-toggle="tooltip" title="Approve ' .$row->status. '" 
-                            value="'.$row->id.'"><i class="fa fa-check-circle" id="approve1"></i></button>';
-                        } else{
-                            $button = '';
+                            $approvable = true;
+                            $approveStatus = $row->status;
+                            $approveValue = $row->id;
+                            return view('components.action-button', compact([
+                                'approvable', 'approveValue', 'approveStatus'
+                            ]));
                         }
                     }
-                    return $button;
                 })
                 ->escapeColumns([])
                 ->make(true);
