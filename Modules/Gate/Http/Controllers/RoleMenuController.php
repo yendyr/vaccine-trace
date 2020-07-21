@@ -50,6 +50,12 @@ class RoleMenuController extends Controller
                     }
                     return null;
                 })
+                ->addColumn('print_column', function ($row){
+                    if ($row->print == 1){
+                        return "<input type='checkbox' disabled>";
+                    }
+                    return null;
+                })
                 ->addColumn('approval_column', function ($row){
                     if ($row->approval >= 1){
                         $checkboxes = '';
@@ -125,6 +131,18 @@ class RoleMenuController extends Controller
                         if ($row->delete == 1){
                             return '<input name="delete[' .$row->id. ']" type="checkbox" value="1"  id="role-menu' .$row->id. '"'
                                 .(($roleMenuRow->delete == 1) ? "checked" : "") . ' class="collapse show">';
+                        }
+                    }
+                })
+                ->addColumn('print_column', function ($row) use ($menuID, $roleMenus){
+                    $roleMenuRow = $roleMenus->where('menu_id', $row->id)->first();
+                    if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
+                        //jika role bersangkutan tidak memiliki role menu
+                        return '<input '. (($row->print == 1) ? " " : "hidden ") . 'name="print[' . $row->id . ']" type="checkbox" value="1" id="role-menu' . $row->id . '" class="collapse">';
+                    } elseif ($menuID != null && in_array($row->id, $menuID)){
+                        if ($row->print == 1){
+                            return '<input name="print[' .$row->id. ']" type="checkbox" value="1"  id="role-menu' .$row->id. '"'
+                                .(($roleMenuRow->print == 1) ? "checked" : "") . ' class="collapse show">';
                         }
                     }
                 })
@@ -206,6 +224,7 @@ class RoleMenuController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $collection = RoleMenu::where('role_id', $request->role)->get(['id']);
         RoleMenu::destroy($collection->toArray());
         $collectionMenu = DB::table('menus')->select('id')->orderBy('id')->get()->toArray();
@@ -227,6 +246,7 @@ class RoleMenuController extends Controller
                     'add' => ( isset($request->add[$i+1]) ? intval($request->add[$i+1]) : 0),
                     'update' => ( isset($request->update[$i+1]) ? intval($request->update[$i+1]) : 0),
                     'delete' => ( isset($request->delete[$i+1]) ? intval($request->delete[$i+1]) : 0),
+                    'print' => ( isset($request->print[$i+1]) ? intval($request->print[$i+1]) : 0),
                     'approval' => ( isset($request->approval[$i+1]) ? $approvalData : 0),
                     'status' => 1,
                     'owned_by' => $request->user()->company_id,

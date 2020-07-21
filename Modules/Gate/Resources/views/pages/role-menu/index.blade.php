@@ -43,6 +43,7 @@
                             <th>Add</th>
                             <th>Update</th>
                             <th>Delete</th>
+                            <th>Print</th>
                             <th>Approval</th>
                         </tr>
                     </thead>
@@ -76,6 +77,7 @@
                     { data: 'add_column', name: 'add_column', orderable: false },
                     { data: 'update_column', name: 'update_column', orderable: false },
                     { data: 'delete_column', name: 'delete_column', orderable: false },
+                    { data: 'print_column', name: 'print_column', orderable: false },
                     { data: 'approval_column', name: 'approval_column', orderable: false },
                 ]
             });
@@ -113,6 +115,7 @@
                         { data: 'add_column', name: 'add_column', orderable: false },
                         { data: 'update_column', name: 'update_column', orderable: false },
                         { data: 'delete_column', name: 'delete_column', orderable: false },
+                        { data: 'print_column', name: 'print_column', orderable: false },
                         { data: 'approval_column', name: 'approval_column', orderable: false },
                     ]
                 });

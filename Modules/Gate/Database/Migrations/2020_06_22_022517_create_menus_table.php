@@ -22,6 +22,7 @@ class CreateMenusTable extends Migration
             $table->integer('add');
             $table->integer('update');
             $table->integer('delete');
+            $table->integer('print');
             $table->tinyInteger('approval');
             $table->tinyInteger('process');
 
