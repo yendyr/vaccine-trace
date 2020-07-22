@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\Examples\Entities\Example;
+use Modules\Gate\Entities\Menu;
 use Yajra\DataTables\DataTables;
 
 class ExampleController extends Controller
@@ -42,7 +43,9 @@ class ExampleController extends Controller
                 ->addColumn('action', function($row){
 //                    if (Gate::allows('approvable', [$row->status])) {
                     if(Auth::user()->can('approve', [Example::class, $row])) {
-                        if ($row->status == 1){
+                        $menuApproval = Menu::select('approval')->where('menu_link', 'examples/example')->first();
+                        $approvalMax = $menuApproval->approval ;
+                        if ($row->status >= 1 && $row->status <= $approvalMax){
                             $approvable = true;
                             $approveStatus = $row->status;
                             $approveValue = $row->id;
@@ -50,14 +53,10 @@ class ExampleController extends Controller
                             if(Auth::user()->can('update', [Example::class])) {
                                 $updateable = 'button';
                                 $updateValue = $row->id;
+                                return view('components.action-button', compact([
+                                    'approvable', 'approveValue', 'approveStatus', 'updateable', 'updateValue'
+                                ]));
                             }
-                            return view('components.action-button', compact([
-                                'approvable', 'approveValue', 'approveStatus', 'updateable', 'updateValue'
-                            ]));
-                        } elseif ($row->status >= 2 && $row->status <= 7){
-                            $approvable = true;
-                            $approveStatus = $row->status;
-                            $approveValue = $row->id;
                             return view('components.action-button', compact([
                                 'approvable', 'approveValue', 'approveStatus'
                             ]));
