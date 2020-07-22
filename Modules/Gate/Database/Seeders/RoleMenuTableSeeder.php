@@ -39,6 +39,7 @@ class RoleMenuTableSeeder extends Seeder
             'add' => 1,
             'update' => 1,
             'delete' => 1,
+            'print' => 0,
             'approval' => 0,
             'process' => 0,
             'owned_by' => 0,

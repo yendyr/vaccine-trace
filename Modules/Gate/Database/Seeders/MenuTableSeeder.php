@@ -74,5 +74,19 @@ class MenuTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+        $menu = Menu::create([
+            'menu_link' => 'examples/example',
+            'menu_text' => 'Example',
+            'parent' => 'Examples',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 7,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
     }
 }
