@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Company;
@@ -122,29 +123,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'username' => ['required', 'string', 'max:255', 'alpha_dash', 'unique:users'],
-            'name' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:users'],
-            'role' => ['required', 'integer'],
-            'company' => ['required', 'integer'],
-            'status' => ['min:0', 'max:1'],
-        ]);
+        if ($request->ajax()) {
+            $request->validate([
+                'username' => ['required', 'string', 'max:255', 'alpha_dash', 'unique:users'],
+                'name' => ['required', 'string', 'max:255'],
+                'password' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:users'],
+                'role' => ['required', 'integer'],
+                'company' => ['required', 'integer'],
+                'status' => ['min:0', 'max:1'],
+            ]);
 
-        User::create([
-            'uuid' =>  Str::uuid(),
-            'username' => $request->username,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->role,
-            'company_id' => $request->company,
-            'owned_by' => $request->company,
-            'status' => $request->status,
-            'created_by' => $request->user()->id,
-        ]);
-
+            User::create([
+                'uuid' => Str::uuid(),
+                'username' => $request->username,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role_id' => $request->role,
+                'company_id' => $request->company,
+                'owned_by' => $request->company,
+                'status' => $request->status,
+                'created_by' => $request->user()->id,
+            ]);
+        }
         return response()->json(['success' => 'a new user added successfully.']);
     }
 
@@ -178,36 +180,65 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if ($user->password == $request->password) {
-            $request->merge(['password' => $user->password]);
-        }else {
-            $request->merge(['password' => Hash::make($request->password)]);
-        }
+        if ($request->ajax()) {
+            if ($user->password == $request->password) {
+                $request->merge(['password' => $user->password]);
+            } else {
+                $request->merge(['password' => Hash::make($request->password)]);
+            }
 
-        $request->validate([
-            'username' => ['required','string', 'max:255', 'alpha_dash'],
-            'name' => ['required','string', 'max:255'],
-            'email' => ['required', 'email:rfc,dns', 'max:255'],
-            'password' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'integer'],
-            'company' => ['required', 'integer'],
-            'status' => ['min:0', 'max:1'],
-        ]);
-
-        User::where('id', $user->id)
-            ->update([
-                'username' => $request->username,
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password,
-                'role_id' => $request->role,
-                'company_id' => $request->company,
-                'owned_by' => $request->company,
-                'status' => $request->status,
-                'updated_by' => $request->user()->id
+            $request->validate([
+                'username' => ['required', 'string', 'max:255', 'alpha_dash'],
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email:rfc,dns', 'max:255'],
+                'password' => ['required', 'string', 'max:255'],
+                'role' => ['required', 'integer'],
+                'company' => ['required', 'integer'],
+                'status' => ['min:0', 'max:1'],
             ]);
 
+            User::where('id', $user->id)
+                ->update([
+                    'username' => $request->username,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => $request->password,
+                    'role_id' => $request->role,
+                    'company_id' => $request->company,
+                    'owned_by' => $request->company,
+                    'status' => $request->status,
+                    'updated_by' => $request->user()->id
+                ]);
+        }
         return response()->json(['success' => 'User data updated successfully.']);
+    }
+
+    public function uploadImage(Request $request){
+        if($request->ajax()) {
+            $data = $request->file('file');
+            $extension = $data->getClientOriginalExtension();
+            $filename = 'user_' . $request->user()->username . '.' . $extension;
+            $path = public_path('uploads/user/img/');
+
+            $usersImage = public_path("uploads/user/img/{$filename}"); // get previous image from folder
+
+            if (File::exists($usersImage)) { // unlink or remove previous image from folder
+                unlink($usersImage);
+                $successText = 'Your profile picture successfully changed!';
+            } else {
+                $successText = 'Your profile picture successfully uploaded!';
+            }
+
+            User::where('id', $request->user()->id)
+                ->update([
+                    'image' => $filename,
+                    'updated_by' => $request->user()->id
+                ]);
+
+            $data->move($path, $filename);
+
+            return response()->json(['success' => $successText]);
+        }
     }
 
     /**

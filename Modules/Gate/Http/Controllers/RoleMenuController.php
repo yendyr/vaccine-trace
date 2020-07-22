@@ -224,19 +224,21 @@ class RoleMenuController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $collection = RoleMenu::where('role_id', $request->role)->get(['id']);
         RoleMenu::destroy($collection->toArray());
         $collectionMenu = DB::table('menus')->select('id')->orderBy('id')->get()->toArray();
 
         foreach ($collectionMenu as $i => $menu){
-            if (isset($request->index[$i+1])){ //request->index mulainya dari 1, maka dari itu di +1
+            if (isset($request->index[$i+1])){
                 $queryMenu = DB::table('menus')->select('menu_link')->where('id', $menu->id)->first();
                 if (isset($request->approval[$i+1])){
 //                    foreach ($request->approval[$i+1] as $idx => $checked){
 //                        $approvalData[intval($idx)] = intval($checked);
 //                    }
                     $approvalData = json_encode($request->approval[$i+1]);
+                }
+                if (isset($request->process[$i+1])){
+                    $processData = json_encode($request->process[$i+1]);
                 }
                 $create = RoleMenu::create([
                     'uuid' => Str::uuid(),
@@ -248,6 +250,7 @@ class RoleMenuController extends Controller
                     'delete' => ( isset($request->delete[$i+1]) ? intval($request->delete[$i+1]) : 0),
                     'print' => ( isset($request->print[$i+1]) ? intval($request->print[$i+1]) : 0),
                     'approval' => ( isset($request->approval[$i+1]) ? $approvalData : 0),
+                    'process' => ( isset($request->process[$i+1]) ? $processData : 0),
                     'status' => 1,
                     'owned_by' => $request->user()->company_id,
                     'created_by' => $request->user()->id,
@@ -256,7 +259,6 @@ class RoleMenuController extends Controller
         }
 
         return response()->json(['success' => 'Data updated successfully.']);
-//        return redirect('/gate/role-menu')->with('status', "Role menu's data has been updated!");
     }
 
     /**

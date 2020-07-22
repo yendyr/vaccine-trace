@@ -16,6 +16,7 @@ Route::name('gate.')->group(function () {
         Route::get('/user/select2/role', 'UserController@select2Role')->name('user.select2.role');
         Route::get('/user/select2/company', 'UserController@select2Company')->name('user.select2.company');
         Route::post('/user/change-password', 'UserController@changePassword')->name('user.change-password');
+        Route::post('/user/upload-image', 'UserController@uploadImage')->name('user.upload-image');
         Route::resource('/user', 'UserController');
 
         Route::resource('/company', 'CompanyController');

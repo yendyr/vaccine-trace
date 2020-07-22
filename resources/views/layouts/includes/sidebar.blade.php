@@ -1,9 +1,19 @@
+
 <div class="sidebar-collapse">
     <ul class="nav metismenu" id="side-menu">
         <li class="nav-header">
             <div class="dropdown profile-element">
-                <img alt="image" class="rounded-circle" src="{{URL::asset('theme/img/profile_small.jpg')}}"/>
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <div class="image-upload">
+                    <label for="file-input" style="cursor:pointer;" data-toggle="tooltip" title="Change picture">
+                        <img id="image_user" alt="image" width="45px" class="rounded-circle" src="{{
+                            isset(\Illuminate\Support\Facades\Auth::user()->image) ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image) : URL::asset('uploads/user/img/avatar.png')
+                        }}"/>
+                    </label>
+
+                    <input onchange="getPict(this)" style="display: none;" id="file-input" type="file" name="upload_img"/>
+                </div>
+
+                <a class="dropdown-toggle" href="#">
                     <span class="block m-t-xs font-bold">{{\Illuminate\Support\Facades\Auth::user()->name}}</span>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -72,6 +82,83 @@
 
 @push('footer-scripts')
     <script>
+        function getPict(input){
+            console.log(input)
+            var filedata = input.files[0];
+            let imgtype = filedata.type;
+            let imgsize = filedata.size;
+
+            let match=["image/jpeg", "image/jpg", "image/png"];
+
+            if((imgtype != match[0]) && (imgtype != match[1]) && (imgtype != match[2])){
+                swal({
+                    title: "Upload image failed!",
+                    text: "input file format only for: .jpeg, .jpg, .png !",
+                    type: "error"
+                });
+            } else if((imgsize < 10000) || (imgsize > 1000000)){
+                swal({
+                    title: "Upload image failed!",
+                    text: "input file size only between 10 KB - 1 MB !",
+                    type: "error"
+                });
+            } else{
+                // IMAGE PREVIEW
+
+                var reader = new FileReader();
+
+                reader.onload=function(ev){
+                    $('#image_user').attr('src',ev.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+
+                // PROCESS UPLOAD
+                var postData = new FormData();
+                postData.append('file', input.files[0]);
+                let url="/gate/user/upload-image";
+
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $(
+                            'meta[name="csrf-token"]'
+                        ).attr("content")
+                    },
+                    url: url,
+                    method: "POST",
+                    async: true,
+                    contentType: false,
+                    cache: false,
+                    data: postData,
+                    processData:false,
+                    success:function(data){
+                        if (data.success) {
+                            swal({
+                                title: "Image Uploaded!",
+                                text: data.success,
+                                type: "success"
+                            });
+                        }
+                    },
+                    error: function(data){
+                        let html = '';
+                        let errors = data.responseJSON.errors;
+                        if (errors) {
+                            let textError = '';
+                            $.each(errors, function (index, value) {
+                                textError += value;
+                            });
+                            swal({
+                                title: "Failed to upload!",
+                                text: textError,
+                                type: "error"
+                            });
+                        }
+                    },
+                });
+            }
+        }
+
+
         $(document).ready(function(){
             var nav1 = $('li#gate ul').children().length;
             if (nav1 == 0){
