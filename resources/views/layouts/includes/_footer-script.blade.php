@@ -16,8 +16,8 @@
 
     <!-- Sweet Alert -->
     <script src="{{URL::asset('theme/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
-{{--    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    documentation: https://sweetalert.js.org/guides/#installation--}}
+{{--    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
+{{--        <link rel="stylesheet" href="sweetalert2.min.css">--}}
 
     <!-- Data Table-->
     <script src="{{URL::asset('theme/js/plugins/dataTables/datatables.min.js')}}"></script>

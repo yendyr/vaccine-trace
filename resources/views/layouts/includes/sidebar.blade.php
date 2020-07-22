@@ -6,7 +6,9 @@
                 <div class="image-upload">
                     <label for="file-input" style="cursor:pointer;" data-toggle="tooltip" title="Change picture">
                         <img id="image_user" alt="image" width="45px" class="rounded-circle" src="{{
-                            isset(\Illuminate\Support\Facades\Auth::user()->image) ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image) : URL::asset('uploads/user/img/avatar.png')
+                            isset(\Illuminate\Support\Facades\Auth::user()->image)
+                            ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image)
+                            : URL::asset('uploads/user/img/avatar.png')
                         }}"/>
                     </label>
 
@@ -104,7 +106,6 @@
                 });
             } else{
                 // IMAGE PREVIEW
-
                 var reader = new FileReader();
 
                 reader.onload=function(ev){
@@ -130,6 +131,10 @@
                     cache: false,
                     data: postData,
                     processData:false,
+                    beforeSend:function(){
+                        $('#saveButton').html('<strong>Saving...</strong>');
+                        $('#saveButton'). prop('disabled', true);
+                    },
                     success:function(data){
                         if (data.success) {
                             swal({
