@@ -13,5 +13,6 @@
 
 Auth::routes(['register'=>false]);
 
+Route::view('/', 'auth.login');
 
 Route::view('dashboard', 'dashboard')->name('dashboard');
