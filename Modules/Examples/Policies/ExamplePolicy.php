@@ -22,6 +22,21 @@ class ExamplePolicy
         //
     }
 
+    public function before()
+    {
+        $queryRoleMenu = RoleMenu::where(
+            'role_id', Auth::user()->role_id
+        )->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
+
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view any companys.
      *
@@ -45,7 +60,7 @@ class ExamplePolicy
      * Determine whether the user can view the company.
      *
      * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Example  $example
      * @return mixed
      */
     public function view()
@@ -72,7 +87,7 @@ class ExamplePolicy
      * Determine whether the user can update the company.
      *
      * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Example  $example
      * @return mixed
      */
     public function update()
@@ -88,7 +103,7 @@ class ExamplePolicy
      * Determine whether the user can delete the company.
      *
      * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Example  $example
      * @return mixed
      */
     public function delete()
@@ -104,10 +119,10 @@ class ExamplePolicy
      * Determine whether the user can restore the company.
      *
      * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Example  $example
      * @return mixed
      */
-    public function restore(User $user, Company $company)
+    public function restore(User $user, Example $example)
     {
         //
     }
@@ -116,7 +131,7 @@ class ExamplePolicy
      * Determine whether the user can permanently delete the company.
      *
      * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Example  $example
      * @return mixed
      */
     public function forceDelete()

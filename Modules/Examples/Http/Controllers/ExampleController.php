@@ -43,7 +43,7 @@ class ExampleController extends Controller
                 ->addColumn('action', function($row){
 //                    if (Gate::allows('approvable', [$row->status])) {
                     if(Auth::user()->can('approve', [Example::class, $row])) {
-                        $menuApproval = Menu::select('approval')->where('menu_link', 'examples/example')->first();
+                        $menuApproval = Menu::select('approval')->where('menu_link', 'examples/os')->first();
                         $approvalMax = $menuApproval->approval ;
                         if ($row->status >= 1 && $row->status <= $approvalMax){
                             $approvable = true;
