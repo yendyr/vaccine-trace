@@ -15,6 +15,10 @@ use Modules\Gate\Policies\CompanyPolicy;
 use Modules\Gate\Policies\RoleMenuPolicy;
 use Modules\Gate\Policies\RolePolicy;
 use Modules\Gate\Policies\UserPolicy;
+use Modules\HumanResources\Entities\OrganizationStructure;
+use Modules\HumanResources\Entities\OrganizationStructureTitle;
+use Modules\HumanResources\Policies\OrganizationStructurePolicy;
+use Modules\HumanResources\Policies\OrganizationStructureTitlePolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,12 +28,13 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-//        'App\Model' => 'App\Policies\ModelPolicy',
         Company::class => CompanyPolicy::class,
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
         Example::class => ExamplePolicy::class,
+        OrganizationStructure::class, OrganizationStructurePolicy::class,
+        OrganizationStructureTitle::class, OrganizationStructureTitlePolicy::class,
     ];
 
     /**

@@ -26,5 +26,6 @@
 {{--Sweet Alert--}}
 <link href="{{URL::asset('theme/css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 
+
 <!-- Custom -->
 <link href="{{URL::asset('assets/custom.css')}}" rel="stylesheet">

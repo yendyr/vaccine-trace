@@ -3,7 +3,7 @@
         <h2>{{ $name }}</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/gate">Home</a>
+                <a href="/">Home</a>
             </li>
             {{$slot}}
         </ol>

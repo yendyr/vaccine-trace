@@ -28,7 +28,7 @@
         <script src="{{URL::asset('theme/js/plugins/select2/select2.full.min.js')}}"></script>
 
 
-    <!-- Page-Level Scripts -->
+<!-- Page-Level Scripts -->
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({

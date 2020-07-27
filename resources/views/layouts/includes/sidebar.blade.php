@@ -76,9 +76,21 @@
             </ul>
         </li>
 
-        <li class=" {{ request()->is('gate/test*') ? 'active' : '' }} nav-first-level" id="testing">
-            <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>
+        <li class="{{ request()->is('hr/*') ? 'active' : '' }} nav-first-level" id="humanresources">
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Human Resources</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+{{--                @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)--}}
+                    <li class="{{ (request()->is('hr/os') || request()->is('hr/os/*')) ? 'active' : '' }}">
+                        <a href="{{ route('hr.os.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Organization Structure</span></a>
+                    </li>
+{{--                @endcan--}}
+            </ul>
         </li>
+
+{{--        <li class=" {{ request()->is('gate/test*') ? 'active' : '' }} nav-first-level" id="testing">--}}
+{{--            <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>--}}
+{{--        </li>--}}
+
     </ul>
 </div>
 
@@ -173,9 +185,9 @@
             if (nav2 == 0){
                 $('li#examples').remove();
             }
-            var nav3 = $('li#testing ul').children().length;
-            if (nav3 == 0){
-                $('li#testing').remove();
+            var nav4 = $('li#humanresources ul').children().length;
+            if (nav4 == 0){
+                $('li#humanresources').remove();
             }
         });
     </script>
