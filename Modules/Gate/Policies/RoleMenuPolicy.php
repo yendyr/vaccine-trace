@@ -23,20 +23,20 @@ class RoleMenuPolicy
         //
     }
 
-    public function before()
-    {
-        $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
-        )->whereHas('role', function($role){
-            $role->where('status', 1);
-        })->first();
-
-        if ($queryRoleMenu == null){
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    public function before()
+//    {
+//        $queryRoleMenu = RoleMenu::where(
+//            'role_id', Auth::user()->role_id
+//        )->whereHas('role', function($role){
+//            $role->where('status', 1);
+//        })->first();
+//
+//        if ($queryRoleMenu == null){
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     /**
      * Determine whether the user can view any role menus.
@@ -48,7 +48,9 @@ class RoleMenuPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/role-menu')->first();
+        )->where('menu_link', 'gate/role-menu')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
         if ($queryRoleMenu == null){
             return false;
@@ -79,9 +81,15 @@ class RoleMenuPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/role-menu')->first();
+        )->where('menu_link', 'gate/role-menu')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->add == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->add == 1;
+        }
     }
 
     /**
@@ -95,9 +103,15 @@ class RoleMenuPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/role-menu')->first();
+        )->where('menu_link', 'gate/role-menu')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->update == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->update == 1;
+        }
     }
 
     /**
@@ -111,9 +125,15 @@ class RoleMenuPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/role-menu')->first();
+        )->where('menu_link', 'gate/role-menu')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->delete == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->delete == 1;
+        }
     }
 
     /**
@@ -139,8 +159,14 @@ class RoleMenuPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'gate/role-menu')->first();
+        )->where('menu_link', 'gate/role-menu')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->delete == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->delete == 1;
+        }
     }
 }

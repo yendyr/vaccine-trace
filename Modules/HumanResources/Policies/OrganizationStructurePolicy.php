@@ -22,20 +22,20 @@ class OrganizationStructurePolicy
         //
     }
 
-    public function before()
-    {
-        $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
-        )->whereHas('role', function($role){
-            $role->where('status', 1);
-        })->first();
-
-        if ($queryRoleMenu == null){
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    public function before()
+//    {
+//        $queryRoleMenu = RoleMenu::where(
+//            'role_id', Auth::user()->role_id
+//        )->whereHas('role', function($role){
+//            $role->where('status', 1);
+//        })->first();
+//
+//        if ($queryRoleMenu == null){
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     /**
      * Determine whether the user can view any companys.
@@ -47,7 +47,9 @@ class OrganizationStructurePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/os')->first();
+        )->where('menu_link', 'hr/os')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
         if ($queryRoleMenu == null){
             return false;
@@ -78,9 +80,15 @@ class OrganizationStructurePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/os')->first();
+        )->where('menu_link', 'hr/os')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->add == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->add == 1;
+        }
     }
 
     /**
@@ -94,9 +102,15 @@ class OrganizationStructurePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/os')->first();
+        )->where('menu_link', 'hr/os')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->update == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->update == 1;
+        }
     }
 
     /**
@@ -110,9 +124,15 @@ class OrganizationStructurePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/os')->first();
+        )->where('menu_link', 'hr/os')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->delete == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->delete == 1;
+        }
     }
 
     /**
@@ -138,8 +158,14 @@ class OrganizationStructurePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/os')->first();
+        )->where('menu_link', 'hr/os')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
 
-        return $queryRoleMenu->delete == 1;
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->delete == 1;
+        }
     }
 }
