@@ -8,7 +8,6 @@
             console.log(sampling)
         @endisset
 
-
     </script>
     <style>
         .select2-container.select2-container--default.select2-container--open {
@@ -35,13 +34,13 @@
         @component('components.delete-modal', ['name' => 'Organization Structure Title data'])
         @endcomponent
         @include('humanresources::components.ost.modal')
-{{--    @endpush--}}
+{{--    @endcan--}}
 
-    {{--    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)--}}
+{{--    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)--}}
         @component('components.delete-modal', ['name' => 'Organization Structure data'])
         @endcomponent
         @include('humanresources::components.os.modal')
-    {{--    @endpush--}}
+{{--    @endcan--}}
 
     <div class="row">
         <div class="col-lg-12">

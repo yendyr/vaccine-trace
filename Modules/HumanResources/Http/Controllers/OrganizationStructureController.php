@@ -14,7 +14,7 @@ class OrganizationStructureController extends Controller
 
     public function __construct()
     {
-//        $this->authorizeResource(OrganizationStructure::class, 'o');
+//        $this->authorizeResource(OrganizationStructure::class, 'os');
         $this->middleware('auth');
     }
 
