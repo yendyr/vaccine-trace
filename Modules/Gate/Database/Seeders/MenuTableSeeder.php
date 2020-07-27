@@ -75,7 +75,7 @@ class MenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $menu = Menu::create([
-            'menu_link' => 'examples/example',
+            'menu_link' => 'examples/exaxmple',
             'menu_text' => 'Example',
             'parent' => 'Examples',
             'add' => 1,
@@ -83,6 +83,34 @@ class MenuTableSeeder extends Seeder
             'delete' => 0,
             'print' => 0,
             'approval' => 7,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $menu = Menu::create([
+            'menu_link' => 'hr/os',
+            'menu_text' => 'Organization Structure',
+            'parent' => 'Human Resources',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 0,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $menu = Menu::create([
+            'menu_link' => 'hr/ost',
+            'menu_text' => 'Organization Structure Title',
+            'parent' => 'Human Resources',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 0,
             'process' => 0,
             'owned_by' => 0,
             'status' => 1,

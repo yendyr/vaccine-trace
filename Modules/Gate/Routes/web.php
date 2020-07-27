@@ -30,6 +30,6 @@ Route::name('gate.')->group(function () {
 
         Route::get('/', 'GateController@index');
 
-        Route::view('/test', 'gate::pages.test.index')->name('test.index');
+//        Route::view('/test', 'gate::pages.test.index')->name('test.index');
     });
 });
