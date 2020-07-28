@@ -12,12 +12,14 @@
 */
 Route::name('hr.')->group(function () {
     Route::prefix('hr')->group(function() {
-        Route::get('/os/select2/orgcode', 'OrganizationStructureController@select2Orgcode')->name('os.select2.orgcode');
-        Route::resource('/os', 'OrganizationStructureController');
-        Route::get('/ost/select2/orgcode', 'OrganizationStructureTitleController@select2Orgcode')->name('ost.select2.orgcode');
-        Route::get('/ost/select2/rptorg', 'OrganizationStructureTitleController@select2Rptorg')->name('ost.select2.rptorg');
-        Route::get('/ost/select2/title', 'OrganizationStructureTitleController@select2Title')->name('ost.select2.title');
-        Route::resource('/ost', 'OrganizationStructureTitleController');
+        Route::get('/org-structure/select2/orgcode', 'OrganizationStructureController@select2Orgcode')->name('org-structure.select2.orgcode');
+        Route::get('/org-structure/json', 'OrganizationStructureController@dataJson')->name('org-structure.json');
+        Route::resource('/org-structure', 'OrganizationStructureController');
+
+        Route::get('/org-structure-title/select2/orgcode', 'OrganizationStructureTitleController@select2Orgcode')->name('org-structure-title.select2.orgcode');
+        Route::get('/org-structure-title/select2/rptorg', 'OrganizationStructureTitleController@select2Rptorg')->name('org-structure-title.select2.rptorg');
+        Route::get('/org-structure-title/select2/title', 'OrganizationStructureTitleController@select2Title')->name('org-structure-title.select2.title');
+        Route::resource('/org-structure-title', 'OrganizationStructureTitleController');
     });
 });
 

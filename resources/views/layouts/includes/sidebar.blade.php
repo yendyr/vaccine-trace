@@ -80,8 +80,8 @@
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Human Resources</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
 {{--                @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)--}}
-                    <li class="{{ (request()->is('hr/os') || request()->is('hr/os/*')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.os.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Organization Structure</span></a>
+                    <li class="{{ (request()->is('hr/org-structure') || request()->is('hr/org-structure/*')) ? 'active' : '' }}">
+                        <a href="{{ route('hr.org-structure.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Organization Structure</span></a>
                     </li>
 {{--                @endcan--}}
             </ul>
