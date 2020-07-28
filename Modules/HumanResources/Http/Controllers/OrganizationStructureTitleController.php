@@ -20,7 +20,7 @@ class OrganizationStructureTitleController extends Controller
 
     public function __construct()
     {
-//        $this->authorizeResource(OrganizationStructureTitle::class, 'ost');
+//        $this->authorizeResource(OrganizationStructureTitle::class, 'organization_structure_title');
         $this->middleware('auth');
     }
 
@@ -37,7 +37,9 @@ class OrganizationStructureTitleController extends Controller
                     $titles = [
                         'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
                     ];
-                    return $titles[$row->titlecode-1];
+                    $title['title'] = $titles[$row->titlecode-1];
+                    $title['value'] = $row->titlecode;
+                    return $title;
                 })
                 ->addColumn('rpttitle', function($row){
                     $titles = [
@@ -244,7 +246,7 @@ class OrganizationStructureTitleController extends Controller
                 'status' => ['min:0', 'max:1'],
             ]);
 
-            OrganizationStructureTitle::where('id', $ost->id)
+            OrganizationStructureTitle::where('id', $request->id)
                 ->update([
                     'orgcode' => $request->orgcode,
                     'titlecode' => $request->titlecode,

@@ -11,27 +11,35 @@
             <div id="formModal">
             <form method="post" id="osForm">
                 <div class="modal-body">
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Organization Level</label>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Level</label>
                         <div class="col-sm-6">
-                            <select class="select2_orglevel form-control m-b ml-2"  id="forglevel" name="orglevel"></select>
+                            <select class="select2_orglevel form-control m-b ml-2"  id="forglevel" name="orglevel">
+                                <option value="1">Direksi</option>
+                                <option value="2">General</option>
+                                <option value="3">Divisi</option>
+                                <option value="4">Bagian</option>
+                                <option value="5">Seksi</option>
+                                <option value="6">Regu</option>
+                                <option value="7">Group</option>
+                            </select>
                             <div class="invalid-feedback-orglevel text-danger"></div>
                         </div>
                     </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Organization Code</label>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Code</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="forgcode" name="orgcode" value="${if(isAdd)} ${else} ${orgcode} ${/if}">
+                            <input type="text" class="form-control" id="forgcode" name="orgcode" >
                             <div class="invalid-feedback-orgcode text-danger"></div>
                         </div>
                     </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Organization Parent</label>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Parent</label>
                         <div class="col-sm-6">
                             <select class="select2_orgparent form-control m-b ml-2"  id="forgparent" name="orgparent"></select>
                             <div class="invalid-feedback-orgparent text-danger"></div>
                         </div>
                     </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Organization Name</label>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Name</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="forgname" name="orgname" value="${if(isAdd)} ${else} ${orgname} ${/if}">
+                            <input type="text" class="form-control" id="forgname" name="orgname" >
                             <div class="invalid-feedback-orgname text-danger"></div>
                         </div>
                     </div>
@@ -46,10 +54,10 @@
                     </div>
                 </div>
 
-{{--                <div class="modal-footer">--}}
-{{--                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>--}}
-{{--                    <button class="btn btn-primary" type="submit" id="saveBtn"><strong>Save changes</strong></button>--}}
-{{--                </div>--}}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
+                    <button class="btn btn-primary" type="submit" id="saveBtn"><strong>Save changes</strong></button>
+                </div>
             </form>
             </div>
         </div>

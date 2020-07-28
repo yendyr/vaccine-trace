@@ -1,14 +1,6 @@
 @extends('layouts.master')
 
 @push('header-scripts')
-    @include('humanresources::components.os._script')
-    <script>
-        @isset($allData)
-            var sampling = {!! json_encode($allData) !!}
-            console.log(sampling)
-        @endisset
-
-    </script>
     <style>
         .select2-container.select2-container--default.select2-container--open {
             z-index: 9999999 !important;
@@ -22,7 +14,7 @@
 @section('page-heading')
     @component('components.breadcrumb', ['name' => 'Organization Structure'])
         <li class="breadcrumb-item active">
-            <a href="/hr/os">Organization Structure</a>
+            <a href="/hr/org-structure">Organization Structure</a>
         </li>
     @endcomponent
 @endsection
@@ -61,9 +53,18 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="ibox-footer">
+                            <div class="ibox-footer" id="ibox_os">
                                 <div id="form_result" role="alert"></div>
-
+                                <div class="col-md-2 p-2 row">
+{{--                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)--}}
+                                    <div class="m-1">
+                                        <button type="button" id="createOS" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                    </div>
+{{--                                    @endcan--}}
+                                    <div class="m-1">
+                                        <button type="button" onclick="reloadOs()" class="btn btn-block btn-secondary"><strong><i class="fa fa-repeat"></i></strong></button>
+                                    </div>
+                                </div>
                                 <div id="container">
                                     <div id="TreeGrid"></div>
                                 </div>
@@ -81,9 +82,13 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="ibox-footer">
+                            <div class="ibox-footer" id="ibox_ost">
                                 <div id="form_result" role="alert"></div>
-
+                                <div class="col-md-1 m-2 p-2 row">
+{{--                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)--}}
+                                    <button type="button" id="createOST" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+{{--                                    @endcan--}}
+                                </div>
                                 <div class="table-responsive">
                                     <table id="ost-table" class="table table-hover text-center" style="width: 100%">
                                         <thead>
@@ -103,11 +108,6 @@
                                         </tfoot>
                                     </table>
                                 </div>
-{{--                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)--}}
-                                    <div class="col-md-4 offset-md-4 center">
-                                        <button type="button" id="createOST" class="btn btn-block btn-primary"><strong>Add OST data</strong></button>
-                                    </div>
-{{--                                    @endcan--}}
 
                             </div>
                         </div>
@@ -126,59 +126,10 @@
                     ele.style.visibility = "visible";
                 }
             </script>
-            <script type="text/javascript">
-                ej.treegrid.TreeGrid.Inject(ej.treegrid.Edit, ej.treegrid.Toolbar, ej.treegrid.Sort, ej.treegrid.Filter);
-
-                var treeGridObj = new ej.treegrid.TreeGrid({
-                    dataSource: sampling,
-                    childMapping: 'childs',
-                    toolbar: ['Add', 'Edit', 'Delete', 'Search'],
-                    allowSorting: true,
-                    searchSettings: { fields: ['orgcode', 'orgname']},
-                    editSettings: { allowEditing: true, allowAdding: true, allowDeleting: true, showDeleteConfirmDialog: true,
-                        mode: 'Row', newRowPosition: 'Child' },
-                    treeColumnIndex: 1,
-                    columns: [
-                        { field: 'id', headerText: 'ID', isPrimaryKey: true, width: 45, textAlign: 'Center', visible: false},
-                        { field: 'orgcode', headerText: 'Organization Code', width: 120, textAlign: 'Left'},
-                        { field: 'orgparent', headerText: 'Organization Parent', width: 120, textAlign: 'Left', visible: false},
-                        { field: 'orgname', headerText: 'Organization Name', width: 180, textAlign: 'Left'},
-                        // { field: 'startDate', headerText: 'Start Date', width: 90, textAlign: 'Left', editType: 'datepickeredit', type: 'date', format: 'yMd', allowSorting: false },
-                        { field: 'orglevel', headerText: 'Org. Level', width: 120, textAlign: 'Left',
-                            allowSorting: false, type: 'number' },
-                        { field: 'status', headerText: 'Status', width: 80, textAlign: 'Left', allowSorting: false,
-                            valueAccessor: getStatus, disableHtmlEncode: false },
-                    ],
-                    height: 270,
-                    actionBegin: function(args){
-                        if (args.requestType === 'save') {
-                            console.log('saved')
-                        }
-                    },
-                    actionComplete: function(args){
-                        if (args.requestType === 'beginEdit') {
-                            console.log(args.form.querySelector("#forgcode").value);
-                            // document.getElementById('osForm').attr('action', '/hr/ost/' + 1);
-                        }
-                        if (args.requestType === 'add') {
-                            console.log('add')
-                        }
-                    },
-                });
-
-                function getStatus(field, data, column){
-                    if (data.status == 1){
-                        return '<p class="text-success">Active</p>';
-                    } else if(data.status == 0){
-                        return '<p class="text-danger">Inactive</p>';
-                    }
-                }
-
-                treeGridObj.appendTo('#TreeGrid');
-            </script>
 
             @include('humanresources::components.ost._script')
         @endpush
+    @include('humanresources::components.os._script')
 {{--    @endcan--}}
 
 @endsection

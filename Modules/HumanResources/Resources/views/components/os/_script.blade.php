@@ -1,152 +1,201 @@
 @push('header-scripts')
     <!-- Syncfusion Essential JS 2 Styles -->
     <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css">
-    <link href="//cdn.syncfusion.com/ej2/ej2-splitbuttons/styles/material.css" rel="stylesheet">
     <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
 
 @endpush
 
 @push('footer-scripts')
     <script>
-        {{--$(document).ready(function () {--}}
-        {{--    var ostId;--}}
+        var treeGridObj;    //var for TreeGRidObj
 
-        {{--    var table = $('#ost-table').DataTable({--}}
-        {{--        processing: true,--}}
-        {{--        serverSide: true,--}}
-        {{--        ajax: {--}}
-        {{--            url: "{{ route('hr.ost.index')}}",--}}
-        {{--        },--}}
-        {{--        columns: [--}}
-        {{--            { data: 'titlecode', name: 'titlecode' },--}}
-        {{--            { data: 'jobtitle', name: 'jobtitle' },--}}
-        {{--            { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },--}}
-        {{--            { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },--}}
-        {{--            { data: 'status', name: 'status' },--}}
-        {{--            { data: 'action', name: 'action', orderable: false },--}}
-        {{--            { data: 'orgcode', name: 'orgcode', visible: false },--}}
-        {{--        ]--}}
-        {{--    });--}}
+        function reloadOs(){
+            ej.treegrid.TreeGrid.Inject(ej.treegrid.Toolbar, ej.treegrid.Sort, ej.treegrid.Filter,  ej.treegrid.CommandColumn);
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $(
+                        'meta[name="csrf-token"]'
+                    ).attr("content")
+                },
+                url: "/hr/org-structure/json",
+                method: "GET",
+                dataType: 'json',
+                beforeSend: function(){
+                    $('#TreeGrid').empty();
+                },
+                success:function(data){
+                    treeGridObj = new ej.treegrid.TreeGrid({
+                        dataSource: data.result,
+                        childMapping: 'childs',
+                        toolbar: ['Search'],
+                        allowSorting: true,
+                        searchSettings: { fields: ['orgcode', 'orgname', 'orglevel']},
+                        treeColumnIndex: 1,
+                        columns: [
+                            { field: 'id', headerText: 'ID', isPrimaryKey: true, width: 45, textAlign: 'Center', visible: false},
+                            { field: 'orgcode', headerText: 'Org. Structure Code', width: 120, textAlign: 'Left'},
+                            { field: 'orgparent', headerText: 'Org. Structure Parent', width: 120, textAlign: 'Left', visible: false},
+                            { field: 'orgname', headerText: 'Org. Structure Name', width: 180, textAlign: 'Left'},
+                            // { field: 'startDate', headerText: 'Start Date', width: 90, textAlign: 'Left', editType: 'datepickeredit', type: 'date', format: 'yMd', allowSorting: false },
+                            { field: 'orglevel', headerText: 'Org. Structure Level', width: 120, textAlign: 'Left',
+                                allowSorting: false, disableHtmlEncode: false, valueAccessor: getLevel },
+                            { field: 'status', headerText: 'Status', width: 80, textAlign: 'Left', allowSorting: false,
+                                disableHtmlEncode: false, valueAccessor: getStatus },
+                            { headerText: 'Action', width: 80, disableHtmlEncode: false,
+                                commands: [
+                                    { type: 'Update', buttonOption: { iconCss: ' e-icons e-edit', click: onUpdate } }
+                                ]
+                            },
+                        ],
+                        height: 270,
+                        actionBegin: function(args){
+                            if (args.requestType === 'save') {
+                            }
+                        },
+                        actionComplete: function(args){
+                            if (args.requestType === 'beginEdit') {
+                            }
+                            if (args.requestType === 'add') {
+                            }
+                        },
+                    });
+                    treeGridObj.appendTo('#TreeGrid');
+                },
+                error:function(data){
+                    let errors = data.responseJSON.errors;
+                    $("#ibox_os").find('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
+                    $("#ibox_os").find('#form_result').html('Some error occured while loading the data. Please reload this page!');
+                }
+            });
+        }
 
-        {{--    $('.select2_orgparent').select2({--}}
-        {{--        placeholder: 'choose here',--}}
-        {{--        ajax: {--}}
-        {{--            url: "{{route('hr.os.select2.orgcode')}}",--}}
-        {{--            dataType: 'json',--}}
-        {{--        },--}}
-        {{--        dropdownParent: $('#osForm')--}}
-        {{--    });--}}
-        {{--    $('#createOST').click(function () {--}}
-        {{--        $('#saveBtn').val("create-os");--}}
-        {{--        $('#ostForm').trigger("reset");--}}
-        {{--        $('#modalTitle').html("Add New Organization Structure data");--}}
-        {{--        $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback--}}
-        {{--        $('#ostModal').modal('show');--}}
-        {{--        $('#ostForm').attr('action', '/hr/ost');--}}
-        {{--        $("input[value='patch']").remove();--}}
-        {{--    });--}}
+        function getStatus(field, data, column){
+            if (data.status == 1){
+                return '<p class="text-success">Active</p>';
+            } else if(data.status == 0){
+                return '<p class="text-danger">Inactive</p>';
+            }
+        }
 
-        {{--    table.on('click', '.editBtn', function () {--}}
-        {{--        $('#ostForm').trigger("reset");--}}
-        {{--        $('#modalTitle').html("Update Organization Structure data");--}}
-        {{--        ostId= $(this).val();--}}
-        {{--        let tr = $(this).closest('tr');--}}
-        {{--        let data = table.row(tr).data();--}}
+        function getLevel(field, data, column){
+            if (data.orglevel == 1){
+                return 'Direksi';
+            } else if(data.orglevel == 2){
+                return 'General';
+            } else if(data.orglevel == 3){
+                return 'Divisi';
+            } else if(data.orglevel == 4){
+                return 'Bagian';
+            } else if(data.orglevel == 5){
+                return 'Seksi';
+            } else if(data.orglevel == 6){
+                return 'Regu';
+            } else if(data.orglevel == 7){
+                return 'Group';
+            }
+        }
 
-        {{--        $('<input>').attr({--}}
-        {{--            type: 'hidden',--}}
-        {{--            name: '_method',--}}
-        {{--            value: 'patch'--}}
-        {{--        }).prependTo('#ostForm');--}}
+        function onUpdate(args){
+            let rowIndex = ej.base.closest(args.target, '.e-row').rowIndex;
+            let dataRow = treeGridObj.getCurrentViewRecords();
 
-        {{--        $('#forgcode').empty();--}}
-        {{--        $('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');--}}
+            $('#osForm').trigger("reset");
+            $("#osModal").find('#modalTitle').html("Update Organization Structure data");
+            $('#saveBtn').val("edit-os");
+            $('#osForm').attr('action', '/hr/org-structure/' + dataRow[rowIndex]['id']);
 
-        {{--        $('#ftitlecode').find('option').removeAttr('selected');--}}
-        {{--        if (data.titlecode == 1){--}}
-        {{--            $('#ftitlecode').find('option[value="1"]').attr('selected', '');--}}
-        {{--        }else if (data.titlecode == 2){--}}
-        {{--            $('#ftitlecode').find('option[value="2"]').attr('selected', '');--}}
-        {{--        }else if (data.titlecode == 3){--}}
-        {{--            $('#ftitlecode').find('option[value="3"]').attr('selected', '');--}}
-        {{--        }else if (data.titlecode == 4){--}}
-        {{--            $('#ftitlecode').find('option[value="4"]').attr('selected', '');--}}
-        {{--        }else if (data.titlecode == 5){--}}
-        {{--            $('#ftitlecode').find('option[value="5"]').attr('selected', '');--}}
-        {{--        }--}}
+            $('#forglevel').find('option').removeAttr('selected');
+            $('#forglevel').find('option[value="' + dataRow[rowIndex]['orglevel'] + '"]').attr('selected', '');
 
-        {{--        $('#fjobtitle').val(data.jobtitle);--}}
+            $('#forgname').val(dataRow[rowIndex]['orgname']);
 
-        {{--        if (data.rptorg == null){--}}
-        {{--            $('#frptorg').append('<option value="' + 0 + '" selected>none</option>');--}}
-        {{--        } else{--}}
-        {{--            $('#frptorg').append('<option value="' + data.rptorg.code + '" selected>' + data.rptorg.code + ' - ' + data.rptorg.name + '</option>');--}}
-        {{--        }--}}
+            $("#osForm").find('#forgcode').val(dataRow[rowIndex]['orgcode']);
 
-        {{--        if (data.rpttitle == null){--}}
-        {{--            $('#frpttitle').append('<option value="' + 0 + '" selected>none</option>');--}}
-        {{--        } else{--}}
-        {{--            $('#frpttitle').append('<option value="' + data.rpttitle.code + '" selected>' + data.rpttitle.title + '</option>');--}}
-        {{--        }--}}
+            if (dataRow[rowIndex]['orgparent'] == null){
+                $('#forgparent').append('<option value="' + 0 + '" selected>none</option>');
+            } else{
+                $('#forgparent').append('<option value="' + dataRow[rowIndex]['orgparent'] + '" selected>' + dataRow[rowIndex]['orgparent'] + '</option>')
+            }
 
-        {{--        $('#fstatus').find('option').removeAttr('selected');--}}
-        {{--        if (data.status == '<p class="text-success">Active</p>'){--}}
-        {{--            $('#fstatus').find('option[value="1"]').attr('selected', '');--}}
-        {{--        }else{--}}
-        {{--            $('#fstatus').find('option[value="0"]').attr('selected', '');--}}
-        {{--        }--}}
+            $("#osForm").find('#fstatus').find('option').removeAttr('selected');
+            $("#osForm").find('#fstatus').find('option[value="' + dataRow[rowIndex]['status'] + '"]').attr('selected', '');
 
-        {{--        $('#saveBtn').val("edit-ost");--}}
-        {{--        $('#ostForm').attr('action', '/hr/ost/' + data.id);--}}
+            $("#osForm").find('input[name="id"]').remove();
+            $('<input type="hidden" name="id" value="' +dataRow[rowIndex]['id']+ '">').prependTo('#osForm');
 
-        {{--        $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback--}}
-        {{--        $('#ostModal').modal('show');--}}
-        {{--    });--}}
+            $('<input type="hidden" name="_method" value="patch">').prependTo('#osForm');
+            $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+            $('#osModal').modal('show');
+        }
 
-        {{--    $('#ostForm').on('submit', function (event) {--}}
-        {{--        event.preventDefault();--}}
-        {{--        let url_action = $(this).attr('action');--}}
-        {{--        $.ajax({--}}
-        {{--            headers: {--}}
-        {{--                "X-CSRF-TOKEN": $(--}}
-        {{--                    'meta[name="csrf-token"]'--}}
-        {{--                ).attr("content")--}}
-        {{--            },--}}
-        {{--            url: url_action,--}}
-        {{--            method: "POST",--}}
-        {{--            data: $(this).serialize(),--}}
-        {{--            dataType: 'json',--}}
-        {{--            beforeSend:function(){--}}
-        {{--                $('#saveBtn').html('<strong>Saving...</strong>');--}}
-        {{--                $('#saveBtn').prop('disabled', true);--}}
-        {{--            },--}}
-        {{--            success:function(data){--}}
-        {{--                if (data.success) {--}}
-        {{--                    $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');--}}
-        {{--                    $('#form_result').html(data.success +--}}
-        {{--                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +--}}
-        {{--                        '    <span aria-hidden="true">&times;</span>\n' +--}}
-        {{--                        '  </button>');--}}
-        {{--                }--}}
-        {{--                $('#ostModal').modal('hide');--}}
-        {{--                $('#ost-table').DataTable().ajax.reload();--}}
-        {{--            },--}}
-        {{--            error:function(data){--}}
-        {{--                let errors = data.responseJSON.errors;--}}
-        {{--                if (errors) {--}}
-        {{--                    $.each(errors, function (index, value) {--}}
-        {{--                        $('div.invalid-feedback-'+index).html(value);--}}
-        {{--                    })--}}
-        {{--                }--}}
-        {{--            },--}}
-        {{--            complete:function(){--}}
-        {{--                $('#saveBtn').prop('disabled', false);--}}
-        {{--                console.log($('#saveBtn').attr('value'));--}}
-        {{--                $('#saveBtn').html('<strong>Save Changes</strong>');--}}
-        {{--            }--}}
-        {{--        });--}}
-        {{--    });--}}
-        {{--});--}}
+        $(document).ready(function () {
+            reloadOs();
+
+            var osId;
+
+            $('.select2_orgparent').select2({
+                placeholder: 'choose here',
+                ajax: {
+                    url: "{{route('hr.org-structure.select2.orgcode')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#osForm')
+            });
+
+            $('#createOS').click(function () {
+                $('#saveBtn').val("create-os");
+                $("#osForm").trigger('reset');
+                $("#osModal").find('#modalTitle').html("Add New Organization Structure data");
+                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                $('#osModal').modal('show');
+                $("#osForm").find('input[name="id"]').remove();
+                $('#osForm').attr('action', '/hr/org-structure');
+                $("input[value='patch']").remove();
+            });
+
+            $('#osForm').on('submit', function (event) {
+                event.preventDefault();
+                let url_action = $(this).attr('action');
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $(
+                            'meta[name="csrf-token"]'
+                        ).attr("content")
+                    },
+                    url: url_action,
+                    method: "POST",
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    beforeSend:function(){
+                        $("#osForm").find('#saveBtn').html('<strong>Saving...</strong>');
+                        $("#osForm").find('#saveBtn').prop('disabled', true);
+                    },
+                    success:function(data){
+                        if (data.success) {
+                            $("#ibox_os").find('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                            $("#ibox_os").find('#form_result').html(data.success +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                '    <span aria-hidden="true">&times;</span>\n' +
+                                '  </button>');
+                        }
+                        $('#osModal').modal('hide');
+                        reloadOs();
+                    },
+                    error:function(data){
+                        let errors = data.responseJSON.errors;
+                        if (errors) {
+                            $.each(errors, function (index, value) {
+                                $('div.invalid-feedback-'+index).html(value);
+                            })
+                        }
+                    },
+                    complete:function(){
+                        $("#osForm").find('#saveBtn').prop('disabled', false);
+                        $("#osForm").find('#saveBtn').html('<strong>Save Changes</strong>');
+                    }
+                });
+            });
+        });
 
     </script>
 @endpush

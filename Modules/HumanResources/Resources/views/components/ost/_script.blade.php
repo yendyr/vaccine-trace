@@ -7,10 +7,10 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('hr.ost.index')}}",
+                    url: "{{ route('hr.org-structure-title.index')}}",
                 },
                 columns: [
-                    { data: 'titlecode', name: 'titlecode' },
+                    { data: 'titlecode.title', name: 'titlecode' },
                     { data: 'jobtitle', name: 'jobtitle' },
                     { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },
                     { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },
@@ -23,7 +23,7 @@
             $('.select2_orgcode').select2({
                 placeholder: 'choose here',
                 ajax: {
-                    url: "{{route('hr.ost.select2.orgcode')}}",
+                    url: "{{route('hr.org-structure-title.select2.orgcode')}}",
                     dataType: 'json',
                 },
                 dropdownParent: $('#ostModal')
@@ -31,7 +31,7 @@
             $('.select2_rptorg').select2({
                 placeholder: 'choose here',
                 ajax: {
-                    url: "{{route('hr.ost.select2.rptorg')}}",
+                    url: "{{route('hr.org-structure-title.select2.rptorg')}}",
                     dataType: 'json',
                 },
                 dropdownParent: $('#ostModal')
@@ -39,7 +39,7 @@
             $('.select2_rpttitle').select2({
                 placeholder: 'choose here',
                 ajax: {
-                    url: "{{route('hr.ost.select2.title')}}",
+                    url: "{{route('hr.org-structure-title.select2.title')}}",
                     dataType: 'json',
                 },
                 dropdownParent: $('#ostModal')
@@ -48,10 +48,11 @@
             $('#createOST').click(function () {
                 $('#saveBtn').val("create-os");
                 $('#ostForm').trigger("reset");
-                $('#modalTitle').html("Add New Organization Structure data");
+                $("#ostModal").find('#modalTitle').html("Add New Organization Structure title data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $('#ostModal').modal('show');
-                $('#ostForm').attr('action', '/hr/ost');
+                $("#ostForm").find('input[name="id"]').remove();
+                $('#ostForm').attr('action', '/hr/org-structure-title');
                 $("input[value='patch']").remove();
             });
 
@@ -72,17 +73,7 @@
                 $('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');
 
                 $('#ftitlecode').find('option').removeAttr('selected');
-                if (data.titlecode == 1){
-                    $('#ftitlecode').find('option[value="1"]').attr('selected', '');
-                }else if (data.titlecode == 2){
-                    $('#ftitlecode').find('option[value="2"]').attr('selected', '');
-                }else if (data.titlecode == 3){
-                    $('#ftitlecode').find('option[value="3"]').attr('selected', '');
-                }else if (data.titlecode == 4){
-                    $('#ftitlecode').find('option[value="4"]').attr('selected', '');
-                }else if (data.titlecode == 5){
-                    $('#ftitlecode').find('option[value="5"]').attr('selected', '');
-                }
+                $('#ftitlecode').find('option[value="' + data.titlecode.value + '"]').attr('selected', '');
 
                 $('#fjobtitle').val(data.jobtitle);
 
@@ -106,7 +97,9 @@
                 }
 
                 $('#saveBtn').val("edit-ost");
-                $('#ostForm').attr('action', '/hr/ost/' + data.id);
+                $("#ostForm").find('input[name="id"]').remove();
+                $('<input type="hidden" name="id" value="' + data.id + '">').prependTo('#ostForm');
+                $('#ostForm').attr('action', '/hr/org-structure-title/' + data.id);
 
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $('#ostModal').modal('show');
@@ -126,13 +119,13 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
-                        $('#saveBtn').html('<strong>Saving...</strong>');
-                        $('#saveBtn').prop('disabled', true);
+                        $("#ostForm").find('#saveBtn').html('<strong>Saving...</strong>');
+                        $("#ostForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
                         if (data.success) {
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
-                            $('#form_result').html(data.success +
+                            $("#ibox_ost").find('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                            $("#ibox_ost").find('#form_result').html(data.success +
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                                 '    <span aria-hidden="true">&times;</span>\n' +
                                 '  </button>');
@@ -149,9 +142,8 @@
                         }
                     },
                     complete:function(){
-                        $('#saveBtn').prop('disabled', false);
-                        console.log($('#saveBtn').attr('value'));
-                        $('#saveBtn').html('<strong>Save Changes</strong>');
+                        $("#ostForm").find('#saveBtn').prop('disabled', false);
+                        $("#ostForm").find('#saveBtn').html('<strong>Save Changes</strong>');
                     }
                 });
             });
