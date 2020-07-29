@@ -13,6 +13,6 @@
 
 Auth::routes(['register'=>false]);
 
-Route::view('/', 'auth.login');
+Route::view('/', 'auth.login')->middleware('guest');
 
 Route::view('dashboard', 'dashboard')->name('dashboard');
