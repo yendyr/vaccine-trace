@@ -1,11 +1,4 @@
-@push('header-scripts')
-    <!-- Syncfusion Essential JS 2 Styles -->
-    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css">
-    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
 
-@endpush
-
-@push('footer-scripts')
     <script>
         var treeGridObj;    //var for TreeGRidObj
 
@@ -198,4 +191,3 @@
         });
 
     </script>
-@endpush

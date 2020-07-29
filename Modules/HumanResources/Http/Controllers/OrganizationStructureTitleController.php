@@ -28,63 +28,8 @@ class OrganizationStructureTitleController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()) {
-            $data = OrganizationStructureTitle::latest()->get();
-            return DataTables::of($data)
-                ->addColumn('titlecode', function($row){
-                    $titles = [
-                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
-                    ];
-                    $title['title'] = $titles[$row->titlecode-1];
-                    $title['value'] = $row->titlecode;
-                    return $title;
-                })
-                ->addColumn('rpttitle', function($row){
-                    $titles = [
-                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
-                    ];
-                    if ($row->rpttitle == 0){
-                        return null;
-                    }
-                    $rpttitle['code'] = $row->rpttitle;
-                    $rpttitle['title'] = $titles[$row->rpttitle - 1];
-                    return $rpttitle;
-                })
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
-                        return '<p class="text-success">Active</p>';
-                    } else{
-                        return '<p class="text-danger">Inactive</p>';
-                    }
-                })
-                ->addColumn('action', function($row){
-//                    if(Auth::user()->can('update', OrganizationStructureTitle::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        return view('components.action-button', compact(['updateable', 'updateValue']));
-//                    }else{
-//                        return '<p class="text-muted">no action authorized</p>';
-//                    }
-                })
-                ->addColumn('rptorg', function($row){
-                    if ($row->rptorg == null){
-                        return null;
-                    }
-                    $orgidentity['code'] = $row->rptorg;
-                    $orgname = OrganizationStructure::select('orgname')->where('orgcode', $row->rptorg)->first();
-                    $orgidentity['name'] = $orgname['orgname'];
-                    return $orgidentity;
-                })
-                ->addColumn('orgcode', function($row){
-                    $orgidentity['code'] = $row->orgcode;
-                    $orgidentity['name'] = OrganizationStructure::select('orgname')->where('orgcode', $row->orgcode)->first()->orgname;
-                    return $orgidentity;
-                })
-                ->escapeColumns([])
-                ->make(true);
-        }
         return view('humanresources::pages.os-ost.index');
     }
 
@@ -213,9 +158,67 @@ class OrganizationStructureTitleController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(Request $request, $orgcode)
     {
-        return view('humanresources::show');
+        if ($request->ajax()) {
+            if ($orgcode == null){
+                $data = OrganizationStructureTitle::latest()->where('orgcode', null)->get();
+            } else {
+                $data = OrganizationStructureTitle::latest()->where('orgcode', $orgcode)->get();
+            }
+            return DataTables::of($data)
+                ->addColumn('titlecode', function($row){
+                    $titles = [
+                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
+                    ];
+                    $title['title'] = $titles[$row->titlecode-1];
+                    $title['value'] = $row->titlecode;
+                    return $title;
+                })
+                ->addColumn('rpttitle', function($row){
+                    $titles = [
+                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
+                    ];
+                    if ($row->rpttitle == 0){
+                        return null;
+                    }
+                    $rpttitle['code'] = $row->rpttitle;
+                    $rpttitle['title'] = $titles[$row->rpttitle - 1];
+                    return $rpttitle;
+                })
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<p class="text-success">Active</p>';
+                    } else{
+                        return '<p class="text-danger">Inactive</p>';
+                    }
+                })
+                ->addColumn('action', function($row){
+//                    if(Auth::user()->can('update', OrganizationStructureTitle::class)) {
+                    $updateable = 'button';
+                    $updateValue = $row->id;
+                    return view('components.action-button', compact(['updateable', 'updateValue']));
+//                    }else{
+//                        return '<p class="text-muted">no action authorized</p>';
+//                    }
+                })
+                ->addColumn('rptorg', function($row){
+                    if ($row->rptorg == null){
+                        return null;
+                    }
+                    $orgidentity['code'] = $row->rptorg;
+                    $orgname = OrganizationStructure::select('orgname')->where('orgcode', $row->rptorg)->first();
+                    $orgidentity['name'] = $orgname['orgname'];
+                    return $orgidentity;
+                })
+                ->addColumn('orgcode', function($row){
+                    $orgidentity['code'] = $row->orgcode;
+                    $orgidentity['name'] = OrganizationStructure::select('orgname')->where('orgcode', $row->orgcode)->first()->orgname;
+                    return $orgidentity;
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
     }
 
     /**

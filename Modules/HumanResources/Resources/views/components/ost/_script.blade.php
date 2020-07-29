@@ -1,24 +1,40 @@
 @push('footer-scripts')
     <script>
+
+        $('#ost-table').DataTable({
+            retrieve: true,
+            processing: true,
+            serverSide: true,
+            language: {
+                emptyTable: "Nothing Organization Structure Title data get",
+            },
+            ajax: {
+                url: "/hr/org-structure-title/" + null,
+                type: "GET",
+                dataType: "json",
+            },
+            columns: [
+                { data: 'titlecode.title', name: 'titlecode' },
+                { data: 'jobtitle', name: 'jobtitle' },
+                { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'status', name: 'status' },
+                { data: 'action', name: 'action', orderable: false },
+                { data: 'orgcode', name: 'orgcode', visible: false },
+            ]
+        });
+        $('#TreeGrid').on('click', function () {
+            let selectedrecords = treeGridObj.getSelectedRecords();
+            let orgCode = selectedrecords[0].orgcode;
+            let orgstructure = {orgcode: orgCode};
+            let urlAjax = "/hr/org-structure-title/" + orgstructure.orgcode;
+            if ( $.fn.DataTable.isDataTable('#ost-table') ) {
+                $('#ost-table').DataTable().ajax.url(urlAjax).load();
+            }
+        });
+
         $(document).ready(function () {
             var ostId;
-
-            var table = $('#ost-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('hr.org-structure-title.index')}}",
-                },
-                columns: [
-                    { data: 'titlecode.title', name: 'titlecode' },
-                    { data: 'jobtitle', name: 'jobtitle' },
-                    { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false },
-                    { data: 'orgcode', name: 'orgcode', visible: false },
-                ]
-            });
 
             $('.select2_orgcode').select2({
                 placeholder: 'choose here',
@@ -56,12 +72,12 @@
                 $("input[value='patch']").remove();
             });
 
-            table.on('click', '.editBtn', function () {
+            $('#ost-table').on('click', '.editBtn', function () {
                 $('#ostForm').trigger("reset");
-                $('#modalTitle').html("Update Organization Structure data");
+                $('#ostModal').find('#modalTitle').html("Update Organization Structure title data");
                 ostId= $(this).val();
                 let tr = $(this).closest('tr');
-                let data = table.row(tr).data();
+                let data = $('#ost-table').DataTable().row(tr).data();
 
                 $('<input>').attr({
                     type: 'hidden',

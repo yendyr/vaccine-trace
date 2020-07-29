@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
 @push('header-scripts')
+    <!-- Syncfusion Essential JS 2 Styles -->
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css">
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+
     <style>
         .select2-container.select2-container--default.select2-container--open {
             z-index: 9999999 !important;
@@ -128,8 +132,8 @@
             </script>
 
             @include('humanresources::components.ost._script')
+            @include('humanresources::components.os._script')
         @endpush
-    @include('humanresources::components.os._script')
 {{--    @endcan--}}
 
 @endsection
