@@ -89,7 +89,7 @@ class MenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $menu = Menu::create([
-            'menu_link' => 'hr/os',
+            'menu_link' => 'hr/org-structure',
             'menu_text' => 'Organization Structure',
             'parent' => 'Human Resources',
             'add' => 1,
@@ -103,7 +103,7 @@ class MenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $menu = Menu::create([
-            'menu_link' => 'hr/ost',
+            'menu_link' => 'hr/org-structure-title',
             'menu_text' => 'Organization Structure Title',
             'parent' => 'Human Resources',
             'add' => 1,

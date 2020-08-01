@@ -3,7 +3,6 @@
 namespace Modules\Gate\Policies;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Modules\Gate\Entities\Company;
 use Modules\Gate\Entities\RoleMenu;
 use Modules\Gate\Entities\User;

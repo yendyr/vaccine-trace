@@ -34,11 +34,13 @@
                                 allowSorting: false, disableHtmlEncode: false, valueAccessor: getLevel },
                             { field: 'status', headerText: 'Status', width: 80, textAlign: 'Left', allowSorting: false,
                                 disableHtmlEncode: false, valueAccessor: getStatus },
+                            @can('update', \Modules\HumanResources\Entities\OrganizationStructure::class)
                             { headerText: 'Action', width: 80, disableHtmlEncode: false,
                                 commands: [
                                     { type: 'Update', buttonOption: { iconCss: ' e-icons e-edit', click: onUpdate } }
                                 ]
                             },
+                            @endcan
                         ],
                         height: 270,
                         actionBegin: function(args){

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\HumanResources\Entities\OrganizationStructure;
 
@@ -15,7 +16,7 @@ class OrganizationStructureController extends Controller
 
     public function __construct()
     {
-//        $this->authorizeResource(OrganizationStructure::class, 'organization_structure');
+//        $this->authorizeResource(OrganizationStructure::class, 'org_structure');
         $this->middleware('auth');
     }
 
@@ -25,6 +26,7 @@ class OrganizationStructureController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', OrganizationStructure::class);
         return view('humanresources::pages.os-ost.index');
     }
 
@@ -76,6 +78,7 @@ class OrganizationStructureController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', OrganizationStructure::class);
         if ($request->ajax()){
             $request->validate([
                 'orglevel' => ['required', 'integer'],
@@ -128,6 +131,7 @@ class OrganizationStructureController extends Controller
      */
     public function update(Request $request, OrganizationStructure $os)
     {
+        $this->authorize('update', OrganizationStructure::class);
         if ($request->ajax()){
             $request->validate([
                 'orglevel' => ['required', 'integer'],

@@ -60,11 +60,11 @@
                             <div class="ibox-footer" id="ibox_os">
                                 <div id="form_result" role="alert"></div>
                                 <div class="col-md-2 p-2 row">
-{{--                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)--}}
-                                    <div class="m-1">
-                                        <button type="button" id="createOS" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                                    </div>
-{{--                                    @endcan--}}
+                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructure::class)
+                                        <div class="m-1">
+                                            <button type="button" id="createOS" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                        </div>
+                                    @endcan
                                     <div class="m-1">
                                         <button type="button" onclick="reloadOs()" class="btn btn-block btn-secondary"><strong><i class="fa fa-repeat"></i></strong></button>
                                     </div>
@@ -89,9 +89,9 @@
                             <div class="ibox-footer" id="ibox_ost">
                                 <div id="form_result" role="alert"></div>
                                 <div class="col-md-1 m-2 p-2 row">
-{{--                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)--}}
-                                    <button type="button" id="createOST" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-{{--                                    @endcan--}}
+                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
+                                        <button type="button" id="createOST" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                    @endcan
                                 </div>
                                 <div class="table-responsive">
                                     <table id="ost-table" class="table table-hover text-center" style="width: 100%">
@@ -122,7 +122,7 @@
         </div>
     </div>
 
-{{--    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)--}}
+    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)
         @push('footer-scripts')
             <script>
                 var ele = document.getElementById('container');
@@ -130,10 +130,11 @@
                     ele.style.visibility = "visible";
                 }
             </script>
-
-            @include('humanresources::components.ost._script')
+            @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
+                @include('humanresources::components.ost._script')
+            @endcan
             @include('humanresources::components.os._script')
         @endpush
-{{--    @endcan--}}
+    @endcan
 
 @endsection

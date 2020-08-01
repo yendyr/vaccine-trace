@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\User;
 use Modules\HumanResources\Entities\OrganizationStructure;
@@ -20,7 +19,7 @@ class OrganizationStructureTitleController extends Controller
 
     public function __construct()
     {
-//        $this->authorizeResource(OrganizationStructureTitle::class, 'organization_structure_title');
+//        $this->authorizeResource(OrganizationStructureTitle::class, 'org_structure_title');
         $this->middleware('auth');
     }
 
@@ -28,8 +27,68 @@ class OrganizationStructureTitleController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $this->authorize('viewAny', OrganizationStructureTitle::class);
+        if ($request->ajax()) {
+            if ($request->orgcode == null){
+                $data = OrganizationStructureTitle::latest()->get();
+            } else {
+                $data = OrganizationStructureTitle::latest()->where('orgcode', $request->orgcode)->get();
+            }
+            return DataTables::of($data)
+                ->addColumn('titlecode', function($row){
+                    $titles = [
+                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
+                    ];
+                    $title['title'] = $titles[$row->titlecode-1];
+                    $title['value'] = $row->titlecode;
+                    return $title;
+                })
+                ->addColumn('rpttitle', function($row){
+                    $titles = [
+                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
+                    ];
+                    if ($row->rpttitle == 0){
+                        return null;
+                    }
+                    $rpttitle['code'] = $row->rpttitle;
+                    $rpttitle['title'] = $titles[$row->rpttitle - 1];
+                    return $rpttitle;
+                })
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<p class="text-success">Active</p>';
+                    } else{
+                        return '<p class="text-danger">Inactive</p>';
+                    }
+                })
+                ->addColumn('action', function($row){
+                    if(Auth::user()->can('update', OrganizationStructureTitle::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        return view('components.action-button', compact(['updateable', 'updateValue']));
+                    }else{
+                        return '<p class="text-muted">no action authorized</p>';
+                    }
+                })
+                ->addColumn('rptorg', function($row){
+                    if ($row->rptorg == null){
+                        return null;
+                    }
+                    $orgidentity['code'] = $row->rptorg;
+                    $orgname = OrganizationStructure::select('orgname')->where('orgcode', $row->rptorg)->first();
+                    $orgidentity['name'] = $orgname['orgname'];
+                    return $orgidentity;
+                })
+                ->addColumn('orgcode', function($row){
+                    $orgidentity['code'] = $row->orgcode;
+                    $orgidentity['name'] = OrganizationStructure::select('orgname')->where('orgcode', $row->orgcode)->first()->orgname;
+                    return $orgidentity;
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
         return view('humanresources::pages.os-ost.index');
     }
 
@@ -127,6 +186,7 @@ class OrganizationStructureTitleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', OrganizationStructureTitle::class);
         if ($request->ajax()){
             $request->validate([
                 'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
@@ -160,65 +220,7 @@ class OrganizationStructureTitleController extends Controller
      */
     public function show(Request $request, $orgcode)
     {
-        if ($request->ajax()) {
-            if ($orgcode == null){
-                $data = OrganizationStructureTitle::latest()->where('orgcode', null)->get();
-            } else {
-                $data = OrganizationStructureTitle::latest()->where('orgcode', $orgcode)->get();
-            }
-            return DataTables::of($data)
-                ->addColumn('titlecode', function($row){
-                    $titles = [
-                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
-                    ];
-                    $title['title'] = $titles[$row->titlecode-1];
-                    $title['value'] = $row->titlecode;
-                    return $title;
-                })
-                ->addColumn('rpttitle', function($row){
-                    $titles = [
-                        'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
-                    ];
-                    if ($row->rpttitle == 0){
-                        return null;
-                    }
-                    $rpttitle['code'] = $row->rpttitle;
-                    $rpttitle['title'] = $titles[$row->rpttitle - 1];
-                    return $rpttitle;
-                })
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
-                        return '<p class="text-success">Active</p>';
-                    } else{
-                        return '<p class="text-danger">Inactive</p>';
-                    }
-                })
-                ->addColumn('action', function($row){
-//                    if(Auth::user()->can('update', OrganizationStructureTitle::class)) {
-                    $updateable = 'button';
-                    $updateValue = $row->id;
-                    return view('components.action-button', compact(['updateable', 'updateValue']));
-//                    }else{
-//                        return '<p class="text-muted">no action authorized</p>';
-//                    }
-                })
-                ->addColumn('rptorg', function($row){
-                    if ($row->rptorg == null){
-                        return null;
-                    }
-                    $orgidentity['code'] = $row->rptorg;
-                    $orgname = OrganizationStructure::select('orgname')->where('orgcode', $row->rptorg)->first();
-                    $orgidentity['name'] = $orgname['orgname'];
-                    return $orgidentity;
-                })
-                ->addColumn('orgcode', function($row){
-                    $orgidentity['code'] = $row->orgcode;
-                    $orgidentity['name'] = OrganizationStructure::select('orgname')->where('orgcode', $row->orgcode)->first()->orgname;
-                    return $orgidentity;
-                })
-                ->escapeColumns([])
-                ->make(true);
-        }
+
     }
 
     /**
@@ -239,6 +241,7 @@ class OrganizationStructureTitleController extends Controller
      */
     public function update(Request $request, OrganizationStructureTitle $ost)
     {
+        $this->authorize('update', OrganizationStructureTitle::class);
         if ($request->ajax()){
             $request->validate([
                 'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],

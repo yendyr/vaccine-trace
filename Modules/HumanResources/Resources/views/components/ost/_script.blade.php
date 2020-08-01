@@ -9,7 +9,7 @@
                 emptyTable: "Nothing Organization Structure Title data get",
             },
             ajax: {
-                url: "/hr/org-structure-title/" + null,
+                url: "/hr/org-structure-title",
                 type: "GET",
                 dataType: "json",
             },
@@ -27,7 +27,7 @@
             let selectedrecords = treeGridObj.getSelectedRecords();
             let orgCode = selectedrecords[0].orgcode;
             let orgstructure = {orgcode: orgCode};
-            let urlAjax = "/hr/org-structure-title/" + orgstructure.orgcode;
+            let urlAjax = "/hr/org-structure-title?orgcode=" + orgstructure.orgcode;
             if ( $.fn.DataTable.isDataTable('#ost-table') ) {
                 $('#ost-table').DataTable().ajax.url(urlAjax).load();
             }

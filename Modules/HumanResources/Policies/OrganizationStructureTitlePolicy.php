@@ -5,8 +5,6 @@ namespace Modules\HumanResources\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 use Modules\Gate\Entities\RoleMenu;
-use Modules\Gate\Entities\User;
-use Modules\HumanResources\Entities\OrganizationStructureTitle;
 
 class OrganizationStructureTitlePolicy
 {
@@ -22,23 +20,8 @@ class OrganizationStructureTitlePolicy
         //
     }
 
-//    public function before()
-//    {
-//        $queryRoleMenu = RoleMenu::where(
-//            'role_id', Auth::user()->role_id
-//        )->whereHas('role', function($role){
-//            $role->where('status', 1);
-//        })->first();
-//
-//        if ($queryRoleMenu == null){
-//            return false;
-//        } else {
-//            return true;
-//        }
-//    }
-
     /**
-     * Determine whether the user can view any companys.
+     * Determine whether the user can view any org-structure-titles.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -47,7 +30,7 @@ class OrganizationStructureTitlePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/ost')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/org-structure-title')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -59,19 +42,29 @@ class OrganizationStructureTitlePolicy
     }
 
     /**
-     * Determine whether the user can view the company.
+     * Determine whether the user can view the org-structure.
      *
      * @param  \App\User  $user
-     * @param  \App\OrganizationStructureTitle  $ost
+     * @param  \App\OrganizationStructureTitle  $org-structure
      * @return mixed
      */
     public function view()
     {
-        //
+        $queryRoleMenu = RoleMenu::where(
+            'role_id', Auth::user()->role_id
+        )->where('menu_link', 'hr/org-structure-title')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
+
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
-     * Determine whether the user can create companys.
+     * Determine whether the user can create org-structure-titles.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -80,7 +73,7 @@ class OrganizationStructureTitlePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/ost')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/org-structure-title')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -92,17 +85,17 @@ class OrganizationStructureTitlePolicy
     }
 
     /**
-     * Determine whether the user can update the company.
+     * Determine whether the user can update the org-structure-title.
      *
      * @param  \App\User  $user
-     * @param  \App\OrganizationStructureTitle  $ost
+     * @param  \App\OrganizationStructureTitle  $org-structure-title
      * @return mixed
      */
     public function update()
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/ost')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/org-structure-title')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -114,17 +107,17 @@ class OrganizationStructureTitlePolicy
     }
 
     /**
-     * Determine whether the user can delete the company.
+     * Determine whether the user can delete the org-structure-title.
      *
      * @param  \App\User  $user
-     * @param  \App\OrganizationStructureTitle  $ost
+     * @param  \App\OrganizationStructureTitle  $org-structure-title
      * @return mixed
      */
     public function delete()
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/ost')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/org-structure-title')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -136,29 +129,17 @@ class OrganizationStructureTitlePolicy
     }
 
     /**
-     * Determine whether the user can restore the company.
+     * Determine whether the user can permanently delete the org-structure-title.
      *
      * @param  \App\User  $user
-     * @param  \App\OrganizationStructureTitle  $ost
-     * @return mixed
-     */
-    public function restore(User $user, OrganizationStructureTitle $ost)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the company.
-     *
-     * @param  \App\User  $user
-     * @param  \App\OrganizationStructureTitle  $ost
+     * @param  \App\OrganizationStructureTitle  $org-structure-title
      * @return mixed
      */
     public function forceDelete()
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/ost')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/org-structure-title')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 

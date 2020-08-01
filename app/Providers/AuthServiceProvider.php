@@ -33,8 +33,8 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
         Example::class => ExamplePolicy::class,
-        OrganizationStructure::class, OrganizationStructurePolicy::class,
-        OrganizationStructureTitle::class, OrganizationStructureTitlePolicy::class,
+        OrganizationStructure::class => OrganizationStructurePolicy::class,
+        OrganizationStructureTitle::class => OrganizationStructureTitlePolicy::class,
     ];
 
     /**
