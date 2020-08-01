@@ -140,7 +140,7 @@
                     },
                     success:function(data){
                         if (data.success) {
-                            $("#ibox_ost").find('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                            $("#ibox_ost").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
                             $("#ibox_ost").find('#form_result').html(data.success +
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                                 '    <span aria-hidden="true">&times;</span>\n' +
