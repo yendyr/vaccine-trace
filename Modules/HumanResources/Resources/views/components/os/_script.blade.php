@@ -106,6 +106,7 @@
 
             $("#osForm").find('#forgcode').val(dataRow[rowIndex]['orgcode']);
 
+            $(".select2_orgparent").select2("val", "none");
             if (dataRow[rowIndex]['orgparent'] == null){
                 $('#forgparent').append('<option value="' + 0 + '" selected>none</option>');
             } else{
@@ -142,6 +143,8 @@
                 $("#osForm").trigger('reset');
                 $("#osModal").find('#modalTitle').html("Add New Organization Structure data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                $(".select2_orgparent").select2("val", "none");
+
                 $('#osModal').modal('show');
                 $("#osForm").find('input[name="id"]').remove();
                 $('#osForm').attr('action', '/hr/org-structure');

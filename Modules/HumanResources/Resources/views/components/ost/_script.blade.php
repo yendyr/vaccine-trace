@@ -66,6 +66,10 @@
                 $('#ostForm').trigger("reset");
                 $("#ostModal").find('#modalTitle').html("Add New Organization Structure title data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                $(".select2_orgcode").select2("val", "");
+                $(".select2_rptorg").select2("val", "none");
+                $(".select2_rpttitle").select2("val", "none");
+
                 $('#ostModal').modal('show');
                 $("#ostForm").find('input[name="id"]').remove();
                 $('#ostForm').attr('action', '/hr/org-structure-title');
@@ -85,20 +89,22 @@
                     value: 'patch'
                 }).prependTo('#ostForm');
 
+                $(".select2_orgcode").select2("val", "");
                 $('#forgcode').empty();
                 $('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');
 
                 $('#ftitlecode').find('option').removeAttr('selected');
                 $('#ftitlecode').find('option[value="' + data.titlecode.value + '"]').attr('selected', '');
-
                 $('#fjobtitle').val(data.jobtitle);
 
+                $(".select2_rptorg").select2("val", "none");
                 if (data.rptorg == null){
                     $('#frptorg').append('<option value="' + 0 + '" selected>none</option>');
                 } else{
                     $('#frptorg').append('<option value="' + data.rptorg.code + '" selected>' + data.rptorg.code + ' - ' + data.rptorg.name + '</option>');
                 }
 
+                $(".select2_rpttitle").select2("val", "none");
                 if (data.rpttitle == null){
                     $('#frpttitle').append('<option value="' + 0 + '" selected>none</option>');
                 } else{
