@@ -72,8 +72,8 @@
 
                 $('#ostModal').modal('show');
                 $("#ostForm").find('input[name="id"]').remove();
-                $('#ostForm').attr('action', '/hr/org-structure-title');
                 $("input[value='patch']").remove();
+                $('#ostForm').attr('action', '/hr/org-structure-title');
             });
 
             $('#ost-table').on('click', '.editBtn', function () {
@@ -147,10 +147,7 @@
                     success:function(data){
                         if (data.success) {
                             $("#ibox_ost").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox_ost").find('#form_result').html(data.success +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                                '    <span aria-hidden="true">&times;</span>\n' +
-                                '  </button>');
+                            $("#ibox_ost").find('#form_result').html(data.success);
                         }
                         $('#ostModal').modal('hide');
                         $('#ost-table').DataTable().ajax.reload();

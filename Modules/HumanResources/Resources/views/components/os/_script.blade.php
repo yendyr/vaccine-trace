@@ -58,7 +58,7 @@
                 },
                 error:function(data){
                     let errors = data.responseJSON.errors;
-                    $("#ibox_os").find('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
+                    $("#ibox_os").find('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
                     $("#ibox_os").find('#form_result').html('Some error occured while loading the data. Please reload this page!');
                 }
             });
@@ -171,10 +171,7 @@
                     success:function(data){
                         if (data.success) {
                             $("#ibox_os").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox_os").find('#form_result').html(data.success +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                                '    <span aria-hidden="true">&times;</span>\n' +
-                                '  </button>');
+                            $("#ibox_os").find('#form_result').html(data.success);
                         }
                         $('#osModal').modal('hide');
                         reloadOs();

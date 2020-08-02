@@ -180,10 +180,7 @@
                     success:function(data){
                         if (data.success) {
                             $('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $('#form_result').html(data.success +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                                '    <span aria-hidden="true">&times;</span>\n' +
-                                '  </button>');
+                            $('#form_result').html(data.success);
                         }
                         $('#userModal').modal('hide');
                         $('#user-table').DataTable().ajax.reload();
@@ -219,19 +216,13 @@
                     error: function(data){
                         if (data.error) {
                             $('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
-                            $('#form_result').html(data.error +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                                '    <span aria-hidden="true">&times;</span>\n' +
-                                '  </button>');
+                            $('#form_result').html(data.error);
                         }
                     },
                     success:function(data){
                         if (data.success){
                             $('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $('#form_result').html(data.success +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                                '    <span aria-hidden="true">&times;</span>\n' +
-                                '  </button>');
+                            $('#form_result').html(data.success);
                         }
                     },
                     complete: function(data) {
