@@ -19,7 +19,7 @@ class OrganizationStructureTitleController extends Controller
 
     public function __construct()
     {
-//        $this->authorizeResource(OrganizationStructureTitle::class, 'org_structure_title');
+        $this->authorizeResource(OrganizationStructureTitle::class, 'org_structure_title');
         $this->middleware('auth');
     }
 
@@ -29,7 +29,6 @@ class OrganizationStructureTitleController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', OrganizationStructureTitle::class);
         if ($request->ajax()) {
             if ($request->orgcode == null){
                 $data = OrganizationStructureTitle::latest()->get();
@@ -77,8 +76,7 @@ class OrganizationStructureTitleController extends Controller
                         return null;
                     }
                     $orgidentity['code'] = $row->rptorg;
-                    $orgname = OrganizationStructure::select('orgname')->where('orgcode', $row->rptorg)->first();
-                    $orgidentity['name'] = $orgname['orgname'];
+                    $orgidentity['name'] = OrganizationStructure::select('orgname')->where('orgcode', $row->rptorg)->first()->orgname;
                     return $orgidentity;
                 })
                 ->addColumn('orgcode', function($row){
@@ -186,7 +184,6 @@ class OrganizationStructureTitleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create', OrganizationStructureTitle::class);
         if ($request->ajax()){
             $request->validate([
                 'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
@@ -215,20 +212,20 @@ class OrganizationStructureTitleController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
+     * @param int OrganizationStructureTitle $org_structure_title
      * @return Response
      */
-    public function show(Request $request, $orgcode)
+    public function show(Request $request, OrganizationStructureTitle $org_structure_title)
     {
 
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
+     * @param int OrganizationStructureTitle $org_structure_title
      * @return Response
      */
-    public function edit($id)
+    public function edit(OrganizationStructureTitle $org_structure_title)
     {
         return view('humanresources::edit');
     }
@@ -236,12 +233,11 @@ class OrganizationStructureTitleController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
+     * @param int OrganizationStructureTitle $org_structure_title
      * @return Response
      */
-    public function update(Request $request, OrganizationStructureTitle $ost)
+    public function update(Request $request, OrganizationStructureTitle $org_structure_title)
     {
-        $this->authorize('update', OrganizationStructureTitle::class);
         if ($request->ajax()){
             $request->validate([
                 'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
@@ -252,7 +248,7 @@ class OrganizationStructureTitleController extends Controller
                 'status' => ['min:0', 'max:1'],
             ]);
 
-            OrganizationStructureTitle::where('id', $request->id)
+            OrganizationStructureTitle::where('id', $org_structure_title->id)
                 ->update([
                     'orgcode' => $request->orgcode,
                     'titlecode' => $request->titlecode,
@@ -270,12 +266,12 @@ class OrganizationStructureTitleController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param int OrganizationStructureTitle $org_structure_title
      * @return Response
      */
-    public function destroy(OrganizationStructureTitle $ost)
+    public function destroy(OrganizationStructureTitle $org_structure_title)
     {
-        OrganizationStructureTitle::destroy($ost->id);
+        OrganizationStructureTitle::destroy($org_structure_title->id);
 
         return response()->json(['success' => 'Organization Structure title data deleted successfully.']);
     }

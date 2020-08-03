@@ -116,9 +116,6 @@
             $("#osForm").find('#fstatus').find('option').removeAttr('selected');
             $("#osForm").find('#fstatus').find('option[value="' + dataRow[rowIndex]['status'] + '"]').attr('selected', '');
 
-            $("#osForm").find('input[name="id"]').remove();
-            $('<input type="hidden" name="id" value="' +dataRow[rowIndex]['id']+ '">').prependTo('#osForm');
-
             $('<input type="hidden" name="_method" value="patch">').prependTo('#osForm');
             $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
             $('#osModal').modal('show');
@@ -126,8 +123,6 @@
 
         $(document).ready(function () {
             reloadOs();
-
-            var osId;
 
             $('.select2_orgparent').select2({
                 placeholder: 'choose here',
@@ -146,7 +141,6 @@
                 $(".select2_orgparent").select2("val", "none");
 
                 $('#osModal').modal('show');
-                $("#osForm").find('input[name="id"]').remove();
                 $('#osForm').attr('action', '/hr/org-structure');
                 $("input[value='patch']").remove();
             });
@@ -170,8 +164,8 @@
                     },
                     success:function(data){
                         if (data.success) {
-                            $("#ibox_os").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox_os").find('#form_result').html(data.success);
+                            $("#ibox-os").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
+                            $("#ibox-os").find('#form_result').html(data.success);
                         }
                         $('#osModal').modal('hide');
                         reloadOs();

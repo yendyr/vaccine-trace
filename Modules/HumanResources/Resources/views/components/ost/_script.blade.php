@@ -34,7 +34,6 @@
         });
 
         $(document).ready(function () {
-            var ostId;
 
             $('.select2_orgcode').select2({
                 placeholder: 'choose here',
@@ -66,12 +65,11 @@
                 $('#ostForm').trigger("reset");
                 $("#ostModal").find('#modalTitle').html("Add New Organization Structure title data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $(".select2_orgcode").select2("val", "");
+                $(".select2_orgcode").val(null).trigger('change');;
                 $(".select2_rptorg").select2("val", "none");
                 $(".select2_rpttitle").select2("val", "none");
 
                 $('#ostModal').modal('show');
-                $("#ostForm").find('input[name="id"]').remove();
                 $("input[value='patch']").remove();
                 $('#ostForm').attr('action', '/hr/org-structure-title');
             });
@@ -79,7 +77,6 @@
             $('#ost-table').on('click', '.editBtn', function () {
                 $('#ostForm').trigger("reset");
                 $('#ostModal').find('#modalTitle').html("Update Organization Structure title data");
-                ostId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = $('#ost-table').DataTable().row(tr).data();
 
@@ -89,8 +86,7 @@
                     value: 'patch'
                 }).prependTo('#ostForm');
 
-                $(".select2_orgcode").select2("val", "");
-                $('#forgcode').empty();
+                $(".select2_orgcode").val(null).trigger('change');
                 $('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');
 
                 $('#ftitlecode').find('option').removeAttr('selected');
@@ -119,8 +115,6 @@
                 }
 
                 $('#saveBtn').val("edit-ost");
-                $("#ostForm").find('input[name="id"]').remove();
-                $('<input type="hidden" name="id" value="' + data.id + '">').prependTo('#ostForm');
                 $('#ostForm').attr('action', '/hr/org-structure-title/' + data.id);
 
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
@@ -146,8 +140,8 @@
                     },
                     success:function(data){
                         if (data.success) {
-                            $("#ibox_ost").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox_ost").find('#form_result').html(data.success);
+                            $("#ibox-ost").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
+                            $("#ibox-ost").find('#form_result').html(data.success);
                         }
                         $('#ostModal').modal('hide');
                         $('#ost-table').DataTable().ajax.reload();

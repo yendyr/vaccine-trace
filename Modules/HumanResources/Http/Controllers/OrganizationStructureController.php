@@ -16,7 +16,7 @@ class OrganizationStructureController extends Controller
 
     public function __construct()
     {
-//        $this->authorizeResource(OrganizationStructure::class, 'org_structure');
+        $this->authorizeResource(OrganizationStructure::class, 'org_structure');
         $this->middleware('auth');
     }
 
@@ -26,7 +26,6 @@ class OrganizationStructureController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', OrganizationStructure::class);
         return view('humanresources::pages.os-ost.index');
     }
 
@@ -78,11 +77,10 @@ class OrganizationStructureController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create', OrganizationStructure::class);
         if ($request->ajax()){
             $request->validate([
                 'orglevel' => ['required', 'integer'],
-                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash', 'max:20'],
+                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash', 'max:20', 'unique:organization_structures,orgcode'],
                 'orgparent' => ['string', 'max:255', 'alpha_dash', 'max:20'],
                 'orgname' => ['required', 'string', 'max:100'],
                 'status' => ['min:0', 'max:1'],
@@ -92,7 +90,7 @@ class OrganizationStructureController extends Controller
                 'uuid' => Str::uuid(),
                 'orglevel' => $request->orglevel,
                 'orgcode' => $request->orgcode,
-                'orgparent' => $request->orgparent,
+                'orgparent' => (($request->orgparent == 0) ? null : $request->orgparent),
                 'orgname' => $request->orgname,
                 'owned_by' => (isset($request->user()->company_id) ? $request->user()->company_id : 0),
                 'created_by' => $request->user()->id,
@@ -105,20 +103,20 @@ class OrganizationStructureController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
+     * @param int OrganizationStructure $org_structure
      * @return Response
      */
-    public function show($id)
+    public function show(OrganizationStructure $org_structure)
     {
         return view('humanresources::show');
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
+     * @param int OrganizationStructure $org_structure
      * @return Response
      */
-    public function edit($id)
+    public function edit(OrganizationStructure $org_structure)
     {
         return view('humanresources::edit');
     }
@@ -126,12 +124,11 @@ class OrganizationStructureController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
+     * @param int OrganizationStructure $org_structure
      * @return Response
      */
-    public function update(Request $request, OrganizationStructure $os)
+    public function update(Request $request, OrganizationStructure $org_structure)
     {
-        $this->authorize('update', OrganizationStructure::class);
         if ($request->ajax()){
             $request->validate([
                 'orglevel' => ['required', 'integer'],
@@ -141,11 +138,11 @@ class OrganizationStructureController extends Controller
                 'status' => ['min:0', 'max:1'],
             ]);
 
-            OrganizationStructure::where('id', $request->id)
+            OrganizationStructure::where('id', $org_structure->id)
                 ->update([
                     'orglevel' => $request->orglevel,
                     'orgcode' => $request->orgcode,
-                    'orgparent' => $request->orgparent,
+                    'orgparent' => (($request->orgparent == 0) ? null : $request->orgparent),
                     'orgname' => $request->orgname,
                     'owned_by' => (isset($request->user()->company_id) ? $request->user()->company_id : 0),
                     'updated_by' => $request->user()->id,
@@ -158,10 +155,10 @@ class OrganizationStructureController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param int OrganizationStructure $org_structure
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(OrganizationStructure $org_structure)
     {
         //
     }

@@ -24,19 +24,14 @@
 @endsection
 
 @section('content')
-    @include('components.approve-modal')
 
-{{--    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)--}}
-        @component('components.delete-modal', ['name' => 'Organization Structure Title data'])
-        @endcomponent
+    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
         @include('humanresources::components.ost.modal')
-{{--    @endcan--}}
+    @endcan
 
-{{--    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)--}}
-        @component('components.delete-modal', ['name' => 'Organization Structure data'])
-        @endcomponent
+    @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)
         @include('humanresources::components.os.modal')
-{{--    @endcan--}}
+    @endcan
 
     <div class="row">
         <div class="col-lg-12">
@@ -57,7 +52,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="ibox-footer" id="ibox_os">
+                            <div class="ibox-footer" id="ibox-os">
                                 <div id="form_result" role="alert"></div>
                                 <div class="col-md-2 p-2 row">
                                     @can('create', \Modules\HumanResources\Entities\OrganizationStructure::class)
@@ -86,7 +81,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="ibox-footer" id="ibox_ost">
+                            <div class="ibox-footer" id="ibox-ost">
                                 <div id="form_result" role="alert"></div>
                                 <div class="col-md-1 m-2 p-2 row">
                                     @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
