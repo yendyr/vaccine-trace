@@ -83,6 +83,9 @@
                 $('#saveBtn').val("create-user");
                 $('#userForm').trigger("reset");
                 $('#modalTitle').html("Add New User");
+                $(".select2_role").val(null).trigger('change');
+                $(".select2_company").val(null).trigger('change');
+
                 $('#userModal').modal('show');
                 $('div[class^="invalid-feedback-"]').html('');  //hide all alert with pre-string invalid-feedback
                 $('#userForm').attr('action', '/gate/user');
@@ -97,7 +100,6 @@
                 userId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = table.row(tr).data();
-                console.log(data);
                 // $("#fpassword").parentsUntil('div.modal-body').hide();
                 // $('#fpassword').prop( "disabled", true );
                 $('<input>').attr({
@@ -110,9 +112,9 @@
                 $('#fname').val(data.name);
                 $('#femail').val(data.email);
                 $('#fpassword').val(data.password);
-                $('#frole').empty();
+                $(".select2_role").val(null).trigger('change');
                 $('#frole').append('<option value="' + data.role_id + '" selected>' + data.role.role_name + '</option>');
-                $('#fcompany').empty();
+                $(".select2_company").val(null).trigger('change');
                 if (data.company == null){
                     $('#fcompany').append('<option value="' + data.company_id + '" selected></option>');
                 } else{

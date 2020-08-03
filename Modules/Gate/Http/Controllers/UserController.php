@@ -141,7 +141,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role_id' => $request->role,
-                'company_id' => $request->company,
+                'company_id' => (($request->company == 0) ? null : $request->company),
                 'owned_by' => $request->company,
                 'status' => $request->status,
                 'created_by' => $request->user()->id,
@@ -204,7 +204,7 @@ class UserController extends Controller
                     'email' => $request->email,
                     'password' => $request->password,
                     'role_id' => $request->role,
-                    'company_id' => $request->company,
+                    'company_id' => (($request->company == 0) ? null : $request->company),
                     'owned_by' => $request->company,
                     'status' => $request->status,
                     'updated_by' => $request->user()->id
