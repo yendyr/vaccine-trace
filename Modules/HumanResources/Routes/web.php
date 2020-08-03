@@ -20,6 +20,12 @@ Route::name('hr.')->group(function () {
         Route::get('/org-structure-title/select2/rptorg', 'OrganizationStructureTitleController@select2Rptorg')->name('org-structure-title.select2.rptorg');
         Route::get('/org-structure-title/select2/title', 'OrganizationStructureTitleController@select2Title')->name('org-structure-title.select2.title');
         Route::resource('/org-structure-title', 'OrganizationStructureTitleController');
+
+        Route::resource('/workgroup', 'WorkingGroupController');
+
+        Route::get('/workgroup-detail/select2/workgroup', 'WorkingGroupDetailController@select2Workgroup')->name('workgroup-detail.select2.workgroup');
+        Route::resource('/workgroup-detail', 'WorkingGroupDetailController');
+
     });
 });
 

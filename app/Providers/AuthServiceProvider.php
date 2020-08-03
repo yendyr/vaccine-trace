@@ -17,8 +17,12 @@ use Modules\Gate\Policies\RolePolicy;
 use Modules\Gate\Policies\UserPolicy;
 use Modules\HumanResources\Entities\OrganizationStructure;
 use Modules\HumanResources\Entities\OrganizationStructureTitle;
+use Modules\HumanResources\Entities\WorkingGroup;
+use Modules\HumanResources\Entities\WorkingGroupDetail;
 use Modules\HumanResources\Policies\OrganizationStructurePolicy;
 use Modules\HumanResources\Policies\OrganizationStructureTitlePolicy;
+use Modules\HumanResources\Policies\WorkingGroupDetailPolicy;
+use Modules\HumanResources\Policies\WorkingGroupPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -35,6 +39,8 @@ class AuthServiceProvider extends ServiceProvider
         Example::class => ExamplePolicy::class,
         OrganizationStructure::class => OrganizationStructurePolicy::class,
         OrganizationStructureTitle::class => OrganizationStructureTitlePolicy::class,
+        WorkingGroup::class => WorkingGroupPolicy::class,
+        WorkingGroupDetail::class => WorkingGroupDetailPolicy::class,
     ];
 
     /**
