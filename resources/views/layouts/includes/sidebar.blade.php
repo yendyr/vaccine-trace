@@ -79,11 +79,16 @@
         <li class="{{ request()->is('hr/*') ? 'active' : '' }} nav-first-level" id="humanresources">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Human Resources</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
-{{--                @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)--}}
+                @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)
                     <li class="{{ (request()->is('hr/org-structure') || request()->is('hr/org-structure/*')) ? 'active' : '' }}">
                         <a href="{{ route('hr.org-structure.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Organization Structure</span></a>
                     </li>
-{{--                @endcan--}}
+                @endcan
+                @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
+                    <li class="{{ (request()->is('hr/workgroup') || request()->is('hr/workgroup/*')) ? 'active' : '' }}">
+                        <a href="{{ route('hr.workgroup.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Working Group</span></a>
+                    </li>
+                @endcan
             </ul>
         </li>
 
