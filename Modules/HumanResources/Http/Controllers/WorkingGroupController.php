@@ -32,9 +32,9 @@ class WorkingGroupController extends Controller
             return DataTables::of($data)
                 ->addColumn('shiftstatus', function($row){
                     if ($row->shiftstatus == 'Y'){
-                        return 'Yes';
+                        return 'Shift';
                     } else {
-                        return 'No';
+                        return 'Non Shift';
                     }
                 })
                 ->addColumn('rangerolling', function($row){
@@ -95,7 +95,7 @@ class WorkingGroupController extends Controller
                 'workgroup' => ['required', 'string', 'max:4', 'alpha_num', 'unique:working_groups,workgroup'],
                 'workname' => ['nullable', 'string', 'max:50'],
                 'shiftstatus' => ['required', 'string', 'size:1'],
-                'shiftrolling' => ['nullable', 'string', 'max:10'],
+                'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],
                 'rangerolling' => ['nullable', 'numeric'],
                 'roundtime' => ['nullable', 'numeric'],
                 'workfinger' => ['nullable', 'numeric'],
@@ -157,7 +157,7 @@ class WorkingGroupController extends Controller
                 'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
                 'workname' => ['nullable', 'string', 'max:50'],
                 'shiftstatus' => ['required', 'string', 'size:1'],
-                'shiftrolling' => ['nullable', 'string', 'max:10'],
+                'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],
                 'rangerolling' => ['nullable', 'numeric'],
                 'roundtime' => ['nullable', 'numeric'],
                 'workfinger' => ['nullable', 'numeric'],

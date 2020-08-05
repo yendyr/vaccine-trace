@@ -24,6 +24,7 @@ Route::name('hr.')->group(function () {
         Route::resource('/workgroup', 'WorkingGroupController');
 
         Route::get('/workgroup-detail/select2/workgroup', 'WorkingGroupDetailController@select2Workgroup')->name('workgroup-detail.select2.workgroup');
+        Route::get('/workgroup-detail/select2/shiftno', 'WorkingGroupDetailController@select2Shiftno')->name('workgroup-detail.select2.shiftno');
         Route::resource('/workgroup-detail', 'WorkingGroupDetailController');
 
     });

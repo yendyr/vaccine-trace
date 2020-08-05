@@ -28,39 +28,36 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fshiftstatus">Shift Status</label>
-                            <select class="form-control m-b " id="fshiftstatus" name="shiftstatus">
-                                <option value="Y">Ya</option>
-                                <option value="N">Tidak</option>
+                            <select class="form-control m-b " id="fshiftstatus" name="shiftstatus" onchange="setShift(this)">
+                                <option value="Y">Shft</option>
+                                <option value="N">Non Shift</option>
                             </select>
                             <div class="invalid-feedback-shiftstatus text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fshiftrolling">Shift Rolling</label>
-                            <input type="text" class="form-control" id="fshiftrolling" name="shiftrolling">
+                            <input type="text" class="form-control" id="fshiftrolling" name="shiftrolling" placeholder="ex: 123">
                             <div class="invalid-feedback-shiftrolling text-danger"></div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label class="col-form-label" for="frangerolling">Range Rolling (hari)</label>
-                            <input type="number" class="form-control" id="frangerolling" name="rangerolling">
+                        <div class="form-group col-sm-4">
+                            <label class="col-form-label" for="frangerolling">Range Rolling</label>
+                            <input type="number" class="form-control" id="frangerolling" name="rangerolling" placeholder="(day)">
                             <div class="invalid-feedback-rangerolling text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label class="col-form-label" for="froundtime">Round Time (menit)</label>
-                            <input type="number" class="form-control" id="froundtime" name="roundtime">
-                            <div class="invalid-feedback-roundtime text-danger"></div>
-                        </div>
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
+                            <label class="col-form-label" for="froundtime">Round Time</label>
+                            <input type="number" class="form-control" id="froundtime" name="roundtime" placeholder="(minute)">
+                            <div class="invalid-feedback-roundtime text-danger"></div>
+                        </div>
+                        <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fworkfinger">Work Finger</label>
                             <input type="number" class="form-control" id="fworkfinger" name="workfinger">
                             <div class="invalid-feedback-workfinger text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
                             <label class="col-form-label" for="frestfinger">Rest Finger</label>
                             <input type="number" class="form-control" id="frestfinger" name="restfinger">
                             <div class="invalid-feedback-restfinger text-danger"></div>

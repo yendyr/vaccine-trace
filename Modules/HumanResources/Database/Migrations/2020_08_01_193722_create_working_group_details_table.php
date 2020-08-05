@@ -16,7 +16,7 @@ class CreateWorkingGroupDetailsTable extends Migration
         Schema::create('working_group_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->string('workgroup', 4)->unique();
+            $table->string('workgroup', 4);
             $table->char('daycode', 2)->comment('i.e: 01=AHAD, 02=SENIN, dst.');
             $table->char('shiftno', 1)->comment('nomor shift');
             $table->string('whtimestart', 10)->comment('jam masuk, seperti 08:00:00')->nullable();

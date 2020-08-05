@@ -2,6 +2,9 @@
 
 @push('header-scripts')
     <style>
+        #workgroup-table tbody tr.selected {
+            background-color: #c8d4de;
+        }
         .select2-container.select2-container--default.select2-container--open {
             z-index: 9999999 !important;
         }

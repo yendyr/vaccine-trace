@@ -1,13 +1,14 @@
 @push('footer-scripts')
     <script>
 
-        $('#workgroup-table').DataTable({
+        var table = $('#workgroup-table').DataTable({
             processing: true,
             serverSide: true,
             scrollX: true,
             language: {
                 emptyTable: "No data existed",
             },
+            selected: true,
             ajax: {
                 url: "/hr/workgroup",
                 type: "GET",
@@ -28,7 +29,34 @@
             ]
         });
 
+        function setShift(data){
+            if (data.value == 'N'){
+                $('#fshiftrolling').val(1);
+                $('#fshiftrolling').attr('readonly', true);
+            } else if(data.value == 'Y'){
+                $('#fshiftrolling').val('');
+                $('#fshiftrolling').attr('readonly', false);
+            }
+        }
+
         $(document).ready(function () {
+            //filter for workgroup detail
+            $('#workgroup-table tbody').on('click', 'tr', function () {
+                //make selected row effect
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+                //send data to Workgroup Detail when selecting row
+                let data = table.row(this).data();
+                let urlAjax = "/hr/workgroup-detail?workgroup=" + data.workgroup;
+                if ( $.fn.DataTable.isDataTable('#workgroup-detail-table') ) {
+                    $('#workgroup-detail-table').DataTable().ajax.url(urlAjax).load();
+                }
+            });
 
             $('#create-wg').click(function () {
                 $('#saveBtn').val("create-workgroup");
@@ -101,7 +129,7 @@
                             $("#ibox-workgroup").find('#form_result').html(data.success);
                         }
                         $('#workgroupModal').modal('hide');
-                        $('#workgroup-table').DataTable().ajax.reload();
+                        table.ajax.reload();
                     },
                     error:function(data){
                         let errors = data.responseJSON.errors;

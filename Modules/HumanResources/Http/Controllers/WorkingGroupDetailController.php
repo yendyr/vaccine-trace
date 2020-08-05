@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Modules\HumanResources\Entities\WorkingGroup;
 use Modules\HumanResources\Entities\WorkingGroupDetail;
 use Yajra\DataTables\Facades\DataTables;
@@ -29,7 +31,11 @@ class WorkingGroupDetailController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = WorkingGroupDetail::latest()->get();
+            if (isset($request->workgroup)){
+                $data = WorkingGroupDetail::latest()->where('workgroup', $request->workgroup)->get();
+            } else {
+                $data = WorkingGroupDetail::latest()->get();
+            }
             return DataTables::of($data)
                 ->addColumn('workgroup', function($row){
                     $workname = WorkingGroup::where('workgroup', $row->workgroup)->first()->workname;
@@ -42,6 +48,30 @@ class WorkingGroupDetailController extends Controller
                     $daycode['day'] = $daycodeArr[intval($row->daycode-1)];
                     $daycode['value'] = $row->daycode;
                     return $daycode;
+                })
+                ->addColumn('whtimestart', function($row){
+                    if (isset($row->whtimestart)){
+                        $row->whtimestart = date_format(date_create($row->whtimestart),"H:i");
+                    }
+                    return $row->whtimestart;
+                })
+                ->addColumn('whtimefinish', function($row){
+                    if (isset($row->whtimefinish)){
+                        $row->whtimefinish = date_format(date_create($row->whtimefinish),"H:i");
+                    }
+                    return $row->whtimefinish;
+                })
+                ->addColumn('rstimestart', function($row){
+                    if (isset($row->rstimestart)){
+                        $row->rstimestart = date_format(date_create($row->rstimestart),"H:i");
+                    }
+                    return $row->rstimestart;
+                })
+                ->addColumn('rstimefinish', function($row){
+                    if (isset($row->rstimefinish)){
+                        $row->rstimefinish = date_format(date_create($row->rstimefinish),"H:i");
+                    }
+                    return $row->rstimefinish;
                 })
                 ->addColumn('stdhours', function($row){
                     if ($row->stdhours != null){
@@ -103,7 +133,24 @@ class WorkingGroupDetailController extends Controller
                 "text"=>($result->workgroup .' - '. $result->workname)
             ];
         };
+        return response()->json($response);
+    }
 
+    public function select2Shiftno(Request $request)
+    {
+        if (isset($request->workgroup)){
+            $query = WorkingGroup::select('shiftrolling')->where('workgroup', $request->workgroup)->first();
+            $results = $query->shiftrolling;
+        }
+        $results = str_split($results);
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result,
+                "text"=>$result
+            ];
+        };
         return response()->json($response);
     }
 
@@ -125,8 +172,12 @@ class WorkingGroupDetailController extends Controller
     {
         if ($request->ajax()){
             $request->validate([
-                'workgroup' => ['required', 'string', 'max:4', 'alpha_num', 'unique:working_group_details,workgroup'],
-                'daycode' => ['required', 'string', 'size:2'],
+                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
+                'daycode' => ['required',
+                    Rule::unique('working_group_details')->where(function ($query) use($request) {
+                        return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
+                    })
+                ],
                 'shiftno' => ['required', 'string', 'size:1'],
                 'whtimestart' => ['nullable', 'string', 'max:10'],
                 'whtimefinish' => ['nullable', 'string', 'max:10'],
@@ -137,6 +188,24 @@ class WorkingGroupDetailController extends Controller
                 'worktype' => ['required', 'string', 'size:2'],
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
+
+            //CHANGE TIME FORMAT
+            if (isset($request->whtimestart)){
+                $time=date_create($request->whtimestart);
+                $request->whtimestart = date_format($time,"H:i:s");
+            }
+            if(isset($request->whtimefinish)){
+                $time=date_create($request->whtimefinish);
+                $request->whtimefinish = date_format($time,"H:i:s");
+            }
+            if(isset($request->rstimestart)){
+                $time=date_create($request->rstimestart);
+                $request->rstimestart = date_format($time,"H:i:s");
+            }
+            if(isset($request->rstimefinish)){
+                $time=date_create($request->rstimefinish);
+                $request->rstimefinish = date_format($time,"H:i:s");
+            }
 
             WorkingGroupDetail::create([
                 'uuid' => Str::uuid(),
@@ -189,8 +258,13 @@ class WorkingGroupDetailController extends Controller
     {
         if ($request->ajax()){
             $request->validate([
-                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
-                'daycode' => ['required', 'string', 'size:2'],
+//                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
+//                'daycode' => ['required', 'string', 'size:2'],
+                'daycode' => ['required',
+                    Rule::unique('working_group_details')->where(function ($query) use($request) {
+                        return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
+                    })
+                ],
                 'shiftno' => ['required', 'string', 'size:1'],
                 'whtimestart' => ['nullable', 'string', 'max:10'],
                 'whtimefinish' => ['nullable', 'string', 'max:10'],
@@ -202,9 +276,27 @@ class WorkingGroupDetailController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
+            //CHANGE TIME FORMAT
+            if (isset($request->whtimestart)){
+                $time=date_create($request->whtimestart);
+                $request->whtimestart = date_format($time,"H:i:s");
+            }
+            if(isset($request->whtimefinish)){
+                $time=date_create($request->whtimefinish);
+                $request->whtimefinish = date_format($time,"H:i:s");
+            }
+            if(isset($request->rstimestart)){
+                $time=date_create($request->rstimestart);
+                $request->rstimestart = date_format($time,"H:i:s");
+            }
+            if(isset($request->rstimefinish)){
+                $time=date_create($request->rstimefinish);
+                $request->rstimefinish = date_format($time,"H:i:s");
+            }
+
             WorkingGroupDetail::where('id', $workgroup_detail->id)
                 ->update([
-                'workgroup' => $request->workgroup,
+//                'workgroup' => $request->workgroup,
                 'daycode' => $request->daycode,
                 'shiftno' => $request->shiftno,
                 'whtimestart' => $request->whtimestart,
@@ -218,7 +310,7 @@ class WorkingGroupDetailController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
-            return response()->json(['success' => 'a new Working Group Detail added successfully.']);
+            return response()->json(['success' => 'a new Working Group Detail updated successfully.']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }

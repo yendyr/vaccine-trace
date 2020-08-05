@@ -5,7 +5,7 @@
             serverSide: true,
             scrollX: true,
             language: {
-                emptyTable: "No data existed",
+                emptyTable: "No data existed for selected workgroup",
             },
             ajax: {
                 url: "/hr/workgroup-detail",
@@ -13,8 +13,8 @@
                 dataType: "json",
             },
             columns: [
-                { data: 'workgroup.value', name: 'workgroup' },
-                { data: 'daycode.day', name: 'daycode' },
+                { data: 'workgroup.value', name: 'workgroup.value' },
+                { data: 'daycode.day', name: 'daycode.day' },
                 { data: 'shiftno', name: 'shiftno' },
                 { data: 'whtimestart', name: 'whtimestart', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'whtimefinish', name: 'whtimefinish', defaultContent: "<p class='text-muted'>none</p>"},
@@ -28,9 +28,25 @@
             ]
         });
 
+        function getShift(workgroup){   //getShift when workgroup changed
+            let wgcode = workgroup.value;
+
+            $('.select2_shiftno').select2({
+                placeholder: 'choose shiftno',
+                ajax: {
+                    url: "{{route('hr.workgroup-detail.select2.shiftno')}}",
+                    data: {
+                        workgroup: wgcode
+                    },
+                    dataType: 'json',
+                },
+                dropdownParent: $('#workgroupDetailModal')
+            });
+        }
+
         $(document).ready(function () {
             $('.select2_wgcode').select2({
-                placeholder: 'choose here',
+                placeholder: 'choose workgroup',
                 ajax: {
                     url: "{{route('hr.workgroup-detail.select2.workgroup')}}",
                     dataType: 'json',
@@ -43,7 +59,9 @@
                 $('#workgroupDetailForm').trigger("reset");
                 $("#workgroupDetailModal").find('#modalTitle').html("Add new Working Group Detail data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                $("#fwgcode").attr("disabled", false);
                 $(".select2_wgcode").val(null).trigger('change');
+                $(".select2_shiftno").val(null).trigger('change');
 
                 $('#workgroupDetailModal').modal('show');
                 $("input[value='patch']").remove();
@@ -62,11 +80,24 @@
                     value: 'patch'
                 }).prependTo('#workgroupDetailForm');
 
-                $(".select2_wgcode").val(null).trigger('change');
+                $("#fwgcode").attr("disabled", true);
                 $('#fwgcode').append('<option value="' + data.workgroup.value + '" selected>' + data.workgroup.value + ' - ' + data.workgroup.name + '</option>');
+                // $("#fwgcode").val(data.workgroup.value).trigger('change');
+
+                $('.select2_shiftno').select2({
+                    placeholder: 'choose shiftno',
+                    ajax: {
+                        url: "{{route('hr.workgroup-detail.select2.shiftno')}}",
+                        data: {
+                            workgroup: data.workgroup.value
+                        },
+                        dataType: 'json',
+                    },
+                    dropdownParent: $('#workgroupDetailModal')
+                });
+                $('#fshiftno').append('<option value="' + data.shiftno + '" selected>' + data.shiftno + '</option>');
 
                 $('#fdaycode').find('option[value="' + data.daycode.value + '"]').attr('selected', '');
-                $('#fshiftno').find('option[value="' + data.shiftno + '"]').attr('selected', '');
                 $('#fwhtimestart').val(data.whtimestart);
                 $('#fwhtimefinish').val(data.whtimefinish);
                 $('#frstimestart').val(data.rstimestart);
@@ -118,6 +149,10 @@
                         let errors = data.responseJSON.errors;
                         if (errors) {
                             $.each(errors, function (index, value) {
+                                if (index == 'daycode'){
+                                    value = 'The daycode with choosen shiftno has already been taken';
+                                    $('div.invalid-feedback-'+index).html(value);
+                                }
                                 $('div.invalid-feedback-'+index).html(value);
                             })
                         }
