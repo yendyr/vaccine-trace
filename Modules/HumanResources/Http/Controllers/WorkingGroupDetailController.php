@@ -173,7 +173,7 @@ class WorkingGroupDetailController extends Controller
         if ($request->ajax()){
             $request->validate([
                 'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
-                'daycode' => ['required',
+                'daycode' => ['required', 'string', 'size:2',
                     Rule::unique('working_group_details')->where(function ($query) use($request) {
                         return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
                     })
@@ -259,8 +259,7 @@ class WorkingGroupDetailController extends Controller
         if ($request->ajax()){
             $request->validate([
 //                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
-//                'daycode' => ['required', 'string', 'size:2'],
-                'daycode' => ['required',
+                'daycode' => ['required', 'string', 'size:2',
                     Rule::unique('working_group_details')->where(function ($query) use($request) {
                         return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
                     })
