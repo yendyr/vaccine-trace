@@ -28,7 +28,11 @@
     @component('gate::components.index', ['title' => 'Users data'])
         @slot('tableContent')
             <div id="form_result"></div>
-
+            <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
+                @can('create', Modules\Gate\Entities\User::class)
+                    <button id="createUser" class="btn btn-primary" type="button"><i class="fa fa-plus-circle"></i>&nbsp;<strong>User</strong></button>
+                @endcan
+            </div>
             <div class="table-responsive">
                 <table id="user-table" class="table table-hover text-center">
                     <thead>
@@ -46,11 +50,6 @@
                     </tbody>
                 </table>
             </div>
-            @can('create', Modules\Gate\Entities\User::class)
-                <div class="col-md-4 offset-md-4 center">
-                    <button type="button" id="createUser" class="btn btn-block btn-primary"><strong>Add User</strong></button>
-                </div>
-            @endcan
         @endslot
     @endcomponent
 
