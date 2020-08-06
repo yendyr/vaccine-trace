@@ -17,7 +17,11 @@
     @component('gate::components.index', ['title' => 'Roles data'])
         @slot('tableContent')
             <div id="form_result" role="alert"></div>
-
+            <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
+                @can('create', Modules\Gate\Entities\Role::class)
+                    <button type="button" id="createRole" class="btn btn-primary"><i class="fa fa-plus-circle"></i>&nbsp;<strong>Role</strong></button>
+                @endcan
+            </div>
             <div class="table-responsive">
                 <table id="role-table" class="table table-hover text-center">
                     <thead>
@@ -34,11 +38,6 @@
                     </tfoot>
                 </table>
             </div>
-            @can('create', Modules\Gate\Entities\Role::class)
-                <div class="col-md-4 offset-md-4 center">
-                    <button type="button" id="createRole" class="btn btn-block btn-primary"><strong>Add Role</strong></button>
-                </div>
-            @endcan
         @endslot
     @endcomponent
 

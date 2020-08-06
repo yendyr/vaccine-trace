@@ -41,7 +41,16 @@
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', Modules\Gate\Entities\User::class)
                 <li class="{{ (request()->is('gate/user') || request()->is('gate/user/*')) ? 'active' : '' }}">
-                    <a href="{{ route('gate.user.index')}}"><i class="fa fa-user-circle-o"></i> <span class="nav-label">User</span></a>
+                    <a href="{{ route('gate.user.index')}}">
+                        <div class="nav-second-table-group">
+                            <span>
+                                <i class="fa fa-user-circle-o"></i>
+                            </span>
+                            <span>
+                                User
+                            </span>
+                        </div>
+                     </a>
 {{--                    <ul class="nav nav-second-level">--}}
 {{--                        <li class="{{ request()->is('gate/user*') ? 'active' : '' }}"><a href="{{ route('gate.user.index')}}">Data</a></li>--}}
 {{--                    </ul>--}}
@@ -49,17 +58,44 @@
                 @endcan
                 @can('viewAny', Modules\Gate\Entities\Company::class)
                     <li class=" {{ (request()->is('gate/company') || request()->is('gate/company/*')) ? 'active' : '' }}">
-                        <a href="{{ route('gate.company.index')}}"><i class="fa fa-building-o"></i> <span class="nav-label">Company</span></a>
+                        <a href="{{ route('gate.company.index')}}">
+                            <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-building-o"></i> 
+                                </span>
+                                <span>
+                                    Company
+                                </span>
+                            </div>
+                        </a>
                     </li>
                 @endcan
                 @can('viewAny', Modules\Gate\Entities\Role::class)
                     <li class="{{ (request()->is('gate/role') || request()->is('gate/role/*')) ? 'active' : '' }}">
-                        <a href="{{route('gate.role.index')}}"><i class="fa fa-users"></i> <span class="nav-label">Role</span></a>
+                        <a href="{{route('gate.role.index')}}">
+                            <div class="nav-second-table-group">
+                                <span >
+                                    <i class="fa fa-users"></i> 
+                                </span>
+                                <span >
+                                    Role
+                                </span>
+                            </div> 
+                        </a>
                     </li>
                 @endcan
                 @can('viewAny', Modules\Gate\Entities\RoleMenu::class)
                     <li class="{{ (request()->is('gate/role-menu') || request()->is('gate/role-menu/*')) ? 'active' : '' }}">
-                        <a href="{{route('gate.role-menu.index')}}"><i class="fa fa-list-alt"></i> <span class="nav-label">Role Menu</span></a>
+                        <a href="{{route('gate.role-menu.index')}}">
+                            <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-list-alt"></i>
+                                </span>
+                                <span>
+                                    Role Menu
+                                </span>
+                            </div> 
+                        </a>
                     </li>
                 @endcan
             </ul>
@@ -70,7 +106,16 @@
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', \Modules\Examples\Entities\Example::class)
                 <li class="{{ (request()->is('examples/example') || request()->is('examples/example/*')) ? 'active' : '' }}">
-                    <a href="{{ route('examples.example.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Approval Example</span></a>
+                    <a href="{{ route('examples.example.index')}}">
+                        <div class="nav-second-table-group">
+                            <span>
+                                <i class="fa fa-plus"></i> 
+                            </span>
+                            <span>
+                                Approval Example
+                            </span>
+                        </div>
+                    </a>
                 </li>
                 @endcan
             </ul>
@@ -81,21 +126,34 @@
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)
                     <li class="{{ (request()->is('hr/org-structure') || request()->is('hr/org-structure/*')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.org-structure.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Organization Structure</span></a>
+                        <a href="{{ route('hr.org-structure.index')}}">
+                            <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-plus"></i> 
+                                </span>
+                                <span>
+                                    Organization Structure
+                                </span>
+                            </div>
+                        </a>
                     </li>
                 @endcan
                 @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
                     <li class="{{ (request()->is('hr/workgroup') || request()->is('hr/workgroup/*')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.workgroup.index')}}"><i class="fa fa-plus"></i> <span class="nav-label">Working Group</span></a>
+                        <a href="{{ route('hr.workgroup.index')}}">
+                            <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-plus"></i> 
+                                </span>
+                                <span>
+                                    Working Group
+                                </span>
+                            </div>
+                        </a>
                     </li>
                 @endcan
             </ul>
         </li>
-
-{{--        <li class=" {{ request()->is('gate/test*') ? 'active' : '' }} nav-first-level" id="testing">--}}
-{{--            <a href="{{ route('gate.test.index')}}"><i class="fa fa-th-list"></i> <span class="nav-label">Testing</span></a>--}}
-{{--        </li>--}}
-
     </ul>
 </div>
 

@@ -15,7 +15,11 @@
     @component('gate::components.index', ['title' => 'Companies data'])
         @slot('tableContent')
         <div id="form_result"></div>
-
+        <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
+            @can('create', Modules\Gate\Entities\Company::class)
+                <a href="{{ route('gate.company.create')}}" class="btn btn-primary"><i class="fa fa-plus-circle"></i>&nbsp;<strong>Company</strong></a>
+            @endcan
+        </div>
         <div class="table-responsive">
             <table id="company-table" class="table table-hover text-center">
                 <thead>
@@ -34,11 +38,6 @@
                 </tfoot>
             </table>
         </div>
-        @can('create', Modules\Gate\Entities\Company::class)
-            <div class="col-md-4 offset-md-4 center">
-                <a href="{{ route('gate.company.create')}}" class="btn btn-block btn-primary"><strong>Add Company</strong></a>
-            </div>
-        @endcan
         @endslot
     @endcomponent
 
