@@ -60,6 +60,8 @@
                 $("#workgroupDetailModal").find('#modalTitle').html("Add new Working Group Detail data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $("#fwgcode").attr("disabled", false);
+                $("#fdaycode").attr("disabled", false);
+                $("#fshiftno").attr("disabled", false);
                 $(".select2_wgcode").val(null).trigger('change');
                 $(".select2_shiftno").val(null).trigger('change');
 
@@ -84,6 +86,7 @@
                 $('#fwgcode').append('<option value="' + data.workgroup.value + '" selected>' + data.workgroup.value + ' - ' + data.workgroup.name + '</option>');
                 // $("#fwgcode").val(data.workgroup.value).trigger('change');
 
+                $("#fshiftno").attr("disabled", true);
                 $('.select2_shiftno').select2({
                     placeholder: 'choose shiftno',
                     ajax: {
@@ -97,6 +100,7 @@
                 });
                 $('#fshiftno').append('<option value="' + data.shiftno + '" selected>' + data.shiftno + '</option>');
 
+                $("#fdaycode").attr("disabled", true);
                 $('#fdaycode').find('option[value="' + data.daycode.value + '"]').attr('selected', '');
                 $('#fwhtimestart').val(data.whtimestart);
                 $('#fwhtimefinish').val(data.whtimefinish);

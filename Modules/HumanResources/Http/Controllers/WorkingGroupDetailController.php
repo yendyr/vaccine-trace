@@ -259,12 +259,12 @@ class WorkingGroupDetailController extends Controller
         if ($request->ajax()){
             $request->validate([
 //                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
-                'daycode' => ['required', 'string', 'size:2',
-                    Rule::unique('working_group_details')->where(function ($query) use($request) {
-                        return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
-                    })
-                ],
-                'shiftno' => ['required', 'string', 'size:1'],
+//                'daycode' => ['required', 'string', 'size:2',
+//                    Rule::unique('working_group_details')->where(function ($query) use($request) {
+//                        return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
+//                    })
+//                ],
+//                'shiftno' => ['required', 'string', 'size:1'],
                 'whtimestart' => ['nullable', 'string', 'max:10'],
                 'whtimefinish' => ['nullable', 'string', 'max:10'],
                 'rstimestart' => ['nullable', 'string', 'max:10'],
@@ -296,8 +296,8 @@ class WorkingGroupDetailController extends Controller
             WorkingGroupDetail::where('id', $workgroup_detail->id)
                 ->update([
 //                'workgroup' => $request->workgroup,
-                'daycode' => $request->daycode,
-                'shiftno' => $request->shiftno,
+//                'daycode' => $request->daycode,
+//                'shiftno' => $request->shiftno,
                 'whtimestart' => $request->whtimestart,
                 'whtimefinish' => $request->whtimefinish,
                 'rstimestart' => $request->rstimestart,
