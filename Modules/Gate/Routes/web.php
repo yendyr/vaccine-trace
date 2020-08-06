@@ -28,7 +28,7 @@ Route::name('gate.')->group(function () {
 
         Route::get('/role-menu/datatable/{role}', 'RoleMenuController@fetch')->name('role-menu.datatable');
 
-        Route::get('/', 'GateController@index');
+//        Route::get('/', 'GateController@index');
 
 //        Route::view('/test', 'gate::pages.test.index')->name('test.index');
     });
