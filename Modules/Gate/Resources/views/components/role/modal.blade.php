@@ -11,14 +11,14 @@
 
             <form method="post" id="roleForm">
                 <div class="modal-body">
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Role Name</label>
-                        <div class="col-sm-6">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label>Role Name</label>
                             <input type="text" class="form-control @error('role_name') is-invalid @enderror" id="frolename" name="role_name">
                             <div class="invalid-feedback-role_name text-danger"></div>
                         </div>
-                    </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Status</label>
-                        <div class="col-sm-6">
+                        <div class="col-md-6">
+                            <label>Status</label>
                             <select class="form-control m-b " id="fstatus" name="status">
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
