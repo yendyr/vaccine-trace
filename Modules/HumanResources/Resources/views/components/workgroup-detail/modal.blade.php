@@ -18,6 +18,11 @@
                             <select class="select2_wgcode form-control m-b-sm" onchange="getShift(this)" id="fwgcode" name="workgroup"></select>
                             <div class="invalid-feedback-workgroup text-danger"></div>
                         </div>
+                        <div class="form-group col-sm-4">
+                            <label class="col-form-label" for="fshiftno">Shift No.</label>
+                            <select class="select2_shiftno form-control m-b-sm" id="fshiftno" name="shiftno"></select>
+                            <div class="invalid-feedback-shiftno text-danger"></div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -34,14 +39,6 @@
                             </select>
                             <div class="invalid-feedback-daycode text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fshiftno">Shift No.</label>
-                            <select class="select2_shiftno form-control m-b-sm" id="fshiftno" name="shiftno"></select>
-                            <div class="invalid-feedback-shiftno text-danger"></div>
-                        </div>
-                    </div>
-
-                    <div class="row">
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fstdhours">Standard hours</label>
                             <input type="number" class="form-control" id="fstdhours" name="stdhours">
@@ -65,6 +62,14 @@
                             <input class="form-control" id="fwhtimefinish" type="time" name="whtimefinish">
                             <div class="invalid-feedback-whtimefinish text-danger"></div>
                         </div>
+                        <div class="form-group col-sm-4">
+                            <label class="col-form-label" for="fworktype">Work Type</label>
+                            <select class="form-control m-b-sm" id="fworktype" name="worktype">
+                                <option value="KB">Kerja Biasa</option>
+                                <option value="KL">Kerja Libur</option>
+                            </select>
+                            <div class="invalid-feedback-worktype text-danger"></div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -78,17 +83,6 @@
                             <input class="form-control" id="frstimefinish" type="time" name="rstimefinish">
 {{--                            <span class="validity"></span>--}}
                             <div class="invalid-feedback-rstimefinish text-danger"></div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="fworktype">Work Type</label>
-                            <select class="form-control m-b-sm" id="fworktype" name="worktype">
-                                <option value="KB">Kerja Biasa</option>
-                                <option value="KL">Kerja Libur</option>
-                            </select>
-                            <div class="invalid-feedback-worktype text-danger"></div>
                         </div>
                         <div class="form-group col-sm-3">
                             <label class="col-form-label" for="fstatus">Status</label>
