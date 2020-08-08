@@ -32,10 +32,14 @@
         function setShift(data){
             if (data.value == 'N'){
                 $('#fshiftrolling').val(1);
+                $('#frangerolling').val(0);
                 $('#fshiftrolling').attr('readonly', true);
+                $('#frangerolling').attr('readonly', true);
             } else if(data.value == 'Y'){
                 $('#fshiftrolling').val('');
+                $('#frangerolling').val(null);
                 $('#fshiftrolling').attr('readonly', false);
+                $('#frangerolling').attr('readonly', false);
             }
         }
 
@@ -63,6 +67,9 @@
                 $('#workgroupForm').trigger("reset");
                 $("#workgroupModal").find('#modalTitle').html("Add new Working Group data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                $('#fshiftrolling').attr('readonly', false);
+                $('#frangerolling').attr('readonly', false);
+                $('#fworkgroup').attr('disabled', false);
 
                 $('#workgroupModal').modal('show');
                 $("input[value='patch']").remove();
@@ -81,10 +88,18 @@
                     value: 'patch'
                 }).prependTo('#workgroupForm');
 
+                $('#fworkgroup').attr('disabled', true);
                 $('#fworkgroup').val(data.workgroup);
                 $('#fworkname').val(data.workname);
                 $('#fshiftstatus').find('option').removeAttr('selected');
                 $('#fshiftstatus').find('option[value="' + data.shiftstatus + '"]').attr('selected', '');
+
+                let shiftvalue = $('#fshiftstatus').val();
+                if (shiftvalue == 'Y'){
+                    $('#frangerolling').attr('readonly', false);
+                    $('#fshiftrolling').attr('readonly', false);
+                }
+
                 $('#fshiftrolling').val(data.shiftrolling);
                 $('#frangerolling').val(data.rangerolling.value);
                 $('#froundtime').val(data.roundtime.value);
