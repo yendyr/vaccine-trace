@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\HumanResources\Entities\WorkingGroup;
+use Modules\HumanResources\Entities\WorkingGroupDetail;
 use Yajra\DataTables\Facades\DataTables;
 
 class WorkingGroupController extends Controller
@@ -96,7 +97,7 @@ class WorkingGroupController extends Controller
                 'workname' => ['nullable', 'string', 'max:50'],
                 'shiftstatus' => ['required', 'string', 'size:1'],
                 'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],
-                'rangerolling' => ['nullable', 'numeric'],
+                'rangerolling' => ['required', 'numeric'],
                 'roundtime' => ['nullable', 'numeric'],
                 'workfinger' => ['nullable', 'numeric'],
                 'restfinger' => ['nullable', 'numeric'],
@@ -154,11 +155,11 @@ class WorkingGroupController extends Controller
     {
         if ($request->ajax()){
             $request->validate([
-                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
+//                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
                 'workname' => ['nullable', 'string', 'max:50'],
                 'shiftstatus' => ['required', 'string', 'size:1'],
                 'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],
-                'rangerolling' => ['nullable', 'numeric'],
+                'rangerolling' => ['required', 'numeric'],
                 'roundtime' => ['nullable', 'numeric'],
                 'workfinger' => ['nullable', 'numeric'],
                 'restfinger' => ['nullable', 'numeric'],
@@ -168,8 +169,7 @@ class WorkingGroupController extends Controller
 
             WorkingGroup::where('id', $workgroup->id)
                 ->update([
-                'uuid' => Str::uuid(),
-                'workgroup' => $request->workgroup,
+//                'workgroup' => $request->workgroup,
                 'workname' => $request->workname,
                 'shiftstatus' => $request->shiftstatus,
                 'shiftrolling' => $request->shiftrolling,
@@ -182,6 +182,7 @@ class WorkingGroupController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
+
             return response()->json(['success' => 'a Working Group data updated successfully.']);
         }
         return response()->json(['error' => 'Error not a valid request']);

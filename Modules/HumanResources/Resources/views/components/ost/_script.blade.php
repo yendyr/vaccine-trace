@@ -65,9 +65,10 @@
                 $('#ostForm').trigger("reset");
                 $("#ostModal").find('#modalTitle').html("Add New Organization Structure title data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $(".select2_orgcode").val(null).trigger('change');;
+                $(".select2_orgcode").val(null).trigger('change');
                 $(".select2_rptorg").select2("val", "none");
                 $(".select2_rpttitle").select2("val", "none");
+                $('#forgcode').attr('disabled', false);
 
                 $('#ostModal').modal('show');
                 $("input[value='patch']").remove();
@@ -87,6 +88,7 @@
                 }).prependTo('#ostForm');
 
                 $(".select2_orgcode").val(null).trigger('change');
+                $('#forgcode').attr('disabled', true);
                 $('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');
 
                 $('#ftitlecode').find('option').removeAttr('selected');

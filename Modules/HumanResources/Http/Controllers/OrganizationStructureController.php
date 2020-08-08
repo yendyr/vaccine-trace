@@ -131,8 +131,8 @@ class OrganizationStructureController extends Controller
     {
         if ($request->ajax()){
             $request->validate([
-                'orglevel' => ['required', 'integer'],
-                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash', 'max:20'],
+//                'orglevel' => ['required', 'integer'],
+//                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash', 'max:20'],
                 'orgparent' => ['string', 'max:255', 'alpha_dash', 'max:20'],
                 'orgname' => ['required', 'string', 'max:100'],
                 'status' => ['min:0', 'max:1'],
@@ -140,8 +140,8 @@ class OrganizationStructureController extends Controller
 
             OrganizationStructure::where('id', $org_structure->id)
                 ->update([
-                    'orglevel' => $request->orglevel,
-                    'orgcode' => $request->orgcode,
+//                    'orglevel' => $request->orglevel,
+//                    'orgcode' => $request->orgcode,
                     'orgparent' => (($request->orgparent == 0) ? null : $request->orgparent),
                     'orgname' => $request->orgname,
                     'owned_by' => (isset($request->user()->company_id) ? $request->user()->company_id : 0),

@@ -99,11 +99,13 @@
             $('#saveBtn').val("edit-os");
             $('#osForm').attr('action', '/hr/org-structure/' + dataRow[rowIndex]['id']);
 
+            $('#forglevel').attr('disabled', true);
             $('#forglevel').find('option').removeAttr('selected');
             $('#forglevel').find('option[value="' + dataRow[rowIndex]['orglevel'] + '"]').attr('selected', '');
 
             $('#forgname').val(dataRow[rowIndex]['orgname']);
 
+            $("#osForm").find('#forgcode').attr('disabled', true);
             $("#osForm").find('#forgcode').val(dataRow[rowIndex]['orgcode']);
 
             $(".select2_orgparent").select2("val", "none");
@@ -139,6 +141,8 @@
                 $("#osModal").find('#modalTitle').html("Add New Organization Structure data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $(".select2_orgparent").select2("val", "none");
+                $('#forglevel').attr('disabled', false);
+                $("#osForm").find('#forgcode').attr('disabled', false);
 
                 $('#osModal').modal('show');
                 $('#osForm').attr('action', '/hr/org-structure');

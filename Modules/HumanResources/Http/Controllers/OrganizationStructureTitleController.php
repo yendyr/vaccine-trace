@@ -240,7 +240,7 @@ class OrganizationStructureTitleController extends Controller
     {
         if ($request->ajax()){
             $request->validate([
-                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
+//                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
                 'titlecode' => ['required', 'string', 'max:2'],
                 'jobtitle' => ['required', 'string', 'max:20'],
                 'rptorg' => ['string', 'max:255'],
@@ -250,7 +250,7 @@ class OrganizationStructureTitleController extends Controller
 
             OrganizationStructureTitle::where('id', $org_structure_title->id)
                 ->update([
-                    'orgcode' => $request->orgcode,
+//                    'orgcode' => $request->orgcode,
                     'titlecode' => $request->titlecode,
                     'jobtitle' => $request->jobtitle,
                     'rptorg' => ($request->rptorg == 0 ? null : $request->rptorg),
