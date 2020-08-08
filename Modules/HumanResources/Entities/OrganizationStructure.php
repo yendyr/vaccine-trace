@@ -21,8 +21,4 @@ class OrganizationStructure extends Model
             ->with('childs');
     }
 
-//    public function grandchilds()
-//    { //bisa dipakai recursive jika method childs tanpa ditambahkan with juga
-//        return $this->childs()->with('grandchilds');
-//    }
 }
