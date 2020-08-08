@@ -61,7 +61,7 @@
                         <a href="{{ route('gate.company.index')}}">
                             <div class="nav-second-table-group">
                                 <span>
-                                    <i class="fa fa-building-o"></i> 
+                                    <i class="fa fa-building-o"></i>
                                 </span>
                                 <span>
                                     Company
@@ -75,12 +75,12 @@
                         <a href="{{route('gate.role.index')}}">
                             <div class="nav-second-table-group">
                                 <span >
-                                    <i class="fa fa-users"></i> 
+                                    <i class="fa fa-users"></i>
                                 </span>
                                 <span >
                                     Role
                                 </span>
-                            </div> 
+                            </div>
                         </a>
                     </li>
                 @endcan
@@ -94,7 +94,7 @@
                                 <span>
                                     Role Menu
                                 </span>
-                            </div> 
+                            </div>
                         </a>
                     </li>
                 @endcan
@@ -109,7 +109,7 @@
                     <a href="{{ route('examples.example.index')}}">
                         <div class="nav-second-table-group">
                             <span>
-                                <i class="fa fa-plus"></i> 
+                                <i class="fa fa-plus"></i>
                             </span>
                             <span>
                                 Approval Example
@@ -129,7 +129,7 @@
                         <a href="{{ route('hr.org-structure.index')}}">
                             <div class="nav-second-table-group">
                                 <span>
-                                    <i class="fa fa-plus"></i> 
+                                    <i class="fa fa-plus"></i>
                                 </span>
                                 <span>
                                     Organization Structure
@@ -143,10 +143,24 @@
                         <a href="{{ route('hr.workgroup.index')}}">
                             <div class="nav-second-table-group">
                                 <span>
-                                    <i class="fa fa-plus"></i> 
+                                    <i class="fa fa-plus"></i>
                                 </span>
                                 <span>
                                     Working Group
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
+                @can('viewAny', \Modules\HumanResources\Entities\Holiday::class)
+                    <li class="{{ (request()->is('hr/holiday') || request()->is('hr/holiday/*')) ? 'active' : '' }}">
+                        <a href="{{ route('hr.holiday.index')}}">
+                            <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span>
+                                    Holiday
                                 </span>
                             </div>
                         </a>
