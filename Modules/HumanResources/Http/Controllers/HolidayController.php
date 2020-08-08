@@ -142,7 +142,7 @@ class HolidayController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
-            Holiday::create([
+            $dml = Holiday::create([
                 'uuid' => Str::uuid(),
                 'holidayyear' => $request->holidayyear,
                 'holidaydate' => $request->holidaydate,
@@ -152,9 +152,16 @@ class HolidayController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'created_by' => $request->user()->id,
             ]);
-            return response()->json(['success' => 'a new Holiday added successfully.']);
+            if ($dml){
+                return response()->json(['success' => 'a new Holiday added successfully.']);
+            }
+            return response()->json(['error' => 'Error when creating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
+    }
+
+    public function generateSundays(Request $request){
+
     }
 
     /**
@@ -209,9 +216,8 @@ class HolidayController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
-            Holiday::where('id', $holiday->id)
+            $dml = Holiday::where('id', $holiday->id)
                 ->update([
-                'uuid' => Str::uuid(),
                 'holidayyear' => $request->holidayyear,
                 'holidaydate' => $request->holidaydate,
                 'holidaycode' => $request->holidaycode,
@@ -220,7 +226,10 @@ class HolidayController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
-            return response()->json(['success' => 'a Holiday data updated successfully.']);
+            if ($dml){
+                return response()->json(['success' => 'a Holiday data updated successfully.']);
+            }
+            return response()->json(['error' => 'Error when updating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }

@@ -217,7 +217,7 @@ class WorkingGroupDetailController extends Controller
                 $request->rstimefinish = date_format($time,"H:i:s");
             }
 
-            WorkingGroupDetail::create([
+            $wgd = WorkingGroupDetail::create([
                 'uuid' => Str::uuid(),
                 'workgroup' => $request->workgroup,
                 'daycode' => $request->daycode,
@@ -233,7 +233,10 @@ class WorkingGroupDetailController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'created_by' => $request->user()->id,
             ]);
-            return response()->json(['success' => 'a new Working Group Detail added successfully.']);
+            if ($wgd){
+                return response()->json(['success' => 'a new Working Group Detail added successfully.']);
+            }
+            return response()->json(['error' => 'Error when creating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
@@ -303,7 +306,7 @@ class WorkingGroupDetailController extends Controller
                 $request->rstimefinish = date_format($time,"H:i:s");
             }
 
-            WorkingGroupDetail::where('id', $workgroup_detail->id)
+            $wgd = WorkingGroupDetail::where('id', $workgroup_detail->id)
                 ->update([
 //                'workgroup' => $request->workgroup,
 //                'daycode' => $request->daycode,
@@ -319,7 +322,10 @@ class WorkingGroupDetailController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
-            return response()->json(['success' => 'a Working Group Detail updated successfully.']);
+            if ($wgd){
+                return response()->json(['success' => 'a Working Group Detail updated successfully.']);
+            }
+            return response()->json(['error' => 'Error when updating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }

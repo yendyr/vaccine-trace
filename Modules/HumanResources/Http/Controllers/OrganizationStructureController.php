@@ -86,7 +86,7 @@ class OrganizationStructureController extends Controller
                 'status' => ['min:0', 'max:1'],
             ]);
 
-            OrganizationStructure::create([
+            $orgs = OrganizationStructure::create([
                 'uuid' => Str::uuid(),
                 'orglevel' => $request->orglevel,
                 'orgcode' => $request->orgcode,
@@ -96,7 +96,10 @@ class OrganizationStructureController extends Controller
                 'created_by' => $request->user()->id,
                 'status' => $request->status,
             ]);
-            return response()->json(['success' => 'a new Organization Structure added successfully.']);
+            if ($orgs){
+                return response()->json(['success' => 'a new Organization Structure added successfully.']);
+            }
+            return response()->json(['error' => 'Error when creating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
@@ -138,7 +141,7 @@ class OrganizationStructureController extends Controller
                 'status' => ['min:0', 'max:1'],
             ]);
 
-            OrganizationStructure::where('id', $org_structure->id)
+            $orgs = OrganizationStructure::where('id', $org_structure->id)
                 ->update([
 //                    'orglevel' => $request->orglevel,
 //                    'orgcode' => $request->orgcode,
@@ -148,7 +151,10 @@ class OrganizationStructureController extends Controller
                     'updated_by' => $request->user()->id,
                     'status' => $request->status,
                 ]);
-            return response()->json(['success' => 'an Organization Structure updated successfully.']);
+            if ($orgs){
+                return response()->json(['success' => 'an Organization Structure updated successfully.']);
+            }
+            return response()->json(['error' => 'Error when updating data']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }

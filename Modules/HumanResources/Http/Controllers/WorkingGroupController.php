@@ -119,7 +119,7 @@ class WorkingGroupController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
-            WorkingGroup::create([
+            $wg = WorkingGroup::create([
                 'uuid' => Str::uuid(),
                 'workgroup' => $request->workgroup,
                 'workname' => $request->workname,
@@ -134,7 +134,10 @@ class WorkingGroupController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'created_by' => $request->user()->id,
             ]);
-            return response()->json(['success' => 'a new Working Group added successfully.']);
+            if ($wg){
+                return response()->json(['success' => 'a new Working Group added successfully.']);
+            }
+            return response()->json(['error' => 'Error when creating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
@@ -181,7 +184,7 @@ class WorkingGroupController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
-            WorkingGroup::where('id', $workgroup->id)
+            $wg = WorkingGroup::where('id', $workgroup->id)
                 ->update([
 //                'workgroup' => $request->workgroup,
                 'workname' => $request->workname,
@@ -196,8 +199,10 @@ class WorkingGroupController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
-
-            return response()->json(['success' => 'a Working Group data updated successfully.']);
+            if ($wg){
+                return response()->json(['success' => 'a Working Group data updated successfully.']);
+            }
+            return response()->json(['error' => 'Error when updating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }

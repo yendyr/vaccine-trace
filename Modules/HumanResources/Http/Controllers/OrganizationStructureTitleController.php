@@ -194,7 +194,7 @@ class OrganizationStructureTitleController extends Controller
                 'status' => ['min:0', 'max:1'],
             ]);
 
-            OrganizationStructureTitle::create([
+            $orgst = OrganizationStructureTitle::create([
                 'uuid' => Str::uuid(),
                 'orgcode' => $request->orgcode,
                 'titlecode' => $request->titlecode,
@@ -205,7 +205,10 @@ class OrganizationStructureTitleController extends Controller
                 'created_by' => $request->user()->id,
                 'status' => $request->status,
             ]);
-            return response()->json(['success' => 'a new Organization Structure title added successfully.']);
+            if ($orgst){
+                return response()->json(['success' => 'an Organization Structure Title created successfully.']);
+            }
+            return response()->json(['error' => 'Error when creating data']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
@@ -248,7 +251,7 @@ class OrganizationStructureTitleController extends Controller
                 'status' => ['min:0', 'max:1'],
             ]);
 
-            OrganizationStructureTitle::where('id', $org_structure_title->id)
+            $orgst = OrganizationStructureTitle::where('id', $org_structure_title->id)
                 ->update([
 //                    'orgcode' => $request->orgcode,
                     'titlecode' => $request->titlecode,
@@ -259,7 +262,10 @@ class OrganizationStructureTitleController extends Controller
                     'updated_by' => $request->user()->id,
                     'status' => $request->status,
                 ]);
-            return response()->json(['success' => 'an Organization Structure title updated successfully.']);
+            if ($orgst){
+                return response()->json(['success' => 'an Organization Structure Title updated successfully.']);
+            }
+            return response()->json(['error' => 'Error when updating data']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
