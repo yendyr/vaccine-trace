@@ -138,6 +138,7 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        $('[class^="invalid-feedback-"]').html('');
                         $("#workgroupDetailForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#workgroupDetailForm").find('#saveBtn').prop('disabled', true);
                     },
@@ -154,8 +155,9 @@
                         if (errors) {
                             $.each(errors, function (index, value) {
                                 if (index == 'daycode'){
-                                    value = 'The daycode with choosen shiftno has already been taken';
-                                    $('div.invalid-feedback-'+index).html(value);
+                                    if (value[0].indexOf("has already been taken") >= 0){
+                                        value[0] = 'This daycode with choosen shiftno has already been taken';
+                                    }
                                 }
                                 $('div.invalid-feedback-'+index).html(value);
                             })

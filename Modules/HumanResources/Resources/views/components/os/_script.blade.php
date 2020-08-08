@@ -159,6 +159,7 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        $('[class^="invalid-feedback-"]').html('');
                         $("#osForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#osForm").find('#saveBtn').prop('disabled', true);
                     },

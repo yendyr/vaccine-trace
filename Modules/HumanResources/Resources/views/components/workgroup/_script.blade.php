@@ -120,6 +120,7 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        $('[class^="invalid-feedback-"]').html('');
                         $("#workgroupForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#workgroupForm").find('#saveBtn').prop('disabled', true);
                     },
