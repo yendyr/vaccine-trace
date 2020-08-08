@@ -33,10 +33,12 @@ class WorkingGroupController extends Controller
             return DataTables::of($data)
                 ->addColumn('shiftstatus', function($row){
                     if ($row->shiftstatus == 'Y'){
-                        return 'Shift';
-                    } else {
-                        return 'Non Shift';
+                        $shiftstatus['content'] = 'Shift';
+                    } elseif($row->shiftstatus == 'N') {
+                        $shiftstatus['content'] = 'Non shift';
                     }
+                    $shiftstatus['value'] = $row->shiftstatus;
+                    return $shiftstatus;
                 })
                 ->addColumn('rangerolling', function($row){
                     if ($row->rangerolling != null){
@@ -51,6 +53,18 @@ class WorkingGroupController extends Controller
                     }
                     $roundtime['value'] = $row->roundtime;
                     return $roundtime;
+                })
+                ->addColumn('workfinger', function($row){
+                    $workfingers = ['Not required', 'Required'];
+                    $workfinger['content'] = $workfingers[$row->workfinger];
+                    $workfinger['value'] = $row->workfinger;
+                    return $workfinger;
+                })
+                ->addColumn('restfinger', function($row){
+                    $restfingers = ['Not required', 'Required'];
+                    $restfinger['content'] = $restfingers[$row->restfinger];
+                    $restfinger['value'] = $row->restfinger;
+                    return $restfinger;
                 })
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

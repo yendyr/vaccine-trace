@@ -17,12 +17,12 @@
             columns: [
                 { data: 'workgroup', name: 'workgroup' },
                 { data: 'workname', name: 'workname', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'shiftstatus', name: 'shiftstatus' },
+                { data: 'shiftstatus.content', name: 'shiftstatus.content' },
                 { data: 'shiftrolling', name: 'shiftrolling', defaultContent: "<p class='text-muted'>none</p>"},
                 { data: 'rangerolling.content', name: 'rangerolling', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'roundtime.content', name: 'roundtime', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'workfinger', name: 'workfinger', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'restfinger', name: 'restfinger', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'workfinger.content', name: 'workfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'restfinger.content', name: 'restfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false },
@@ -81,7 +81,7 @@
                 $('#workgroupModal').find('#modalTitle').html("Update Working Group data");
                 let tr = $(this).closest('tr');
                 let data = $('#workgroup-table').DataTable().row(tr).data();
-
+                console.log(data);
                 $('<input>').attr({
                     type: 'hidden',
                     name: '_method',
@@ -91,8 +91,17 @@
                 $('#fworkgroup').attr('disabled', true);
                 $('#fworkgroup').val(data.workgroup);
                 $('#fworkname').val(data.workname);
+
                 $('#fshiftstatus').find('option').removeAttr('selected');
-                $('#fshiftstatus').find('option[value="' + data.shiftstatus + '"]').attr('selected', '');
+                $('#fshiftstatus').find('option[value="' + data.shiftstatus.value + '"]').attr('selected', '');
+                //if Non shift
+                let shiftstatus = $('#fshiftstatus').val();
+                if (shiftstatus == 'N'){
+                    $('#fshiftrolling').val(1);
+                    $('#frangerolling').val(0);
+                    $('#fshiftrolling').attr('readonly', true);
+                    $('#frangerolling').attr('readonly', true);
+                }
 
                 let shiftvalue = $('#fshiftstatus').val();
                 if (shiftvalue == 'Y'){
@@ -103,10 +112,13 @@
                 $('#fshiftrolling').val(data.shiftrolling);
                 $('#frangerolling').val(data.rangerolling.value);
                 $('#froundtime').val(data.roundtime.value);
-                $('#fworkfinger').val(data.workfinger);
-                $('#frestfinger').val(data.restfinger);
-                $('#fremark').val(data.remark);
 
+                $('#fworkfinger').find('option').removeAttr('selected');
+                $('#fworkfinger').find('option[value="' + data.workfinger.value + '"]').attr('selected', '');
+                $('#frestfinger').find('option').removeAttr('selected');
+                $('#frestfinger').find('option[value="' + data.restfinger.value + '"]').attr('selected', '');
+
+                $('#fremark').val(data.remark);
                 $('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
                     $('#fstatus').find('option[value="1"]').attr('selected', '');

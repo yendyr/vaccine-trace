@@ -54,12 +54,18 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fworkfinger">Work Finger</label>
-                            <input type="number" class="form-control" id="fworkfinger" name="workfinger">
+                            <select class="form-control m-b " id="fworkfinger" name="workfinger">
+                                <option value="1">Required</option>
+                                <option value="0">Not required</option>
+                            </select>
                             <div class="invalid-feedback-workfinger text-danger"></div>
                         </div>
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="frestfinger">Rest Finger</label>
-                            <input type="number" class="form-control" id="frestfinger" name="restfinger">
+                            <select class="form-control m-b " id="frestfinger" name="restfinger">
+                                <option value="0">Not required</option>
+                                <option value="1">Required</option>
+                            </select>
                             <div class="invalid-feedback-restfinger text-danger"></div>
                         </div>
                     </div>
