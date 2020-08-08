@@ -171,6 +171,14 @@ class WorkingGroupDetailController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()){
+            //get Shift No from shiftrolling for validating
+            if (isset($request->workgroup)){
+                $query = WorkingGroup::select('shiftrolling')->where('workgroup', $request->workgroup)->first()->shiftrolling;
+                $shiftno = str_split($query);
+            } else{
+                $shiftno = '';
+            }
+
             $request->validate([
                 'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
                 'daycode' => ['required', 'string', 'size:2',
@@ -178,7 +186,9 @@ class WorkingGroupDetailController extends Controller
                         return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
                     })
                 ],
-                'shiftno' => ['required', 'string', 'size:1'],
+                'shiftno' => ['required', 'string', 'size:1',
+                    Rule::in($shiftno)
+                ],
                 'whtimestart' => ['nullable', 'string', 'max:10'],
                 'whtimefinish' => ['nullable', 'string', 'max:10'],
                 'rstimestart' => ['nullable', 'string', 'max:10'],
@@ -309,7 +319,7 @@ class WorkingGroupDetailController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
-            return response()->json(['success' => 'a new Working Group Detail updated successfully.']);
+            return response()->json(['success' => 'a Working Group Detail updated successfully.']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
