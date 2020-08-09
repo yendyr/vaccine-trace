@@ -11,8 +11,9 @@
             <div id="formModal">
             <form method="post" id="osForm">
                 <div class="modal-body">
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Level</label>
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label class="col-form-label">Org. Structure Level</label>
                             <select class="select2_orglevel form-control m-b ml-2"  id="forglevel" name="orglevel">
                                 <option value="1">Direksi</option>
                                 <option value="2">General</option>
@@ -24,27 +25,29 @@
                             </select>
                             <div class="invalid-feedback-orglevel text-danger"></div>
                         </div>
-                    </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Code</label>
-                        <div class="col-sm-6">
+                        <div class="form-group col-sm-6">
+                            <label class="col-form-label">Org. Structure Code</label>
                             <input type="text" class="form-control" id="forgcode" name="orgcode" >
                             <div class="invalid-feedback-orgcode text-danger"></div>
                         </div>
                     </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Parent</label>
-                        <div class="col-sm-6">
-                            <select class="select2_orgparent form-control m-b ml-2"  id="forgparent" name="orgparent"></select>
-                            <div class="invalid-feedback-orgparent text-danger"></div>
-                        </div>
-                    </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Org. Structure Name</label>
-                        <div class="col-sm-6">
+
+                    <div class="row">
+                        <div class="form-group col-sm-10">
+                            <label class="col-form-label">Org. Structure Name</label>
                             <input type="text" class="form-control" id="forgname" name="orgname" >
                             <div class="invalid-feedback-orgname text-danger"></div>
                         </div>
                     </div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Status</label>
-                        <div class="col-sm-6">
+
+                    <div class="row">
+                        <div class="form-group col-sm-7">
+                            <label class="col-form-label">Org. Structure Parent</label>
+                            <select class="select2_orgparent form-control m-b ml-2"  id="forgparent" name="orgparent"></select>
+                            <div class="invalid-feedback-orgparent text-danger"></div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="col-form-label">Status</label>
                             <select class="form-control m-b " id="fstatus" name="status">
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
@@ -52,6 +55,7 @@
                             <div class="invalid-feedback-status text-danger"></div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="modal-footer">
