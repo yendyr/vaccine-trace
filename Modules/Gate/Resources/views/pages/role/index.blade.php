@@ -112,7 +112,9 @@
                         data: $(this).serialize(),
                         dataType: 'json',
                         beforeSend:function(){
-                            $('#saveBtn').html('<strong>Saving...</strong>');
+                            let l = $( '.ladda-button-submit' ).ladda();
+                            l.ladda( 'start' );
+                            $('[class^="invalid-feedback-"]').html('');
                             $('#saveBtn'). prop('disabled', true);
                         },
                         error: function(data){
@@ -132,8 +134,9 @@
                             $('#role-table').DataTable().ajax.reload();
                         },
                         complete: function () {
+                            let l = $( '.ladda-button-submit' ).ladda();
+                            l.ladda( 'stop' );
                             $('#saveBtn'). prop('disabled', false);
-                            $('#saveBtn').html('<strong>Save Changes</strong>');
                         }
                     });
                 });

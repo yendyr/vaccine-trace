@@ -138,8 +138,9 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'start' );
                         $('[class^="invalid-feedback-"]').html('');
-                        $("#workgroupDetailForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#workgroupDetailForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
@@ -164,8 +165,9 @@
                         }
                     },
                     complete:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'stop' );
                         $("#workgroupDetailForm").find('#saveBtn').prop('disabled', false);
-                        $("#workgroupDetailForm").find('#saveBtn').html('<strong>Save Changes</strong>');
                     }
                 });
             });

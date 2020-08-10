@@ -29,7 +29,9 @@
                 @can('create', Modules\Gate\Entities\RoleMenu::class)
                     <div class="form-group row col-sm-12 justify-content-start align-items-start text-center">
                         <div class="col-sm-2">
-                            <button class="btn btn-block btn-primary" id="saveButton" type="submit">SAVE CHANGES</button>
+                            <button class="ladda-button ladda-button-submit btn btn-primary"  data-style="zoom-in" type="submit" id="saveButton">
+                                <strong>Save changes</strong>
+                            </button>
                         </div>
                     </div>
                 @endcan
@@ -136,7 +138,8 @@
                     data:$(this).serialize(),
                     dataType:"json",
                     beforeSend:function(){
-                        $('#saveButton').html('<strong>Saving...</strong>');
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'start' );
                         $('#saveButton'). prop('disabled', true);
                     },
                     error: function(data){
@@ -152,9 +155,10 @@
                         }
                     },
                     complete: function () {
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'stop' );
                         $('#rolemenu-table').DataTable().ajax.reload();
                         $('#saveButton'). prop('disabled', false);
-                        $('#saveButton').html('<strong>SAVE CHANGES</strong>');
                     }
                 });
             });

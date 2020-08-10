@@ -19,6 +19,11 @@
 {{--    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
 {{--        <link rel="stylesheet" href="sweetalert2.min.css">--}}
 
+    <!-- Ladda -->
+    <script src="{{URL::asset('theme/js/plugins/ladda/spin.min.js')}}"></script>
+    <script src="{{URL::asset('theme/js/plugins/ladda/ladda.min.js')}}"></script>
+    <script src="{{URL::asset('theme/js/plugins/ladda/ladda.jquery.min.js')}}"></script>
+
     <!-- Data Table-->
     <script src="{{URL::asset('theme/js/plugins/dataTables/datatables.min.js')}}"></script>
     <script src="{{URL::asset('theme/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>

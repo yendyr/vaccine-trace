@@ -137,8 +137,9 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'start' );
                         $('[class^="invalid-feedback-"]').html('');
-                        $("#ostForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#ostForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
@@ -158,8 +159,9 @@
                         }
                     },
                     complete:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'stop' );
                         $("#ostForm").find('#saveBtn').prop('disabled', false);
-                        $("#ostForm").find('#saveBtn').html('<strong>Save Changes</strong>');
                     }
                 });
             });

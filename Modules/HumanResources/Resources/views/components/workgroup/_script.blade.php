@@ -1,6 +1,7 @@
 @push('footer-scripts')
-    <script>
+{{--    <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>--}}
 
+    <script>
         var table = $('#workgroup-table').DataTable({
             processing: true,
             serverSide: true,
@@ -8,6 +9,10 @@
             language: {
                 emptyTable: "No data existed",
             },
+            // fixedColumns:   {
+            //     leftColumns: 0,
+            //     rightColumns: 1
+            // },
             selected: true,
             ajax: {
                 url: "/hr/workgroup",
@@ -147,8 +152,9 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'start' );
                         $('[class^="invalid-feedback-"]').html('');
-                        $("#workgroupForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#workgroupForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
@@ -168,8 +174,9 @@
                         }
                     },
                     complete:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'stop' );
                         $("#workgroupForm").find('#saveBtn').prop('disabled', false);
-                        $("#workgroupForm").find('#saveBtn').html('<strong>Save Changes</strong>');
                     }
                 });
             });
