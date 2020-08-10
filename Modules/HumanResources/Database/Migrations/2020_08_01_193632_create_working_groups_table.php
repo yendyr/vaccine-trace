@@ -22,8 +22,8 @@ class CreateWorkingGroupsTable extends Migration
             $table->string('shiftrolling', 10)->comment('Pola rolling, i.e: 123')->nullable();
             $table->integer('rangerolling')->comment('satuan hari (sekali rolling)')->nullable();
             $table->integer('roundtime')->comment('pembulatan jam kerja (satuan menit)')->nullable();
-            $table->integer('workfinger')->comment('finger required for workhour')->nullable();
-            $table->integer('restfinger')->comment('finger required for rest')->nullable();
+            $table->smallInteger('workfinger')->comment('finger required for workhour')->nullable();
+            $table->smallInteger('restfinger')->comment('finger required for rest')->nullable();
             $table->string('remark', 100)->nullable();
 
             $table->integer('status')->nullable();
