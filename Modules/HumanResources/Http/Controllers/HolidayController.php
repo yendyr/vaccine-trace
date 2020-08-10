@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\HumanResources\Entities\Holiday;
+use Modules\HumanResources\Rules\SundayHolidayRule;
 use Yajra\DataTables\Facades\DataTables;
 use yii\validators\Validator;
 
@@ -167,7 +168,7 @@ class HolidayController extends Controller
             $maxYear = $currentYear + 100;
 
             $request->validate([
-                'sundayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear],
+                'sundayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear, new SundayHolidayRule],
             ]);
 
             //get date every sunday
@@ -236,28 +237,43 @@ class HolidayController extends Controller
     public function update(Request $request, Holiday $holiday)
     {
         if ($request->ajax()){
-            //validation for min & max year
-            $currentYear = intval(date("Y"));
-            $maxYear = $currentYear + 100;
+            //get existed data based on id
+            $holidaydata = Holiday::find($holiday->id);
+            $holidayyear = $holidaydata->holidayyear;
+            $holidaydate = $holidaydata->holidaydate;
+            $holidaycode = $holidaydata->holidaycode;
 
-            //validation for matching year
-            $yearOfDate = explode('-', $request->holidaydate);
-            $yearOfDate = intval($yearOfDate[0]);
+            if ( ($request->holidayyear == $holidayyear) &&
+                ($request->holidaydate == $holidaydate) &&
+                ($request->holidaycode == $holidaycode)){
+                $request->validate([
+                    'remark' => ['nullable', 'string'],
+                    'status' => ['required', 'min:0', 'max:1'],
+                ]);
+            } else {
+                //validation for min & max year
+                $currentYear = intval(date("Y"));
+                $maxYear = $currentYear + 100;
 
-            $request->validate([
-                'holidayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear,
-                    'in:' . intval($yearOfDate)
-                ],
-                'holidaydate' => ['required', 'date'],
-                'holidaycode' => ['required', 'string', 'size:2',
-                    Rule::unique('holidays')->where(function ($query) use($request) {
-                        return $query->where('holidaycode', $request->holidaycode)
-                            ->where('holidaydate', $request->holidaydate)
-                            ->where('holidayyear', $request->holidayyear);
-                    })],
-                'remark' => ['nullable', 'string'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+                //validation for matching year
+                $yearOfDate = explode('-', $request->holidaydate);
+                $yearOfDate = intval($yearOfDate[0]);
+
+                $request->validate([
+                    'holidayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear,
+                        'in:' . intval($yearOfDate)
+                    ],
+                    'holidaydate' => ['required', 'date'],
+                    'holidaycode' => ['required', 'string', 'size:2',
+                        Rule::unique('holidays')->where(function ($query) use($request) {
+                            return $query->where('holidaycode', $request->holidaycode)
+                                ->where('holidaydate', $request->holidaydate)
+                                ->where('holidayyear', $request->holidayyear);
+                        })],
+                    'remark' => ['nullable', 'string'],
+                    'status' => ['required', 'min:0', 'max:1'],
+                ]);
+            }
 
             $dml = Holiday::where('id', $holiday->id)
                 ->update([

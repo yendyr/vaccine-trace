@@ -93,8 +93,9 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'start' );
                         $('[class^="invalid-feedback-"]').html('');
-                        $("#holidayForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#holidayForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
@@ -120,8 +121,9 @@
                         }
                     },
                     complete:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'stop' );
                         $("#holidayForm").find('#saveBtn').prop('disabled', false);
-                        $("#holidayForm").find('#saveBtn').html('<strong>Save Changes</strong>');
                     }
                 });
             });
@@ -139,8 +141,9 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     beforeSend:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'start' );
                         $('[class^="invalid-feedback-"]').html('');
-                        $("#sundayForm").find('#saveBtn').html('<strong>Saving...</strong>');
                         $("#sundayForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
@@ -160,8 +163,10 @@
                         }
                     },
                     complete:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'stop' );
+                        $('#sundayForm').trigger("reset");
                         $("#sundayForm").find('#saveBtn').prop('disabled', false);
-                        $("#sundayForm").find('#saveBtn').html('<strong>Save Changes</strong>');
                     }
                 });
             });
