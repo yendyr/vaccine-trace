@@ -14,5 +14,8 @@
 Auth::routes(['register'=>false]);
 
 //Route::view('/', 'auth.login')->middleware('guest');
+Route::get('/', function () {
+    return view('auth.login')->middleware('guest');
+});
 
 Route::view('/', 'dashboard')->name('dashboard')->middleware('auth');
