@@ -24,6 +24,7 @@
     @can('viewAny', \Modules\HumanResources\Entities\Holiday::class)
         @component('components.delete-modal', ['name' => 'Holiday data'])
         @endcomponent
+        @include('humanresources::components.holiday.sunday-modal')
         @include('humanresources::components.holiday.modal')
     @endcan
 
@@ -40,11 +41,16 @@
                 </div>
                 <div class="ibox-footer" id="ibox-holiday">
                     <div id="form_result" role="alert"></div>
-                    <div class="col-md-1 m-2 p-1 row">
-                        @can('create', \Modules\HumanResources\Entities\WorkingGroup::class)
-                            <button type="button" id="create-holiday" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                        @endcan
-                    </div>
+                    @can('create', \Modules\HumanResources\Entities\WorkingGroup::class)
+                        <div class="row mb-2 p-1">
+                            <div class="col-md-1">
+                                <button type="button" id="create-holiday" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="generate-sunday" class="btn btn-block btn-info" data-toggle="modal" data-target="#sundayModal"><strong>Generate Sunday</strong></button>
+                            </div>
+                        </div>
+                    @endcan
                     <div class="table-responsive">
                         <table id="holiday-table" class="table table-hover text-center" style="width: 100%">
                             <thead>

@@ -161,7 +161,50 @@ class HolidayController extends Controller
     }
 
     public function generateSundays(Request $request){
+        if ($request->ajax()){
+            //validation for min & max year
+            $currentYear = intval(date("Y"));
+            $maxYear = $currentYear + 100;
 
+            $request->validate([
+                'sundayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear],
+            ]);
+
+            //get date every sunday
+            $sundayyear = $request->sundayyear;
+            $fullDate = $request->sundayyear . "-01-01";
+            //check if not sunday, get closest sunday
+            $date = date_create($fullDate);
+            $day = date_format($date,"D");
+            while ($day != 'Sun'){
+                $nextDay = strtotime($fullDate) + 86400;
+                $fullDate = date("Y-m-d", $nextDay);
+                $date = date_create($fullDate);
+                $day = date_format($date,"D");
+            }
+
+            while ($sundayyear == $request->sundayyear){
+                $dml = Holiday::create([
+                    'uuid' => Str::uuid(),
+                    'holidayyear' => $sundayyear,
+                    'holidaydate' => $fullDate,
+                    'holidaycode' => '00',
+                    'remark' => "Sunday Holiday",
+                    'status' => 1,
+                    'owned_by' => $request->user()->company_id,
+                    'created_by' => $request->user()->id,
+                ]);
+                $nextSunday = strtotime($fullDate) + 604800;
+                $fullDate = date("Y-m-d",$nextSunday);
+                $sundayyear = explode('-', $fullDate)[0];
+
+                if (!$dml){
+                    return response()->json(['error' => 'Error when creating data!']);
+                }
+            }
+            return response()->json(['success' => 'new Sunday Holidays added successfully.']);
+        }
+        return response()->json(['error' => 'Error not a valid request']);
     }
 
     /**

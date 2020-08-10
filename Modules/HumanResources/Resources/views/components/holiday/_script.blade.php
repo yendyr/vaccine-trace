@@ -125,6 +125,47 @@
                     }
                 });
             });
+
+            $('#sundayForm').on('submit', function (event) {
+                event.preventDefault();
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $(
+                            'meta[name="csrf-token"]'
+                        ).attr("content")
+                    },
+                    url: '/hr/holiday/sundays',
+                    method: "POST",
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    beforeSend:function(){
+                        $('[class^="invalid-feedback-"]').html('');
+                        $("#sundayForm").find('#saveBtn').html('<strong>Saving...</strong>');
+                        $("#sundayForm").find('#saveBtn').prop('disabled', true);
+                    },
+                    success:function(data){
+                        if (data.success) {
+                            $("#ibox-holiday").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
+                            $("#ibox-holiday").find('#form_result').html(data.success);
+                        }
+                        $('#sundayModal').modal('hide');
+                        table.ajax.reload();
+                    },
+                    error:function(data){
+                        let errors = data.responseJSON.errors;
+                        if (errors) {
+                            $.each(errors, function (index, value) {
+                                $('div.invalid-feedback-'+index).html(value);
+                            })
+                        }
+                    },
+                    complete:function(){
+                        $("#sundayForm").find('#saveBtn').prop('disabled', false);
+                        $("#sundayForm").find('#saveBtn').html('<strong>Save Changes</strong>');
+                    }
+                });
+            });
+
         });
 
     </script>

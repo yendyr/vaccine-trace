@@ -27,8 +27,9 @@ Route::name('hr.')->group(function () {
         Route::get('/workgroup-detail/select2/shiftno', 'WorkingGroupDetailController@select2Shiftno')->name('workgroup-detail.select2.shiftno');
         Route::resource('/workgroup-detail', 'WorkingGroupDetailController');
 
-        Route::resource('holiday', 'HolidayController');
         Route::get('/holiday/select2/code', 'HolidayController@select2Code')->name('holiday.select2.code');
+        Route::post('/holiday/sundays', 'HolidayController@generateSundays')->name('holiday.sundays');
+        Route::resource('holiday', 'HolidayController');
     });
 });
 
