@@ -1,16 +1,5 @@
 @extends('layouts.master')
 
-@push('header-scripts')
-    <style>
-        .select2-container.select2-container--default.select2-container--open {
-            z-index: 9999999 !important;
-        }
-        .select2{
-            width: 100% !important;
-        }
-    </style>
-@endpush
-
 @section('page-heading')
     @component('components.breadcrumb', ['name' => 'Holidays'])
         <li class="breadcrumb-item active">
@@ -41,7 +30,7 @@
                 </div>
                 <div class="ibox-footer" id="ibox-holiday">
                     <div id="form_result" role="alert"></div>
-                    @can('create', \Modules\HumanResources\Entities\WorkingGroup::class)
+                    @can('create', \Modules\HumanResources\Entities\Holiday::class)
                         <div class="row mb-2 p-1">
                             <div class="col-md-1">
                                 <button type="button" id="create-holiday" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
@@ -76,10 +65,8 @@
         </div>
     </div>
 
-    @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
-        @push('footer-scripts')
-            @include('humanresources::components.holiday._script')
-        @endpush
+    @can('viewAny', \Modules\HumanResources\Entities\Holiday::class)
+        @include('humanresources::components.holiday._script')
     @endcan
 
 @endsection

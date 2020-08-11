@@ -125,11 +125,12 @@
                     ele.style.visibility = "visible";
                 }
             </script>
-            @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
-                @include('humanresources::components.ost._script')
-            @endcan
-            @include('humanresources::components.os._script')
         @endpush
+        @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
+            @include('humanresources::components.ost._script')
+        @endcan
+
+        @include('humanresources::components.os._script')
     @endcan
 
 @endsection

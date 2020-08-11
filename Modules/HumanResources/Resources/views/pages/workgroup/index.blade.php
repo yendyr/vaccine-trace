@@ -62,7 +62,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="workgroup-table" class="table table-hover text-center display nowrap" style="width: 100%">
+                                    <table id="workgroup-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>Work Group</th>
@@ -107,7 +107,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="workgroup-detail-table" class="table table-hover text-center display nowrap" style="width: 100%">
+                                    <table id="workgroup-detail-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>WorkGroup</th>
@@ -142,14 +142,11 @@
     </div>
 
     @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
-        @push('footer-scripts')
+        @include('humanresources::components.workgroup._script')
 
-            @include('humanresources::components.workgroup._script')
-
-            @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
-                @include('humanresources::components.workgroup-detail._script')
-            @endcan
-        @endpush
+        @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
+            @include('humanresources::components.workgroup-detail._script')
+        @endcan
     @endcan
 
 @endsection
