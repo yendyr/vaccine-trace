@@ -11,6 +11,15 @@
         .select2{
             width: 100% !important;
         }
+
+        div.DTFC_RightBodyLiner{
+            background-color: white;
+            overflow-y: hidden !important;
+            top: -13px !important;
+        }
+        .action-column{
+            background-color: white;
+        }
     </style>
 @endpush
 
@@ -75,7 +84,7 @@
                                             <th>Rest Finger</th>
                                             <th>Remark</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th class="action-column">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>

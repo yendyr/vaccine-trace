@@ -1,18 +1,18 @@
 @push('footer-scripts')
-{{--    <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>--}}
+    <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 
     <script>
         var table = $('#workgroup-table').DataTable({
-            processing: true,
-            serverSide: true,
+            // processing: true,
+            // serverSide: false,
             scrollX: true,
             language: {
                 emptyTable: "No data existed",
             },
-            // fixedColumns:   {
-            //     leftColumns: 0,
-            //     rightColumns: 1
-            // },
+            fixedColumns:   {
+                leftColumns: 0,
+                rightColumns: 1
+            },
             selected: true,
             ajax: {
                 url: "/hr/workgroup",
