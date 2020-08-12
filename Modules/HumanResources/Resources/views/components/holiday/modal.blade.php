@@ -13,20 +13,17 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="form-group col-sm-8">
+                        <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fholidaydate">Date</label>
                             <input type="date" class="form-control" id="fholidaydate" name="holidaydate">
                             <div class="invalid-feedback-holidaydate text-danger"></div>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="form-group col-sm-3">
                             <label class="col-form-label" for="fholidayyear">Year</label>
-                            <input type="number" class="form-control" id="fholidayyear" name="holidayyear">
+                            <input type="text" class="form-control" id="fholidayyear" name="holidayyear">
                             <div class="invalid-feedback-holidayyear text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-7">
+                        <div class="form-group col-sm-5">
                             <label class="col-form-label" for="fholidaycode">Code</label>
                             <select class="select2_holidaycode form-control m-b-sm" id="fholidaycode" name="holidaycode"></select>
                             <div class="invalid-feedback-holidaycode text-danger"></div>

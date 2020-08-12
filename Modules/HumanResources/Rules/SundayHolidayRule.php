@@ -26,7 +26,7 @@ class SundayHolidayRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        $sundayHoliday = Holiday::where('holidayyear', $value)->where('remark', 'Sunday Holiday')->get();
+        $sundayHoliday = Holiday::where('holidayyear', $value)->where('holidaycode', '01')->get();
         return (count($sundayHoliday) > 0 ? false : true);
     }
 

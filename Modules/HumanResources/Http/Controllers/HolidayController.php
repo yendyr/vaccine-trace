@@ -35,9 +35,10 @@ class HolidayController extends Controller
             return DataTables::of($data)
                 ->addColumn('holidaycode', function($row){
                     $holidays = [
-                        "Other", "New Year's Day", "Chinese New Year's Day", "Isra' Mi'raj of the Prophet Muhammad", "Hindu New Year (Nyepi)",
-                        "Good Friday", "International Labour Day", "Waisak Day", "Ascension Day of Jesus Christ", "Idul Fitri", "Pancasila Day",
-                        "Idul Adha", "Indonesian Independence Day", "Islamic New Year", "Prophet Muhammad's Birthday", "Christmas Day"
+                        "Other", "Sunday holiday", "New Year's Day", "Chinese New Year's Day", "Isra' Mi'raj of the Prophet Muhammad",
+                        "Good Friday", "International Labour Day", "Waisak Day", "Ascension Day of Jesus Christ",
+                        "Idul Fitri", "Pancasila Day", "Idul Adha", "Indonesian Independence Day", "Islamic New Year",
+                        "Prophet Muhammad's Birthday", "Christmas Day", "Hindu New Year (Nyepi)"
                     ];
                     $indexCode = sprintf("%01d", $row->holidaycode);
                     $holidaycode['name'] = ($row->holidaycode . ' - ' . $holidays[$indexCode]);
@@ -77,14 +78,16 @@ class HolidayController extends Controller
     {
         $search = $request->q;
         $holidays = [
-            "Other", "New Year's Day", "Chinese New Year's Day", "Isra' Mi'raj of the Prophet Muhammad", "Hindu New Year (Nyepi)",
-            "Good Friday", "International Labour Day", "Waisak Day", "Ascension Day of Jesus Christ", "Idul Fitri", "Pancasila Day",
-            "Idul Adha", "Indonesian Independence Day", "Islamic New Year", "Prophet Muhammad's Birthday", "Christmas Day"
+            "Other", "Sunday holiday", "New Year's Day", "Chinese New Year's Day", "Isra' Mi'raj of the Prophet Muhammad",
+            "Good Friday", "International Labour Day", "Waisak Day", "Ascension Day of Jesus Christ",
+            "Idul Fitri", "Pancasila Day", "Idul Adha", "Indonesian Independence Day", "Islamic New Year",
+            "Prophet Muhammad's Birthday", "Christmas Day", "Hindu New Year (Nyepi)"
         ];
 
         if($search != ''){
             foreach ($holidays as $i => $value) {
                 if (stripos($value, $search) !== false) {
+                    //nilai baliknya kalau ditemukan berarti index dari $search thd $value
                     $results[$i] = $value;
                 }
             }
@@ -97,6 +100,27 @@ class HolidayController extends Controller
             $response['results'][] = [
                 "id"=>sprintf("%02d", $i),
                 "text"=>(sprintf("%02d", $i) .' - '. $result)
+            ];
+        };
+
+        return response()->json($response);
+    }
+
+    public function select2Year(Request $request)
+    {
+        $search = $request->q;
+        $query = Holiday::select('holidayyear');
+
+        if($search != ''){
+            $query = $query->where('holidayyear', 'like', '%' .$search. '%');
+        }
+        $results = $query->distinct('holidayyear')->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->holidayyear,
+                "text"=>$result->holidayyear
             ];
         };
 
@@ -120,18 +144,12 @@ class HolidayController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()){
-            //validation for min & max year
-            $currentYear = intval(date("Y"));
-            $maxYear = $currentYear + 100;
-
             //validation for matching year
             $yearOfDate = explode('-', $request->holidaydate);
             $yearOfDate = intval($yearOfDate[0]);
 
             $request->validate([
-                'holidayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear,
-                    'in:' . intval($yearOfDate)
-                ],
+                'holidayyear' => ['required', 'numeric', 'in:' . intval($yearOfDate)],
                 'holidaydate' => ['required', 'date'],
                 'holidaycode' => ['required', 'string', 'size:2',
                     Rule::unique('holidays')->where(function ($query) use($request) {
@@ -163,12 +181,8 @@ class HolidayController extends Controller
 
     public function generateSundays(Request $request){
         if ($request->ajax()){
-            //validation for min & max year
-            $currentYear = intval(date("Y"));
-            $maxYear = $currentYear + 100;
-
             $request->validate([
-                'sundayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear, new SundayHolidayRule],
+                'sundayyear' => ['required', 'numeric', new SundayHolidayRule],
             ]);
 
             //get date every sunday
@@ -189,7 +203,7 @@ class HolidayController extends Controller
                     'uuid' => Str::uuid(),
                     'holidayyear' => $sundayyear,
                     'holidaydate' => $fullDate,
-                    'holidaycode' => '00',
+                    'holidaycode' => '01',
                     'remark' => "Sunday Holiday",
                     'status' => 1,
                     'owned_by' => $request->user()->company_id,
@@ -237,49 +251,14 @@ class HolidayController extends Controller
     public function update(Request $request, Holiday $holiday)
     {
         if ($request->ajax()){
-            //get existed data based on id
-            $holidaydata = Holiday::find($holiday->id);
-            $holidayyear = $holidaydata->holidayyear;
-            $holidaydate = $holidaydata->holidaydate;
-            $holidaycode = $holidaydata->holidaycode;
 
-            if ( ($request->holidayyear == $holidayyear) &&
-                ($request->holidaydate == $holidaydate) &&
-                ($request->holidaycode == $holidaycode)){
-                $request->validate([
-                    'remark' => ['nullable', 'string'],
-                    'status' => ['required', 'min:0', 'max:1'],
-                ]);
-            } else {
-                //validation for min & max year
-                $currentYear = intval(date("Y"));
-                $maxYear = $currentYear + 100;
-
-                //validation for matching year
-                $yearOfDate = explode('-', $request->holidaydate);
-                $yearOfDate = intval($yearOfDate[0]);
-
-                $request->validate([
-                    'holidayyear' => ['required', 'numeric', 'max:' . $maxYear, 'min:' .$currentYear,
-                        'in:' . intval($yearOfDate)
-                    ],
-                    'holidaydate' => ['required', 'date'],
-                    'holidaycode' => ['required', 'string', 'size:2',
-                        Rule::unique('holidays')->where(function ($query) use($request) {
-                            return $query->where('holidaycode', $request->holidaycode)
-                                ->where('holidaydate', $request->holidaydate)
-                                ->where('holidayyear', $request->holidayyear);
-                        })],
-                    'remark' => ['nullable', 'string'],
-                    'status' => ['required', 'min:0', 'max:1'],
-                ]);
-            }
+            $request->validate([
+                'remark' => ['nullable', 'string'],
+                'status' => ['required', 'min:0', 'max:1'],
+            ]);
 
             $dml = Holiday::where('id', $holiday->id)
                 ->update([
-                'holidayyear' => $request->holidayyear,
-                'holidaydate' => $request->holidaydate,
-                'holidaycode' => $request->holidaycode,
                 'remark' => $request->remark,
                 'status' => $request->status,
                 'owned_by' => $request->user()->company_id,

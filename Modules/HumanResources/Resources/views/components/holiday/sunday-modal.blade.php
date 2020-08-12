@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="form-group col-sm-8">
                             <label class="col-form-label" for="fsundayyear">Year</label>
-                            <input type="number" class="form-control" id="fsundayyear" name="sundayyear">
+                            <input type="text" class="form-control" id="fsundayyear" name="sundayyear">
                             <div class="invalid-feedback-sundayyear text-danger"></div>
                         </div>
                     </div>

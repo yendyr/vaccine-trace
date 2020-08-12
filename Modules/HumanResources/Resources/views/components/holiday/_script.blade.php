@@ -1,6 +1,19 @@
-@push('footer-scripts')
-    <script>
+@push('header-scripts')
+    <style>
+        .select2-container.select2-container--default.select2-container--open {
+            z-index: 9999999 !important;
+        }
+        .select2{
+            width: 100% !important;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" />
+@endpush
 
+@push('footer-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+
+    <script>
         var table = $('#holiday-table').DataTable({
             processing: true,
             serverSide: true,
@@ -24,6 +37,7 @@
         });
 
         $(document).ready(function () {
+
             $('.select2_holidaycode').select2({
                 placeholder: 'choose code',
                 ajax: {
@@ -33,12 +47,53 @@
                 dropdownParent: $('#holidayModal')
             });
 
+            $("#search-code").select2({
+                placeholder: 'filter by code',
+                allowClear: true,
+                ajax: {
+                    url: "{{route('hr.holiday.select2.code')}}",
+                    dataType: 'json',
+                }
+            });
+            $('#search-code').on('change', function() {
+                console.log(this.value)
+                table.columns(0).search(this.value).draw();
+            } );
+
+            $("#search-year").select2({
+                placeholder: 'filter by year',
+                allowClear: true,
+                ajax: {
+                    url: "{{route('hr.holiday.select2.year')}}",
+                    dataType: 'json',
+                },
+            });
+            $('#search-year').on('change', function() {
+                console.log(this.value);
+                table.columns(1).search(this.value).draw();
+            } );
+
+            $("#fsundayyear").datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years"
+            });
+            $("#fholidayyear").datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years"
+            });
+
             $('#create-holiday').click(function () {
                 $('#saveBtn').val("create-workgroup");
                 $('#holidayForm').trigger("reset");
                 $("#holidayModal").find('#modalTitle').html("Add new Holiday data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $(".select2_holidaycode").val(null).trigger('change');
+                $('#fholidayyear').attr('disabled', false);
+                $('#fholidaycode').attr('disabled', false);
+                $('#fholidaydate').attr('disabled', false);
+                $('#fholidaydate').val(null);
 
                 $('#holidayModal').modal('show');
                 $("input[value='patch']").remove();
@@ -58,11 +113,17 @@
                 }).prependTo('#holidayForm');
 
                 $('#fholidayyear').val(data.holidayyear);
+                $('#fholidayyear').attr('disabled', true);
+
                 $('#fholidaycode').find('option').removeAttr('selected');
                 $('#fholidaycode').append('<option value="' + data.holidaycode.value + '" selected>' +
                     data.holidaycode.name + '</option>'
                 );
+                $('#fholidaycode').attr('disabled', true);
+
                 $('#fholidaydate').val(data.holidaydate.value);
+                $('#fholidaydate').attr('disabled', true);
+
                 $('#fremark').val(data.remark);
 
                 $('#fstatus').find('option').removeAttr('selected');

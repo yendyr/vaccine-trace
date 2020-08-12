@@ -30,27 +30,34 @@
                 </div>
                 <div class="ibox-footer" id="ibox-holiday">
                     <div id="form_result" role="alert"></div>
-                    @can('create', \Modules\HumanResources\Entities\Holiday::class)
                         <div class="row mb-2 p-1">
-                            <div class="col-md-1">
-                                <button type="button" id="create-holiday" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="generate-sunday" class="btn btn-block btn-info" data-toggle="modal" data-target="#sundayModal"><strong>Generate Sunday</strong></button>
-                            </div>
+                            @can('create', \Modules\HumanResources\Entities\Holiday::class)
+                                <div class="col-md-1">
+                                    <button type="button" id="create-holiday" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" id="generate-sunday" class="btn btn-block btn-info" data-toggle="modal" data-target="#sundayModal"><strong>Generate Sunday</strong></button>
+                                </div>
+                            @endcan
                         </div>
-                    @endcan
+
                     <div class="table-responsive">
                         <table id="holiday-table" class="table table-hover text-center" style="width: 100%">
                             <thead>
-                            <tr class="text-center">
-                                <th>Code</th>
-                                <th>Year</th>
-                                <th>Date</th>
-                                <th>Remark</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
+                                <tr class="text-center">
+                                    <th>
+                                        <p class="title mb-1">Code</p>
+                                        <select class="form-control m-b-sm" id="search-code" name="search-code"></select>
+                                    </th>
+                                    <th>
+                                        <p class="title mb-1">Year</p>
+                                        <select class="form-control m-b-sm" id="search-year" name="search-year"></select>
+                                    </th>
+                                    <th>Date</th>
+                                    <th>Remark</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
                             </thead>
                             <tbody>
                             </tbody>
