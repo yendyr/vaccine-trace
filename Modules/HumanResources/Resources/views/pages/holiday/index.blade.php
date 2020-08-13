@@ -46,14 +46,14 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>
-                                        <p class="title mb-1">Code</p>
-                                        <select class="form-control m-b-sm" id="search-code" name="search-code"></select>
-                                    </th>
-                                    <th>
                                         <p class="title mb-1">Year</p>
                                         <select class="form-control m-b-sm" id="search-year" name="search-year"></select>
                                     </th>
                                     <th>Date</th>
+                                    <th>
+                                        <p class="title mb-1">Code</p>
+                                        <select class="form-control m-b-sm" id="search-code" name="search-code"></select>
+                                    </th>
                                     <th>Remark</th>
                                     <th>Status</th>
                                     <th>Action</th>
