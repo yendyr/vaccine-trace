@@ -1,4 +1,4 @@
-
+@push('footer-scripts')
     <script>
         var treeGridObj;    //var for TreeGRidObj
 
@@ -194,3 +194,4 @@
         });
 
     </script>
+@endpush

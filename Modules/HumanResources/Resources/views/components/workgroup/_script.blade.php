@@ -2,7 +2,7 @@
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 
     <script>
-        var table = $('#workgroup-table').DataTable({
+        var tableWg = $('#workgroup-table').DataTable({
             // processing: true,
             // serverSide: false,
             scrollX: true,
@@ -34,7 +34,7 @@
             ]
         });
 
-        function setShift(data){
+        function workgroupSetShift(data){
             if (data.value == 'N'){
                 $('#fshiftrolling').val(1);
                 $('#frangerolling').val(0);
@@ -56,11 +56,11 @@
                     $(this).removeClass('selected');
                 }
                 else {
-                    table.$('tr.selected').removeClass('selected');
+                    tableWg.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                 }
                 //send data to Workgroup Detail when selecting row
-                let data = table.row(this).data();
+                let data = tableWg.row(this).data();
                 let urlAjax = "/hr/workgroup-detail?workgroup=" + data.workgroup;
                 if ( $.fn.DataTable.isDataTable('#workgroup-detail-table') ) {
                     $('#workgroup-detail-table').DataTable().ajax.url(urlAjax).load();
@@ -163,7 +163,7 @@
                             $("#ibox-workgroup").find('#form_result').html(data.success);
                         }
                         $('#workgroupModal').modal('hide');
-                        table.ajax.reload();
+                        tableWg.ajax.reload();
                     },
                     error:function(data){
                         let errors = data.responseJSON.errors;

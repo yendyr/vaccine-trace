@@ -28,7 +28,7 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fshiftstatus">Shift Status</label>
-                            <select class="form-control m-b " id="fshiftstatus" name="shiftstatus" onchange="setShift(this)">
+                            <select class="form-control m-b " id="fshiftstatus" name="shiftstatus" onchange="workgroupSetShift(this)">
                                 <option value="Y">Shft</option>
                                 <option value="N">Non Shift</option>
                             </select>
