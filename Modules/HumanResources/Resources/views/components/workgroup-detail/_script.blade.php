@@ -1,12 +1,14 @@
 @push('footer-scripts')
+    <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
     <script>
         $('#workgroup-detail-table').DataTable({
-            processing: true,
-            serverSide: true,
+            // processing: true,
+            // serverSide: true,
             scrollX: true,
             language: {
                 emptyTable: "No data existed for selected workgroup",
             },
+            height: 180,
             ajax: {
                 url: "/hr/workgroup-detail",
                 type: "GET",
@@ -28,7 +30,7 @@
             ]
         });
 
-        function getShift(workgroup){   //getShift when workgroup changed
+        function workgroupDetailGetShift(workgroup){   //getShift when workgroup changed
             let wgcode = workgroup.value;
 
             $('.select2_shiftno').select2({

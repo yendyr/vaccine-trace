@@ -15,7 +15,8 @@
                     <div class="row">
                         <div class="form-group col-sm-8">
                             <label class="col-form-label" for="fwgcode">Workgroup</label>
-                            <select class="select2_wgcode form-control m-b-sm" onchange="getShift(this)" id="fwgcode" name="workgroup"></select>
+                            <select class="select2_wgcode form-control m-b-sm" onchange="workgroupDetailGetShift(this)"
+                                    id="fwgcode" name="workgroup"></select>
                             <div class="invalid-feedback-workgroup text-danger"></div>
                         </div>
                         <div class="form-group col-sm-4">

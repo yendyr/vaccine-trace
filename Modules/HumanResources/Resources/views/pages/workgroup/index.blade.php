@@ -2,9 +2,6 @@
 
 @push('header-scripts')
     <style>
-        #workgroup-table tbody tr.selected {
-            background-color: #c8d4de;
-        }
         .select2-container.select2-container--default.select2-container--open {
             z-index: 9999999 !important;
         }
@@ -16,9 +13,6 @@
             background-color: white;
             overflow-y: hidden !important;
             top: -13px !important;
-        }
-        .action-column{
-            background-color: white;
         }
     </style>
 @endpush
@@ -84,7 +78,7 @@
                                             <th>Rest Finger</th>
                                             <th>Remark</th>
                                             <th>Status</th>
-                                            <th class="action-column">Action</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -116,7 +110,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="workgroup-detail-table" class="table table-hover text-center display nowrap" width="100%">
+                                    <table id="workgroup-detail-table" class="table table-hover text-center display" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>WorkGroup</th>
@@ -130,7 +124,7 @@
                                             <th>Minimum Hours</th>
                                             <th>Working Type</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -151,6 +145,9 @@
     </div>
 
     @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
+        @push('footer-scripts')
+            <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
+            @endpush
         @include('humanresources::components.workgroup._script')
 
         @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)

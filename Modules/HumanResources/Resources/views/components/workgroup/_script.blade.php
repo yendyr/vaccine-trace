@@ -4,7 +4,7 @@
     <script>
         var tableWg = $('#workgroup-table').DataTable({
             // processing: true,
-            // serverSide: false,
+            serverSide: false,
             scrollX: true,
             language: {
                 emptyTable: "No data existed",
