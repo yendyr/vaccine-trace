@@ -33,6 +33,25 @@ class HolidayController extends Controller
         if ($request->ajax()) {
             $data = Holiday::latest()->get();
             return DataTables::of($data)
+                ->filter(function ($instance) use ($request) {
+                    if ($request->searchyear) {
+                        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                            return Str::contains($row['holidayyear'], $request->searchyear) ? true : false;
+                        });
+                    }
+                    if ($request->search) {
+                        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                            if (Str::contains(Str::lower($row['holidaycode']['name']), Str::lower($request->search))){
+                                return true;
+                            }else if (Str::contains(Str::lower($row['holidaydate']['name']), Str::lower($request->search))) {
+                                return true;
+                            }else if (Str::contains(Str::lower($row['remark']), Str::lower($request->search))) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                })
                 ->addColumn('holidaycode', function($row){
                     $holidays = [
                         "Other", "Sunday holiday", "New Year's Day", "Chinese New Year's Day", "Isra' Mi'raj of the Prophet Muhammad",

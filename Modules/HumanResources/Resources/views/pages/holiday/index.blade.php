@@ -38,6 +38,13 @@
                                 <div class="col-md-2">
                                     <button type="button" id="generate-sunday" class="btn btn-block btn-info" data-toggle="modal" data-target="#sundayModal"><strong>Generate Sunday</strong></button>
                                 </div>
+                                <div class="form-group row ml-2">
+                                    <label class="col-sm-2 col-form-label" for="searchyear">Filter Year</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="searchyear" name="searchyear">
+{{--                                        <select class="m-b-sm" id="searchyear" name="searchyear"></select>--}}
+                                    </div>
+                                </div>
                             @endcan
                         </div>
 
@@ -45,15 +52,9 @@
                         <table id="holiday-table" class="table table-hover text-center" style="width: 100%">
                             <thead>
                                 <tr class="text-center">
-                                    <th>
-                                        <p class="title mb-1">Year</p>
-                                        <select class="form-control m-b-sm" id="search-year" name="search-year"></select>
-                                    </th>
+                                    <th>Year</th>
                                     <th>Date</th>
-                                    <th>
-                                        <p class="title mb-1">Code</p>
-                                        <select class="form-control m-b-sm" id="search-code" name="search-code"></select>
-                                    </th>
+                                    <th>Code</th>
                                     <th>Remark</th>
                                     <th>Status</th>
                                     <th>Action</th>

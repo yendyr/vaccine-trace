@@ -14,29 +14,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
 
     <script>
-        var table = $('#holiday-table').DataTable({
-            processing: true,
-            serverSide: true,
-            language: {
-                emptyTable: "No data existed",
-            },
-            selected: true,
-            ajax: {
-                url: "/hr/holiday",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'holidayyear', name: 'holidayyear' },
-                { data: 'holidaydate.name', name: 'holidaydate.name' },
-                { data: 'holidaycode.name', name: 'holidaycode.name' },
-                { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false },
-            ]
-        });
-
         $(document).ready(function () {
+            var table = $('#holiday-table').DataTable({
+                processing: true,
+                serverSide: true,
+                language: {
+                    emptyTable: "No data existed",
+                },
+                selected: true,
+                ajax: {
+                    url: "/hr/holiday",
+                    type: "GET",
+                    dataType: "json",
+                    data: function (d) {
+                        d.search = $('input[type="search"]').val()
+                        d.searchyear = $('#searchyear').val();
+                        if (d.searchyear == ''){
+                            let currentYear = new Date().getFullYear();
+                            $('#searchyear').val(currentYear);
+                            d.searchyear = currentYear;
+                        }
+                    },
+                },
+                columns: [
+                    { data: 'holidayyear', name: 'holidayyear' },
+                    { data: 'holidaydate.name', name: 'holidaydate.name' },
+                    { data: 'holidaycode.name', name: 'holidaycode.name' },
+                    { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false },
+                ]
+            });
+
+            $('#searchyear').on('change', function () {
+                table.draw();
+            });
 
             $('.select2_holidaycode').select2({
                 placeholder: 'choose code',
@@ -47,38 +59,31 @@
                 dropdownParent: $('#holidayModal')
             });
 
-            $("#search-code").select2({
-                placeholder: 'filter by code',
-                allowClear: true,
-                ajax: {
-                    url: "{{route('hr.holiday.select2.code')}}",
-                    dataType: 'json',
-                }
-            });
-            $('#search-code').on('change', function() {
-                console.log(this.value)
-                table.columns(0).search(this.value).draw();
-            } );
+            {{--$("#search-code").select2({--}}
+            {{--    placeholder: 'filter by code',--}}
+            {{--    allowClear: true,--}}
+            {{--    ajax: {--}}
+            {{--        url: "{{route('hr.holiday.select2.code')}}",--}}
+            {{--        dataType: 'json',--}}
+            {{--    }--}}
+            {{--});--}}
+            {{--$('#search-code').on('change', function() {--}}
+            {{--    table.columns(0).search(this.value).draw();--}}
+            {{--} );--}}
 
-            $("#search-year").select2({
-                placeholder: 'filter by year',
-                allowClear: true,
-                ajax: {
-                    url: "{{route('hr.holiday.select2.year')}}",
-                    dataType: 'json',
-                },
-            });
-            $('#search-year').on('change', function() {
-                console.log(this.value);
-                table.columns(1).search(this.value).draw();
-            } );
+            {{--$("#searchyear").select2({--}}
+            {{--    placeholder: 'filter by year',--}}
+            {{--    allowClear: true,--}}
+            {{--    ajax: {--}}
+            {{--        url: "{{route('hr.holiday.select2.year')}}",--}}
+            {{--        dataType: 'json',--}}
+            {{--    },--}}
+            {{--});--}}
+            {{--$('#searchyear').on('change', function() {--}}
+            {{--    table.columns(1).search(this.value).draw();--}}
+            {{--} );--}}
 
-            $("#fsundayyear").datepicker({
-                format: "yyyy",
-                viewMode: "years",
-                minViewMode: "years"
-            });
-            $("#fholidayyear").datepicker({
+            $("#fsundayyear, #fholidayyear, #searchyear").datepicker({
                 format: "yyyy",
                 viewMode: "years",
                 minViewMode: "years"
