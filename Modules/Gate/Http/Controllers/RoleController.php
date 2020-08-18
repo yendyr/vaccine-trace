@@ -69,7 +69,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'role_name' => ['required', 'string', 'max:255'],
+            'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
             'status' => ['min:0', 'max:1'],
         ]);
 
@@ -113,7 +113,7 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'role_name' => ['required', 'string', 'max:255'],
+            'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
             'status' => ['min:0', 'max:1'],
         ]);
 
