@@ -9,6 +9,10 @@
             width: 100% !important;
         }
 
+        .selected{
+            background-color: #f2f2f2;
+        }
+
         div.DTFC_RightBodyLiner{
             background-color: white;
             overflow-y: hidden !important;
@@ -43,7 +47,9 @@
             <div class="tabs-container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li><a class="nav-link active" data-toggle="tab" href="#workgroup">Working Group</a></li>
-                    <li><a class="nav-link" data-toggle="tab" href="#workgroup-detail">Working Group Detail</a></li>
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
+                        <li><a class="nav-link" data-toggle="tab" href="#workgroup-detail">Working Group Detail</a></li>
+                    @endcan
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" id="workgroup" class="tab-pane active">
@@ -145,9 +151,6 @@
     </div>
 
     @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
-        @push('footer-scripts')
-            <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
-            @endpush
         @include('humanresources::components.workgroup._script')
 
         @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
