@@ -31,9 +31,9 @@
                             { field: 'orgname', headerText: 'Org. Structure Name', width: 180, textAlign: 'Left'},
                             // { field: 'startDate', headerText: 'Start Date', width: 90, textAlign: 'Left', editType: 'datepickeredit', type: 'date', format: 'yMd', allowSorting: false },
                             { field: 'orglevel', headerText: 'Org. Structure Level', width: 120, textAlign: 'Left',
-                                allowSorting: false, disableHtmlEncode: false, valueAccessor: getLevel },
+                                allowSorting: false, disableHtmlEncode: false, valueAccessor: osGetLevel },
                             { field: 'status', headerText: 'Status', width: 80, textAlign: 'Left', allowSorting: false,
-                                disableHtmlEncode: false, valueAccessor: getStatus },
+                                disableHtmlEncode: false, valueAccessor: osGetStatus },
                             @can('update', \Modules\HumanResources\Entities\OrganizationStructure::class)
                             { headerText: 'Action', width: 80, disableHtmlEncode: false,
                                 commands: [
@@ -64,7 +64,7 @@
             });
         }
 
-        function getStatus(field, data, column){
+        function osGetStatus(field, data, column){
             if (data.status == 1){
                 return '<p class="text-success">Active</p>';
             } else if(data.status == 0){
@@ -72,22 +72,9 @@
             }
         }
 
-        function getLevel(field, data, column){
-            if (data.orglevel == 1){
-                return 'Direksi';
-            } else if(data.orglevel == 2){
-                return 'General';
-            } else if(data.orglevel == 3){
-                return 'Divisi';
-            } else if(data.orglevel == 4){
-                return 'Bagian';
-            } else if(data.orglevel == 5){
-                return 'Seksi';
-            } else if(data.orglevel == 6){
-                return 'Regu';
-            } else if(data.orglevel == 7){
-                return 'Group';
-            }
+        function osGetLevel(field, data, column){
+            $levels = ['Direksi', 'General', 'Divisi', 'Bagian', 'Seksi', 'Regu', 'Group'];
+            return $levels[(data.orglevel-1)];
         }
 
         function onUpdate(args){
