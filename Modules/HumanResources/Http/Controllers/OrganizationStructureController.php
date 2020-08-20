@@ -80,8 +80,8 @@ class OrganizationStructureController extends Controller
         if ($request->ajax()){
             $request->validate([
                 'orglevel' => ['required', 'integer'],
-                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash', 'max:20', 'unique:organization_structures,orgcode'],
-                'orgparent' => ['string', 'max:255', 'alpha_dash', 'max:20'],
+                'orgcode' => ['required', 'string', 'max:255', 'alpha_num', 'max:20', 'unique:organization_structures,orgcode'],
+                'orgparent' => ['string', 'max:255', 'alpha_num', 'max:20'],
                 'orgname' => ['required', 'string', 'max:100'],
                 'status' => ['min:0', 'max:1'],
             ]);
@@ -135,8 +135,8 @@ class OrganizationStructureController extends Controller
         if ($request->ajax()){
             $request->validate([
 //                'orglevel' => ['required', 'integer'],
-//                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash', 'max:20'],
-                'orgparent' => ['string', 'max:255', 'alpha_dash', 'max:20'],
+//                'orgcode' => ['required', 'string', 'max:255', 'alpha_num', 'max:20'],
+                'orgparent' => ['string', 'max:255', 'alpha_num', 'max:20'],
                 'orgname' => ['required', 'string', 'max:100'],
                 'status' => ['min:0', 'max:1'],
             ]);
