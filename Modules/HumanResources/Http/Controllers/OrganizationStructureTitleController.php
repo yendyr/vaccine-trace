@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Modules\Gate\Entities\User;
 use Modules\HumanResources\Entities\OrganizationStructure;
 use Modules\HumanResources\Entities\OrganizationStructureTitle;
@@ -188,7 +189,12 @@ class OrganizationStructureTitleController extends Controller
             $request->validate([
                 'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
                 'titlecode' => ['required', 'string', 'max:2'],
-                'jobtitle' => ['required', 'string', 'max:20'],
+                'jobtitle' => ['required', 'string', 'max:20',
+                    Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
+                        return $query->where('jobtitle', $request->jobtitle)
+                            ->where('orgcode', $request->orgcode)
+                            ->where('titlecode', $request->titlecode);
+                    })],
                 'rptorg' => ['string', 'max:255'],
                 'rpttitle' => ['string', 'max:2'],
                 'status' => ['min:0', 'max:1'],
@@ -245,7 +251,11 @@ class OrganizationStructureTitleController extends Controller
             $request->validate([
 //                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
                 'titlecode' => ['required', 'string', 'max:2'],
-                'jobtitle' => ['required', 'string', 'max:20'],
+                'jobtitle' => ['required', 'string', 'max:20',
+                    Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
+                        return $query->where('jobtitle', $request->jobtitle)
+                            ->where('titlecode', $request->titlecode);
+                    })],
                 'rptorg' => ['string', 'max:255'],
                 'rpttitle' => ['string', 'max:2'],
                 'status' => ['min:0', 'max:1'],

@@ -154,6 +154,9 @@
                         let errors = data.responseJSON.errors;
                         if (errors) {
                             $.each(errors, function (index, value) {
+                                if (value[0] == "The jobtitle has already been taken."){
+                                    value[0] = 'This jobtitle with choosen orgcode & title code has already been taken';
+                                }
                                 $('div.invalid-feedback-'+index).html(value);
                             })
                         }
