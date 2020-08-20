@@ -139,7 +139,7 @@ class WorkingGroupDetailController extends Controller
     public function select2Shiftno(Request $request)
     {
         if (isset($request->workgroup)){
-            $query = WorkingGroup::select('shiftrolling')->where('workgroup', $request->workgroup)->first();
+            $query = WorkingGroup::select('shiftrolling')->where('workgroup', $request->workgroup)->where('status', 1)->first();
             $results = $query->shiftrolling;
         }
         $results = str_split($results);

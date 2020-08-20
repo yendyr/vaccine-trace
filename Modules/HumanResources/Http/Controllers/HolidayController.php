@@ -125,27 +125,6 @@ class HolidayController extends Controller
         return response()->json($response);
     }
 
-    public function select2Year(Request $request)
-    {
-        $search = $request->q;
-        $query = Holiday::select('holidayyear');
-
-        if($search != ''){
-            $query = $query->where('holidayyear', 'like', '%' .$search. '%');
-        }
-        $results = $query->distinct('holidayyear')->get();
-
-        $response = [];
-        foreach($results as $result){
-            $response['results'][] = [
-                "id"=>$result->holidayyear,
-                "text"=>$result->holidayyear
-            ];
-        };
-
-        return response()->json($response);
-    }
-
     /**
      * Show the form for creating a new resource.
      * @return Response

@@ -59,30 +59,6 @@
                 dropdownParent: $('#holidayModal')
             });
 
-            {{--$("#search-code").select2({--}}
-            {{--    placeholder: 'filter by code',--}}
-            {{--    allowClear: true,--}}
-            {{--    ajax: {--}}
-            {{--        url: "{{route('hr.holiday.select2.code')}}",--}}
-            {{--        dataType: 'json',--}}
-            {{--    }--}}
-            {{--});--}}
-            {{--$('#search-code').on('change', function() {--}}
-            {{--    table.columns(0).search(this.value).draw();--}}
-            {{--} );--}}
-
-            {{--$("#searchyear").select2({--}}
-            {{--    placeholder: 'filter by year',--}}
-            {{--    allowClear: true,--}}
-            {{--    ajax: {--}}
-            {{--        url: "{{route('hr.holiday.select2.year')}}",--}}
-            {{--        dataType: 'json',--}}
-            {{--    },--}}
-            {{--});--}}
-            {{--$('#searchyear').on('change', function() {--}}
-            {{--    table.columns(1).search(this.value).draw();--}}
-            {{--} );--}}
-
             $("#fsundayyear, #fholidayyear, #searchyear").datepicker({
                 format: "yyyy",
                 viewMode: "years",
