@@ -33,6 +33,7 @@
         function workgroupDetailGetShift(workgroup){   //getShift when workgroup changed
             let wgcode = workgroup.value;
 
+            $('#fshiftno').val(''); //kosongkan dulu shiftno
             $('.select2_shiftno').select2({
                 placeholder: 'choose shiftno',
                 ajax: {
