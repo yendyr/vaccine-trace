@@ -122,7 +122,7 @@ class WorkingGroupDetailController extends Controller
         $search = $request->q;
         $query = WorkingGroup::orderby('workgroup')->select('id','workgroup','workname')->where('status', 1);
         if($search != ''){
-            $query = $query->where('workgroup', 'like', '%' .$search. '%');
+            $query = $query->where('workgroup', 'like', '%' .$search. '%')->orWhere('workname', 'like', '%' .$search. '%');
         }
         $results = $query->get();
 
