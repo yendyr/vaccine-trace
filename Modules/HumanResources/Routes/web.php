@@ -31,6 +31,15 @@ Route::name('hr.')->group(function () {
         Route::get('/holiday/select2/year', 'HolidayController@select2Year')->name('holiday.select2.year');
         Route::post('/holiday/sundays', 'HolidayController@generateSundays')->name('holiday.sundays');
         Route::resource('holiday', 'HolidayController');
+
+        Route::get('/employee/select2/orgcode', 'EmployeeController@select2Orgcode')->name('employee.select2.orgcode');
+        Route::get('/employee/select2/title', 'EmployeeController@select2Title')->name('employee.select2.title');
+        Route::get('/employee/select2/jobtitle', 'EmployeeController@select2Jobtitle')->name('employee.select2.jobtitle');
+        Route::get('/employee/select2/orglvl', 'EmployeeController@select2Orglvl')->name('employee.select2.orglvl');
+        Route::resource('employee', 'EmployeeController');
+
+        Route::get('/id-card/select2/empid', 'IdCardController@select2Empid')->name('id-card.select2.empid');
+        Route::resource('id-card', 'IdCardController');
     });
 });
 

@@ -81,6 +81,20 @@
                         </a>
                     </li>
                 @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
+                        <li class="{{ (request()->is('hr/employee') || request()->is('hr/employee/*')) ? 'active' : '' }}">
+                            <a href="{{ route('hr.employee.index')}}">
+                                <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                    <span>
+                                    Employee
+                                </span>
+                                </div>
+                            </a>
+                        </li>
+                    @endcan
             </ul>
         </li>
         <li class="{{ request()->is('gate/*') ? 'active' : '' }} nav-first-level" id="gate">
