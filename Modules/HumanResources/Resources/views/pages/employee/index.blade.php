@@ -81,6 +81,7 @@
                                     <table id="employee-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
                                         <tr class="text-center">
+                                            <th>photo</th>
                                             <th>Employee ID</th>
                                             <th>Name</th>
                                             <th>Place of birth</th>

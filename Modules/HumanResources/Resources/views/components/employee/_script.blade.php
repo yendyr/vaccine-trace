@@ -13,6 +13,12 @@
                 leftColumns: 0,
                 rightColumns: 1
             },
+            columnDefs: [
+                {
+                    targets: [ 0 ],
+                    visible: false
+                }
+            ],
             selected: true,
             ajax: {
                 url: "/hr/employee",
@@ -20,6 +26,7 @@
                 dataType: "json",
             },
             columns: [
+                { data: 'photo', name: 'photo'},
                 { data: 'empid', name: 'empid' },
                 { data: 'fullname', name: 'fullname', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'pob', name: 'pob' },
@@ -167,6 +174,11 @@
 
                 $("#employeeForm").find('#fempid').attr('readonly', true);
                 $("#employeeForm").find('#fempid').val(data.empid);
+                let photoVal = data.photo;
+                console.log(photoVal);
+                if (photoVal != null){
+                    $('#fphoto').siblings('.custom-file-label').html('photo existed');
+                }
                 $('#ffullname').val(data.fullname);
                 $('#fnickname').val(data.nickname);
                 $('#fpob').val(data.pob);
