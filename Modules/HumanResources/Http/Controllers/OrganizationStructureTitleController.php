@@ -255,7 +255,8 @@ class OrganizationStructureTitleController extends Controller
                     Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
                         return $query->where('jobtitle', $request->jobtitle)
                             ->where('titlecode', $request->titlecode);
-                    })],
+                    })->ignore($org_structure_title->id)
+                ],
                 'rptorg' => ['string', 'max:255'],
                 'rpttitle' => ['string', 'max:2'],
                 'status' => ['min:0', 'max:1'],
