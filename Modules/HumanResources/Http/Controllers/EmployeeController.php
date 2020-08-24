@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Gate\Entities\Company;
@@ -247,7 +248,7 @@ class EmployeeController extends Controller
                 'empid' => ['required', 'string', 'max:20', 'alpha_num', 'unique:employees,empid'],
                 'fullname' => ['required', 'string', 'max:50'],
                 'nickname' => ['required', 'string', 'max:50'],
-                //photo
+                'photo' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
                 'pob' => ['required', 'string', 'max:30'],
                 'dob' => ['required', 'date'],
                 'gender' => ['required', 'string', 'size:1'],
@@ -277,12 +278,28 @@ class EmployeeController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
+            //Proses upload file photo
+            if ($request->hasFile('photo')) {
+                $data = $request->file('photo');
+                $extension = $data->getClientOriginalExtension();
+                $filename = 'employee_' . $request->empid . '.' . $extension;
+                $path = public_path('uploads/employee/photos/');
+                $employeeImage = public_path("uploads/employee/photos/{$filename}"); // get previous image from folder
+                if (File::exists($employeeImage)) { // unlink or remove previous image from folder
+                    unlink($employeeImage);
+                }
+                //save image to project directory
+                $data->move($path, $filename);
+            } else{ //null filename if request->file('photo') null
+                $filename = null;
+            }
+
             $dml = Employee::create([
                 'uuid' => Str::uuid(),
                 'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,
-                //photo
+                'photo' => $request->photo,
                 'pob' => $request->pob,
                 'dob' => $request->dob,
                 'gender' => $request->gender,
@@ -313,6 +330,7 @@ class EmployeeController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'created_by' => $request->user()->id,
             ]);
+
             if ($dml){
                 return response()->json(['success' => 'a new Employee added successfully.']);
             }
@@ -354,7 +372,7 @@ class EmployeeController extends Controller
 //                'empid' => ['required', 'string', 'max:20', 'alpha_num', 'unique:employees,empid'],
                 'fullname' => ['required', 'string', 'max:50'],
                 'nickname' => ['required', 'string', 'max:50'],
-                //photo
+                'photo' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2000048'],
                 'pob' => ['required', 'string', 'max:30'],
                 'dob' => ['required', 'date'],
                 'gender' => ['required', 'string', 'size:1'],
@@ -384,12 +402,28 @@ class EmployeeController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
+            if ($request->hasFile('photo')) {
+                //Proses upload file photo
+                $data = $request->file('photo');
+                $extension = $data->getClientOriginalExtension();
+                $filename = 'employee_' . $request->empid . '.' . $extension;
+                $path = public_path('uploads/employee/photos/');
+                $employeeImage = public_path("uploads/employee/photos/{$filename}"); // get previous image from folder
+                if (File::exists($employeeImage)) { // unlink or remove previous image from folder
+                    unlink($employeeImage);
+                }
+                //save image to project directory
+                $data->move($path, $filename);
+            } else{ //null filename if request->file('photo') null
+                $filename = null;
+            }
+
             $dml = Employee::where('id', $employee->id)
                 ->update([
 //                'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,
-                //photo
+                'photo' => $filename,
                 'pob' => $request->pob,
                 'dob' => $request->dob,
                 'gender' => $request->gender,
@@ -420,6 +454,7 @@ class EmployeeController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
+
             if ($dml){
                 return response()->json(['success' => 'an Employee updated successfully.']);
             }
