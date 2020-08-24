@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="employeeModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle"></h5>
@@ -35,9 +35,10 @@
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <div class="custom-file mt-4">
+                                <label for="fphoto" class="custom-file-label"></label>
                                 <input id="fphoto" type="file" class="custom-file-input" name="photo">
-                                <label for="fphoto" class="custom-file-label">Choose photo</label>
                             </div>
+                            <div class="invalid-feedback-photo text-danger"></div>
                         </div>
                         <div class="form-group col-sm-3">
                             <label class="col-form-label" for="fpob">Place of birth</label>

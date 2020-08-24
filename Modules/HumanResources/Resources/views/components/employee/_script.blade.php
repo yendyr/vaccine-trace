@@ -144,9 +144,14 @@
                 $('#frecruitby').val(null).trigger('change');
                 $('#fworkgrp').val(null).trigger('change');
                 $('#forgcode').val(null).trigger('change');
-                $("#employeeForm").find('#fempid').attr('disabled', false);
+                $("#employeeForm").find('#fempid').attr('readonly', false);
                 $('#employeeModal').modal('show');
                 $('#employeeForm').attr('action', '/hr/employee');
+            });
+
+            $('#fphoto').on('change', function() {  //set filename as label
+                let fileName = $(this).val().split('\\').pop();
+                $(this).siblings('.custom-file-label').addClass("selected").html(fileName);
             });
 
             $('#employee-table').on('click', '.editBtn', function () {
@@ -160,7 +165,7 @@
                     value: 'patch'
                 }).prependTo('#employeeForm');
 
-                $("#employeeForm").find('#fempid').attr('disabled', true);
+                $("#employeeForm").find('#fempid').attr('readonly', true);
                 $("#employeeForm").find('#fempid').val(data.empid);
                 $('#ffullname').val(data.fullname);
                 $('#fnickname').val(data.nickname);
@@ -224,7 +229,11 @@
                     },
                     url: url_action,
                     method: "POST",
-                    data: $(this).serialize(),
+                    enctype: 'multipart/form-data',
+                    data: new FormData($(this)[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     dataType: 'json',
                     beforeSend:function(){
                         let l = $( '.ladda-button-submit' ).ladda();
