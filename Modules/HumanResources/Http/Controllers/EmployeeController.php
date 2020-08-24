@@ -279,7 +279,7 @@ class EmployeeController extends Controller
             ]);
 
             //Proses upload file photo
-            if (isset($request->photo)) {
+            if ($request->hasFile('photo')) {
                 $data = $request->file('photo');
                 $extension = $data->getClientOriginalExtension();
                 $filename = 'employee_' . $request->empid . '.' . $extension;
@@ -402,7 +402,7 @@ class EmployeeController extends Controller
                 'status' => ['required', 'min:0', 'max:1'],
             ]);
 
-            if (isset($request->photo)) {
+            if ($request->hasFile('photo')) {
                 //Proses upload file photo
                 $data = $request->file('photo');
                 $extension = $data->getClientOriginalExtension();
