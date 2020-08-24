@@ -146,18 +146,8 @@ class HolidayController extends Controller
             $yearOfDate = explode('-', $request->holidaydate);
             $yearOfDate = intval($yearOfDate[0]);
 
-            $request->validate([
-                'holidayyear' => ['required', 'numeric', 'in:' . intval($yearOfDate)],
-                'holidaydate' => ['required', 'date'],
-                'holidaycode' => ['required', 'string', 'size:2',
-                    Rule::unique('holidays')->where(function ($query) use($request) {
-                        return $query->where('holidaycode', $request->holidaycode)
-                            ->where('holidaydate', $request->holidaydate)
-                            ->where('holidayyear', $request->holidayyear);
-                    })],
-                'remark' => ['nullable', 'string'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request, $yearOfDate);
+            $validation = $request->validate($validationArray);
 
             $dml = Holiday::create([
                 'uuid' => Str::uuid(),
@@ -249,11 +239,11 @@ class HolidayController extends Controller
     public function update(Request $request, Holiday $holiday)
     {
         if ($request->ajax()){
-
-            $request->validate([
-                'remark' => ['nullable', 'string'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request);
+            unset($validationArray['holidayyear']);
+            unset($validationArray['holidaydate']);
+            unset($validationArray['holidaycode']);
+            $validation = $request->validate($validationArray);
 
             $dml = Holiday::where('id', $holiday->id)
                 ->update([
@@ -278,5 +268,23 @@ class HolidayController extends Controller
     public function destroy(Holiday $holiday)
     {
         //
+    }
+
+    //Validation array default for this controller
+    public function getValidationArray($request, $yearOfDate = null){
+        $validationArray = [
+            'holidayyear' => ['required', 'numeric', 'in:' . intval($yearOfDate)],
+            'holidaydate' => ['required', 'date'],
+            'holidaycode' => ['required', 'string', 'size:2',
+                Rule::unique('holidays')->where(function ($query) use($request) {
+                    return $query->where('holidaycode', $request->holidaycode)
+                        ->where('holidaydate', $request->holidaydate)
+                        ->where('holidayyear', $request->holidayyear);
+                })],
+            'remark' => ['nullable', 'string'],
+            'status' => ['required', 'min:0', 'max:1'],
+        ];
+
+        return $validationArray;
     }
 }

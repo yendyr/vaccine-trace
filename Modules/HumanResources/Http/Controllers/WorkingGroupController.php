@@ -106,20 +106,10 @@ class WorkingGroupController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()){
-            $request->validate([
-                'workgroup' => ['required', 'string', 'max:4', 'alpha_num', 'unique:working_groups,workgroup'],
-                'workname' => ['nullable', 'string', 'max:50'],
-                'shiftstatus' => ['required', 'string', 'size:1'],
-                'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],
-                'rangerolling' => ['required', 'numeric'],
-                'roundtime' => ['nullable', 'numeric'],
-                'workfinger' => ['nullable', 'numeric'],
-                'restfinger' => ['nullable', 'numeric'],
-                'remark' => ['nullable', 'string'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray();
+            $validation = $request->validate($validationArray);
 
-            $wg = WorkingGroup::create([
+            $dml = WorkingGroup::create([
                 'uuid' => Str::uuid(),
                 'workgroup' => $request->workgroup,
                 'workname' => $request->workname,
@@ -134,7 +124,7 @@ class WorkingGroupController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'created_by' => $request->user()->id,
             ]);
-            if ($wg){
+            if ($dml){
                 return response()->json(['success' => 'a new Working Group added successfully.']);
             }
             return response()->json(['error' => 'Error when creating data!']);
@@ -171,20 +161,11 @@ class WorkingGroupController extends Controller
     public function update(Request $request, WorkingGroup $workgroup)
     {
         if ($request->ajax()){
-            $request->validate([
-//                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
-                'workname' => ['nullable', 'string', 'max:50'],
-                'shiftstatus' => ['required', 'string', 'size:1'],
-                'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],
-                'rangerolling' => ['required', 'numeric'],
-                'roundtime' => ['nullable', 'numeric'],
-                'workfinger' => ['nullable', 'numeric'],
-                'restfinger' => ['nullable', 'numeric'],
-                'remark' => ['nullable', 'string'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request);
+            unset($validationArray['workgroup']);
+            $validation = $request->validate($validationArray);
 
-            $wg = WorkingGroup::where('id', $workgroup->id)
+            $dml = WorkingGroup::where('id', $workgroup->id)
                 ->update([
 //                'workgroup' => $request->workgroup,
                 'workname' => $request->workname,
@@ -199,7 +180,7 @@ class WorkingGroupController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
-            if ($wg){
+            if ($dml){
                 return response()->json(['success' => 'a Working Group data updated successfully.']);
             }
             return response()->json(['error' => 'Error when updating data!']);
@@ -215,5 +196,23 @@ class WorkingGroupController extends Controller
     public function destroy(WorkingGroup $workgroup)
     {
         //
+    }
+
+    //Validation array default for this controller
+    public function getValidationArray($request = null){
+        $validationArray = [
+            'workgroup' => ['required', 'string', 'max:4', 'alpha_num', 'unique:working_groups,workgroup'],
+            'workname' => ['nullable', 'string', 'max:50'],
+            'shiftstatus' => ['required', 'string', 'size:1'],
+            'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],
+            'rangerolling' => ['required', 'numeric'],
+            'roundtime' => ['nullable', 'numeric'],
+            'workfinger' => ['nullable', 'numeric'],
+            'restfinger' => ['nullable', 'numeric'],
+            'remark' => ['nullable', 'string'],
+            'status' => ['required', 'min:0', 'max:1'],
+        ];
+
+        return $validationArray;
     }
 }

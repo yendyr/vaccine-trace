@@ -102,19 +102,8 @@ class IdCardController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()){
-            $request->validate([
-                'empid' => ['required', 'string', 'max:20'],
-                'idcardtype' => ['required', 'string', 'max:2'],
-                'idcardno' => ['required', 'string', 'max:20',
-                    Rule::unique('id_cards')->where(function ($query) use($request) {
-                    return $query->where('empid', $request->empid)
-                        ->where('idcardtype', $request->idcardtype)
-                        ->where('idcardno', $request->idcardno);
-                })],
-                'idcarddate' => ['required', 'date'],
-                'idcardexpdate' => ['required', 'date'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request);
+            $validation = $request->validate($validationArray);
 
             $dml = IdCard::create([
                 'uuid' => Str::uuid(),
@@ -164,22 +153,16 @@ class IdCardController extends Controller
     public function update(Request $request, IdCard $id_card)
     {
         if ($request->ajax()){
-            //get idcard according to its id for Rule validation below
-            $idcard = IdCard::where('id', $id_card->id)->first();
+            $validationArray = $this->getValidationArray($request);
+            $validationArray['idcardno'] = ['required', 'string', 'max:20',
+                Rule::unique('id_cards')->where(function ($query) use ($request, $id_card) {
+                    return $query->where('idcardtype', $request->idcardtype)
+                        ->where('idcardno', $request->idcardno);
+                })->ignore($id_card->id)
+            ];
+            unset($validationArray['empid']);
 
-            $request->validate([
-//                'empid' => ['required', 'string', 'max:20'],
-                'idcardtype' => ['required', 'string', 'max:2'],
-                'idcardno' => ['required', 'string', 'max:20',
-                    Rule::unique('id_cards')->where(function ($query) use($request, $id_card) {
-                        return $query->where('idcardtype', $request->idcardtype)
-                            ->where('idcardno', $request->idcardno);
-                    })->ignore($id_card->id)
-                ],
-                'idcarddate' => ['required', 'date'],
-                'idcardexpdate' => ['required', 'date'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validation = $request->validate($validationArray);
 
             $dml = IdCard::where('id', $id_card->id)
                 ->update([
@@ -208,5 +191,24 @@ class IdCardController extends Controller
     public function destroy(IdCard $id_card)
     {
         //
+    }
+
+    //Validation array default for this controller
+    public function getValidationArray($request){
+        $validationArray = [
+            'empid' => ['required', 'string', 'max:20'],
+            'idcardtype' => ['required', 'string', 'max:2'],
+            'idcardno' => ['required', 'string', 'max:20',
+                Rule::unique('id_cards')->where(function ($query) use($request) {
+                    return $query->where('empid', $request->empid)
+                        ->where('idcardtype', $request->idcardtype)
+                        ->where('idcardno', $request->idcardno);
+                })],
+            'idcarddate' => ['required', 'date'],
+            'idcardexpdate' => ['required', 'date'],
+            'status' => ['required', 'min:0', 'max:1'],
+        ];
+
+        return $validationArray;
     }
 }

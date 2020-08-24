@@ -179,25 +179,8 @@ class WorkingGroupDetailController extends Controller
                 $shiftno = '';
             }
 
-            $request->validate([
-                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
-                'daycode' => ['required', 'string', 'size:2',
-                    Rule::unique('working_group_details')->where(function ($query) use($request) {
-                        return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
-                    })
-                ],
-                'shiftno' => ['required', 'string', 'size:1',
-                    Rule::in($shiftno)
-                ],
-                'whtimestart' => ['nullable', 'string', 'max:10'],
-                'whtimefinish' => ['nullable', 'string', 'max:10'],
-                'rstimestart' => ['nullable', 'string', 'max:10'],
-                'rstimefinish' => ['nullable', 'string', 'max:10'],
-                'stdhours' => ['nullable', 'numeric'],
-                'minhours' => ['nullable', 'numeric'],
-                'worktype' => ['required', 'string', 'size:2'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request, $shiftno);
+            $validation = $request->validate($validationArray);
 
             //CHANGE TIME FORMAT
             if (isset($request->whtimestart)){
@@ -270,23 +253,11 @@ class WorkingGroupDetailController extends Controller
     public function update(Request $request, WorkingGroupDetail $workgroup_detail)
     {
         if ($request->ajax()){
-            $request->validate([
-//                'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
-//                'daycode' => ['required', 'string', 'size:2',
-//                    Rule::unique('working_group_details')->where(function ($query) use($request) {
-//                        return $query->where('daycode', $request->daycode)->where('shiftno', $request->shiftno);
-//                    })
-//                ],
-//                'shiftno' => ['required', 'string', 'size:1'],
-                'whtimestart' => ['nullable', 'string', 'max:10'],
-                'whtimefinish' => ['nullable', 'string', 'max:10'],
-                'rstimestart' => ['nullable', 'string', 'max:10'],
-                'rstimefinish' => ['nullable', 'string', 'max:10'],
-                'stdhours' => ['nullable', 'numeric'],
-                'minhours' => ['nullable', 'numeric'],
-                'worktype' => ['required', 'string', 'size:2'],
-                'status' => ['required', 'min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request);
+            unset($validationArray['workgroup']);
+            unset($validationArray['daycode']);
+            unset($validationArray['shiftno']);
+            $validation = $request->validate($validationArray);
 
             //CHANGE TIME FORMAT
             if (isset($request->whtimestart)){
@@ -338,5 +309,31 @@ class WorkingGroupDetailController extends Controller
     public function destroy(WorkingGroupDetail $workgroup_detail)
     {
         //
+    }
+
+    //Validation array default for this controller
+    public function getValidationArray($request = null, $shiftno = null){
+        $validationArray = [
+            'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
+            'daycode' => ['required', 'string', 'size:2',
+                Rule::unique('working_group_details')->where(function ($query) use($request) {
+                    return $query->where('daycode', $request->daycode)
+                        ->where('shiftno', $request->shiftno);
+                })
+            ],
+            'shiftno' => ['required', 'string', 'size:1',
+                Rule::in($shiftno)
+            ],
+            'whtimestart' => ['nullable', 'string', 'max:10'],
+            'whtimefinish' => ['nullable', 'string', 'max:10'],
+            'rstimestart' => ['nullable', 'string', 'max:10'],
+            'rstimefinish' => ['nullable', 'string', 'max:10'],
+            'stdhours' => ['nullable', 'numeric'],
+            'minhours' => ['nullable', 'numeric'],
+            'worktype' => ['required', 'string', 'size:2'],
+            'status' => ['required', 'min:0', 'max:1'],
+        ];
+
+        return $validationArray;
     }
 }

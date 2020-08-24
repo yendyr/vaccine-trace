@@ -186,21 +186,10 @@ class OrganizationStructureTitleController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()){
-            $request->validate([
-                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
-                'titlecode' => ['required', 'string', 'max:2'],
-                'jobtitle' => ['required', 'string', 'max:20',
-                    Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
-                        return $query->where('jobtitle', $request->jobtitle)
-                            ->where('orgcode', $request->orgcode)
-                            ->where('titlecode', $request->titlecode);
-                    })],
-                'rptorg' => ['string', 'max:255'],
-                'rpttitle' => ['string', 'max:2'],
-                'status' => ['min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request);
+            $validation = $request->validate($validationArray);
 
-            $orgst = OrganizationStructureTitle::create([
+            $dml = OrganizationStructureTitle::create([
                 'uuid' => Str::uuid(),
                 'orgcode' => $request->orgcode,
                 'titlecode' => $request->titlecode,
@@ -211,7 +200,7 @@ class OrganizationStructureTitleController extends Controller
                 'created_by' => $request->user()->id,
                 'status' => $request->status,
             ]);
-            if ($orgst){
+            if ($dml){
                 return response()->json(['success' => 'an Organization Structure Title created successfully.']);
             }
             return response()->json(['error' => 'Error when creating data']);
@@ -248,21 +237,17 @@ class OrganizationStructureTitleController extends Controller
     public function update(Request $request, OrganizationStructureTitle $org_structure_title)
     {
         if ($request->ajax()){
-            $request->validate([
-//                'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
-                'titlecode' => ['required', 'string', 'max:2'],
-                'jobtitle' => ['required', 'string', 'max:20',
-                    Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
-                        return $query->where('jobtitle', $request->jobtitle)
-                            ->where('titlecode', $request->titlecode);
-                    })->ignore($org_structure_title->id)
-                ],
-                'rptorg' => ['string', 'max:255'],
-                'rpttitle' => ['string', 'max:2'],
-                'status' => ['min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request);
+            unset($validationArray['orgcode']);
+            $validationArray['jobtitle'] = ['required', 'string', 'max:20',
+                Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
+                    return $query->where('jobtitle', $request->jobtitle)
+                        ->where('titlecode', $request->titlecode);
+                })->ignore($org_structure_title->id)
+            ];
+            $validation = $request->validate($validationArray);
 
-            $orgst = OrganizationStructureTitle::where('id', $org_structure_title->id)
+            $dml = OrganizationStructureTitle::where('id', $org_structure_title->id)
                 ->update([
 //                    'orgcode' => $request->orgcode,
                     'titlecode' => $request->titlecode,
@@ -273,7 +258,7 @@ class OrganizationStructureTitleController extends Controller
                     'updated_by' => $request->user()->id,
                     'status' => $request->status,
                 ]);
-            if ($orgst){
+            if ($dml){
                 return response()->json(['success' => 'an Organization Structure Title updated successfully.']);
             }
             return response()->json(['error' => 'Error when updating data']);
@@ -291,5 +276,24 @@ class OrganizationStructureTitleController extends Controller
         OrganizationStructureTitle::destroy($org_structure_title->id);
 
         return response()->json(['success' => 'Organization Structure title data deleted successfully.']);
+    }
+
+    //Validation array default for this controller
+    public function getValidationArray($request){
+        $validationArray = [
+            'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
+            'titlecode' => ['required', 'string', 'max:2'],
+            'jobtitle' => ['required', 'string', 'max:20',
+                Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
+                    return $query->where('jobtitle', $request->jobtitle)
+                        ->where('orgcode', $request->orgcode)
+                        ->where('titlecode', $request->titlecode);
+                })],
+            'rptorg' => ['string', 'max:255'],
+            'rpttitle' => ['string', 'max:2'],
+            'status' => ['min:0', 'max:1'],
+        ];
+
+        return $validationArray;
     }
 }

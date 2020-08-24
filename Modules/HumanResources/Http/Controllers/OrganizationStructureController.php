@@ -78,13 +78,8 @@ class OrganizationStructureController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()){
-            $request->validate([
-                'orglevel' => ['required', 'integer'],
-                'orgcode' => ['required', 'string', 'max:255', 'alpha_num', 'max:20', 'unique:organization_structures,orgcode'],
-                'orgparent' => ['string', 'max:255', 'alpha_num', 'max:20'],
-                'orgname' => ['required', 'string', 'max:100'],
-                'status' => ['min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray();
+            $validation = $request->validate($validationArray);
 
             $orgs = OrganizationStructure::create([
                 'uuid' => Str::uuid(),
@@ -133,13 +128,10 @@ class OrganizationStructureController extends Controller
     public function update(Request $request, OrganizationStructure $org_structure)
     {
         if ($request->ajax()){
-            $request->validate([
-//                'orglevel' => ['required', 'integer'],
-//                'orgcode' => ['required', 'string', 'max:255', 'alpha_num', 'max:20'],
-                'orgparent' => ['string', 'max:255', 'alpha_num', 'max:20'],
-                'orgname' => ['required', 'string', 'max:100'],
-                'status' => ['min:0', 'max:1'],
-            ]);
+            $validationArray = $this->getValidationArray($request);
+            unset($validationArray['orglevel']);
+            unset($validationArray['orgcode']);
+            $validation = $request->validate($validationArray);
 
             $orgs = OrganizationStructure::where('id', $org_structure->id)
                 ->update([
@@ -167,5 +159,18 @@ class OrganizationStructureController extends Controller
     public function destroy(OrganizationStructure $org_structure)
     {
         //
+    }
+
+    //Validation array default for this controller
+    public function getValidationArray($request = null){
+        $validationArray = [
+            'orglevel' => ['required', 'integer'],
+            'orgcode' => ['required', 'string', 'max:255', 'alpha_num', 'max:20', 'unique:organization_structures,orgcode'],
+            'orgparent' => ['string', 'max:255', 'alpha_num', 'max:20'],
+            'orgname' => ['required', 'string', 'max:100'],
+            'status' => ['min:0', 'max:1'],
+        ];
+
+        return $validationArray;
     }
 }
