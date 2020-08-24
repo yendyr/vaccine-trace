@@ -39,6 +39,20 @@
         <li class="{{ request()->is('hr/*') ? 'active' : '' }} nav-first-level" id="humanresources">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Human Resources</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
+                @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
+                    <li class="{{ (request()->is('hr/employee') || request()->is('hr/employee/*')) ? 'active' : '' }}">
+                        <a href="{{ route('hr.employee.index')}}">
+                            <div class="nav-second-table-group">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                                <span>
+                                Employee
+                            </span>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
                 @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)
                     <li class="{{ (request()->is('hr/org-structure') || request()->is('hr/org-structure/*')) ? 'active' : '' }}">
                         <a href="{{ route('hr.org-structure.index')}}">
@@ -81,20 +95,6 @@
                         </a>
                     </li>
                 @endcan
-                    @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
-                        <li class="{{ (request()->is('hr/employee') || request()->is('hr/employee/*')) ? 'active' : '' }}">
-                            <a href="{{ route('hr.employee.index')}}">
-                                <div class="nav-second-table-group">
-                                <span>
-                                    <i class="fa fa-plus"></i>
-                                </span>
-                                    <span>
-                                    Employee
-                                </span>
-                                </div>
-                            </a>
-                        </li>
-                    @endcan
             </ul>
         </li>
         <li class="{{ request()->is('gate/*') ? 'active' : '' }} nav-first-level" id="gate">
