@@ -85,7 +85,7 @@
 {{--                            <span class="validity"></span>--}}
                             <div class="invalid-feedback-rstimefinish text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fstatus">Status</label>
                             <select class="form-control m-b-sm" id="fstatus" name="status">
                                 <option value="1">Active</option>
