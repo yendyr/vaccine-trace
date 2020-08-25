@@ -140,6 +140,14 @@
                 },
                 dropdownParent: $('#employeeModal')
             });
+            $('.select2_recruitby').select2({
+                placeholder: 'choose here',
+                ajax: {
+                    url: "{{route('hr.employee.select2.recruitby')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#employeeModal')
+            });
 
             $('#create-employee').click(function () {
                 $('#saveBtn').val("create-workgroup");

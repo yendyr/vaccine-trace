@@ -150,9 +150,7 @@
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <label class="col-form-label" for="frecruitby">Recruit by</label>
-                            <select class="form-control m-b" id="frecruitby" name="recruitby">
-                                <option value="MMF">PT. MMF</option>
-                                <option value="RAHU">PT. RAHU</option>
+                            <select class="select2_recruitby form-control m-b-sm" id="frecruitby" name="recruitby">
                             </select>
                             <div class="invalid-feedback-recruitby text-danger"></div>
                         </div>

@@ -36,6 +36,7 @@ Route::name('hr.')->group(function () {
         Route::get('/employee/select2/title', 'EmployeeController@select2Title')->name('employee.select2.title');
         Route::get('/employee/select2/jobtitle', 'EmployeeController@select2Jobtitle')->name('employee.select2.jobtitle');
         Route::get('/employee/select2/orglvl', 'EmployeeController@select2Orglvl')->name('employee.select2.orglvl');
+        Route::get('/employee/select2/recruitby', 'EmployeeController@select2Recruitby')->name('employee.select2.recruitby');
         Route::resource('employee', 'EmployeeController');
 
         Route::get('/id-card/select2/empid', 'IdCardController@select2Empid')->name('id-card.select2.empid');

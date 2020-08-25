@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Gate\Entities\Company;
 use Modules\HumanResources\Entities\Employee;
+use Modules\HumanResources\Entities\HrLookup;
 use Modules\HumanResources\Entities\OrganizationStructure;
 use Modules\HumanResources\Entities\OrganizationStructureTitle;
 use Yajra\DataTables\Facades\DataTables;
@@ -223,6 +224,28 @@ class EmployeeController extends Controller
             "id"=>$query->orglevel,
             "text"=>$orglevels[$query->orglevel-1]
         ];
+
+        return response()->json($response);
+    }
+
+    public function select2Recruitby(Request $request)
+    {
+        $search = $request->q;
+        $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'employee')->where('lkey', 'recruitby')
+            ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('remark', 'like', '%' .$search. '%');
+        }
+        $results = $query->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->maingrp,
+                "text"=>$result->remark
+            ];
+        };
 
         return response()->json($response);
     }
