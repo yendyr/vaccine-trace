@@ -5,6 +5,8 @@
                 serverSide: true,
                 paging: false,
                 info: false,
+                scrollY: 400,
+                scrollCollapse: true,
                 ajax: {
                     url: "{{ route('gate.role-menu.index')}}",
                 },
@@ -43,6 +45,8 @@
                     serverSide: true,
                     paging: false,
                     info: false,
+                    scrollY: 400,
+                    scrollCollapse: true,
                     ajax: {
                         url: "/gate/role-menu/datatable/" + roleID,
                     },
