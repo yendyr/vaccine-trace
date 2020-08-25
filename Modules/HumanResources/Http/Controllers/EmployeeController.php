@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Gate\Entities\Company;
@@ -270,28 +269,12 @@ class EmployeeController extends Controller
             $validationArray = $this->getValidationArray($request);
             $validation = $request->validate($validationArray);
 
-            //Proses upload file photo
-            if ($request->hasFile('photo')) {
-                $data = $request->file('photo');
-                $extension = $data->getClientOriginalExtension();
-                $filename = 'employee_' . $request->empid . '.' . $extension;
-                $path = public_path('uploads/employee/photos/');
-                $employeeImage = public_path("uploads/employee/photos/{$filename}"); // get previous image from folder
-                if (File::exists($employeeImage)) { // unlink or remove previous image from folder
-                    unlink($employeeImage);
-                }
-                //save image to project directory
-                $data->move($path, $filename);
-            } else{ //null filename if request->file('photo') null
-                $filename = null;
-            }
-
             $dml = Employee::create([
                 'uuid' => Str::uuid(),
                 'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,
-                'photo' => $request->photo,
+                //photo
                 'pob' => $request->pob,
                 'dob' => $request->dob,
                 'gender' => $request->gender,
@@ -322,7 +305,6 @@ class EmployeeController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'created_by' => $request->user()->id,
             ]);
-
             if ($dml){
                 return response()->json(['success' => 'a new Employee added successfully.']);
             }
@@ -364,28 +346,12 @@ class EmployeeController extends Controller
             unset($validationArray['empid']);
             $validation = $request->validate($validationArray);
 
-            if ($request->hasFile('photo')) {
-                //Proses upload file photo
-                $data = $request->file('photo');
-                $extension = $data->getClientOriginalExtension();
-                $filename = 'employee_' . $request->empid . '.' . $extension;
-                $path = public_path('uploads/employee/photos/');
-                $employeeImage = public_path("uploads/employee/photos/{$filename}"); // get previous image from folder
-                if (File::exists($employeeImage)) { // unlink or remove previous image from folder
-                    unlink($employeeImage);
-                }
-                //save image to project directory
-                $data->move($path, $filename);
-            } else{ //null filename if request->file('photo') null
-                $filename = null;
-            }
-
             $dml = Employee::where('id', $employee->id)
                 ->update([
 //                'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,
-                'photo' => $filename,
+                //photo
                 'pob' => $request->pob,
                 'dob' => $request->dob,
                 'gender' => $request->gender,
@@ -416,7 +382,6 @@ class EmployeeController extends Controller
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
-
             if ($dml){
                 return response()->json(['success' => 'an Employee updated successfully.']);
             }
