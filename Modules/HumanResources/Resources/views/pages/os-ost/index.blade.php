@@ -54,14 +54,18 @@
                             </div>
                             <div class="ibox-footer" id="ibox-os">
                                 <div id="form_result" role="alert"></div>
-                                <div class="col-md-2 p-2 row">
-                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructure::class)
+                                <div class="row pb-2">
+                                    <div class="col-4">
                                         <div class="m-1">
-                                            <button type="button" id="createOS" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                            <button type="button" onclick="reloadOs()" class="btn btn-secondary"><strong><i class="fa fa-repeat"></i></strong></button>
                                         </div>
-                                    @endcan
-                                    <div class="m-1">
-                                        <button type="button" onclick="reloadOs()" class="btn btn-block btn-secondary"><strong><i class="fa fa-repeat"></i></strong></button>
+                                    </div>
+                                    <div class="col-8 text-right" style="font-size:14px;">
+                                        @can('create', \Modules\HumanResources\Entities\OrganizationStructure::class)
+                                            <div class="m-1">
+                                                <button type="button" id="createOS" class="btn btn-primary"><strong><i class="fa fa-plus-circle"></i>&nbsp;Header Structure</strong></button>
+                                            </div>
+                                        @endcan
                                     </div>
                                 </div>
                                 <div id="container">
@@ -83,9 +87,9 @@
                             </div>
                             <div class="ibox-footer" id="ibox-ost">
                                 <div id="form_result" role="alert"></div>
-                                <div class="col-md-1 m-2 p-2 row">
+                                <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
                                     @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
-                                        <button type="button" id="createOST" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                        <button type="button" id="createOST" class="btn btn-primary"><strong><i class="fa fa-plus-circle"></i>&nbsp;Title Structure</strong></button>
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
