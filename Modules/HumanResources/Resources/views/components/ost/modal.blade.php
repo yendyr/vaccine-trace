@@ -32,13 +32,8 @@
                     </div>
 
                     <div class="row">
-<<<<<<< HEAD
-                        <div class="form-group col-sm-8">
-                            <label class="col-form-label mr-2">Job Title</label>
-=======
                         <div class="form-group col-sm-6">
                             <label>Job Title</label>
->>>>>>> 6eace68ffb37426eae970bb549afa01985e595d2
                             <input type="text" class="form-control" id="fjobtitle" name="jobtitle">
                             <div class="invalid-feedback-jobtitle text-danger"></div>
                         </div>
@@ -59,13 +54,8 @@
                             <div class="invalid-feedback-rptorg text-danger"></div>
                         </div>
                         <div class="form-group col-sm-6">
-<<<<<<< HEAD
-                            <label class="col-form-label mr-2">Report Title</label>
-                            <select class="select2_rpttitle form-control m-b " id="frpttitle" name="rpttitle"></select>
-=======
                             <label>Report Title</label>
                             <select class="select2_rpttitle form-control" id="frpttitle" name="rpttitle"></select>
->>>>>>> 6eace68ffb37426eae970bb549afa01985e595d2
                             <div class="invalid-feedback-rpttitle text-danger"></div>
                         </div>
                     </div>
