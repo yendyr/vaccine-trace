@@ -124,6 +124,12 @@
                 }
             });
 
+            //jika telah dipilih gambar filenya
+            $('#fphoto').on('change', function() {
+                let fileName = $(this).val().split('\\').pop();
+                $(this).siblings('.custom-file-label').addClass("selected").html(fileName);
+            });
+
             $('.select2_workgroup').select2({
                 placeholder: 'choose workgroup',
                 ajax: {
@@ -159,6 +165,7 @@
                 $('#frecruitby').val(null).trigger('change');
                 $('#fworkgrp').val(null).trigger('change');
                 $('#forgcode').val(null).trigger('change');
+                $('#fphoto').siblings('.custom-file-label').removeClass("selected").html('choose photo');
                 $("#employeeForm").find('#fempid').attr('readonly', false);
                 $('#employeeModal').modal('show');
                 $('#employeeForm').attr('action', '/hr/employee');
@@ -185,7 +192,10 @@
                 let photoVal = data.photo;
                 console.log(photoVal);
                 if (photoVal != null){
+                    $('#fphoto').siblings('.custom-file-label').removeClass("selected")
                     $('#fphoto').siblings('.custom-file-label').html('photo existed');
+                } else {
+                    $('#fphoto').siblings('.custom-file-label').html('choose photo');
                 }
                 $('#ffullname').val(data.fullname);
                 $('#fnickname').val(data.nickname);
