@@ -13,7 +13,7 @@ class CreateWorkingGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('working_groups', function (Blueprint $table) {
+        Schema::create('hr_working_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('workgroup', 4)->unique();
@@ -41,6 +41,6 @@ class CreateWorkingGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('working_groups');
+        Schema::dropIfExists('hr_working_groups');
     }
 }

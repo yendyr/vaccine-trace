@@ -13,7 +13,7 @@ class CreateHolidaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('holidays', function (Blueprint $table) {
+        Schema::create('hr_holidays', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->integer('holidayyear')->comment('Tahun libur');
@@ -36,6 +36,6 @@ class CreateHolidaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('holidays');
+        Schema::dropIfExists('hr_holidays');
     }
 }

@@ -13,6 +13,8 @@ class Employee extends Model
         'orglvl', 'orgcode', 'title', 'jobtitle', 'jobgrp', 'costcode', 'remark', 'owned_by', 'status'
     ];
 
+    protected $table = 'hr_employees';
+
     public function organizationStructure()
     {
         return $this->belongsTo(OrganizationStructure::class, 'orgcode', 'orgcode');

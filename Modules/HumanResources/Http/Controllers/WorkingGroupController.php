@@ -201,7 +201,7 @@ class WorkingGroupController extends Controller
     //Validation array default for this controller
     public function getValidationArray($request = null){
         $validationArray = [
-            'workgroup' => ['required', 'string', 'max:4', 'alpha_num', 'unique:working_groups,workgroup'],
+            'workgroup' => ['required', 'string', 'max:4', 'alpha_num', 'unique:hr_working_groups,workgroup'],
             'workname' => ['nullable', 'string', 'max:50'],
             'shiftstatus' => ['required', 'string', 'size:1'],
             'shiftrolling' => ['required', 'numeric', 'digits_between:1,10'],

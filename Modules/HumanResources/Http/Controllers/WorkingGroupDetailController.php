@@ -316,7 +316,7 @@ class WorkingGroupDetailController extends Controller
         $validationArray = [
             'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
             'daycode' => ['required', 'string', 'size:2',
-                Rule::unique('working_group_details')->where(function ($query) use($request) {
+                Rule::unique('hr_working_group_details')->where(function ($query) use($request) {
                     return $query->where('daycode', $request->daycode)
                         ->where('shiftno', $request->shiftno);
                 })

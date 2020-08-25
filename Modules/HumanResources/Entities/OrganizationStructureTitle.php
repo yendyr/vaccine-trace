@@ -10,7 +10,7 @@ class OrganizationStructureTitle extends Model
         'uuid', 'orgcode', 'titlecode', 'jobtitle', 'rptorg', 'rpttitle', 'status', 'created_by'
     ];
 
-    protected $table = 'organization_structure_titles';
+    protected $table = 'hr_organization_structure_titles';
 
     public function organizationStructure()
     {

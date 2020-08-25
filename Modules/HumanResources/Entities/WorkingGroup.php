@@ -10,4 +10,6 @@ class WorkingGroup extends Model
         'uuid', 'workgroup', 'workname', 'shiftstatus', 'shiftrolling',
         'rangerolling', 'roundtime', 'workfinger', 'restfinger', 'remark', 'owned_by', 'status'
     ];
+
+    protected $table = 'hr_working_groups';
 }

@@ -240,7 +240,7 @@ class OrganizationStructureTitleController extends Controller
             $validationArray = $this->getValidationArray($request);
             unset($validationArray['orgcode']);
             $validationArray['jobtitle'] = ['required', 'string', 'max:20',
-                Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
+                Rule::unique('hr_organization_structure_titles')->where(function ($query) use($request) {
                     return $query->where('jobtitle', $request->jobtitle)
                         ->where('titlecode', $request->titlecode);
                 })->ignore($org_structure_title->id)
@@ -284,7 +284,7 @@ class OrganizationStructureTitleController extends Controller
             'orgcode' => ['required', 'string', 'max:255', 'alpha_dash'],
             'titlecode' => ['required', 'string', 'max:2'],
             'jobtitle' => ['required', 'string', 'max:20',
-                Rule::unique('organization_structure_titles')->where(function ($query) use($request) {
+                Rule::unique('hr_organization_structure_titles')->where(function ($query) use($request) {
                     return $query->where('jobtitle', $request->jobtitle)
                         ->where('orgcode', $request->orgcode)
                         ->where('titlecode', $request->titlecode);

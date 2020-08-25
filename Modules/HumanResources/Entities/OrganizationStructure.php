@@ -10,7 +10,7 @@ class OrganizationStructure extends Model
         'uuid', 'orglevel', 'orgparent', 'orgcode', 'orgname', 'owned_by', 'status'
     ];
 
-    protected $table = 'organization_structures';
+    protected $table = 'hr_organization_structures';
 
     /**
      * Get the comments for the blog post.

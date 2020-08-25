@@ -276,7 +276,7 @@ class HolidayController extends Controller
             'holidayyear' => ['required', 'numeric', 'in:' . intval($yearOfDate)],
             'holidaydate' => ['required', 'date'],
             'holidaycode' => ['required', 'string', 'size:2',
-                Rule::unique('holidays')->where(function ($query) use($request) {
+                Rule::unique('hr_holidays')->where(function ($query) use($request) {
                     return $query->where('holidaycode', $request->holidaycode)
                         ->where('holidaydate', $request->holidaydate)
                         ->where('holidayyear', $request->holidayyear);

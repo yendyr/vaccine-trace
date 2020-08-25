@@ -155,7 +155,7 @@ class IdCardController extends Controller
         if ($request->ajax()){
             $validationArray = $this->getValidationArray($request);
             $validationArray['idcardno'] = ['required', 'string', 'max:20',
-                Rule::unique('id_cards')->where(function ($query) use ($request, $id_card) {
+                Rule::unique('hr_id_cards')->where(function ($query) use ($request, $id_card) {
                     return $query->where('idcardtype', $request->idcardtype)
                         ->where('idcardno', $request->idcardno);
                 })->ignore($id_card->id)
@@ -199,7 +199,7 @@ class IdCardController extends Controller
             'empid' => ['required', 'string', 'max:20'],
             'idcardtype' => ['required', 'string', 'max:2'],
             'idcardno' => ['required', 'string', 'max:20',
-                Rule::unique('id_cards')->where(function ($query) use($request) {
+                Rule::unique('hr_id_cards')->where(function ($query) use($request) {
                     return $query->where('empid', $request->empid)
                         ->where('idcardtype', $request->idcardtype)
                         ->where('idcardno', $request->idcardno);

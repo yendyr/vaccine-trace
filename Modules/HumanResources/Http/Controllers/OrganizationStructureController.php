@@ -165,7 +165,7 @@ class OrganizationStructureController extends Controller
     public function getValidationArray($request = null){
         $validationArray = [
             'orglevel' => ['required', 'integer'],
-            'orgcode' => ['required', 'string', 'max:255', 'alpha_num', 'max:20', 'unique:organization_structures,orgcode'],
+            'orgcode' => ['required', 'string', 'max:255', 'alpha_num', 'max:20', 'unique:hr_organization_structures,orgcode'],
             'orgparent' => ['string', 'max:255', 'alpha_num', 'max:20'],
             'orgname' => ['required', 'string', 'max:100'],
             'status' => ['min:0', 'max:1'],

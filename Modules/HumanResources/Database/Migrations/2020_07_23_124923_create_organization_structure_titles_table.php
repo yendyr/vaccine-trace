@@ -13,7 +13,7 @@ class CreateOrganizationStructureTitlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('organization_structure_titles', function (Blueprint $table) {
+        Schema::create('hr_organization_structure_titles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('orgcode', 20);
@@ -37,6 +37,6 @@ class CreateOrganizationStructureTitlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organization_structure_titles');
+        Schema::dropIfExists('hr_organization_structure_titles');
     }
 }

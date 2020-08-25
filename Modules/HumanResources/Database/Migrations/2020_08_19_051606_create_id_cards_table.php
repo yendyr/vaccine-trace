@@ -13,7 +13,7 @@ class CreateIdCardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('id_cards', function (Blueprint $table) {
+        Schema::create('hr_id_cards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('empid', 20)->comment('Nomor NIK karyawan');
@@ -36,6 +36,6 @@ class CreateIdCardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('id_cards');
+        Schema::dropIfExists('hr_id_cards');
     }
 }
