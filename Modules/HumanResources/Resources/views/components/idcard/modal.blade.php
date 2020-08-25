@@ -13,12 +13,12 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-6">
                             <label class="col-form-label" for="fempid">Employee ID</label>
                             <select class="select2_empid form-control m-b-sm" id="fempid" name="empid"></select>
                             <div class="invalid-feedback-empid text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-6">
                             <label class="col-form-label" for="fidcardtype">ID Card type</label>
                             <select class="form-control m-b " id="fidcardtype" name="idcardtype">
                                 <option value="1">KTP</option>
@@ -36,19 +36,6 @@
                             <input type="text" class="form-control" id="fidcardno" name="idcardno">
                             <div class="invalid-feedback-idcardno text-danger"></div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fidcarddate">ID Card date</label>
-                            <input type="date" class="form-control" id="fidcarddate" name="idcarddate">
-                            <div class="invalid-feedback-idcarddate text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fidcardexpdate">ID Card exp date</label>
-                            <input type="date" class="form-control" id="fidcardexpdate" name="idcardexpdate">
-                            <div class="invalid-feedback-idcardexpdate text-danger"></div>
-                        </div>
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fstatus">Status</label>
                             <select class="form-control m-b " id="fstatus" name="status">
@@ -56,6 +43,19 @@
                                 <option value="0">Inactive</option>
                             </select>
                             <div class="invalid-feedback-status text-danger"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="col-form-label" for="fidcarddate">ID Card date</label>
+                            <input type="date" class="form-control" id="fidcarddate" name="idcarddate">
+                            <div class="invalid-feedback-idcarddate text-danger"></div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="col-form-label" for="fidcardexpdate">ID Card exp date</label>
+                            <input type="date" class="form-control" id="fidcardexpdate" name="idcardexpdate">
+                            <div class="invalid-feedback-idcardexpdate text-danger"></div>
                         </div>
                     </div>
                 </div>
