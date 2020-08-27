@@ -72,9 +72,13 @@
             }
         }
 
+        function getOrgLevels() {
+            let orglevels = ['Direksi', 'General', 'Divisi', 'Bagian', 'Seksi', 'Regu', 'Group'];
+            return orglevels;
+        }
         function osGetLevel(field, data, column){
-            $levels = ['Direksi', 'General', 'Divisi', 'Bagian', 'Seksi', 'Regu', 'Group'];
-            return $levels[(data.orglevel-1)];
+            let levels = getOrgLevels();
+            return levels[(data.orglevel-1)];
         }
 
         function onUpdate(args){
@@ -86,9 +90,10 @@
             $('#saveBtn').val("edit-os");
             $('#osForm').attr('action', '/hr/org-structure/' + dataRow[rowIndex]['id']);
 
+            let levels = getOrgLevels();
+            let orgLevel = dataRow[rowIndex]['orglevel'];
+            $('#forglevel').append('<option value="' + orgLevel + '" selected>' + levels[orgLevel-1] + '</option>')
             $('#forglevel').attr('disabled', true);
-            $('#forglevel').find('option').removeAttr('selected');
-            $('#forglevel').find('option[value="' + dataRow[rowIndex]['orglevel'] + '"]').attr('selected', '');
 
             $('#forgname').val(dataRow[rowIndex]['orgname']);
 
@@ -117,6 +122,14 @@
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.org-structure.select2.orgcode')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#osForm')
+            });
+            $('.select2_orglevel').select2({
+                placeholder: 'choose here',
+                ajax: {
+                    url: "{{route('hr.org-structure.select2.orglevel')}}",
                     dataType: 'json',
                 },
                 dropdownParent: $('#osForm')

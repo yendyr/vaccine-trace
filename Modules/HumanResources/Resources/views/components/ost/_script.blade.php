@@ -14,7 +14,7 @@
                 dataType: "json",
             },
             columns: [
-                { data: 'titlecode.title', name: 'titlecode' },
+                { data: 'titlecode.title', name: 'titlecode.title' },
                 { data: 'jobtitle', name: 'jobtitle' },
                 { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },
@@ -59,6 +59,14 @@
                 },
                 dropdownParent: $('#ostModal')
             });
+            $('.select2_titlecode').select2({
+                placeholder: 'choose here',
+                ajax: {
+                    url: "{{route('hr.org-structure-title.select2.titlecode')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#ostModal')
+            });
 
             $('#createOST').click(function () {
                 $('#saveBtn').val("create-os");
@@ -66,9 +74,11 @@
                 $("#ostModal").find('#modalTitle').html("Add New Organization Structure title data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $(".select2_orgcode").val(null).trigger('change');
+                $(".select2_titlecode").val(null).trigger('change');
                 $(".select2_rptorg").select2("val", "none");
                 $(".select2_rpttitle").select2("val", "none");
                 $('#forgcode').attr('disabled', false);
+                $('#fjobtitle').attr('readonly', false);
 
                 $('#ostModal').modal('show');
                 $("input[value='patch']").remove();
@@ -91,8 +101,9 @@
                 $('#forgcode').attr('disabled', true);
                 $('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');
 
-                $('#ftitlecode').find('option').removeAttr('selected');
-                $('#ftitlecode').find('option[value="' + data.titlecode.value + '"]').attr('selected', '');
+                $('#ftitlecode').append('<option value="' + data.titlecode.value + '" selected>' + data.titlecode.title + '</option>');
+
+                $('#fjobtitle').attr('readonly', true);
                 $('#fjobtitle').val(data.jobtitle);
 
                 $(".select2_rptorg").select2("val", "none");

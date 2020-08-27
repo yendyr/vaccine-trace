@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Gate\Entities\User;
+use Modules\HumanResources\Entities\HrLookup;
 use Modules\HumanResources\Entities\OrganizationStructure;
 use Modules\HumanResources\Entities\OrganizationStructureTitle;
 use Yajra\DataTables\Facades\DataTables;
@@ -107,10 +108,8 @@ class OrganizationStructureTitleController extends Controller
                 "text"=>($result->orgcode .' - '. $result->orgname)
             ];
         };
-
         return response()->json($response);
     }
-
     public function select2Rptorg(Request $request)
     {
         $queryOst = OrganizationStructureTitle::distinct()->get(['orgcode']);
@@ -138,10 +137,8 @@ class OrganizationStructureTitleController extends Controller
                 ];
             }
         };
-
         return response()->json($response);
     }
-
     public function select2Title(Request $request)
     {
         $search = $request->q;
@@ -165,7 +162,26 @@ class OrganizationStructureTitleController extends Controller
                 "text"=>($titles[$result->titlecode-1])
             ];
         };
+        return response()->json($response);
+    }
+    public function select2Titlecode(Request $request)
+    {
+        $search = $request->q;
+        $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'org-structure-title')->where('lkey', 'titlecode')
+            ->where('status', 1);
 
+        if($search != ''){
+            $query = $query->where('remark', 'like', '%' .$search. '%');
+        }
+        $results = $query->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->maingrp,
+                "text"=>$result->remark
+            ];
+        };
         return response()->json($response);
     }
 

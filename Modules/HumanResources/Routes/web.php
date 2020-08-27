@@ -13,9 +13,11 @@
 Route::name('hr.')->group(function () {
     Route::prefix('hr')->group(function() {
         Route::get('/org-structure/select2/orgcode', 'OrganizationStructureController@select2Orgcode')->name('org-structure.select2.orgcode');
+        Route::get('/org-structure/select2/orglevel', 'OrganizationStructureController@select2Orglevel')->name('org-structure.select2.orglevel');
         Route::get('/org-structure/json', 'OrganizationStructureController@dataJson')->name('org-structure.json');
         Route::resource('/org-structure', 'OrganizationStructureController');
 
+        Route::get('/org-structure-title/select2/titlecode', 'OrganizationStructureTitleController@select2Titlecode')->name('org-structure-title.select2.titlecode');
         Route::get('/org-structure-title/select2/orgcode', 'OrganizationStructureTitleController@select2Orgcode')->name('org-structure-title.select2.orgcode');
         Route::get('/org-structure-title/select2/rptorg', 'OrganizationStructureTitleController@select2Rptorg')->name('org-structure-title.select2.rptorg');
         Route::get('/org-structure-title/select2/title', 'OrganizationStructureTitleController@select2Title')->name('org-structure-title.select2.title');

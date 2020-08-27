@@ -15,13 +15,6 @@
                         <div class="form-group col-sm-6">
                             <label>Org. Structure Level</label>
                             <select class="select2_orglevel form-control"  id="forglevel" name="orglevel">
-                                <option value="1">Direksi</option>
-                                <option value="2">General</option>
-                                <option value="3">Divisi</option>
-                                <option value="4">Bagian</option>
-                                <option value="5">Seksi</option>
-                                <option value="6">Regu</option>
-                                <option value="7">Group</option>
                             </select>
                             <div class="invalid-feedback-orglevel text-danger"></div>
                         </div>

@@ -95,5 +95,39 @@ class HrLookupsTableSeeder extends Seeder
                 'uuid' => Str::uuid(),
             ]);
         }
+
+        $orglevels = ['Direksi', 'General', 'Divisi', 'Bagian', 'Seksi', 'Regu', 'Grup'];
+        foreach ($orglevels as $i => $orglevel) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'org-structure',
+                'lkey' => 'orglevel',
+                'maingrp' => ($i+1),
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $orglevel,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
+
+        $titlecodes = ['Kepala', 'Wakil Kepala', 'Anggota', 'Staff', 'Operator'];
+        foreach ($titlecodes as $i => $titlecode) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'org-structure-title',
+                'lkey' => 'titlecode',
+                'maingrp' => ($i+1),
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $titlecode,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
     }
 }

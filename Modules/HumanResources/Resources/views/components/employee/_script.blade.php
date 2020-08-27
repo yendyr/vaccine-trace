@@ -189,6 +189,10 @@
                 $('#frecruitby').val(null).trigger('change');
                 $('#fworkgrp').val(null).trigger('change');
                 $('#forgcode').val(null).trigger('change');
+                $('#frecruitby').val(null).trigger('change');
+                $('#freligion').val(null).trigger('change');
+                $('#fbloodtype').val(null).trigger('change');
+                $('#fmaritalstatus').val(null).trigger('change');
                 $('#fphoto').siblings('.custom-file-label').removeClass("selected").html('choose photo');
                 $("#employeeForm").find('#fempid').attr('readonly', false);
 

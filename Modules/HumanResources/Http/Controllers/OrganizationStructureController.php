@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Modules\HumanResources\Entities\HrLookup;
 use Modules\HumanResources\Entities\OrganizationStructure;
 
 class OrganizationStructureController extends Controller
@@ -55,6 +56,27 @@ class OrganizationStructureController extends Controller
             $response['results'][] = [
                 "id"=>$result->orgcode,
                 "text"=>($result->orgcode .' - '. $result->orgname)
+            ];
+        };
+
+        return response()->json($response);
+    }
+    public function select2Orglevel(Request $request)
+    {
+        $search = $request->q;
+        $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'org-structure')->where('lkey', 'orglevel')
+            ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('remark', 'like', '%' .$search. '%');
+        }
+        $results = $query->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->maingrp,
+                "text"=>$result->remark
             ];
         };
 

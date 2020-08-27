@@ -19,13 +19,7 @@
                         </div>
                         <div class="form-group col-sm-6">
                             <label>Title Code</label>
-                            <select class="form-control" id="ftitlecode" name="titlecode">
-                                <option disabled selected>-- choose --</option>
-                                <option value="1">Kepala</option>
-                                <option value="2">Wakil Kepala</option>
-                                <option value="3">Anggota</option>
-                                <option value="4">Staff</option>
-                                <option value="5">Operator</option>
+                            <select class="select2_titlecode form-control" id="ftitlecode" name="titlecode">
                             </select>
                             <div class="invalid-feedback-titlecode text-danger"></div>
                         </div>
