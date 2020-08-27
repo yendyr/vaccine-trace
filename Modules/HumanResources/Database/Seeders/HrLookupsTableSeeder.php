@@ -44,5 +44,56 @@ class HrLookupsTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+
+        $religions = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu', 'Lainnya'];
+        foreach ($religions as $religion) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'employee',
+                'lkey' => 'religion',
+                'maingrp' => $religion,
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $religion,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
+
+        $maritalstatuses = ['Menikah', 'Lajang', 'Duda', 'Janda'];
+        foreach ($maritalstatuses as $maritalstatus) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'employee',
+                'lkey' => 'maritalstatus',
+                'maingrp' => $maritalstatus[0],
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $maritalstatus,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
+
+        $bloodtypes = ['O', 'A', 'B', 'AB'];
+        foreach ($bloodtypes as $bloodtype) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'employee',
+                'lkey' => 'bloodtype',
+                'maingrp' => $bloodtype,
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $bloodtype,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
     }
 }

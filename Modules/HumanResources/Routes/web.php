@@ -37,6 +37,9 @@ Route::name('hr.')->group(function () {
         Route::get('/employee/select2/jobtitle', 'EmployeeController@select2Jobtitle')->name('employee.select2.jobtitle');
         Route::get('/employee/select2/orglvl', 'EmployeeController@select2Orglvl')->name('employee.select2.orglvl');
         Route::get('/employee/select2/recruitby', 'EmployeeController@select2Recruitby')->name('employee.select2.recruitby');
+        Route::get('/employee/select2/maritalstatus', 'EmployeeController@select2Maritalstatus')->name('employee.select2.maritalstatus');
+        Route::get('/employee/select2/bloodtype', 'EmployeeController@select2Bloodtype')->name('employee.select2.bloodtype');
+        Route::get('/employee/select2/religion', 'EmployeeController@select2Religion')->name('employee.select2.religion');
         Route::resource('employee', 'EmployeeController');
 
         Route::get('/id-card/select2/empid', 'IdCardController@select2Empid')->name('id-card.select2.empid');

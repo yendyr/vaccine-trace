@@ -41,7 +41,7 @@
                 { data: 'cessdate', name: 'cessdate', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'probation.content', name: 'probation.content', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'cesscode.content', name: 'cesscode.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'recruitby', name: 'recruitby', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'recruitby.content', name: 'recruitby.content', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'emptype.content', name: 'emptype.content', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'workgrp', name: 'workgrp', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'site', name: 'site', defaultContent: "<p class='text-muted'>none</p>" },
@@ -154,6 +154,30 @@
                 },
                 dropdownParent: $('#employeeModal')
             });
+            $('.select2_religion').select2({
+                placeholder: 'choose here',
+                ajax: {
+                    url: "{{route('hr.employee.select2.religion')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#employeeModal')
+            });
+            $('.select2_maritalstatus').select2({
+                placeholder: 'choose here',
+                ajax: {
+                    url: "{{route('hr.employee.select2.maritalstatus')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#employeeModal')
+            });
+            $('.select2_bloodtype').select2({
+                placeholder: 'choose here',
+                ajax: {
+                    url: "{{route('hr.employee.select2.bloodtype')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#employeeModal')
+            });
 
             $('#create-employee').click(function () {
                 $('#saveBtn').val("create-workgroup");
@@ -183,15 +207,14 @@
                     value: 'patch'
                 }).prependTo('#employeeForm');
 
-                $("#employeeForm").find('#fempid').attr('disabled', true);
+                $("#employeeForm").find('#fempid').attr('readonly', true);
                 $("#employeeForm").find('#fempid').val(data.empid);
+
                 let photoVal = data.photo;
-                console.log(photoVal);
                 if (photoVal != null){
-                    $('#fphoto').siblings('.custom-file-label').removeClass("selected")
-                    $('#fphoto').siblings('.custom-file-label').html('photo existed');
+                    $('#fphoto').siblings('.custom-file-label').removeClass("selected").html('photo existed');
                 } else {
-                    $('#fphoto').siblings('.custom-file-label').html('choose photo');
+                    $('#fphoto').siblings('.custom-file-label').removeClass("selected").html('choose photo');
                 }
                 $('#ffullname').val(data.fullname);
                 $('#fnickname').val(data.nickname);
@@ -199,23 +222,19 @@
                 $('#fdob').val(data.dob);
                 $('#fgender').find('option').removeAttr('selected');
                 $('#fgender').find('option[value="' + data.gender.value + '"]').attr('selected', '');
-                $('#freligion').find('option').removeAttr('selected');
-                $('#freligion').find('option[value="' + data.religion.value + '"]').attr('selected', '');
+                $('#freligion').append('<option value="' + data.religion + '" selected>' + data.religion + '</option>');
                 $('#fmobile01').val(data.phone.mobile01);
                 $('#fmobile02').val(data.phone.mobile02);
                 $('#femail').val(data.email);
-                $('#fbloodtype').find('option').removeAttr('selected');
-                $('#fbloodtype').find('option[value="' + data.bloodtype.value + '"]').attr('selected', '');
-                $('#fmaritalstatus').find('option').removeAttr('selected');
-                $('#fmaritalstatus').find('option[value="' + data.maritalstatus.value + '"]').attr('selected', '');
+                $('#fbloodtype').append('<option value="' + data.bloodtype + '" selected>' + data.bloodtype + '</option>');
+                $('#fmaritalstatus').append('<option value="' + data.maritalstatus.value + '" selected>' + data.maritalstatus.content + '</option>');
                 $('#fempdate').val(data.empdate);
                 $('#fcessdate').val(data.cessdate);
                 $('#fprobation').find('option').removeAttr('selected');
                 $('#fprobation').find('option[value="' + data.probation.value + '"]').attr('selected', '');
                 $('#fcesscode').find('option').removeAttr('selected');
                 $('#fcesscode').find('option[value="' + data.cesscode.value + '"]').attr('selected', '');
-                $('#frecruitby').find('option').removeAttr('selected');
-                $('#frecruitby').find('option[value="' + data.recruitby.value + '"]').attr('selected', '');
+                $('#frecruitby').append('<option value="' + data.recruitby.value + '" selected>' + data.recruitby.content + '</option>');
                 $('#femptype').find('option').removeAttr('selected');
                 $('#femptype').find('option[value="' + data.emptype.value + '"]').attr('selected', '');
                 $('#fworkgrp').append('<option value="' + data.workgrp + '" selected>' + data.workgrp + '</option>');
@@ -255,7 +274,10 @@
                     },
                     url: url_action,
                     method: "POST",
-                    data: $(this).serialize(),
+                    data: new FormData(this),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     dataType: 'json',
                     beforeSend:function(){
                         let l = $( '.ladda-button-submit' ).ladda();

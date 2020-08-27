@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="employeeModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle"></h5>
@@ -62,14 +62,7 @@
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <label class="col-form-label" for="freligion">Religion</label>
-                            <select class="form-control m-b " id="freligion" name="religion">
-                                <option value="Islam">Islam</option>
-                                <option value="Kristen">Kristen</option>
-                                <option value="Katolik">Katolik</option>
-                                <option value="Hindu">Hindu</option>
-                                <option value="Buddha">Buddha</option>
-                                <option value="Konghucu">Konghucu</option>
-                                <option value="Lainnya">Lainnya</option>
+                            <select class="select2_religion form-control m-b-sm" id="freligion" name="religion">
                             </select>
                             <div class="invalid-feedback-religion text-danger"></div>
                         </div>
@@ -97,21 +90,13 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <label class="col-form-label" for="fbloodtype">Blood Type</label>
-                            <select class="form-control m-b " id="fbloodtype" name="bloodtype">
-                                <option value="A">A</option>
-                                <option value="O">O</option>
-                                <option value="B">B</option>
-                                <option value="AB">AB</option>
+                            <select class="select2_bloodtype form-control m-b-sm" id="fbloodtype" name="bloodtype">
                             </select>
                             <div class="invalid-feedback-bloodtype text-danger"></div>
                         </div>
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fmaritalstatus">Marital Status</label>
-                            <select class="form-control m-b " id="fmaritalstatus" name="maritalstatus">
-                                <option value="M">Menikah</option>
-                                <option value="L">Lajang</option>
-                                <option value="J">Janda</option>
-                                <option value="D">Duda</option>
+                            <select class="select2_maritalstatus form-control m-b-sm" id="fmaritalstatus" name="maritalstatus">
                             </select>
                             <div class="invalid-feedback-maritalstatus text-danger"></div>
                         </div>

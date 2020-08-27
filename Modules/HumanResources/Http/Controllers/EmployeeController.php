@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Gate\Entities\Company;
@@ -51,15 +52,9 @@ class EmployeeController extends Controller
                     return $phones;
                 })
                 ->addColumn('maritalstatus', function($row){
-                    if ($row->maritalstatus == 'M'){
-                        $maritalstatus['content'] = 'Menikah';
-                    } elseif ($row->maritalstatus == 'L'){
-                        $maritalstatus['content'] = 'Lajang';
-                    } elseif ($row->maritalstatus == 'J'){
-                        $maritalstatus['content'] = 'Janda';
-                    } elseif ($row->maritalstatus == 'D'){
-                        $maritalstatus['content'] = 'Duda';
-                    }
+                    $content = HrLookup::where('lkey', 'maritalstatus')->where('maingrp', 'D')
+                        ->where('status', 1)->first();
+                    $maritalstatus['content'] = $content->remark;
                     $maritalstatus['value'] = $row->maritalstatus;
                     return $maritalstatus;
                 })
@@ -79,12 +74,13 @@ class EmployeeController extends Controller
                     $cesscode['content'] = ($row->cesscode . ' - ' . $cesscodes[($indexCode-1)]);
                     return $cesscode;
                 })
-//                ->addColumn('recruitby', function($row){
-//                    $recruitby['value'] = $row->recruitby;
-//                    $companyName = Company::select('company_name')->where('code', $row->recruitby)->first()->company_name;
-//                    $recruitby['content'] = ($row->recruitby . ' - ' . $companyName);
-//                    return $recruitby;
-//                })
+                ->addColumn('recruitby', function($row){
+                    $recruitby['value'] = $row->recruitby;
+                    $content = HrLookup::where('lkey', 'recruitby')->where('maingrp', $row->recruitby)
+                        ->where('status', 1)->first();
+                    $recruitby['content'] = $content->remark;
+                    return $recruitby;
+                })
                 ->addColumn('emptype', function($row){
                     $emptypes = ['Permanent', 'Temporary'];
                     $indexType = sprintf("%01d", $row->emptype);
@@ -248,6 +244,69 @@ class EmployeeController extends Controller
 
         return response()->json($response);
     }
+    public function select2Maritalstatus(Request $request)
+    {
+        $search = $request->q;
+        $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'employee')->where('lkey', 'maritalstatus')
+            ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('remark', 'like', '%' .$search. '%');
+        }
+        $results = $query->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->maingrp,
+                "text"=>$result->remark
+            ];
+        };
+
+        return response()->json($response);
+    }
+    public function select2Bloodtype(Request $request)
+    {
+        $search = $request->q;
+        $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'employee')->where('lkey', 'bloodtype')
+            ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('remark', 'like', '%' .$search. '%');
+        }
+        $results = $query->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->maingrp,
+                "text"=>$result->remark
+            ];
+        };
+
+        return response()->json($response);
+    }
+    public function select2Religion(Request $request)
+    {
+        $search = $request->q;
+        $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'employee')->where('lkey', 'religion')
+            ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('remark', 'like', '%' .$search. '%');
+        }
+        $results = $query->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->maingrp,
+                "text"=>$result->remark
+            ];
+        };
+
+        return response()->json($response);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -269,12 +328,28 @@ class EmployeeController extends Controller
             $validationArray = $this->getValidationArray($request);
             $validation = $request->validate($validationArray);
 
+            //Proses upload file photo
+            if ($request->hasFile('photo')) {
+                $data = $request->file('photo');
+                $extension = $data->getClientOriginalExtension();
+                $filename = 'employee_' . $request->empid . '.' . $extension;
+                $path = public_path('uploads/employee/photos/');
+                $employeeImage = public_path("uploads/employee/photos/{$filename}"); // get previous image from folder
+                if (File::exists($employeeImage)) { // unlink or remove previous image from folder
+                    unlink($employeeImage);
+                }
+                //save image to project directory
+                $data->move($path, $filename);
+            } else{ //null filename if request->file('photo') null
+                $filename = null;
+            }
+
             $dml = Employee::create([
                 'uuid' => Str::uuid(),
                 'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,
-                //photo
+                'photo' => $filename,
                 'pob' => $request->pob,
                 'dob' => $request->dob,
                 'gender' => $request->gender,
@@ -346,12 +421,28 @@ class EmployeeController extends Controller
             unset($validationArray['empid']);
             $validation = $request->validate($validationArray);
 
+            if ($request->hasFile('photo')) {
+                //Proses upload file photo
+                $data = $request->file('photo');
+                $extension = $data->getClientOriginalExtension();
+                $filename = 'employee_' . $request->empid . '.' . $extension;
+                $path = public_path('uploads/employee/photos/');
+                $employeeImage = public_path("uploads/employee/photos/{$filename}"); // get previous image from folder
+                if (File::exists($employeeImage)) { // unlink or remove previous image from folder
+                    unlink($employeeImage);
+                }
+                //save image to project directory
+                $data->move($path, $filename);
+            } else{ //null filename if request->file('photo') null
+                $filename = null;
+            }
+
             $dml = Employee::where('id', $employee->id)
                 ->update([
 //                'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,
-                //photo
+                'photo' => $filename,
                 'pob' => $request->pob,
                 'dob' => $request->dob,
                 'gender' => $request->gender,
