@@ -497,7 +497,7 @@ class EmployeeController extends Controller
             'empid' => ['required', 'string', 'max:20', 'alpha_num', 'unique:employees,empid'],
             'fullname' => ['required', 'string', 'max:50'],
             'nickname' => ['required', 'string', 'max:50'],
-            'photo' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'photo' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
             'pob' => ['required', 'string', 'max:30'],
             'dob' => ['required', 'date'],
             'gender' => ['required', 'string', 'size:1'],

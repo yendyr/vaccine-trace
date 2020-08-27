@@ -37,6 +37,7 @@
                             <div class="custom-file mt-4">
                                 <input id="fphoto" type="file" class="custom-file-input" name="photo">
                                 <label for="fphoto" class="custom-file-label">Choose photo</label>
+                                <div class="invalid-feedback-photo text-danger"></div>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
