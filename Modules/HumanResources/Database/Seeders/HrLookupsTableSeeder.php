@@ -129,5 +129,22 @@ class HrLookupsTableSeeder extends Seeder
                 'uuid' => Str::uuid(),
             ]);
         }
+
+        $edulevels = ['S3', 'S2', 'S1', 'D3', 'SMA', 'SMP', 'SD'];
+        foreach ($edulevels as $i => $edulevel) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'education',
+                'lkey' => 'edulvl',
+                'maingrp' => $edulevel,
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $edulevel,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
     }
 }

@@ -47,6 +47,9 @@
         @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
             @include('humanresources::components.idcard.modal')
         @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Education::class)
+            @include('humanresources::components.education.modal')
+        @endcan
     @endcan
 
     <div class="row">
@@ -56,6 +59,9 @@
                     <li><a class="nav-link active" data-toggle="tab" href="#employee">Employees</a></li>
                     @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
                         <li><a class="nav-link" data-toggle="tab" href="#idcard">ID Card</a></li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Education::class)
+                        <li><a class="nav-link" data-toggle="tab" href="#education">Education</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
@@ -165,6 +171,54 @@
                             </div>
                         </div>
                     </div>
+                    <div role="tabpanel" id="education" class="tab-pane">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h4 class="text-center">Education data</h4>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-footer" id="ibox-education">
+                                <div id="form_result" role="alert"></div>
+                                <div class="col-md-1 m-2 p-1 row">
+                                    @can('create', \Modules\HumanResources\Entities\Education::class)
+                                        <button type="button" id="create-education" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                    @endcan
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="education-table" class="table table-hover text-center display nowrap" width="100%">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Employee ID</th>
+                                            <th>Instantion Name</th>
+                                            <th>Start periode</th>
+                                            <th>Finish periode</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Country</th>
+                                            <th>Majors</th>
+                                            <th>Minors</th>
+                                            <th>Education level</th>
+                                            <th>Remark</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr></tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -176,6 +230,9 @@
 
         @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
             @include('humanresources::components.idcard._script')
+        @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Education::class)
+            @include('humanresources::components.education._script')
         @endcan
     @endcan
 

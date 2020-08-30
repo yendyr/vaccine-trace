@@ -43,9 +43,14 @@ Route::name('hr.')->group(function () {
         Route::get('/employee/select2/bloodtype', 'EmployeeController@select2Bloodtype')->name('employee.select2.bloodtype');
         Route::get('/employee/select2/religion', 'EmployeeController@select2Religion')->name('employee.select2.religion');
         Route::resource('employee', 'EmployeeController');
+        Route::get('/employee/select2/empid', 'EmployeeController@select2Empid')->name('employee.select2.empid');
 
-        Route::get('/id-card/select2/empid', 'IdCardController@select2Empid')->name('id-card.select2.empid');
         Route::resource('id-card', 'IdCardController');
+
+        Route::get('/education/select2/edulvl', 'EducationController@select2Edulvl')->name('education.select2.edulvl');
+        Route::resource('education', 'EducationController');
+
+//        Route::resource('education', 'EducationController');
     });
 });
 
