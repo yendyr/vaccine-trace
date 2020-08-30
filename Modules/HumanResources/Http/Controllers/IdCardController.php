@@ -64,27 +64,6 @@ class IdCardController extends Controller
         return view('humanresources::pages.employee.index');
     }
 
-    public function select2Empid(Request $request)
-    {
-        $search = $request->q;
-        $query = Employee::select('empid');
-
-        if($search != ''){
-            $query = $query->where('empid', 'like', '%' .$search. '%');
-        }
-        $results = $query->distinct('empid')->get();
-
-        $response = [];
-        foreach($results as $result){
-            $response['results'][] = [
-                "id"=>$result->empid,
-                "text"=>$result->empid
-            ];
-        };
-
-        return response()->json($response);
-    }
-
     /**
      * Show the form for creating a new resource.
      * @return Response

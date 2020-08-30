@@ -308,6 +308,27 @@ class EmployeeController extends Controller
         return response()->json($response);
     }
 
+    public function select2Empid(Request $request)
+    {
+        $search = $request->q;
+        $query = Employee::select('empid');
+
+        if($search != ''){
+            $query = $query->where('empid', 'like', '%' .$search. '%');
+        }
+        $results = $query->distinct('empid')->get();
+
+        $response = [];
+        foreach($results as $result){
+            $response['results'][] = [
+                "id"=>$result->empid,
+                "text"=>$result->empid
+            ];
+        };
+
+        return response()->json($response);
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Response
@@ -442,7 +463,7 @@ class EmployeeController extends Controller
 //                'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,
-                'photo' => $filename,
+                'photo' => ( ($filename != null) ? $filename : $employee->photo),
                 'pob' => $request->pob,
                 'dob' => $request->dob,
                 'gender' => $request->gender,

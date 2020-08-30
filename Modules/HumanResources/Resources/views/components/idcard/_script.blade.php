@@ -1,3 +1,13 @@
+@push('header-scripts')
+    <style>
+        .select2-container.select2-container--default.select2-container--open {
+            z-index: 9999999 !important;
+        }
+        .select2{
+            width: 100% !important;
+        }
+    </style>
+@endpush
 @push('footer-scripts')
     <script>
         var tableIdcard = $('#idcard-table').DataTable({
@@ -24,10 +34,10 @@
         });
 
         $(document).ready(function () {
-            $('.select2_empid').select2({
+            $('#idcardForm').find('.select2_empid').select2({
                 placeholder: 'choose empid',
                 ajax: {
-                    url: "{{route('hr.id-card.select2.empid')}}",
+                    url: "{{route('hr.employee.select2.empid')}}",
                     dataType: 'json',
                 },
                 dropdownParent: $('#idcardModal')
