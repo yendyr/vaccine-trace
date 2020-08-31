@@ -29,7 +29,7 @@ class FamilyPolicy
     public function viewAny()
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', 1
+            'role_id', Auth::user()->role_id
         )->where('menu_link', 'hr/family')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();

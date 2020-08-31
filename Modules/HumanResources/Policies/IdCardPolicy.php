@@ -72,7 +72,7 @@ class IdCardPolicy
     public function update()
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', 1
+            'role_id', Auth::user()->role_id
         )->where('menu_link', 'hr/id-card')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
