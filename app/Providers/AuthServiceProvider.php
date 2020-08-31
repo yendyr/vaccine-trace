@@ -17,6 +17,7 @@ use Modules\Gate\Policies\RolePolicy;
 use Modules\Gate\Policies\UserPolicy;
 use Modules\HumanResources\Entities\Education;
 use Modules\HumanResources\Entities\Employee;
+use Modules\HumanResources\Entities\Family;
 use Modules\HumanResources\Entities\Holiday;
 use Modules\HumanResources\Entities\IdCard;
 use Modules\HumanResources\Entities\OrganizationStructure;
@@ -25,6 +26,7 @@ use Modules\HumanResources\Entities\WorkingGroup;
 use Modules\HumanResources\Entities\WorkingGroupDetail;
 use Modules\HumanResources\Policies\EducationPolicy;
 use Modules\HumanResources\Policies\EmployeePolicy;
+use Modules\HumanResources\Policies\FamilyPolicy;
 use Modules\HumanResources\Policies\HolidayPolicy;
 use Modules\HumanResources\Policies\IdCardPolicy;
 use Modules\HumanResources\Policies\OrganizationStructurePolicy;
@@ -53,6 +55,7 @@ class AuthServiceProvider extends ServiceProvider
         Employee::class => EmployeePolicy::class,
         IdCard::class => IdCardPolicy::class,
         Education::class => EducationPolicy::class,
+        Family::class => FamilyPolicy::class,
     ];
 
     /**

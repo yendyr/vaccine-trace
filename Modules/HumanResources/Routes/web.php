@@ -50,7 +50,9 @@ Route::name('hr.')->group(function () {
         Route::get('/education/select2/edulvl', 'EducationController@select2Edulvl')->name('education.select2.edulvl');
         Route::resource('education', 'EducationController');
 
-//        Route::resource('education', 'EducationController');
+        Route::get('/family/select2/relationship', 'FamilyController@select2Relationship')->name('family.select2.relationship');
+        Route::get('/family/select2/job', 'FamilyController@select2Job')->name('family.select2.job');
+        Route::resource('family', 'FamilyController');
     });
 });
 

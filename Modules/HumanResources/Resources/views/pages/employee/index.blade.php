@@ -26,6 +26,11 @@
             overflow-y: hidden !important;
             top: -13px !important;
         }
+
+        table td,th{
+            white-space:nowrap !important;
+        }
+
     </style>
 @endpush
 
@@ -50,6 +55,9 @@
         @can('viewAny', \Modules\HumanResources\Entities\Education::class)
             @include('humanresources::components.education.modal')
         @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Family::class)
+            @include('humanresources::components.family.modal')
+        @endcan
     @endcan
 
     <div class="row">
@@ -62,6 +70,9 @@
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Education::class)
                         <li><a class="nav-link" data-toggle="tab" href="#education">Education</a></li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Family::class)
+                        <li><a class="nav-link" data-toggle="tab" href="#family">Family</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
@@ -190,7 +201,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="education-table" class="table table-hover text-center display nowrap" width="100%">
+                                    <table id="education-table" class="table table-hover text-center display" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>Employee ID</th>
@@ -203,6 +214,55 @@
                                             <th>Majors</th>
                                             <th>Minors</th>
                                             <th>Education level</th>
+                                            <th>Remark</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr></tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="family" class="tab-pane">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h4 class="text-center">Family data</h4>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-footer" id="ibox-family">
+                                <div id="form_result" role="alert"></div>
+                                <div class="col-md-1 m-2 p-1 row">
+                                    @can('create', \Modules\HumanResources\Entities\Family::class)
+                                        <button type="button" id="create-family" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                    @endcan
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="family-table" class="table table-hover text-center display" width="100%">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Employee ID</th>
+                                            <th>Family ID</th>
+                                            <th>Relationship</th>
+                                            <th>Full Name</th>
+                                            <th>Place of birth</th>
+                                            <th>Date of birth</th>
+                                            <th>Gender</th>
+                                            <th>Marital status</th>
+                                            <th>Education level</th>
+                                            <th>Education major</th>
+                                            <th>Job</th>
                                             <th>Remark</th>
                                             <th>Status</th>
                                             <th></th>
@@ -233,6 +293,9 @@
         @endcan
         @can('viewAny', \Modules\HumanResources\Entities\Education::class)
             @include('humanresources::components.education._script')
+        @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Family::class)
+            @include('humanresources::components.family._script')
         @endcan
     @endcan
 

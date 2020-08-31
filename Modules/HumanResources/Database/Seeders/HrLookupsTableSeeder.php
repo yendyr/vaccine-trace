@@ -146,5 +146,39 @@ class HrLookupsTableSeeder extends Seeder
                 'uuid' => Str::uuid(),
             ]);
         }
+
+        $relationships = ['Ayah', 'Ibu', 'Anak', 'Adik', 'Kakak', 'Suami', 'Istri', 'Mertua'];
+        foreach ($relationships as $i => $relationship) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'family',
+                'lkey' => 'relationship',
+                'maingrp' => (0 . ($i+1)),
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $relationship,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
+
+        $relationships = ['Pelajar', 'Wiraswasta', 'Pegawai Negeri'];
+        foreach ($relationships as $i => $relationship) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'family',
+                'lkey' => 'job',
+                'maingrp' => (0 . ($i+1)),
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $relationship,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
     }
 }
