@@ -86,7 +86,7 @@ class IdCardController extends Controller
 
             $dml = IdCard::create([
                 'uuid' => Str::uuid(),
-                'empid' => $request->empid,
+                'empid' => $request->empidIdcard,
                 'idcardtype' => $request->idcardtype,
                 'idcardno' => $request->idcardno,
                 'idcarddate' => $request->idcarddate,
@@ -139,7 +139,7 @@ class IdCardController extends Controller
                         ->where('idcardno', $request->idcardno);
                 })->ignore($id_card->id)
             ];
-            unset($validationArray['empid']);
+            unset($validationArray['empidIdcard']);
 
             $validation = $request->validate($validationArray);
 
@@ -155,7 +155,7 @@ class IdCardController extends Controller
                 'updated_by' => $request->user()->id,
             ]);
             if ($dml){
-                return response()->json(['success' => 'an Id Card updated successfully.']);
+                return response()->json(['success' => 'an Id Card data updated successfully.']);
             }
             return response()->json(['error' => 'Error when creating data!']);
         }
@@ -175,7 +175,7 @@ class IdCardController extends Controller
     //Validation array default for this controller
     public function getValidationArray($request){
         $validationArray = [
-            'empid' => ['required', 'string', 'max:20'],
+            'empidIdcard' => ['required', 'string', 'max:20'],
             'idcardtype' => ['required', 'string', 'max:2'],
             'idcardno' => ['required', 'string', 'max:20',
                 Rule::unique('hr_id_cards')->where(function ($query) use($request) {

@@ -20,7 +20,7 @@ class EducationController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Education::class, 'employee');
+        $this->authorizeResource(Education::class, 'education');
         $this->middleware('auth');
     }
 
@@ -103,7 +103,7 @@ class EducationController extends Controller
 
             $dml = Education::create([
                 'uuid' => Str::uuid(),
-                'empid' => $request->empid,
+                'empid' => $request->empidEducation,
                 'instname' => $request->instname,
                 'startperiod' => $request->startperiod,
                 'finishperiod' => $request->finishperiod,
@@ -114,7 +114,7 @@ class EducationController extends Controller
                 'major02' => $request->major02,
                 'minor01' => $request->minor01,
                 'minor02' => $request->minor02,
-                'edulvl' => $request->edulvl,
+                'edulvl' => $request->edulvlEducation,
                 'remark' => $request->remark,
                 'status' => $request->status,
                 'owned_by' => $request->user()->company_id,
@@ -158,6 +158,7 @@ class EducationController extends Controller
     {
         if ($request->ajax()){
             $validationArray = $this->getValidationArray($request);
+            unset($validationArray['empidEducation']);
             $validation = $request->validate($validationArray);
 
             $dml = Education::where('id', $education->id)
@@ -173,14 +174,14 @@ class EducationController extends Controller
                 'major02' => $request->major02,
                 'minor01' => $request->minor01,
                 'minor02' => $request->minor02,
-                'edulvl' => $request->edulvl,
+                'edulvl' => $request->edulvlEducation,
                 'remark' => $request->remark,
                 'status' => $request->status,
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
             ]);
             if ($dml){
-                return response()->json(['success' => 'a new Education data updated successfully.']);
+                return response()->json(['success' => 'an Education data updated successfully.']);
             }
             return response()->json(['error' => 'Error when updating data!']);
         }
@@ -200,7 +201,7 @@ class EducationController extends Controller
     //Validation array default for this controller
     public function getValidationArray($request){
         $validationArray = [
-            'empid' => ['required', 'string', 'max:20'],
+            'empidEducation' => ['required', 'string', 'max:20'],
             'instname' => ['required', 'string', 'max:100'],
             'startperiod' => ['required', 'string', 'max:4'],
             'finishperiod' => ['required', 'string', 'max:4'],
@@ -211,7 +212,7 @@ class EducationController extends Controller
             'major02' => ['nullable', 'string', 'max:50'],
             'minor01' => ['nullable', 'string', 'max:50'],
             'minor02' => ['nullable', 'string', 'max:50'],
-            'edulvl' => ['required', 'string', 'max:50'],
+            'edulvlEducation' => ['required', 'string', 'max:50'],
             'remark' => ['nullable', 'string', 'max:50'],
             'status' => ['required', 'min:0', 'max:1'],
         ];
