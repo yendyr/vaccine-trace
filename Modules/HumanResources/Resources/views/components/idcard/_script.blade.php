@@ -16,7 +16,6 @@
             language: {
                 emptyTable: "No data existed",
             },
-            selected: true,
             ajax: {
                 url: "/hr/id-card",
                 type: "GET",

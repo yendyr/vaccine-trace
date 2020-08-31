@@ -27,10 +27,6 @@
             top: -13px !important;
         }
 
-        table td,th{
-            white-space:nowrap !important;
-        }
-
     </style>
 @endpush
 
@@ -201,7 +197,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="education-table" class="table table-hover text-center display" width="100%">
+                                    <table id="education-table" class="table table-hover text-center display nowrap">
                                         <thead>
                                         <tr class="text-center">
                                             <th>Employee ID</th>
@@ -249,7 +245,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="family-table" class="table table-hover text-center display" width="100%">
+                                    <table id="family-table" class="table table-hover text-center display nowrap">
                                         <thead>
                                         <tr class="text-center">
                                             <th>Employee ID</th>

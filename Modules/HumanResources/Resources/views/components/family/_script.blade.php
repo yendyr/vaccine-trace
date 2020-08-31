@@ -6,19 +6,19 @@
         .select2{
             width: 100% !important;
         }
+
     </style>
 @endpush
 
 @push('footer-scripts')
     <script>
         var tableFamily = $('#family-table').DataTable({
-            // processing: true,
+            processing: true,
             serverSide: false,
             scrollX: true,
             language: {
                 emptyTable: "No data existed",
             },
-            selected: true,
             ajax: {
                 url: "/hr/family",
                 type: "GET",

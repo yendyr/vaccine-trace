@@ -6,6 +6,7 @@
         .select2{
             width: 100% !important;
         }
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" />
 @endpush
@@ -15,13 +16,12 @@
 
     <script>
         var tableEducation = $('#education-table').DataTable({
-            // processing: true,
+            processing: true,
             serverSide: false,
             scrollX: true,
             language: {
                 emptyTable: "No data existed",
             },
-            selected: true,
             ajax: {
                 url: "/hr/education",
                 type: "GET",
