@@ -253,11 +253,11 @@
                 $('#ftitle').append('<option value="' + data.title.value + '" selected>' + data.title.content + '</option>');
                 $('#fjobtitle').append('<option value="' + data.jobtitle + '" selected>' + data.jobtitle + '</option>');
                 $('#fremark').val(data.remark);
-                $('#fstatus').find('option').removeAttr('selected');
+                $("#employeeForm").find('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
-                    $('#fstatus').find('option[value="1"]').attr('selected', '');
+                    $("#employeeForm").find('#fstatus').find('option[value="1"]').attr('selected', '');
                 }else{
-                    $('#fstatus').find('option[value="0"]').attr('selected', '');
+                    $("#employeeForm").find('#fstatus').find('option[value="0"]').attr('selected', '');
                 }
 
                 $('#saveBtn').val("edit-employee");

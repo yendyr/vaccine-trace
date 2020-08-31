@@ -14,12 +14,12 @@
 
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label class="col-form-label" for="fempid">Employee ID</label>
-                            <select class="select2_empid form-control m-b-sm" id="fempid" name="empid"></select>
-                            <div class="invalid-feedback-empid text-danger"></div>
+                            <label class="col-form-label" for="fempidEducation">Employee ID</label>
+                            <select class="select2_empidEducation form-control m-b-sm" id="fempidEducation" name="empidEducation"></select>
+                            <div class="invalid-feedback-empidEducation text-danger"></div>
                         </div>
                         <div class="form-group col-sm-6">
-                            <label class="col-form-label" for="fidcardtype">Instantion Name</label>
+                            <label class="col-form-label" for="finstname">Instantion Name</label>
                             <input type="text" class="form-control" id="finstname" name="instname">
                             <div class="invalid-feedback-instname text-danger"></div>
                         </div>
@@ -84,10 +84,10 @@
 
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label class="col-form-label" for="fedulvl">Education level</label>
-                            <select class="select2_edulvl form-control m-b " id="fedulvl" name="edulvl">
+                            <label class="col-form-label" for="fedulvlEducation">Education level</label>
+                            <select class="select2_edulvlEducation form-control m-b " id="fedulvlEducation" name="edulvlEducation">
                             </select>
-                            <div class="invalid-feedback-edulvl text-danger"></div>
+                            <div class="invalid-feedback-edulvlEducation text-danger"></div>
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="col-form-label" for="fstatus">Status</label>

@@ -45,7 +45,7 @@
         });
 
         $(document).ready(function () {
-            $('#educationForm').find('.select2_empid').select2({
+            $('#educationForm').find('.select2_empidEducation').select2({
                 placeholder: 'choose empid',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
@@ -54,7 +54,7 @@
                 dropdownParent: $('#educationModal')
             });
 
-            $('.select2_edulvl').select2({
+            $('.select2_edulvlEducation').select2({
                 placeholder: 'choose empid',
                 ajax: {
                     url: "{{route('hr.education.select2.edulvl')}}",
@@ -77,9 +77,9 @@
 
                 $('#educationModal').modal('show');
                 $("input[value='patch']").remove();
-                $("#educationForm").find('#fempid').val(null).trigger('change');
-                $("#educationForm").find('#fempid').attr('disabled', false);
-                $('#fedulvl').val(null).trigger('change');
+                $("#educationForm").find('#fempidEducation').val(null).trigger('change');
+                $("#educationForm").find('#fempidEducation').attr('disabled', false);
+                $('#fedulvlEducation').val(null).trigger('change');
                 $('#educationForm').attr('action', '/hr/education');
             });
 
@@ -95,8 +95,8 @@
                     value: 'patch'
                 }).prependTo('#educationForm');
 
-                $("#educationForm").find('#fempid').attr('disabled', true);
-                $("#educationForm").find('#fempid').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
+                $("#educationForm").find('#fempidEducation').attr('disabled', true);
+                $("#educationForm").find('#fempidEducation').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
 
                 $('#finstname').val(data.instname);
                 $('#fstartperiod').val(data.startperiod);
@@ -109,13 +109,13 @@
                 $('#fminor01').val(data.minor01);
                 $('#fminor02').val(data.minor02);
                 $('#fremark').val(data.remark);
-                $('#fedulvl').append('<option value="' + data.edulvl + '" selected>' + data.edulvl + '</option>');
+                $('#fedulvlEducation').append('<option value="' + data.edulvl + '" selected>' + data.edulvl + '</option>');
 
-                $('#fstatus').find('option').removeAttr('selected');
+                $("#educationForm").find('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
-                    $('#fstatus').find('option[value="1"]').attr('selected', '');
+                    $("#educationForm").find('#fstatus').find('option[value="1"]').attr('selected', '');
                 }else{
-                    $('#fstatus').find('option[value="0"]').attr('selected', '');
+                    $("#educationForm").find('#fstatus').find('option[value="0"]').attr('selected', '');
                 }
 
                 $('#saveBtn').val("edit-education");

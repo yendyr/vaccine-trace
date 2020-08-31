@@ -14,9 +14,9 @@
 
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label class="col-form-label" for="fempid">Employee ID</label>
-                            <select class="select2_empid form-control m-b-sm" id="fempid" name="empid"></select>
-                            <div class="invalid-feedback-empid text-danger"></div>
+                            <label class="col-form-label" for="fempidIdcard">Employee ID</label>
+                            <select class="select2_empidIdcard form-control m-b-sm" id="fempidIdcard" name="empidIdcard"></select>
+                            <div class="invalid-feedback-empidIdcard text-danger"></div>
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="col-form-label" for="fidcardtype">ID Card type</label>

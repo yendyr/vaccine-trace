@@ -34,7 +34,7 @@
         });
 
         $(document).ready(function () {
-            $('#idcardForm').find('.select2_empid').select2({
+            $('#idcardForm').find('.select2_empidIdcard').select2({
                 placeholder: 'choose empid',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
@@ -51,8 +51,8 @@
 
                 $('#idcardModal').modal('show');
                 $("input[value='patch']").remove();
-                $("#idcardForm").find('#fempid').val(null).trigger('change');
-                $("#idcardForm").find('#fempid').attr('disabled', false);
+                $("#idcardForm").find('#fempidIdcard').val(null).trigger('change');
+                $("#idcardForm").find('#fempidIdcard').attr('disabled', false);
                 $('#idcardForm').attr('action', '/hr/id-card');
             });
 
@@ -68,8 +68,8 @@
                     value: 'patch'
                 }).prependTo('#idcardForm');
 
-                $("#idcardForm").find('#fempid').attr('disabled', true);
-                $("#idcardForm").find('#fempid').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
+                $("#idcardForm").find('#fempidIdcard').attr('disabled', true);
+                $("#idcardForm").find('#fempidIdcard').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
 
                 $('#fidcardtype').find('option').removeAttr('selected');
                 $('#fidcardtype').find('option[value="' + data.idcardtype.value + '"]').attr('selected', '');
@@ -78,11 +78,11 @@
                 $('#fidcarddate').val(data.idcarddate);
                 $('#fidcardexpdate').val(data.idcardexpdate);
 
-                $('#fstatus').find('option').removeAttr('selected');
+                $("#idcardForm").find('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
-                    $('#fstatus').find('option[value="1"]').attr('selected', '');
+                    $("#idcardForm").find('#fstatus').find('option[value="1"]').attr('selected', '');
                 }else{
-                    $('#fstatus').find('option[value="0"]').attr('selected', '');
+                    $("#idcardForm").find('#fstatus').find('option[value="0"]').attr('selected', '');
                 }
 
                 $('#saveBtn').val("edit-idcard");
