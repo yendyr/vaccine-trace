@@ -52,8 +52,7 @@ class EmployeeController extends Controller
                     return $phones;
                 })
                 ->addColumn('maritalstatus', function($row){
-                    $content = HrLookup::where('lkey', 'maritalstatus')->where('maingrp', 'D')
-                        ->where('status', 1)->first();
+                    $content = HrLookup::where('lkey', 'maritalstatus')->where('status', 1)->first();
                     $maritalstatus['content'] = $content->remark;
                     $maritalstatus['value'] = $row->maritalstatus;
                     return $maritalstatus;

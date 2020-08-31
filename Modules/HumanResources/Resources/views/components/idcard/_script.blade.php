@@ -51,8 +51,8 @@
 
                 $('#idcardModal').modal('show');
                 $("input[value='patch']").remove();
-                $("#idcardForm").find('#fempidIdcard').val(null).trigger('change');
-                $("#idcardForm").find('#fempidIdcard').attr('disabled', false);
+                $('#fempidIdcard').val(null).trigger('change');
+                $('#fempidIdcard').attr('disabled', false);
                 $('#idcardForm').attr('action', '/hr/id-card');
             });
 
@@ -68,8 +68,8 @@
                     value: 'patch'
                 }).prependTo('#idcardForm');
 
-                $("#idcardForm").find('#fempidIdcard').attr('disabled', true);
-                $("#idcardForm").find('#fempidIdcard').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
+                $('#fempidIdcard').attr('disabled', true);
+                $('#fempidIdcard').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
 
                 $('#fidcardtype').find('option').removeAttr('selected');
                 $('#fidcardtype').find('option[value="' + data.idcardtype.value + '"]').attr('selected', '');

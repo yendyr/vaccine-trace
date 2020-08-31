@@ -15,7 +15,7 @@
 
     <script>
         var tableEducation = $('#education-table').DataTable({
-            processing: true,
+            // processing: true,
             serverSide: false,
             scrollX: true,
             language: {
@@ -77,15 +77,15 @@
 
                 $('#educationModal').modal('show');
                 $("input[value='patch']").remove();
-                $("#educationForm").find('#fempidEducation').val(null).trigger('change');
-                $("#educationForm").find('#fempidEducation').attr('disabled', false);
+                $('#fempidEducation').val(null).trigger('change');
+                $('#fempidEducation').attr('disabled', false);
                 $('#fedulvlEducation').val(null).trigger('change');
                 $('#educationForm').attr('action', '/hr/education');
             });
 
             $('#education-table').on('click', '.editBtn', function () {
                 $('#educationForm').trigger("reset");
-                $('#educationModal').find('#modalTitle').html("Update Id Card data");
+                $('#educationModal').find('#modalTitle').html("Update Education data");
                 let tr = $(this).closest('tr');
                 let data = $('#education-table').DataTable().row(tr).data();
 
@@ -95,8 +95,8 @@
                     value: 'patch'
                 }).prependTo('#educationForm');
 
-                $("#educationForm").find('#fempidEducation').attr('disabled', true);
-                $("#educationForm").find('#fempidEducation').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
+                $('#fempidEducation').attr('disabled', true);
+                $('#fempidEducation').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
 
                 $('#finstname').val(data.instname);
                 $('#fstartperiod').val(data.startperiod);
