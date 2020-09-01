@@ -53,6 +53,8 @@ Route::name('hr.')->group(function () {
         Route::get('/family/select2/relationship', 'FamilyController@select2Relationship')->name('family.select2.relationship');
         Route::get('/family/select2/job', 'FamilyController@select2Job')->name('family.select2.job');
         Route::resource('family', 'FamilyController');
+        Route::get('/address/select2/famid', 'AddressController@select2Famid')->name('address.select2.famid');
+        Route::resource('address', 'AddressController');
     });
 });
 

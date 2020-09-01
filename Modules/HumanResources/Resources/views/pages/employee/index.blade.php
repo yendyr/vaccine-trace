@@ -54,6 +54,9 @@
         @can('viewAny', \Modules\HumanResources\Entities\Family::class)
             @include('humanresources::components.family.modal')
         @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Address::class)
+            @include('humanresources::components.address.modal')
+        @endcan
     @endcan
 
     <div class="row">
@@ -69,6 +72,9 @@
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Family::class)
                         <li><a class="nav-link" data-toggle="tab" href="#family">Family</a></li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Address::class)
+                        <li><a class="nav-link" data-toggle="tab" href="#address">Address</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
@@ -128,9 +134,6 @@
                                         </thead>
                                         <tbody>
                                         </tbody>
-                                        <tfoot>
-                                        <tr></tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -155,7 +158,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="idcard-table" class="table table-hover text-center display" width="100%">
+                                    <table id="idcard-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>Employee ID</th>
@@ -164,14 +167,11 @@
                                             <th>ID card date</th>
                                             <th>ID card exp date</th>
                                             <th>Status</th>
-                                            <th></th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
-                                        <tfoot>
-                                        <tr></tr>
-                                        </tfoot>
                                     </table>
                                 </div>
 
@@ -197,7 +197,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="education-table" class="table table-hover text-center display nowrap">
+                                    <table id="education-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>Employee ID</th>
@@ -212,14 +212,11 @@
                                             <th>Education level</th>
                                             <th>Remark</th>
                                             <th>Status</th>
-                                            <th></th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
-                                        <tfoot>
-                                        <tr></tr>
-                                        </tfoot>
                                     </table>
                                 </div>
 
@@ -245,7 +242,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="family-table" class="table table-hover text-center display nowrap">
+                                    <table id="family-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>Employee ID</th>
@@ -261,14 +258,56 @@
                                             <th>Job</th>
                                             <th>Remark</th>
                                             <th>Status</th>
-                                            <th></th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
-                                        <tfoot>
-                                        <tr></tr>
-                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="address" class="tab-pane">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h4 class="text-center">Address data</h4>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-footer" id="ibox-address">
+                                <div id="form_result" role="alert"></div>
+                                <div class="col-md-1 m-2 p-1 row">
+                                    @can('create', \Modules\HumanResources\Entities\Address::class)
+                                        <button type="button" id="create-address" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                    @endcan
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="address-table" class="table table-hover text-center display nowrap" width="100%">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Employee ID</th>
+                                            <th>Family ID</th>
+                                            <th>Address ID</th>
+                                            <th>Street</th>
+                                            <th>Area</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Country</th>
+                                            <th>Postcode</th>
+                                            <th>Telephone</th>
+                                            <th>Remark</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
                                     </table>
                                 </div>
 
@@ -292,6 +331,9 @@
         @endcan
         @can('viewAny', \Modules\HumanResources\Entities\Family::class)
             @include('humanresources::components.family._script')
+        @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Address::class)
+            @include('humanresources::components.address._script')
         @endcan
     @endcan
 
