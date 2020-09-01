@@ -116,7 +116,7 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="workgroup-detail-table" class="table table-hover text-center display" width="100%">
+                                    <table id="workgroup-detail-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
                                         <tr class="text-center">
                                             <th>WorkGroup</th>

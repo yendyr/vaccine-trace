@@ -3,7 +3,7 @@
     <script>
         $('#workgroup-detail-table').DataTable({
             // processing: true,
-            // serverSide: true,
+            serverSide: true,
             scrollX: true,
             language: {
                 emptyTable: "No data existed for selected workgroup",

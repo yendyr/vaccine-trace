@@ -3,8 +3,8 @@
 
     <script>
         var tableWg = $('#workgroup-table').DataTable({
-            // processing: true,
-            serverSide: false,
+            processing: true,
+            // serverSide: false,
             scrollX: true,
             language: {
                 emptyTable: "No data existed",
