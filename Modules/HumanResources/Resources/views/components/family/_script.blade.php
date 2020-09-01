@@ -121,7 +121,7 @@
                 $('#frelationship').append('<option value="' + data.relationship.value + '" selected>'
                     + data.relationship.content + '</option>');
 
-                $('#familyForm').find('#ffullname').val(data.fullname);
+                $('#familyModal').find('#ffullname').val(data.fullname);
                 $('#fpobFamily').val(data.pob);
                 $('#fdobFamily').val(data.dob);
                 $('#fgenderFamily').find('option').removeAttr('selected');
@@ -131,7 +131,7 @@
                 $('#fjobFamily').append('<option value="' + data.job.value + '" selected>' + data.job.content + '</option>');
                 $('#fedulvlFamily').append('<option value="' + data.edulvl.value + '" selected>' + data.edulvl.content + '</option>');
                 $('#fedumajor').val(data.edumajor);
-                $('#fremark').val(data.remark);
+                $('#familyForm').find('#fremark').val(data.remark);
 
                 $("#familyForm").find('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){

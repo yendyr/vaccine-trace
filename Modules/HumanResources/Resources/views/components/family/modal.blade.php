@@ -32,9 +32,9 @@
                             <div class="invalid-feedback-relationship text-danger"></div>
                         </div>
                         <div class="form-group col-sm-6">
-                            <label class="col-form-label" for="ffullnameFamily">Full Name</label>
-                            <input type="text" class="form-control" id="ffullnameFamily" name="fullnameFamily">
-                            <div class="invalid-feedback-fullnameFamily text-danger"></div>
+                            <label class="col-form-label" for="ffullname">Full Name</label>
+                            <input type="text" class="form-control" id="ffullname" name="fullname">
+                            <div class="invalid-feedback-fullname text-danger"></div>
                         </div>
                     </div>
 

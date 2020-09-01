@@ -108,7 +108,7 @@
                 $('#fmajor02').val(data.major02);
                 $('#fminor01').val(data.minor01);
                 $('#fminor02').val(data.minor02);
-                $('#fremark').val(data.remark);
+                $("#educationForm").find('#fremark').val(data.remark);
                 $('#fedulvlEducation').append('<option value="' + data.edulvl + '" selected>' + data.edulvl + '</option>');
 
                 $("#educationForm").find('#fstatus').find('option').removeAttr('selected');
