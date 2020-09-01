@@ -514,7 +514,7 @@ class EmployeeController extends Controller
     //Validation array default for this controller
     public function getValidationArray($request = null){
         $validationArray = [
-            'empid' => ['required', 'string', 'max:20', 'alpha_num', 'unique:employees,empid'],
+            'empid' => ['required', 'string', 'max:20', 'alpha_num', 'unique:hr_employees,empid'],
             'fullname' => ['required', 'string', 'max:50'],
             'nickname' => ['required', 'string', 'max:50'],
             'photo' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
