@@ -89,12 +89,16 @@ class AddressController extends Controller
         }
 
         $response = [];
-        foreach($results as $result){
-            $response['results'][] = [
-                "id"=>$result,
-                "text"=>$result
-            ];
-        };
+        if (isset($results)){
+            foreach($results as $result){
+                $response['results'][] = [
+                    "id"=>$result,
+                    "text"=>$result
+                ];
+            };
+        }else {
+            $response = null;
+        }
 
         return response()->json($response);
     }
