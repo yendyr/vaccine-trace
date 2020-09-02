@@ -16,5 +16,9 @@ class HumanResourcesDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        $this->call([
+            HrLookupsTableSeeder::class,
+        ]);
+
     }
 }
