@@ -39,10 +39,12 @@ class AddressController extends Controller
                 ->addColumn('telephone', function($row){
                     $telephone['value1'] = $row->tel01;
                     $telephone['value2'] = $row->tel02;
-                    if (isset($row->tel01) || isset($row->tel02)){
+                    if (isset($row->tel01)){
+                        $telephone['content'] = $row->tel01;
+                    } else if (isset($row->tel02)){
+                        $telephone['content'] = $row->tel02;
+                    } else if(isset($row->tel01) && isset($row->tel02)){
                         $telephone['content'] = $row->tel01 . ', ' . $row->tel02;
-                    } else{
-                        $telephone['content'] = null;
                     }
                     return $telephone;
                 })

@@ -46,7 +46,13 @@ class EmployeeController extends Controller
                     return $gender;
                 })
                 ->addColumn('phone', function($row){
-                    $phones['content'] = (isset($row->mobile02) ? ($row->mobile01 . ', ' . $row->mobile02) : $row->mobile01);
+                    if (isset($row->mobile01)){
+                        $phones['content'] = $row->mobile01;
+                    } else if (isset($row->mobile02)){
+                        $phones['content'] = $row->mobile02;
+                    } else if(isset($row->mobile01) && isset($row->mobile02)){
+                        $phones['content'] = $row->mobile01 . ', ' . $row->mobile02;
+                    }
                     $phones['mobile01'] = $row->mobile01;
                     $phones['mobile02'] = $row->mobile02;
                     return $phones;
