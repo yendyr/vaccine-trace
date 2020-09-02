@@ -46,13 +46,18 @@
 
             $('#ffamidAddress').val(null).trigger('change');
             $('#addressForm').find('.select2_famidAddress').select2({
-                placeholder: 'choose famid',
+                placeholder: 'choose Emp ID first',
                 ajax: {
                     url: "{{route('hr.address.select2.famid')}}",
                     data: {
                         empid: empidVal
                     },
                     dataType: 'json',
+                    language: {
+                        noResults: function (params) {
+                            return "Please select Emp ID first";
+                        }
+                    }
                 },
                 dropdownParent: $('#addressModal')
             });
@@ -60,7 +65,7 @@
 
         $(document).ready(function () {
             $('#addressForm').find('.select2_empidAddress').select2({
-                placeholder: 'choose empid',
+                placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
                     dataType: 'json',

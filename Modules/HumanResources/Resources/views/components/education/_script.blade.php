@@ -46,7 +46,7 @@
 
         $(document).ready(function () {
             $('#educationForm').find('.select2_empidEducation').select2({
-                placeholder: 'choose empid',
+                placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
                     dataType: 'json',
@@ -55,7 +55,7 @@
             });
 
             $('.select2_edulvlEducation').select2({
-                placeholder: 'choose empid',
+                placeholder: 'choose edu level',
                 ajax: {
                     url: "{{route('hr.education.select2.edulvl')}}",
                     dataType: 'json',

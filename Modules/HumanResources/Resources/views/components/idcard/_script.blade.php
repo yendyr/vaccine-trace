@@ -35,7 +35,7 @@
 
         $(document).ready(function () {
             $('#idcardForm').find('.select2_empidIdcard').select2({
-                placeholder: 'choose empid',
+                placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
                     dataType: 'json',
