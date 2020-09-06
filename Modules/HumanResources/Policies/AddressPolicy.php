@@ -21,7 +21,7 @@ class AddressPolicy
     }
 
     /**
-     * Determine whether the user can view any family.
+     * Determine whether the user can view any address.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -30,7 +30,7 @@ class AddressPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/family')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/address')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -42,7 +42,7 @@ class AddressPolicy
     }
 
     /**
-     * Determine whether the user can create family.
+     * Determine whether the user can create address.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -51,7 +51,7 @@ class AddressPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/family')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/address')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -63,17 +63,17 @@ class AddressPolicy
     }
 
     /**
-     * Determine whether the user can update the family.
+     * Determine whether the user can update the address.
      *
      * @param  \App\User  $user
-     * @param  \App\Holiday  $family
+     * @param  \App\Holiday  $address
      * @return mixed
      */
     public function update()
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/family')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/address')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -85,17 +85,17 @@ class AddressPolicy
     }
 
     /**
-     * Determine whether the user can delete the family.
+     * Determine whether the user can delete the address.
      *
      * @param  \App\User  $user
-     * @param  \App\Holiday  $family
+     * @param  \App\Holiday  $address
      * @return mixed
      */
     public function delete()
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/family')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/address')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -107,17 +107,17 @@ class AddressPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the family.
+     * Determine whether the user can permanently delete the address.
      *
      * @param  \App\User  $user
-     * @param  \App\Holiday  $family
+     * @param  \App\Holiday  $address
      * @return mixed
      */
     public function forceDelete()
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'hr/family')->whereHas('role', function($role){
+        )->where('menu_link', 'hr/address')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 

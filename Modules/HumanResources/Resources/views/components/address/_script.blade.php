@@ -6,7 +6,6 @@
         .select2{
             width: 100% !important;
         }
-
     </style>
 @endpush
 
