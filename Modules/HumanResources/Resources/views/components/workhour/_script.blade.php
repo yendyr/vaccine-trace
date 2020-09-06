@@ -42,7 +42,7 @@
                 { data: 'overhours', name: 'overhours', defaultContent: "<p class='text-muted'>none</p>"},
                 { data: 'attdstatus', name: 'attdstatus', defaultContent: "<p class='text-muted'>none</p>"},
                 { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false },
+                // { data: 'action', name: 'action', orderable: false },
             ]
         });
 
@@ -67,8 +67,8 @@
                 $('#whourForm').trigger("reset");
                 $("#whourModal").find('#modalTitle').html("Generate new Working Hour data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $("#fwgcode").attr("disabled", false);
-                $(".select2_wgcode").val(null).trigger('change');
+                $("#fempidWhour").attr("disabled", false);
+                $(".select2_empidWhour").val(null).trigger('change');
 
                 $('#whourModal').modal('show');
                 $("input[value='patch']").remove();
@@ -76,44 +76,19 @@
             });
 
             $('#whour-table').on('click', '.editBtn', function () {
-                $('#workgroupDetailForm').trigger("reset");
-                $('#workgroupDetailModal').find('#modalTitle').html("Update Working Group data");
+                $('#whourForm').trigger("reset");
+                $('#whourModal').find('#modalTitle').html("Update Working Group data");
                 let tr = $(this).closest('tr');
-                let data = $('#workgroup-detail-table').DataTable().row(tr).data();
+                let data = $('#whour-table').DataTable().row(tr).data();
 
                 $('<input>').attr({
                     type: 'hidden',
                     name: '_method',
                     value: 'patch'
-                }).prependTo('#workgroupDetailForm');
+                }).prependTo('#whourForm');
 
-                $("#fwgcode").attr("disabled", true);
-                $('#fwgcode').append('<option value="' + data.workgroup.value + '" selected>' + data.workgroup.value + ' - ' + data.workgroup.name + '</option>');
-                // $("#fwgcode").val(data.workgroup.value).trigger('change');
-
-                $("#fshiftno").attr("disabled", true);
-                $('.select2_shiftno').select2({
-                    placeholder: 'choose shiftno',
-                    ajax: {
-                        url: "{{route('hr.workgroup-detail.select2.shiftno')}}",
-                        data: {
-                            workgroup: data.workgroup.value
-                        },
-                        dataType: 'json',
-                    },
-                    dropdownParent: $('#workgroupDetailModal')
-                });
-                $('#fshiftno').append('<option value="' + data.shiftno + '" selected>' + data.shiftno + '</option>');
-
-                $("#fdaycode").attr("disabled", true);
-                $('#fdaycode').find('option[value="' + data.daycode.value + '"]').attr('selected', '');
-                $('#fwhtimestart').val(data.whtimestart);
-                $('#fwhtimefinish').val(data.whtimefinish);
-                $('#frstimestart').val(data.rstimestart);
-                $('#frstimefinish').val(data.rstimefinish);
-                $('#fstdhours').val(data.stdhours.value);
-                $('#fminhours').val(data.minhours.value);
-                $('#fworktype').find('option[value="' + data.worktype.value + '"]').attr('selected', '');
+                $('#fempidWhour').attr('disabled', true);
+                $('#fempidWhour').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
 
                 $('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
@@ -123,10 +98,10 @@
                 }
 
                 $('#saveBtn').val("edit-workgroup-detail");
-                $('#workgroupDetailForm').attr('action', '/hr/workgroup-detail/' + data.id);
+                $('#whourForm').attr('action', '/hr/workgroup-detail/' + data.id);
 
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#workgroupDetailModal').modal('show');
+                // $('#whourModal').modal('show');
             });
 
             $('#whourForm').on('submit', function (event) {
@@ -150,8 +125,8 @@
                     },
                     success:function(data){
                         if (data.success) {
-                            $("#ibox-workgroup-detail").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-workgroup-detail").find('#form_result').html(data.success);
+                            $("#ibox-whour").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
+                            $("#ibox-whour").find('#form_result').html(data.success);
                         }
                         $('#whourModal').modal('hide');
                         $('#whour-table').DataTable().ajax.reload();

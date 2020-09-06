@@ -363,7 +363,7 @@
                                             <th>Over hours</th>
                                             <th>Attendance status</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+{{--                                            <th>Action</th>--}}
                                         </tr>
                                         </thead>
                                         <tbody>

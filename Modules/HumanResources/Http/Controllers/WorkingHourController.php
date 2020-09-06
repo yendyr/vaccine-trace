@@ -87,15 +87,15 @@ class WorkingHourController extends Controller
                         return '<p class="text-danger">Inactive</p>';
                     }
                 })
-                ->addColumn('action', function($row){
-                    if(Auth::user()->can('update', WorkingHour::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        return view('components.action-button', compact(['updateable', 'updateValue']));
-                    }else{
-                        return '<p class="text-muted">no action authorized</p>';
-                    }
-                })
+//                ->addColumn('action', function($row){
+//                    if(Auth::user()->can('update', WorkingHour::class)) {
+//                        $updateable = 'button';
+//                        $updateValue = $row->id;
+//                        return view('components.action-button', compact(['updateable', 'updateValue']));
+//                    }else{
+//                        return '<p class="text-muted">no action authorized</p>';
+//                    }
+//                })
                 ->escapeColumns([])
                 ->make(true);
         }
@@ -157,37 +157,42 @@ class WorkingHourController extends Controller
                             $workstatus = 'M';
                         }
                     }
-
-                    $whour = WorkingHour::create([
-                        'uuid' => Str::uuid(),
-                        'empid' => $request->empidWhour,
-                        'workgroup' => $request->workgroup,
-                        'workdate' => $workdate,
-                        'shiftno' => $wgdetail->shiftno,
-                        'whtimestart' => $wgdetail->whtimestart,
-                        'whdatestart' => $workdate,
-                        'whtimefinish' => $wgdetail->whtimefinish,
-                        'whdatefinish' => (strtotime($wgdetail->whtimestart) <= strtotime($wgdetail->whtimefinish))
-                            ? $workdate
-                            : date('Y/m/d', strtotime($workdate .'+1 day')),
-                        'rstimestart' => $wgdetail->rstimestart,
-                        'rsdatestart' => $workdate,
-                        'rstimefinish' => $wgdetail->rstimefinish,
-                        'rsdatefinish' => (strtotime($wgdetail->rstimestart) <= strtotime($wgdetail->rstimefinish))
-                            ? $workdate
-                            : date('Y/m/d', strtotime($workdate .'+1 day')),
-                        'stdhours' => $wgdetail->stdhours,
-                        'minhours' => $wgdetail->minhours,
-                        'worktype' => $wgdetail->worktype,
-                        'workstatus' => $workstatus,
-                        'status' => $request->status,
-                        'owned_by' => $request->user()->company_id,
-                        'created_by' => $request->user()->id,
-                    ]);
+                    $whourData = WorkingHour::where('empid', $request->empidWhour)
+                        ->where('workdate',$workdate)->where('shiftno', $wgdetail->shiftno)->first();
+                    if (!isset($whourData)){    //untuk
+                        $whour = WorkingHour::create([
+                            'uuid' => Str::uuid(),
+                            'empid' => $request->empidWhour,
+                            'workdate' => $workdate,
+                            'shiftno' => $wgdetail->shiftno,
+                            'whtimestart' => $wgdetail->whtimestart,
+                            'whdatestart' => $workdate,
+                            'whtimefinish' => $wgdetail->whtimefinish,
+                            'whdatefinish' => (strtotime($wgdetail->whtimestart) <= strtotime($wgdetail->whtimefinish))
+                                ? $workdate
+                                : date('Y/m/d', strtotime($workdate .'+1 day')),
+                            'rstimestart' => $wgdetail->rstimestart,
+                            'rsdatestart' => $workdate,
+                            'rstimefinish' => $wgdetail->rstimefinish,
+                            'rsdatefinish' => (strtotime($wgdetail->rstimestart) <= strtotime($wgdetail->rstimefinish))
+                                ? $workdate
+                                : date('Y/m/d', strtotime($workdate .'+1 day')),
+                            'stdhours' => $wgdetail->stdhours,
+                            'minhours' => $wgdetail->minhours,
+                            'worktype' => $wgdetail->worktype,
+                            'workstatus' => $workstatus,
+                            'status' => $request->status,
+                            'owned_by' => $request->user()->company_id,
+                            'created_by' => $request->user()->id,
+                        ]);
+                    }
                 }
                 $workdate = date('Y-m-d', strtotime($workdate .'+1 day'));  //get tomorrow
             }
-            return response()->json(['success' => 'a new Working hour added successfully.']);
+            if (isset($whour)){
+                return response()->json(['success' => 'a new Working hour added successfully.']);
+            }
+            return response()->json(['success' => 'no Working hour data added.']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
