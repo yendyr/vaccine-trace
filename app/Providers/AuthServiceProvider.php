@@ -25,6 +25,7 @@ use Modules\HumanResources\Entities\OrganizationStructure;
 use Modules\HumanResources\Entities\OrganizationStructureTitle;
 use Modules\HumanResources\Entities\WorkingGroup;
 use Modules\HumanResources\Entities\WorkingGroupDetail;
+use Modules\HumanResources\Entities\WorkingHour;
 use Modules\HumanResources\Policies\AddressPolicy;
 use Modules\HumanResources\Policies\EducationPolicy;
 use Modules\HumanResources\Policies\EmployeePolicy;
@@ -35,6 +36,7 @@ use Modules\HumanResources\Policies\OrganizationStructurePolicy;
 use Modules\HumanResources\Policies\OrganizationStructureTitlePolicy;
 use Modules\HumanResources\Policies\WorkingGroupDetailPolicy;
 use Modules\HumanResources\Policies\WorkingGroupPolicy;
+use Modules\HumanResources\Policies\WorkingHourPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -59,6 +61,7 @@ class AuthServiceProvider extends ServiceProvider
         Education::class => EducationPolicy::class,
         Family::class => FamilyPolicy::class,
         Address::class => AddressPolicy::class,
+        WorkingHour::class => WorkingHourPolicy::class,
     ];
 
     /**

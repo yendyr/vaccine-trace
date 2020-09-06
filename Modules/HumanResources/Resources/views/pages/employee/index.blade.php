@@ -57,6 +57,9 @@
         @can('viewAny', \Modules\HumanResources\Entities\Address::class)
             @include('humanresources::components.address.modal')
         @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
+            @include('humanresources::components.workhour.modal')
+        @endcan
     @endcan
 
     <div class="row">
@@ -75,6 +78,9 @@
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Address::class)
                         <li><a class="nav-link" data-toggle="tab" href="#address">Address</a></li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
+                        <li><a class="nav-link" data-toggle="tab" href="#whour">Working Hour</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
@@ -314,6 +320,60 @@
                             </div>
                         </div>
                     </div>
+                    <div role="tabpanel" id="whour" class="tab-pane">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h4 class="text-center">Working Hour data</h4>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-footer" id="ibox-whour">
+                                <div id="form_result" role="alert"></div>
+                                <div class="col-md-1 m-2 p-1 row">
+                                    @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
+                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><strong>Generate</strong></button>
+                                    @endcan
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="whour-table" class="table table-hover text-center display nowrap" width="100%">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Employee ID</th>
+                                            <th>Work date</th>
+                                            <th>Shift No.</th>
+                                            <th>Workhour Start</th>
+                                            <th>Workdate Start</th>
+                                            <th>Workhour Finish</th>
+                                            <th>Workdate Finish</th>
+                                            <th>Rest Time Start</th>
+                                            <th>Rest Date Start</th>
+                                            <th>Rest Time Finish</th>
+                                            <th>Rest Date Finish</th>
+                                            <th>Standard Hours</th>
+                                            <th>Minimum Hours</th>
+                                            <th>Work Type</th>
+                                            <th>Work Status</th>
+                                            <th>Processedon</th>
+                                            <th>Leave hours</th>
+                                            <th>Attendance hours</th>
+                                            <th>Over hours</th>
+                                            <th>Attendance status</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -334,6 +394,9 @@
         @endcan
         @can('viewAny', \Modules\HumanResources\Entities\Address::class)
             @include('humanresources::components.address._script')
+        @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
+            @include('humanresources::components.workhour._script')
         @endcan
     @endcan
 
