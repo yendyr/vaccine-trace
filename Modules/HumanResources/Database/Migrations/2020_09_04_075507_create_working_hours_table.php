@@ -20,13 +20,13 @@ class CreateWorkingHoursTable extends Migration
             $table->date('workdate')->comment('Tanggal kehadiran  [format: Y-m-d]');
             $table->char('shiftno', 1)->comment('nomor shift');
             $table->date('whdatestart')->comment('Tanggal masuk, [format: Y-m-d]')->nullable();
-            $table->time('whtimestart', 10)->comment('jam masuk, seperti 08:00:00')->nullable();
+            $table->time('whtimestart')->comment('jam masuk, seperti 08:00:00')->nullable();
             $table->date('whdatefinish')->comment('Tanggal pulang, [format: Y-m-d]')->nullable();
-            $table->time('whtimefinish', 10)->comment('jam pulang, seperti 17:00:00')->nullable();
+            $table->time('whtimefinish')->comment('jam pulang, seperti 17:00:00')->nullable();
             $table->date('rsdatestart')->comment('Tanggal mulai istirahat, [format: Y-m-d]')->nullable();
-            $table->time('rstimestart', 10)->comment('jam mulai istirahat, seperti 11:30:00')->nullable();
+            $table->time('rstimestart')->comment('jam mulai istirahat, seperti 11:30:00')->nullable();
             $table->date('rsdatefinish')->comment('Tanggal selesai istirahat, [format: Y-m-d]')->nullable();
-            $table->time('rstimefinish', 10)->comment('jam berakhir istirahat, seperti 11:30:00')->nullable();
+            $table->time('rstimefinish')->comment('jam berakhir istirahat, seperti 11:30:00')->nullable();
             $table->integer('stdhours')->comment('standard jam kerja (satuan jam)')->nullable();
             $table->integer('minhours')->comment('minimum jam kerja (satuan jam)')->nullable();
             $table->char('worktype', 2)->comment('jenis kerja (i.e: KB=kerja biasa, KL=Kerja libur')->nullable();
