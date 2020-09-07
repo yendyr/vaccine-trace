@@ -120,79 +120,89 @@ class WorkingHourController extends Controller
     {
         if ($request->ajax()){
             $request->merge([   //memvalidkan format date
-                'datestart' => date("Y/m/d", strtotime($request->datestart)),
-                'datefinish' => date("Y/m/d", strtotime($request->datefinish))
+                'datestart' => date("Y-m-d", strtotime($request->datestart)),
+                'datefinish' => date("Y-m-d", strtotime($request->datefinish))
             ]);
-
             $validationArray = $this->getValidationArray($request);
             $validation = $request->validate($validationArray);
 
             //get Workgroup code
-            $wgcode = Employee::select('workgrp')->where('empid', $request->empidWhour)->first();
+            $wgdata = Employee::where('empid', $request->empidWhour)->first();
 
-            //get workdate
-            $workdate = $request->datestart;
-            while (strtotime($workdate) <= strtotime($request->datefinish) ){
-                $daycode = date_format(date_create($workdate),"N");
-                if($daycode == 7){
-                    $daycode = 1;
-                } else{
-                    $daycode += 1;
-                }
-                $daycode = ('0'.$daycode);
-                $wgdetails = WorkingGroupDetail::where('workgroup', $wgcode->workgrp)->where('daycode', $daycode)->get();
+            //get WorkGroupDetail total
+            $wgShiftrolling = WorkingGroup::select('shiftrolling')->where('workgroup', $wgdata->workgrp)->first();
+            $splits = str_split($wgShiftrolling->shiftrolling);
+            $wgCount = count($splits);
+            $wgdetailCount = WorkingGroupDetail::where('workgroup', $wgdata->workgrp)->count();
 
-                $queries = Holiday::select('holidaydate')->where('status', 1)->get();
-                foreach ($queries as $query) {  //get holidays date
-                    $holidaydates[] = $query->holidaydate;
-                }
-
-                foreach ($wgdetails as $wgdetail){
-                    if (in_array(date_format(date_create($workdate),"Y-m-d"), $holidaydates)){
-                        $workstatus = 'L';
+            if (($wgCount * 7) == $wgdetailCount){  //process create hanya bisa dilakukan jika wgdetail data sudah dicreate smua pada tiap day & shiftno
+                $workdate = $request->datestart;    //get workdate
+                while (strtotime($workdate) <= strtotime($request->datefinish) ){
+                    $daycode = date_format(date_create($workdate),"N");
+                    if($daycode == 7){
+                        $daycode = 1;
                     } else{
-                        if ($wgdetail->worktype == 'KL'){
+                        $daycode += 1;
+                    }
+                    $daycode = ('0'.$daycode);
+                    $wgdetails = WorkingGroupDetail::where('workgroup', $wgdata->workgrp)->where('daycode', $daycode)->get();
+
+                    $queries = Holiday::select('holidaydate')->where('status', 1)->get();
+                    foreach ($queries as $query) {  //get holidays date
+                        $holidaydates[] = $query->holidaydate;
+                    }
+
+                    foreach ($wgdetails as $wgdetail){
+                        if (in_array(date_format(date_create($workdate),"Y-m-d"), $holidaydates)){
                             $workstatus = 'L';
-                        } elseif ($wgdetail->worktype == 'KB'){
-                            $workstatus = 'M';
+                        } else{
+                            if ($wgdetail->worktype == 'KL'){
+                                $workstatus = 'L';
+                            } elseif ($wgdetail->worktype == 'KB'){
+                                $workstatus = 'M';
+                            }
+                        }
+                        $whourData = WorkingHour::where('empid', $request->empidWhour)
+                            ->where('workdate',$workdate)->where('shiftno', $wgdetail->shiftno)->first();
+                        if (!isset($whourData)){    //jika sudah ada datanya maka tak perlu ditambahkan lagi
+                            $dml = WorkingHour::create([
+                                'uuid' => Str::uuid(),
+                                'empid' => $request->empidWhour,
+                                'workdate' => $workdate,
+                                'shiftno' => $wgdetail->shiftno,
+                                'whtimestart' => $wgdetail->whtimestart,
+                                'whdatestart' => $workdate,
+                                'whtimefinish' => $wgdetail->whtimefinish,
+                                'whdatefinish' => (strtotime($wgdetail->whtimestart) <= strtotime($wgdetail->whtimefinish))
+                                    ? $workdate
+                                    : date('Y-m-d', strtotime($workdate .'+1 day')),
+                                'rstimestart' => $wgdetail->rstimestart,
+                                'rsdatestart' => $workdate,
+                                'rstimefinish' => $wgdetail->rstimefinish,
+                                'rsdatefinish' => (strtotime($wgdetail->rstimestart) <= strtotime($wgdetail->rstimefinish))
+                                    ? $workdate
+                                    : date('Y-m-d', strtotime($workdate .'+1 day')),
+                                'stdhours' => $wgdetail->stdhours,
+                                'minhours' => $wgdetail->minhours,
+                                'worktype' => $wgdetail->worktype,
+                                'workstatus' => $workstatus,
+                                'status' => $request->status,
+                                'owned_by' => $request->user()->company_id,
+                                'created_by' => $request->user()->id,
+                            ]);
                         }
                     }
-                    $whourData = WorkingHour::where('empid', $request->empidWhour)
-                        ->where('workdate',$workdate)->where('shiftno', $wgdetail->shiftno)->first();
-                    if (!isset($whourData)){    //untuk
-                        $whour = WorkingHour::create([
-                            'uuid' => Str::uuid(),
-                            'empid' => $request->empidWhour,
-                            'workdate' => $workdate,
-                            'shiftno' => $wgdetail->shiftno,
-                            'whtimestart' => $wgdetail->whtimestart,
-                            'whdatestart' => $workdate,
-                            'whtimefinish' => $wgdetail->whtimefinish,
-                            'whdatefinish' => (strtotime($wgdetail->whtimestart) <= strtotime($wgdetail->whtimefinish))
-                                ? $workdate
-                                : date('Y/m/d', strtotime($workdate .'+1 day')),
-                            'rstimestart' => $wgdetail->rstimestart,
-                            'rsdatestart' => $workdate,
-                            'rstimefinish' => $wgdetail->rstimefinish,
-                            'rsdatefinish' => (strtotime($wgdetail->rstimestart) <= strtotime($wgdetail->rstimefinish))
-                                ? $workdate
-                                : date('Y/m/d', strtotime($workdate .'+1 day')),
-                            'stdhours' => $wgdetail->stdhours,
-                            'minhours' => $wgdetail->minhours,
-                            'worktype' => $wgdetail->worktype,
-                            'workstatus' => $workstatus,
-                            'status' => $request->status,
-                            'owned_by' => $request->user()->company_id,
-                            'created_by' => $request->user()->id,
-                        ]);
-                    }
+                    $workdate = date('Y-m-d', strtotime($workdate .'+1 day'));  //get tomorrow
                 }
-                $workdate = date('Y-m-d', strtotime($workdate .'+1 day'));  //get tomorrow
+                if (isset($dml)){
+                    $response = ['success' => 'new Working hour added successfully.'];
+                } else {
+                    $response = ['warning' => 'no Working hour data added'];
+                }
+            } else {
+                $response = ['error' => 'The Working Group detail data must be existed in every day & shiftno first!'];
             }
-            if (isset($whour)){
-                return response()->json(['success' => 'a new Working hour added successfully.']);
-            }
-            return response()->json(['success' => 'no Working hour data added.']);
+            return response()->json($response);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }

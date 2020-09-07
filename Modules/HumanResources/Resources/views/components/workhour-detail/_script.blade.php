@@ -60,7 +60,7 @@
             // $('#whourModal').modal('show');
         });
 
-        $('#whourForm').on('submit', function (event) {
+        $('#whourDetailForm').on('submit', function (event) {
             event.preventDefault();
             let url_action = $(this).attr('action');
             $.ajax({

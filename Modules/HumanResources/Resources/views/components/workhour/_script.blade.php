@@ -128,6 +128,14 @@
                             $("#ibox-whour").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
                             $("#ibox-whour").find('#form_result').html(data.success);
                         }
+                        if(data.warning){
+                            $("#ibox-whour").find('#form_result').attr('class', 'alert alert-warning fade show font-weight-bold');
+                            $("#ibox-whour").find('#form_result').html(data.warning);
+                        }
+                        if(data.error){
+                            $("#ibox-whour").find('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
+                            $("#ibox-whour").find('#form_result').html(data.error);
+                        }
                         $('#whourModal').modal('hide');
                         $('#whour-table').DataTable().ajax.reload();
                     },
