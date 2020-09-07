@@ -85,6 +85,9 @@
                     @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
                         <li><a class="nav-link" data-toggle="tab" href="#whour-detail">Working Hour detail</a></li>
                     @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
+                        <li><a class="nav-link" data-toggle="tab" href="#whour-attendance">Working Hour attendance</a></li>
+                    @endcan
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" id="employee" class="tab-pane active">
@@ -416,6 +419,46 @@
                             </div>
                         </div>
                     </div>
+                    <div role="tabpanel" id="whour-attendance" class="tab-pane">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h4 class="text-center">Working Hour Detail data</h4>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-footer" id="ibox-whour-attendance">
+                                <div id="form_result" role="alert"></div>
+                                <div class="table-responsive">
+                                    <table id="whour-attendance-table" class="table table-hover text-center display nowrap" width="100%">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Employee ID</th>
+                                            <th>Work date</th>
+                                            <th>Attendance type</th>
+                                            <th>Date Start</th>
+                                            <th>Time Start</th>
+                                            <th>Date Finish</th>
+                                            <th>Time finish</th>
+                                            <th>Validatedon</th>
+                                            <th>Processedon</th>
+                                            <th>Round Date Start</th>
+                                            <th>Round Time Start</th>
+                                            <th>Round Date Finish</th>
+                                            <th>Round Time Finish</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -443,6 +486,9 @@
         @endcan
         @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
             @include('humanresources::components.workhour-detail._script')
+        @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
+            @include('humanresources::components.workhour-attendance._script')
         @endcan
     @endcan
 
