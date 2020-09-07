@@ -58,6 +58,8 @@ Route::name('hr.')->group(function () {
         Route::resource('address', 'AddressController');
 
         Route::resource('working-hour', 'WorkingHourController');
+
+        Route::resource('working-hour-detail', 'WorkingHourDetailController');
     });
 });
 
