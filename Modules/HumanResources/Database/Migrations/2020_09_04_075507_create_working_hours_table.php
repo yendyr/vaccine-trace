@@ -31,7 +31,7 @@ class CreateWorkingHoursTable extends Migration
             $table->integer('minhours')->comment('minimum jam kerja (satuan jam)')->nullable();
             $table->char('worktype', 2)->comment('jenis kerja (i.e: KB=kerja biasa, KL=Kerja libur')->nullable();
             $table->char('workstatus', 1)->comment('status kerja (i.e: M=masuk, L=libur')->nullable();
-            $table->dateTime('processedon')->comment('waktu proses kalkulasi/re   (result')->nullable();
+            $table->dateTime('processedon')->comment('waktu proses kalkulasi/re (result)')->nullable();
             $table->double('leavehours')->comment('jumlah total jam ijin semetara/ijin potong jam kerja')->nullable();
             $table->double('attdhours')->comment('jumlah total jam kehadiran [jam kerja dan lembur (awal & akhir)]')->nullable();
             $table->double('overhours')->comment('jumlah total jam lembur lain')->nullable();

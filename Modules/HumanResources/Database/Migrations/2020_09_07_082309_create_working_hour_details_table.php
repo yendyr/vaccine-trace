@@ -23,7 +23,7 @@ class CreateWorkingHourDetailsTable extends Migration
             $table->time('timestart')->comment('jam masuk, seperti 08:40:30')->nullable();
             $table->date('datefinish')->comment('Tanggal pulang, [format: Y-m-d]')->nullable();
             $table->time('timefinish')->comment('jam pulang, seperti 17:00:00')->nullable();
-            $table->dateTime('processedon')->comment('waktu proses kalkulasi/re   (result')->nullable();
+            $table->dateTime('processedon')->comment('waktu proses (format: Y-m-d H:i:s)')->nullable();
             $table->string('mainattd', 1)->comment('Kehadiran jam kerja [Y=yes, N=no]')->nullable();
             $table->date('caldatestart')->comment('Calculate tanggal mulai kehadiran, [format: Y-m-d]')->nullable();
             $table->time('caltimestart')->comment('Calculate jam mulai kehadiran, [ie: 07:30:15]')->nullable();
