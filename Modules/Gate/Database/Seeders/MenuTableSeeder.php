@@ -270,5 +270,19 @@ class MenuTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+        $menu = Menu::create([
+            'menu_link' => 'hr/attendance',
+            'menu_text' => 'Attendance',
+            'parent' => 'Human Resources',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 0,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
     }
 }

@@ -60,6 +60,9 @@
         @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
             @include('humanresources::components.workhour.modal')
         @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
+            @include('humanresources::components.attendance.modal')
+        @endcan
     @endcan
 
     <div class="row">
@@ -88,69 +91,58 @@
                     @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
                         <li><a class="nav-link" data-toggle="tab" href="#whour-attendance">Working Hour attendance</a></li>
                     @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
+                        <li><a class="nav-link" data-toggle="tab" href="#attendance">Attendance</a></li>
+                    @endcan
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" id="employee" class="tab-pane active">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h4 class="text-center">Employees data</h4>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-footer" id="ibox-employee">
-                                <div id="form_result" role="alert"></div>
-                                <div class="col-md-1 m-2 p-1 row">
-                                    @can('create', \Modules\HumanResources\Entities\Employee::class)
-                                        <button type="button" id="create-employee" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                                    @endcan
-                                </div>
-                                <div class="table-responsive">
-                                    <table id="employee-table" class="table table-hover text-center display nowrap" width="100%">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>photo</th>
-                                            <th>Employee ID</th>
-                                            <th>Name</th>
-                                            <th>Place of birth</th>
-                                            <th>Date of birth</th>
-                                            <th>Gender</th>
-                                            <th>Religion</th>
-                                            <th>Phone</th>
-                                            <th>Email</th>
-                                            <th>Bloodtype</th>
-                                            <th>Marital status</th>
-                                            <th>Emp date</th>
-                                            <th>Cessation date</th>
-                                            <th>Probation</th>
-                                            <th>Cessation code</th>
-                                            <th>Recruit by</th>
-                                            <th>Employee type</th>
-                                            <th>Workgroup</th>
-                                            <th>Site</th>
-                                            <th>Access group</th>
-                                            <th>Achievement group</th>
-                                            <th>Org code</th>
-                                            <th>Org. level</th>
-                                            <th>Title</th>
-                                            <th>Jobtitle</th>
-                                            <th>Job group</th>
-                                            <th>Cost code</th>
-                                            <th>Remark</th>
-                                            <th>Status</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @component('humanresources::components.index', ['idPanel' => 'employee', 'iboxTitle' => 'Employees data', 'ibox' => 'employee'])
+                        @slot('addButton')
+                            @can('create', \Modules\HumanResources\Entities\Employee::class)
+                                <button type="button" id="create-employee" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                            @endcan
+                        @endslot
+                        @slot('tableContent')
+                            <table id="employee-table" class="table table-hover text-center display nowrap" width="100%">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>photo</th>
+                                    <th>Employee ID</th>
+                                    <th>Name</th>
+                                    <th>Place of birth</th>
+                                    <th>Date of birth</th>
+                                    <th>Gender</th>
+                                    <th>Religion</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Bloodtype</th>
+                                    <th>Marital status</th>
+                                    <th>Emp date</th>
+                                    <th>Cessation date</th>
+                                    <th>Probation</th>
+                                    <th>Cessation code</th>
+                                    <th>Recruit by</th>
+                                    <th>Employee type</th>
+                                    <th>Workgroup</th>
+                                    <th>Site</th>
+                                    <th>Access group</th>
+                                    <th>Achievement group</th>
+                                    <th>Org code</th>
+                                    <th>Org. level</th>
+                                    <th>Title</th>
+                                    <th>Jobtitle</th>
+                                    <th>Job group</th>
+                                    <th>Cost code</th>
+                                    <th>Remark</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        @endslot
+                    @endcomponent
                     <div role="tabpanel" id="idcard" class="tab-pane">
                         <div class="ibox ">
                             <div class="ibox-title">
@@ -459,6 +451,39 @@
                             </div>
                         </div>
                     </div>
+                    <div role="tabpanel" id="attendance" class="tab-pane">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h4 class="text-center">Attendance data</h4>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-footer" id="ibox-attendance">
+                                <div id="form_result" role="alert"></div>
+                                <div class="table-responsive">
+                                    <table id="attendance-table" class="table table-hover text-center display nowrap" width="100%">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Employee ID</th>
+                                            <th>Attendance type</th>
+                                            <th>Attendance date</th>
+                                            <th>Attendance time</th>
+                                            <th>Device</th>
+                                            <th>Inputon</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -489,6 +514,9 @@
         @endcan
         @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
             @include('humanresources::components.workhour-attendance._script')
+        @endcan
+        @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
+            @include('humanresources::components.attendance._script')
         @endcan
     @endcan
 

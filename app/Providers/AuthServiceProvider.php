@@ -16,6 +16,7 @@ use Modules\Gate\Policies\RoleMenuPolicy;
 use Modules\Gate\Policies\RolePolicy;
 use Modules\Gate\Policies\UserPolicy;
 use Modules\HumanResources\Entities\Address;
+use Modules\HumanResources\Entities\Attendance;
 use Modules\HumanResources\Entities\Education;
 use Modules\HumanResources\Entities\Employee;
 use Modules\HumanResources\Entities\Family;
@@ -29,6 +30,7 @@ use Modules\HumanResources\Entities\WorkingHour;
 use Modules\HumanResources\Entities\WorkingHourAttendance;
 use Modules\HumanResources\Entities\WorkingHourDetail;
 use Modules\HumanResources\Policies\AddressPolicy;
+use Modules\HumanResources\Policies\AttendancePolicy;
 use Modules\HumanResources\Policies\EducationPolicy;
 use Modules\HumanResources\Policies\EmployeePolicy;
 use Modules\HumanResources\Policies\FamilyPolicy;
@@ -68,6 +70,7 @@ class AuthServiceProvider extends ServiceProvider
         WorkingHour::class => WorkingHourPolicy::class,
         WorkingHourDetail::class => WorkingHourDetailPolicy::class,
         WorkingHourAttendance::class => WorkingHourAttendancePolicy::class,
+        Attendance::class => AttendancePolicy::class,
     ];
 
     /**
