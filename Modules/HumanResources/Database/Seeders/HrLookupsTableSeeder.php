@@ -180,5 +180,22 @@ class HrLookupsTableSeeder extends Seeder
                 'uuid' => Str::uuid(),
             ]);
         }
+
+        $attdtypes = ['Masuk kerja', 'Pulang kerja', 'Ijin Keluar', 'Ijin Masuk', 'Masuk lembur', 'Keluar lembur'];
+        foreach ($attdtypes as $i => $attdtype) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'attendance',
+                'lkey' => 'attdtype',
+                'maingrp' => (0 . ($i+1)),
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $attdtype,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
     }
 }

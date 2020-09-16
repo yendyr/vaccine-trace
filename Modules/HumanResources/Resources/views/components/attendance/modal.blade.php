@@ -36,15 +36,7 @@
                     <div class="row">
                         <div class="form-group col-sm-8">
                             <label class="col-form-label" for="fattdtype">Attendance Type</label>
-                            {{--                            <select class="select2_attdtype form-control m-b-sm" id="fattdtype" name="attdtype">--}}
-                            {{--                            </select>--}}
-                            <select class="form-control m-b " id="fattdtype" name="attdtype">
-                                <option value="01">Masuk kerja</option>
-                                <option value="02">Pulang kerja</option>
-                                <option value="03">Ijin Keluar</option>
-                                <option value="04">Ijin Masuk</option>
-                                <option value="05">Masuk lembur</option>
-                                <option value="06">Keluar lembur</option>
+                            <select class="select2_attdtype form-control m-b-sm" id="fattdtype" name="attdtype">
                             </select>
                             <div class="invalid-feedback-attdtype text-danger"></div>
                         </div>
