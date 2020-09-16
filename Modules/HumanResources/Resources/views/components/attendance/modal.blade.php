@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="attendanceModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle"></h5>
@@ -12,78 +12,41 @@
             <form method="post" id="attendanceForm">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fempidAddress">Employee ID</label>
-                            <select class="select2_empidAddress form-control m-b-sm" id="fempidAddress" name="empidAddress"
-                            onchange="getFamid(this)"></select>
-                            <div class="invalid-feedback-empidAddress text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="ffamidAddress">Family ID</label>
-                            <select class="select2_famidAddress form-control m-b-sm" id="ffamidAddress" name="famidAddress"></select>
-                            <div class="invalid-feedback-famidAddress text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="faddrid">Address ID</label>
-                            <input type="text" class="form-control" id="faddrid" name="addrid">
-                            <div class="invalid-feedback-addrid text-danger"></div>
+                        <div class="form-group col-sm-12">
+                            <label class="col-form-label" for="fempidAttendance">Employee ID</label>
+                            <select class="select2_empidAttendance form-control m-b-sm" id="fempidAttendance" name="empidAttendance">
+                            </select>
+                            <div class="invalid-feedback-empidAttendance text-danger"></div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-sm-7">
-                            <label class="col-form-label" for="fstreet">Street</label>
-                            <input type="text" class="form-control" id="fstreet" name="street">
-                            <div class="invalid-feedback-street text-danger"></div>
+                        <div class="form-group col-sm-6">
+                            <label class="col-form-label" for="fattddate">Attendance Date</label>
+                            <input type="date" class="form-control" id="fattddate" name="attddate">
+                            <div class="invalid-feedback-attddate text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-4 offset-sm-1">
-                            <label class="col-form-label" for="farea">Area</label>
-                            <input type="text" class="form-control" id="farea" name="area">
-                            <div class="invalid-feedback-area text-danger"></div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fcity">City</label>
-                            <input type="text" class="form-control" id="fcity" name="city">
-                            <div class="invalid-feedback-city text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fstate">State</label>
-                            <input type="text" class="form-control" id="fstate" name="state">
-                            <div class="invalid-feedback-state text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fcountry">Country</label>
-                            <input type="text" class="form-control" id="fcountry" name="country">
-                            <div class="invalid-feedback-country text-danger"></div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label class="col-form-label" for="fpostcode">Post Code</label>
-                            <input type="text" class="form-control" id="fpostcode" name="postcode">
-                            <div class="invalid-feedback-postcode text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4 offset-sm-1">
-                            <label class="col-form-label" for="ftel01">Phone 1</label>
-                            <input type="text" class="form-control" id="ftel01" name="tel01">
-                            <div class="invalid-feedback-tel01 text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="ftel02">Phone 2</label>
-                            <input type="text" class="form-control" id="ftel02" name="tel02">
-                            <div class="invalid-feedback-tel02 text-danger"></div>
+                        <div class="form-group col-sm-6">
+                            <label class="col-form-label" for="fattdtime">Attendance Time</label>
+                            <input class="form-control" id="fattdtime" type="time" name="attdtime">
+                            <div class="invalid-feedback-attdtime text-danger"></div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-sm-8">
-                            <label class="col-form-label" for="fremark">Remark</label>
-                            <input type="text" class="form-control" id="fremark" name="remark">
-                            <div class="invalid-feedback-remark text-danger"></div>
+                            <label class="col-form-label" for="fattdtype">Attendance Type</label>
+                            {{--                            <select class="select2_attdtype form-control m-b-sm" id="fattdtype" name="attdtype">--}}
+                            {{--                            </select>--}}
+                            <select class="form-control m-b " id="fattdtype" name="attdtype">
+                                <option value="01">Masuk kerja</option>
+                                <option value="02">Pulang kerja</option>
+                                <option value="03">Ijin Keluar</option>
+                                <option value="04">Ijin Masuk</option>
+                                <option value="05">Masuk lembur</option>
+                                <option value="06">Keluar lembur</option>
+                            </select>
+                            <div class="invalid-feedback-attdtype text-danger"></div>
                         </div>
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="fstatus">Status</label>
@@ -94,6 +57,7 @@
                             <div class="invalid-feedback-status text-danger"></div>
                         </div>
                     </div>
+
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>

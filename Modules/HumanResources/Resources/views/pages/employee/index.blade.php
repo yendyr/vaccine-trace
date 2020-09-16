@@ -8,7 +8,6 @@
         .select2{
             width: 100% !important;
         }
-
         .selected{
             background-color: #f2f2f2;
         }
@@ -25,6 +24,33 @@
             background-color: white;
             overflow-y: hidden !important;
             top: -13px !important;
+        }
+
+        .scrollable-tabs{
+            margin: 0% 3% 1%;
+        }
+        .responsive__tabs ul.scrollable-tabs {
+            background-color: rgb(229, 235, 238);
+            padding: 0% 2%;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: row;
+        }
+        .responsive__tabs ul.scrollable-tabs li {
+            list-style-type: none;
+        }
+        .responsive__tabs ul.scrollable-tabs li a {
+            display: inline-block;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .responsive__tabs ul.scrollable-tabs li a:hover, .responsive__tabs ul.scrollable-tabs li a.active {
+            background-color: rgb(25, 170, 134);
+            color: rgb(255, 255, 255);
         }
 
     </style>
@@ -67,83 +93,99 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="tabs-container">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li><a class="nav-link active" data-toggle="tab" href="#employee">Employees</a></li>
+            <div class="tabs-container responsive__tabs">
+                <ul class="scrollable-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#employee">Employees</a>
+                    </li>
                     @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#idcard">ID Card</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="idcard" data-toggle="tab" role="tab" href="#idcard">ID Card</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Education::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#education">Education</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="education" data-toggle="tab" role="tab" href="#education">Education</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Family::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#family">Family</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="family" data-toggle="tab" role="tab" href="#family">Family</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Address::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#address">Address</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="address" data-toggle="tab" role="tab" href="#address">Address</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#whour">Working Hour</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="whour" data-toggle="tab" role="tab" href="#whour">Working Hour</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#whour-detail">Working Hour detail</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="whour-detail" data-toggle="tab" role="tab" href="#whour-detail">Working Hour detail</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#whour-attendance">Working Hour attendance</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="whour-attendance" data-toggle="tab" role="tab" href="#whour-attendance">Working Hour attendance</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#attendance">Attendance</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="attendance" data-toggle="tab" role="tab" href="#attendance">Attendance</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
-                    @component('humanresources::components.index', ['idPanel' => 'employee', 'iboxTitle' => 'Employees data', 'ibox' => 'employee'])
-                        @slot('addButton')
-                            @can('create', \Modules\HumanResources\Entities\Employee::class)
-                                <button type="button" id="create-employee" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                            @endcan
-                        @endslot
-                        @slot('tableContent')
-                            <table id="employee-table" class="table table-hover text-center display nowrap" width="100%">
-                                <thead>
-                                <tr class="text-center">
-                                    <th>photo</th>
-                                    <th>Employee ID</th>
-                                    <th>Name</th>
-                                    <th>Place of birth</th>
-                                    <th>Date of birth</th>
-                                    <th>Gender</th>
-                                    <th>Religion</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Bloodtype</th>
-                                    <th>Marital status</th>
-                                    <th>Emp date</th>
-                                    <th>Cessation date</th>
-                                    <th>Probation</th>
-                                    <th>Cessation code</th>
-                                    <th>Recruit by</th>
-                                    <th>Employee type</th>
-                                    <th>Workgroup</th>
-                                    <th>Site</th>
-                                    <th>Access group</th>
-                                    <th>Achievement group</th>
-                                    <th>Org code</th>
-                                    <th>Org. level</th>
-                                    <th>Title</th>
-                                    <th>Jobtitle</th>
-                                    <th>Job group</th>
-                                    <th>Cost code</th>
-                                    <th>Remark</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        @endslot
-                    @endcomponent
-                    <div role="tabpanel" id="idcard" class="tab-pane">
+                    <div role="tabpanel" id="employee" class="tab-pane container fade show active">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h4 class="text-center">Employee data</h4>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-footer" id="ibox-employee">
+                                <div id="form_result" role="alert"></div>
+                                <div class="col-md-1 m-2 p-1 row">
+                                    @can('create', \Modules\HumanResources\Entities\Employee::class)
+                                        <button type="button" id="create-employee" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                    @endcan
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="employee-table" class="table table-hover text-center display nowrap" width="100%">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>photo</th>
+                                            <th>Employee ID</th>
+                                            <th>Name</th>
+                                            <th>Place of birth</th>
+                                            <th>Date of birth</th>
+                                            <th>Gender</th>
+                                            <th>Religion</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Bloodtype</th>
+                                            <th>Marital status</th>
+                                            <th>Emp date</th>
+                                            <th>Cessation date</th>
+                                            <th>Probation</th>
+                                            <th>Cessation code</th>
+                                            <th>Recruit by</th>
+                                            <th>Employee type</th>
+                                            <th>Workgroup</th>
+                                            <th>Site</th>
+                                            <th>Access group</th>
+                                            <th>Achievement group</th>
+                                            <th>Org code</th>
+                                            <th>Org. level</th>
+                                            <th>Title</th>
+                                            <th>Jobtitle</th>
+                                            <th>Job group</th>
+                                            <th>Cost code</th>
+                                            <th>Remark</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="idcard" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">ID Card data</h4>
@@ -182,7 +224,7 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="education" class="tab-pane">
+                    <div role="tabpanel" id="education" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">Education data</h4>
@@ -227,7 +269,7 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="family" class="tab-pane">
+                    <div role="tabpanel" id="family" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">Family data</h4>
@@ -273,7 +315,7 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="address" class="tab-pane">
+                    <div role="tabpanel" id="address" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">Address data</h4>
@@ -318,7 +360,7 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="whour" class="tab-pane">
+                    <div role="tabpanel" id="whour" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">Working Hour data</h4>
@@ -371,7 +413,7 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="whour-detail" class="tab-pane">
+                    <div role="tabpanel" id="whour-detail" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">Working Hour Detail data</h4>
@@ -411,7 +453,7 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="whour-attendance" class="tab-pane">
+                    <div role="tabpanel" id="whour-attendance" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">Working Hour Detail data</h4>
@@ -451,7 +493,7 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="attendance" class="tab-pane">
+                    <div role="tabpanel" id="attendance" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h4 class="text-center">Attendance data</h4>
@@ -464,6 +506,11 @@
                             </div>
                             <div class="ibox-footer" id="ibox-attendance">
                                 <div id="form_result" role="alert"></div>
+                                <div class="col-md-1 m-2 p-1 row">
+                                    @can('create', \Modules\HumanResources\Entities\Attendance::class)
+                                        <button type="button" id="create-attendance" class="btn btn-block btn-primary"><strong>Add</strong></button>
+                                    @endcan
+                                </div>
                                 <div class="table-responsive">
                                     <table id="attendance-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
@@ -473,7 +520,7 @@
                                             <th>Attendance date</th>
                                             <th>Attendance time</th>
                                             <th>Device</th>
-                                            <th>Inputon</th>
+                                            <th>Input On</th>
                                             <th>Status</th>
                                         </tr>
                                         </thead>
@@ -490,6 +537,15 @@
 
         </div>
     </div>
+
+    @push('footer-scripts')
+        <script>
+            $('.tabs-container').on('click', 'li', function() {
+                $('.scrollable-tabs li a.active').removeClass('active');
+                $(this).addClass('active');
+            });
+        </script>
+    @endpush
 
     @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
         @include('humanresources::components.employee._script')
