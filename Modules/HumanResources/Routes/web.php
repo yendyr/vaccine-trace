@@ -63,6 +63,7 @@ Route::name('hr.')->group(function () {
 
         Route::resource('working-hour-attendance', 'WorkingHourAttendanceController');
 
+        Route::get('/attendance/select2/type', 'AttendanceController@select2Type')->name('attendance.select2.type');
         Route::resource('attendance', 'AttendanceController');
     });
 });

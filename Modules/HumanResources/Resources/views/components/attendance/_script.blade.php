@@ -1,3 +1,14 @@
+@push('header-scripts')
+    <style>
+        .select2-container.select2-container--default.select2-container--open {
+            z-index: 9999999 !important;
+        }
+        .select2{
+            width: 100% !important;
+        }
+
+    </style>
+@endpush
 
 @push('footer-scripts')
     <script>
@@ -26,6 +37,15 @@
         });
 
         $(document).ready(function () {
+            $('.select2_attdtype').select2({
+                placeholder: 'choose Attendance type',
+                ajax: {
+                    url: "{{route('hr.attendance.select2.type')}}",
+                    dataType: 'json',
+                },
+                dropdownParent: $('#attendanceModal')
+            });
+
             $('#attendanceForm').find('.select2_empidAttendance').select2({
                 placeholder: 'choose Emp ID',
                 ajax: {
@@ -43,6 +63,8 @@
 
                 $('#fempidAttendance').val(null).trigger('change');
                 $('#fempidAttendance').attr('disabled', false);
+                $('#fattdtype').val(null).trigger('change');
+                $('#fattdtype').attr('disabled', false);
                 $('#attendanceModal').modal('show');
                 $('#attendanceForm').attr('action', '/hr/attendance');
             });
@@ -79,15 +101,15 @@
                         let l = $( '.ladda-button-submit' ).ladda();
                         l.ladda( 'start' );
                         $('[class^="invalid-feedback-"]').html('');
-                        $("#whourForm").find('#saveBtn').prop('disabled', true);
+                        $("#attendanceForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
                         if (data.success) {
-                            $("#ibox-whour").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-whour").find('#form_result').html(data.success);
+                            $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
+                            $("#ibox-attendance").find('#form_result').html(data.success);
                         }
-                        $('#whourModal').modal('hide');
-                        $('#whour-table').DataTable().ajax.reload();
+                        $('#attendanceModal').modal('hide');
+                        $('#attendance-table').DataTable().ajax.reload();
                     },
                     error:function(data){
                         let errors = data.responseJSON.errors;
@@ -100,7 +122,7 @@
                     complete:function(){
                         let l = $( '.ladda-button-submit' ).ladda();
                         l.ladda( 'stop' );
-                        $("#whourForm").find('#saveBtn').prop('disabled', false);
+                        $("#attendanceForm").find('#saveBtn').prop('disabled', false);
                     }
                 });
             });
