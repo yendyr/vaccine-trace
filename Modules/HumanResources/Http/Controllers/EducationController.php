@@ -203,8 +203,8 @@ class EducationController extends Controller
         $validationArray = [
             'empidEducation' => ['required', 'string', 'max:20'],
             'instname' => ['required', 'string', 'max:100'],
-            'startperiod' => ['required', 'numeric', 'max:4'],
-            'finishperiod' => ['required', 'numeric', 'max:4'],
+            'startperiod' => ['required', 'numeric'],
+            'finishperiod' => ['required', 'numeric'],
             'city' => ['required', 'string', 'max:30'],
             'state' => ['required', 'string', 'max:30'],
             'country' => ['required', 'string', 'max:30'],
