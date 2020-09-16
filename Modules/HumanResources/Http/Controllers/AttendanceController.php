@@ -110,7 +110,7 @@ class AttendanceController extends Controller
                 'empid' => $request->empidAttendance,
                 'attdtype' => $request->attdtype,
                 'attddate' => $request->attddate,
-                'attdtime' => $request->attdtime,
+                'attdtime' => date_format(date_create($request->attdtime), 'H:i:s'),
                 'deviceid' => "XX",
                 'inputon' => date("Y-m-d H:i:s"),
                 'status' => $request->status,
