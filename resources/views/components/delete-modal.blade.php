@@ -14,7 +14,9 @@
             <div class="modal-footer">
                 <form class="d-inline" id="delete-form" name="deleteForm">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="delete-button" type="submit" class="btn btn-danger">Delete</button>
+                    <button id="delete-button" type="submit" data-style="zoom-in" class="ladda-button ladda-button-submit btn btn-danger">
+                        Delete
+                    </button>
                 </form>
             </div>
         </div>
