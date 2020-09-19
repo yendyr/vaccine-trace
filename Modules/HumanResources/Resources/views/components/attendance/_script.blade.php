@@ -27,12 +27,13 @@
             },
             columns: [
                 { data: 'empid', name: 'empid' },
-                { data: 'attdtype', name: 'attdtype', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'status', name: 'status' },
+                { data: 'action', name: 'action' },
             ]
         });
 
@@ -65,6 +66,7 @@
                 $('#fempidAttendance').attr('disabled', false);
                 $('#fattdtype').val(null).trigger('change');
                 $('#fattdtype').attr('disabled', false);
+                $("input[value='patch']").remove();
                 $('#attendanceModal').modal('show');
                 $('#attendanceForm').attr('action', '/hr/attendance');
             });
@@ -81,6 +83,24 @@
                     value: 'patch'
                 }).prependTo('#attendanceForm');
 
+                $('#fempidAttendance').attr('disabled', true);
+                $('#fempidAttendance').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
+
+                $('#fattddate').val(data.attddate);
+                $('#fattdtime').val(data.attdtime);
+                $('#fattdtype').append('<option value="' + data.attdtype.value + '" selected>' + data.attdtype.content + '</option>');
+
+                $("#educationForm").find('#fstatus').find('option').removeAttr('selected');
+                if (data.status == '<p class="text-success">Active</p>'){
+                    $("#educationForm").find('#fstatus').find('option[value="1"]').attr('selected', '');
+                }else{
+                    $("#educationForm").find('#fstatus').find('option[value="0"]').attr('selected', '');
+                }
+
+                $('#saveBtn').val("edit-education");
+                $('#attendanceForm').attr('action', '/hr/attendance/' + data.id);
+
+                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $('#attendanceModal').modal('show');
             });
 
@@ -126,6 +146,51 @@
                     }
                 });
             });
+
+            $('#attendance-table').on('click', '.deleteBtn', function () {
+                let tr = $(this).closest('tr');
+                let data = $('#attendance-table').DataTable().row(tr).data();
+                $('#deleteModal').modal('show');
+                $('#delete-form').attr('action', "/hr/attendance/"+ data.id);
+            });
+            $('#delete-form').on('submit', function (e) {
+                e.preventDefault();
+                let url_action = $(this).attr('action');
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $(
+                            'meta[name="csrf-token"]'
+                        ).attr("content")
+                    },
+                    url: url_action,
+                    type: "DELETE", //bisa method
+                    beforeSend:function(){
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'start' );
+                        $("#delete-form").find('#delete-button').prop('disabled', true);
+                    },
+                    error: function(data){
+                        if (data.error) {
+                            $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
+                            $("#ibox-attendance").find('#form_result').html(data.error);
+                        }
+                    },
+                    success:function(data){
+                        if (data.success) {
+                            $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
+                            $("#ibox-attendance").find('#form_result').html(data.success);
+                        }
+                        $('#deleteModal').modal('hide');
+                        $('#attendance-table').DataTable().ajax.reload();
+                    },
+                    complete: function(data) {
+                        let l = $( '.ladda-button-submit' ).ladda();
+                        l.ladda( 'stop' );
+                        $("#delete-form").find('#delete-button').prop('disabled', false);
+                    }
+                });
+            });
+
         });
     </script>
 

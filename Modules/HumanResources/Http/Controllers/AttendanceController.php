@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\HumanResources\Entities\Attendance;
 use Modules\HumanResources\Entities\HrLookup;
@@ -33,8 +34,9 @@ class AttendanceController extends Controller
                 ->addColumn('attdtype', function($row){
                     $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'attendance')->where('lkey', 'attdtype')
                         ->where('maingrp', $row->attdtype)->first();
-
-                    return ($query->maingrp . ' - ' . $query->remark);
+                    $attdtype['content'] = $query->remark;
+                    $attdtype['value'] = $query->maingrp;
+                    return $attdtype;
                 })
                 ->addColumn('attdtime', function($row){
                     if (isset($row->attdtime)){
@@ -53,6 +55,20 @@ class AttendanceController extends Controller
                         return '<p class="text-success">Active</p>';
                     } else{
                         return '<p class="text-danger">Inactive</p>';
+                    }
+                })
+                ->addColumn('action', function($row){
+                    if( Auth::user()->can('update', Attendance::class) ) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        if (Auth::user()->can('delete', Attendance::class)){
+                            $deleteId = $row->id;
+                            $deleteable = true;
+                            return view('components.action-button', compact(['updateable', 'updateValue', 'deleteable', 'deleteId']));
+                        }
+                        return view('components.action-button', compact(['updateable', 'updateValue']));
+                    }else{
+                        return '<p class="text-muted">no action authorized</p>';
                     }
                 })
                 ->escapeColumns([])
@@ -104,7 +120,6 @@ class AttendanceController extends Controller
             $validation = $request->validate($validationArray);
 
             date_default_timezone_set('Asia/Jakarta');
-
             $dml = Attendance::create([
                 'uuid' => Str::uuid(),
                 'empid' => $request->empidAttendance,
@@ -153,7 +168,30 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, Attendance $attendance)
     {
-        //
+        if ($request->ajax()){
+            $validationArray = $this->getValidationArray($request);
+            unset($validationArray['empidAttendance']);
+            $validation = $request->validate($validationArray);
+
+            date_default_timezone_set('Asia/Jakarta');
+            $dml = Attendance::where('id', $attendance->id)
+                ->update([
+//                'empid' => $request->empid,
+                    'attdtype' => $request->attdtype,
+                    'attddate' => $request->attddate,
+                    'attdtime' => date_format(date_create($request->attdtime), 'H:i:s'),
+                    'deviceid' => "XX",
+                    'inputon' => date("Y-m-d H:i:s"),
+                    'status' => $request->status,
+                    'owned_by' => $request->user()->company_id,
+                    'updated_by' => $request->user()->id,
+                ]);
+            if ($dml){
+                return response()->json(['success' => 'an Attendance data updated successfully.']);
+            }
+            return response()->json(['error' => 'Error when updating data!']);
+        }
+        return response()->json(['error' => 'Error not a valid request']);
     }
 
     /**
@@ -163,7 +201,8 @@ class AttendanceController extends Controller
      */
     public function destroy(Attendance $attendance)
     {
-        //
+        Attendance::destroy($attendance->id);
+        return response()->json(['success' => 'Attendance data deleted successfully.']);
     }
 
     //Validation array default for this controller

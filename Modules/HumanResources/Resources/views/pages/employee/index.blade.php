@@ -52,6 +52,51 @@
             background-color: rgb(25, 170, 134);
             color: rgb(255, 255, 255);
         }
+        /*.wrapper {*/
+        /*    position:relative;*/
+        /*    margin:0 auto;*/
+        /*    overflow:hidden;*/
+        /*    padding:5px;*/
+        /*    height:50px;*/
+        /*}*/
+
+        /*.list {*/
+        /*    position:absolute;*/
+        /*    left:0px;*/
+        /*    top:0px;*/
+        /*    min-width:3000px;*/
+        /*    margin-left:12px;*/
+        /*    margin-top:0px;*/
+        /*}*/
+
+        /*.list li{*/
+        /*    display:table-cell;*/
+        /*    position:relative;*/
+        /*    text-align:center;*/
+        /*    cursor:grab;*/
+        /*    cursor:-webkit-grab;*/
+        /*    color:#efefef;*/
+        /*    vertical-align:middle;*/
+        /*}*/
+
+        /*.scroller {*/
+        /*    text-align:center;*/
+        /*    cursor:pointer;*/
+        /*    display:none;*/
+        /*    padding:7px;*/
+        /*    padding-top:11px;*/
+        /*    white-space:nowrap;*/
+        /*    vertical-align:middle;*/
+        /*    background-color:#fff;*/
+        /*}*/
+
+        /*.scroller-right{*/
+        /*    float:right;*/
+        /*}*/
+
+        /*.scroller-left {*/
+        /*    float:left;*/
+        /*}*/
 
     </style>
 @endpush
@@ -67,8 +112,6 @@
 @section('content')
 
     @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
-        @component('components.delete-modal', ['name' => 'Employees data'])
-        @endcomponent
         @include('humanresources::components.employee.modal')
 
         @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
@@ -88,12 +131,47 @@
         @endcan
         @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
             @include('humanresources::components.attendance.modal')
+            @component('components.delete-modal', ['name' => 'Attendance data'])
+            @endcomponent
         @endcan
     @endcan
 
     <div class="row">
         <div class="col-lg-12">
             <div class="tabs-container responsive__tabs">
+{{--                <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>--}}
+{{--                <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>--}}
+{{--                <div class="wrapper">--}}
+{{--                    <ul class="nav nav-tabs list">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link active" data-toggle="tab" role="tab" href="#employee">Employees</a>--}}
+{{--                        </li>--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="idcard" data-toggle="tab" role="tab" href="#idcard">ID Card</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Education::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="education" data-toggle="tab" role="tab" href="#education">Education</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Family::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="family" data-toggle="tab" role="tab" href="#family">Family</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Address::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="address" data-toggle="tab" role="tab" href="#address">Address</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="whour" data-toggle="tab" role="tab" href="#whour">Working Hour</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="whour-detail" data-toggle="tab" role="tab" href="#whour-detail">Working Hour detail</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="whour-attendance" data-toggle="tab" role="tab" href="#whour-attendance">Working Hour attendance</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="attendance" data-toggle="tab" role="tab" href="#attendance">Attendance</a></li>--}}
+{{--                        @endcan--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
                 <ul class="scrollable-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#employee">Employees</a>
@@ -522,6 +600,7 @@
                                             <th>Device</th>
                                             <th>Input On</th>
                                             <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -544,6 +623,68 @@
                 $('.scrollable-tabs li a.active').removeClass('active');
                 $(this).addClass('active');
             });
+            // var hidWidth;
+            // var scrollBarWidths = 40;
+            //
+            // var widthOfList = function(){
+            //     let itemsWidth = 0;
+            //     $('.list li').each(function(){
+            //         let itemWidth = $(this).outerWidth();
+            //         itemsWidth+=itemWidth;
+            //     });
+            //     return itemsWidth;
+            // };
+            //
+            // var widthOfHidden = function(){
+            //     return (($('.wrapper').outerWidth())-widthOfList()-getLeftPosi())-scrollBarWidths;
+            // };
+            //
+            // var getLeftPosi = function(){
+            //     return $('.list').position().left;
+            // };
+            //
+            // var reAdjust = function(){
+            //     if (($('.wrapper').outerWidth()) < widthOfList()) {
+            //         $('.scroller-right').show();
+            //     }
+            //     else {
+            //         $('.scroller-right').hide();
+            //     }
+            //
+            //     if (getLeftPosi()<0) {
+            //         $('.scroller-left').show();
+            //     }
+            //     else {
+            //         $('.item').animate({left:"-="+getLeftPosi()+"px"},'slow');
+            //         $('.scroller-left').hide();
+            //     }
+            // }
+            //
+            // reAdjust();
+            //
+            // $(window).on('resize',function(e){
+            //     reAdjust();
+            // });
+            //
+            // $('.scroller-right').click(function() {
+            //
+            //     $('.scroller-left').fadeIn('slow');
+            //     $('.scroller-right').fadeOut('slow');
+            //
+            //     $('.list').animate({left:"+="+widthOfHidden()+"px"},'slow',function(){
+            //
+            //     });
+            // });
+            //
+            // $('.scroller-left').click(function() {
+            //
+            //     $('.scroller-right').fadeIn('slow');
+            //     $('.scroller-left').fadeOut('slow');
+            //
+            //     $('.list').animate({left:"-="+getLeftPosi()+"px"},'slow',function(){
+            //
+            //     });
+            // });
         </script>
     @endpush
 

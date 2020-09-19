@@ -276,7 +276,7 @@ class MenuTableSeeder extends Seeder
             'parent' => 'Human Resources',
             'add' => 1,
             'update' => 1,
-            'delete' => 0,
+            'delete' => 1,
             'print' => 0,
             'approval' => 0,
             'process' => 0,
