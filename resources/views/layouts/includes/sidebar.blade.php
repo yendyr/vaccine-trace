@@ -43,13 +43,27 @@
                     <li class="{{ (request()->is('hr/employee') || request()->is('hr/employee/*')) ? 'active' : '' }}">
                         <a href="{{ route('hr.employee.index')}}">
                             <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span>
+                                    Employee
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
+                @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
+                    <li class="{{ (request()->is('working-hour') || request()->is('working-hour')) ? 'active' : '' }}">
+                        <a href="{{ route('hr.working-hour.index')}}">
+                        <div class="nav-second-table-group">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
-                                <span>
-                                Employee
+                            <span>
+                                Working Hour
                             </span>
-                            </div>
+                        </div>
                         </a>
                     </li>
                 @endcan
@@ -104,12 +118,12 @@
                     <li class="{{ (request()->is('gate/user') || request()->is('gate/user/*')) ? 'active' : '' }}">
                         <a href="{{ route('gate.user.index')}}">
                             <div class="nav-second-table-group">
-                            <span>
-                                <i class="fa fa-user-circle-o"></i>
-                            </span>
                                 <span>
-                                User
-                            </span>
+                                    <i class="fa fa-user-circle-o"></i>
+                                </span>
+                                    <span>
+                                    User
+                                </span>
                             </div>
                         </a>
                         {{--                    <ul class="nav nav-second-level">--}}
@@ -168,12 +182,12 @@
                     <li class="{{ (request()->is('examples/example') || request()->is('examples/example/*')) ? 'active' : '' }}">
                         <a href="{{ route('examples.example.index')}}">
                             <div class="nav-second-table-group">
-                            <span>
-                                <i class="fa fa-plus"></i>
-                            </span>
                                 <span>
-                                Approval Example
-                            </span>
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                    <span>
+                                    Approval Example
+                                </span>
                             </div>
                         </a>
                     </li>

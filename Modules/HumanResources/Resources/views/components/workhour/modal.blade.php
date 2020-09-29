@@ -13,7 +13,7 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="form-group col-sm-12" id="data_5">
+                        <div class="form-group col-sm-12" id="data-daterange">
                             <label class="font-normal">Date Range</label>
                             <div class="input-daterange input-group" id="datepicker">
                                 <input type="text" class="form-control-sm form-control" name="datestart" value="{{date('Y/m/d')}}"/>

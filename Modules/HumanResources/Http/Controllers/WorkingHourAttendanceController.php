@@ -50,7 +50,7 @@ class WorkingHourAttendanceController extends Controller
                 ->escapeColumns([])
                 ->make(true);
         }
-        return view('humanresources::pages.employee.index');
+        return view('humanresources::pages.workhour.index');
     }
 
     /**

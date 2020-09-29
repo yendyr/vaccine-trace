@@ -1,10 +1,11 @@
 @push('header-scripts')
+    <link href="{{URL::asset('theme/css/plugins/datapicker/datepicker3.css')}}" rel="stylesheet">
     <link href="{{URL::asset('theme/css/plugins/daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet">
 @endpush
 @push('footer-scripts')
     <!-- Date range picker -->
+    <script src="{{URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js')}}"></script>
     <script src="{{URL::asset('theme/js/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{URL::asset('theme/js/plugins/fullcalendar/moment.min.js')}}"></script>
 
     <script>
         var tableWHour = $('#whour-table').DataTable({
@@ -47,7 +48,7 @@
         });
 
         $(document).ready(function () {
-            $('#data_5 .input-daterange').datepicker({
+            $('#data-daterange .input-daterange').datepicker({
                 keyboardNavigation: false,
                 forceParse: false,
                 autoclose: true
