@@ -74,7 +74,7 @@ class AttendanceController extends Controller
                 ->escapeColumns([])
                 ->make(true);
         }
-        return view('humanresources::pages.employee.index');
+        return view('humanresources::pages.attendance.index');
     }
 
     public function select2Type(Request $request)

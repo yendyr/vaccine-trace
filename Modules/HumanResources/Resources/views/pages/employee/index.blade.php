@@ -127,11 +127,6 @@
         @can('viewAny', \Modules\HumanResources\Entities\Address::class)
             @include('humanresources::components.address.modal')
         @endcan
-        @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
-            @include('humanresources::components.attendance.modal')
-            @component('components.delete-modal', ['name' => 'Attendance data'])
-            @endcomponent
-        @endcan
     @endcan
 
     <div class="row">
@@ -176,9 +171,6 @@
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Address::class)
                         <li class="nav-item"><a class="nav-item nav-link" aria-controles="address" data-toggle="tab" role="tab" href="#address">Address</a></li>
-                    @endcan
-                    @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
-                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="attendance" data-toggle="tab" role="tab" href="#attendance">Attendance</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
@@ -418,45 +410,6 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="attendance" class="tab-pane fade" role="tabpanel">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h4 class="text-center">Attendance data</h4>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-footer" id="ibox-attendance">
-                                <div id="form_result" role="alert"></div>
-                                <div class="col-md-1 m-2 p-1 row">
-                                    @can('create', \Modules\HumanResources\Entities\Attendance::class)
-                                        <button type="button" id="create-attendance" class="btn btn-block btn-primary"><strong>Add</strong></button>
-                                    @endcan
-                                </div>
-                                <div class="table-responsive">
-                                    <table id="attendance-table" class="table table-hover text-center display nowrap" width="100%">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>Employee ID</th>
-                                            <th>Attendance type</th>
-                                            <th>Attendance date</th>
-                                            <th>Attendance time</th>
-                                            <th>Device</th>
-                                            <th>Input On</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -550,9 +503,6 @@
         @endcan
         @can('viewAny', \Modules\HumanResources\Entities\Address::class)
             @include('humanresources::components.address._script')
-        @endcan
-        @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
-            @include('humanresources::components.attendance._script')
         @endcan
     @endcan
 
