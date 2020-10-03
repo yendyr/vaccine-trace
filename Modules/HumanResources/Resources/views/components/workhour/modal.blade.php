@@ -16,9 +16,9 @@
                         <div class="form-group col-sm-12" id="data-daterange">
                             <label class="font-normal">Date Range</label>
                             <div class="input-daterange input-group" id="datepicker">
-                                <input type="text" class="form-control-sm form-control" name="datestart" value="{{date('Y/m/d')}}"/>
+                                <input type="text" class="form-control-sm form-control" name="datestart" value="{{date('m/d/Y')}}"/>
                                 <span class="input-group-addon"> to </span>
-                                <input type="text" class="form-control-sm form-control" name="datefinish" value="{{date('Y/m/d')}}"/>
+                                <input type="text" class="form-control-sm form-control" name="datefinish" value="{{date('m/d/Y')}}"/>
                                 <div class="invalid-feedback-datefinish text-danger"></div>
                             </div>
                         </div>

@@ -63,10 +63,15 @@
                             </div>
                             <div class="ibox-footer" id="ibox-whour">
                                 <div id="form_result" role="alert"></div>
-                                <div class="col-md-1 m-2 p-1 row">
-                                    @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
-                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><strong>Generate</strong></button>
-                                    @endcan
+                                <div class="row p-2">
+                                @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
+                                    <div class="col-lg-2">
+                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><string>Generate</string></button>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" id="calculate-whour" class="btn btn-block btn-outline-info"><strong>Calculate</strong></button>
+                                    </div>
+                                @endcan
                                 </div>
                                 <div class="table-responsive">
                                     <table id="whour-table" class="table table-hover text-center display nowrap" width="100%">

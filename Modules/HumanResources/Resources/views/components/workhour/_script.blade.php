@@ -49,6 +49,9 @@
 
         $(document).ready(function () {
             $('#data-daterange .input-daterange').datepicker({
+                locale: {
+                    format: 'dd-mm-yyyy'
+                },
                 keyboardNavigation: false,
                 forceParse: false,
                 autoclose: true
@@ -57,7 +60,7 @@
             $('#whourForm').find('.select2_empidWhour').select2({
                 placeholder: 'choose Emp ID',
                 ajax: {
-                    url: "{{route('hr.employee.select2.empid')}}",
+                    url: "{{route('hr.workhour.select2.empid')}}",
                     dataType: 'json',
                 },
                 dropdownParent: $('#whourModal')
