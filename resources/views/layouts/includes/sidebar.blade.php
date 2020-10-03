@@ -39,75 +39,123 @@
         <li class="{{ request()->is('hr/*') ? 'active' : '' }} nav-first-level" id="humanresources">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Human Resources</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
+                @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
+                <li class="{{ (request()->is('hr/attendance') || request()->is('hr/attendance/*')) ? 'active' : '' }}">
+                    <a href="">
+                        <i class="fa fa-plus"></i>
+                        <span class="nav-label">Attendance</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-third-level">
+                        <li>
+                            <a href="{{ route('hr.attendance.index')}}">
+                                <div class="nav-second-table-group">
+                                    <span>
+                                        <i class="fa fa-minus"></i>
+                                    </span>
+                                    <span>Edit</span>
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div class="nav-second-table-group">
+                                    <span>
+                                        <i class="fa fa-minus"></i>
+                                    </span>
+                                    <span>Import</span>
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div class="nav-second-table-group">
+                                    <span>
+                                        <i class="fa fa-minus"></i>
+                                    </span>
+                                    <span>Validate</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endcan
                 @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
-                    <li class="{{ (request()->is('hr/employee') || request()->is('hr/employee/*')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.employee.index')}}">
-                            <div class="nav-second-table-group">
-                                <span>
-                                    <i class="fa fa-plus"></i>
-                                </span>
-                                <span>
-                                    Employee
-                                </span>
-                            </div>
-                        </a>
-                    </li>
+                <li class="{{ (request()->is('hr/employee') || request()->is('hr/employee/*')) ? 'active' : '' }}">
+                    <a href="{{ route('hr.employee.index')}}">
+                        <div class="nav-second-table-group">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span>Employee</span>
+                        </div>
+                    </a>
+                </li>
                 @endcan
                 @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
-                    <li class="{{ (request()->is('working-hour') || request()->is('working-hour')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.working-hour.index')}}">
+                <li class="{{ (request()->is('hr/working-hour') || request()->is('working-hour')) ? 'active' : '' }}">
+                    <a href="">
+                        <i class="fa fa-plus"></i>
+                        <span class="nav-label">Working Hour</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-third-level">
+                        <li>
+                            <a href="{{ route('hr.working-hour.index')}}">
+                                <div class="nav-second-table-group">
+                                    <span>
+                                        <i class="fa fa-minus"></i>
+                                    </span>
+                                    <span>Generate</span>
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div class="nav-second-table-group">
+                                    <span>
+                                        <i class="fa fa-minus"></i>
+                                    </span>
+                                    <span>Calculate</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endcan
+                @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)
+                <li class="{{ (request()->is('hr/org-structure') || request()->is('hr/org-structure/*')) ? 'active' : '' }}">
+                    <a href="{{ route('hr.org-structure.index')}}">
                         <div class="nav-second-table-group">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
                             <span>
-                                Working Hour
+                                Organization Structure
                             </span>
                         </div>
-                        </a>
-                    </li>
-                @endcan
-                @can('viewAny', \Modules\HumanResources\Entities\OrganizationStructure::class)
-                    <li class="{{ (request()->is('hr/org-structure') || request()->is('hr/org-structure/*')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.org-structure.index')}}">
-                            <div class="nav-second-table-group">
-                                <span>
-                                    <i class="fa fa-plus"></i>
-                                </span>
-                                <span>
-                                    Organization Structure
-                                </span>
-                            </div>
-                        </a>
-                    </li>
+                    </a>
+                </li>
                 @endcan
                 @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
-                    <li class="{{ (request()->is('hr/workgroup') || request()->is('hr/workgroup/*')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.workgroup.index')}}">
-                            <div class="nav-second-table-group">
-                                <span>
-                                    <i class="fa fa-plus"></i>
-                                </span>
-                                <span>
-                                    Working Group
-                                </span>
-                            </div>
-                        </a>
-                    </li>
+                <li class="{{ (request()->is('hr/workgroup') || request()->is('hr/workgroup/*')) ? 'active' : '' }}">
+                    <a href="{{ route('hr.workgroup.index')}}">
+                        <div class="nav-second-table-group">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span>
+                                Working Group
+                            </span>
+                        </div>
+                    </a>
+                </li>
                 @endcan
                 @can('viewAny', \Modules\HumanResources\Entities\Holiday::class)
-                    <li class="{{ (request()->is('hr/holiday') || request()->is('hr/holiday/*')) ? 'active' : '' }}">
-                        <a href="{{ route('hr.holiday.index')}}">
-                            <div class="nav-second-table-group">
-                                <span>
-                                    <i class="fa fa-plus"></i>
-                                </span>
-                                <span>
-                                    Holiday
-                                </span>
-                            </div>
-                        </a>
-                    </li>
+                <li class="{{ (request()->is('hr/holiday') || request()->is('hr/holiday/*')) ? 'active' : '' }}">
+                    <a href="{{ route('hr.holiday.index')}}">
+                        <div class="nav-second-table-group">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span>Holiday</span>
+                        </div>
+                    </a>
+                </li>
                 @endcan
             </ul>
         </li>
@@ -121,9 +169,7 @@
                                 <span>
                                     <i class="fa fa-user-circle-o"></i>
                                 </span>
-                                    <span>
-                                    User
-                                </span>
+                                <span>User</span>
                             </div>
                         </a>
                         {{--                    <ul class="nav nav-second-level">--}}
@@ -138,9 +184,7 @@
                                 <span>
                                     <i class="fa fa-building-o"></i>
                                 </span>
-                                <span>
-                                    Company
-                                </span>
+                                <span>Company</span>
                             </div>
                         </a>
                     </li>
@@ -152,9 +196,7 @@
                                 <span >
                                     <i class="fa fa-users"></i>
                                 </span>
-                                <span >
-                                    Role
-                                </span>
+                                <span>Role</span>
                             </div>
                         </a>
                     </li>
@@ -166,9 +208,7 @@
                                 <span>
                                     <i class="fa fa-list-alt"></i>
                                 </span>
-                                <span>
-                                    Role Menu
-                                </span>
+                                <span>Role Menu</span>
                             </div>
                         </a>
                     </li>
@@ -185,9 +225,7 @@
                                 <span>
                                     <i class="fa fa-plus"></i>
                                 </span>
-                                    <span>
-                                    Approval Example
-                                </span>
+                                <span>Approval Example</span>
                             </div>
                         </a>
                     </li>
