@@ -160,7 +160,7 @@
                             $.each(errors, function (index, value) {
                                 if (index == 'daycode'){
                                     if (value[0].indexOf("has already been taken") >= 0){
-                                        value[0] = 'This daycode with choosen shiftno has already been taken';
+                                        value[0] = 'This daycode with choosen Workgroup and Shiftno has already been taken';
                                     }
                                 }
                                 $('div.invalid-feedback-'+index).html(value);

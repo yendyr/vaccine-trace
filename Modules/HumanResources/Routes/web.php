@@ -57,6 +57,7 @@ Route::name('hr.')->group(function () {
 
         Route::resource('address', 'AddressController');
 
+        Route::get('/working-hour/select2/empid', 'WorkingHourController@select2Empid')->name('workhour.select2.empid');
         Route::resource('working-hour', 'WorkingHourController');
 
         Route::resource('working-hour-detail', 'WorkingHourDetailController');
