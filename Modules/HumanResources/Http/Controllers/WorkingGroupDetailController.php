@@ -317,7 +317,8 @@ class WorkingGroupDetailController extends Controller
             'workgroup' => ['required', 'string', 'max:4', 'alpha_num'],
             'daycode' => ['required', 'string', 'size:2',
                 Rule::unique('hr_working_group_details')->where(function ($query) use($request) {
-                    return $query->where('daycode', $request->daycode)
+                    return $query->where('workgroup', $request->workgroup)
+                        ->where('daycode', $request->daycode)
                         ->where('shiftno', $request->shiftno);
                 })
             ],
