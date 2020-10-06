@@ -99,6 +99,78 @@ class AttendanceController extends Controller
         return response()->json($response);
     }
 
+    public function validateData(){
+        return view('humanresources::pages.attendance.validation');
+    }
+    public function datatableIn(Request $request) {
+        if ($request->ajax()) {
+            $data = Attendance::latest()->whereIn('attdtype', ['01', '03', '05'])->get();
+            return DataTables::of($data)
+                ->addColumn('attdtype', function($row){
+                    $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'attendance')->where('lkey', 'attdtype')
+                        ->where('maingrp', $row->attdtype)->first();
+                    $attdtype['content'] = $query->remark;
+                    $attdtype['value'] = $query->maingrp;
+                    return $attdtype;
+                })
+                ->addColumn('attdtime', function($row){
+                    if (isset($row->attdtime)){
+                        $row->attdtime = date_format(date_create($row->attdtime),"H:i");
+                    }
+                    return $row->attdtime;
+                })
+                ->addColumn('deviceid', function($row){
+                    if ($row->deviceid == 'XX'){
+                        return 'Manual';
+                    }
+                    return $row->deviceid;
+                })
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<p class="text-success">Active</p>';
+                    } else{
+                        return '<p class="text-danger">Inactive</p>';
+                    }
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+    }
+    public function datatableOut(Request $request) {
+        if ($request->ajax()) {
+            $data = Attendance::latest()->whereIn('attdtype', ['02', '04', '06'])->get();
+            return DataTables::of($data)
+                ->addColumn('attdtype', function($row){
+                    $query = HrLookup::select('maingrp', 'remark')->where('subkey', 'attendance')->where('lkey', 'attdtype')
+                        ->where('maingrp', $row->attdtype)->first();
+                    $attdtype['content'] = $query->remark;
+                    $attdtype['value'] = $query->maingrp;
+                    return $attdtype;
+                })
+                ->addColumn('attdtime', function($row){
+                    if (isset($row->attdtime)){
+                        $row->attdtime = date_format(date_create($row->attdtime),"H:i");
+                    }
+                    return $row->attdtime;
+                })
+                ->addColumn('deviceid', function($row){
+                    if ($row->deviceid == 'XX'){
+                        return 'Manual';
+                    }
+                    return $row->deviceid;
+                })
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<p class="text-success">Active</p>';
+                    } else{
+                        return '<p class="text-danger">Inactive</p>';
+                    }
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Response

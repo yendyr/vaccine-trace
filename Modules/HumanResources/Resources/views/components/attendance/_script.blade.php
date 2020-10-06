@@ -36,6 +36,52 @@
                 { data: 'action', name: 'action' },
             ]
         });
+        var tableAttdValidate = $('#validation-in-table').DataTable({
+            processing: true,
+            serverSide: false,
+            scrollX: true,
+            language: {
+                emptyTable: "No data existed for Attendance",
+            },
+            height: 180,
+            ajax: {
+                url: "/hr/attendance/datatable/in",
+                type: "GET",
+                dataType: "json",
+            },
+            columns: [
+                { data: 'empid', name: 'empid' },
+                { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'status', name: 'status' },
+            ]
+        });
+        var tableAttdValidate = $('#validation-out-table').DataTable({
+            processing: true,
+            serverSide: false,
+            scrollX: true,
+            language: {
+                emptyTable: "No data existed for Attendance",
+            },
+            height: 180,
+            ajax: {
+                url: "/hr/attendance/datatable/out",
+                type: "GET",
+                dataType: "json",
+            },
+            columns: [
+                { data: 'empid', name: 'empid' },
+                { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
+                { data: 'status', name: 'status' },
+            ]
+        });
 
         $(document).ready(function () {
             $('.select2_attdtype').select2({

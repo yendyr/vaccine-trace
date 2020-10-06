@@ -56,7 +56,7 @@
                                     <span>Edit</span>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ route('hr.attendance.import')}}">
                                 <div class="nav-second-table-group">
                                     <span>
                                         <i class="fa fa-minus"></i>
@@ -64,7 +64,7 @@
                                     <span>Import</span>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ route('hr.attendance.validate')}}">
                                 <div class="nav-second-table-group">
                                     <span>
                                         <i class="fa fa-minus"></i>
