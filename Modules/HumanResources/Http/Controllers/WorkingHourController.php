@@ -74,9 +74,9 @@ class WorkingHourController extends Controller
                 })->addColumn('worktype', function($row){
                     $worktype['value'] = $row->worktype;
                     if ($row->worktype == 'KB'){
-                        $worktype['content'] = 'Keja Biasa';
+                        $worktype['content'] = 'Kerja Biasa';
                     } elseif ($row->worktype == 'KL'){
-                        $worktype['content'] = 'Keja Libur';
+                        $worktype['content'] = 'Kerja Libur';
                     }
                     return $worktype;
                 })
