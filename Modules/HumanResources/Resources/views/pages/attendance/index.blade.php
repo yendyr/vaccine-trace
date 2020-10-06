@@ -52,7 +52,11 @@
                     <div id="form_result" role="alert"></div>
                     <div class="col-md-1 m-2 p-1 row">
                         @can('create', \Modules\HumanResources\Entities\Attendance::class)
-                            <button type="button" id="create-attendance" class="btn btn-block btn-primary"><strong>Add</strong></button>
+                            @if(request()->is('hr/attendance/import'))
+                                <button type="button" id="import-attendance" class="btn btn-block btn-outline-info"><strong>Import</strong></button>
+                            @elseif(request()->is('hr/attendance'))
+                                <button type="button" id="create-attendance" class="btn btn-block btn-primary"><strong>Add</strong></button>
+                            @endif
                         @endcan
                     </div>
                     <div class="table-responsive">
