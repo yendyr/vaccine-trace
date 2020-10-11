@@ -45,7 +45,7 @@
             },
             height: 180,
             ajax: {
-                url: "/hr/attendance/datatable/in",
+                url: "/hr/attendance/datatable?param=in",
                 type: "GET",
                 dataType: "json",
             },
@@ -68,7 +68,7 @@
             },
             height: 180,
             ajax: {
-                url: "/hr/attendance/datatable/out",
+                url: "/hr/attendance/datatable?param=out",
                 type: "GET",
                 dataType: "json",
             },
