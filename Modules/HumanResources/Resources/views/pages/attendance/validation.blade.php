@@ -40,7 +40,18 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h3 class="text-center">Attendance Validation data</h3>
+                    <div class="row">
+                        <div class="col-md-2 text-center text-bold">
+                        @can('create', \Modules\HumanResources\Entities\Attendance::class)
+                            <button type="button" id="validate-attendance" class="btn btn-block btn-outline-primary">
+                                <i class="fa fa-check-square-o"></i>   Validate
+                            </button>
+                        @endcan
+                        </div>
+                        <div class="col-md-10 text-center">
+                            <h3 class="text-center">Attendance Validation data</h3>
+                        </div>
+                    </div>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>

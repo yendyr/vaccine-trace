@@ -99,6 +99,10 @@ class AttendanceController extends Controller
         return response()->json($response);
     }
 
+    public function validateAll(){
+        return view('humanresources::pages.attendance.validation');
+    }
+
     public function validateData(){
         return view('humanresources::pages.attendance.validation');
     }
