@@ -103,7 +103,7 @@ class AttendanceController extends Controller
         return view('humanresources::pages.attendance.validation');
     }
 
-    public function validataionView(){
+    public function validationView(){
         return view('humanresources::pages.attendance.validation');
     }
     public function datatableInOut(Request $request) {

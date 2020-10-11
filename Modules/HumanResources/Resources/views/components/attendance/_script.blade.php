@@ -102,6 +102,28 @@
                 dropdownParent: $('#attendanceModal')
             });
 
+            $('#validate-attendance').click(function () {
+                swal({
+                    title: "Are you sure?",
+                    text: "If you sure to validate all attendance data, you won't be able to restore the validated attendance data",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, i'm sure!",
+                    closeOnConfirm: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        swal({
+                            title: 'Successed',
+                            text: 'Attendances data are successfully validated!',
+                            type: 'success'
+                        })
+                    } else {
+                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    }
+                })
+            });
+
             $('#create-attendance').click(function () {
                 $('#saveBtn').val("create-attendance");
                 $('#attendanceForm').trigger("reset");
