@@ -66,7 +66,7 @@
                                 <div class="row p-2">
                                 @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
                                     <div class="col-lg-2">
-                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><string>Generate</string></button>
+                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><strong>Generate</strong></button>
                                     </div>
                                     <div class="col-lg-2">
                                         <button type="button" id="calculate-whour" class="btn btn-block btn-outline-info"><strong>Calculate</strong></button>
