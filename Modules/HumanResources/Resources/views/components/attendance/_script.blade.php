@@ -106,9 +106,9 @@
                 swal({
                     title: "Are you sure?",
                     text: "If you sure to validate all attendance data, you won't be able to restore the validated attendance data",
-                    type: "warning",
+                    type: "info",
                     showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
+                    confirmButtonColor: "#1a9905",
                     confirmButtonText: "Yes, i'm sure!",
                     closeOnConfirm: false
                 }, function(isConfirm) {
@@ -119,7 +119,7 @@
                             type: 'success'
                         })
                     } else {
-                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                        swal("Cancelled", "no data changed", "info");
                     }
                 })
             });
