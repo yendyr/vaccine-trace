@@ -65,7 +65,7 @@ Route::name('hr.')->group(function () {
         Route::resource('working-hour-attendance', 'WorkingHourAttendanceController');
 
         Route::get('/attendance/select2/type', 'AttendanceController@select2Type')->name('attendance.select2.type');
-        Route::get('/attendance/validate', 'AttendanceController@validateData')->name('attendance.validate');
+        Route::get('/attendance/validate', 'AttendanceController@validationView')->name('attendance.validate');
         Route::post('/attendance/validate', 'AttendanceController@validateAll')->name('attendance.validate');
         Route::get('/attendance/datatable', 'AttendanceController@datatableInOut')->name('attendance.datatable');
         Route::get('/attendance/import', 'AttendanceController@index')->name('attendance.import');
