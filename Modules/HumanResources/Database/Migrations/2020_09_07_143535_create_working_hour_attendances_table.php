@@ -23,7 +23,7 @@ class CreateWorkingHourAttendancesTable extends Migration
             $table->time('timestart')->comment('jam masuk, seperti 08:40:30')->nullable();
             $table->date('datefinish')->comment('Tanggal pulang, [format: Y-m-d]')->nullable();
             $table->time('timefinish')->comment('jam pulang, seperti 17:00:00')->nullable();
-            $table->dateTime('validatedon')->comment('waktu validasi (format: Y-m-d H:i:s)')->nullable();
+            $table->dateTime('validateon')->comment('waktu validasi (format: Y-m-d H:i:s)')->nullable();
             $table->dateTime('processedon')->comment('waktu proses (format: Y-m-d H:i:s)')->nullable();
             $table->date('rndatestart')->comment('hasil rounding tgl mulai kehadiran (format: Y-m-d)')->nullable();
             $table->time('rntimestart')->comment('hasil rounding jam mulai kehadiran (format: H:i:s)')->nullable();
