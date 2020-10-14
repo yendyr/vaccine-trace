@@ -168,10 +168,10 @@
                                             <th>Employee ID</th>
                                             <th>Work date</th>
                                             <th>Attendance type</th>
-                                            <th>Date Start</th>
                                             <th>Time Start</th>
-                                            <th>Date Finish</th>
+                                            <th>Date Start</th>
                                             <th>Time finish</th>
+                                            <th>Date Finish</th>
                                             <th>Validatedon</th>
                                             <th>Processedon</th>
                                             <th>Round Date Start</th>

@@ -21,7 +21,7 @@
                 { data: 'datestart', name: 'datestart', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'timefinish', name: 'timefinish', defaultContent: "<p class='text-muted'>none</p>"},
                 { data: 'datefinish', name: 'datefinish', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'validatedon', name: 'validatedon', defaultContent: "<p class='text-muted'>none</p>"},
+                { data: 'validateon', name: 'validateon', defaultContent: "<p class='text-muted'>none</p>"},
                 { data: 'processedon', name: 'processedon', defaultContent: "<p class='text-muted'>none</p>"},
                 { data: 'rndatestart', name: 'rndatestart', defaultContent: "<p class='text-muted'>none</p>"},
                 { data: 'rntimestart', name: 'rntimestart', defaultContent: "<p class='text-muted'>none</p>"},

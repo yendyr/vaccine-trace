@@ -40,6 +40,18 @@ class WorkingHourAttendanceController extends Controller
                     }
                     return $row->timefinish;
                 })
+                ->addColumn('rntimestart', function($row){
+                    if (isset($row->rntimestart)){
+                        $row->rntimestart = date_format(date_create($row->rntimestart),"H:i");
+                    }
+                    return $row->rntimestart;
+                })
+                ->addColumn('rntimefinish', function($row){
+                    if (isset($row->rntimefinish)){
+                        $row->rntimefinish = date_format(date_create($row->rntimefinish),"H:i");
+                    }
+                    return $row->rntimefinish;
+                })
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
                         return '<p class="text-success">Active</p>';
