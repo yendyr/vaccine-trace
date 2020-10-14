@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\HumanResources\Entities\Attendance;
 use Modules\HumanResources\Entities\HrLookup;
+use Modules\HumanResources\Entities\WorkingHourAttendance;
 use Yajra\DataTables\DataTables;
 
 class AttendanceController extends Controller
@@ -99,8 +100,64 @@ class AttendanceController extends Controller
         return response()->json($response);
     }
 
-    public function validateAll(){
-        return view('humanresources::pages.attendance.validation');
+    public function validateAll(Request $request){
+        if ($request->ajax()){
+            $attendances = Attendance::all()->groupBy('attddate');
+            $dmlCount = 0;
+            foreach ($attendances as $attendance){ //ambil tiap satu grouping (tiap attddate)
+                $workTypes = [];
+                foreach ($attendance as $row) { //ambil tiap data lalu dikelompokkan tiap tipe
+                    if ($row->attdtype == "01" || $row->attdtype == "02"){
+                        $workTypes["normalWork"][] = $row;
+                    }elseif ($row->attdtype == "03" || $row->attdtype == "04"){
+                        $workTypes["tempPermit"][] = $row;
+                    }elseif ($row->attdtype == "05" || $row->attdtype == "06"){
+                        $workTypes["holidaywork"][] = $row;
+                    }
+                }
+                $workTypeSign = 0;
+                foreach ($workTypes as $workType) { //ambil tiap jenis workType
+                    if (count($workType) == 2){
+                        if ($workTypeSign == 0 || $workTypeSign == 2){ //type 0 = normalWork, 1 = tempPermit, 2 = holidayWork
+                            $attdType = 01; // 01 = Kerja
+                        }elseif ($workTypeSign == 1){
+                            $attdType = 02; // 02 = ijin sementara
+                        }
+                        date_default_timezone_set('Asia/Jakarta');
+
+                        $whourAttendance = WorkingHourAttendance::where('empid', $workType[0]->empid)
+                            ->where('datestart', $workType[0]->attddate)->where('datefinish', $workType[1]->attddate)->get();
+                        if (count($whourAttendance) == 0){
+                            $dml = WorkingHourAttendance::create([
+                                'uuid' => Str::uuid(),
+                                'empid' => $workType[0]->empid,
+                                'workdate' => $workType[0]->attddate,
+                                'attdtype' => $attdType,
+                                'datestart' => $workType[0]->attddate,
+                                'timestart' => $workType[0]->attdtime,
+                                'datefinish' => $workType[1]->attddate,
+                                'timefinish' => $workType[1]->attdtime,
+                                'validateon' => date("Y-m-d H:i:s"),
+                                'rndatestart' => $workType[0]->attddate,
+                                'rntimestart' => $workType[0]->attdtime,
+                                'rndatefinish' => $workType[1]->attddate,
+                                'rntimefinish' => $workType[1]->attdtime,
+                                'status' => 1,
+                                'owned_by' => $request->user()->company_id,
+                                'created_by' => $request->user()->id,
+                            ]);
+                            $dmlCount++;
+                        }
+                    }
+                    $workTypeSign++;
+                }
+            }
+            if ($dmlCount > 0){
+                return response()->json(['success' => 'The new validated attendances data are saved in Working Hour Attendances datalist!']);
+            }
+            return response()->json(['error' => 'No attendance data can be validated!']);
+        }
+        return response()->json(['error' => 'Error not a valid request']);
     }
 
     public function validationView(){
@@ -166,18 +223,25 @@ class AttendanceController extends Controller
             $validation = $request->validate($validationArray);
 
             date_default_timezone_set('Asia/Jakarta');
-            $dml = Attendance::create([
-                'uuid' => Str::uuid(),
-                'empid' => $request->empidAttendance,
-                'attdtype' => $request->attdtype,
-                'attddate' => $request->attddate,
-                'attdtime' => date_format(date_create($request->attdtime), 'H:i:s'),
-                'deviceid' => "XX",
-                'inputon' => date("Y-m-d H:i:s"),
-                'status' => $request->status,
-                'owned_by' => $request->user()->company_id,
-                'created_by' => $request->user()->id,
-            ]);
+            $attdData = Attendance::where('attddate', $request->attddate)->where('attdtype', $request->attdtype)->get();
+
+            if (count($attdData) == 0){
+                $dml = Attendance::create([
+                    'uuid' => Str::uuid(),
+                    'empid' => $request->empidAttendance,
+                    'attdtype' => $request->attdtype,
+                    'attddate' => $request->attddate,
+                    'attdtime' => date_format(date_create($request->attdtime), 'H:i:s'),
+                    'deviceid' => "XX",
+                    'inputon' => date("Y-m-d H:i:s"),
+                    'status' => $request->status,
+                    'owned_by' => $request->user()->company_id,
+                    'created_by' => $request->user()->id,
+                ]);
+            }else{  //if existed
+                return response()->json(['warning' => 'the attendance data type in that day has existed before!']);
+            }
+
             if ($dml){
                 return response()->json(['success' => 'a new Attendance data added successfully.']);
             }

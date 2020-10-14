@@ -109,15 +109,47 @@
                     type: "info",
                     showCancelButton: true,
                     confirmButtonColor: "#1a9905",
-                    confirmButtonText: "Yes, i'm sure!",
-                    closeOnConfirm: false
+                    confirmButtonText: "Yes, i'm sure!"
                 }, function(isConfirm) {
                     if (isConfirm) {
-                        swal({
-                            title: 'Successed',
-                            text: 'Attendances data are successfully validated!',
-                            type: 'success'
-                        })
+                        $.ajax({
+                            headers: {
+                                "X-CSRF-TOKEN": $(
+                                    'meta[name="csrf-token"]'
+                                ).attr("content")
+                            },
+                            url: '/hr/attendance/validate',
+                            type: "POST",
+                            error: function(data){
+                                if (data.error) {
+                                    swal({
+                                        title: 'Failed when validating data',
+                                        text: data.error,
+                                        type: 'error',
+                                        closeOnConfirm: false
+                                    })
+                                }
+                            },
+                            success:function(data){
+                                if (data.success) {
+                                    swal({
+                                        title: 'Successfully validated',
+                                        text: data.success,
+                                        type: 'success',
+                                        closeOnEscape: true
+                                    })
+                                }else if(data.error){
+                                    swal({
+                                        title: 'Failed when validating data',
+                                        text: data.error,
+                                        type: 'warning',
+                                        closeOnEscape: true
+                                    })
+                                }
+                                $('#validation-in-table').DataTable().ajax.reload();
+                                $('#validation-out-table').DataTable().ajax.reload();
+                            }
+                        });
                     } else {
                         swal("Cancelled", "no data changed", "info");
                     }
@@ -195,6 +227,14 @@
                         if (data.success) {
                             $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
                             $("#ibox-attendance").find('#form_result').html(data.success);
+                        }
+                        if(data.warning){
+                            $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-warning fade show font-weight-bold');
+                            $("#ibox-attendance").find('#form_result').html(data.warning);
+                        }
+                        if(data.error){
+                            $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
+                            $("#ibox-attendance").find('#form_result').html(data.error);
                         }
                         $('#attendanceModal').modal('hide');
                         $('#attendance-table').DataTable().ajax.reload();

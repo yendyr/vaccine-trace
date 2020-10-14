@@ -41,14 +41,14 @@
             <div class="ibox ">
                 <div class="ibox-title">
                     <div class="row">
-                        <div class="col-md-2 text-center text-bold">
+                        <div class="col-md-1 text-center text-bold">
                         @can('create', \Modules\HumanResources\Entities\Attendance::class)
-                            <button type="button" id="validate-attendance" class="btn btn-block btn-outline-primary">
-                                <i class="fa fa-check-square-o"></i>   Validate
+                            <button type="button" id="validate-attendance" class="btn btn-block btn-outline-primary" data-toggle="tooltip" title="Validate">
+                                <i class="fa fa-check-square-o"></i>
                             </button>
                         @endcan
                         </div>
-                        <div class="col-md-10 text-center">
+                        <div class="col-md-11 text-center">
                             <h3 class="text-center">Attendance Validation data</h3>
                         </div>
                     </div>
