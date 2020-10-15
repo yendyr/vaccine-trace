@@ -123,7 +123,8 @@ class AttendanceController extends Controller
                         }elseif ($workTypeSign == 1){
                             $attdType = 02; // 02 = ijin sementara
                         }
-                        date_default_timezone_set('Asia/Jakarta');
+
+                        date_default_timezone_set('Asia/Jakarta'); //set timezone
 
                         $whourAttendance = WorkingHourAttendance::where('empid', $workType[0]->empid)
                             ->where('datestart', $workType[0]->attddate)->where('datefinish', $workType[1]->attddate)->get();
@@ -146,6 +147,9 @@ class AttendanceController extends Controller
                                 'owned_by' => $request->user()->company_id,
                                 'created_by' => $request->user()->id,
                             ]);
+
+                            //update status attendance
+                            $this->updateStatus($workType[0], $workType[1],$request);
                             $dmlCount++;
                         }
                     }
@@ -160,15 +164,24 @@ class AttendanceController extends Controller
         return response()->json(['error' => 'Error not a valid request']);
     }
 
+    private function updateStatus($data1, $data2, $request){
+        Attendance::where('id', $data1->id)->orWhere('id', $data2->id)
+            ->update([
+                'status' => 2,
+                'owned_by' => $request->user()->company_id,
+                'updated_by' => $request->user()->id,
+            ]);
+    }
+
     public function validationView(){
         return view('humanresources::pages.attendance.validation');
     }
     public function datatableInOut(Request $request) {
         if ($request->ajax()) {
             if ($request->param == "in"){
-                $data = Attendance::latest()->whereIn('attdtype', ['01', '03', '05'])->get();
+                $data = Attendance::latest()->whereIn('attdtype', ['01', '03', '05'])->where('status', '!=', 2)->get();
             }elseif ($request->param == "out"){
-                $data = Attendance::latest()->whereIn('attdtype', ['02', '04', '06'])->get();
+                $data = Attendance::latest()->whereIn('attdtype', ['02', '04', '06'])->where('status', '!=', 2)->get();
             }
             return DataTables::of($data)
                 ->addColumn('attdtype', function($row){
