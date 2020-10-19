@@ -52,14 +52,14 @@
                     </li>
                 @endcan
                 @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
-                    <li class="{{ (request()->is('hr/working-hour') || request()->is('working-hour')) ? 'active' : '' }}">
+                    <li class="{{ (request()->is('hr/working-hour') || request()->is('hr/working-hour/*')) ? 'active' : '' }}">
                         <a href="">
                             <i class="fa fa-plus"></i>
                             <span class="nav-label">Working Hour</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-third-level">
-                            <li>
+                            <li class="{{ (request()->is('hr.working-hour.index') || request()->is('hr/attendance/*')) ? 'active' : '' }}">
                                 <a href="{{ route('hr.working-hour.index')}}">
                                     <div class="nav-second-table-group">
                                 <span>
@@ -68,7 +68,7 @@
                                         <span>Generate</span>
                                     </div>
                                 </a>
-                                <a href="#">
+                                <a href="{{ route('hr.working-hour.calculate')}}">
                                     <div class="nav-second-table-group">
                                 <span>
                                     <i class="fa fa-minus"></i>
