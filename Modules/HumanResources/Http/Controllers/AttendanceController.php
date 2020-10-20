@@ -129,6 +129,9 @@ class AttendanceController extends Controller
                         $whourAttendance = WorkingHourAttendance::where('empid', $workType[0]->empid)
                             ->where('datestart', $workType[0]->attddate)->where('datefinish', $workType[1]->attddate)->get();
                         if (count($whourAttendance) == 0){
+                            $rntimestart = $workType[0]->attdtime;
+                            $rntimefinish = $workType[1]->attdtime;
+
                             $dml = WorkingHourAttendance::create([
                                 'uuid' => Str::uuid(),
                                 'empid' => $workType[0]->empid,
@@ -140,9 +143,9 @@ class AttendanceController extends Controller
                                 'timefinish' => $workType[1]->attdtime,
                                 'validateon' => date("Y-m-d H:i:s"),
                                 'rndatestart' => $workType[0]->attddate,
-                                'rntimestart' => $workType[0]->attdtime,
+                                'rntimestart' => $rntimestart,
                                 'rndatefinish' => $workType[1]->attddate,
-                                'rntimefinish' => $workType[1]->attdtime,
+                                'rntimefinish' => $rntimefinish,
                                 'status' => 1,
                                 'owned_by' => $request->user()->company_id,
                                 'created_by' => $request->user()->id,
