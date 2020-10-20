@@ -102,6 +102,11 @@ class WorkingHourController extends Controller
         return view('humanresources::pages.workhour.index');
     }
 
+    public function calculateIndex(Request $request){
+        $this->index($request);
+        return view('humanresources::pages.workhour.index');
+    }
+
     public function select2Empid(Request $request)
     {
         $search = $request->q;

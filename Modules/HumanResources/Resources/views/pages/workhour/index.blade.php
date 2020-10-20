@@ -65,12 +65,15 @@
                                 <div id="form_result" role="alert"></div>
                                 <div class="row p-2">
                                 @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
-                                    <div class="col-lg-2">
-                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><strong>Generate</strong></button>
-                                    </div>
+                                    @if (request()->is('hr/working-hour/calculate'))
                                     <div class="col-lg-2">
                                         <button type="button" id="calculate-whour" class="btn btn-block btn-outline-info"><strong>Calculate</strong></button>
                                     </div>
+                                    @elseif(request()->is('hr/working-hour'))
+                                    <div class="col-lg-2">
+                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><strong>Generate</strong></button>
+                                    </div>                                        
+                                    @endif
                                 @endcan
                                 </div>
                                 <div class="table-responsive">

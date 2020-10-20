@@ -66,7 +66,7 @@
                 dropdownParent: $('#whourModal')
             });
 
-            $('#create-whour').click(function () {
+            $('#create-whour, #calculate-whour').click(function () {
                 $('#saveBtn').val("create-whour");
                 $('#whourForm').trigger("reset");
                 $("#whourModal").find('#modalTitle').html("Generate new Working Hour data");
