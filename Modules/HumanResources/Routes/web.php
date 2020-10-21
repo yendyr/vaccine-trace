@@ -71,6 +71,9 @@ Route::name('hr.')->group(function () {
         Route::get('/attendance/datatable', 'AttendanceController@datatableInOut')->name('attendance.datatable');
         Route::get('/attendance/import', 'AttendanceController@index')->name('attendance.import');
         Route::resource('attendance', 'AttendanceController');
+
+        Route::get('/lquota/select2/quotacode', 'LeaveQuotaController@select2Quotacode')->name('lquota.select2.quotacode');
+        Route::resource('leave-quota', 'LeaveQuotaController');
     });
 });
 

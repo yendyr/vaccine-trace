@@ -22,6 +22,7 @@ use Modules\HumanResources\Entities\Employee;
 use Modules\HumanResources\Entities\Family;
 use Modules\HumanResources\Entities\Holiday;
 use Modules\HumanResources\Entities\IdCard;
+use Modules\HumanResources\Entities\LeaveQuota;
 use Modules\HumanResources\Entities\OrganizationStructure;
 use Modules\HumanResources\Entities\OrganizationStructureTitle;
 use Modules\HumanResources\Entities\WorkingGroup;
@@ -36,6 +37,7 @@ use Modules\HumanResources\Policies\EmployeePolicy;
 use Modules\HumanResources\Policies\FamilyPolicy;
 use Modules\HumanResources\Policies\HolidayPolicy;
 use Modules\HumanResources\Policies\IdCardPolicy;
+use Modules\HumanResources\Policies\LeaveQuotaPolicy;
 use Modules\HumanResources\Policies\OrganizationStructurePolicy;
 use Modules\HumanResources\Policies\OrganizationStructureTitlePolicy;
 use Modules\HumanResources\Policies\WorkingGroupDetailPolicy;
@@ -71,6 +73,7 @@ class AuthServiceProvider extends ServiceProvider
         WorkingHourDetail::class => WorkingHourDetailPolicy::class,
         WorkingHourAttendance::class => WorkingHourAttendancePolicy::class,
         Attendance::class => AttendancePolicy::class,
+        LeaveQuota::class => LeaveQuotaPolicy::class,
     ];
 
     /**

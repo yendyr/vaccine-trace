@@ -197,5 +197,22 @@ class HrLookupsTableSeeder extends Seeder
                 'uuid' => Str::uuid(),
             ]);
         }
+
+        $cutis = ['Cuti pribadi', 'Cuti ditetapkan'];
+        foreach ($cutis as $i => $cuti) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'leave-quota',
+                'lkey' => 'quotacode',
+                'maingrp' => (0 . ($i+1)),
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $cuti,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
     }
 }

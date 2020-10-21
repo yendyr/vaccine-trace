@@ -284,5 +284,19 @@ class MenuTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+        $menu = Menu::create([
+            'menu_link' => 'hr/leave-quota',
+            'menu_text' => 'Leave Quota',
+            'parent' => 'Human Resources',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 0,
+            'approval' => 0,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
     }
 }

@@ -121,6 +121,27 @@
                     </ul>
                 </li>
                 @endcan
+                @can('viewAny', \Modules\HumanResources\Entities\LeaveQuota::class)
+                    <li class="{{ (request()->is('hr/leave-quota') || request()->is('hr/leave-quota/*')) ? 'active' : '' }}">
+                        <a href="">
+                            <i class="fa fa-plus"></i>
+                            <span class="nav-label">Leave Quota</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-third-level">
+                            <li class="{{ request()->is('hr/leave-quota') ? 'active' : '' }}">
+                                <a href="{{ route('hr.leave-quota.index')}}">
+                                    <div class="nav-second-table-group">
+                                <span>
+                                    <i class="fa fa-minus"></i>
+                                </span>
+                                        <span>Edit</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
                 <li class="{{(request()->is('hr/org-structure') || request()->is('hr/workgroup') || request()->is('hr/holiday'))
                  ? 'active' : '' }}">
                     <a href="">
