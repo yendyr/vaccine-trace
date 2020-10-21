@@ -23,7 +23,7 @@ class CreateLeaveQuotasTable extends Migration
             $table->date('quotaexpdate')->comment('Tanggal batas akhir Quota')->nullable();
             $table->date('quotaallocdate')->comment('Tanggal alokasi quota')->nullable();
             $table->double('quotaqty')->comment('jumlah quota');
-            $table->double('quotabai')->comment('sisa quota');
+            $table->double('quotabal')->comment('sisa quota');
             $table->string('remark', 100)->nullable();
 
             $table->integer('status')->nullable();

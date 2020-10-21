@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Modules\HumanResources\Entities\HrLookup;
 use Modules\HumanResources\Entities\LeaveQuota;
 use Yajra\DataTables\DataTables;
@@ -17,7 +18,7 @@ class LeaveQuotaController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(LeaveQuota::class, 'leave_quota');
+        $this->authorizeResource(LeaveQuota::class, 'leave_quotum');
         $this->middleware('auth');
     }
 
@@ -105,27 +106,47 @@ class LeaveQuotaController extends Controller
         if ($request->ajax()){
             $validationArray = $this->getValidationArray($request);
             $validation = $request->validate($validationArray);
+            date_default_timezone_set('Asia/Jakarta'); //set timezone
 
+            $dml = LeaveQuota::create([
+                'uuid' => Str::uuid(),
+                'empid' => $request->empidLquota,
+                'quotayear' => $request->quotayear,
+                'quotacode' => $request->quotacode,
+                'quotastartdate' => $request->quotastartdate,
+                'quotaexpdate' => $request->quotaexpdate,
+                'quotaallocdate' => date("Y-m-d"),
+                'quotaqty' => $request->quotaqty,
+                'quotabal' => $request->quotaqty,
+                'remark' => $request->remark,
+                'status' => $request->status,
+                'owned_by' => $request->user()->company_id,
+                'created_by' => $request->user()->id,
+            ]);
+            if ($dml){
+                return response()->json(['success' => 'a new Leave Quota data added successfully.']);
+            }
+            return response()->json(['error' => 'Error when creating data!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
     }
 
     /**
      * Show the specified resource.
-     * @param int LeaveQuota $leave_quota
+     * @param int LeaveQuota $leave_quotum
      * @return Response
      */
-    public function show(LeaveQuota $leave_quota)
+    public function show(LeaveQuota $leave_quotum)
     {
         return view('humanresources::pages.leave-quota.index');
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param int LeaveQuota $leave_quota
+     * @param int LeaveQuota $leave_quotum
      * @return Response
      */
-    public function edit(LeaveQuota $leave_quota)
+    public function edit(LeaveQuota $leave_quotum)
     {
         return view('humanresources::pages.leave-quota.index');
     }
@@ -133,20 +154,48 @@ class LeaveQuotaController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int LeaveQuota $leave_quota
+     * @param int LeaveQuota $leave_quotum
      * @return Response
      */
-    public function update(Request $request, LeaveQuota $leave_quota)
+    public function update(Request $request, LeaveQuota $leave_quotum)
     {
-        return view('humanresources::pages.leave-quota.index');
+        if ($request->ajax()){
+            $validationArray = $this->getValidationArray($request);
+            unset($validationArray['empidLquota']);
+            unset($validationArray['quotacode']);
+            $validation = $request->validate($validationArray);
+            date_default_timezone_set('Asia/Jakarta'); //set timezone
+
+            $dml = LeaveQuota::where('id', $leave_quotum->id)
+                ->update([
+                'uuid' => Str::uuid(),
+//                'empid' => $request->empidLquota,
+                'quotayear' => $request->quotayear,
+//                'quotacode' => $request->quotacode,
+                'quotastartdate' => $request->quotastartdate,
+                'quotaexpdate' => $request->quotaexpdate,
+                'quotaallocdate' => date("Y-m-d"),
+                'quotaqty' => $request->quotaqty,
+                'quotabal' => $request->quotaqty, // harusnya quotaqty - pemotongan di request
+                'remark' => $request->remark,
+                'status' => $request->status,
+                'owned_by' => $request->user()->company_id,
+                'updated_by' => $request->user()->id,
+            ]);
+            if ($dml){
+                return response()->json(['success' => 'a new Leave Quota data updated successfully.']);
+            }
+            return response()->json(['error' => 'Error when updating data!']);
+        }
+        return response()->json(['error' => 'Error not a valid request']);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param int LeaveQuota $leave_quota
+     * @param int LeaveQuota $leave_quotum
      * @return Response
      */
-    public function destroy(LeaveQuota $leave_quota)
+    public function destroy(LeaveQuota $leave_quotum)
     {
         return view('humanresources::pages.leave-quota.index');
     }
@@ -155,11 +204,11 @@ class LeaveQuotaController extends Controller
     public function getValidationArray($request){
         $validationArray = [
             'empidLquota' => ['required', 'string', 'max:20'],
-            'quotayear' => ['required', 'numeric', 'max:4'],
+            'quotayear' => ['required', 'numeric', 'digits:4'],
             'quotacode' => ['required', 'string', 'size:2'],
             'quotastartdate' => ['date'],
             'quotaexpdate' => ['date', 'after_or_equal:quotastartdate'],
-            'quotaallocdate' => ['date'],
+//            'quotaallocdate' => ['date'],
             'quotaqty' => ['required', 'numeric'],
 //            'quotabal' => ['required', 'numeric'],
             'remark' => ['nullable','string', 'max:100'],

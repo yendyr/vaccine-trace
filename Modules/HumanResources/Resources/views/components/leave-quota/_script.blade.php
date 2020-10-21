@@ -34,7 +34,7 @@
                 { data: 'quotaexpdate', name: 'quotaexpdate', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'quotaallocdate', name: 'quotaallocdate', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'quotaqty', name: 'quotaqty' },
-                { data: 'quotabai', name: 'quotabai' },
+                { data: 'quotabal', name: 'quotabal' },
                 { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false },
@@ -97,8 +97,13 @@
                 $('#fempidLquota').attr('disabled', true);
                 $('#fempidLquota').append('<option value="' + data.empid + '" selected>' + data.empid + '</option>');
 
+                $('#fquotayear').val(data.quotayear);
+                $('#fquotaqty').val(data.quotaqty);
+                $('#fquotastartdate').val(data.quotastartdate);
+                $('#fquotaexpdate').val(data.quotaexpdate);
+                $('#fremark').val(data.remark);
                 $('#fquotacode').attr('disabled', true);
-                $('#fquotacode').append('<option value="' + data.quotacode.value + '" selected>' + data.quotacode.value + '</option>');
+                $('#fquotacode').append('<option value="' + data.quotacode.value + '" selected>' + data.quotacode.content + '</option>');
 
                 $('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
@@ -131,23 +136,23 @@
                         let l = $( '.ladda-button-submit' ).ladda();
                         l.ladda( 'start' );
                         $('[class^="invalid-feedback-"]').html('');
-                        $("#whourForm").find('#saveBtn').prop('disabled', true);
+                        $("#lquotaForm").find('#saveBtn').prop('disabled', true);
                     },
                     success:function(data){
                         if (data.success) {
-                            $("#ibox-whour").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-whour").find('#form_result').html(data.success);
+                            $("#ibox-leave-quota").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
+                            $("#ibox-leave-quota").find('#form_result').html(data.success);
                         }
                         if(data.warning){
-                            $("#ibox-whour").find('#form_result').attr('class', 'alert alert-warning fade show font-weight-bold');
-                            $("#ibox-whour").find('#form_result').html(data.warning);
+                            $("#ibox-leave-quota").find('#form_result').attr('class', 'alert alert-warning fade show font-weight-bold');
+                            $("#ibox-leave-quota").find('#form_result').html(data.warning);
                         }
                         if(data.error){
-                            $("#ibox-whour").find('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
-                            $("#ibox-whour").find('#form_result').html(data.error);
+                            $("#ibox-leave-quota").find('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
+                            $("#ibox-leave-quota").find('#form_result').html(data.error);
                         }
-                        $('#whourModal').modal('hide');
-                        $('#whour-table').DataTable().ajax.reload();
+                        $('#lquotaModal').modal('hide');
+                        $('#leave-quota-table').DataTable().ajax.reload();
                     },
                     error:function(data){
                         let errors = data.responseJSON.errors;
@@ -160,7 +165,7 @@
                     complete:function(){
                         let l = $( '.ladda-button-submit' ).ladda();
                         l.ladda( 'stop' );
-                        $("#whourForm").find('#saveBtn').prop('disabled', false);
+                        $("#lquotaForm").find('#saveBtn').prop('disabled', false);
                     }
                 });
             });
