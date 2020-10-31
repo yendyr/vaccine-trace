@@ -49,7 +49,10 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <label class="col-form-label" for="froundtime">Round Time</label>
-                            <input type="number" class="form-control" id="froundtime" name="roundtime" placeholder="(minute)">
+                            <select class="form-control m-b " id="froundtime" name="roundtime">
+                                <option value="0">0 menit</option>
+                                <option value="30">30 menit</option>
+                            </select>
                             <div class="invalid-feedback-roundtime text-danger"></div>
                         </div>
                         <div class="form-group col-sm-4">

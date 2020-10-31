@@ -58,7 +58,7 @@
                 dropdownParent: $('#lquotaModal')
             });
             $('#lquotaForm').find('.select2_quotacode').select2({
-                placeholder: 'choose Emp ID',
+                placeholder: 'choose leave quote code',
                 ajax: {
                     url: "{{route('hr.lquota.select2.quotacode')}}",
                     dataType: 'json',
