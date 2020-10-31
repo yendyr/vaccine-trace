@@ -214,5 +214,22 @@ class HrLookupsTableSeeder extends Seeder
                 'uuid' => Str::uuid(),
             ]);
         }
+
+        $reqcodes = ['Leave', 'Overtime', 'Working Hour'];
+        foreach ($reqcodes as $i => $reqcode) {
+            $hrLookup = HrLookup::create([
+                'mainkey' => 'hr',
+                'subkey' => 'request',
+                'lkey' => 'reqcode',
+                'maingrp' => (0 . ($i+1)),
+                'subgrp' => null,
+                'grp' => null,
+                'value' => null,
+                'remark' => $reqcode,
+                'owned_by' => 0,
+                'status' => 1,
+                'uuid' => Str::uuid(),
+            ]);
+        }
     }
 }

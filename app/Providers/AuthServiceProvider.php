@@ -25,6 +25,7 @@ use Modules\HumanResources\Entities\IdCard;
 use Modules\HumanResources\Entities\LeaveQuota;
 use Modules\HumanResources\Entities\OrganizationStructure;
 use Modules\HumanResources\Entities\OrganizationStructureTitle;
+use Modules\HumanResources\Entities\Request;
 use Modules\HumanResources\Entities\WorkingGroup;
 use Modules\HumanResources\Entities\WorkingGroupDetail;
 use Modules\HumanResources\Entities\WorkingHour;
@@ -40,6 +41,7 @@ use Modules\HumanResources\Policies\IdCardPolicy;
 use Modules\HumanResources\Policies\LeaveQuotaPolicy;
 use Modules\HumanResources\Policies\OrganizationStructurePolicy;
 use Modules\HumanResources\Policies\OrganizationStructureTitlePolicy;
+use Modules\HumanResources\Policies\RequestPolicy;
 use Modules\HumanResources\Policies\WorkingGroupDetailPolicy;
 use Modules\HumanResources\Policies\WorkingGroupPolicy;
 use Modules\HumanResources\Policies\WorkingHourAttendancePolicy;
@@ -74,6 +76,7 @@ class AuthServiceProvider extends ServiceProvider
         WorkingHourAttendance::class => WorkingHourAttendancePolicy::class,
         Attendance::class => AttendancePolicy::class,
         LeaveQuota::class => LeaveQuotaPolicy::class,
+        Request::class => RequestPolicy::class,
     ];
 
     /**
