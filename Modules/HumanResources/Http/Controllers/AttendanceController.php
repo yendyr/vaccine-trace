@@ -129,8 +129,8 @@ class AttendanceController extends Controller
                         $whourAttendance = WorkingHourAttendance::where('empid', $workType[0]->empid)
                             ->where('datestart', $workType[0]->attddate)->where('datefinish', $workType[1]->attddate)->get();
                         if (count($whourAttendance) == 0){
-                            $rntimestart = $workType[0]->attdtime;
-                            $rntimefinish = $workType[1]->attdtime;
+                            $rntimestart = $this->roundingtime($workType[0]->attdtype,$workType[0]->attdtime,30);
+                            $rntimefinish = $this->roundingtime($workType[1]->attdtype,$workType[1]->attdtime,30);
 
                             $dml = WorkingHourAttendance::create([
                                 'uuid' => Str::uuid(),
@@ -165,6 +165,15 @@ class AttendanceController extends Controller
             return response()->json(['error' => 'No attendance data can be validated!']);
         }
         return response()->json(['error' => 'Error not a valid request']);
+    }
+
+    private function roundingtime($attdtype, $time, $rndtime){
+        if($attdtype == 01 || $attdtype == 03 || $attdtype == 05){
+            $rounded_seconds = ceil(strtotime($time) / ($rndtime * 60)) * ($rndtime * 60);
+        }elseif($attdtype == 02 || $attdtype == 04 || $attdtype == 06){
+            $rounded_seconds = floor(strtotime($time) / ($rndtime * 60)) * ($rndtime * 60);
+        }
+        return date('H:i:s', $rounded_seconds);
     }
 
     private function updateStatus($data1, $data2, $request){
