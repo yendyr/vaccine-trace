@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../MeMFIS" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Simple REST API transaction with Laravel" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../WPPL 2021/Antrian-Sehat" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../project-covid19" vcs="Git" />
+  </component>
+</project>
