@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../Simple REST API transaction with Laravel/.idea/Antrian-Sehat.iml" filepath="$PROJECT_DIR$/../Simple REST API transaction with Laravel/.idea/Antrian-Sehat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../EWSN_Cloud/.idea/EWSN_Cloud.iml" filepath="$PROJECT_DIR$/../EWSN_Cloud/.idea/EWSN_Cloud.iml" />
       <module fileurl="file://$PROJECT_DIR$/../MeMFIS/.idea/MeMFIS.iml" filepath="$PROJECT_DIR$/../MeMFIS/.idea/MeMFIS.iml" />
       <module fileurl="file://$PROJECT_DIR$/../project-covid19/.idea/project-covid19.iml" filepath="$PROJECT_DIR$/../project-covid19/.idea/project-covid19.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/smartaircraft.iml" filepath="$PROJECT_DIR$/.idea/smartaircraft.iml" />

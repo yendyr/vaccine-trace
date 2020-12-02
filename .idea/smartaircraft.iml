@@ -109,5 +109,6 @@
     <orderEntry type="module" module-name="Antrian-Sehat" />
     <orderEntry type="module" module-name="Antrian-Sehat" />
     <orderEntry type="module" module-name="Antrian-Sehat" />
+    <orderEntry type="module" module-name="EWSN_Cloud" />
   </component>
 </module>
