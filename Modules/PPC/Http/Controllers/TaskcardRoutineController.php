@@ -38,7 +38,7 @@ class TaskcardRoutineController extends Controller
      */
     public function create()
     {
-        return view('ppc::create');
+        return view('ppc::pages.taskcard.routine.form');
     }
 
     /**

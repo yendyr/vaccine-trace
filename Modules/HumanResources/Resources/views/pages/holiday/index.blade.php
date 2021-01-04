@@ -1,12 +1,6 @@
 @extends('layouts.master')
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Holidays'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/holiday">Holiday</a>
-        </li>
-    @endcomponent
-
     @component('components.breadcrumb',
                     ['name' => 'Holiday',
                     'href' => '/hr/holiday',

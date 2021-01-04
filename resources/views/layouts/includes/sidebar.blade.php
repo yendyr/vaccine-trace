@@ -19,7 +19,7 @@
                     <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
                 </a> --}}
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
-                    <span class="block m-t-xs font-bold">{{ Auth::user()->username }}</span>
+                    <span class="block m-t-xs font-bold">{{ Auth::user()->name }}</span>
                     <span class="text-xs text-muted">{{ Auth::user()->email }}<b class="caret"></b></span>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -43,18 +43,18 @@
         <li>
             <div class="nav-label text-white p-3 mt-2">Modules</div>
         </li>
-        <li class="nav-first-level" id="ppc">
+        <li class="{{ request()->is('ppc/*') ? 'active' : '' }} nav-first-level" id="ppc">
             <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">PPC</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
                 {{-- @can('viewAny', \Modules\PPC\Entities\TaskCard::class) --}}
-                    <li class="">
+                    <li class="{{ request()->is('ppc/taskcard/*') ? 'active' : '' }}">
                         <a href="">
                             <i class="fa fa-paste"></i>
                             <span class="nav-label">Task Card</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-third-level collapse">
-                            <li class="">
+                            <li class="{{ request()->is('ppc/taskcard/routine/*') ? 'active' : '' }}">
                                 <a href="/ppc/taskcard/routine">
                                     <div class="nav-second-table-group">
                                     <span>
@@ -64,7 +64,7 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="{{ request()->is('ppc/taskcard/non-routine/*') ? 'active' : '' }}">
                                 <a href="/ppc/taskcard/non-routine">
                                     <div class="nav-second-table-group">
                                     <span>
