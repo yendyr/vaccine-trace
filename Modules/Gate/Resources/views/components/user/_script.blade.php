@@ -1,4 +1,5 @@
 @push('footer-scripts')
+    <script src="{{URL::asset('theme/js/plugins/pwstrength/pwstrength-bootstrap.min.js')}}"></script>
     <script>
         $(document).ready(function () {
             var userId;
@@ -184,6 +185,8 @@
 
         });
 
-
+        $('#fpassword').pwstrength({
+            ui: { showVerdictsInsideProgressBar: true }
+        });
     </script>
 @endpush
