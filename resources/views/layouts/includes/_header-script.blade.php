@@ -1,3 +1,5 @@
+<link rel="icon" type="image/png" href="{{URL::asset('/ico.png')}}">
+
 <link href="{{URL::asset('theme/css/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
 
