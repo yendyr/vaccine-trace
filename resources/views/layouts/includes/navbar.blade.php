@@ -11,6 +11,11 @@
         <span class="m-r-sm text-muted welcome-message">Welcome to SmartAircraft.ID</span>
     </li>
     <li>
+        <span class="m-r-sm text-muted welcome-message">
+            <img src={{URL::asset('/Logo-Web.png')}} height="40px">
+        </span>
+    </li>
+    <li>
         @guest
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -23,7 +28,7 @@
         @else
             @include('gate::components.user.passwordModal')
 
-            <li class="nav-item dropdown">
+            {{-- <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     {{ Auth::user()->username }} <span class="caret"></span>
                 </a>
@@ -43,7 +48,7 @@
                     </a>
                 </div>
 
-            </li>
+            </li> --}}
         @endguest
     </li>
 </ul>

@@ -10,7 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::prefix('ppc')->group(function() {
-    Route::get('/', 'PPCController@index');
-});
+Route::name('ppc.')->group(function () {
+    Route::prefix('ppc')->group(function() {
+        Route::resource('/taskcard/routine', 'TaskcardRoutineController');
+            
+    });
+});  
