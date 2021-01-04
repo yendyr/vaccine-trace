@@ -44,12 +44,12 @@
             <div class="nav-label text-white p-3 mt-2">Modules</div>
         </li>
         <li class="nav-first-level" id="ppc">
-            <a href="#"><i class="fa fa-users"></i> <span class="nav-label">PPC</span> <span class="fa arrow"></span></a>
+            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">PPC</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
                 {{-- @can('viewAny', \Modules\PPC\Entities\TaskCard::class) --}}
                     <li class="">
                         <a href="">
-                            <i class="fa fa-plus"></i>
+                            <i class="fa fa-paste"></i>
                             <span class="nav-label">Task Card</span>
                             <span class="fa arrow"></span>
                         </a>
@@ -58,7 +58,7 @@
                                 <a href="/taskcard/routine">
                                     <div class="nav-second-table-group">
                                     <span>
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fa fa-list"></i>
                                     </span>
                                         <span>Routine</span>
                                     </div>
