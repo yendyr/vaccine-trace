@@ -291,7 +291,7 @@
 @push('footer-scripts')
     <script>
         function getPict(input){
-            console.log(input)
+            
             var filedata = input.files[0];
             let imgtype = filedata.type;
             let imgsize = filedata.size;
