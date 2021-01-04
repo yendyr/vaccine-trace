@@ -22,10 +22,14 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Leave Quota'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/leave-quota">Leave Quota</a>
-        </li>
+    @component('components.breadcrumb',
+                    ['name' => 'Leave Quota',
+                    'href' => '/hr/leave-quota',
+                ])
+        @can('create', \Modules\HumanResources\Entities\LeaveQuota::class)
+            <div id="form_result" role="alert"></div>
+            <button type="button" id="create-leave-quota" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i> Add New Leave Quota</button>
+        @endcan
     @endcomponent
 @endsection
 
@@ -40,7 +44,7 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h4 class="text-center">Leave Quota data</h4>
+                    <h4 class="text-center">Leave Quota Datalist</h4>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -48,12 +52,6 @@
                     </div>
                 </div>
                 <div class="ibox-footer" id="ibox-leave-quota">
-                    <div id="form_result" role="alert"></div>
-                    <div class="col-md-1 m-2 p-1 row">
-                        @can('create', \Modules\HumanResources\Entities\LeaveQuota::class)
-                            <button type="button" id="create-leave-quota" class="btn btn-block btn-primary"><strong>Add</strong></button>
-                        @endcan
-                    </div>
                     <div class="table-responsive">
                         <table id="leave-quota-table" class="table table-hover text-center display nowrap" width="100%">
                             <thead>

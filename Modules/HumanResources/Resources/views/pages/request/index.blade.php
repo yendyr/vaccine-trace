@@ -22,10 +22,14 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Request'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/request">Request</a>
-        </li>
+    @component('components.breadcrumb',
+                    ['name' => 'Request',
+                    'href' => '/hr/request',
+                ])
+        @can('create', \Modules\HumanResources\Entities\Request::class)
+            <div id="form_result" role="alert"></div>
+            <button type="button" id="create-request" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i> Add New Request</button>
+        @endcan
     @endcomponent
 @endsection
 
@@ -41,7 +45,7 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h4 class="text-center">Request data</h4>
+                    <h4 class="text-center">Request Datalist</h4>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -49,12 +53,6 @@
                     </div>
                 </div>
                 <div class="ibox-footer" id="ibox-request">
-                    <div id="form_result" role="alert"></div>
-                    <div class="col-md-1 m-2 p-1 row">
-                        @can('create', \Modules\HumanResources\Entities\Request::class)
-                            <button type="button" id="create-request" class="btn btn-block btn-primary"><strong>Add</strong></button>
-                        @endcan
-                    </div>
                     <div class="table-responsive">
                         <table id="request-table" class="table table-hover text-center display nowrap" width="100%">
                             <thead>

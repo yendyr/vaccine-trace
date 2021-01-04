@@ -1,5 +1,5 @@
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-9">
+    <div class="col-lg-7">
         <h2>{{ $name ?? '' }}</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -11,7 +11,7 @@
         </ol>
     </div>
 
-    <div class="col-lg-3 d-flex align-items-end flex-row-reverse">
+    <div class="col-lg-5 d-flex align-items-end flex-row-reverse">
         {{ $slot }}
     </div>
 </div>

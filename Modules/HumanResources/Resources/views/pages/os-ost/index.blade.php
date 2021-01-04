@@ -16,10 +16,22 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Organization Structure'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/org-structure">Organization Structure</a>
-        </li>
+    @component('components.breadcrumb',
+                    ['name' => 'Organization Structure',
+                    'href' => '/hr/org-structure',
+                ])
+
+        @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
+            <div id="form_result" role="alert"></div>
+            <button type="button" id="createOST" class="btn btn-primary btn-lg" style="margin-left: 10px;">
+                <i class="fa fa-plus-circle"></i> Add Title Structure
+            </button>
+        @endcan
+        @can('create', \Modules\HumanResources\Entities\OrganizationStructure::class)
+            <button type="button" id="createOS" class="btn btn-info btn-lg">
+                <i class="fa fa-plus-square"></i> Add Header Structure
+            </button>
+        @endcan
     @endcomponent
 @endsection
 
@@ -44,7 +56,7 @@
                     <div role="tabpanel" id="os" class="tab-pane active">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Organization Structure data</h4>
+                                <h4 class="text-center">Organization Header Structure Datalist</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -60,13 +72,6 @@
                                             <button type="button" onclick="reloadOs()" class="btn btn-secondary"><strong><i class="fa fa-repeat"></i></strong></button>
                                         </div>
                                     </div>
-                                    <div class="col-8 text-right" style="font-size:14px;">
-                                        @can('create', \Modules\HumanResources\Entities\OrganizationStructure::class)
-                                            <div class="m-1">
-                                                <button type="button" id="createOS" class="btn btn-primary"><strong><i class="fa fa-plus-circle"></i>&nbsp;Header Structure</strong></button>
-                                            </div>
-                                        @endcan
-                                    </div>
                                 </div>
                                 <div id="container">
                                     <div id="TreeGrid"></div>
@@ -77,7 +82,7 @@
                     <div role="tabpanel" id="ost" class="tab-pane">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Organization Structure Title data</h4>
+                                <h4 class="text-center">Organization Structure Title Datalist</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -86,12 +91,6 @@
                                 </div>
                             </div>
                             <div class="ibox-footer" id="ibox-ost">
-                                <div id="form_result" role="alert"></div>
-                                <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
-                                    @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
-                                        <button type="button" id="createOST" class="btn btn-primary"><strong><i class="fa fa-plus-circle"></i>&nbsp;Title Structure</strong></button>
-                                    @endcan
-                                </div>
                                 <div class="table-responsive">
                                     <table id="ost-table" class="table table-hover text-center" style="width: 100%">
                                         <thead>

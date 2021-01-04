@@ -22,10 +22,13 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Attendance'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/attendance">Attendance</a>
-        </li>
+    @component('components.breadcrumb',
+                    ['name' => 'Attendance',
+                    'href' => '/hr/attendance',
+                ])
+        @can('create', \Modules\HumanResources\Entities\Attendance::class)
+            <button type="button" id="validate-attendance" class="btn btn-primary btn-lg"><i class="fa fa-chain"></i> Validate Attendance</button>
+        @endcan
     @endcomponent
 @endsection
 
@@ -41,15 +44,8 @@
             <div class="ibox ">
                 <div class="ibox-title">
                     <div class="row">
-                        <div class="col-md-1 text-center text-bold">
-                        @can('create', \Modules\HumanResources\Entities\Attendance::class)
-                            <button type="button" id="validate-attendance" class="btn btn-block btn-outline-primary" data-toggle="tooltip" title="Validate">
-                                <i class="fa fa-check-square-o"></i>
-                            </button>
-                        @endcan
-                        </div>
                         <div class="col-md-11 text-center">
-                            <h3 class="text-center">Attendance Validation data</h3>
+                            <h3 class="text-center">Attendance Validation Datalist</h3>
                         </div>
                     </div>
                     <div class="ibox-tools">

@@ -233,7 +233,7 @@
                                         <span>
                                             <i class="fa fa-minus"></i>
                                         </span>
-                                        <span>Working Group</span>
+                                        <span>Work Group</span>
                                     </div>
                                 </a>
                             </li>

@@ -6,6 +6,21 @@
             <a href="/hr/holiday">Holiday</a>
         </li>
     @endcomponent
+
+    @component('components.breadcrumb',
+                    ['name' => 'Holiday',
+                    'href' => '/hr/holiday',
+                ])
+        @can('create', \Modules\HumanResources\Entities\Holiday::class)
+            <div id="form_result" role="alert"></div>
+            <button type="button" id="create-holiday" class="btn btn-primary btn-lg" style="margin-left: 10px;">
+                <i class="fa fa-plus-square"></i> Add New Holiday
+            </button>
+            <button type="button" id="generate-sunday" class="btn btn-info btn-lg">
+                <i class="fa fa-plus-square"></i> Generate Sunday
+            </button>
+        @endcan
+    @endcomponent 
 @endsection
 
 @section('content')
@@ -21,7 +36,7 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h4 class="text-center">Holiday data</h4>
+                    <h4 class="text-center">Holiday Datalist</h4>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -29,25 +44,6 @@
                     </div>
                 </div>
                 <div class="ibox-footer" id="ibox-holiday">
-                    <div id="form_result" role="alert"></div>
-                        <div class="row mb-2 p-1">
-                            @can('create', \Modules\HumanResources\Entities\Holiday::class)
-                                <div class="col-md-1">
-                                    <button type="button" id="create-holiday" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" id="generate-sunday" class="btn btn-block btn-info" data-toggle="modal" data-target="#sundayModal"><strong>Generate Sunday</strong></button>
-                                </div>
-                                <div class="form-group row ml-2">
-                                    <label class="col-sm-2 col-form-label" for="searchyear">Filter Year</label>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchyear" name="searchyear">
-{{--                                        <select class="m-b-sm" id="searchyear" name="searchyear"></select>--}}
-                                    </div>
-                                </div>
-                            @endcan
-                        </div>
-
                     <div class="table-responsive">
                         <table id="holiday-table" class="table table-hover text-center" style="width: 100%">
                             <thead>

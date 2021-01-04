@@ -22,10 +22,20 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Working Hour'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/working-hour">Working Hour</a>
-        </li>
+    @component('components.breadcrumb',
+                    ['name' => 'Working Hour',
+                    'href' => '/hr/working-hour',
+                ])
+        @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
+            <div id="form_result" role="alert"></div>
+            @if (request()->is('hr/working-hour/calculate'))
+                <button type="button" id="calculate-whour" class="btn btn-primary btn-lg">
+                    <i class="fa fa-plus-square"></i> Calculate</button>
+            @elseif(request()->is('hr/working-hour'))
+                <button type="button" id="create-whour" class="btn btn-info btn-lg">
+                    <i class="fa fa-plus-square"></i> Generate</button>                                        
+            @endif
+        @endcan
     @endcomponent
 @endsection
 
@@ -41,19 +51,25 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li><a class="nav-link active" data-toggle="tab" href="#whour">Working Hour</a></li>
+                    <li>
+                        <a class="nav-link active" data-toggle="tab" href="#whour">Working Hour</a>
+                    </li>
                     @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#whour-detail">Working Hour Detail</a></li>
+                        <li>
+                            <a class="nav-link" data-toggle="tab" href="#whour-detail">Working Hour Detail</a>
+                        </li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#whour-attendance">Working Hour Attendance</a></li>
+                        <li>
+                            <a class="nav-link" data-toggle="tab" href="#whour-attendance">Working Hour Attendance</a>
+                        </li>
                     @endcan
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" id="whour" class="tab-pane fade show active">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Working Hour data</h4>
+                                <h4 class="text-center">Working Hour Datalist</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -62,20 +78,6 @@
                                 </div>
                             </div>
                             <div class="ibox-footer" id="ibox-whour">
-                                <div id="form_result" role="alert"></div>
-                                <div class="row p-2">
-                                @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
-                                    @if (request()->is('hr/working-hour/calculate'))
-                                    <div class="col-lg-2">
-                                        <button type="button" id="calculate-whour" class="btn btn-block btn-outline-info"><strong>Calculate</strong></button>
-                                    </div>
-                                    @elseif(request()->is('hr/working-hour'))
-                                    <div class="col-lg-2">
-                                        <button type="button" id="create-whour" class="btn btn-block btn-primary"><strong>Generate</strong></button>
-                                    </div>                                        
-                                    @endif
-                                @endcan
-                                </div>
                                 <div class="table-responsive">
                                     <table id="whour-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
