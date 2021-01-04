@@ -1,0 +1,13 @@
+{
+    "name": "PPC",
+    "alias": "ppc",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\PPC\\Providers\\PPCServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,5 +1,6 @@
 {
     "Gate": true,
     "Examples": true,
-    "HumanResources": true
+    "HumanResources": true,
+    "PPC": true
 }
