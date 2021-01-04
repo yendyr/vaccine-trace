@@ -1,4 +1,3 @@
-
 <div class="sidebar-collapse">
     <ul class="nav metismenu" id="side-menu">
         <li class="nav-header">
@@ -15,15 +14,23 @@
                     <input onchange="getPict(this)" style="display: none;" id="file-input" type="file" name="upload_img"/>
                 </div>
 
-                <a class="dropdown-toggle" href="#">
-                    <span class="block m-t-xs font-bold">{{\Illuminate\Support\Facades\Auth::user()->name}}</span>
+                {{-- <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                    <span class="block m-t-xs font-bold">David Williams</span>
+                    <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+                </a> --}}
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                    <span class="block m-t-xs font-bold">{{ Auth::user()->username }}</span>
+                    <span class="text-xs text-muted">{{ Auth::user()->email }}<b class="caret"></b></span>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                    <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                    <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
-                    <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="changePassword()">Change Password</a></li>
+                    {{-- <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li> --}}
                     <li class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">Logout</a><form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form></li>
                 </ul>
             </div>
             <div class="logo-element">
@@ -31,13 +38,39 @@
             </div>
         </li>
         <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
-            <a href="{{ route('dashboard')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+            <a href="{{ route('dashboard')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboard</span></a>
         </li>
         <li>
             <div class="nav-label text-white p-3 mt-2">Modules</div>
         </li>
+        <li class="nav-first-level" id="ppc">
+            <a href="#"><i class="fa fa-users"></i> <span class="nav-label">PPC</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+                {{-- @can('viewAny', \Modules\PPC\Entities\TaskCard::class) --}}
+                    <li class="">
+                        <a href="">
+                            <i class="fa fa-plus"></i>
+                            <span class="nav-label">Task Card</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-third-level collapse">
+                            <li class="">
+                                <a href="/taskcard/routine">
+                                    <div class="nav-second-table-group">
+                                    <span>
+                                        <i class="fa fa-plus"></i>
+                                    </span>
+                                        <span>Routine</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {{-- @endcan --}}
+            </ul>
+        </li>
         <li class="{{ request()->is('hr/*') ? 'active' : '' }} nav-first-level" id="humanresources">
-            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Human Resources</span> <span class="fa arrow"></span></a>
+            <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Human Resources</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
                     <li class="{{ (request()->is('hr/employee') || request()->is('hr/employee/*')) ? 'active' : '' }}">
@@ -213,7 +246,7 @@
             </ul>
         </li>
         <li class="{{ request()->is('gate/*') ? 'active' : '' }} nav-first-level" id="gate">
-            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Tools</span> <span class="fa arrow"></span></a>
+            <a href="#"><i class="fa fa-wrench"></i> <span class="nav-label">Tools</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level collapse">
                 @can('viewAny', Modules\Gate\Entities\User::class)
                     <li class="{{ (request()->is('gate/user') || request()->is('gate/user/*')) ? 'active' : '' }}">

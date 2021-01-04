@@ -154,25 +154,23 @@ class RoleMenuController extends Controller
                             $checkboxes = '';
                             if ($row->approval >= 1){
                                 for ($i = 1; $i <= $row->approval; $i++){
-                                    $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">approve ' .$i.' 
-                                    <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .((in_array($i, $approvalArr)) ? "checked" : "") . ' >
-                                    </label><br>');
+                                    $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">Lv. ' .$i.' 
+                                    <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .((in_array($i, $approvalArr)) ? "checked" : "") . ' >&nbsp;</label>');
                                 }
                                 return $checkboxes;
                             }
                         } else {
                             $checkboxes = '';
                             for ($i = 1; $i <= $row->approval; $i++){
-                                $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">approve ' .$i.' 
-                                <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >
-                                </label><br>');
+                                $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">Lv. ' .$i.' 
+                                <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >&nbsp;</label>');
                             }
                             return $checkboxes;
                         }
                     } else {
                         $checkboxes = '';
                         for ($i = 1; $i <= $row->approval; $i++){
-                            $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse">approve ' .$i.' 
+                            $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse">Lv. ' .$i.' 
                             <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >
                             </label><br>');
                         }
