@@ -12,24 +12,32 @@
 */
 
 Route::name('gate.')->group(function () {
-    Route::prefix('gate')->group(function() {
-        Route::get('/user/select2/role', 'UserController@select2Role')->name('user.select2.role');
-        Route::get('/user/select2/company', 'UserController@select2Company')->name('user.select2.company');
-        Route::post('/user/change-password', 'UserController@changePassword')->name('user.change-password');
-        Route::post('/user/upload-image', 'UserController@uploadImage')->name('user.upload-image');
+    Route::prefix('gate')->group(function () {
+        Route::name('user.')->group(function () {
+            Route::get('/user/select2/role', 'UserController@select2Role')->name('select2.role');
+            Route::get('/user/select2/company', 'UserController@select2Company')->name('select2.company');
+            Route::post('/user/change-password', 'UserController@changePassword')->name('change-password');
+            Route::post('/user/upload-image', 'UserController@uploadImage')->name('upload-image');
+        });
         Route::resource('/user', 'UserController');
 
         Route::resource('/company', 'CompanyController');
 
         Route::resource('/role', 'RoleController');
 
-        Route::get('/role-menu/select2/role', 'RoleMenuController@select2Role')->name('role-menu.select2.role');
+        Route::name('menu.')->group(function () {
+            Route::get('/menu/sidebar', 'MenuController@sidebar')->name('sidebar');
+        });
+        Route::resource('/menu', 'MenuController');
+
+        Route::name('role-menu.')->group(function () {
+            Route::get('/role-menu/select2/role', 'RoleMenuController@select2Role')->name('select2.role');
+            Route::get('/role-menu/datatable/{role}', 'RoleMenuController@fetch')->name('datatable');
+        });
+
         Route::resource('/role-menu', 'RoleMenuController');
 
-        Route::get('/role-menu/datatable/{role}', 'RoleMenuController@fetch')->name('role-menu.datatable');
-
-//        Route::get('/', 'GateController@index');
-
-//        Route::view('/test', 'gate::pages.test.index')->name('test.index');
+        // Route::get('/', 'GateController@index');
+        // Route::view('/test', 'gate::pages.test.index')->name('test.index');
     });
 });
