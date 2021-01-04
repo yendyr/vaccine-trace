@@ -170,7 +170,7 @@ class RoleMenuController extends Controller
                     } else {
                         $checkboxes = '';
                         for ($i = 1; $i <= $row->approval; $i++){
-                            $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse">approve ' .$i.' 
+                            $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse">Lv. ' .$i.' 
                             <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >
                             </label><br>');
                         }

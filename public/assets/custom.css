@@ -120,3 +120,15 @@
     /* width: 158px;
     height: 44px; */
   }
+
+body {
+    color: #000;
+}
+
+.table {
+    color: #000;
+}
+
+.text-dark {
+    color: #000 !important;
+}
