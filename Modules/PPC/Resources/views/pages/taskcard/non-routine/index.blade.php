@@ -103,21 +103,16 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Employee',
-                    'href' => '/hr/employee',
-                ])
-        @can('create', \Modules\HumanResources\Entities\Employee::class)
-            <button type="button" id="create-employee" class="btn btn-primary btn-lg">
-                <i class="fa fa-plus-square"></i> Add New Employee
-            </button>
-        @endcan
-    @endcomponent    
+    @component('components.breadcrumb', ['name' => 'Routine Taskcard'])
+        <li class="breadcrumb-item active">
+            <a href="/taskcard/routine">Routine Taskcard</a>
+        </li>
+    @endcomponent
 @endsection
 
 @section('content')
 
-    @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
+    {{-- @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
         @include('humanresources::components.employee.modal')
 
         @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
@@ -132,7 +127,7 @@
         @can('viewAny', \Modules\HumanResources\Entities\Address::class)
             @include('humanresources::components.address.modal')
         @endcan
-    @endcan
+    @endcan --}}
 
     <div class="row">
         <div class="col-lg-12">
@@ -193,9 +188,9 @@
                             <div class="ibox-footer" id="ibox-employee">
                                 <div id="form_result" role="alert"></div>
                                 <div class="col-md-1 m-2 p-1 row">
-                                    {{-- @can('create', \Modules\HumanResources\Entities\Employee::class)
+                                    @can('create', \Modules\HumanResources\Entities\Employee::class)
                                         <button type="button" id="create-employee" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                                    @endcan --}}
+                                    @endcan
                                 </div>
                                 <div class="table-responsive">
                                     <table id="employee-table" class="table table-hover text-center display nowrap" width="100%">

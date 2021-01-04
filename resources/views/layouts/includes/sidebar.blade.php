@@ -55,12 +55,22 @@
                         </a>
                         <ul class="nav nav-third-level collapse">
                             <li class="">
-                                <a href="/taskcard/routine">
+                                <a href="/ppc/taskcard/routine">
                                     <div class="nav-second-table-group">
                                     <span>
                                         <i class="fa fa-list"></i>
                                     </span>
                                         <span>Routine</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/ppc/taskcard/non-routine">
+                                    <div class="nav-second-table-group">
+                                    <span>
+                                        <i class="fa fa-list"></i>
+                                    </span>
+                                        <span>Non-Routine</span>
                                     </div>
                                 </a>
                             </li>
