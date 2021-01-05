@@ -26,22 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $menuGroups = Menu::get()->groupBy('group');
-
-        foreach ($menuGroups as $groupKey => $groupRow) {
-            foreach ($groupRow as $menuKey => $menuRow) {
-                $keys = [];
-                if ($menuRow->subMenus()->count() > 0) {
-                    foreach ($menuRow->subMenus as $subMenuKey => $subMenuRow) {
-                        $duplicates = $groupRow->where('id', $subMenuRow->id)->keys();
-                        foreach ($duplicates as $duplicateRow) {
-                            $keys[] = $duplicateRow;
-                        }
-                    }
-                }
-                $groupRow->forget($keys);
-            }
-        }
+        $menuGroups = Menu::whereNull('parent_id')->get()->groupBy('group');
 
         View::share('menuGroups', $menuGroups);
     }
