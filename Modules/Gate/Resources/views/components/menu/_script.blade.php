@@ -12,10 +12,23 @@
                 columns: [
                     // { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { title: 'Name', data: 'menu_text', name: 'menu_text' },
-                    { title: 'icon', data: 'menu_icon', name: 'menu_icon' },
+                    { title: 'Icon', data: 'icon', name: 'icon' },
+                    { title: 'Class', data: 'menu_class', name: 'menu_class' },
+                    { title: 'Actives', data: 'actives', name: 'menu_actives' },
+                    { title: 'Parent', data: 'parent', name: 'parent' },
+                    { title: 'Link', data: 'menu_link', name: 'menu_link' },
+                    { title: 'Route', data: 'menu_route', name: 'menu_route' },
                     { title: 'Status', data: 'status', name: 'status' },
                     { title: 'Action', data: 'action', name: 'action', orderable: false },
                 ]
+            });
+
+            $('.select2_menu').select2({
+                placeholder: 'Choose a menu',
+                ajax: {
+                    url: "{{route('gate.menu.select2.all')}}",
+                    dataType: 'json',
+                }
             });
 
             $('#createMenu').click(function () {

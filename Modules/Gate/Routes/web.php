@@ -26,7 +26,7 @@ Route::name('gate.')->group(function () {
         Route::resource('/role', 'RoleController');
 
         Route::name('menu.')->group(function () {
-            Route::get('/menu/sidebar', 'MenuController@sidebar')->name('sidebar');
+            Route::get('/menu/select2/all', 'MenuController@select2Menu')->name('select2.all');
         });
         Route::resource('/menu', 'MenuController');
 
