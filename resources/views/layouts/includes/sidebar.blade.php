@@ -139,42 +139,6 @@
                 $('li#humanresources').remove();
             }
 
-            $.ajax({
-                headers: {
-                    "X-CSRF-TOKEN": $( 'meta[name="csrf-token"]' ).attr("content")
-                }, 
-                url: "{{ route('gate.menu.sidebar') }}",
-                method: "GET",
-                async: true,
-                contentType: false,
-                cache: false,
-                data: postData,
-                processData: false,
-                beforeSend: function() {
-                    $('#side-menu-items').hide('slow');
-                    $('#side-menu-items').empty();
-                },
-                success: function(listMenu) {
-                    $('#side-menu-items').append(listMenu);
-                    $('#side-menu-items').show('slow');
-                },
-                error: function(data) {
-                    $('#side-menu-items').show('slow');
-                    let html = '';
-                    let errors = data.responseJSON.errors;
-                    if (errors) {
-                        let textError = '';
-                        $.each(errors, function(index, value) {
-                            textError += value;
-                        });
-                        swal({
-                            title: "Failed to upload!",
-                            text: textError,
-                            type: "error"
-                        });
-                    }
-                },
-            });
         });
         
     </script>
