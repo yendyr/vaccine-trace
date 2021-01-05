@@ -28,7 +28,8 @@ class TaskcardRoutineController extends Controller
      */
     public function index(Request $request)
     {
-        return view('ppc::pages.employee.index');
+        return view('ppc::pages.taskcard.routine.index');
+        // return view('humanresources::pages.employee.index');
     }
 
     /**
@@ -37,7 +38,7 @@ class TaskcardRoutineController extends Controller
      */
     public function create()
     {
-        return view('ppc::create');
+        return view('ppc::pages.taskcard.routine.form');
     }
 
     /**

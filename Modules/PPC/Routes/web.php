@@ -13,6 +13,7 @@
 Route::name('ppc.')->group(function () {
     Route::prefix('ppc')->group(function() {
         Route::resource('/taskcard/routine', 'TaskcardRoutineController');
+        Route::get('/taskcard/routine/create', 'TaskcardRoutineController@create');
             
     });
 });  

@@ -22,10 +22,17 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Organization Structure'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/workgroup">Working Group</a>
-        </li>
+    @component('components.breadcrumb',
+                    ['name' => 'Work Group',
+                    'href' => '/hr/workgroup',
+                ])
+        <div id="form_result" role="alert"></div>
+        @can('create', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
+            <button type="button" id="create-wg-detail" class="btn btn-primary btn-lg" style="margin-left: 10px;"><i class="fa fa-plus-square"></i> Add New Work Group Detail</button>
+        @endcan
+        @can('create', \Modules\HumanResources\Entities\WorkingGroup::class)
+            <button type="button" id="create-wg" class="btn btn-info btn-lg"><i class="fa fa-plus-square"></i> Add New Work Group</button>
+        @endcan
     @endcomponent
 @endsection
 
@@ -55,7 +62,7 @@
                     <div role="tabpanel" id="workgroup" class="tab-pane active">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Working Group data</h4>
+                                <h4 class="text-center">Working Group Datalist</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -64,12 +71,6 @@
                                 </div>
                             </div>
                             <div class="ibox-footer" id="ibox-workgroup">
-                                <div id="form_result" role="alert"></div>
-                                <div class="col-md-1 m-2 p-1 row">
-                                    @can('create', \Modules\HumanResources\Entities\WorkingGroup::class)
-                                        <button type="button" id="create-wg" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                                    @endcan
-                                </div>
                                 <div class="table-responsive">
                                     <table id="workgroup-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
@@ -100,7 +101,7 @@
                     <div role="tabpanel" id="workgroup-detail" class="tab-pane">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Working Group Detail data</h4>
+                                <h4 class="text-center">Working Group Detail Datalist</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -109,12 +110,6 @@
                                 </div>
                             </div>
                             <div class="ibox-footer" id="ibox-workgroup-detail">
-                                <div id="form_result" role="alert"></div>
-                                <div class="col-md-1 m-2 p-1 row">
-                                    @can('create', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
-                                        <button type="button" id="create-wg-detail" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
-                                    @endcan
-                                </div>
                                 <div class="table-responsive">
                                     <table id="workgroup-detail-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>

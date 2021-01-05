@@ -103,21 +103,16 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Employee',
-                    'href' => '/hr/employee',
-                ])
-        @can('create', \Modules\HumanResources\Entities\Employee::class)
-            <button type="button" id="create-employee" class="btn btn-primary btn-lg">
-                <i class="fa fa-plus-square"></i> Add New Employee
-            </button>
-        @endcan
-    @endcomponent    
+    @component('components.breadcrumb', ['name' => 'Routine Taskcard'])
+        <li class="breadcrumb-item active">
+            <a href="/taskcard/routine">Routine Taskcard</a>
+        </li>
+    @endcomponent
 @endsection
 
 @section('content')
 
-    @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
+    {{-- @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
         @include('humanresources::components.employee.modal')
 
         @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
@@ -132,33 +127,58 @@
         @can('viewAny', \Modules\HumanResources\Entities\Address::class)
             @include('humanresources::components.address.modal')
         @endcan
-    @endcan
+    @endcan --}}
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="tabs-container">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li>
+            <div class="tabs-container responsive__tabs">
+{{--                <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>--}}
+{{--                <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>--}}
+{{--                <div class="wrapper">--}}
+{{--                    <ul class="nav nav-tabs list">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link active" data-toggle="tab" role="tab" href="#employee">Employees</a>--}}
+{{--                        </li>--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="idcard" data-toggle="tab" role="tab" href="#idcard">ID Card</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Education::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="education" data-toggle="tab" role="tab" href="#education">Education</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Family::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="family" data-toggle="tab" role="tab" href="#family">Family</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Address::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="address" data-toggle="tab" role="tab" href="#address">Address</a></li>--}}
+{{--                        @endcan--}}
+{{--                        @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)--}}
+{{--                            <li class="nav-item"><a class="nav-link" aria-controles="attendance" data-toggle="tab" role="tab" href="#attendance">Attendance</a></li>--}}
+{{--                        @endcan--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+                <ul class="scrollable-tabs">
+                    <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#employee">Employees</a>
                     </li>
                     @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#idcard">ID Card</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="idcard" data-toggle="tab" role="tab" href="#idcard">ID Card</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Education::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#education">Education</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="education" data-toggle="tab" role="tab" href="#education">Education</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Family::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#family">Family</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="family" data-toggle="tab" role="tab" href="#family">Family</a></li>
                     @endcan
                     @can('viewAny', \Modules\HumanResources\Entities\Address::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#address">Address</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" aria-controles="address" data-toggle="tab" role="tab" href="#address">Address</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" id="employee" class="tab-pane fade show active">
+                    <div role="tabpanel" id="employee" class="tab-pane container fade show active">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Employee Datalist</h4>
+                                <h4 class="text-center">Employee data</h4>
+
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -167,6 +187,11 @@
                             </div>
                             <div class="ibox-footer" id="ibox-employee">
                                 <div id="form_result" role="alert"></div>
+                                <div class="col-md-1 m-2 p-1 row">
+                                    @can('create', \Modules\HumanResources\Entities\Employee::class)
+                                        <button type="button" id="create-employee" class="btn btn-block btn-primary"><strong><i class="fa fa-plus"></i></strong></button>
+                                    @endcan
+                                </div>
                                 <div class="table-responsive">
                                     <table id="employee-table" class="table table-hover text-center display nowrap" width="100%">
                                         <thead>
@@ -210,10 +235,10 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="idcard" class="tab-pane fade">
+                    <div role="tabpanel" id="idcard" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">ID Card Datalist</h4>
+                                <h4 class="text-center">ID Card data</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -249,10 +274,10 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="education" class="tab-pane fade">
+                    <div role="tabpanel" id="education" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Education Datalist</h4>
+                                <h4 class="text-center">Education data</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -294,10 +319,10 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="family" class="tab-pane fade">
+                    <div role="tabpanel" id="family" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Family Datalist</h4>
+                                <h4 class="text-center">Family data</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -340,10 +365,10 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="address" class="tab-pane fade">
+                    <div role="tabpanel" id="address" class="tab-pane fade" role="tabpanel">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h4 class="text-center">Address Datalist</h4>
+                                <h4 class="text-center">Address data</h4>
 
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
@@ -385,6 +410,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -393,10 +419,10 @@
 
     @push('footer-scripts')
         <script>
-            // $('.tabs-container').on('click', 'li', function() {
-            //     $('.scrollable-tabs li a.active').removeClass('active');
-            //     $(this).addClass('active');
-            // });
+            $('.tabs-container').on('click', 'li', function() {
+                $('.scrollable-tabs li a.active').removeClass('active');
+                $(this).addClass('active');
+            });
 
             // var hidWidth;
             // var scrollBarWidths = 40;
