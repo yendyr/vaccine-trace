@@ -272,7 +272,7 @@ class MenuTableSeeder extends Seeder
             'menu_link' => 'hr/holiday',
             'menu_text' => 'Holiday',
             'menu_route' => 'hr.holiday.index',
-            'menu_icon' => 'fa-fa-minus',
+            'menu_icon' => 'fa-minus',
             'menu_class' => 'Modules\HumanResources\Entities\Holiday',
             'menu_id' => null,
             'menu_actives' => json_encode(['hr/holiday', 'hr/holiday/*']),
