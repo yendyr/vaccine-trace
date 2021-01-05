@@ -11,7 +11,7 @@
                     url: "{{ route('gate.role-menu.index')}}",
                 },
                 columns: [
-                    { data: 'parent', name: 'parent' },
+                    { data: 'group', name: 'group' },
                     { data: 'menu_link', name: 'menu_link' },
                     { data: 'menu_text', name: 'menu_text' },
                     { data: 'add_column', name: 'add_column', orderable: false },
@@ -51,7 +51,7 @@
                         url: "/gate/role-menu/datatable/" + roleID,
                     },
                     columns: [
-                        { data: 'parent', name: 'parent' },
+                        { data: 'group', name: 'group' },
                         { data: 'menu_link', name: 'menu_link' },
                         { data: 'menu_text', name: 'menu_text', className: "text-right" },
                         { data: 'add_column', name: 'add_column', orderable: false },

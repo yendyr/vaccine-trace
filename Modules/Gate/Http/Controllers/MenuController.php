@@ -7,6 +7,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Menu;
+use Yajra\DataTables\DataTables;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Gate;
 
 class MenuController extends Controller
 {
@@ -14,10 +18,25 @@ class MenuController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $menus = Menu::all();
-        return view('gate::pages.menu.index', compact('menus'));
+        if ($request->ajax()) {
+            $data = Menu::orderBy('group')->latest()->get();
+
+            return Datatables::of($data)
+                ->addColumn('action', function($row) use ($request) {
+                    if($request->user()->can('update', Role::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        return view('components.action-button', compact(['updateable', 'updateValue']));
+                    }
+                    return '<p class="text-muted">no action authorized</p>';
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+
+        return view('gate::pages.menu.index');
     }
 
     /**
