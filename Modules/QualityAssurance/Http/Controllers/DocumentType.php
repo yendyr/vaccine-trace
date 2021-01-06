@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PPC\Http\Controllers;
+namespace Modules\QualityAssurance\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
-class TaskcardController extends Controller
+class DocumentTypeController extends Controller
 {
     use AuthorizesRequests;
 
@@ -23,12 +23,12 @@ class TaskcardController extends Controller
 
     public function index(Request $request)
     {
-        return view('ppc::pages.taskcard.index');
+        return view('quality::pages.document-type.index');
     }
 
     public function create()
     {
-        return view('ppc::pages.taskcard.form');
+        return view('quality::pages.document-type.form');
     }
 
     public function store(Request $request)
@@ -36,22 +36,22 @@ class TaskcardController extends Controller
         
     }
 
-    public function show(Taskcard $taskcard)
+    public function show(DocumentType $DocumentType)
     {
-        return view('ppc::show');
+        return view('quality::show');
     }
 
-    public function edit(Taskcard $taskcard)
+    public function edit(DocumentType $DocumentType)
     {
-        return view('ppc::edit');
+        return view('quality::edit');
     }
 
-    public function update(Request $request, Taskcard $taskcard)
+    public function update(Request $request, DocumentType $DocumentType)
     {
         
     }
 
-    public function destroy(Taskcard $taskcard)
+    public function destroy(DocumentType $DocumentType)
     {
         
     }
