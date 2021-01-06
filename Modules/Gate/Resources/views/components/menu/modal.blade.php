@@ -13,34 +13,38 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">
+                            <label>Group</label>
+                            <input type="text" class="form-control @error('group') is-invalid @enderror" id="group" name="group">
+                            <div class="invalid-feedback-group text-danger"></div>
+                        </div><div class="col-md-6">
                             <label>Name/Text</label>
-                            <input type="text" class="form-control @error('menu_text') is-invalid @enderror" id="fmenutext" name="menu_text">
+                            <input type="text" class="form-control @error('menu_text') is-invalid @enderror" id="menu_text" name="menu_text">
                             <div class="invalid-feedback-menu_text text-danger"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Icon Name</label>
-                            <input type="text" class="form-control @error('icon_name') is-invalid @enderror" id="ficonname" name="menu_icon">
+                            <input type="text" class="form-control @error('icon_name') is-invalid @enderror" id="menu_icon" name="menu_icon">
                             <div class="invalid-feedback-icon_name text-danger"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Class</label>
-                            <input type="text" class="form-control @error('menu_class') is-invalid @enderror" id="fmenuname" name="menu_class">
+                            <input type="text" class="form-control @error('menu_class') is-invalid @enderror" id="menu_class" name="menu_class">
                             <div class="invalid-feedback-menu_class text-danger"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Actives</label>
-                            <input type="text" class="form-control @error('menu_actives') is-invalid @enderror" id="fmenuname" name="menu_actives">
+                            <select class="form-control select2_menu_actives @error('menu_actives') is-invalid @enderror" id="menu_actives" name="menu_actives[]"  style="width: 100%;" multiple></select>
                             <div class="invalid-feedback-menu_actives text-danger"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Parent</label>
-                            <select class="form-control m-b select2_menu" id="fparent" name="parent" style="width: 100%;">
+                            <select class="form-control m-b select2_menu" id="parent_id" name="parent_id" style="width: 100%;">
                             </select>
                             <div class="invalid-feedback-parent text-danger"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Status</label>
-                            <select class="form-control m-b " id="fstatus" name="status" style="width: 100%;">
+                            <select class="form-control m-b " id="status" name="status" style="width: 100%;">
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                             </select>
@@ -48,12 +52,12 @@
                         </div>
                         <div class="col-md-6">
                             <label>Link</label>
-                            <input type="text" class="form-control @error('menu_link') is-invalid @enderror" id="fmenuname" name="menu_link">
+                            <input type="text" class="form-control @error('menu_link') is-invalid @enderror" id="menu_link" name="menu_link">
                             <div class="invalid-feedback-menu_link text-danger"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Route</label>
-                            <input type="text" class="form-control @error('menu_route') is-invalid @enderror" id="fmenuname" name="menu_route">
+                            <input type="text" class="form-control @error('menu_route') is-invalid @enderror" id="menu_route" name="menu_route">
                             <div class="invalid-feedback-menu_route text-danger"></div>
                         </div>
                     </div>

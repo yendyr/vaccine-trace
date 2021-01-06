@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Modules\Gate\Entities\Menu;
 use Yajra\DataTables\DataTables;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Gate;
 
@@ -37,12 +38,13 @@ class MenuController extends Controller
 
                     return $parent->menu_text ?? null;
                 })
-                ->addColumn('action', function ($row) use ($request) {
-                    if ($request->user()->can('update', Role::class)) {
+                ->addColumn('action', function ($row) use ($request) {  
+                    if ($request->user()->can('update', Menu::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         return view('components.action-button', compact(['updateable', 'updateValue']));
                     }
+
                     return '<p class="text-muted">no action authorized</p>';
                 })
                 ->escapeColumns([])
@@ -68,21 +70,38 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
+        $flag = true;
+
         $request->validate([
+            'menu_text' => ['required', 'string', 'max:255'],
+            'group' => ['required', 'string', 'max:255'],
             'menu_link' => ['required', 'string', 'max:255'],
-            'parent' => ['required', 'string', 'max:255'],
+            'menu_route' => ['required', 'string', 'max:255'],
+            'menu_icon' => ['required', 'string', 'max:255'],
+            'menu_actives' => ['required', 'array', 'max:255'],
+            'menu_class' => ['string', 'max:255'],
+            'parent_id' => ['exists:menus,id'],
         ]);
 
-        $menu = new Menu();
-        $menu->uuid = Str::uuid();
-        $menu->menu_link = $request->menu_link;
-        $menu->parent = $request->parent;
-        $menu->status = 1;
-        $menu->owned_by = $request->user()->company_id;
-        $menu->created_by = $request->user()->id;
-        $menu->save();
+        $request->merge([
+            'uuid' => Str::uuid(),
+            'menu_actives' => json_decode($request->menu_actives)
+        ]);
 
-        return redirect('/gate/menu')->with('status', 'a menu data has been added!');
+        $menu = Menu::create($request->all());
+        if( empty($menu->id) ) $flag = false;
+        
+        if($flag){
+            DB::commit();
+
+            return redirect('/gate/menu')->with('status', 'a menu data has been added!');
+        }else{
+            DB::rollBack();
+
+            return redirect('/gate/menu')->with('status', 'a menu failed to add!');
+        }
+
     }
 
     /**
@@ -113,18 +132,33 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        $request->validate([
-            'menu_link' => ['required', 'string', 'max:255'],
-            'parent' => ['required', 'string', 'max:255'],
-        ]);
-        Menu::where('id', $menu->id)
-            ->update([
-                'menu_link' => $request->menu_link,
-                'parent' => $request->parent,
-                'updated_by' => $request->user()->id,
-            ]);
+        DB::beginTransaction();
+        $flag = true;
 
-        return redirect('/gate/menu')->with('status', 'a menu data has been updated!');
+        $request->validate([
+            'menu_text' => ['required', 'string', 'max:255'],
+            'group' => ['required', 'string', 'max:255'],
+            'menu_link' => ['required', 'string', 'max:255'],
+            'menu_route' => ['required', 'string', 'max:255'],
+            'menu_icon' => ['required', 'string', 'max:255'],
+            'menu_actives' => ['required', 'array', 'max:255'],
+            'menu_class' => ['string', 'max:255'],
+            'parent_id' => ['exists:menus,id'],
+        ]);
+
+        $update = $menu->update($request->all());
+
+        if( $update == false ) $flag = false;
+
+        if($flag){
+            DB::commit();
+
+            return redirect('/gate/menu')->with('status', 'a menu data has been updated!');
+        }else{
+            DB::rollBack();
+
+            return redirect('/gate/menu')->with('status', 'a menu failed to update!');
+        }
     }
 
     /**
