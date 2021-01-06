@@ -48,6 +48,28 @@ class Menu extends Model
         return $canView;
     }
 
+    /** 
+     * Function to check if there is any active sub menus
+     */
+    public function moduleHasActiveSubMenus(Request $request)
+    {
+        $canView = 0;
+
+        $menus = Menu::where('group', $this->group)->get();
+        foreach ($menus as $menu) {
+            if ( $request->user()->can('viewAny', $menu->menu_class) ) $canView++;
+
+            if ( $menu->subMenus()->count() > 0 ) {
+                foreach ($menu->subMenus as $subMenu) {
+                    if ( $request->user()->can('viewAny', $subMenu->menu_class) ) $canView++;
+                }
+            } 
+        }
+        
+
+        return $canView;
+    }
+
     public function isActive(Request $request)
     {
         $isActive = null;

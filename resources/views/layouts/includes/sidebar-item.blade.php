@@ -1,7 +1,7 @@
  
 
 @foreach($menuGroups as $group => $menuGroupRow)
-    @if( $menuGroupRow->random()->hasActiveSubMenus(request()) > 0 )
+    @if( $menuGroupRow->random()->moduleHasActiveSubMenus(request()) > 0 )
     <li>
         <div class="nav-label text-white p-3 mt-2">{{ $group ?? '' }}</div>
     </li>
