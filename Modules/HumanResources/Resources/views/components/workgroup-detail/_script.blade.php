@@ -35,6 +35,7 @@
 
             $('#fshiftno').val(''); //kosongkan dulu shiftno
             $('.select2_shiftno').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose shiftno',
                 ajax: {
                     url: "{{route('hr.workgroup-detail.select2.shiftno')}}",
@@ -49,6 +50,7 @@
 
         $(document).ready(function () {
             $('.select2_wgcode').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose workgroup',
                 ajax: {
                     url: "{{route('hr.workgroup-detail.select2.workgroup')}}",
@@ -91,6 +93,7 @@
 
                 $("#fshiftno").attr("disabled", true);
                 $('.select2_shiftno').select2({
+                theme: 'bootstrap4',
                     placeholder: 'choose shiftno',
                     ajax: {
                         url: "{{route('hr.workgroup-detail.select2.shiftno')}}",

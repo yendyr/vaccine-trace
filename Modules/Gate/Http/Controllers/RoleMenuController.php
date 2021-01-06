@@ -87,7 +87,7 @@ class RoleMenuController extends Controller
         }
 
         if ($request->ajax()) {
-            $data = Menu::latest()->get();
+            $data = Menu::latest();
             $tables =  DataTables::of($data)
                 ->addColumn('menu_text', function ($row) use ($menuID){ //looping tiap menuRow
                     if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
@@ -154,25 +154,23 @@ class RoleMenuController extends Controller
                             $checkboxes = '';
                             if ($row->approval >= 1){
                                 for ($i = 1; $i <= $row->approval; $i++){
-                                    $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">approve ' .$i.' 
-                                    <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .((in_array($i, $approvalArr)) ? "checked" : "") . ' >
-                                    </label><br>');
+                                    $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">Lv. ' .$i.' 
+                                    <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .((in_array($i, $approvalArr)) ? "checked" : "") . ' >&nbsp;</label>');
                                 }
                                 return $checkboxes;
                             }
                         } else {
                             $checkboxes = '';
                             for ($i = 1; $i <= $row->approval; $i++){
-                                $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">approve ' .$i.' 
-                                <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >
-                                </label><br>');
+                                $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse show">Lv. ' .$i.' 
+                                <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >&nbsp;</label>');
                             }
                             return $checkboxes;
                         }
                     } else {
                         $checkboxes = '';
                         for ($i = 1; $i <= $row->approval; $i++){
-                            $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse">approve ' .$i.' 
+                            $checkboxes .= ('<label id="role-menu' .$row->id. '" class="collapse">Lv. ' .$i.' 
                             <input name="approval[' .$row->id. '][' .$i. ']" type="checkbox" value="' .$i. '"  ' .(($row->approval >= 1) ? "" : " hidden") . ' >
                             </label><br>');
                         }
@@ -249,8 +247,8 @@ class RoleMenuController extends Controller
                     'update' => ( isset($request->update[$i+1]) ? intval($request->update[$i+1]) : 0),
                     'delete' => ( isset($request->delete[$i+1]) ? intval($request->delete[$i+1]) : 0),
                     'print' => ( isset($request->print[$i+1]) ? intval($request->print[$i+1]) : 0),
-                    'approval' => ( isset($request->approval[$i+1]) ? $approvalData : 0),
-                    'process' => ( isset($request->process[$i+1]) ? $processData : 0),
+                    'approval' => ( isset($request->approval[$i+1]) ? $approvalData : json_encode(0) ),
+                    'process' => ( isset($request->process[$i+1]) ? $processData : json_encode(0) ),
                     'status' => 1,
                     'owned_by' => $request->user()->company_id,
                     'created_by' => $request->user()->id,
@@ -309,7 +307,6 @@ class RoleMenuController extends Controller
      */
     public function update(Request $request, RoleMenu $roleMenu)
     {
-        dd($request->all());
         $request->validate([
             'role' => ['required', 'integer'],
             'menu' => ['required', 'integer'],

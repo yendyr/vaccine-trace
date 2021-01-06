@@ -62,6 +62,7 @@
         function employeeSetOrgcode(data){
             $('#forglvl').val(null).trigger('change');
             $('.select2_orglvl').select2({
+                theme: 'bootstrap4',
                 placeholder: 'select org code first',
                 ajax: {
                     url: "{{route('hr.employee.select2.orglvl')}}",
@@ -75,6 +76,7 @@
 
             $('#ftitle').val(null).trigger('change');
             $('.select2_title').select2({
+                theme: 'bootstrap4',
                 placeholder: 'select org code first',
                 ajax: {
                     url: "{{route('hr.employee.select2.title')}}",
@@ -92,6 +94,7 @@
 
             let orgcode = $('#forgcode').val();
             $('.select2_jobtitle').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose title first',
                 ajax: {
                     url: "{{route('hr.employee.select2.jobtitle')}}",
@@ -131,6 +134,7 @@
             });
 
             $('.select2_workgroup').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose workgroup',
                 ajax: {
                     url: "{{route('hr.workgroup-detail.select2.workgroup')}}",
@@ -139,6 +143,7 @@
                 dropdownParent: $('#employeeModal')
             });
             $('.select2_orgcode').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.employee.select2.orgcode')}}",
@@ -147,6 +152,7 @@
                 dropdownParent: $('#employeeModal')
             });
             $('.select2_recruitby').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.employee.select2.recruitby')}}",
@@ -155,6 +161,7 @@
                 dropdownParent: $('#employeeModal')
             });
             $('.select2_religion').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.employee.select2.religion')}}",
@@ -163,6 +170,7 @@
                 dropdownParent: $('#employeeModal')
             });
             $('.select2_maritalstatus').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.employee.select2.maritalstatus')}}",
@@ -171,6 +179,7 @@
                 dropdownParent: $('#employeeModal')
             });
             $('.select2_bloodtype').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.employee.select2.bloodtype')}}",

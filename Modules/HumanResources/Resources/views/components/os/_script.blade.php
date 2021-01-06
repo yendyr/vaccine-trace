@@ -119,6 +119,7 @@
             reloadOs();
 
             $('.select2_orgparent').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.org-structure.select2.orgcode')}}",
@@ -127,6 +128,7 @@
                 dropdownParent: $('#osForm')
             });
             $('.select2_orglevel').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.org-structure.select2.orglevel')}}",

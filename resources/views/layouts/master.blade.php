@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>SmartAircraft 2020</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        @include('layouts.includes._header-script')
+    <title>SmartAircraft 2020</title>
 
-        {{-- jika ada tambahan custom script pada header --}}
-        @stack('header-scripts')
-    </head>
-    <body>
+    @include('layouts.includes._header-script')
+
+    {{-- jika ada tambahan custom script pada header --}}
+    @stack('header-scripts')
+</head>
+
+<body>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             @include('layouts.includes.sidebar')
@@ -28,13 +30,13 @@
 
             {{-- membaca request http sesuai route --}}
             @if (Request::is('dashboard'))
-                @yield('content')
+            @yield('content')
             @else
-                @yield('page-heading')
+            @yield('page-heading')
 
-                <div class="wrapper wrapper-content animated fadeInRight">
-                    @yield('content')
-                </div>
+            <div class="wrapper wrapper-content animated fadeInRight">
+                @yield('content')
+            </div>
             @endif
 
             <div class="footer">
@@ -48,9 +50,19 @@
         </div>
     </div>
 
+    <script>
+        function isJson(str) {
+            try {
+                JSON.parse(str);
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
+    </script>
     @include('layouts.includes._footer-script')
-
     {{-- jika ada tambahan custom script pada footer --}}
     @stack('footer-scripts')
-    </body>
+</body>
+
 </html>

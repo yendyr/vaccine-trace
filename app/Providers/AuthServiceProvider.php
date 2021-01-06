@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Gate;
 use Modules\Examples\Entities\Example;
 use Modules\Examples\Policies\ExamplePolicy;
 use Modules\Gate\Entities\Company;
+use Modules\Gate\Entities\Menu;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\RoleMenu;
 use Modules\Gate\Entities\User;
 use Modules\Gate\Policies\CompanyPolicy;
+use Modules\Gate\Policies\MenuPolicy;
 use Modules\Gate\Policies\RoleMenuPolicy;
 use Modules\Gate\Policies\RolePolicy;
 use Modules\Gate\Policies\UserPolicy;
@@ -59,6 +61,7 @@ class AuthServiceProvider extends ServiceProvider
         Company::class => CompanyPolicy::class,
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
+        Menu::class => MenuPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
         Example::class => ExamplePolicy::class,
         OrganizationStructure::class => OrganizationStructurePolicy::class,
@@ -77,6 +80,7 @@ class AuthServiceProvider extends ServiceProvider
         Attendance::class => AttendancePolicy::class,
         LeaveQuota::class => LeaveQuotaPolicy::class,
         Request::class => RequestPolicy::class,
+        
     ];
 
     /**

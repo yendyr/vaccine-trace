@@ -11,7 +11,7 @@
                     url: "{{ route('gate.role-menu.index')}}",
                 },
                 columns: [
-                    { data: 'parent', name: 'parent' },
+                    { data: 'group', name: 'group' },
                     { data: 'menu_link', name: 'menu_link' },
                     { data: 'menu_text', name: 'menu_text' },
                     { data: 'add_column', name: 'add_column', orderable: false },
@@ -23,6 +23,7 @@
             });
 
             $('.select2_role').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose a role',
                 ajax: {
                     url: "{{route('gate.role-menu.select2.role')}}",
@@ -51,9 +52,9 @@
                         url: "/gate/role-menu/datatable/" + roleID,
                     },
                     columns: [
-                        { data: 'parent', name: 'parent' },
+                        { data: 'group', name: 'group' },
                         { data: 'menu_link', name: 'menu_link' },
-                        { data: 'menu_text', name: 'menu_text' },
+                        { data: 'menu_text', name: 'menu_text', className: "text-right" },
                         { data: 'add_column', name: 'add_column', orderable: false },
                         { data: 'update_column', name: 'update_column', orderable: false },
                         { data: 'delete_column', name: 'delete_column', orderable: false },

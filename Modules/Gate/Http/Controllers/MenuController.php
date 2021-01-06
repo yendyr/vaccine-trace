@@ -7,6 +7,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Menu;
+use Yajra\DataTables\DataTables;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Gate;
 
 class MenuController extends Controller
 {
@@ -14,10 +18,38 @@ class MenuController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $menus = Menu::all();
-        return view('gate::pages.menu.index', compact('menus'));
+        if ($request->ajax()) {
+            $data = Menu::orderBy('group')->latest()->get();
+
+            return Datatables::of($data)
+                ->addColumn('icon', function ($row) {
+                    return '<i class="fa ' . $row->menu_icon . '"></i> <span >' . $row->menu_icon . '</span></a>';
+                })
+                ->addColumn('actives', function ($row) {
+                    $actives = json_decode($row->menu_actives);
+                    $actives = (empty($actives)) ? [] : $actives;
+                    return join(', ', $actives);
+                })
+                ->addColumn('parent', function ($row) {
+                    $parent = Menu::select('id', 'menu_text')->find($row->parent_id);
+
+                    return $parent->menu_text ?? null;
+                })
+                ->addColumn('action', function ($row) use ($request) {
+                    if ($request->user()->can('update', Role::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        return view('components.action-button', compact(['updateable', 'updateValue']));
+                    }
+                    return '<p class="text-muted">no action authorized</p>';
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+
+        return view('gate::pages.menu.index');
     }
 
     /**
@@ -104,5 +136,26 @@ class MenuController extends Controller
     {
         Menu::destroy($menu->id);
         return redirect('/gate/menu')->with('status', 'a menu data has been deleted!');
+    }
+
+    public function select2Menu(Request $request)
+    {
+        $search = $request->q;
+
+        $query = Menu::select('id', 'menu_text')->where('status', 1);
+        if ($search != '') {
+            $query = $query->where('menu_text', 'like', '%' . $search . '%');
+        }
+        $menus = $query->get();
+        $response = [];
+
+        foreach ($menus as $menu) {
+            $response['results'][] = [
+                "id" => $menu->id,
+                "text" => $menu->menu_text
+            ];
+        }
+
+        return response()->json($response);
     }
 }

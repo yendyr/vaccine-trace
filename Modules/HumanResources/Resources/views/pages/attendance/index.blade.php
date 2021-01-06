@@ -22,10 +22,20 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Attendance'])
-        <li class="breadcrumb-item active">
-            <a href="/hr/attendance">Attendance</a>
-        </li>
+    @component('components.breadcrumb',
+                    ['name' => 'Attendance',
+                    'href' => '/hr/attendance',
+                ])
+        @can('create', \Modules\HumanResources\Entities\Attendance::class)
+            <div id="form_result" role="alert"></div>
+            @if(request()->is('hr/attendance/import'))
+                <button type="button" id="import-attendance" class="btn btn-primary btn-lg">
+                    <i class="fa fa-plus-square"></i> Import Data</button>
+            @elseif(request()->is('hr/attendance'))
+                <button type="button" id="create-attendance" class="btn btn-info btn-lg">
+                    <i class="fa fa-plus-square"></i> Add Data</button>
+            @endif
+        @endcan
     @endcomponent
 @endsection
 
@@ -40,7 +50,7 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h4 class="text-center">Attendance data</h4>
+                    <h4 class="text-center">Attendance Datalist</h4>
 
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -49,16 +59,6 @@
                     </div>
                 </div>
                 <div class="ibox-footer" id="ibox-attendance">
-                    <div id="form_result" role="alert"></div>
-                    <div class="col-md-1 m-2 p-1 row">
-                        @can('create', \Modules\HumanResources\Entities\Attendance::class)
-                            @if(request()->is('hr/attendance/import'))
-                                <button type="button" id="import-attendance" class="btn btn-block btn-outline-info"><strong>Import</strong></button>
-                            @elseif(request()->is('hr/attendance'))
-                                <button type="button" id="create-attendance" class="btn btn-block btn-primary"><strong>Add</strong></button>
-                            @endif
-                        @endcan
-                    </div>
                     <div class="table-responsive">
                         <table id="attendance-table" class="table table-hover text-center display nowrap" width="100%">
                             <thead>

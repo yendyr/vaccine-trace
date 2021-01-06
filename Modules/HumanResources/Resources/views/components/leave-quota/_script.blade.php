@@ -50,6 +50,7 @@
         $(document).ready(function () {
 
             $('#lquotaForm').find('.select2_empidLquota').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
@@ -58,6 +59,7 @@
                 dropdownParent: $('#lquotaModal')
             });
             $('#lquotaForm').find('.select2_quotacode').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose leave quote code',
                 ajax: {
                     url: "{{route('hr.lquota.select2.quotacode')}}",

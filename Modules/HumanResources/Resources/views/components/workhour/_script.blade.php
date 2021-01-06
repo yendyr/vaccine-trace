@@ -58,6 +58,7 @@
             });
 
             $('#whourForm').find('.select2_empidWhour').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.workhour.select2.empid')}}",

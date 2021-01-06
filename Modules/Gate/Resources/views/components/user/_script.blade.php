@@ -1,4 +1,5 @@
 @push('footer-scripts')
+    <script src="{{URL::asset('theme/js/plugins/pwstrength/pwstrength-bootstrap.min.js')}}"></script>
     <script>
         $(document).ready(function () {
             var userId;
@@ -79,6 +80,7 @@
             });
 
             $('.select2_company').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose a company',
                 ajax: {
                     url: "{{route('gate.user.select2.company')}}",
@@ -87,6 +89,7 @@
                 dropdownParent: $('#userModal')
             });
             $('.select2_role').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose a role',
                 ajax: {
                     url: "{{route('gate.user.select2.role')}}",
@@ -184,6 +187,8 @@
 
         });
 
-
+        $('#fpassword').pwstrength({
+            ui: { showVerdictsInsideProgressBar: true }
+        });
     </script>
 @endpush

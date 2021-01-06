@@ -85,6 +85,7 @@
 
         $(document).ready(function () {
             $('.select2_attdtype').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Attendance type',
                 ajax: {
                     url: "{{route('hr.attendance.select2.type')}}",
@@ -94,6 +95,7 @@
             });
 
             $('#attendanceForm').find('.select2_empidAttendance').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
