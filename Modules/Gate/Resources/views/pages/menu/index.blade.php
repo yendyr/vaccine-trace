@@ -17,9 +17,7 @@
     @component('gate::components.index', ['title' => 'Menus data'])
         @slot('tableContent')
             <div id="form_result" menu="alert"></div>
-            <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
-                    <button type="button" id="createMenu" class="btn btn-primary"><i class="fa fa-plus-circle"></i>&nbsp;<strong>Menu</strong></button>
-            </div>
+            
             <div class="table-responsive">
                 <table id="menu-table" class="table table-hover text-center">
                     <thead>
