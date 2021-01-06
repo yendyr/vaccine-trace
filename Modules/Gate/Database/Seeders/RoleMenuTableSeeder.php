@@ -66,7 +66,7 @@ class RoleMenuTableSeeder extends Seeder
             'role_id' => 1,
             'menu_link' => 'gate/role-menu',
             'add' => 1,
-            'update' => 0,
+            'update' => 1,
             'delete' => 0,
             'print' => 0,
             'approval' => json_encode(0),
