@@ -24,50 +24,14 @@
     <script src="{{URL::asset('theme/js/plugins/ladda/ladda.min.js')}}"></script>
     <script src="{{URL::asset('theme/js/plugins/ladda/ladda.jquery.min.js')}}"></script>
 
-    <!-- Data Table-->
-    <script src="{{URL::asset('theme/js/plugins/dataTables/datatables.min.js')}}"></script>
-    <script src="{{URL::asset('theme/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
-
     <!-- Select2 -->
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
         <script src="{{URL::asset('theme/js/plugins/select2/select2.full.min.js')}}"></script>
 
+<script>
+    $(window).bind("scroll", function () {
+        let toast = $('.toast');
+        toast.css("top", window.pageYOffset + 20);
 
-<!-- Page-Level Scripts -->
-    <script>
-        $(document).ready(function(){
-            $('.dataTables-example').DataTable({
-                responsive: true,
-                searchable: false,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [
-                    { extend: 'copy'},
-                    {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
-
-                    {extend: 'print',
-                        customize: function (win){
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
-
-            });
-
-        });
-    </script>
-
-
-    <script>
-        $(window).bind("scroll", function () {
-            let toast = $('.toast');
-            toast.css("top", window.pageYOffset + 20);
-
-        });
-    </script>
+    });
+</script>

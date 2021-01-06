@@ -3,13 +3,6 @@
     background-size: cover;
 }
 
-.ibox-content{
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
-    /* width: 500px; */
-    height: 300px;
-}
-
 .absolute{
     position: absolute;
     top: 20px;
@@ -39,87 +32,6 @@
     width: 25px;
     height: 25px;
 }
-.ibox-content2{
-    background-color: #ffffff;
-    color: inherit;
-    padding: 15px 20px 20px 20px;
-    border-color: #e7eaec;
-    border-image: none;
-    border-style: solid;
-    border-width: 1px;
-}
-.ibox-content3{
-    background-color: #ffffff;
-    color: inherit;
-    padding: 15px 20px 20px 20px;
-    border-color: #e7eaec;
-    border-image: none;
-    border-style: solid;
-    border-width: 1px;
-}
-.ibox-content4{ 
-    /* tabel-company-datalist */
-    background-color: #ffffff;
-    color: inherit;
-    padding: 15px 20px 80px 20px;
-    border-color: #e7eaec;
-    border-image: none;
-    border-style: solid;
-    border-width: 1px;
-}
-.button-create{
-    display: inline block;
-    background-color: #1c84c6;
-    border-color: #1c84c6;
-    color: #ffffff;
-    padding: 6px 12px;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 13px;
-    margin-bottom: 20px;
-    margin-left: 1107px;
-    border: 1px solid transparent;
-    line-height: 1.5;
-    border-radius: 4px;
-    transition-duration: 0.4s;   
-}
-.button-create1{
-    background-color: #1c84c6;
-    color: white;
-}
-.button-create1:hover{
-    background-color: #12537a;
-    color: #ffffff; 
-}
-.button-page .button{
-    background-color: white;
-    border: 1px solid #dddddd;
-    color: #7a7a7a;
-    padding: 6px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 13px;
-    cursor: pointer;
-    float: left;
-    /* margin-top: 550px;
-    margin-left: 37px; */
-  }
-  .button-page button.active{
-    background-color: #2f4050;
-    color: white;
-    border: 1px solid #dddddd;
-  }
-  .button-page button:hover {
-    background-color: #c9c9c9;
-  }
-  .absolute3{
-    position: absolute;
-    top: 550px;
-    left: 37px;
-    /* width: 158px;
-    height: 44px; */
-  }
 
 body {
     color: #000;

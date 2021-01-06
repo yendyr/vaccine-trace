@@ -2,22 +2,34 @@
 
 @section('page-heading')
     @component('components.breadcrumb',
-                ['name' => 'Create/Edit Routine Taskcard',
-                'href' => '/ppc/taskcard/routine/create',
+                ['name' => 'Create/Edit Taskcard',
+                'href' => '/ppc/taskcard/create',
                 ])
-        {{-- @can('create', \Modules\HumanResources\Entities\Employee::class) --}}
-            <button type="button" id=" " class="btn btn-warning btn-lg">
+                
+            <button type="button" class="btn btn-warning btn-lg">
                 <i class="fa fa-chevron-circle-left"></i> Back
             </button>
-        {{-- @endcan --}}
     @endcomponent
 @endsection
 
 @section('content')
-
 <div class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
+    <div class="col-lg-6">
+        <div class="ibox-title">
+            <h5>Required Information Field</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+                <a class="fullscreen-link">
+                    <i class="fa fa-expand"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            Content 1
+        </div>
+        {{-- <div class="ibox">
             <div class="ibox-title">
                 <h4 class="text-center">Create/Edit Routine Taskcard</h4>
 
@@ -73,21 +85,24 @@
                         </div>
                     </div>
                 </div>
-
-                @if(Session::has('status'))
-                    @component('components.alert', ['type' => 'success'])
-                        @slot('message')
-                            {{Session::get('status')}}
-                        @endslot
-                    @endcomponent
-                @endif
-
-                @isset($modals)
-                    {{$modals}}
-                @endisset
             </div>
+        </div> --}}
+    </div>
+    <div class="col-lg-6">
+        <div class="ibox-title">
+            <h5>Optional Information Field</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+                <a class="fullscreen-link">
+                    <i class="fa fa-expand"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            Content
         </div>
     </div>
 </div>
-
 @endsection
