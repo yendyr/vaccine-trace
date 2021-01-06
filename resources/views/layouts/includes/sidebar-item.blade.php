@@ -1,9 +1,9 @@
  
 
 @foreach($menuGroups as $group => $menuGroupRow)
-    @if( $menuGroupRow->random()->hasActiveSubMenus(request()) )
+    @if( $menuGroupRow->random()->hasActiveSubMenus(request()) > 0 )
     <li>
-        <div class="nav-label text-white p-3 mt-2">{{ $group ?? '' }} </div>
+        <div class="nav-label text-white p-3 mt-2">{{ $group ?? '' }}</div>
     </li>
     @endif
     @foreach($menuGroupRow as $key => $menuRow)
@@ -14,27 +14,29 @@
                 </li>
             @endcan
         @else
-            <li class="nav-first-level {{ $menuRow->isActive(request()) }}">
-                <a href="#"><i class="fa {{ $menuRow->menu_icon ?? '' }}"></i> <span class="nav-label">{{ $menuRow->menu_text ?? '' }}</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    @if( $menuRow->subMenus()->count() > 0)
-                        @foreach($menuRow->subMenus as $subMenuRow)
-                            @can('viewAny', $subMenuRow->menu_class)
-                            <li class="{{ $subMenuRow->isActive(request()) }}">
-                                <a href="{{ $subMenuRow->renderLink() }}">
-                                    <div class="nav-second-table-group">
-                                        <span>
-                                            <i class="fa {{ $subMenuRow->menu_icon ?? '' }}"></i>
-                                        </span>
-                                        <span>{{ $subMenuRow->menu_text ?? '' }}</span>
-                                    </div>
-                                </a>
-                            </li>
-                            @endcan
-                        @endforeach
-                    @endif
-                </ul>
-            </li>
+            @if($menuRow->hasActiveSubMenus(request()) > 0)
+                <li class="nav-first-level {{ $menuRow->isActive(request()) }}">
+                    <a href="#"><i class="fa {{ $menuRow->menu_icon ?? '' }}"></i> <span class="nav-label">{{ $menuRow->menu_text ?? '' }}</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        @if( $menuRow->subMenus()->count() > 0)
+                            @foreach($menuRow->subMenus as $subMenuRow)
+                                @can('viewAny', $subMenuRow->menu_class)
+                                <li class="{{ $subMenuRow->isActive(request()) }}">
+                                    <a href="{{ $subMenuRow->renderLink() }}">
+                                        <div class="nav-second-table-group">
+                                            <span>
+                                                <i class="fa {{ $subMenuRow->menu_icon ?? '' }}"></i>
+                                            </span>
+                                            <span>{{ $subMenuRow->menu_text ?? '' }}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                @endcan
+                            @endforeach
+                        @endif
+                    </ul>
+                </li>
+            @endif
         @endif
     @endforeach
 @endforeach

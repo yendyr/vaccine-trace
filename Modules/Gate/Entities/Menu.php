@@ -35,13 +35,13 @@ class Menu extends Model
      */
     public function hasActiveSubMenus(Request $request)
     {
-        $canView = false;
+        $canView = 0;
 
-        if ( $request->user()->can('viewAny', $this->menu_class) ) $canView = true;
+        if ( $request->user()->can('viewAny', $this->menu_class) ) $canView++;
 
         if ( $this->subMenus()->count() > 0 ) {
             foreach ($this->subMenus as $subMenu) {
-                if ( $request->user()->can('viewAny', $subMenu->menu_class) ) $canView = true;
+                if ( $request->user()->can('viewAny', $subMenu->menu_class) ) $canView++;
             }
         } 
 
