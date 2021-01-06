@@ -30,6 +30,51 @@ class Menu extends Model
         return $route ?? $link ?? '#';
     }
 
+    /** 
+     * Function to check if there is any active sub menus
+     */
+    public function hasActiveSubMenus(Request $request)
+    {
+        $canView = false;
+
+        if ( $request->user()->can('viewAny', $this->menu_class) ) $canView = true;
+
+        if ( $this->subMenus()->count() > 0 ) {
+            foreach ($this->subMenus as $subMenu) {
+                if ( $request->user()->can('viewAny', $subMenu->menu_class) ) $canView = true;
+            }
+        } 
+
+        return $canView;
+    }
+
+    public function isActive(Request $request)
+    {
+        $isActive = null;
+
+        $actives = json_decode($this->menu_actives);
+
+        if( !empty($actives) ){
+            foreach ($actives as $activeRow) {
+                if( $request->is($activeRow) ) $isActive = 'active';
+            }
+        }
+        
+        if ( $this->subMenus()->count() > 0 ) {
+            foreach ($this->subMenus as $subMenu) {
+                $actives = json_decode($subMenu->menu_actives);
+
+                if( !empty($actives) ){
+                    foreach ($actives as $activeRow) {
+                        if( $request->is($activeRow) ) $isActive = 'active';
+                    }
+                }
+            }
+        } 
+
+        return $isActive;
+    }
+
     /**
      * Function to decode json menu_actives
      * and return array of active clasess
