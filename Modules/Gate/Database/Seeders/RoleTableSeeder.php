@@ -19,7 +19,7 @@ class RoleTableSeeder extends Seeder
         Model::unguard();
 
         $role = Role::create([
-            'role_name' => 'Admin',
+            'role_name' => 'Super Admin',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

@@ -519,5 +519,89 @@ class MenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        // Create PPC Module Menus
+        $menuPpcTaskcard = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Task Card',
+            'menu_route' => null,
+            'menu_icon' => 'fa-sitemap',
+            'menu_class' => null,
+            'menu_id' => null,
+            'group' => 'PPC',
+            'add' => 0,
+            'update' => 0,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 0,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Master Task Card Group',
+            'menu_route' => null,
+            'menu_icon' => 'fa-chain-broken',
+            'menu_class' => null,
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard-group', 'ppc/taskcard-group/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Master Task Card Type',
+            'menu_route' => null,
+            'menu_icon' => 'fa-columns',
+            'menu_class' => null,
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard-type', 'ppc/taskcard-type/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'ppc/taskcard',
+            'menu_text' => 'Master Task Card',
+            'menu_route' => null,
+            'menu_icon' => 'fa-clipboard',
+            'menu_class' => 'Modules\PPC\Entities\Taskcard',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard', 'ppc/taskcard/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
     }
 }

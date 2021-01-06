@@ -18,6 +18,7 @@ class RoleMenuTableSeeder extends Seeder
     {
         Model::unguard();
 
+        // --------- Role Menu Seeder for Default Role ID = 1 -------------- //
         $rolemenu = RoleMenu::create([
             'menu_id' => 1,
             'role_id' => 1,
@@ -74,7 +75,23 @@ class RoleMenuTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+        $rolemenu = RoleMenu::create([
+            'menu_id' => 5,
+            'role_id' => 1,
+            'menu_link' => 'gate/menu',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => json_encode(0),
+            'process' => json_encode(0),
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        // --------- END Role Menu Seeder for Default Role ID = 1 -------------- //
 
+        // --------- Role Menu Seeder for Default Role ID = 2 -------------- //
         $rolemenu = RoleMenu::create([
             'menu_id' => 1,
             'role_id' => 2,
@@ -132,20 +149,6 @@ class RoleMenuTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-
-        $rolemenu = RoleMenu::create([
-            'menu_id' => 5,
-            'role_id' => 1,
-            'menu_link' => 'gate/menu',
-            'add' => 1,
-            'update' => 1,
-            'delete' => 0,
-            'print' => 0,
-            'approval' => json_encode(0),
-            'process' => json_encode(0),
-            'owned_by' => 0,
-            'status' => 1,
-            'uuid' => Str::uuid(),
-        ]);
+        // --------- END Role Menu Seeder for Default Role ID = 2 -------------- //
     }
 }
