@@ -6,6 +6,7 @@ use Modules\Gate\Entities\User;
 use Modules\Gate\Entities\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Modules\Gate\Entities\RoleMenu;
 
 class MenuPolicy
 {
@@ -29,7 +30,7 @@ class MenuPolicy
      */
     public function viewAny()
     {
-        $queryRoleMenu = Menu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/menu')->whereHas('role', function($role){
             $role->where('status', 1);
@@ -62,7 +63,7 @@ class MenuPolicy
      */
     public function create()
     {
-        $queryRoleMenu = Menu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/menu')->whereHas('role', function($role){
             $role->where('status', 1);
@@ -84,7 +85,7 @@ class MenuPolicy
      */
     public function update()
     {
-        $queryRoleMenu = Menu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/menu')->whereHas('role', function($role){
             $role->where('status', 1);
@@ -106,7 +107,7 @@ class MenuPolicy
      */
     public function delete()
     {
-        $queryRoleMenu = Menu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/menu')->whereHas('role', function($role){
             $role->where('status', 1);
@@ -140,7 +141,7 @@ class MenuPolicy
      */
     public function forceDelete()
     {
-        $queryRoleMenu = Menu::where(
+        $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
         )->where('menu_link', 'gate/menu')->whereHas('role', function($role){
             $role->where('status', 1);
