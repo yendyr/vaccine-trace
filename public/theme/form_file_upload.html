@@ -13,7 +13,6 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/plugins/dropzone/basic.css" rel="stylesheet">
     <link href="css/plugins/dropzone/dropzone.css" rel="stylesheet">
-    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="css/plugins/codemirror/codemirror.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
@@ -404,7 +403,7 @@
                             <h5>File inputs example</h5>
                         </div>
                         <div class="ibox-content">
-                            The file input feature by Bootstrap and Jasny allows you to create a visually appealing file or image input widgets based on the Bootstrap style. Additional dropzone.js library gives you drag’n’drop file uploads option.
+                            The file input feature by Bootstrap allows you to create a visually appealing file or image input widgets based on the Bootstrap style (https://www.npmjs.com/package/bs-custom-file-input) Additional dropzone.js library gives you drag’n’drop file uploads option.
                         </div>
                     </div>
                 </div>
@@ -413,7 +412,7 @@
                 <div class="col-lg-6">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>Input example - Bootstrap</h5>
+                            <h5>Choose single file</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -434,29 +433,32 @@
                         </div>
                         <div class="ibox-content">
 
-                            <div class="custom-file">
-                                <input id="logo" type="file" class="custom-file-input">
-                                <label for="logo" class="custom-file-label">Choose file...</label>
-                            </div>
+                            <div class="input-group mt-3">
+                                <div class="custom-file">
+                                  <input id="inputGroupFile01" type="file" class="custom-file-input">
+                                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+                              </div>
 
 
                             <p class="m-t-sm">
                                 HTML markup code for abowe example:
                             </p>
 <textarea id="code1">
-&lt;div class="custom-file"&gt;
-    &lt;input id="logo" type="file" class="custom-file-input"&gt;
-    &lt;label for="logo" class="custom-file-label">Choose file...&lt;/label&gt;
-&lt;/div&gt; </textarea>
+ &lt;div class="input-group"&gt;
+     &lt;div class="custom-file"&gt;
+         &lt;input id="inputGroupFile01" type="file" class="custom-file-input"&gt;
+         &lt;label class="custom-file-label" for="inputGroupFile01">Choose file&lt;/label&gt;
+     &lt;/div&gt;
+ &lt;/div&gt;</textarea>
 
                             <p class="m-t-sm">
                                 Javascript code for abowe example:
                             </p>
 <textarea id="code4">
-$('.custom-file-input').on('change', function() {
-   let fileName = $(this).val().split('\\').pop();
-   $(this).next('.custom-file-label').addClass("selected").html(fileName);
-}); </textarea>
+$(document).ready(function () {
+  bsCustomFileInput.init()
+}) </textarea>
 
                         </div>
                     </div>
@@ -464,7 +466,7 @@ $('.custom-file-input').on('change', function() {
                 <div class="col-lg-6">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>Button example - Jasny</h5>
+                            <h5>Choose multiple files</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -484,21 +486,31 @@ $('.custom-file-input').on('change', function() {
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-                                <span class="fileinput-filename"></span>
-                                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
-                            </div>
-                            <p>
+                            <div class="input-group mt-3">
+                                <div class="custom-file">
+                                  <input id="inputGroupFile02" type="file" multiple class="custom-file-input">
+                                  <label class="custom-file-label" for="inputGroupFile02">Choose several files</label>
+                                </div>
+                              </div>
+                            <p  class="m-t-sm">
                                 HTML markup code for abowe example:
                             </p>
 <textarea id="code2">
-&lt;div class="fileinput fileinput-new" data-provides="fileinput"&gt;
-    &lt;span class="btn btn-default btn-file"&gt;&lt;span class="fileinput-new"&gt;Select file&lt;/span&gt;
-    &lt;span class="fileinput-exists"&gt;Change&lt;/span&gt;&lt;input type="file" name="..."/&gt;&lt;/span&gt;
-    &lt;span class="fileinput-filename"&gt;&lt;/span&gt;
-    &lt;a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;&lt;/a&gt;
-&lt;/div&gt; </textarea>
+    &lt;div class="input-group"&gt;
+        &lt;div class="custom-file"&gt;
+            &lt;input id="inputGroupFile02" type="file" multiple class="custom-file-input"&gt;
+            &lt;label class="custom-file-label" for="inputGroupFile02">Choose several files&lt;/label&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    </textarea>
+                        <p class="m-t-sm">
+                            Javascript code for abowe example:
+                        </p>
+<textarea id="code3">
+$(document).ready(function () {
+    bsCustomFileInput.init()
+}) </textarea>
+
                         </div>
                     </div>
                 </div>
@@ -524,7 +536,7 @@ $('.custom-file-input').on('change', function() {
                             <p class="m-t-xs">
                                 HTML markup code for abowe example:
                             </p>
-<textarea id="code3">
+<textarea id="code5">
 &lt;form action="#" class="dropzone" id="dropzoneForm"&gt;
     &lt;div class="fallback"&gt;
         &lt;input name="file" type="file" multiple /&gt;
@@ -567,8 +579,8 @@ $('.custom-file-input').on('change', function() {
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
 
-    <!-- Jasny -->
-    <script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+    <!-- BS custom file -->
+    <script src="js/plugins/bs-custom-file/bs-custom-file-input.min.js"></script>
 
     <!-- DROPZONE -->
     <script src="js/plugins/dropzone/dropzone.js"></script>
@@ -587,31 +599,34 @@ $('.custom-file-input').on('change', function() {
 
         $(document).ready(function(){
 
-            var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+            bsCustomFileInput.init()
+
+            CodeMirror.fromTextArea(document.getElementById("code1"), {
                 lineNumbers: true,
                 matchBrackets: true
             });
 
-            var editor_two = CodeMirror.fromTextArea(document.getElementById("code2"), {
+            CodeMirror.fromTextArea(document.getElementById("code2"), {
                 lineNumbers: true,
                 matchBrackets: true
             });
 
-            var editor_two = CodeMirror.fromTextArea(document.getElementById("code3"), {
+            CodeMirror.fromTextArea(document.getElementById("code3"), {
                 lineNumbers: true,
                 matchBrackets: true
             });
 
-            var editor_two = CodeMirror.fromTextArea(document.getElementById("code4"), {
+            CodeMirror.fromTextArea(document.getElementById("code4"), {
                 lineNumbers: true,
                 matchBrackets: true
             });
 
-
-            $('.custom-file-input').on('change', function() {
-                let fileName = $(this).val().split('\\').pop();
-                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            CodeMirror.fromTextArea(document.getElementById("code5"), {
+                lineNumbers: true,
+                matchBrackets: true
             });
+
+           
 
        });
     </script>
