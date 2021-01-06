@@ -92,3 +92,29 @@ body {
     background-color: #fff;
     border-color: #dee2e6 #dee2e6 #fff;
 }
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.1);
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.1);
+}
+
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #009688;
+    border-color: #009688;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled).active, .btn-outline-secondary:not(:disabled):not(.disabled):active, .show>.btn-outline-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #056259;
+    border-color: #056259;
+}
