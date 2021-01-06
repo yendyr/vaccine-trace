@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
-class TaskcardRoutineController extends Controller
+class TaskcardController extends Controller
 {
     use AuthorizesRequests;
 
@@ -28,7 +28,7 @@ class TaskcardRoutineController extends Controller
      */
     public function index(Request $request)
     {
-        return view('ppc::pages.taskcard.routine.index');
+        return view('ppc::pages.taskcard.index');
         // return view('humanresources::pages.employee.index');
     }
 
@@ -38,7 +38,7 @@ class TaskcardRoutineController extends Controller
      */
     public function create()
     {
-        return view('ppc::pages.taskcard.routine.form');
+        return view('ppc::pages.taskcard.form');
     }
 
     /**
@@ -56,7 +56,7 @@ class TaskcardRoutineController extends Controller
      * @param int Employee $employee
      * @return Response
      */
-    public function show(TaskcardRoutine $taskcard_routine)
+    public function show(Taskcard $taskcard)
     {
         return view('ppc::show');
     }
@@ -66,7 +66,7 @@ class TaskcardRoutineController extends Controller
      * @param int Employee $employee
      * @return Response
      */
-    public function edit(TaskcardRoutine $taskcard_routine)
+    public function edit(Taskcard $taskcard)
     {
         return view('ppc::edit');
     }
@@ -77,7 +77,7 @@ class TaskcardRoutineController extends Controller
      * @param int Employee $employee
      * @return Response
      */
-    public function update(Request $request, TaskcardRoutine $taskcard_routine)
+    public function update(Request $request, Taskcard $taskcard)
     {
         
     }
@@ -87,7 +87,7 @@ class TaskcardRoutineController extends Controller
      * @param int Employee $employee
      * @return Response
      */
-    public function destroy(TaskcardRoutine $taskcard_routine)
+    public function destroy(Taskcard $taskcard)
     {
         //
     }

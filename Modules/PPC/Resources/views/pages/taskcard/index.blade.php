@@ -2,12 +2,12 @@
 
 @section('page-heading')
     @component('components.breadcrumb',
-                ['name' => 'Routine Taskcard',
-                'href' => '/ppc/taskcard/routine',
+                ['name' => 'Taskcard',
+                'href' => '/ppc/taskcard/',
                 ])
         {{-- @can('create', \Modules\HumanResources\Entities\Employee::class) --}}
             <a type="button" id=" " class="btn btn-primary btn-lg" href="/ppc/taskcard/routine/create">
-                <i class="fa fa-plus-square"></i> Add New Routine Taskcard
+                <i class="fa fa-plus-square"></i> Add New Taskcard
             </a>
         {{-- @endcan --}}
     @endcomponent
@@ -15,7 +15,7 @@
 
 @section('content')
 
-    @component('gate::components.index', ['title' => 'Routine Taskcard Datalist'])
+    @component('gate::components.index', ['title' => 'Taskcard Datalist'])
         @slot('tableContent')
         <div class="table-responsive">
             <table class="table table-hover text-center">

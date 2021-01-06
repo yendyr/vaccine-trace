@@ -20,7 +20,7 @@
                 </a> --}}
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
                     <span class="block m-t-xs font-bold">{{ Auth::user()->username }}</span>
-                    <span class="text-xs text-muted">{{ Auth::user()->email }}<b class="caret"></b></span>
+                    <span class="text-xs text-muted">{{ Auth::user()->name }}<b class="caret"></b></span>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
