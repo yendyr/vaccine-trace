@@ -45,6 +45,7 @@
 
             $('#ffamidAddress').val(null).trigger('change');
             $('#addressForm').find('.select2_famidAddress').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID first',
                 ajax: {
                     url: "{{route('hr.address.select2.famid')}}",
@@ -64,6 +65,7 @@
 
         $(document).ready(function () {
             $('#addressForm').find('.select2_empidAddress').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",

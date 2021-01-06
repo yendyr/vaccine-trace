@@ -54,6 +54,7 @@
             });
 
             $('#requestForm').find('.select2_empidRequest').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
@@ -63,6 +64,7 @@
             });
 
             $('#requestForm').find('#freqcode').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Req code',
                 ajax: {
                     url: "{{route('hr.request.select2.reqcode')}}",

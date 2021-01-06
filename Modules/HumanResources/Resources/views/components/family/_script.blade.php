@@ -44,6 +44,7 @@
 
         $(document).ready(function () {
             $('#familyForm').find('.select2_empidFamily').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",
@@ -52,6 +53,7 @@
                 dropdownParent: $('#familyModal')
             });
             $('.select2_edulvlFamily').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose edu level',
                 ajax: {
                     url: "{{route('hr.education.select2.edulvl')}}",
@@ -60,6 +62,7 @@
                 dropdownParent: $('#familyModal')
             });
             $('.select2_maritalstatusFamily').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.employee.select2.maritalstatus')}}",
@@ -68,6 +71,7 @@
                 dropdownParent: $('#familyModal')
             });
             $('.select2_relationship').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.family.select2.relationship')}}",
@@ -76,6 +80,7 @@
                 dropdownParent: $('#familyModal')
             });
             $('.select2_jobFamily').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.family.select2.job')}}",

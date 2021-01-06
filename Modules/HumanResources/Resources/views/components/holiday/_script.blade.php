@@ -51,6 +51,7 @@
             });
 
             $('.select2_holidaycode').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose code',
                 ajax: {
                     url: "{{route('hr.holiday.select2.code')}}",

@@ -35,6 +35,7 @@
 
         $(document).ready(function () {
             $('#idcardForm').find('.select2_empidIdcard').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
                     url: "{{route('hr.employee.select2.empid')}}",

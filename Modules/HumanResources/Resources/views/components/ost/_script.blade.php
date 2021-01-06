@@ -36,6 +36,7 @@
         $(document).ready(function () {
 
             $('.select2_orgcode').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.org-structure-title.select2.orgcode')}}",
@@ -44,6 +45,7 @@
                 dropdownParent: $('#ostModal')
             });
             $('.select2_rptorg').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.org-structure-title.select2.rptorg')}}",
@@ -52,6 +54,7 @@
                 dropdownParent: $('#ostModal')
             });
             $('.select2_rpttitle').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.org-structure-title.select2.title')}}",
@@ -60,6 +63,7 @@
                 dropdownParent: $('#ostModal')
             });
             $('.select2_titlecode').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose here',
                 ajax: {
                     url: "{{route('hr.org-structure-title.select2.titlecode')}}",

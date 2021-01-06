@@ -23,6 +23,7 @@
             });
 
             $('.select2_role').select2({
+                theme: 'bootstrap4',
                 placeholder: 'choose a role',
                 ajax: {
                     url: "{{route('gate.role-menu.select2.role')}}",
