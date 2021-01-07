@@ -32,5 +32,8 @@ Route::name('ppc.')->group(function () {
 
         Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
         Route::get('/taskcard-document-library/create', 'TaskcardDocumentLibraryController@create');
+
+        Route::resource('/aircraft', 'AircraftController');
+        Route::get('/aircraft/create', 'Aircraft@create');
     });
 });  
