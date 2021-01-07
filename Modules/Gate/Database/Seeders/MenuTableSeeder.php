@@ -548,7 +548,7 @@ class MenuTableSeeder extends Seeder
             'menu_icon' => 'fa-chain-broken',
             'menu_class' => null,
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-group', 'ppc/taskcard-group/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/group', 'ppc/taskcard/group/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -563,13 +563,13 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => 'ppc/taskcard-type',
+            'menu_link' => 'ppc/taskcard/type',
             'menu_text' => 'Master Task Card Type',
-            'menu_route' => 'ppc.taskcard.type.index',
+            'menu_route' => 'ppc.taskcard-type.index',
             'menu_icon' => 'fa-columns',
             'menu_class' => 'Modules\PPC\Entities\TaskcardType',
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-type', 'ppc/taskcard-type/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/type', 'ppc/taskcard/type/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -590,7 +590,7 @@ class MenuTableSeeder extends Seeder
             'menu_icon' => 'fa-yelp',
             'menu_class' => null,
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-workarea', 'ppc/taskcard-workarea/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/workarea', 'ppc/taskcard/workarea/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -611,7 +611,7 @@ class MenuTableSeeder extends Seeder
             'menu_icon' => 'fa-circle-o-notch',
             'menu_class' => null,
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-access', 'ppc/taskcard-access/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/access', 'ppc/taskcard/access/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -632,7 +632,7 @@ class MenuTableSeeder extends Seeder
             'menu_icon' => 'fa-slack',
             'menu_class' => null,
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-zone', 'ppc/taskcard-zone/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/zone', 'ppc/taskcard/zone/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -653,7 +653,7 @@ class MenuTableSeeder extends Seeder
             'menu_icon' => 'fa-folder',
             'menu_class' => null,
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-document-library', 'ppc/taskcard-document-library/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/document-library', 'ppc/taskcard/document-library/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -666,27 +666,6 @@ class MenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
         ]);
-
-        // $menu = Menu::create([
-        //     'menu_link' => '#',
-        //     'menu_text' => 'Master Task Card Manual Type',
-        //     'menu_route' => null,
-        //     'menu_icon' => 'fa-file',
-        //     'menu_class' => null,
-        //     'menu_id' => null,
-        //     'menu_actives' => json_encode(['ppc/taskcard-manual-type', 'ppc/taskcard-manual-type/*']),
-        //     'group' => 'PPC',
-        //     'add' => 1,
-        //     'update' => 1,
-        //     'delete' => 1,
-        //     'print' => 1,
-        //     'approval' => 1,
-        //     'process' => 0,
-        //     'owned_by' => 0,
-        //     'status' => 1,
-        //     'uuid' => Str::uuid(),
-        //     'parent_id' => $menuPpcTaskcard->id
-        // ]);
 
         $menu = Menu::create([
             'menu_link' => 'ppc/taskcard',

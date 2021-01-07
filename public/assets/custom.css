@@ -124,3 +124,14 @@ body {
     border-color: #00725b;
     color: #FFFFFF;
 }
+
+.form-control, .single-line {
+    border: 1px solid #b3e2ff;
+    border-radius: 5px;
+}
+
+.btn-white:hover, .btn-white:focus, .btn-white:active, .btn-white.active, .open .dropdown-toggle.btn-white, .btn-white:active:focus, .btn-white:active:hover, .btn-white.active:hover, .btn-white.active:focus {
+    color: inherit;
+    background-color: #ddd;
+    border: 1px solid #999;
+}

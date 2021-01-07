@@ -25,7 +25,7 @@
 
     @include('gate::components.user.modal')
 
-    @component('gate::components.index', ['title' => 'Users Datalist'])
+    @component('components.crud-form.index', ['title' => 'Users Datalist'])
         @slot('tableContent')
             <div id="form_result"></div>
             <div class="p-4 d-flex justify-content-end" style="font-size:14px;">

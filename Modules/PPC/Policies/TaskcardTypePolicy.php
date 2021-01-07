@@ -19,7 +19,7 @@ class TaskcardTypePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-type')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard/type')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -34,7 +34,7 @@ class TaskcardTypePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-type')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard/type')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -49,7 +49,7 @@ class TaskcardTypePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-type')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard/type')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -64,7 +64,7 @@ class TaskcardTypePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-type')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard/type')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -79,7 +79,7 @@ class TaskcardTypePolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-type')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard/type')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 

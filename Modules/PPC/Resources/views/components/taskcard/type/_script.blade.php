@@ -16,7 +16,7 @@
             ]
         });
 
-        var companyId;
+        var taskcardTypeId;
         table.on('click', '.delete', function () {
             taskcardTypeId = $(this).attr('id');
             $('#deleteModal').modal('show');

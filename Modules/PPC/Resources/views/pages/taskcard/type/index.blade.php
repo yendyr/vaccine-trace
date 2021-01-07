@@ -6,7 +6,7 @@
                 'href' => '/ppc/taskcard-type',
                 ])
         {{-- @can('create', \Modules\HumanResources\Entities\Employee::class) --}}
-            <a href="{{ route('gate.company.create')}}" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Add New Task Card Type</a>
+            <a href="{{ route('ppc.taskcard-type.create')}}" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Add New Task Card Type</a>
         {{-- @endcan --}}
     @endcomponent
 @endsection
@@ -15,43 +15,31 @@
 @component('components.delete-modal', ['name' => 'Task Card Type Data'])
 @endcomponent
 
-@include('ppc::pages.taskcard.type.modal')
-
-<div class="ibox">
-    <div class="ibox-title text-center">
-        <h5>Task Card Type Datalist</h5>
-        <div class="ibox-tools">
-            <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-            </a>
-            <a class="fullscreen-link">
-                <i class="fa fa-expand"></i>
-            </a>
-        </div>
+@component('components.crud-form.index', ['title' => 'Task Card Type Datalist'])
+    @slot('tableContent')
+            
+    <div class="table-responsive">
+        <table id="taskcard-type-table" class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Task Card Type Name</th>
+                    <th>Description/Remark</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+                <tr></tr>
+            </tfoot>
+        </table>
     </div>
-    <div class="ibox-content">
-        <div class="table-responsive">
-            <table id="taskcard-type-table" class="table table-hover text-center">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Task Card Type Name</th>
-                        <th>Description/Remark</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                    <tr></tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-</div>
+    @endslot
+@endcomponent
 
-@include('ppc::components.taskcard-type._script')
+@include('ppc::components.taskcard.type._script')
 @endsection
 
 @push('footer-scripts')

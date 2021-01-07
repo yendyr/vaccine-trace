@@ -18,7 +18,7 @@ class TaskcardTypeController extends Controller
 
     public function __construct()
     {
-        // $this->authorizeResource(TaskcardType::class, 'taskcard-type');
+        $this->authorizeResource(TaskcardType::class, 'taskcard-type');
         $this->middleware('auth');
     }
 
@@ -37,10 +37,10 @@ class TaskcardTypeController extends Controller
                 ->addColumn('action', function($row){
                     if(Auth::user()->can('update', TaskcardType::class)) {
                         $updateable = 'a';
-                        $href = 'taskcard-type/' . $row->id . '/edit';
+                        $href = 'taskcard-type/' . $row->uuid . '/edit';
                         return view('components.action-button', compact(['updateable', 'href']));
                     }
-                    return '<p class="text-muted">no action authorized</p>';
+                    return '<p class="text-muted">Not Authorized</p>';
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -51,15 +51,22 @@ class TaskcardTypeController extends Controller
 
     public function create()
     {
-        // return view('ppc::pages.taskcard.form');
+        return view('ppc::pages.taskcard.type.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:taskcard_types, code'],
+            'code' => ['required', 'max:30', 'unique:taskcard_types,code'],
             'name' => ['required', 'max:30'],
         ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
 
         TaskcardType::create([
             'uuid' =>  Str::uuid(),
@@ -67,7 +74,7 @@ class TaskcardTypeController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'owned_by' => $request->user()->company_id,
-            'status' => $request->status,
+            'status' => $status,
             'created_by' => $request->user()->id,
         ]);
 
@@ -81,12 +88,33 @@ class TaskcardTypeController extends Controller
 
     public function edit(TaskcardType $TaskcardType)
     {
-        return view('ppc::edit');
+        return view('ppc::pages.taskcard.type.edit', compact('TaskcardType'));
     }
 
     public function update(Request $request, TaskcardType $TaskcardType)
     {
-        
+        $request->validate([
+            'code' => ['required', 'max:30', 'unique:taskcard_types,code'],
+            'name' => ['required', 'max:30'],
+        ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
+
+        TaskcardType::where('uuid', $TaskcardType->id)
+            ->update([
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'status' => $status,
+                'updated_by' => $request->user()->id,
+        ]);
+
+        return redirect('/ppc/taskcard-type')->with('status', 'Task Card Type Data has been Updated!');
     }
 
     public function destroy(TaskcardType $TaskcardType)

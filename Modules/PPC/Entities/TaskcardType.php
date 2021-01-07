@@ -14,7 +14,7 @@ class TaskcardType extends Model
         'uuid',
         'code',
         'name',
-        'owned_by',
+        'description',
         'status'
     ];
 

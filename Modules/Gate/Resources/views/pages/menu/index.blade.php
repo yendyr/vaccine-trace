@@ -14,7 +14,7 @@
 
     @include('gate::components.menu.modal')
 
-    @component('gate::components.index', ['title' => 'Menu Datalist'])
+    @component('components.crud-form.index', ['title' => 'Menu Datalist'])
         @slot('tableContent')
             <div id="form_result" menu="alert"></div>
             

@@ -20,7 +20,7 @@
             </select>
         </div>
     </div>
-    @component('gate::components.index', ['title' => 'Role Menu Datalist'])
+    @component('components.crud-form.index', ['title' => 'Role Menu Datalist'])
         @slot('tableContent')
         <div id="form_result" role="alert"></div>
 

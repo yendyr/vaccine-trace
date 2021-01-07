@@ -50,6 +50,9 @@ use Modules\HumanResources\Policies\WorkingHourAttendancePolicy;
 use Modules\HumanResources\Policies\WorkingHourDetailPolicy;
 use Modules\HumanResources\Policies\WorkingHourPolicy;
 
+use Modules\PPC\Policies\TaskcardTypePolicy;
+use Modules\PPC\Entities\TaskcardType;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -80,6 +83,8 @@ class AuthServiceProvider extends ServiceProvider
         Attendance::class => AttendancePolicy::class,
         LeaveQuota::class => LeaveQuotaPolicy::class,
         Request::class => RequestPolicy::class,
+
+        TaskcardType::class => TaskcardTypePolicy::class,
         
     ];
 

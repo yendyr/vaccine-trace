@@ -14,7 +14,7 @@
 
     @include('gate::components.role.modal')
 
-    @component('gate::components.index', ['title' => 'Roles Datalist'])
+    @component('components.crud-form.index', ['title' => 'Roles Datalist'])
         @slot('tableContent')
             <div id="form_result" role="alert"></div>
             <div class="p-4 d-flex justify-content-end" style="font-size:14px;">

@@ -24,8 +24,8 @@
 
                 <div class="hr-line-dashed m-b-lg"></div>
                 <div class="form-group row justify-content-center">
-                    <button class="btn btn-white btn-md" type="reset">Reset</button>
-                    <button class="btn btn-primary btn-md" type="submit">Save</button>
+                    <button class="btn btn-white btn-lg m-xs" type="reset">Reset</button>
+                    <button class="btn btn-primary btn-lg m-xs" type="submit">Save</button>
                 </div>                    
                 </form>
             </div>

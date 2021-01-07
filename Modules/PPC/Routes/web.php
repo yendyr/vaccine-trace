@@ -18,21 +18,16 @@ Route::name('ppc.')->group(function () {
         Route::resource('/taskcard-group', 'TaskcardGroupController');
         Route::get('/taskcard-group/create', 'TaskcardGroupController@create');
         
-        Route::resource('/taskcard-type', 'TaskcardTypeController');
+        Route::resource('/taskcard/type', 'TaskcardTypeController');
 
         Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
-        Route::get('/taskcard-workarea/create', 'TaskcardWorkareaController@create');
 
         Route::resource('/taskcard-access', 'TaskcardAccessController');
-        Route::get('/taskcard-access/create', 'TaskcardAccessController@create');
 
         Route::resource('/taskcard-zone', 'TaskcardZoneController');
-        Route::get('/taskcard-zone/create', 'TaskcardZoneController@create');
 
         Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
-        Route::get('/taskcard-document-library/create', 'TaskcardDocumentLibraryController@create');
 
         Route::resource('/aircraft', 'AircraftController');
-        Route::get('/aircraft/create', 'Aircraft@create');
     });
 });  

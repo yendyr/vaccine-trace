@@ -22,10 +22,10 @@
                 @csrf
                 <!-- CSRF untuk keamanan -->                 
                 {{ $formEdit }}
-                
+
                 <div class="hr-line-dashed m-b-lg"></div>
                 <div class="form-group row justify-content-center">
-                    <button class="btn btn-primary btn-md" type="submit">Save Changes</button>
+                    <button class="btn btn-primary btn-lg m-xs" type="submit">Save Changes</button>
                 </div>                
                 </form>
             </div>            

@@ -1,5 +1,3 @@
- 
-
 @foreach($menuGroups as $group => $menuGroupRow)
     @if( $menuGroupRow->random()->moduleHasActiveSubMenus(request()) > 0 )
     <li>
