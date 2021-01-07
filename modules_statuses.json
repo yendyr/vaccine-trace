@@ -3,5 +3,6 @@
     "Examples": true,
     "HumanResources": true,
     "PPC": true,
-    "QualityAssurance": true
+    "QualityAssurance": true,
+    "GeneralSetting": true
 }
