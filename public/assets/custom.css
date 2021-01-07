@@ -118,3 +118,9 @@ body {
     background-color: #056259;
     border-color: #056259;
 }
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus {
+    background-color: #00725b;
+    border-color: #00725b;
+    color: #FFFFFF;
+}

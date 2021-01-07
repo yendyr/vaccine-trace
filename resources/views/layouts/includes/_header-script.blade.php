@@ -3,7 +3,7 @@
 <link href="{{URL::asset('theme/css/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
 
-<!-- Pluins -->
+<!-- Plugins -->
 <link href="{{URL::asset('theme/css/plugins/iCheck/custom.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/css/plugins/steps/jquery.steps.css')}}" rel="stylesheet">
 
@@ -20,8 +20,11 @@
 <link href="{{URL::asset('theme/css/plugins/select2/select2.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/css/plugins/select2/select2-bootstrap4.min.css')}}" rel="stylesheet">
 
-{{--Sweet Alert--}}
+<!-- Sweet Alert -->
 <link href="{{URL::asset('theme/css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
+
+<!-- Switchery -->
+<link href="{{URL::asset('theme/css/plugins/switchery/switchery.css')}}" rel="stylesheet">
 
 <!-- Custom -->
 <link href="{{URL::asset('theme/css/animate.css')}}" rel="stylesheet">

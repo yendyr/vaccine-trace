@@ -30,14 +30,18 @@
                             <div class="invalid-feedback-description text-danger"></div>
                         </div>
                     </div>                    
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <label>Status</label>
-                            <select class="form-control m-b " id="fstatus" name="status">
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                            <div class="invalid-feedback-status text-danger"></div>
+                    <div class="form-group row d-flex align-items-center">
+                        <div class="col-md-12">
+                            {{-- <div class="col-md-6">
+                                <label>Status</label>
+                                <select class="select2_status form-control m-b" id="fstatus" name="status">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                <div class="invalid-feedback-status text-danger"></div>
+                            </div> --}}
+                            <span>Active&nbsp;</span>
+                            <input type="checkbox" class="js-switch" checked />
                         </div>
                     </div>
                 </div>
@@ -51,3 +55,10 @@
         </div>
     </div>
 </div>
+
+@push('footer-scripts')
+<script>
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem, { color: '#1AB394' });
+</script>
+@endpush

@@ -3,12 +3,11 @@
 @section('page-heading')
     @component('components.breadcrumb',
                 ['name' => 'Task Card Type',
-                'href' => '/ppc/taskcard/type',
+                'href' => '/ppc/taskcard-type',
                 ])
         {{-- @can('create', \Modules\HumanResources\Entities\Employee::class) --}}
-            <a type="button" id=" " class="btn btn-primary btn-lg" href="#">
-                <i class="fa fa-plus-square"></i> Add New Task Card Type
-            </a>
+            <button id="createTaskcardType" class="btn btn-primary btn-lg" type="button">
+                <i class="fa fa-plus-circle"></i>&nbsp;Add New Task Card Type</button>
         {{-- @endcan --}}
     @endcomponent
 @endsection
@@ -53,4 +52,10 @@
         </div>
     </div>
 </div>
+
+@include('ppc::components.taskcard-type._script')
 @endsection
+
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush

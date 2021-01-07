@@ -15,6 +15,9 @@
 <!-- Sweet Alert -->
 <script src="{{URL::asset('theme/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
 
+<!-- Switchery -->
+<script src="{{URL::asset('theme/js/plugins/switchery/switchery.js')}}"></script>
+
 <!-- Ladda -->
 <script src="{{URL::asset('theme/js/plugins/ladda/spin.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/plugins/ladda/ladda.min.js')}}"></script>
