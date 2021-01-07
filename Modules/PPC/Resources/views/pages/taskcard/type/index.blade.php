@@ -32,10 +32,9 @@
     </div>
     <div class="ibox-content">
         <div class="table-responsive">
-            <table class="table table-hover text-center">
+            <table id="taskcard-type-table" class="table table-hover text-center">
                 <thead>
                     <tr>
-                        <th>No.</th>
                         <th>Code</th>
                         <th>Task Card Type Name</th>
                         <th>Description/Remark</th>

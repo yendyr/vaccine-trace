@@ -9,10 +9,10 @@
 @endsection
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Company data'])
+    @component('components.delete-modal', ['name' => 'Company Datalist'])
     @endcomponent
 
-    @component('gate::components.index', ['title' => 'Companies data'])
+    @component('gate::components.index', ['title' => 'Companies Datalist'])
         @slot('tableContent')
         <div id="form_result"></div>
         <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
@@ -102,9 +102,11 @@
                     });
                 });
             });
-
-
         </script>
     @endpush
 
 @endsection
+
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush

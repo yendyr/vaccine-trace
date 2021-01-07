@@ -20,12 +20,12 @@
 @endsection
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'User data'])
+    @component('components.delete-modal', ['name' => 'User Datalist'])
     @endcomponent
 
     @include('gate::components.user.modal')
 
-    @component('gate::components.index', ['title' => 'Users data'])
+    @component('gate::components.index', ['title' => 'Users Datalist'])
         @slot('tableContent')
             <div id="form_result"></div>
             <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
@@ -56,3 +56,7 @@
     @include('gate::components.user._script')
 
 @endsection
+
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush

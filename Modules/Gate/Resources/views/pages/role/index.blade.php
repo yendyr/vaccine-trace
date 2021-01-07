@@ -9,12 +9,12 @@
 @endsection
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Role data'])
+    @component('components.delete-modal', ['name' => 'Role Datalist'])
     @endcomponent
 
     @include('gate::components.role.modal')
 
-    @component('gate::components.index', ['title' => 'Roles data'])
+    @component('gate::components.index', ['title' => 'Roles Datalist'])
         @slot('tableContent')
             <div id="form_result" role="alert"></div>
             <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
@@ -44,3 +44,7 @@
     @include('gate::components.role._script')
 
 @endsection
+
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush

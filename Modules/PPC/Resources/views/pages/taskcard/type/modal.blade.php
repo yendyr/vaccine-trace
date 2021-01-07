@@ -13,20 +13,20 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label>Code</label>
-                            <input type="text" class="form-control " id="fcode" name="code" >
+                            <label>Code &nbsp;</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" id="fcode" name="code" >
                             <div class="invalid-feedback-code text-danger"></div>
                         </div>
                         <div class="col-md-6">
-                            <label>Task Card Type Name</label>
-                            <input type="text" class="form-control " id="fname" name="name" >
+                            <label>Task Card Type Name &nbsp;</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" id="fname" name="name" >
                             <div class="invalid-feedback-name text-danger"></div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label>Description/Remark</label>
-                            <input type="email" class="form-control " id="fdescription" name="description" >
+                            <input type="text" class="form-control" id="fdescription" name="description" >
                             <div class="invalid-feedback-description text-danger"></div>
                         </div>
                     </div>                    
@@ -41,7 +41,7 @@
                                 <div class="invalid-feedback-status text-danger"></div>
                             </div> --}}
                             <span>Active&nbsp;</span>
-                            <input type="checkbox" class="js-switch" checked />
+                            <input type="checkbox" class="js-switch" id="fstatus" name="status" checked />
                         </div>
                     </div>
                 </div>

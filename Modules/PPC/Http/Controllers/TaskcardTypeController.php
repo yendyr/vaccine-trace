@@ -2,14 +2,14 @@
 
 namespace Modules\PPC\Http\Controllers;
 
+use Modules\PPC\Entities\TaskcardType;
+
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class TaskcardTypeController extends Controller
@@ -18,11 +18,34 @@ class TaskcardTypeController extends Controller
 
     public function __construct()
     {
+        // $this->authorizeResource(TaskcardType::class, 'taskcard-type');
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = TaskcardType::all();
+            return Datatables::of($data)
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<label class="label label-success">Active</label>';
+                    } else{
+                        return '<label class="label label-danger">Inactive</label>';
+                    }
+                })
+                ->addColumn('action', function($row){
+                    if(Auth::user()->can('update', TaskcardType::class)) {
+                        $updateable = 'a';
+                        $href = 'company/' . $row->id . '/edit';
+                        return view('components.action-button', compact(['updateable', 'href']));
+                    }
+                    return '<p class="text-muted">no action authorized</p>';
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+
         return view('ppc::pages.taskcard.type.index');
     }
 
@@ -33,7 +56,22 @@ class TaskcardTypeController extends Controller
 
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'code' => ['required', 'max:30', 'unique:taskcard_types, code'],
+            'name' => ['required', 'max:30'],
+        ]);
+
+        TaskcardType::create([
+            'uuid' =>  Str::uuid(),
+            'code' => $request->code,
+            'name' => $request->name,
+            'description' => $request->description,
+            'owned_by' => $request->user()->company_id,
+            'status' => $request->status,
+            'created_by' => $request->user()->id,
+        ]);
+
+        return redirect('/ppc/taskcard-type')->with('status', 'Task Card Type Data has been Added!');
     }
 
     public function show(TaskcardType $TaskcardType)
@@ -53,45 +91,8 @@ class TaskcardTypeController extends Controller
 
     public function destroy(TaskcardType $TaskcardType)
     {
-        
+        TaskcardType::destroy($TaskcardType->id);
+        return response()->json(['success' => 'Data Deleted Successfully.']);
     }
 
-    //Validation array default for this controller
-    public function getValidationArray($request = null){
-        // $validationArray = [
-        //     'empid' => ['required', 'string', 'max:20', 'alpha_num', 'unique:hr_employees,empid'],
-        //     'fullname' => ['required', 'string', 'max:50'],
-        //     'nickname' => ['required', 'string', 'max:50'],
-        //     'photo' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
-        //     'pob' => ['required', 'string', 'max:30'],
-        //     'dob' => ['required', 'date'],
-        //     'gender' => ['required', 'string', 'size:1'],
-        //     'religion' => ['required', 'string', 'max:15'],
-        //     'mobile01' => ['nullable', 'alpha_num', 'digits_between:1,13'],
-        //     'mobile02' => ['nullable', 'alpha_num', 'digits_between:1,13'],
-        //     'email' => ['required', 'string', 'max:50'],
-        //     'bloodtype' => ['required', 'string', 'max:4'],
-        //     'maritalstatus' => ['required', 'string', 'size:1'],
-        //     'empdate' => ['required', 'date'],
-        //     'cessdate' => ['required', 'date'],
-        //     'probation' => ['required', 'string', 'size:1'],
-        //     'cesscode' => ['required', 'string', 'size:2'],
-        //     'recruitby' => ['required', 'string', 'max:4'],
-        //     'emptype' => ['required', 'string', 'size:2'],
-        //     'workgrp' => ['required', 'string', 'max:4'],
-        //     'site' => ['nullable', 'string', 'max:4'],
-        //     'accsgrp' => ['nullable', 'string', 'max:4'],
-        //     'achgrp' => ['nullable', 'string', 'max:4'],
-        //     'jobgrp' => ['nullable', 'string', 'max:4'],
-        //     'costcode' => ['nullable', 'string', 'max:4'],
-        //     'orgcode' => ['required', 'string', 'max:6'],
-        //     'orglvl' => ['required', 'string', 'max:4'],
-        //     'title' => ['required', 'string', 'max:2'],
-        //     'jobtitle' => ['required', 'string', 'max:100'],
-        //     'remark' => ['nullable', 'string', 'max:255'],
-        //     'status' => ['required', 'min:0', 'max:1'],
-        // ];
-
-        // return $validationArray;
-    }
 }
