@@ -141,3 +141,17 @@ body {
     background-color: #0f8b8d;
     border-color: #0f8b8d;
 }
+
+.modal-footer {
+    background-color: #eee;
+}
+
+.ibox {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.btn-danger:hover, .btn-danger:focus, .btn-danger.focus {
+    color: #fff;
+    background-color: #bf0014;
+    border-color: #bf0014;
+}

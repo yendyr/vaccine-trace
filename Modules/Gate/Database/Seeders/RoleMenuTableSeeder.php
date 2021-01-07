@@ -20,7 +20,7 @@ class RoleMenuTableSeeder extends Seeder
 
         // --------- Role Menu Seeder for Default Role ID = 1 -------------- //
         $rolemenu = RoleMenu::create([
-            'menu_id' => 1,
+            'menu_id' => 2,
             'role_id' => 1,
             'menu_link' => 'gate/user',
             'add' => 1,
@@ -34,7 +34,7 @@ class RoleMenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $rolemenu = RoleMenu::create([
-            'menu_id' => 2,
+            'menu_id' => 3,
             'role_id' => 1,
             'menu_link' => 'gate/company',
             'add' => 1,
@@ -48,23 +48,9 @@ class RoleMenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $rolemenu = RoleMenu::create([
-            'menu_id' => 3,
-            'role_id' => 1,
-            'menu_link' => 'gate/role',
-            'add' => 1,
-            'update' => 1,
-            'delete' => 0,
-            'print' => 0,
-            'approval' => json_encode(0),
-            'process' => json_encode(0),
-            'owned_by' => 0,
-            'status' => 1,
-            'uuid' => Str::uuid(),
-        ]);
-        $rolemenu = RoleMenu::create([
             'menu_id' => 4,
             'role_id' => 1,
-            'menu_link' => 'gate/role-menu',
+            'menu_link' => 'gate/role',
             'add' => 1,
             'update' => 1,
             'delete' => 0,
@@ -89,11 +75,26 @@ class RoleMenuTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+        $rolemenu = RoleMenu::create([
+            'menu_id' => 6,
+            'role_id' => 1,
+            'menu_link' => 'gate/role-menu',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => json_encode(0),
+            'process' => json_encode(0),
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);        
         // --------- END Role Menu Seeder for Default Role ID = 1 -------------- //
+
 
         // --------- Role Menu Seeder for Default Role ID = 2 -------------- //
         $rolemenu = RoleMenu::create([
-            'menu_id' => 1,
+            'menu_id' => 2,
             'role_id' => 2,
             'menu_link' => 'gate/user',
             'add' => 0,
@@ -107,7 +108,7 @@ class RoleMenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $rolemenu = RoleMenu::create([
-            'menu_id' => 2,
+            'menu_id' => 3,
             'role_id' => 2,
             'menu_link' => 'gate/company',
             'add' => 0,
@@ -122,7 +123,7 @@ class RoleMenuTableSeeder extends Seeder
         ]);
         
         $rolemenu = RoleMenu::create([
-            'menu_id' => 3,
+            'menu_id' => 4,
             'role_id' => 2,
             'menu_link' => 'gate/role',
             'add' => 0,
@@ -136,7 +137,21 @@ class RoleMenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $rolemenu = RoleMenu::create([
-            'menu_id' => 4,
+            'menu_id' => 5,
+            'role_id' => 2,
+            'menu_link' => 'gate/menu',
+            'add' => 0,
+            'update' => 0,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => json_encode(0),
+            'process' => json_encode(0),
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $rolemenu = RoleMenu::create([
+            'menu_id' => 6,
             'role_id' => 2,
             'menu_link' => 'gate/role-menu',
             'add' => 0,

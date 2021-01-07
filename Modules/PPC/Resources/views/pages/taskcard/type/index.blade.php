@@ -2,7 +2,7 @@
 
 @section('page-heading')
     @component('components.breadcrumb', ['name' => 'Task Card Type'])
-    @can('create', Modules\Gate\Entities\TaskcardType::class)
+    @can('create', Modules\PPC\Entities\TaskcardType::class)
         <button type="button" id="createTaskcardType" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Create New</button>
     @endcan
     @endcomponent
@@ -14,7 +14,7 @@
 
     @include('ppc::pages.taskcard.type.modal')
 
-    @component('components.crud-form.index', ['title' => 'Roles Datalist'])
+    @component('components.crud-form.index', ['title' => 'Task Card Type Datalist'])
         @slot('tableContent')
             <div id="form_result" role="alert"></div>
             

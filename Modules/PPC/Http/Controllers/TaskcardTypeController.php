@@ -35,12 +35,25 @@ class TaskcardTypeController extends Controller
                     }
                 })
                 ->addColumn('action', function($row){
+                    $noAuthorize = true;
                     if(Auth::user()->can('update', TaskcardType::class)) {
-                        $updateable = 'a';
-                        $href = '/ppc/taskcard/type/' . $row->id . '/edit';
-                        return view('components.action-button', compact(['updateable', 'href']));
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
                     }
-                    return '<p class="text-muted">Not Authorized</p>';
+                    if(Auth::user()->can('delete', TaskcardType::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted">Not Authorized</p>';
+                    }
+                    
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -78,12 +91,14 @@ class TaskcardTypeController extends Controller
             'created_by' => $request->user()->id,
         ]);
 
-        return redirect('/ppc/taskcard/type')->with('status', 'Task Card Type Data has been Added!');
+        // return redirect('/ppc/taskcard/type')->with('status', 'Task Card Type Data has been Added!');
+        return response()->json(['success' => 'Task Card Type Data has been Added']);
+    
     }
 
     public function show(TaskcardType $TaskcardType)
     {
-        return view('ppc::show');
+        return view('ppc::pages.taskcard.type.show');
     }
 
     public function edit(TaskcardType $TaskcardType)
@@ -91,7 +106,7 @@ class TaskcardTypeController extends Controller
         return view('ppc::pages.taskcard.type.edit', compact('TaskcardType'));
     }
 
-    public function update(Request $request, TaskcardType $taskcard_types)
+    public function update(Request $request, TaskcardType $TaskcardType)
     {
         $request->validate([
             'code' => ['required', 'max:30', 'unique:taskcard_types,code'],
@@ -105,7 +120,7 @@ class TaskcardTypeController extends Controller
             $status = 0;
         }
 
-        TaskcardType::where('uuid', $taskcard_types->id)
+        TaskcardType::where('id', $TaskcardType->id)
             ->update([
                 'code' => $request->code,
                 'name' => $request->name,
@@ -114,13 +129,15 @@ class TaskcardTypeController extends Controller
                 'updated_by' => $request->user()->id,
         ]);
 
-        return redirect('/ppc/taskcard/type')->with('status', 'Task Card Type Data has been Updated!');
+        // return redirect('/ppc/taskcard/type')->with('status', 'Task Card Type Data has been Updated!');
+        return response()->json(['success' => 'Task Card Type Data has been Updated']);
+    
     }
 
-    public function destroy(TaskcardType $taskcard_types)
+    public function destroy(TaskcardType $TaskcardType)
     {
-        TaskcardType::destroy($taskcard_types->id);
-        return response()->json(['success' => 'Data Deleted Successfully.']);
+        TaskcardType::destroy($TaskcardType->id);
+        return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
 }

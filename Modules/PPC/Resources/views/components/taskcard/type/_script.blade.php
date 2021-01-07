@@ -41,12 +41,16 @@
                     value: 'patch'
                 }).prependTo('#taskcardTypeForm');
 
-                $('#fname').val(data.name);
-                $('#fstatus').find('option').removeAttr('checked');
-                if (data.status == '<p class="text-success">Active</p>'){
-                    $('#fstatus').find('option[value="1"]').attr('selected', '');
-                }else{
-                    $('#fstatus').find('option[value="0"]').attr('selected', '');
+                $('#code').val(data.code);
+                $('#name').val(data.name);
+                $('#description').val(data.description);                
+                if (data.status == '<label class="label label-success">Active</label>') {
+                    $('#status').prop("checked", true);
+                    // document.getElementById("status").checked = true;
+                }
+                else if (data.status == '<label class="label label-danger">Inactive</label>') {
+                    $('#status').prop("checked", false);
+                    // document.getElementById("status").checked = false;
                 }
 
                 $('#saveBtn').val("edit-taskcardType");

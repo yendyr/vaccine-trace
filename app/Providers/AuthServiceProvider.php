@@ -66,7 +66,9 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Menu::class => MenuPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
+
         Example::class => ExamplePolicy::class,
+        
         OrganizationStructure::class => OrganizationStructurePolicy::class,
         OrganizationStructureTitle::class => OrganizationStructureTitlePolicy::class,
         WorkingGroup::class => WorkingGroupPolicy::class,
