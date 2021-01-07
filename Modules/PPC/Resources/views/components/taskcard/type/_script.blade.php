@@ -19,7 +19,7 @@
             });
 
             $('#createTaskcardType').click(function () {
-                $('#saveBtn').val("create-role");
+                $('#saveBtn').val("create-taskcard-type");
                 $('#taskcardTypeForm').trigger("reset");
                 $('#modalTitle').html("Create New Task Card Type");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
@@ -45,15 +45,13 @@
                 $('#name').val(data.name);
                 $('#description').val(data.description);                
                 if (data.status == '<label class="label label-success">Active</label>') {
-                    $('#status').prop("checked", true);
-                    // document.getElementById("status").checked = true;
+                    $('#status').prop('checked', true);
                 }
-                else if (data.status == '<label class="label label-danger">Inactive</label>') {
-                    $('#status').prop("checked", false);
-                    // document.getElementById("status").checked = false;
+                else {
+                    $('#status').prop('checked', false);
                 }
 
-                $('#saveBtn').val("edit-taskcardType");
+                $('#saveBtn').val("edit-taskcard-type");
                 $('#taskcardTypeForm').attr('action', '/ppc/taskcard/type/' + data.id);
 
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
@@ -104,7 +102,7 @@
             });
 
             table.on('click', '.deleteBtn', function () {
-                roleId = $(this).val();
+                taskcardTypeId = $(this).val();
                 $('#deleteModal').modal('show');
                 $('#delete-form').attr('action', "/ppc/taskcard/type/"+ taskcardTypeId);
             });

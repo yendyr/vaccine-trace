@@ -35,7 +35,7 @@
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Active</label>
                         <div class="col-sm-7">        
-                            <input type="checkbox" class="js-switch form-control @error('status') is-invalid @enderror" name="status" id="status" checked />
+                            <input type="checkbox" class="js-switch form-control @error('status') is-invalid @enderror" name="status" id="status" />
                             <div class="invalid-feedback-status"></div>
                         </div>
                     </div>

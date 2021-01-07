@@ -18,19 +18,19 @@ Route::name('ppc.')->group(function () {
         });
     });
 
-    Route::prefix('ppc')->group(function() {
-        Route::resource('/taskcard', 'TaskcardController');  
+    // Route::prefix('ppc')->group(function() {
+    //     Route::resource('/taskcard', 'TaskcardController');  
 
-        Route::resource('/taskcard-group', 'TaskcardGroupController');
+    //     Route::resource('/taskcard-group', 'TaskcardGroupController');
 
-        Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
+    //     Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
 
-        Route::resource('/taskcard-access', 'TaskcardAccessController');
+    //     Route::resource('/taskcard-access', 'TaskcardAccessController');
 
-        Route::resource('/taskcard-zone', 'TaskcardZoneController');
+    //     Route::resource('/taskcard-zone', 'TaskcardZoneController');
 
-        Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
+    //     Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
 
-        Route::resource('/aircraft', 'AircraftController');
-    });
+    //     Route::resource('/aircraft', 'AircraftController');
+    // });
 });  
