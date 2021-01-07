@@ -19,7 +19,6 @@ Route::name('ppc.')->group(function () {
         Route::get('/taskcard-group/create', 'TaskcardGroupController@create');
         
         Route::resource('/taskcard-type', 'TaskcardTypeController');
-        Route::get('/taskcard-type/create', 'TaskcardTypeController@create');
 
         Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
         Route::get('/taskcard-workarea/create', 'TaskcardWorkareaController@create');

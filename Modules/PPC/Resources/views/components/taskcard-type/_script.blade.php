@@ -5,7 +5,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('ppc.taskcard.type.index')}}",
+                url: "{{ route('ppc.taskcard-type.index')}}",
             },
             columns: [
                 { data: 'code', name: 'Code'  },

@@ -37,7 +37,7 @@ class TaskcardTypeController extends Controller
                 ->addColumn('action', function($row){
                     if(Auth::user()->can('update', TaskcardType::class)) {
                         $updateable = 'a';
-                        $href = 'company/' . $row->id . '/edit';
+                        $href = 'taskcard-type/' . $row->id . '/edit';
                         return view('components.action-button', compact(['updateable', 'href']));
                     }
                     return '<p class="text-muted">no action authorized</p>';

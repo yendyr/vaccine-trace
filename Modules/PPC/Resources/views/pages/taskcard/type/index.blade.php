@@ -6,8 +6,7 @@
                 'href' => '/ppc/taskcard-type',
                 ])
         {{-- @can('create', \Modules\HumanResources\Entities\Employee::class) --}}
-            <button id="createTaskcardType" class="btn btn-primary btn-lg" type="button">
-                <i class="fa fa-plus-circle"></i>&nbsp;Add New Task Card Type</button>
+            <a href="{{ route('gate.company.create')}}" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Add New Task Card Type</a>
         {{-- @endcan --}}
     @endcomponent
 @endsection
