@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Company'])
+    @component('components.breadcrumb', ['name' => 'Task Card Type'])
         <li class="breadcrumb-item">
-            <a href="/ppc/taskcard-type">Task Card Type</a>
+            <a href="/ppc/taskcard/type">Task Card Type</a>
         </li>
         <li class="breadcrumb-item active">
             <a>Edit Task Card Type</a>
@@ -12,7 +12,12 @@
 @endsection
 
 @section('content')
-    @component('components.crud-form.edit', ['action' => '/ppc/taskcard-type/', 'row' => $TaskcardType, 'name' => 'Task Card Type'])
+    @component('components.crud-form.edit', 
+            ['action' => '/ppc/taskcard/type/', 
+            'row' => $TaskcardType, 
+            'name' => 'Task Card Type'
+        ])
+
         @slot('formEdit')
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Code</label>
@@ -53,3 +58,10 @@
         @endslot
     @endcomponent
 @endsection
+
+@push('footer-scripts')
+<script>
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem, { color: '#1AB394' });
+</script>
+@endpush

@@ -11,14 +11,17 @@
 |
 */
 Route::name('ppc.')->group(function () {
+
+    Route::prefix('ppc/taskcard')->group(function() {
+        Route::name('taskcard.')->group(function () {
+            Route::resource('/type', 'TaskcardTypeController');
+        });
+    });
+
     Route::prefix('ppc')->group(function() {
-        Route::resource('/taskcard', 'TaskcardController');
-        Route::get('/taskcard/create', 'TaskcardController@create');  
+        Route::resource('/taskcard', 'TaskcardController');  
 
         Route::resource('/taskcard-group', 'TaskcardGroupController');
-        Route::get('/taskcard-group/create', 'TaskcardGroupController@create');
-        
-        Route::resource('/taskcard/type', 'TaskcardTypeController');
 
         Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
 

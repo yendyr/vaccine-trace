@@ -565,7 +565,7 @@ class MenuTableSeeder extends Seeder
         $menu = Menu::create([
             'menu_link' => 'ppc/taskcard/type',
             'menu_text' => 'Master Task Card Type',
-            'menu_route' => 'ppc.taskcard-type.index',
+            'menu_route' => 'ppc.taskcard.type.index',
             'menu_icon' => 'fa-columns',
             'menu_class' => 'Modules\PPC\Entities\TaskcardType',
             'menu_id' => null,

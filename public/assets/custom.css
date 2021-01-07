@@ -135,3 +135,9 @@ body {
     background-color: #ddd;
     border: 1px solid #999;
 }
+
+.btn-info:hover, .btn-info:focus, .btn-info.focus {
+    color: #fff;
+    background-color: #0f8b8d;
+    border-color: #0f8b8d;
+}

@@ -3,7 +3,7 @@
 @section('page-heading')
     @component('components.breadcrumb', ['name' => 'Task Card Type'])
         <li class="breadcrumb-item">
-            <a href="/ppc/taskcard-type">Task Card Type</a>
+            <a href="/ppc/taskcard/type">Task Card Type</a>
         </li>
         <li class="breadcrumb-item active">
             <a>Create Task Card Type</a>
@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-    @component('components.crud-form.create', ['action' => '/ppc/taskcard-type', 'name' => 'Task Card Type'])
+    @component('components.crud-form.create', ['action' => '/ppc/taskcard/type', 'name' => 'Task Card Type'])
         @slot('formCreate')
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Code</label>

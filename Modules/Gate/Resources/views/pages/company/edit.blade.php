@@ -12,7 +12,12 @@
 @endsection
 
 @section('content')
-    @component('components.crud-form.edit', ['action' => '/gate/company/', 'row' => $company, 'name' => 'Company'])
+    @component('components.crud-form.edit', 
+            ['action' => '/gate/company/', 
+            'row' => $company, 
+            'name' => 'Company'
+        ])
+
         @slot('formEdit')
             <div class="form-group row"><label class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-6">
