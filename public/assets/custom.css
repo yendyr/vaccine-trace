@@ -160,3 +160,7 @@ body {
     color: #000;
     background-color: rgb(33 150 243 / 5%);
 }
+
+div.table-responsive>div.dataTables_wrapper>div.row {
+    margin-top: 20px;
+}

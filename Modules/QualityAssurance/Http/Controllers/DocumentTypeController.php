@@ -2,7 +2,7 @@
 
 namespace Modules\QualityAssurance\Http\Controllers;
 
-use Modules\QualityAssurance\Entities\Skill;
+use Modules\QualityAssurance\Entities\DocumentType;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class SkillController extends Controller
+class DocumentTypeController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(Skill::class, 'skill');
+        $this->authorizeResource(DocumentType::class, 'DocumentType');
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Skill::all();
+            $data = DocumentType::all();
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -59,18 +59,18 @@ class SkillController extends Controller
                 ->make(true);
         }
 
-        return view('qualityassurance::pages.skill.index');
+        return view('qualityassurance::pages.document-type.index');
     }
 
     public function create()
     {
-        return view('qualityassurance::pages.skill.create');
+        return view('qualityassurance::pages.document-type.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:skills,code'],
+            'code' => ['required', 'max:30', 'unique:document_types,code'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -90,24 +90,24 @@ class SkillController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Skill Data has been Added']);
+        return response()->json(['success' => 'Document Type Data has been Added']);
     
     }
 
-    public function show(Skill $Skill)
+    public function show(DocumentType $DocumentType)
     {
-        return view('qualityassurance::pages.skill.show');
+        return view('qualityassurance::pages.document-type.show');
     }
 
-    public function edit(Skill $Skill)
+    public function edit(DocumentType $DocumentType)
     {
-        return view('qualityassurance::pages.skill.edit', compact('Skill'));
+        return view('qualityassurance::pages.document-type.edit', compact('DocumentType'));
     }
 
-    public function update(Request $request, Skill $Skill)
+    public function update(Request $request, DocumentType $DocumentType)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:skills,code'],
+            'code' => ['required', 'max:30', 'unique:document_types,code'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -126,13 +126,13 @@ class SkillController extends Controller
                 'status' => $status,
                 'updated_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Skill Data has been Updated']);
+        return response()->json(['success' => 'Document Type Data has been Updated']);
     
     }
 
-    public function destroy(Skill $Skill)
+    public function destroy(DocumentType $DocumentType)
     {
-        Skill::destroy($Skill->id);
+        DocumentType::destroy($DocumentType->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 

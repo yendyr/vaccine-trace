@@ -56,6 +56,9 @@ use Modules\PPC\Entities\TaskcardType;
 use Modules\QualityAssurance\Policies\SkillPolicy;
 use Modules\QualityAssurance\Entities\Skill;
 
+use Modules\QualityAssurance\Policies\DocumentTypePolicy;
+use Modules\QualityAssurance\Entities\DocumentType;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -92,6 +95,8 @@ class AuthServiceProvider extends ServiceProvider
         TaskcardType::class => TaskcardTypePolicy::class,
         
         Skill::class => SkillPolicy::class,
+
+        DocumentType::class => DocumentTypePolicy::class,
     ];
 
     /**

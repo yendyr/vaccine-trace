@@ -14,6 +14,7 @@
 Route::name('qualityassurance.')->group(function () {
     Route::prefix('qualityassurance')->group(function() {
         Route::resource('/skill', 'SkillController');
+        Route::resource('/document-type', 'DocumentTypeController');
     //     Route::resource('/skill', 'SkillController');
     //     Route::get('/skill/create', 'SkillController@create');   
 

@@ -1,17 +1,17 @@
 @push('footer-scripts')
     <script>
         $(document).ready(function () {
-            var skillId;
+            var documentTypeId;
 
-            var table = $('#skill-table').DataTable({
+            var table = $('#document-type-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('qualityassurance.skill.index') }}",
+                    url: "{{ route('qualityassurance.document-type.index') }}",
                 },
                 columns: [
                     { data: 'code', name: 'Code'  },
-                    { data: 'name', name: 'Skill Name' },
+                    { data: 'name', name: 'Document Type Name' },
                     { data: 'description', name: 'Description/Remark' },
                     { data: 'status', name: 'Status' },
                     { data: 'created_by', name: 'Created By' },
@@ -22,20 +22,20 @@
                 ]
             });
 
-            $('#createSkill').click(function () {
-                $('#saveBtn').val("create-skill");
-                $('#skillForm').trigger("reset");
-                $('#modalTitle').html("Create New Skill");
+            $('#createDocumentType').click(function () {
+                $('#saveBtn').val("create-document-type");
+                $('#documentTypeForm').trigger("reset");
+                $('#modalTitle').html("Create New Document Type");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#skillModal').modal('show');
-                $('#skillForm').attr('action', '/qualityassurance/skill');
+                $('#documentTypeModal').modal('show');
+                $('#documentTypeForm').attr('action', '/qualityassurance/document-type');
                 $("input[value='patch']").remove();
             });
 
             table.on('click', '.editBtn', function () {
-                $('#skillForm').trigger("reset");
-                $('#modalTitle').html("Edit Skill");
-                skillId= $(this).val();
+                $('#documentTypeForm').trigger("reset");
+                $('#modalTitle').html("Edit Document Type");
+                documentTypeId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = table.row(tr).data();
 
@@ -43,7 +43,7 @@
                     type: 'hidden',
                     name: '_method',
                     value: 'patch'
-                }).prependTo('#skillForm');
+                }).prependTo('#documentTypeForm');
 
                 $('#code').val(data.code);
                 $('#name').val(data.name);
@@ -55,14 +55,14 @@
                     $('#status').prop('checked', false);
                 }
 
-                $('#saveBtn').val("edit-skill");
-                $('#skillForm').attr('action', '/qualityassurance/skill/' + data.id);
+                $('#saveBtn').val("edit-document-type");
+                $('#documentTypeForm').attr('action', '/qualityassurance/document-type/' + data.id);
 
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#skillModal').modal('show');
+                $('#documentTypeModal').modal('show');
             });
 
-            $('#skillForm').on('submit', function (event) {
+            $('#documentTypeForm').on('submit', function (event) {
                 event.preventDefault();
                 let url_action = $(this).attr('action');
                 $.ajax({
@@ -94,8 +94,8 @@
                             $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
                             $('#form_result').html(data.success);
                         }
-                        $('#skillModal').modal('hide');
-                        $('#skill-table').DataTable().ajax.reload();
+                        $('#documentTypeModal').modal('hide');
+                        $('#document-type-table').DataTable().ajax.reload();
                     },
                     complete: function () {
                         let l = $( '.ladda-button-submit' ).ladda();
@@ -106,9 +106,9 @@
             });
 
             table.on('click', '.deleteBtn', function () {
-                skillId = $(this).val();
+                documentTypeId = $(this).val();
                 $('#deleteModal').modal('show');
-                $('#delete-form').attr('action', "/qualityassurance/skill/"+ skillId);
+                $('#delete-form').attr('action', "/qualityassurance/document-type/"+ documentTypeId);
             });
 
             $('#delete-form').on('submit', function (e) {
@@ -142,7 +142,7 @@
                         $('#delete-button').text('Delete');
                         $('#deleteModal').modal('hide');
                         $('#delete-button').prop('disabled', false);
-                        $('#skill-table').DataTable().ajax.reload();
+                        $('#document-type-table').DataTable().ajax.reload();
                     }
                 });
             });
