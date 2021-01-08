@@ -2,7 +2,15 @@
     <div class="col-lg-12">
         <div class="ibox">
             <div class="ibox-title">
-                <h4 class="text-center">{{ $title }}</h4>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" id="createDocumentType" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Create New</button>
+                    </div>
+                    <div class="col-md-10">
+                        <h4 class="text-center">{{ $title }}</h4>
+                    </div>
+                </div>
+                
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>

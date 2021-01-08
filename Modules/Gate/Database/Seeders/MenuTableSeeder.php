@@ -693,7 +693,7 @@ class MenuTableSeeder extends Seeder
         $menu = Menu::create([
             'menu_link' => 'qualityassurance/skill',
             'menu_text' => 'Master Skill',
-            'menu_route' => null,
+            'menu_route' => 'qualityassurance.skill.index',
             'menu_icon' => 'fa-bookmark',
             'menu_class' => 'Modules\QualityAssurance\Entities\Skill',
             'menu_id' => null,
@@ -735,7 +735,7 @@ class MenuTableSeeder extends Seeder
         $menu = Menu::create([
             'menu_link' => 'qualityassurance/document-type',
             'menu_text' => 'Master Document Type',
-            'menu_route' => null,
+            'menu_route' => 'qualityassurance.document-type.index',
             'menu_icon' => 'fa-tags',
             'menu_class' => 'Modules\QualityAssurance\Entities\DocumentType',
             'menu_id' => null,

@@ -1,21 +1,16 @@
 @extends('layouts.master')
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Document Type'])
-    @can('create', Modules\QualityAssurance\Entities\DocumentType::class)
-        <button type="button" id="createDocumentType" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Create New</button>
-    @endcan
-    @endcomponent
-@endsection
-
 @section('content')
     @component('components.delete-modal', ['name' => 'Document Type Datalist'])
     @endcomponent
 
     @include('qualityassurance::pages.document-type.modal')
 
-    @component('components.crud-form.index', ['title' => 'Document Type Datalist'])
+    @component('components.crud-form.index', ['title' => 'Document Type Datalist'])        
         @slot('tableContent')
+        {{-- @can('create', Modules\QualityAssurance\Entities\DocumentType::class)
+            <button type="button" id="createDocumentType" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Create New</button>
+        @endcan --}}
             <div id="form_result" role="alert"></div>
             
             <div class="table-responsive">
