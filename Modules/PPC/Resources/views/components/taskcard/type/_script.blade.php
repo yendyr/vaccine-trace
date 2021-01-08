@@ -7,13 +7,17 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('ppc.taskcard.type.index')}}",
+                    url: "{{ route('ppc.taskcard.type.index') }}",
                 },
                 columns: [
                     { data: 'code', name: 'Code'  },
                     { data: 'name', name: 'Task Card Type Name' },
                     { data: 'description', name: 'Description/Remark' },
                     { data: 'status', name: 'Status' },
+                    { data: 'created_by', name: 'Created By' },
+                    { data: 'created_at', name: 'Created At' },
+                    { data: 'updated_by', name: 'Last Updated By' },
+                    { data: 'updated_at', name: 'Last Updated At' },
                     { data: 'action', name: 'Action', orderable: false },
                 ]
             });
@@ -117,7 +121,7 @@
                         ).attr("content")
                     },
                     url: url_action,
-                    type: "DELETE", //bisa method
+                    type: "destroy", //bisa method
                     beforeSend:function(){
                         $('#delete-button').text('Deleting...');
                         $('#delete-button').prop('disabled', true);

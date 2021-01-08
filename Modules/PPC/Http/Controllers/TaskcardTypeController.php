@@ -18,7 +18,7 @@ class TaskcardTypeController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(TaskcardType::class, 'taskcard_types');
+        $this->authorizeResource(TaskcardType::class, TaskcardType::class);
         $this->middleware('auth');
     }
 
@@ -90,8 +90,6 @@ class TaskcardTypeController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-
-        // return redirect('/ppc/taskcard/type')->with('status', 'Task Card Type Data has been Added!');
         return response()->json(['success' => 'Task Card Type Data has been Added']);
     
     }
@@ -134,7 +132,7 @@ class TaskcardTypeController extends Controller
     
     }
 
-    public function destroy(TaskcardType $TaskcardType)
+    public function delete(TaskcardType $TaskcardType)
     {
         TaskcardType::destroy($TaskcardType->id);
         return response()->json(['success' => 'Data Deleted Successfully']);

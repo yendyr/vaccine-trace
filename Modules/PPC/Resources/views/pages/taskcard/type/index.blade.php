@@ -19,13 +19,17 @@
             <div id="form_result" role="alert"></div>
             
             <div class="table-responsive">
-                <table id="taskcard-type-table" class="table table-hover text-center">
+                <table id="taskcard-type-table" class="table table-hover table-striped text-center">
                     <thead>
                         <tr>
                             <th>Code</th>
                             <th>Task Card Type Name</th>
                             <th>Description/Remark</th>
                             <th>Status</th>
+                            <th>Created By</th>
+                            <th>Created At</th>
+                            <th>Last Updated By</th>
+                            <th>Last Updated At</th>
                             <th>Action</th>
                         </tr>
                     </thead>

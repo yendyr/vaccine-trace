@@ -155,3 +155,8 @@ body {
     background-color: #bf0014;
     border-color: #bf0014;
 }
+
+.table-hover tbody tr:hover {
+    color: #000;
+    background-color: rgb(33 150 243 / 5%);
+}
