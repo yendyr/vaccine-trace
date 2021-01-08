@@ -1,13 +1,5 @@
 @extends('layouts.master')
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Example'])
-        <li class="breadcrumb-item active">
-            <a href="/examples/example">Example</a>
-        </li>
-    @endcomponent
-@endsection
-
 @section('content')
     @component('components.delete-modal', ['name' => 'Example data'])
     @endcomponent

@@ -1,4 +1,7 @@
 @push('footer-scripts')
+<script src="{{URL::asset('theme/js/plugins/dataTables/datatables.min.js')}}"></script>
+<script src="{{URL::asset('theme/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
 <script>
     $(document).ready(function() {
         var menuId;

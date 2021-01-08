@@ -22,15 +22,10 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Request',
-                    'href' => '/hr/request',
-                ])
         @can('create', \Modules\HumanResources\Entities\Request::class)
             <div id="form_result" role="alert"></div>
             <button type="button" id="create-request" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i> Add New Request</button>
         @endcan
-    @endcomponent
 @endsection
 
 @section('content')

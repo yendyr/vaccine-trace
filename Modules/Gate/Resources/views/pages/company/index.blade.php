@@ -1,13 +1,5 @@
 @extends('layouts.master')
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Company'])
-        <li class="breadcrumb-item active">
-            <a href="/gate/company">Company</a>
-        </li>
-    @endcomponent
-@endsection
-
 @section('content')
     @component('components.delete-modal', ['name' => 'Company data'])
     @endcomponent

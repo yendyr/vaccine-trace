@@ -1,16 +1,5 @@
 @extends('layouts.master')
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Company'])
-        <li class="breadcrumb-item">
-            <a href="/gate/company">Company</a>
-        </li>
-        <li class="breadcrumb-item active">
-            <a>Create Company</a>
-        </li>
-    @endcomponent
-@endsection
-
 @section('content')
     @component('gate::components.create', ['action' => '/gate/company', 'name' => 'Company'])
         @slot('formCreate')

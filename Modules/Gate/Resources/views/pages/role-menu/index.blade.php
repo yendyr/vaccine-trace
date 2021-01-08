@@ -1,13 +1,5 @@
 @extends('layouts.master')
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Role Menu'])
-        <li class="breadcrumb-item active">
-            <a href="/gate/role-menu">Role Menu</a>
-        </li>
-    @endcomponent
-@endsection
-
 @section('content')
     <div class="form-group row">
         <label class="col-sm-1 col-form-label text-dark">ROLE</label>

@@ -34,6 +34,7 @@
             @else
             @yield('page-heading')
 
+            @include('components.breadcrumb')
             <div class="wrapper wrapper-content animated fadeInRight">
                 @yield('content')
             </div>

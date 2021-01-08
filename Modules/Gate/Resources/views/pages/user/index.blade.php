@@ -11,14 +11,6 @@
     </style>
 @endpush
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'User'])
-        <li class="breadcrumb-item active">
-            <a href="/gate/user">User</a>
-        </li>
-    @endcomponent
-@endsection
-
 @section('content')
     @component('components.delete-modal', ['name' => 'User data'])
     @endcomponent

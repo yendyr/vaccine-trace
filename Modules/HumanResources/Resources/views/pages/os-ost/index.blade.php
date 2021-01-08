@@ -16,11 +16,6 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Organization Structure',
-                    'href' => '/hr/org-structure',
-                ])
-
         @can('create', \Modules\HumanResources\Entities\OrganizationStructureTitle::class)
             <div id="form_result" role="alert"></div>
             <button type="button" id="createOST" class="btn btn-primary btn-lg" style="margin-left: 10px;">
@@ -32,7 +27,6 @@
                 <i class="fa fa-plus-square"></i> Add Header Structure
             </button>
         @endcan
-    @endcomponent
 @endsection
 
 @section('content')

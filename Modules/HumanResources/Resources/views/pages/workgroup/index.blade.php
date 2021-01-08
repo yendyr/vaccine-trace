@@ -22,18 +22,12 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Work Group',
-                    'href' => '/hr/workgroup',
-                ])
-        <div id="form_result" role="alert"></div>
         @can('create', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
             <button type="button" id="create-wg-detail" class="btn btn-primary btn-lg" style="margin-left: 10px;"><i class="fa fa-plus-square"></i> Add New Work Group Detail</button>
         @endcan
         @can('create', \Modules\HumanResources\Entities\WorkingGroup::class)
             <button type="button" id="create-wg" class="btn btn-info btn-lg"><i class="fa fa-plus-square"></i> Add New Work Group</button>
         @endcan
-    @endcomponent
 @endsection
 
 @section('content')

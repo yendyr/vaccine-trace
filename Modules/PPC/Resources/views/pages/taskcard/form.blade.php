@@ -1,15 +1,9 @@
 @extends('layouts.master')
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                ['name' => 'Create/Edit Taskcard',
-                'href' => '/ppc/taskcard/create',
-                ])
-                
             <button type="button" class="btn btn-warning btn-lg">
                 <i class="fa fa-chevron-circle-left"></i> Back
             </button>
-    @endcomponent
 @endsection
 
 @section('content')

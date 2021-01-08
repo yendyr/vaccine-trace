@@ -21,17 +21,6 @@
     </style>
 @endpush
 
-@section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Attendance',
-                    'href' => '/hr/attendance',
-                ])
-        @can('create', \Modules\HumanResources\Entities\Attendance::class)
-            <button type="button" id="validate-attendance" class="btn btn-primary btn-lg"><i class="fa fa-chain"></i> Validate Attendance</button>
-        @endcan
-    @endcomponent
-@endsection
-
 @section('content')
     @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
         @include('humanresources::components.attendance.modal')
