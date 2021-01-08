@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Menu data'])
+    @component('components.delete-modal', ['name' => 'Menu Datalist'])
     @endcomponent
 
     @include('gate::components.menu.modal')
 
-    @component('gate::components.index', ['title' => 'Menus data'])
+    @component('components.crud-form.index', ['title' => 'Menu Datalist'])
         @slot('tableContent')
             <div id="form_result" menu="alert"></div>
             <div class="table-responsive">
@@ -25,3 +25,7 @@
     @include('gate::components.menu._script')
 
 @endsection
+
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush

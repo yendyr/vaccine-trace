@@ -18,78 +18,42 @@ class TaskcardController extends Controller
 
     public function __construct()
     {
-        // $this->authorizeResource(Employee::class, 'employee');
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
     public function index(Request $request)
     {
         return view('ppc::pages.taskcard.index');
-        // return view('humanresources::pages.employee.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
     public function create()
     {
         return view('ppc::pages.taskcard.form');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
         
     }
 
-    /**
-     * Show the specified resource.
-     * @param int Employee $employee
-     * @return Response
-     */
     public function show(Taskcard $taskcard)
     {
         return view('ppc::show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int Employee $employee
-     * @return Response
-     */
     public function edit(Taskcard $taskcard)
     {
         return view('ppc::edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int Employee $employee
-     * @return Response
-     */
     public function update(Request $request, Taskcard $taskcard)
     {
         
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int Employee $employee
-     * @return Response
-     */
     public function destroy(Taskcard $taskcard)
     {
-        //
+        
     }
 
     //Validation array default for this controller

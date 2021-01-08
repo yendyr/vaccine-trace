@@ -520,7 +520,7 @@ class MenuTableSeeder extends Seeder
             'parent_id' => null
         ]);
 
-        // Create PPC Module Menus
+        // ----------- Create PPC Module Menus ------------------------//
         $menuPpcTaskcard = Menu::create([
             'menu_link' => '#',
             'menu_text' => 'Task Card',
@@ -548,7 +548,28 @@ class MenuTableSeeder extends Seeder
             'menu_icon' => 'fa-chain-broken',
             'menu_class' => null,
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-group', 'ppc/taskcard-group/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/group', 'ppc/taskcard/group/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'ppc/taskcard/type',
+            'menu_text' => 'Master Task Card Type',
+            'menu_route' => 'ppc.taskcard.type.index',
+            'menu_icon' => 'fa-columns',
+            'menu_class' => 'Modules\PPC\Entities\TaskcardType',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard/type', 'ppc/taskcard/type/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -564,12 +585,75 @@ class MenuTableSeeder extends Seeder
 
         $menu = Menu::create([
             'menu_link' => '#',
-            'menu_text' => 'Master Task Card Type',
+            'menu_text' => 'Master Task Card Work Area',
             'menu_route' => null,
-            'menu_icon' => 'fa-columns',
+            'menu_icon' => 'fa-yelp',
             'menu_class' => null,
             'menu_id' => null,
-            'menu_actives' => json_encode(['ppc/taskcard-type', 'ppc/taskcard-type/*']),
+            'menu_actives' => json_encode(['ppc/taskcard/workarea', 'ppc/taskcard/workarea/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Master Task Card Access',
+            'menu_route' => null,
+            'menu_icon' => 'fa-circle-o-notch',
+            'menu_class' => null,
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard/access', 'ppc/taskcard/access/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Master Task Card Zone',
+            'menu_route' => null,
+            'menu_icon' => 'fa-slack',
+            'menu_class' => null,
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard/zone', 'ppc/taskcard/zone/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Master Task Card Document Library',
+            'menu_route' => null,
+            'menu_icon' => 'fa-folder',
+            'menu_class' => null,
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard/document-library', 'ppc/taskcard/document-library/*']),
             'group' => 'PPC',
             'add' => 1,
             'update' => 1,
@@ -603,5 +687,71 @@ class MenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
         ]);
+        // ----------- END Create PPC Module Menus ------------------------//
+
+        // ----------- Create Quality Module Menus ------------------------//
+        $menu = Menu::create([
+            'menu_link' => 'qualityassurance/skill',
+            'menu_text' => 'Master Skill',
+            'menu_route' => null,
+            'menu_icon' => 'fa-bookmark',
+            'menu_class' => 'Modules\QualityAssurance\Entities\Skill',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['qualityassurance/skill', 'qualityassurance/skill/*']),
+            'group' => 'Quality Assurance',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'qualityassurance/skill-level',
+            'menu_text' => 'Master Skill Leveling',
+            'menu_route' => null,
+            'menu_icon' => 'fa-signal',
+            'menu_class' => 'Modules\QualityAssurance\Entities\SkillLevel',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['qualityassurance/skill-level', 'qualityassurance/skill-level/*']),
+            'group' => 'Quality Assurance',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'qualityassurance/document-type',
+            'menu_text' => 'Master Document Type',
+            'menu_route' => null,
+            'menu_icon' => 'fa-tags',
+            'menu_class' => 'Modules\QualityAssurance\Entities\DocumentType',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['qualityassurance/document-type', 'qualityassurance/document-type/*']),
+            'group' => 'Quality Assurance',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+        // ----------- END Create Quality Module Menus ------------------------//
     }
 }

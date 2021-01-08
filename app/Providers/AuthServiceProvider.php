@@ -50,6 +50,12 @@ use Modules\HumanResources\Policies\WorkingHourAttendancePolicy;
 use Modules\HumanResources\Policies\WorkingHourDetailPolicy;
 use Modules\HumanResources\Policies\WorkingHourPolicy;
 
+use Modules\PPC\Policies\TaskcardTypePolicy;
+use Modules\PPC\Entities\TaskcardType;
+
+use Modules\QualityAssurance\Policies\SkillPolicy;
+use Modules\QualityAssurance\Entities\Skill;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -63,7 +69,9 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Menu::class => MenuPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
+
         Example::class => ExamplePolicy::class,
+        
         OrganizationStructure::class => OrganizationStructurePolicy::class,
         OrganizationStructureTitle::class => OrganizationStructureTitlePolicy::class,
         WorkingGroup::class => WorkingGroupPolicy::class,
@@ -80,7 +88,10 @@ class AuthServiceProvider extends ServiceProvider
         Attendance::class => AttendancePolicy::class,
         LeaveQuota::class => LeaveQuotaPolicy::class,
         Request::class => RequestPolicy::class,
+
+        TaskcardType::class => TaskcardTypePolicy::class,
         
+        Skill::class => SkillPolicy::class,
     ];
 
     /**

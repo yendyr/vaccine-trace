@@ -3,7 +3,7 @@
 @section('page-heading')
         {{-- @can('create', \Modules\HumanResources\Entities\Employee::class) --}}
             <a type="button" id=" " class="btn btn-primary btn-lg" href="/ppc/taskcard/create">
-                <i class="fa fa-plus-square"></i> Add New Taskcard
+                <i class="fa fa-plus-square"></i> Add New Task Card
             </a>
         {{-- @endcan --}}
 @endsection
@@ -30,8 +30,8 @@
                         <th>MPD Number</th>
                         <th>Company Task Number</th>
                         <th>Title</th>
-                        <th>Taskcard Group</th>
-                        <th>Taskcard Type</th>
+                        <th>Task Card Group</th>
+                        <th>Task Card Type</th>
                         <th>Aircraft Type</th>
                         <th>Skill</th>
                         <th>Manhours Est.</th>

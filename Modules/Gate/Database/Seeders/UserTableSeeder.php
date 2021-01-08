@@ -26,6 +26,7 @@ class UserTableSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'role_id' => 1,
+            'company_id' => 1,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

@@ -1,35 +1,35 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Company data'])
+    @component('components.delete-modal', ['name' => 'Company Datalist'])
     @endcomponent
 
-    @component('gate::components.index', ['title' => 'Companies data'])
+    @component('components.crud-form.index', ['title' => 'Company Datalist'])
         @slot('tableContent')
-        <div id="form_result"></div>
-        <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
-            @can('create', Modules\Gate\Entities\Company::class)
-                <a href="{{ route('gate.company.create')}}" class="btn btn-primary"><i class="fa fa-plus-circle"></i>&nbsp;<strong>Company</strong></a>
-            @endcan
-        </div>
-        <div class="table-responsive">
-            <table id="company-table" class="table table-hover text-center">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                    <tr></tr>
-                </tfoot>
-            </table>
-        </div>
+            <div id="form_result"></div>
+            <div class="p-4 d-flex justify-content-end" style="font-size:14px;">
+                @can('create', Modules\Gate\Entities\Company::class)
+                    <a href="{{ route('gate.company.create')}}" class="btn btn-primary"><i class="fa fa-plus-circle"></i>&nbsp;<strong>Company</strong></a>
+                @endcan
+            </div>
+            <div class="table-responsive">
+                <table id="company-table" class="table table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr></tr>
+                    </tfoot>
+                </table>
+            </div>
         @endslot
     @endcomponent
 
@@ -94,9 +94,11 @@
                     });
                 });
             });
-
-
         </script>
     @endpush
 
 @endsection
+
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('gate::components.create', ['action' => '/gate/company', 'name' => 'Company'])
+    @component('components.crud-form.create', ['action' => '/gate/company', 'name' => 'Company'])
         @slot('formCreate')
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Name</label>

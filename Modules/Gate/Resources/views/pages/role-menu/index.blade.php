@@ -12,7 +12,7 @@
             </select>
         </div>
     </div>
-    @component('gate::components.index', ['title' => 'Role Menu Data'])
+    @component('components.crud-form.index', ['title' => 'Role Menu Datalist'])
         @slot('tableContent')
         <div id="form_result" role="alert"></div>
 
@@ -22,7 +22,7 @@
                     <div class="form-group row col-sm-12 justify-content-start align-items-start text-center">
                         <div class="col-sm-2">
                             <button class="ladda-button ladda-button-submit btn btn-primary"  data-style="zoom-in" type="submit" id="saveButton">
-                                <strong>Save changes</strong>
+                                <strong>Save Changes</strong>
                             </button>
                         </div>
                     </div>
@@ -57,3 +57,7 @@
     @include('gate::components.role-menu._script')
 
 @endsection
+
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush
