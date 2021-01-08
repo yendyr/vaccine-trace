@@ -17,7 +17,20 @@
                     <a href="#"><i class="fa {{ $menuRow->menu_icon ?? '' }}"></i> <span class="nav-label">{{ $menuRow->menu_text ?? '' }}</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         @if( $menuRow->subMenus()->count() > 0)
-                            @foreach($menuRow->subMenus as $subMenuRow)
+                            @if (Auth::user()->name == 'Super Admin')
+                                @foreach($menuRow->subMenus as $subMenuRow)
+                                    <li class="{{ $subMenuRow->isActive(request()) }}">
+                                        <a href="{{ $subMenuRow->renderLink() }}">
+                                            <div class="nav-second-table-group">
+                                                <span>
+                                                    <i class="fa {{ $subMenuRow->menu_icon ?? '' }}"></i>
+                                                </span>
+                                                <span>{{ $subMenuRow->menu_text ?? '' }}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @else
                                 @can('viewAny', $subMenuRow->menu_class)
                                 <li class="{{ $subMenuRow->isActive(request()) }}">
                                     <a href="{{ $subMenuRow->renderLink() }}">
@@ -30,7 +43,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                            @endforeach
+                            @endif
                         @endif
                     </ul>
                 </li>
