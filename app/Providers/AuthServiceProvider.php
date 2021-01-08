@@ -53,6 +53,9 @@ use Modules\HumanResources\Policies\WorkingHourPolicy;
 use Modules\PPC\Policies\TaskcardTypePolicy;
 use Modules\PPC\Entities\TaskcardType;
 
+use Modules\QualityAssurance\Policies\SkillPolicy;
+use Modules\QualityAssurance\Entities\Skill;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -88,6 +91,7 @@ class AuthServiceProvider extends ServiceProvider
 
         TaskcardType::class => TaskcardTypePolicy::class,
         
+        Skill::class => SkillPolicy::class,
     ];
 
     /**

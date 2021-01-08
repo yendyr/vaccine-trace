@@ -691,13 +691,13 @@ class MenuTableSeeder extends Seeder
 
         // ----------- Create Quality Module Menus ------------------------//
         $menu = Menu::create([
-            'menu_link' => 'quality/skill',
+            'menu_link' => 'qualityassurance/skill',
             'menu_text' => 'Master Skill',
             'menu_route' => null,
             'menu_icon' => 'fa-bookmark',
             'menu_class' => 'Modules\QualityAssurance\Entities\Skill',
             'menu_id' => null,
-            'menu_actives' => json_encode(['quality/skill', 'quality/skill/*']),
+            'menu_actives' => json_encode(['qualityassurance/skill', 'qualityassurance/skill/*']),
             'group' => 'Quality Assurance',
             'add' => 1,
             'update' => 1,
@@ -712,13 +712,13 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => 'quality/skill-level',
+            'menu_link' => 'qualityassurance/skill-level',
             'menu_text' => 'Master Skill Leveling',
             'menu_route' => null,
             'menu_icon' => 'fa-signal',
             'menu_class' => 'Modules\QualityAssurance\Entities\SkillLevel',
             'menu_id' => null,
-            'menu_actives' => json_encode(['quality/skill-level', 'quality/skill-level/*']),
+            'menu_actives' => json_encode(['qualityassurance/skill-level', 'qualityassurance/skill-level/*']),
             'group' => 'Quality Assurance',
             'add' => 1,
             'update' => 1,
@@ -733,13 +733,13 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => 'quality/document-type',
+            'menu_link' => 'qualityassurance/document-type',
             'menu_text' => 'Master Document Type',
             'menu_route' => null,
             'menu_icon' => 'fa-tags',
             'menu_class' => 'Modules\QualityAssurance\Entities\DocumentType',
             'menu_id' => null,
-            'menu_actives' => json_encode(['quality/document-type', 'quality/document-type/*']),
+            'menu_actives' => json_encode(['qualityassurance/document-type', 'qualityassurance/document-type/*']),
             'group' => 'Quality Assurance',
             'add' => 1,
             'update' => 1,

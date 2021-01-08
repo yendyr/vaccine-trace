@@ -2,14 +2,14 @@
 
 namespace Modules\QualityAssurance\Http\Controllers;
 
+use Modules\QualityAssurance\Entities\Skill;
+
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class SkillController extends Controller
@@ -18,80 +18,122 @@ class SkillController extends Controller
 
     public function __construct()
     {
+        $this->authorizeResource(Skill::class, 'skill');
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
-        return view('quality::pages.skill.index');
+        if ($request->ajax()) {
+            $data = Skill::all();
+            return Datatables::of($data)
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<label class="label label-success">Active</label>';
+                    } else{
+                        return '<label class="label label-danger">Inactive</label>';
+                    }
+                })
+                ->addColumn('action', function($row){
+                    $noAuthorize = true;
+                    if(Auth::user()->can('update', Skill::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', Skill::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted">Not Authorized</p>';
+                    }
+                    
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+
+        return view('qualityassurance::pages.skill.index');
     }
 
     public function create()
     {
-        return view('quality::pages.skill.form');
+        return view('qualityassurance::pages.skill.create');
     }
 
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'code' => ['required', 'max:30', 'unique:skills,code'],
+            'name' => ['required', 'max:30'],
+        ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
+
+        Skill::create([
+            'uuid' =>  Str::uuid(),
+            'code' => $request->code,
+            'name' => $request->name,
+            'description' => $request->description,
+            'owned_by' => $request->user()->company_id,
+            'status' => $status,
+            'created_by' => $request->user()->id,
+        ]);
+        return response()->json(['success' => 'Skill Type Data has been Added']);
+    
     }
 
     public function show(Skill $Skill)
     {
-        return view('quality::show');
+        return view('qualityassurance::pages.skill.show');
     }
 
     public function edit(Skill $Skill)
     {
-        return view('quality::edit');
+        return view('qualityassurance::pages.skill.edit', compact('Skill'));
     }
 
     public function update(Request $request, Skill $Skill)
     {
-        
+        $request->validate([
+            'code' => ['required', 'max:30', 'unique:skills,code'],
+            'name' => ['required', 'max:30'],
+        ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
+
+        Skill::where('id', $Skill->id)
+            ->update([
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'status' => $status,
+                'updated_by' => $request->user()->id,
+        ]);
+        return response()->json(['success' => 'Skill Type Data has been Updated']);
+    
     }
 
     public function destroy(Skill $Skill)
     {
-        
+        Skill::destroy($Skill->id);
+        return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
-    //Validation array default for this controller
-    public function getValidationArray($request = null){
-        // $validationArray = [
-        //     'empid' => ['required', 'string', 'max:20', 'alpha_num', 'unique:hr_employees,empid'],
-        //     'fullname' => ['required', 'string', 'max:50'],
-        //     'nickname' => ['required', 'string', 'max:50'],
-        //     'photo' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
-        //     'pob' => ['required', 'string', 'max:30'],
-        //     'dob' => ['required', 'date'],
-        //     'gender' => ['required', 'string', 'size:1'],
-        //     'religion' => ['required', 'string', 'max:15'],
-        //     'mobile01' => ['nullable', 'alpha_num', 'digits_between:1,13'],
-        //     'mobile02' => ['nullable', 'alpha_num', 'digits_between:1,13'],
-        //     'email' => ['required', 'string', 'max:50'],
-        //     'bloodtype' => ['required', 'string', 'max:4'],
-        //     'maritalstatus' => ['required', 'string', 'size:1'],
-        //     'empdate' => ['required', 'date'],
-        //     'cessdate' => ['required', 'date'],
-        //     'probation' => ['required', 'string', 'size:1'],
-        //     'cesscode' => ['required', 'string', 'size:2'],
-        //     'recruitby' => ['required', 'string', 'max:4'],
-        //     'emptype' => ['required', 'string', 'size:2'],
-        //     'workgrp' => ['required', 'string', 'max:4'],
-        //     'site' => ['nullable', 'string', 'max:4'],
-        //     'accsgrp' => ['nullable', 'string', 'max:4'],
-        //     'achgrp' => ['nullable', 'string', 'max:4'],
-        //     'jobgrp' => ['nullable', 'string', 'max:4'],
-        //     'costcode' => ['nullable', 'string', 'max:4'],
-        //     'orgcode' => ['required', 'string', 'max:6'],
-        //     'orglvl' => ['required', 'string', 'max:4'],
-        //     'title' => ['required', 'string', 'max:2'],
-        //     'jobtitle' => ['required', 'string', 'max:100'],
-        //     'remark' => ['nullable', 'string', 'max:255'],
-        //     'status' => ['required', 'min:0', 'max:1'],
-        // ];
-
-        // return $validationArray;
-    }
 }

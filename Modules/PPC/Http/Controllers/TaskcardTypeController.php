@@ -132,7 +132,7 @@ class TaskcardTypeController extends Controller
     
     }
 
-    public function delete(TaskcardType $TaskcardType)
+    public function destroy(TaskcardType $TaskcardType)
     {
         TaskcardType::destroy($TaskcardType->id);
         return response()->json(['success' => 'Data Deleted Successfully']);

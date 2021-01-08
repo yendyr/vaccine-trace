@@ -11,8 +11,9 @@
 |
 */
 
-Route::name('quality.')->group(function () {
-    // Route::prefix('quality')->group(function() {
+Route::name('qualityassurance.')->group(function () {
+    Route::prefix('qualityassurance')->group(function() {
+        Route::resource('/skill', 'SkillController');
     //     Route::resource('/skill', 'SkillController');
     //     Route::get('/skill/create', 'SkillController@create');   
 
@@ -21,5 +22,5 @@ Route::name('quality.')->group(function () {
         
     //     Route::resource('/document-type', 'DocumentTypeController');
     //     Route::get('/document-type/create', 'DocumentTypeController@create'); 
-    // });
+    });
 });
