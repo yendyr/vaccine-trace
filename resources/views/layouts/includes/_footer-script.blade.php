@@ -15,6 +15,9 @@
 <!-- Sweet Alert -->
 <script src="{{URL::asset('theme/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
 
+<!-- Toastr Alert -->
+<script src="{{URL::asset('theme/js/plugins/toastr/toastr.min.js')}}"></script>
+
 <!-- Switchery -->
 <script src="{{URL::asset('theme/js/plugins/switchery/switchery.js')}}"></script>
 

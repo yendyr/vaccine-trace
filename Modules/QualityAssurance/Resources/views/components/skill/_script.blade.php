@@ -91,9 +91,11 @@
                     },
                     success: function (data) {
                         if (data.success) {
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
-                            $('#form_result').html(data.success);
+                            // $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
+                            // $('#form_result').html(data.success);                            
                         }
+
+                        $('#notif').toast('show');
                         $('#skillModal').modal('hide');
                         $('#skill-table').DataTable().ajax.reload();
                     },

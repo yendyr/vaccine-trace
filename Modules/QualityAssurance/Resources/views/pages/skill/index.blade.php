@@ -1,13 +1,5 @@
 @extends('layouts.master')
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Skill'])
-    @can('create', Modules\QualityAssurance\Entities\Skill::class)
-        <button type="button" id="createSkill" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Create New</button>
-    @endcan
-    @endcomponent
-@endsection
-
 @section('content')
     @component('components.delete-modal', ['name' => 'Skill Datalist'])
     @endcomponent
@@ -15,8 +7,16 @@
     @include('qualityassurance::pages.skill.modal')
 
     @component('components.crud-form.index', ['title' => 'Skill Datalist'])
+        @slot('createButton')
+            @can('create', Modules\QualityAssurance\Entities\Skill::class)                
+                <button type="button" id="createSkill" class="btn btn-primary btn-lg">
+                    <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                </button>   
+            @endcan
+        @endslot
+
         @slot('tableContent')
-            <div id="form_result" role="alert"></div>
+            {{-- <div id="form_result" role="alert"></div> --}}
             
             <div class="table-responsive">
                 <table id="skill-table" class="table table-hover table-striped text-center">

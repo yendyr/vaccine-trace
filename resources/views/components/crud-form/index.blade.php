@@ -1,16 +1,11 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox">
-            <div class="ibox-title">
-                <div class="row">
-                    <div class="col-md-2">
-                        <button type="button" id="createDocumentType" class="btn btn-primary btn-lg"><i class="fa fa-plus-circle"></i>&nbsp;Create New</button>
-                    </div>
-                    <div class="col-md-10">
-                        <h4 class="text-center">{{ $title }}</h4>
-                    </div>
+            <div class="ibox-title ribbon ribbon-left">
+                <div class="ribbon-target" style="top: 7px;">
+                    {{ $createButton ?? '' }}
                 </div>
-                
+                <h4 class="text-center">{{ $title ?? '' }}</h4> 
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -25,9 +20,15 @@
             </div>
             <div class="ibox-content">
                 @if(Session::has('status'))
-                    @component('components.alert', ['type' => 'success'])
+                    {{-- @component('components.alert', ['type' => 'success'])
                         @slot('message')
                             {{Session::get('status')}}
+                        @endslot
+                    @endcomponent --}}
+
+                    @component('components.toast', ['color' => 'success'])
+                        @slot('message')
+                            {{ Session::get('status') }}
                         @endslot
                     @endcomponent
                 @endif
@@ -36,7 +37,7 @@
                     {{$modals}}
                 @endisset
 
-                {{ $tableContent }}
+                {{ $tableContent ?? '' }}
 
             </div>
         </div>
