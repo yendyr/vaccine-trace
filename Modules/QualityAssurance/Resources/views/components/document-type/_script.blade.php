@@ -6,6 +6,7 @@
             var rowId;
 
             var table = $('#document-type-table').DataTable({
+                pageLength: 25,
                 processing: true,
                 serverSide: true,
                 ajax: {

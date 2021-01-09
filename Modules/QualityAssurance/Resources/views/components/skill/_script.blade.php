@@ -6,6 +6,7 @@
             var rowId;
 
             var table = $('#skill-table').DataTable({
+                pageLength: 25,
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -16,9 +17,9 @@
                     { data: 'name', name: 'Skill Name' },
                     { data: 'description', name: 'Description/Remark' },
                     { data: 'status', name: 'Status' },
-                    { data: 'created_by', name: 'Created By' },
+                    { data: 'creator_name', name: 'Created By' },
                     { data: 'created_at', name: 'Created At' },
-                    { data: 'updated_by', name: 'Last Updated By' },
+                    { data: 'updater_name', name: 'Last Updated By' },
                     { data: 'updated_at', name: 'Last Updated At' },
                     { data: 'action', name: 'Action', orderable: false },
                 ]

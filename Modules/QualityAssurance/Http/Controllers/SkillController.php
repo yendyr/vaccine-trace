@@ -34,6 +34,12 @@ class SkillController extends Controller
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
+                ->addColumn('creator_name', function($row){
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function($row){
+                    return $row->updater->name ?? '-';
+                })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
                     if(Auth::user()->can('update', Skill::class)) {

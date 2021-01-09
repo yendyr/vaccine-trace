@@ -177,7 +177,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     opacity: 0.8;
 }
 
-.toast:hover {
+.toast.show:hover {
     opacity: 1;
 }
 
