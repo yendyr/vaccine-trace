@@ -18,7 +18,7 @@ class DocumentTypeController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(DocumentType::class, 'DocumentType');
+        $this->authorizeResource(DocumentType::class);
         $this->middleware('auth');
     }
 
@@ -34,14 +34,20 @@ class DocumentTypeController extends Controller
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
+                ->addColumn('creator_name', function($row){
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function($row){
+                    return $row->updater->name ?? '-';
+                })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', Skill::class)) {
+                    if(Auth::user()->can('update', DocumentType::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', Skill::class)) {
+                    if(Auth::user()->can('delete', DocumentType::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -125,7 +131,7 @@ class DocumentTypeController extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'status' => $status,
-                    'updated_by' => $request->user()->id,
+                    'updated_by' => Auth::user()->id,
             ]);
         }
         else {
@@ -135,7 +141,7 @@ class DocumentTypeController extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'status' => $status,
-                    'updated_by' => $request->user()->id,
+                    'updated_by' => Auth::user()->id,
             ]);
         }
         return response()->json(['success' => 'Document Type Data has been Updated']);

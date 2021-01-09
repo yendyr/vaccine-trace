@@ -29,18 +29,18 @@
                 $('#inputForm').attr('action', '/qualityassurance/skill');
                 $('#saveBtn').val("create");
                 $('#inputForm').trigger("reset");
-                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                $('[class^="invalid-feedback-"]').html('');
                 $('#inputModal').modal('show');                
                 $("input[value='patch']").remove();
             });
 
             table.on('click', '.editBtn', function () {
-                $('#inputForm').attr('action', '/qualityassurance/skill/' + data.id);
                 $('#modalTitle').html("Edit Skill");
                 $('#inputForm').trigger("reset");                
                 rowId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = table.row(tr).data();
+                $('#inputForm').attr('action', '/qualityassurance/skill/' + data.id);
 
                 $('<input>').attr({
                     type: 'hidden',

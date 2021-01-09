@@ -7,11 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>SmartAircraft 2020</title>
-
-    @include('layouts.includes._header-script')
-
     {{-- jika ada tambahan custom script pada header --}}
     @stack('header-scripts')
+    @include('layouts.includes._header-script')
 </head>
 <body>
     <div id="wrapper">

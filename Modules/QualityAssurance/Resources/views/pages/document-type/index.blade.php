@@ -16,7 +16,7 @@
         @endslot    
 
         @slot('tableContent')
-            <table id="document-type-table" class="table table-hover table-striped text-center">
+            <table id="document-type-table" class="table table-hover table-striped text-center" style="width:100%">
                 <thead>
                     <tr>
                         <th>Code</th>

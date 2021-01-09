@@ -206,3 +206,10 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     font-size: 10pt;
     color: white;
 }
+
+.animated {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}

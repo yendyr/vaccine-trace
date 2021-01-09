@@ -17,8 +17,9 @@
 <!-- Sweet Alert -->
 <link href="{{URL::asset('theme/css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 
-<!-- Switchery -->
-<link href="{{URL::asset('theme/css/plugins/switchery/switchery.css')}}" rel="stylesheet">
+<!-- Pretty Checkbox -->
+{{-- <link href="{{URL::asset('theme/css/plugins/switchery/switchery.css')}}" rel="stylesheet"> --}}
+<link href="{{URL::asset('theme/css/plugins/pretty-checkbox/pretty-checkbox.min.css')}}" rel="stylesheet">
 
 <!-- Inspinia Theming -->
 <link href="{{URL::asset('theme/css/animate.css')}}" rel="stylesheet">

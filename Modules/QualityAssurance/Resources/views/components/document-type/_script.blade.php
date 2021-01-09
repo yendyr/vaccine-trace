@@ -16,9 +16,9 @@
                     { data: 'name', name: 'Document Type Name' },
                     { data: 'description', name: 'Description/Remark' },
                     { data: 'status', name: 'Status' },
-                    { data: 'created_by', name: 'Created By' },
+                    { data: 'creator_name', name: 'Created By' },
                     { data: 'created_at', name: 'Created At' },
-                    { data: 'updated_by', name: 'Last Updated By' },
+                    { data: 'updater_name', name: 'Last Updated By' },
                     { data: 'updated_at', name: 'Last Updated At' },
                     { data: 'action', name: 'Action', orderable: false },
                 ]
@@ -29,18 +29,18 @@
                 $('#inputForm').attr('action', '/qualityassurance/document-type');
                 $('#saveBtn').val("create");
                 $('#inputForm').trigger("reset");                
-                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                $('[class^="invalid-feedback-"]').html('');
                 $('#inputModal').modal('show');
                 $("input[value='patch']").remove();
             });
 
             table.on('click', '.editBtn', function () {
                 $('#modalTitle').html("Edit Document Type");
-                $('#inputForm').attr('action', '/qualityassurance/document-type/' + data.id);
                 $('#inputForm').trigger("reset");                
                 rowId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = table.row(tr).data();
+                $('#inputForm').attr('action', '/qualityassurance/document-type/' + data.id);
 
                 $('<input>').attr({
                     type: 'hidden',
@@ -121,7 +121,7 @@
                         ).attr("content")
                     },
                     url: url_action,
-                    type: "DELETE", //bisa method
+                    type: "DELETE",
                     beforeSend:function(){
                         $('#delete-button').text('Deleting...');
                         $('#delete-button').prop('disabled', true);

@@ -19,6 +19,8 @@ class Skill extends Model
         'code',
         'name',
         'description',
-        'status'
+        'status',
+        'created_by',
+        'updated_by',
     ];
 }

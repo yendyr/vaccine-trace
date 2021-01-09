@@ -34,9 +34,15 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Active</label>
-                        <div class="col-sm-7">        
-                            <input type="checkbox" class="js-switch form-control @error('status') is-invalid @enderror" name="status" id="status" />
-                            <div class="invalid-feedback-status"></div>
+                        <div class="col-sm-7">     
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -52,10 +58,3 @@
         </div>
     </div>
 </div>
-
-@push('footer-scripts')
-<script>
-    var elem = document.querySelector('.js-switch');
-    var switchery = new Switchery(elem, { color: '#1AB394' });
-</script>
-@endpush
