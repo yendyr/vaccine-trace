@@ -44,8 +44,7 @@
                 </div>
             </div>            
 
-            @component('components.toast')                    
-            @endcomponent
+            @include('components.toast.toast')
         </div>
     </div>
 

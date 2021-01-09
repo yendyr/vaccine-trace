@@ -107,7 +107,7 @@ class SkillController extends Controller
     public function update(Request $request, Skill $Skill)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:skills,code'],
+            'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -118,14 +118,27 @@ class SkillController extends Controller
             $status = 0;
         }
 
-        Skill::where('id', $Skill->id)
-            ->update([
-                'code' => $request->code,
-                'name' => $request->name,
-                'description' => $request->description,
-                'status' => $status,
-                'updated_by' => $request->user()->id,
-        ]);
+        $currentRow = Skill::where('id', $Skill->id)->first();
+        if ( $currentRow->code == $request->code) {
+            $currentRow
+                ->update([
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]);
+        }
+        else {
+            $currentRow
+                ->update([
+                    'code' => $request->code,
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]);
+        }
+
         return response()->json(['success' => 'Skill Data has been Updated']);
     
     }

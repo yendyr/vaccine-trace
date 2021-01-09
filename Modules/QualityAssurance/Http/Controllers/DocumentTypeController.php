@@ -81,7 +81,7 @@ class DocumentTypeController extends Controller
             $status = 0;
         }
 
-        Skill::create([
+        DocumentType::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
@@ -107,7 +107,7 @@ class DocumentTypeController extends Controller
     public function update(Request $request, DocumentType $DocumentType)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:document_types,code'],
+            'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -118,14 +118,26 @@ class DocumentTypeController extends Controller
             $status = 0;
         }
 
-        Skill::where('id', $Skill->id)
-            ->update([
-                'code' => $request->code,
-                'name' => $request->name,
-                'description' => $request->description,
-                'status' => $status,
-                'updated_by' => $request->user()->id,
-        ]);
+        $currentRow = DocumentType::where('id', $DocumentType->id)->first();
+        if ( $currentRow->code == $request->code) {
+            $currentRow
+                ->update([
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]);
+        }
+        else {
+            $currentRow
+                ->update([
+                    'code' => $request->code,
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]);
+        }
         return response()->json(['success' => 'Document Type Data has been Updated']);
     
     }

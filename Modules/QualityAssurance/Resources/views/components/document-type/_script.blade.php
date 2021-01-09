@@ -1,7 +1,9 @@
+@include('components.toast.script-generate')
+
 @push('footer-scripts')
     <script>
         $(document).ready(function () {
-            var documentTypeId;
+            var rowId;
 
             var table = $('#document-type-table').DataTable({
                 processing: true,
@@ -22,20 +24,21 @@
                 ]
             });
 
-            $('#createDocumentType').click(function () {
-                $('#saveBtn').val("create-document-type");
-                $('#documentTypeForm').trigger("reset");
+            $('#create').click(function () {
                 $('#modalTitle').html("Create New Document Type");
+                $('#inputForm').attr('action', '/qualityassurance/document-type');
+                $('#saveBtn').val("create");
+                $('#inputForm').trigger("reset");                
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#documentTypeModal').modal('show');
-                $('#documentTypeForm').attr('action', '/qualityassurance/document-type');
+                $('#inputModal').modal('show');
                 $("input[value='patch']").remove();
             });
 
             table.on('click', '.editBtn', function () {
-                $('#documentTypeForm').trigger("reset");
                 $('#modalTitle').html("Edit Document Type");
-                documentTypeId= $(this).val();
+                $('#inputForm').attr('action', '/qualityassurance/document-type/' + data.id);
+                $('#inputForm').trigger("reset");                
+                rowId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = table.row(tr).data();
 
@@ -43,7 +46,7 @@
                     type: 'hidden',
                     name: '_method',
                     value: 'patch'
-                }).prependTo('#documentTypeForm');
+                }).prependTo('#inputForm');
 
                 $('#code').val(data.code);
                 $('#name').val(data.name);
@@ -55,14 +58,12 @@
                     $('#status').prop('checked', false);
                 }
 
-                $('#saveBtn').val("edit-document-type");
-                $('#documentTypeForm').attr('action', '/qualityassurance/document-type/' + data.id);
-
+                $('#saveBtn').val("edit");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#documentTypeModal').modal('show');
+                $('#inputModal').modal('show');
             });
 
-            $('#documentTypeForm').on('submit', function (event) {
+            $('#inputForm').on('submit', function (event) {
                 event.preventDefault();
                 let url_action = $(this).attr('action');
                 $.ajax({
@@ -91,10 +92,9 @@
                     },
                     success: function (data) {
                         if (data.success) {
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
-                            $('#form_result').html(data.success);
+                            generateToast ('success', data.success);                            
                         }
-                        $('#documentTypeModal').modal('hide');
+                        $('#inputModal').modal('hide');
                         $('#document-type-table').DataTable().ajax.reload();
                     },
                     complete: function () {
@@ -106,9 +106,9 @@
             });
 
             table.on('click', '.deleteBtn', function () {
-                documentTypeId = $(this).val();
+                rowId = $(this).val();
                 $('#deleteModal').modal('show');
-                $('#delete-form').attr('action', "/qualityassurance/document-type/"+ documentTypeId);
+                $('#delete-form').attr('action', "/qualityassurance/document-type/"+ rowId);
             });
 
             $('#delete-form').on('submit', function (e) {
@@ -128,14 +128,12 @@
                     },
                     error: function(data){
                         if (data.error) {
-                            $('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
-                            $('#form_result').html(data.error);
+                            generateToast ('error', data.error);
                         }
                     },
                     success:function(data){
                         if (data.success){
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
-                            $('#form_result').html(data.success);
+                            generateToast ('success', data.success);
                         }
                     },
                     complete: function(data) {

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="documentTypeModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form method="post" id="documentTypeForm">
+            <form method="post" id="inputForm">
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Code</label>

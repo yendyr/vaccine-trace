@@ -17,7 +17,9 @@
             </div>
             <div class="ibox-content">
 
-                {{ $tableContent ?? '' }}
+                <div class="table-responsive">
+                    {{ $tableContent ?? '' }}
+                </div>
 
                 {{ $modals ?? '' }}
                 

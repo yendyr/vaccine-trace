@@ -1,7 +1,9 @@
+@include('components.toast.script-generate')
+
 @push('footer-scripts')
     <script>
         $(document).ready(function () {
-            var skillId;
+            var rowId;
 
             var table = $('#skill-table').DataTable({
                 processing: true,
@@ -22,20 +24,21 @@
                 ]
             });
 
-            $('#createSkill').click(function () {
-                $('#saveBtn').val("create-skill");
-                $('#skillForm').trigger("reset");
+            $('#create').click(function () {
                 $('#modalTitle').html("Create New Skill");
+                $('#inputForm').attr('action', '/qualityassurance/skill');
+                $('#saveBtn').val("create");
+                $('#inputForm').trigger("reset");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#skillModal').modal('show');
-                $('#skillForm').attr('action', '/qualityassurance/skill');
+                $('#inputModal').modal('show');                
                 $("input[value='patch']").remove();
             });
 
             table.on('click', '.editBtn', function () {
-                $('#skillForm').trigger("reset");
+                $('#inputForm').attr('action', '/qualityassurance/skill/' + data.id);
                 $('#modalTitle').html("Edit Skill");
-                skillId= $(this).val();
+                $('#inputForm').trigger("reset");                
+                rowId= $(this).val();
                 let tr = $(this).closest('tr');
                 let data = table.row(tr).data();
 
@@ -43,7 +46,7 @@
                     type: 'hidden',
                     name: '_method',
                     value: 'patch'
-                }).prependTo('#skillForm');
+                }).prependTo('#inputForm');
 
                 $('#code').val(data.code);
                 $('#name').val(data.name);
@@ -55,14 +58,12 @@
                     $('#status').prop('checked', false);
                 }
 
-                $('#saveBtn').val("edit-skill");
-                $('#skillForm').attr('action', '/qualityassurance/skill/' + data.id);
-
-                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#skillModal').modal('show');
+                $('#saveBtn').val("edit");
+                $('[class^="invalid-feedback-"]').html('');
+                $('#inputModal').modal('show');
             });
 
-            $('#skillForm').on('submit', function (event) {
+            $('#inputForm').on('submit', function (event) {
                 event.preventDefault();
                 let url_action = $(this).attr('action');
                 $.ajax({
@@ -91,11 +92,9 @@
                     },
                     success: function (data) {
                         if (data.success) {
-                            $('#notifTitle').append("Success");
-                            $('#notifMessage').append(data.success);
-                            $('.notif').toast('show');                            
+                            generateToast ('success', data.success);                            
                         }
-                        $('#skillModal').modal('hide');
+                        $('#inputModal').modal('hide');
                         $('#skill-table').DataTable().ajax.reload();
                     },
                     complete: function () {
@@ -107,9 +106,9 @@
             });
 
             table.on('click', '.deleteBtn', function () {
-                skillId = $(this).val();
+                rowId = $(this).val();
                 $('#deleteModal').modal('show');
-                $('#delete-form').attr('action', "/qualityassurance/skill/"+ skillId);
+                $('#delete-form').attr('action', "/qualityassurance/skill/"+ rowId);
             });
 
             $('#delete-form').on('submit', function (e) {
@@ -129,14 +128,12 @@
                     },
                     error: function(data){
                         if (data.error) {
-                            $('#form_result').attr('class', 'alert alert-danger alert-dismissable fade show font-weight-bold');
-                            $('#form_result').html(data.error);
+                            generateToast ('error', data.error);
                         }
                     },
                     success:function(data){
                         if (data.success){
-                            $('#form_result').attr('class', 'alert alert-success alert-dismissable fade show font-weight-bold');
-                            $('#form_result').html(data.success);
+                            generateToast ('success', data.success);
                         }
                     },
                     complete: function(data) {
