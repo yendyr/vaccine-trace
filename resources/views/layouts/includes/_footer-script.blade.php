@@ -1,7 +1,7 @@
 <!-- Mainly scripts -->
 <script src="{{URL::asset('theme/js/jquery-3.1.1.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/popper.min.js')}}"></script>
-<script src="{{URL::asset('theme/js/bootstrap.js')}}"></script>
+<script src="{{URL::asset('theme/js/bootstrap.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
 <script src="{{URL::asset('theme/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 
@@ -14,9 +14,6 @@
 
 <!-- Sweet Alert -->
 <script src="{{URL::asset('theme/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
-
-{{-- <!-- Toastr Alert -->
-<script src="{{URL::asset('theme/js/plugins/toastr/toastr.min.js')}}"></script> --}}
 
 <!-- Switchery -->
 <script src="{{URL::asset('theme/js/plugins/switchery/switchery.js')}}"></script>

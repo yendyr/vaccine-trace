@@ -15,9 +15,7 @@
             @endcan
         @endslot
 
-        @slot('tableContent')
-            {{-- <div id="form_result" role="alert"></div> --}}
-            
+        @slot('tableContent')            
             <div class="table-responsive">
                 <table id="skill-table" class="table table-hover table-striped text-center">
                     <thead>
@@ -47,6 +45,9 @@
 
 @endsection
 
+@push('header-scripts')
+    @include('layouts.includes._header-datatable-script')
+@endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
 @endpush

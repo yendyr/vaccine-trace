@@ -10,9 +10,6 @@
 <!-- Ladda style -->
 <link href="{{URL::asset('theme/css/plugins/ladda/ladda-themeless.min.css')}}" rel="stylesheet">
 
-<!-- DataTable -->
-<link href="{{URL::asset('theme/css/plugins/dataTables/datatables.min.css')}}" rel="stylesheet">
-
 <!-- Select2 -->
 <link href="{{URL::asset('theme/css/plugins/select2/select2.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/css/plugins/select2/select2-bootstrap4.min.css')}}" rel="stylesheet">

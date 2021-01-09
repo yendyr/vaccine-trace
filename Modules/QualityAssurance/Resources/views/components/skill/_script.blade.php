@@ -93,8 +93,7 @@
                         if (data.success) {
                             $('#notifTitle').append("Success");
                             $('#notifMessage').append(data.success);
-                            $('.notif').toast('show');
-                            // $('#form_result').html(data.success);                            
+                            $('.notif').toast('show');                            
                         }
                         $('#skillModal').modal('hide');
                         $('#skill-table').DataTable().ajax.reload();
