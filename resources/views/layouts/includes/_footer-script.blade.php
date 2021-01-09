@@ -15,8 +15,8 @@
 <!-- Sweet Alert -->
 <script src="{{URL::asset('theme/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
 
-<!-- Toastr Alert -->
-<script src="{{URL::asset('theme/js/plugins/toastr/toastr.min.js')}}"></script>
+{{-- <!-- Toastr Alert -->
+<script src="{{URL::asset('theme/js/plugins/toastr/toastr.min.js')}}"></script> --}}
 
 <!-- Switchery -->
 <script src="{{URL::asset('theme/js/plugins/switchery/switchery.js')}}"></script>
@@ -28,17 +28,3 @@
 
 <!-- Select2 -->
 <script src="{{URL::asset('theme/js/plugins/select2/select2.full.min.js')}}"></script>
-
-<script>
-    $(window).bind("scroll", function () {
-        let toast = $('.toast');
-        toast.css("top", window.pageYOffset + 20);
-    });
-
-    $(document).ready(function () {
-        // Add slimscroll to element
-        $('.scroll_content').slimscroll({
-            height: '200px'
-        })
-    });
-</script>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +13,6 @@
     {{-- jika ada tambahan custom script pada header --}}
     @stack('header-scripts')
 </head>
-
 <body>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
@@ -30,24 +28,24 @@
 
             {{-- membaca request http sesuai route --}}
             @if (Request::is('dashboard'))
-            @yield('content')
-            @else
-            @yield('page-heading')
-
-            @include('components.breadcrumb')
-            <div class="wrapper wrapper-content animated fadeInRight">
                 @yield('content')
-            </div>
+            @else
+                @yield('page-heading')
+
+                @include('components.breadcrumb')
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    @yield('content')
+                </div>
             @endif
 
             <div class="footer">
-                <!-- <div class="float-right">
-                    10GB of <strong>250GB</strong> Free.
-                </div> -->
                 <div>
-                    <strong>Copyright</strong> SmartAircraft.ID &copy; {{date('Y')}}
+                    <strong>Copyright</strong> SmartAircraft.ID &copy; {{ date('Y') }}
                 </div>
-            </div>
+            </div>            
+
+            @component('components.toast')                    
+            @endcomponent
         </div>
     </div>
 
@@ -65,5 +63,4 @@
     {{-- jika ada tambahan custom script pada footer --}}
     @stack('footer-scripts')
 </body>
-
 </html>
