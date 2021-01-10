@@ -15,21 +15,21 @@
                         <label class="col-sm-5 d-flex align-items-center">Code</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code">                            
-                            <div class="text-danger invalid-feedback-code"></div>                            
+                            <div class="invalid-feedback-code text-danger font-italic"></div>                            
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Document Type Name</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
-                            <div class="invalid-feedback-name"></div>
+                            <div class="invalid-feedback-name text-danger font-italic"></div>
                         </div>
                     </div>            
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
-                            <div class="invalid-feedback-description"></div>
+                            <div class="invalid-feedback-description text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -41,7 +41,7 @@
                                     <i class="icon fa fa-check"></i>
                                     <label></label>
                                 </div>
-                                <div class="invalid-feedback-status"></div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
                             </div>
                         </div>
                     </div>
