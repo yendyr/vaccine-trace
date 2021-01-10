@@ -17,7 +17,7 @@
             </div>
             <div class="ibox-content">
                 <div class="table-responsive">
-                    <table id="{{ $tableId ?? '' }}" class="table table-hover table-striped text-center" style="width:100%">
+                    <table id="{{ $tableId ?? '' }}" class="table table-hover table-striped text-center" style="width:100%" data-ajaxsource="{{ $ajaxSource ?? '' }}">
                         <thead>
                             <tr>
                                 {{ $tableContent ?? '' }}

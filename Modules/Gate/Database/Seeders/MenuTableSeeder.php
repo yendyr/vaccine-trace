@@ -712,13 +712,13 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => 'qualityassurance/skill-level',
-            'menu_text' => 'Master Skill Leveling',
+            'menu_link' => 'qualityassurance/engineering-level',
+            'menu_text' => 'Master Engineering Leveling',
             'menu_route' => null,
             'menu_icon' => 'fa-signal',
-            'menu_class' => 'Modules\QualityAssurance\Entities\SkillLevel',
+            'menu_class' => 'Modules\QualityAssurance\Entities\EngineeringLevel',
             'menu_id' => null,
-            'menu_actives' => json_encode(['qualityassurance/skill-level', 'qualityassurance/skill-level/*']),
+            'menu_actives' => json_encode(['qualityassurance/engineering-level', 'qualityassurance/engineering-level/*']),
             'group' => 'Quality Assurance',
             'add' => 1,
             'update' => 1,

@@ -213,3 +213,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
+.select2-search--dropdown .select2-search__field {
+    border: 1px solid #b3e2ff;
+}
