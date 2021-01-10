@@ -12,8 +12,11 @@
 */
 Route::name('ppc.')->group(function () {
     Route::prefix('ppc')->group(function() {
-        Route::resource('/taskcard-type', 'TaskcardController');
-        // Route::resource('/document-type', 'DocumentTypeController');
-        // Route::resource('/engineering-level', 'EngineeringLevelController');
+        Route::resource('/taskcard-type', 'TaskcardTypeController');
+        Route::resource('/taskcard-group', 'TaskcardGroupController');
+
+        Route::name('taskcard-group.')->group(function() {
+            Route::get('ppc/taskcard-group/select2/parent', 'TaskcardGroupController@select2Parent')->name('select2.parent');
+        });
     });
 }); 

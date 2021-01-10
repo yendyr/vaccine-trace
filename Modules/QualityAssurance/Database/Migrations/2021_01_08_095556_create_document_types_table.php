@@ -18,7 +18,7 @@ class CreateDocumentTypesTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('code')->unique();
             $table->string('name')->nullable();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->rememberToken();
 
             $table->integer('status')->nullable();

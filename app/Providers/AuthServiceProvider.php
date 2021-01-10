@@ -53,6 +53,9 @@ use Modules\HumanResources\Policies\WorkingHourPolicy;
 use Modules\PPC\Policies\TaskcardTypePolicy;
 use Modules\PPC\Entities\TaskcardType;
 
+use Modules\PPC\Policies\TaskcardGroupPolicy;
+use Modules\PPC\Entities\TaskcardGroup;
+
 use Modules\QualityAssurance\Policies\SkillPolicy;
 use Modules\QualityAssurance\Entities\Skill;
 
@@ -96,11 +99,10 @@ class AuthServiceProvider extends ServiceProvider
         Request::class => RequestPolicy::class,
 
         TaskcardType::class => TaskcardTypePolicy::class,
+        TaskcardGroup::class => TaskcardGroupPolicy::class,
         
         Skill::class => SkillPolicy::class,
-
         DocumentType::class => DocumentTypePolicy::class,
-
         EngineeringLevel::class => EngineeringLevelPolicy::class,
     ];
 

@@ -19,7 +19,7 @@ class CreateEngineeringLevelsTable extends Migration
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->tinyInteger('sequence_level')->nullable();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->rememberToken();
 
             $table->integer('status')->nullable();
