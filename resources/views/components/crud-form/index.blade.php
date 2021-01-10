@@ -16,9 +16,19 @@
                 </div>
             </div>
             <div class="ibox-content">
-
                 <div class="table-responsive">
-                    {{ $tableContent ?? '' }}
+                    <table id="{{ $tableId ?? '' }}" class="table table-hover table-striped text-center" style="width:100%">
+                        <thead>
+                            <tr>
+                                {{ $tableContent ?? '' }}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr></tr>
+                        </tfoot>
+                    </table>
                 </div>
 
                 {{ $modals ?? '' }}

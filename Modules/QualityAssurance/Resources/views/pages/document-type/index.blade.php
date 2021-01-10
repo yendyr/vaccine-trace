@@ -6,7 +6,10 @@
 
     @include('qualityassurance::pages.document-type.modal')
 
-    @component('components.crud-form.index', ['title' => 'Document Type Datalist']) 
+    @component('components.crud-form.index',[
+                    'title' => 'Document Type Datalist',
+                    'tableId' => 'document-type-table'])
+
         @slot('createButton')
             @can('create', Modules\QualityAssurance\Entities\DocumentType::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
@@ -16,26 +19,15 @@
         @endslot    
 
         @slot('tableContent')
-            <table id="document-type-table" class="table table-hover table-striped text-center" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Document Type Name</th>
-                        <th>Description/Remark</th>
-                        <th>Status</th>
-                        <th>Created By</th>
-                        <th>Created At</th>
-                        <th>Last Updated By</th>
-                        <th>Last Updated At</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                    <tr></tr>
-                </tfoot>
-            </table>
+            <th>Code</th>
+            <th>Document Type Name</th>
+            <th>Description/Remark</th>
+            <th>Status</th>
+            <th>Created By</th>
+            <th>Created At</th>
+            <th>Last Updated By</th>
+            <th>Last Updated At</th>
+            <th>Action</th>
         @endslot
     @endcomponent
 

@@ -6,7 +6,10 @@
 
     @include('qualityassurance::pages.skill.modal')
 
-    @component('components.crud-form.index', ['title' => 'Skill Datalist'])
+    @component('components.crud-form.index',[
+                    'title' => 'Skill Datalist',
+                    'tableId' => 'skill-table'])
+
         @slot('createButton')
             @can('create', Modules\QualityAssurance\Entities\Skill::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
@@ -15,27 +18,16 @@
             @endcan
         @endslot
 
-        @slot('tableContent')            
-            <table id="skill-table" class="table table-hover table-striped text-center" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Skill Name</th>
-                        <th>Description/Remark</th>
-                        <th>Status</th>
-                        <th>Created By</th>
-                        <th>Created At</th>
-                        <th>Last Updated By</th>
-                        <th>Last Updated At</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                    <tr></tr>
-                </tfoot>
-            </table>
+        @slot('tableContent') 
+            <th>Code</th>
+            <th>Skill Name</th>
+            <th>Description/Remark</th>
+            <th>Status</th>
+            <th>Created By</th>
+            <th>Created At</th>
+            <th>Last Updated By</th>
+            <th>Last Updated At</th>
+            <th>Action</th>
         @endslot
     @endcomponent
 
