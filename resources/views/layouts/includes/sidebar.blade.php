@@ -13,14 +13,9 @@
 
                     <input onchange="getPict(this)" style="display: none;" id="file-input" type="file" name="upload_img"/>
                 </div>
-
-                {{-- <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
-                    <span class="block m-t-xs font-bold">David Williams</span>
-                    <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
-                </a> --}}
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
                     <span class="block m-t-xs font-bold">{{ Auth::user()->username }}</span>
-                    <span class="text-xs text-muted">{{ Auth::user()->name }}<b class="caret"></b></span>
+                    <span><small>{{ Auth::user()->name }}</small><b class="caret"></b></span>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
                     <li><a class="dropdown-item" href="#">Profile</a></li>

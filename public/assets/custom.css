@@ -217,3 +217,12 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .select2-search--dropdown .select2-search__field {
     border: 1px solid #b3e2ff;
 }
+
+.nav-header {
+    padding: 15px;
+}
+
+.dropdown-menu > li > a:hover {
+    color: #ffffff;
+    background-color: #009688;
+}

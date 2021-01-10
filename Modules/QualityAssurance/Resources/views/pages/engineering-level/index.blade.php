@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Engineering Level Datalist'])
+    @component('components.delete-modal', ['name' => 'Engineering Leveling Datalist'])
     @endcomponent
 
     @include('qualityassurance::pages.engineering-level.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Engineering Level Datalist',
+                    'title' => 'Engineering Leveling Datalist',
                     'tableId' => 'engineering-level-table'])
 
         @slot('createButton')
@@ -20,7 +20,7 @@
 
         @slot('tableContent')
             <th>Code</th>
-            <th>Engineering Level Name</th>
+            <th>Engineering Leveling Name</th>
             <th>Sequence Level</th>
             <th>Description/Remark</th>
             <th>Status</th>
