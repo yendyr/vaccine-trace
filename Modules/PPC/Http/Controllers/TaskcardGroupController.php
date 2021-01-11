@@ -25,7 +25,7 @@ class TaskcardGroupController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = TaskcardGroup::with(['taskcard_group:id,name']);;
+            $data = TaskcardGroup::with(['taskcard_group:id,name'])->where('status', 1);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -65,7 +65,11 @@ class TaskcardGroupController extends Controller
                 ->make(true);
         }
 
-        return view('ppc::pages.taskcard-group.index');
+        $parentGroup = TaskcardGroup::where('parent_id', 0)
+                                    ->where('status', 1)                
+                                    ->get();
+
+        return view('ppc::pages.taskcard-group.index', compact('parentGroup'));
     }
 
     public function create()

@@ -19,7 +19,7 @@ class CreateTaskcardGroupsTable extends Migration
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
-            $table->integer('parent_id')->nullable();
+            $table->integer('parent_id')->default(0);
             $table->rememberToken();
 
             $table->integer('status')->nullable();
