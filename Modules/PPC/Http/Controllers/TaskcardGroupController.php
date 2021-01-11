@@ -25,7 +25,7 @@ class TaskcardGroupController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = TaskcardGroup::with(['taskcard_group:id,name']);
+            $data = TaskcardGroup::all();
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -76,7 +76,7 @@ class TaskcardGroupController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:taskcard_types,code'],
+            'code' => ['required', 'max:30', 'unique:taskcard_groups,code'],
             'name' => ['required', 'max:30'],
         ]);
 
