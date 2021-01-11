@@ -129,6 +129,10 @@ class TaskcardGroupController extends Controller
             $status = 0;
         }
 
+        if ($request->select2_parent_name == null || $request->select2_parent_name == 'null' || $request->select2_parent_name == '0') {
+            $request->select2_parent_name = null;
+        }
+
         $currentRow = TaskcardGroup::where('id', $TaskcardGroup->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
