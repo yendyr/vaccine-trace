@@ -11,7 +11,7 @@
         var datatableObject = $(tableId).DataTable({
             pageLength: 25,
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: {
                 url: "{{ route('generalsetting.country.index') }}",
             },
@@ -50,8 +50,12 @@
                 value: 'patch'
             }).prependTo('#inputForm');
 
-            $('#code').val(data.code);
+            $('#iso').val(data.iso);
+            $('#iso3').val(data.iso3);
             $('#name').val(data.name);
+            $('#nice_name').val(data.nicename);
+            $('#num_code').val(data.numcode);
+            $('#phone_code').val(data.phonecode);
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);

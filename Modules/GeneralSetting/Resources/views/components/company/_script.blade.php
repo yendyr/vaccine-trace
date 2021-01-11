@@ -4,8 +4,8 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/ppc/taskcard-zone/';
-        var tableId = '#taskcard-zone-table';
+        var actionUrl = '/generalsetting/company/';
+        var tableId = '#company-table';
         var inputFormId = '#inputForm';
 
         var datatableObject = $(tableId).DataTable({
@@ -13,27 +13,29 @@
             processing: true,
             serverSide: false,
             ajax: {
-                url: "{{ route('ppc.taskcard-zone.index') }}",
+                url: "{{ route('generalsetting.company.index') }}",
             },
             columns: [
-                { data: 'code', name: 'Code'  },
-                { data: 'name', name: 'Task Card Zone Name' },
-                { data: 'description', name: 'Description/Remark' },
-                { data: 'status', name: 'Status' },
-                { data: 'creator_name', name: 'Created By' },
-                { data: 'created_at', name: 'Created At' },
-                { data: 'updater_name', name: 'Last Updated By' },
-                { data: 'updated_at', name: 'Last Updated At' },
+                { data: 'code', name: 'Code', defaultContent: '-' },
+                { data: 'name', name: 'Name', defaultContent: '-' },
+                { data: 'gst_number', name: 'GST Number', defaultContent: '-' },
+                { data: 'npwp_number', name: 'NPWP', defaultContent: '-' },
+                { data: 'description', name: 'Description/Remark', defaultContent: '-' },
+                { data: 'status', name: 'Status', defaultContent: '-' },
+                { data: 'creator_name', name: 'Created By', defaultContent: '-' },
+                { data: 'created_at', name: 'Created At', defaultContent: '-' },
+                { data: 'updater_name', name: 'Last Updated By', defaultContent: '-' },
+                { data: 'updated_at', name: 'Last Updated At', defaultContent: '-' },
                 { data: 'action', name: 'Action', orderable: false },
             ]
         });
 
         $('#create').click(function () {
-            showCreateModal ('Create New Task Card Zone', inputFormId, actionUrl);
+            showCreateModal ('Create New Company', inputFormId, actionUrl);
         });
 
         datatableObject.on('click', '.editBtn', function () {
-            $('#modalTitle').html("Edit Task Card Zone");
+            $('#modalTitle').html("Edit Company");
             $(inputFormId).trigger("reset");                
             rowId= $(this).val();
             let tr = $(this).closest('tr');
@@ -46,8 +48,12 @@
                 value: 'patch'
             }).prependTo('#inputForm');
 
-            $('#code').val(data.code);
+            $('#iso').val(data.iso);
+            $('#iso3').val(data.iso3);
             $('#name').val(data.name);
+            $('#nice_name').val(data.nicename);
+            $('#num_code').val(data.numcode);
+            $('#phone_code').val(data.phonecode);
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);

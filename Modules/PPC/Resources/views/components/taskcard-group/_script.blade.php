@@ -11,7 +11,7 @@
         var datatableObject = $(tableId).DataTable({
             pageLength: 25,
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: {
                 url: "{{ route('ppc.taskcard-group.index') }}",
             },

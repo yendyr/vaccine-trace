@@ -60,27 +60,6 @@ class MenusTableSeeder extends Seeder
         ]);
         
         $menu = Menu::create([
-            'menu_link' => 'gate/company',
-            'menu_text' => 'Company',
-            'menu_route' => 'gate.company.index',
-            'menu_icon' => 'fa-building-o',
-            'menu_class' => 'Modules\Gate\Entities\Company',
-            'menu_id' => null,
-            'menu_actives' => json_encode(['gate/company', 'gate/company/*']),
-            'group' => 'Gate',
-            'add' => 1,
-            'update' => 1,
-            'delete' => 0,
-            'print' => 0,
-            'approval' => 0,
-            'process' => 0,
-            'owned_by' => 0,
-            'status' => 1,
-            'uuid' => Str::uuid(),
-            'parent_id' => $toolsMenu->id
-        ]);
-        
-        $menu = Menu::create([
             'menu_link' => 'gate/role',
             'menu_text' => 'Role',
             'menu_route' => 'gate.role.index',
@@ -804,6 +783,27 @@ class MenusTableSeeder extends Seeder
             'menu_class' => 'Modules\GeneralSetting\Entities\Country',
             'menu_id' => null,
             'menu_actives' => json_encode(['generalsetting/country', 'generalsetting/country/*']),
+            'group' => 'General Setting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'generalsetting/company',
+            'menu_text' => 'Master Company',
+            'menu_route' => 'generalsetting.company.index',
+            'menu_icon' => 'fa-building',
+            'menu_class' => 'Modules\GeneralSetting\Entities\Company',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['generalsetting/company', 'generalsetting/company/*']),
             'group' => 'General Setting',
             'add' => 1,
             'update' => 1,

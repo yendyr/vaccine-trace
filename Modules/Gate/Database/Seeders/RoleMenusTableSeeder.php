@@ -33,20 +33,7 @@ class RoleMenusTableSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $rolemenu = RoleMenu::create([
-            'menu_id' => 3,
-            'role_id' => 1,
-            'menu_link' => 'gate/company',
-            'add' => 1,
-            'update' => 1,
-            'delete' => 1,
-            'print' => 0,
-            'approval' => json_encode(0),
-            'process' => json_encode(0),
-            'owned_by' => 0,
-            'status' => 1,
-            'uuid' => Str::uuid(),
-        ]);
+        
         $rolemenu = RoleMenu::create([
             'menu_id' => 4,
             'role_id' => 1,
@@ -97,20 +84,6 @@ class RoleMenusTableSeeder extends Seeder
             'menu_id' => 2,
             'role_id' => 2,
             'menu_link' => 'gate/user',
-            'add' => 0,
-            'update' => 0,
-            'delete' => 0,
-            'print' => 0,
-            'approval' => json_encode(0),
-            'process' => json_encode(0),
-            'owned_by' => 0,
-            'status' => 1,
-            'uuid' => Str::uuid(),
-        ]);
-        $rolemenu = RoleMenu::create([
-            'menu_id' => 3,
-            'role_id' => 2,
-            'menu_link' => 'gate/company',
             'add' => 0,
             'update' => 0,
             'delete' => 0,

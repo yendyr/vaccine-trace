@@ -1,17 +1,17 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Company Datalist'])
+    @component('components.delete-modal', ['name' => 'Country Datalist'])
     @endcomponent
 
-    @include('generalsetting::pages.company.modal')
+    @include('generalsetting::pages.country.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Company Datalist',
-                    'tableId' => 'company-table'])
+                    'title' => 'Country Datalist',
+                    'tableId' => 'country-table'])
 
         @slot('createButton')
-            @can('create', Modules\GeneralSetting\Entities\Company::class)                
+            @can('create', Modules\GeneralSetting\Entities\Country::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   
@@ -19,10 +19,12 @@
         @endslot    
 
         @slot('tableContent')
-            <th>Code</th>
+            <th>ISO</th>
+            <th>ISO-3</th>
             <th>Name</th>
-            <th>GST Number</th>
-            <th>NPWP</th>
+            <th>Nice Name</th>
+            <th>Num. Code</th>
+            <th>Phone Code</th>
             <th>Description/Remark</th>
             <th>Status</th>
             <th>Created By</th>

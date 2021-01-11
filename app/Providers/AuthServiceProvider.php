@@ -5,18 +5,20 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+
 use Modules\Examples\Entities\Example;
 use Modules\Examples\Policies\ExamplePolicy;
-use Modules\Gate\Entities\Company;
+
 use Modules\Gate\Entities\Menu;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\RoleMenu;
 use Modules\Gate\Entities\User;
-use Modules\Gate\Policies\CompanyPolicy;
+
 use Modules\Gate\Policies\MenuPolicy;
 use Modules\Gate\Policies\RoleMenuPolicy;
 use Modules\Gate\Policies\RolePolicy;
 use Modules\Gate\Policies\UserPolicy;
+
 use Modules\HumanResources\Entities\Address;
 use Modules\HumanResources\Entities\Attendance;
 use Modules\HumanResources\Entities\Education;
@@ -86,6 +88,9 @@ use Modules\QualityAssurance\Entities\EngineeringLevel;
 use Modules\GeneralSetting\Policies\CountryPolicy;
 use Modules\GeneralSetting\Entities\Country;
 
+use Modules\GeneralSetting\Policies\CompanyPolicy;
+use Modules\GeneralSetting\Entities\Company;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -94,7 +99,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Company::class => CompanyPolicy::class,
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
         Menu::class => MenuPolicy::class,
@@ -132,6 +136,7 @@ class AuthServiceProvider extends ServiceProvider
         DocumentType::class => DocumentTypePolicy::class,
         EngineeringLevel::class => EngineeringLevelPolicy::class,
 
+        Company::class => CompanyPolicy::class,
         Country::class => CountryPolicy::class,
     ];
 
