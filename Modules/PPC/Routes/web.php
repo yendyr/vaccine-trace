@@ -24,5 +24,7 @@ Route::name('ppc.')->group(function () {
         Route::resource('/taskcard-zone', 'TaskcardZoneController');
         Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
         Route::resource('/taskcard', 'TaskcardController');
+
+        Route::resource('/aircraft-type', 'AircraftTypeController');
     });
 }); 
