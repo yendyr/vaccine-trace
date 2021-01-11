@@ -175,17 +175,21 @@ class MenuController extends Controller
     public function select2Menu(Request $request)
     {
         $search = $request->q;
-
+        
         $query = Menu::select('id', 'menu_text')->where('status', 1);
         if ($search != '') {
             $query = $query->where('menu_text', 'like', '%' . $search . '%');
         }
-        $menus = $query->get();
+        if($request->page) {
+            $menus = $query->paginate(10, ['*'], 'page');
+        }else{
+            $menus = $query->paginate(10);
+        }
         $response = [];
-
-        foreach ($menus as $menu) {
+        $response["pagination"]["more"] = true;
+        foreach ($menus->items() as $menu) {
             $response['results'][] = [
-                "id" => $menu->id,
+                "id" => $menu->menu_text,
                 "text" => $menu->menu_text
             ];
         }

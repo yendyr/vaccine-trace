@@ -81,7 +81,15 @@
             theme: 'bootstrap4',
             placeholder: 'Choose a menu',
             ajax: {
+                delay: 250,
                 url: "{{route('gate.menu.select2.all')}}",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        page: params.page || 1
+                    }
+                    return query;
+                },
                 dataType: 'json',
             }
         });
@@ -91,7 +99,7 @@
             allowClear: true,
             theme: 'bootstrap4',
             tokenSeparators: [','],
-            placeholder: 'Choose a menu',
+            placeholder: 'Write the classess',
         });
 
         $('#createMenu').click(function() {
@@ -119,35 +127,41 @@
 
             $.each(data, function(index, value) {
                 if ($('#' + index).length > 0) {
-                    if ($('#' + index).hasClass("select2-hidden-accessible")) {
-                        if (isJson(value)) {
-                            // for multiplle value
-                            let values = JSON.parse(value);
-                            if (value !== null && values.length > 0) {
-                                $.each(values, function(index, value) {
-                                    let data = { id: value, text: value };
-                                    if ($('#' + index).find("option[value='" + data.id + "']").length) {
-                                        $('#' + index).val(data.id).trigger('change');
-                                    } else {
-                                        // Create a DOM Option and pre-select by default
-                                        var newOption = new Option(data.text, data.id, true, true);
-                                        // Append it to the select
-                                        console.log(newOption);
-                                        $('#' + index).append(newOption).trigger('change');
-                                    }
-                                });
-
-                            } else {
-                                $('#' + index).select2("val", value);
-                            }
-                        } else {
-                            $('#' + index).select2("val", value);
-                        }
-                    } else {
+                    if($('#' + index).is('input')){
                         $('#' + index).val(value);
+                    }else{
+                        if ( $('#' + index).is('select') ) {
+                            if ($('#' + index).hasClass("select2-hidden-accessible")) {
+                                // select2
+                                if (isJson(value)) {
+                                    // for multiplle value
+                                    let values = JSON.parse(value);
+                                    if (value !== null && values.length > 0) {
+                                        $('#' + index).empty();
+                                        $.each(values, function(key, value) {
+                                            let data = { id: value, text: value };
+                                            if ($('#' + index).find("option[value='" + data.id + "']").length) {
+                                                $('#' + index).val(data.id).trigger('change');
+                                            } else {
+                                                // Create a DOM Option and pre-select by default
+                                                var newOption = new Option(data.text, data.id, true, true);
+                                                // Append it to the select
+                                                $('#' + index).append(newOption).trigger('change');
+                                            }
+                                        });
+
+                                    }
+                                }
+                            }else{
+                                $('#' + index).val(value);
+                            }
+                        }
                     }
                 }
             });
+
+            $("#parent_id").val(null).trigger('change');
+            $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.parent + '</option>');
 
             $('#saveBtn').val("edit-menu");
             $('#menuForm').attr('action', '/gate/menu/' + data.id);
