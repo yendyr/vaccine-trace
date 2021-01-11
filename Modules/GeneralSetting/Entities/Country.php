@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\PPC\Entities;
+namespace Modules\GeneralSetting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AircraftType extends Model
+class Country extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

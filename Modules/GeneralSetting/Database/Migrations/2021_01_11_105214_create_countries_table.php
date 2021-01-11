@@ -24,7 +24,7 @@ class CreateCountriesTable extends Migration
             $table->string('description')->nullable();
 
             $table->rememberToken();
-            $table->integer('status')->nullable();
+            $table->integer('status')->default(1)->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();

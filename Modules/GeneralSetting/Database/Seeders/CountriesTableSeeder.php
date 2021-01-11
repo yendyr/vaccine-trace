@@ -4,8 +4,7 @@ namespace Modules\GeneralSetting\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\GeneralSetting\Entities\Country;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class CountriesTableSeeder extends Seeder
 {

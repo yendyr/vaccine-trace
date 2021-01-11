@@ -16,6 +16,8 @@ class GeneralSettingDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call("CountriesTableSeeder");
+        $this->call([
+            CountriesTableSeeder::class,
+        ]);
     }
 }
