@@ -65,7 +65,7 @@ class TaskcardGroupController extends Controller
                 ->make(true);
         }
 
-        $parentGroup = TaskcardGroup::where('parent_id', 0)
+        $parentGroup = TaskcardGroup::where('parent_id', null)
                                     ->where('status', 1)                
                                     ->get();
 
@@ -177,10 +177,10 @@ class TaskcardGroupController extends Controller
                 "text"=>$TaskcardGroup->name
             ];
         }
-        $response['results'][] = [
-            "id" => 0,
-            "text" => 'none',
-        ];
+        // $response['results'][] = [
+        //     "id" => 0,
+        //     "text" => 'none',
+        // ];
 
         return response()->json($response);
     }

@@ -32,6 +32,7 @@
         $('.select2_parent_name').select2({
                 theme: 'bootstrap4',
                 placeholder: 'Choose Parent',
+                allowClear: true,
                 ajax: {
                     url: "{{ route('ppc.taskcard-group.select2.parent') }}",
                     dataType: 'json',
