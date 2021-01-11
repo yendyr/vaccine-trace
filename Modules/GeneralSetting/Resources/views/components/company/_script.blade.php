@@ -21,6 +21,9 @@
                 { data: 'gst_number', name: 'GST Number', defaultContent: '-' },
                 { data: 'npwp_number', name: 'NPWP', defaultContent: '-' },
                 { data: 'description', name: 'Description/Remark', defaultContent: '-' },
+                { data: 'is_customer', name: 'As Customer', defaultContent: '-' },
+                { data: 'is_supplier', name: 'As Supplier', defaultContent: '-' },
+                { data: 'is_manufacturer', name: 'As Manufacturer', defaultContent: '-' },
                 { data: 'status', name: 'Status', defaultContent: '-' },
                 { data: 'creator_name', name: 'Created By', defaultContent: '-' },
                 { data: 'created_at', name: 'Created At', defaultContent: '-' },
@@ -58,6 +61,24 @@
             }
             else {
                 $('#status').prop('checked', false);
+            }
+            if (data.is_customer == '<label class="label label-success">Yes</label>') {
+                $('#is_customer').prop('checked', true);
+            }
+            else {
+                $('#is_customer').prop('checked', false);
+            }
+            if (data.is_supplier == '<label class="label label-success">Yes</label>') {
+                $('#is_supplier').prop('checked', true);
+            }
+            else {
+                $('#is_supplier').prop('checked', false);
+            }
+            if (data.is_manufacturer == '<label class="label label-success">Yes</label>') {
+                $('#is_manufacturer').prop('checked', true);
+            }
+            else {
+                $('#is_manufacturer').prop('checked', false);
             }
 
             $('#saveBtn').val("edit");

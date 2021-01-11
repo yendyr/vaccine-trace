@@ -22,6 +22,10 @@ class CreateCompaniesTable extends Migration
             $table->string('npwp_number')->nullable();
             $table->string('description')->nullable();
 
+            $table->string('is_customer')->default('1')->nullable();
+            $table->string('is_supplier')->default('1')->nullable();
+            $table->string('is_manufacturer')->default('1')->nullable();
+
             $table->rememberToken();
             $table->integer('status')->default(1)->nullable();
             $table->integer('owned_by')->nullable()->unsigned();

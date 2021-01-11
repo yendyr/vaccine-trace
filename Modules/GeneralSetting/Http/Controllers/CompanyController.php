@@ -34,6 +34,27 @@ class CompanyController extends Controller
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
+                ->addColumn('is_customer', function($row){
+                    if ($row->is_customer == 1){
+                        return '<label class="label label-success">Yes</label>';
+                    } else{
+                        return '<label class="label label-danger">No</label>';
+                    }
+                })
+                ->addColumn('is_supplier', function($row){
+                    if ($row->is_supplier == 1){
+                        return '<label class="label label-success">Yes</label>';
+                    } else{
+                        return '<label class="label label-danger">No</label>';
+                    }
+                })
+                ->addColumn('is_manufacturer', function($row){
+                    if ($row->is_manufacturer == 1){
+                        return '<label class="label label-success">Yes</label>';
+                    } else{
+                        return '<label class="label label-danger">No</label>';
+                    }
+                })
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';
                 })
@@ -86,6 +107,24 @@ class CompanyController extends Controller
         else {
             $status = 0;
         }
+        if ($request->is_customer) {
+            $is_customer = 1;
+        } 
+        else {
+            $is_customer = 0;
+        }
+        if ($request->is_supplier) {
+            $is_supplier = 1;
+        } 
+        else {
+            $is_supplier = 0;
+        }
+        if ($request->is_manufacturer) {
+            $is_manufacturer = 1;
+        } 
+        else {
+            $is_manufacturer = 0;
+        }
 
         Country::create([
             'uuid' => Str::uuid(),
@@ -94,6 +133,9 @@ class CompanyController extends Controller
             'gst_number' => $request->gst_number,
             'npwp_number' => $request->npwp_number,
             'description' => $request->description,
+            'is_customer' => $is_customer,
+            'is_supplier' => $is_supplier,
+            'is_manufacturer' => $is_manufacturer,
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
@@ -125,6 +167,24 @@ class CompanyController extends Controller
         else {
             $status = 0;
         }
+        if ($request->is_customer) {
+            $is_customer = 1;
+        } 
+        else {
+            $is_customer = 0;
+        }
+        if ($request->is_supplier) {
+            $is_supplier = 1;
+        } 
+        else {
+            $is_supplier = 0;
+        }
+        if ($request->is_manufacturer) {
+            $is_manufacturer = 1;
+        } 
+        else {
+            $is_manufacturer = 0;
+        }
 
         $currentRow = Company::where('id', $Company->id)->first();
         $currentRow->update([
@@ -134,6 +194,9 @@ class CompanyController extends Controller
                 'gst_number' => $request->gst_number,
                 'npwp_number' => $request->npwp_number,
                 'description' => $request->description,
+                'is_customer' => $is_customer,
+                'is_supplier' => $is_supplier,
+                'is_manufacturer' => $is_manufacturer,
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
                 'updated_by' => $request->user()->id,

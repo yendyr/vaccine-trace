@@ -24,6 +24,9 @@
             <th>GST Number</th>
             <th>NPWP</th>
             <th>Description/Remark</th>
+            <th>As Customer</th>
+            <th>As Supplier</th>
+            <th>As Vendor</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>
