@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class TaskcardGroup extends Model
+class TaskcardWorkarea extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -19,7 +19,6 @@ class TaskcardGroup extends Model
         'code',
         'name',
         'description',
-        'parent_id',
         'status',
         'created_by',
         'updated_by',
@@ -34,10 +33,5 @@ class TaskcardGroup extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
-    }
-
-    public function taskcard_group()
-    {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
     }
 }

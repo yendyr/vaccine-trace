@@ -23,6 +23,7 @@ class EngineeringLevel extends Model
         'status',
         'created_by',
         'updated_by',
+        'owned_by',
     ];
 
     public function creator()
