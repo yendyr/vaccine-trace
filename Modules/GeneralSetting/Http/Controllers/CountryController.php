@@ -1,0 +1,150 @@
+<?php
+
+namespace Modules\GeneralSetting\Http\Controllers;
+
+use Modules\GeneralSetting\Entities\Country;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
+
+class CountryController extends Controller
+{
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Country::class);
+        $this->middleware('auth');
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Country::all();
+            return Datatables::of($data)
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<label class="label label-success">Active</label>';
+                    } else{
+                        return '<label class="label label-danger">Inactive</label>';
+                    }
+                })
+                ->addColumn('creator_name', function($row){
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function($row){
+                    return $row->updater->name ?? '-';
+                })
+                ->addColumn('action', function($row){
+                    $noAuthorize = true;
+                    if(Auth::user()->can('update', Country::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', Country::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted">Not Authorized</p>';
+                    }
+                    
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+
+        return view('generalsetting::pages.country.index');
+    }
+
+    public function create()
+    {
+        return view('generalsetting::pages.country.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'max:30'],
+        ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
+
+        Country::create([
+            'iso' => $request->iso,
+            'iso3' => $request->iso3,
+            'name' => $request->name,
+            'nicename' => $request->nice_name,
+            'numcode' => $request->num_code,
+            'phonecode' => $request->phone_code,
+            'description' => $request->description,
+            'owned_by' => $request->user()->company_id,
+            'status' => $status,
+            'created_by' => $request->user()->id,
+        ]);
+        return response()->json(['success' => 'Country Data has been Added']);
+    
+    }
+
+    public function show(Country $Country)
+    {
+        return view('generalsetting::pages.country.show');
+    }
+
+    public function edit(Country $Country)
+    {
+        return view('generalsetting::pages.country.edit', compact('Country'));
+    }
+
+    public function update(Request $request, Country $Country)
+    {
+        $request->validate([
+            'name' => ['required', 'max:30'],
+        ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
+
+        $currentRow = Country::where('id', $Country->id)->first();
+        $currentRow->update([
+                'iso' => $request->iso,
+                'iso3' => $request->iso3,
+                'name' => $request->name,
+                'nicename' => $request->nicename,
+                'numcode' => $request->numcode,
+                'phonecode' => $request->phonecode,
+                'description' => $request->description,
+                'status' => $status,
+            ]);
+        
+        return response()->json(['success' => 'Country Data has been Updated']);
+    
+    }
+
+    public function destroy(Country $Country)
+    {
+        Country::destroy($Country->id);
+        return response()->json(['success' => 'Data Deleted Successfully']);
+    }
+
+}

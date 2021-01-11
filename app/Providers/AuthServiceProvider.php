@@ -83,6 +83,9 @@ use Modules\QualityAssurance\Entities\DocumentType;
 use Modules\QualityAssurance\Policies\EngineeringLevelPolicy;
 use Modules\QualityAssurance\Entities\EngineeringLevel;
 
+use Modules\GeneralSetting\Policies\CountryPolicy;
+use Modules\GeneralSetting\Entities\Country;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -128,6 +131,8 @@ class AuthServiceProvider extends ServiceProvider
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
         EngineeringLevel::class => EngineeringLevelPolicy::class,
+
+        Country::class => CountryPolicy::class,
     ];
 
     /**

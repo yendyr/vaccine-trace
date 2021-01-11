@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Menu;
 
-class MenuTableSeeder extends Seeder
+class MenusTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -794,5 +794,29 @@ class MenuTableSeeder extends Seeder
             'parent_id' => null
         ]);
         // ----------- END Create Quality Module Menus ------------------------//
+
+        // ----------- Create General Setting Menus ------------------------//
+        $menu = Menu::create([
+            'menu_link' => 'generalsetting/country',
+            'menu_text' => 'Master Country',
+            'menu_route' => 'generalsetting.country.index',
+            'menu_icon' => 'fa-globe',
+            'menu_class' => 'Modules\GeneralSetting\Entities\Country',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['generalsetting/country', 'generalsetting/country/*']),
+            'group' => 'General Setting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        // ----------- END Create General Setting Menus ------------------------//
     }
 }

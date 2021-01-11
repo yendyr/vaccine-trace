@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Gate\Entities\Company;
 use Illuminate\Support\Str;
 
-class CompanyTableSeeder extends Seeder
+class CompaniesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

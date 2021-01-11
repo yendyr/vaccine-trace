@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Role;
 
-class RoleTableSeeder extends Seeder
+class RolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
