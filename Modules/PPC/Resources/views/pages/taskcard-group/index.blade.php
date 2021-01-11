@@ -4,19 +4,29 @@
 <div class="row">
     <div class="col-lg-3">        
         <span style="font-size: 18px; font-weight: 200;">Current Grouping Structure Tree</span><br>
-        <span style="font-weight: 200;"><i>Refresh Page to Update View</i></span>
-        <br><br><br>
+        <span style="font-weight: 200;">
+            <i class="fa fa-info-circle"></i>
+            <i>Refresh Page to Update View</i>
+        </span>
+        <br><br>
+
         @if ($parentGroup)
+        <div class="dd" id="nestable2">
             @foreach($parentGroup as $taxonomy)
-            <ul>
-                <li>                    
-                    {{ $taxonomy->name }}                    
+            <ol class="dd-list">
+                <li class="dd-item"> 
+                    <button data-action="collapse" type="button" style="">Collapse</button>
+                    <button data-action="expand" type="button" style="display: none;">Expand</button>
+                    <div class="dd-handle">                   
+                        {{ $taxonomy->name }} 
+                    </div>                   
                 </li>
                 @if(count($taxonomy->subGroup))
                     @include('ppc::pages.taskcard-group.sub-group', ['subGroups' => $taxonomy->subGroup])
                 @endif
-            </ul>
+            </ol>
             @endforeach 
+        </div>
         @endif              
     </div>
     <div class="col-lg-9">
@@ -61,4 +71,40 @@
 @endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
+
+    <!-- Nestable Script -->
+    <script src="{{ URL::asset('theme/js/plugins/nestable/jquery.nestable.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+
+        var updateOutput = function (e) {
+            var list = e.length ? e : $(e.target),
+                    output = list.data('output');
+            if (window.JSON) {
+                output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+            } else {
+                output.val('JSON browser support required for this demo.');
+            }
+        };
+        
+        // activate Nestable for list 2
+        // $('#nestable2').nestable({
+        //     group: 1
+        // }).on('change', updateOutput);
+
+        // output initial serialised data
+        // updateOutput($('#nestable2').data('output', $('#nestable2-output')));
+
+        // $('#nestable-menu').on('click', function (e) {
+        //     var target = $(e.target),
+        //             action = target.data('action');
+        //     if (action === 'expand-all') {
+        //         $('.dd').nestable('expandAll');
+        //     }
+        //     if (action === 'collapse-all') {
+        //         $('.dd').nestable('collapseAll');
+        //     }
+        // });
+        });
+    </script>
 @endpush
