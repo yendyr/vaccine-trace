@@ -12,17 +12,10 @@
             <form method="post" id="inputForm">
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">ISO</label>
+                        <label class="col-sm-5 d-flex align-items-center">Code</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control @error('iso') is-invalid @enderror" name="iso" id="iso">                            
-                            <div class="invalid-feedback-iso text-danger font-italic"></div>                            
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">ISO-3</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control @error('iso_3') is-invalid @enderror" name="iso_3" id="iso_3">                            
-                            <div class="invalid-feedback-iso_3 text-danger font-italic"></div>                            
+                            <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code">                            
+                            <div class="invalid-feedback-code text-danger font-italic"></div>                            
                         </div>
                     </div>
                     <div class="form-group row">
@@ -33,26 +26,19 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Nice Name</label>
+                        <label class="col-sm-5 d-flex align-items-center">GST Number</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control @error('nice_name') is-invalid @enderror" name="nice_name" id="nice_name">
-                            <div class="invalid-feedback-nice_name text-danger font-italic"></div>
+                            <input type="text" class="form-control @error('gst_number') is-invalid @enderror" name="gst_number" id="gst_number">
+                            <div class="invalid-feedback-gst_number text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Num. Code</label>
+                        <label class="col-sm-5 d-flex align-items-center">NPWP Number</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control @error('num_code') is-invalid @enderror" name="num_code" id="num_code">                            
-                            <div class="invalid-feedback-num_code text-danger font-italic"></div>                            
+                            <input type="text" class="form-control @error('npwp_number') is-invalid @enderror" name="npwp_number" id="npwp_number">
+                            <div class="invalid-feedback-npwp_number text-danger font-italic"></div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Phone Code</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control @error('phone_code') is-invalid @enderror" name="phone_code" id="phone_code">                            
-                            <div class="invalid-feedback-phone_code text-danger font-italic"></div>                            
-                        </div>
-                    </div>                                
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
                         <div class="col-sm-7">

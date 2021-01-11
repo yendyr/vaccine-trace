@@ -18,7 +18,6 @@ class GateDatabaseSeeder extends Seeder
 
         $this->call([
             RolesTableSeeder::class,
-            CompaniesTableSeeder::class,
             UsersTableSeeder::class,
             MenusTableSeeder::class,
             RoleMenusTableSeeder::class,

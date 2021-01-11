@@ -19,17 +19,15 @@ class CompaniesTableSeeder extends Seeder
         Model::unguard();
 
         $company = Company::create([
-            'company_name' => 'PT. Rahu Arta Mandiri',
+            'name' => 'PT. Rahu Arta Mandiri',
             'code' => 'RAM',
-            'email' => 'company1@gmail.com',
             'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $company = Company::create([
-            'company_name' => 'PT. Sarana Mendulang Arta',
+            'name' => 'PT. Sarana Mendulang Arta',
             'code' => 'Smart',
-            'email' => 'company2@gmail.com',
             'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),

@@ -16,11 +16,11 @@ class Country extends Model
 
     protected $fillable = [
         'iso',
-        'iso3',
+        'iso_3',
         'name',
-        'nicename',
-        'numcode',
-        'phonecode',
+        'nice_name',
+        'num_code',
+        'phone_code',
         'description',
         'status',
         'created_by',

@@ -51,7 +51,7 @@
             }).prependTo('#inputForm');
 
             $('#iso').val(data.iso);
-            $('#iso3').val(data.iso3);
+            $('#iso_3').val(data.iso3);
             $('#name').val(data.name);
             $('#nice_name').val(data.nicename);
             $('#num_code').val(data.numcode);

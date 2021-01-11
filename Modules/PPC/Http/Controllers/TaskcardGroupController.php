@@ -25,7 +25,7 @@ class TaskcardGroupController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = TaskcardGroup::with(['taskcard_group:id,name'])->where('status', 1);
+            $data = TaskcardGroup::with(['taskcard_group:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

@@ -88,11 +88,11 @@ class CountryController extends Controller
 
         Country::create([
             'iso' => $request->iso,
-            'iso3' => $request->iso3,
+            'iso_3' => $request->iso_3,
             'name' => $request->name,
-            'nicename' => $request->nice_name,
-            'numcode' => $request->num_code,
-            'phonecode' => $request->phone_code,
+            'nice_name' => $request->nice_name,
+            'num_code' => $request->num_code,
+            'phone_code' => $request->phone_code,
             'description' => $request->description,
             'owned_by' => $request->user()->company_id,
             'status' => $status,
@@ -128,11 +128,11 @@ class CountryController extends Controller
         $currentRow = Country::where('id', $Country->id)->first();
         $currentRow->update([
                 'iso' => $request->iso,
-                'iso3' => $request->iso3,
+                'iso_3' => $request->iso_3,
                 'name' => $request->name,
-                'nicename' => $request->nicename,
-                'numcode' => $request->numcode,
-                'phonecode' => $request->phonecode,
+                'nice_name' => $request->nice_name,
+                'num_code' => $request->num_code,
+                'phone_code' => $request->phone_code,
                 'description' => $request->description,
                 'status' => $status,
             ]);

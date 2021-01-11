@@ -18,6 +18,7 @@ class GeneralSettingDatabaseSeeder extends Seeder
 
         $this->call([
             CountriesTableSeeder::class,
+            CompaniesTableSeeder::class,
         ]);
     }
 }
