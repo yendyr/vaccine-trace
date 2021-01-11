@@ -91,7 +91,8 @@
                     return query;
                 },
                 dataType: 'json',
-            }
+            },
+            dropdownParent: $('#menuModal')
         });
 
         $('.select2_menu_actives').select2({
@@ -100,9 +101,11 @@
             theme: 'bootstrap4',
             tokenSeparators: [','],
             placeholder: 'Write the classess',
+            dropdownParent: $('#menuModal')
         });
 
         $('#createMenu').click(function() {
+            $('select').empty();
             $('#saveBtn').val("create-menu");
             $('#menuForm').trigger("reset");
             $('#modalTitle').html("Add New Menu");
@@ -161,7 +164,7 @@
             });
 
             $("#parent_id").val(null).trigger('change');
-            if( data.parent_id !== null && data.parent !== null ) {
+            if( data.parent_id !== null && data.parent !== null) {
                 $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.parent + '</option>');
             }
 

@@ -178,7 +178,9 @@ class MenuController extends Controller
 
     public function select2Menu(Request $request)
     {
-        $search = $request->q;
+        $response = [];
+        $response["pagination"]["more"] = true;
+        $search = $request->search;
         
         $query = Menu::select('id', 'menu_text')->where('status', 1);
         if ($search != '') {
@@ -189,11 +191,9 @@ class MenuController extends Controller
         }else{
             $menus = $query->paginate(10);
         }
-        $response = [];
-        $response["pagination"]["more"] = true;
         foreach ($menus->items() as $menu) {
             $response['results'][] = [
-                "id" => $menu->menu_text,
+                "id" => $menu->id,
                 "text" => $menu->menu_text
             ];
         }
