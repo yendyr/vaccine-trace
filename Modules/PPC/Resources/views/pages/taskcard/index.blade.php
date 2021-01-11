@@ -19,10 +19,12 @@
         @endslot    
 
         @slot('tableContent')
-            <th>Code</th>
-            <th>Task Card Type Name</th>
-            <th>Description/Remark</th>
-            <th>Status</th>
+            <th>MPD Number</th>
+            <th>Title</th>
+            <th>Group</th>
+            <th>Type</th>
+            <th>Aircraft Type</th>
+            <th>Skill</th>
             <th>Created By</th>
             <th>Created At</th>
             <th>Last Updated By</th>
@@ -31,7 +33,7 @@
         @endslot
     @endcomponent
 
-    @include('ppc::components.taskcard._script')
+    {{-- @include('ppc::components.taskcard._script') --}}
 
 @endsection
 

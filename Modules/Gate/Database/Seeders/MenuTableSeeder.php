@@ -687,6 +687,47 @@ class MenuTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
         ]);
+
+        $menuPpcAircraft = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Aircraft',
+            'menu_route' => null,
+            'menu_icon' => 'fa-plane',
+            'menu_class' => null,
+            'menu_id' => null,
+            'group' => 'PPC',
+            'add' => 0,
+            'update' => 0,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 0,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'ppc/aircraft-type',
+            'menu_text' => 'Master Aircraft Type',
+            'menu_route' => 'ppc.aircraft-type.index',
+            'menu_icon' => 'fa-plane',
+            'menu_class' => 'Modules\PPC\Entities\AircraftType',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/aircraft-type', 'ppc/aircraft-type/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcAircraft->id
+        ]);
         // ----------- END Create PPC Module Menus ------------------------//
 
         // ----------- Create Quality Module Menus ------------------------//
