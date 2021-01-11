@@ -22,7 +22,7 @@ Route::name('ppc.')->group(function () {
         Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
         Route::resource('/taskcard-access', 'TaskcardAccessController');
         Route::resource('/taskcard-zone', 'TaskcardZoneController');
-        Route::resource('/taskcard-document-livrary', 'TaskcardDocumentLibraryController');
+        Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
         Route::resource('/taskcard', 'TaskcardController');
     });
 }); 

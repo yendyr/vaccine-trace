@@ -2,7 +2,7 @@
 
 namespace Modules\PPC\Http\Controllers;
 
-use Modules\PPC\Entities\TaskcardWorkarea;
+use Modules\PPC\Entities\TaskcardDocumentLibrary;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TaskcardWorkareaController extends Controller
+class TaskcardDocumentLibraryController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(TaskcardWorkarea::class);
+        $this->authorizeResource(TaskcardDocumentLibrary::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = TaskcardWorkarea::all();
+            $data = TaskcardDocumentLibrary::all();
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -42,12 +42,12 @@ class TaskcardWorkareaController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', TaskcardWorkarea::class)) {
+                    if(Auth::user()->can('update', TaskcardDocumentLibrary::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', TaskcardWorkarea::class)) {
+                    if(Auth::user()->can('delete', TaskcardDocumentLibrary::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -65,18 +65,18 @@ class TaskcardWorkareaController extends Controller
                 ->make(true);
         }
 
-        return view('ppc::pages.taskcard-workarea.index');
+        return view('ppc::pages.taskcard-document-library.index');
     }
 
     public function create()
     {
-        return view('ppc::pages.taskcard-workarea.create');
+        return view('ppc::pages.taskcard-document-library.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:taskcard_workareas,code'],
+            'code' => ['required', 'max:30', 'unique:taskcard_document_libraries,code'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -87,7 +87,7 @@ class TaskcardWorkareaController extends Controller
             $status = 0;
         }
 
-        TaskcardWorkarea::create([
+        TaskcardDocumentLibrary::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
@@ -96,21 +96,21 @@ class TaskcardWorkareaController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Task Card Work Area has been Added']);
+        return response()->json(['success' => 'Task Card Document Library Data has been Added']);
     
     }
 
-    public function show(TaskcardWorkarea $TaskcardWorkarea)
+    public function show(TaskcardDocumentLibrary $TaskcardDocumentLibrary)
     {
-        return view('ppc::pages.taskcard-workarea.show');
+        return view('ppc::pages.taskcard-document-library.show');
     }
 
-    public function edit(TaskcardWorkarea $TaskcardWorkarea)
+    public function edit(TaskcardDocumentLibrary $TaskcardDocumentLibrary)
     {
-        return view('ppc::pages.taskcard-workarea.edit', compact('TaskcardWorkarea'));
+        return view('ppc::pages.taskcard-document-library.edit', compact('TaskcardDocumentLibrary'));
     }
 
-    public function update(Request $request, TaskcardWorkarea $TaskcardWorkarea)
+    public function update(Request $request, TaskcardDocumentLibrary $TaskcardDocumentLibrary)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
@@ -124,7 +124,7 @@ class TaskcardWorkareaController extends Controller
             $status = 0;
         }
 
-        $currentRow = TaskcardWorkarea::where('id', $TaskcardWorkarea->id)->first();
+        $currentRow = TaskcardDocumentLibrary::where('id', $TaskcardDocumentLibrary->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
                 ->update([
@@ -144,13 +144,13 @@ class TaskcardWorkareaController extends Controller
                     'updated_by' => Auth::user()->id,
             ]);
         }
-        return response()->json(['success' => 'Task Card Work Area has been Updated']);
+        return response()->json(['success' => 'Task Card Document Library Data has been Updated']);
     
     }
 
-    public function destroy(TaskcardWorkarea $TaskcardWorkarea)
+    public function destroy(TaskcardDocumentLibrary $TaskcardDocumentLibrary)
     {
-        TaskcardWorkarea::destroy($TaskcardWorkarea->id);
+        TaskcardDocumentLibrary::destroy($TaskcardDocumentLibrary->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 

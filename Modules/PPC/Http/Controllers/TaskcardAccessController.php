@@ -2,7 +2,7 @@
 
 namespace Modules\PPC\Http\Controllers;
 
-use Modules\PPC\Entities\TaskcardWorkarea;
+use Modules\PPC\Entities\TaskcardAccess;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TaskcardWorkareaController extends Controller
+class TaskcardAccessController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(TaskcardWorkarea::class);
+        $this->authorizeResource(TaskcardAccess::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = TaskcardWorkarea::all();
+            $data = TaskcardAccess::all();
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -42,12 +42,12 @@ class TaskcardWorkareaController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', TaskcardWorkarea::class)) {
+                    if(Auth::user()->can('update', TaskcardAccess::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', TaskcardWorkarea::class)) {
+                    if(Auth::user()->can('delete', TaskcardAccess::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -65,18 +65,18 @@ class TaskcardWorkareaController extends Controller
                 ->make(true);
         }
 
-        return view('ppc::pages.taskcard-workarea.index');
+        return view('ppc::pages.taskcard-access.index');
     }
 
     public function create()
     {
-        return view('ppc::pages.taskcard-workarea.create');
+        return view('ppc::pages.taskcard-access.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:taskcard_workareas,code'],
+            'code' => ['required', 'max:30', 'unique:taskcard_accesses,code'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -87,7 +87,7 @@ class TaskcardWorkareaController extends Controller
             $status = 0;
         }
 
-        TaskcardWorkarea::create([
+        TaskcardAccess::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
@@ -96,21 +96,21 @@ class TaskcardWorkareaController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Task Card Work Area has been Added']);
+        return response()->json(['success' => 'Task Card Access Data has been Added']);
     
     }
 
-    public function show(TaskcardWorkarea $TaskcardWorkarea)
+    public function show(TaskcardAccess $TaskcardAccess)
     {
-        return view('ppc::pages.taskcard-workarea.show');
+        return view('ppc::pages.taskcard-access.show');
     }
 
-    public function edit(TaskcardWorkarea $TaskcardWorkarea)
+    public function edit(TaskcardAccess $TaskcardAccess)
     {
-        return view('ppc::pages.taskcard-workarea.edit', compact('TaskcardWorkarea'));
+        return view('ppc::pages.taskcard-access.edit', compact('TaskcardAccess'));
     }
 
-    public function update(Request $request, TaskcardWorkarea $TaskcardWorkarea)
+    public function update(Request $request, TaskcardAccess $TaskcardAccess)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
@@ -124,7 +124,7 @@ class TaskcardWorkareaController extends Controller
             $status = 0;
         }
 
-        $currentRow = TaskcardWorkarea::where('id', $TaskcardWorkarea->id)->first();
+        $currentRow = TaskcardAccess::where('id', $TaskcardAccess->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
                 ->update([
@@ -144,13 +144,13 @@ class TaskcardWorkareaController extends Controller
                     'updated_by' => Auth::user()->id,
             ]);
         }
-        return response()->json(['success' => 'Task Card Work Area has been Updated']);
+        return response()->json(['success' => 'Task Card Access Data has been Updated']);
     
     }
 
-    public function destroy(TaskcardWorkarea $TaskcardWorkarea)
+    public function destroy(TaskcardAccess $TaskcardAccess)
     {
-        TaskcardWorkarea::destroy($TaskcardWorkarea->id);
+        TaskcardAccess::destroy($TaskcardAccess->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 

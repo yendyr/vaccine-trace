@@ -584,7 +584,7 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => '#',
+            'menu_link' => 'ppc/taskcard-workarea',
             'menu_text' => 'Master Task Card Work Area',
             'menu_route' => 'ppc.taskcard-workarea.index',
             'menu_icon' => 'fa-yelp',
@@ -605,7 +605,7 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => '#',
+            'menu_link' => 'ppc/taskcard-access',
             'menu_text' => 'Master Task Card Access',
             'menu_route' => 'ppc.taskcard-access.index',
             'menu_icon' => 'fa-circle-o-notch',
@@ -626,7 +626,7 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => '#',
+            'menu_link' => 'ppc/taskcard-zone',
             'menu_text' => 'Master Task Card Zone',
             'menu_route' => 'ppc.taskcard-zone.index',
             'menu_icon' => 'fa-slack',
@@ -647,7 +647,7 @@ class MenuTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => '#',
+            'menu_link' => 'ppc/taskcard-document-library',
             'menu_text' => 'Master Task Card Document Library',
             'menu_route' => 'ppc.taskcard-document-library.index',
             'menu_icon' => 'fa-folder',
