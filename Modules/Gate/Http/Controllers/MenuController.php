@@ -95,11 +95,11 @@ class MenuController extends Controller
         if($flag){
             DB::commit();
 
-            return redirect('/gate/menu')->with('status', 'a menu data has been added!');
+            return response()->json(['status' => 'a menu data has been added!'], 200);
         }else{
             DB::rollBack();
 
-            return redirect('/gate/menu')->with('status', 'a menu failed to add!');
+            return response()->json(['status' => 'a menu failed to add!'], 200);
         }
 
     }
@@ -146,6 +146,10 @@ class MenuController extends Controller
             'parent_id' => ['exists:menus,id'],
         ]);
 
+        $request->merge([
+            'menu_actives' => json_encode($request->menu_actives)
+        ]);
+
         $update = $menu->update($request->all());
 
         if( $update == false ) $flag = false;
@@ -153,11 +157,11 @@ class MenuController extends Controller
         if($flag){
             DB::commit();
 
-            return redirect('/gate/menu')->with('status', 'a menu data has been updated!');
+            return response()->json(['status' => 'a menu data has been updated!'], 200);
         }else{
             DB::rollBack();
 
-            return redirect('/gate/menu')->with('status', 'a menu failed to update!');
+            return response()->json(['status' => 'a menu failed to update!'], 200);
         }
     }
 
@@ -169,7 +173,7 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         Menu::destroy($menu->id);
-        return redirect('/gate/menu')->with('status', 'a menu data has been deleted!');
+        return response()->json(['status' => 'a menu data has been deleted!'], 200);
     }
 
     public function select2Menu(Request $request)

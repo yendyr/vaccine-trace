@@ -5,7 +5,6 @@
     @endcomponent
 
     @include('gate::components.menu.modal')
-
     @component('components.crud-form.index', [
                     'title' => 'Menu Datalist',
                     'tableId' => 'menu-table',

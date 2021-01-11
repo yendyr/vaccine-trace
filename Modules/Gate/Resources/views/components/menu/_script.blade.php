@@ -161,7 +161,9 @@
             });
 
             $("#parent_id").val(null).trigger('change');
-            $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.parent + '</option>');
+            if( data.parent_id !== null && data.parent !== null ) {
+                $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.parent + '</option>');
+            }
 
             $('#saveBtn').val("edit-menu");
             $('#menuForm').attr('action', '/gate/menu/' + data.id);
@@ -184,8 +186,8 @@
                 data: $(this).serialize(),
                 dataType: 'json',
                 beforeSend: function() {
-                    let l = $('.ladda-button-submit').ladda();
-                    l.ladda('start');
+                    let laddaBtn = $('.ladda-button-submit').ladda();
+                    laddaBtn.ladda('start');
                     $('[class^="invalid-feedback-"]').html('');
                     $('#saveBtn').prop('disabled', true);
                 },
@@ -198,16 +200,16 @@
                     }
                 },
                 success: function(data) {
-                    if (data.success) {
+                    if (data.status) {
                         $('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                        $('#form_result').html(data.success);
+                        $('#form_result').html(data.status);
                     }
                     $('#menuModal').modal('hide');
                     $('#menu-table').DataTable().ajax.reload();
                 },
                 complete: function() {
-                    let l = $('.ladda-button-submit').ladda();
-                    l.ladda('stop');
+                    let laddaBtn = $('.ladda-button-submit').ladda();
+                    laddaBtn.ladda('stop');
                     $('#saveBtn').prop('disabled', false);
                 }
             });
@@ -241,9 +243,9 @@
                     }
                 },
                 success: function(data) {
-                    if (data.success) {
+                    if (data.status) {
                         $('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                        $('#form_result').html(data.success);
+                        $('#form_result').html(data.status);
                     }
                 },
                 complete: function(data) {

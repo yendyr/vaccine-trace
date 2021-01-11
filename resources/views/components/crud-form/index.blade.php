@@ -1,3 +1,4 @@
+<div id="form_result" role="alert"></div>
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox">
