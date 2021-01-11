@@ -56,6 +56,9 @@ use Modules\PPC\Entities\TaskcardType;
 use Modules\PPC\Policies\TaskcardGroupPolicy;
 use Modules\PPC\Entities\TaskcardGroup;
 
+use Modules\PPC\Policies\TaskcardWorkareaPolicy;
+use Modules\PPC\Entities\TaskcardWorkarea;
+
 use Modules\QualityAssurance\Policies\SkillPolicy;
 use Modules\QualityAssurance\Entities\Skill;
 
@@ -100,6 +103,7 @@ class AuthServiceProvider extends ServiceProvider
 
         TaskcardType::class => TaskcardTypePolicy::class,
         TaskcardGroup::class => TaskcardGroupPolicy::class,
+        TaskcardWorkarea::class => TaskcardWorkareaPolicy::class,
         
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
