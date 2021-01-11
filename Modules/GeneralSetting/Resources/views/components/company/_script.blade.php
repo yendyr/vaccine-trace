@@ -48,12 +48,10 @@
                 value: 'patch'
             }).prependTo('#inputForm');
 
-            $('#iso').val(data.iso);
-            $('#iso3').val(data.iso3);
+            $('#code').val(data.code);
             $('#name').val(data.name);
-            $('#nice_name').val(data.nicename);
-            $('#num_code').val(data.numcode);
-            $('#phone_code').val(data.phonecode);
+            $('#gst_number').val(data.gst_number);
+            $('#npwp_number').val(data.npwp_number);
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);
