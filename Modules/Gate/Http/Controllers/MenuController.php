@@ -2,19 +2,25 @@
 
 namespace Modules\Gate\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Modules\Gate\Entities\Menu;
 use Yajra\DataTables\DataTables;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Gate;
 
 class MenuController extends Controller
 {
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Menu::class, 'menu');
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
