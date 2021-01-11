@@ -25,7 +25,7 @@
                                                 <span>
                                                     <i class="fa {{ $subMenuRow->menu_icon ?? '' }}"></i>
                                                 </span>
-                                                <span class="nav-label">{{ $subMenuRow->menu_text ?? '' }} {{ 'ecoh2' }}</span>
+                                                <span class="nav-label">{{ $subMenuRow->menu_text ?? '' }} </span>
                                                 <span class="fa arrow"></span>
                                             </a>
                                             <ul class="nav nav-third-level">
@@ -35,7 +35,7 @@
                                                         <span>
                                                             <i class="fa {{ $subMenuThirdLevel->menu_icon ?? '' }}"></i>
                                                         </span>
-                                                        <span>{{ $subMenuThirdLevel->menu_text ?? '' }} {{ 'ecoh' }}</span>
+                                                        <span>{{ $subMenuThirdLevel->menu_text ?? '' }} </span>
                                                     </a>
                                                 </li>
                                                 @endforeach
