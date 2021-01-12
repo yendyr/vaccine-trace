@@ -43,14 +43,6 @@
                             <div class="invalid-feedback-parent text-danger"></div>
                         </div>
                         <div class="col-md-6">
-                            <label>Status</label>
-                            <select class="form-control m-b " id="status" name="status" style="width: 100%;">
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                            <div class="invalid-feedback-status text-danger"></div>
-                        </div>
-                        <div class="col-md-6">
                             <label>Link</label>
                             <input type="text" class="form-control @error('menu_link') is-invalid @enderror" id="menu_link" name="menu_link">
                             <div class="invalid-feedback-menu_link text-danger"></div>
@@ -59,6 +51,76 @@
                             <label>Route</label>
                             <input type="text" class="form-control @error('menu_route') is-invalid @enderror" id="menu_route" name="menu_route">
                             <div class="invalid-feedback-menu_route text-danger"></div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-6">     
+                        <label class="col-md-6 d-flex align-items-center">Add</label>
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('add') is-invalid @enderror" name="add" id="add" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-6">     
+                        <label class="col-md-6 d-flex align-items-center">Update</label>
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('update') is-invalid @enderror" name="update" id="update" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-6">     
+                        <label class="col-md-6 d-flex align-items-center">Delete</label>
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('delete') is-invalid @enderror" name="delete" id="delete" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-6">     
+                        <label class="col-md-6 d-flex align-items-center">Print</label>
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('print') is-invalid @enderror" name="print" id="print" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-6">     
+                        <label class="col-md-6 d-flex align-items-center">Process</label>
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('process') is-invalid @enderror" name="process" id="process" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">     
+                            <label class="col-md-6 d-flex align-items-center">Approval</label>
+                            <input class="col-md-12" min="0" type="number" value="" name="approval" name="approval">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-6">
+                        <label class="col-md-6 d-flex align-items-center">Status</label>
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

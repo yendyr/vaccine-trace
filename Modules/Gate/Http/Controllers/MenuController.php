@@ -79,15 +79,32 @@ class MenuController extends Controller
         DB::beginTransaction();
         $flag = true;
 
+        $request->merge([
+            'menu_actives' => json_encode($request->menu_actives),
+            'add' => ($request->add == 'on') ? true : false,
+            'update' => ($request->update == 'on') ? true : false,
+            'delete' => ($request->delete == 'on') ? true : false,
+            'print' => ($request->print == 'on') ? true : false,
+            'process' => ($request->process == 'on') ? true : false,
+            'status' => ($request->status == 'on') ? true : false,
+            'approval' => ( empty($request->approval)) ? 0 : $request->approval,
+        ]);
+
         $request->validate([
             'menu_text' => ['required', 'string', 'max:255'],
             'group' => ['required', 'string', 'max:255'],
             'menu_link' => ['required', 'string', 'max:255'],
             'menu_route' => ['required', 'string', 'max:255'],
             'menu_icon' => ['required', 'string', 'max:255'],
-            'menu_actives' => ['required', 'array', 'max:255'],
+            'menu_actives' => ['required', 'JSON', 'max:255'],
             'menu_class' => ['string', 'max:255'],
             'parent_id' => ['exists:menus,id'],
+            'add' => ['boolean'],
+            'update' => ['boolean'],
+            'delete' => ['boolean'],
+            'print' => ['boolean'],
+            'status' => ['boolean'],
+            'approval' => ['numeric', 'min:0'],
         ]);
 
         $request->merge([
@@ -141,19 +158,32 @@ class MenuController extends Controller
         DB::beginTransaction();
         $flag = true;
 
+        $request->merge([
+            'menu_actives' => json_encode($request->menu_actives),
+            'add' => ($request->add == 'on') ? true : false,
+            'update' => ($request->update == 'on') ? true : false,
+            'delete' => ($request->delete == 'on') ? true : false,
+            'print' => ($request->print == 'on') ? true : false,
+            'process' => ($request->process == 'on') ? true : false,
+            'status' => ($request->status == 'on') ? true : false,
+            'approval' => ( empty($request->approval)) ? 0 : $request->approval,
+        ]);
+
         $request->validate([
             'menu_text' => ['required', 'string', 'max:255'],
             'group' => ['required', 'string', 'max:255'],
             'menu_link' => ['required', 'string', 'max:255'],
             'menu_route' => ['required', 'string', 'max:255'],
             'menu_icon' => ['required', 'string', 'max:255'],
-            'menu_actives' => ['required', 'array', 'max:255'],
+            'menu_actives' => ['required', 'JSON', 'max:255'],
             'menu_class' => ['string', 'max:255'],
             'parent_id' => ['exists:menus,id'],
-        ]);
-
-        $request->merge([
-            'menu_actives' => json_encode($request->menu_actives)
+            'add' => ['boolean'],
+            'update' => ['boolean'],
+            'delete' => ['boolean'],
+            'print' => ['boolean'],
+            'status' => ['boolean'],
+            'approval' => ['numeric', 'min:0'],
         ]);
 
         $update = $menu->update($request->all());

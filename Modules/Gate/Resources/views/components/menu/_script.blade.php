@@ -131,7 +131,18 @@
             $.each(data, function(index, value) {
                 if ($('#' + index).length > 0) {
                     if($('#' + index).is('input')){
-                        $('#' + index).val(value);
+                        switch ($('#' + index).attr('type')) {
+                            case 'checkbox':
+                                if(value == false){
+                                    $('#' + index).prop('checked', false);
+                                }else{
+                                    $('#' + index).prop('checked', true);
+                                }
+                                break;
+                            default:
+                                $('#' + index).val(value);
+                                break;
+                        }
                     }else{
                         if ( $('#' + index).is('select') ) {
                             if ($('#' + index).hasClass("select2-hidden-accessible")) {
