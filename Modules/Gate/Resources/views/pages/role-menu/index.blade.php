@@ -3,7 +3,7 @@
 @section('content')
 <form id="rolemenu-form">
     <div class="form-group row">
-        <label class="col-sm-1 col-form-label text-dark">Role Name</label>
+        <label class="col-sm-2 col-form-label text-dark">Role Name</label>
         <div class="col-sm-3">
             <select class="select2_role form-control m-b" name="role">
             </select>
@@ -13,6 +13,9 @@
                 <button class="ladda-button ladda-button-submit btn btn-primary"  data-style="zoom-in" type="submit" id="saveButton">
                     <strong>Save Changes</strong>
                 </button>
+
+                <label>Check All</label>
+                <input type="checkbox" onchange="checkAll(this)" name="chk[]" >
             @endcan
         </div>
     </div>
@@ -44,4 +47,23 @@
 @endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
+
+    <script type="text/javascript">
+        function checkAll(ele) {
+             var checkboxes = document.getElementsByTagName('input');
+             if (ele.checked) {
+                 for (var i = 0; i < checkboxes.length; i++) {
+                     if (checkboxes[i].type == 'checkbox'  && !(checkboxes[i].disabled) ) {
+                         checkboxes[i].checked = true;
+                     }
+                 }
+             } else {
+                 for (var i = 0; i < checkboxes.length; i++) {
+                     if (checkboxes[i].type == 'checkbox') {
+                         checkboxes[i].checked = false;
+                     }
+                 }
+             }
+         }
+       </script>
 @endpush
