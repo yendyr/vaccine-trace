@@ -19,6 +19,7 @@ class CreateAircraftTypesTable extends Migration
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
+            $table->string('manufacturer_id')->nullable();
             $table->rememberToken();
 
             $table->integer('status')->nullable();

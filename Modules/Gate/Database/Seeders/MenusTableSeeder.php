@@ -32,7 +32,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -53,7 +52,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $toolsMenu->id
@@ -74,7 +72,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $toolsMenu->id
@@ -95,7 +92,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $toolsMenu->id
@@ -116,7 +112,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $toolsMenu->id
@@ -137,7 +132,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 7,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -157,7 +151,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -178,7 +171,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuHrSetting->id
@@ -199,7 +191,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -220,7 +211,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuHrSetting->id
@@ -241,7 +231,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $workGroupMenu->id
@@ -262,7 +251,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuHrSetting->id
@@ -283,7 +271,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -304,7 +291,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -325,7 +311,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -346,7 +331,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -367,7 +351,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -388,7 +371,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -409,7 +391,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -430,7 +411,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -451,7 +431,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -472,7 +451,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -493,7 +471,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 5,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -514,7 +491,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -535,7 +511,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
@@ -556,7 +531,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
@@ -577,7 +551,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
@@ -598,7 +571,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
@@ -619,7 +591,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
@@ -640,7 +611,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
@@ -661,7 +631,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcTaskcard->id
@@ -681,7 +650,6 @@ class MenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => 0,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -702,7 +670,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcAircraft->id
@@ -725,7 +692,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -746,7 +712,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -767,7 +732,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -788,7 +752,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -811,7 +774,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
@@ -832,7 +794,6 @@ class MenusTableSeeder extends Seeder
             'print' => 1,
             'approval' => 1,
             'process' => 0,
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null

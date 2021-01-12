@@ -16,6 +16,14 @@ class PPCDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call([
+            AircraftTypeSeeder::class,
+            TaskcardGroupSeeder::class,
+            TaskcardTypeSeeder::class,
+            TaskcardZoneSeeder::class,
+            TaskcardAccessSeeder::class,
+            TaskcardWorkareaSeeder::class,
+            TaskcardDocuemntLibrarySeeder::class,
+        ]);
     }
 }

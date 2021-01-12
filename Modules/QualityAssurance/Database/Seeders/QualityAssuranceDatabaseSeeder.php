@@ -16,6 +16,11 @@ class QualityAssuranceDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call([
+            DocumentTypeSeeder::class,
+            SkillSeeder::class,
+            EngineeringLevelSeeder::class,
+            TaskReleaseLevelSeeder::class,
+        ]);
     }
 }

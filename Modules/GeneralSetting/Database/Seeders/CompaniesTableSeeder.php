@@ -21,14 +21,24 @@ class CompaniesTableSeeder extends Seeder
         $company = Company::create([
             'name' => 'PT. Rahu Arta Mandiri',
             'code' => 'RAM',
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $company = Company::create([
             'name' => 'PT. Sarana Mendulang Arta',
             'code' => 'Smart',
-            'owned_by' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $company = Company::create([
+            'name' => 'Boeing International',
+            'code' => 'BI',
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $company = Company::create([
+            'name' => 'Airbus France',
+            'code' => 'AF',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

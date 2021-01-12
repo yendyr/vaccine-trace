@@ -25,7 +25,7 @@ class AircraftTypeController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = AircraftType::all();
+            $data = AircraftType::with(['manufacturer:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -92,6 +92,7 @@ class AircraftTypeController extends Controller
             'code' => $request->code,
             'name' => $request->name,
             'description' => $request->description,
+            'manufacturer_id' => $request->manufacturer_id,
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
@@ -130,6 +131,7 @@ class AircraftTypeController extends Controller
                 ->update([
                     'name' => $request->name,
                     'description' => $request->description,
+                    'manufacturer_id' => $request->manufacturer_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
@@ -140,6 +142,7 @@ class AircraftTypeController extends Controller
                     'code' => $request->code,
                     'name' => $request->name,
                     'description' => $request->description,
+                    'manufacturer_id' => $request->manufacturer_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);

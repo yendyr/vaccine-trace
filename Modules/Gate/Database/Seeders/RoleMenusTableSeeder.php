@@ -29,7 +29,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
@@ -44,7 +43,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
@@ -58,7 +56,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
@@ -72,7 +69,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);        
@@ -90,7 +86,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
@@ -105,7 +100,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
@@ -119,7 +113,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
@@ -133,7 +126,6 @@ class RoleMenusTableSeeder extends Seeder
             'print' => 0,
             'approval' => json_encode(0),
             'process' => json_encode(0),
-            'owned_by' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

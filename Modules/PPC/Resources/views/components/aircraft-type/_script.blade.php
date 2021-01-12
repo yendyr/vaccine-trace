@@ -18,6 +18,7 @@
             columns: [
                 { data: 'code', name: 'Code'  },
                 { data: 'name', name: 'Aircraft Type Name' },
+                { data: 'manufacturer.name', name: 'Manufacturer', defaultContent: '-' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },

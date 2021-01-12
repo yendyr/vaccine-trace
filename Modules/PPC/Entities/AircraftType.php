@@ -19,6 +19,7 @@ class AircraftType extends Model
         'code',
         'name',
         'description',
+        'manufacturer_id',
         'status',
         'created_by',
         'updated_by',
@@ -33,5 +34,10 @@ class AircraftType extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'manufacturer_id');
     }
 }
