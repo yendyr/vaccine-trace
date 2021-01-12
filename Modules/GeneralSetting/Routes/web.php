@@ -16,5 +16,11 @@ Route::name('generalsetting.')->group(function () {
         Route::resource('/country', 'CountryController');
         Route::resource('/company', 'CompanyController');
 
+        Route::name('company.')->group(function() {
+            Route::get('generalsetting/company/select2/customer', 'CompanyController@select2Customer')->name('select2.customer');
+            Route::get('generalsetting/company/select2/supplier', 'CompanyController@select2Supplier')->name('select2.supplier');
+            Route::get('generalsetting/company/select2/manufacturer', 'CompanyController@select2Manufacturer')->name('select2.manufacturer');
+        });
+
     });
 });

@@ -24,7 +24,14 @@
                             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
                             <div class="invalid-feedback-name text-danger font-italic"></div>
                         </div>
-                    </div>            
+                    </div>  
+                    <div class="form-group row">
+                        <label class="col-sm-5 d-flex align-items-center">Manufacturer</label>
+                        <div class="col-sm-7">
+                            <select class="manufacturer_id form-control @error('manufacturer_id') is-invalid @enderror" id="manufacturer_id" name="manufacturer_id"></select>
+                            <div class="invalid-feedback-manufacturer_id text-danger font-italic"></div>
+                        </div>
+                    </div>           
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
                         <div class="col-sm-7">
@@ -58,3 +65,14 @@
         </div>
     </div>
 </div>
+
+@push('header-scripts')
+<style>
+    .select2-container.select2-container--default.select2-container--open {
+        z-index: 9999999 !important;
+    }
+    .select2 {
+        width: 100% !important;
+    }
+</style>
+@endpush

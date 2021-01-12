@@ -63,7 +63,7 @@
             $('#name').val(data.name);
             $('#sequence_level').val(data.sequence_level);
             $(".authorized_engineering_level").val(null).trigger('change');
-                if (data.taskcard_group == null){
+                if (data.authorized_engineering_level == null){
                     $('#authorized_engineering_level').append('<option value="' + data.authorized_engineering_level + '" selected></option>');
                 } else {
                     $('#authorized_engineering_level').append('<option value="' + data.authorized_engineering_level + '" selected>' + data.authorized_engineering_level.name + '</option>');
