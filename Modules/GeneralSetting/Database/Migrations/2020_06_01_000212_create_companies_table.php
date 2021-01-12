@@ -21,6 +21,8 @@ class CreateCompaniesTable extends Migration
             $table->string('gst_number')->nullable();
             $table->string('npwp_number')->nullable();
             $table->string('description')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('logo_alt')->nullable();
 
             $table->string('is_customer')->default('1')->nullable();
             $table->string('is_supplier')->default('1')->nullable();
