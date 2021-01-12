@@ -2,7 +2,7 @@
 
 namespace Modules\QualityAssurance\Http\Controllers;
 
-use Modules\QualityAssurance\Entities\EngineeringLevel;
+use Modules\QualityAssurance\Entities\TaskReleaseLevel;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class EngineeringLevelController extends Controller
+class TaskReleaseLevelController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(EngineeringLevel::class);
+        $this->authorizeResource(TaskReleaseLevel::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = EngineeringLevel::all();
+            $data = TaskReleaseLevel::with(['engineering_level:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -42,12 +42,12 @@ class EngineeringLevelController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', EngineeringLevel::class)) {
+                    if(Auth::user()->can('update', TaskReleaseLevel::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', EngineeringLevel::class)) {
+                    if(Auth::user()->can('delete', TaskReleaseLevel::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -65,20 +65,21 @@ class EngineeringLevelController extends Controller
                 ->make(true);
         }
 
-        return view('qualityassurance::pages.engineering-level.index');
+        return view('qualityassurance::pages.task-release-level.index');
     }
 
     public function create()
     {
-        return view('qualityassurance::pages.engineering-level.create');
+        return view('qualityassurance::pages.task-release-level.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:engineering_levels,code'],
+            'code' => ['required', 'max:30', 'unique:task_release_levels,code'],
             'name' => ['required', 'max:30'],
-            'sequence_level' => ['required', 'max:30'],
+            'sequence_level' => ['required', 'max:30', 'unique:task_release_levels,sequence_level'],
+            'authorized_engineering_level' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -88,36 +89,38 @@ class EngineeringLevelController extends Controller
             $status = 0;
         }
 
-        EngineeringLevel::create([
+        TaskReleaseLevel::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
             'sequence_level' => $request->sequence_level,
+            'authorized_engineering_level' => $request->authorized_engineering_level,
             'description' => $request->description,
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Engineering Level Data has been Added']);
+        return response()->json(['success' => 'Task Release Level Data has been Added']);
     
     }
 
-    public function show(EngineeringLevel $EngineeringLevel)
+    public function show(TaskReleaseLevel $TaskReleaseLevel)
     {
-        return view('qualityassurance::pages.engineering-level.show');
+        return view('qualityassurance::pages.task-release-level.show');
     }
 
-    public function edit(EngineeringLevel $EngineeringLevel)
+    public function edit(TaskReleaseLevel $TaskReleaseLevel)
     {
-        return view('qualityassurance::pages.engineering-level.edit', compact('EngineeringLevel'));
+        return view('qualityassurance::pages.task-release-level.edit', compact('TaskReleaseLevel'));
     }
 
-    public function update(Request $request, EngineeringLevel $EngineeringLevel)
+    public function update(Request $request, TaskReleaseLevel $TaskReleaseLevel)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
-            'sequence_level' => ['required', 'max:30'],
+            'sequence_level' => ['required', 'max:30', 'unique:task_release_levels,sequence_level'],
+            'authorized_engineering_level' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -127,12 +130,11 @@ class EngineeringLevelController extends Controller
             $status = 0;
         }
 
-        $currentRow = EngineeringLevel::where('id', $EngineeringLevel->id)->first();
-        if ( $currentRow->code == $request->code) {
+        $currentRow = TaskReleaseLevel::where('id', $TaskReleaseLevel->id)->first();
+        if ( $currentRow->code == $request->code || $currentRow->sequence_level == $request->sequence_level) {
             $currentRow
                 ->update([
                     'name' => $request->name,
-                    'sequence_level' => $request->sequence_level,
                     'description' => $request->description,
                     'status' => $status,
                     'updated_by' => $request->user()->id,
@@ -150,38 +152,14 @@ class EngineeringLevelController extends Controller
             ]);
         }
 
-        return response()->json(['success' => 'Engineering Level Data has been Updated']);
+        return response()->json(['success' => 'Task Release Level Data has been Updated']);
     
     }
 
-    public function destroy(EngineeringLevel $EngineeringLevel)
+    public function destroy(TaskReleaseLevel $TaskReleaseLevel)
     {
-        EngineeringLevel::destroy($EngineeringLevel->id);
+        TaskReleaseLevel::destroy($TaskReleaseLevel->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
-    }
-
-    public function select2(Request $request)
-    {
-        $search = $request->q;
-        $query = EngineeringLevel::orderby('name','asc')->select('id','name')->where('status', 1);
-        if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
-        }
-        $EngineeringLevels = $query->get();
-
-        $response = [];
-        foreach($EngineeringLevels as $EngineeringLevel){
-            $response['results'][] = [
-                "id"=>$EngineeringLevel->id,
-                "text"=>$EngineeringLevel->name
-            ];
-        }
-        // $response['results'][] = [
-        //     "id" => 0,
-        //     "text" => 'none',
-        // ];
-
-        return response()->json($response);
     }
 
 }

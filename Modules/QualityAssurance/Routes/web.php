@@ -16,5 +16,11 @@ Route::name('qualityassurance.')->group(function () {
         Route::resource('/skill', 'SkillController');
         Route::resource('/document-type', 'DocumentTypeController');
         Route::resource('/engineering-level', 'EngineeringLevelController');
+
+        Route::name('engineering-level.')->group(function() {
+            Route::get('qualityassurance/engineering-level/select2', 'EngineeringLevelController@select2')->name('select2');
+        });
+
+        Route::resource('/task-release-level', 'TaskReleaseLevelController');
     });
 });

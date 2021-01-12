@@ -85,6 +85,9 @@ use Modules\QualityAssurance\Entities\DocumentType;
 use Modules\QualityAssurance\Policies\EngineeringLevelPolicy;
 use Modules\QualityAssurance\Entities\EngineeringLevel;
 
+use Modules\QualityAssurance\Policies\TaskReleaseLevelPolicy;
+use Modules\QualityAssurance\Entities\TaskReleaseLevel;
+
 use Modules\GeneralSetting\Policies\CountryPolicy;
 use Modules\GeneralSetting\Entities\Country;
 
@@ -135,6 +138,7 @@ class AuthServiceProvider extends ServiceProvider
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
         EngineeringLevel::class => EngineeringLevelPolicy::class,
+        TaskReleaseLevel::class => TaskReleaseLevelPolicy::class,
 
         Company::class => CompanyPolicy::class,
         Country::class => CountryPolicy::class,
