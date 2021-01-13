@@ -42,12 +42,12 @@ class AirportController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', Company::class)) {
+                    if(Auth::user()->can('update', Airport::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', Company::class)) {
+                    if(Auth::user()->can('delete', Airport::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;

@@ -16,7 +16,7 @@ class CreateAirportsTable extends Migration
         Schema::create('airports', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ident', 10);
-            $table->string('type', 20);
+            $table->string('type', 20)->nullable();
             $table->string('name', 175);
             $table->double('latitude_deg', 16, 10)->nullable(false)->default(0);
             $table->double('longitude_deg', 16, 10)->nullable(false)->default(0);
