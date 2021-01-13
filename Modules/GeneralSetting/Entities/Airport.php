@@ -25,6 +25,7 @@ class Airport extends Model
         'home_link', 
         'wikipedia_link', 
         'keywords', 
+        'description', 
         'owned_by', 
         'status', 
         'updated_by',

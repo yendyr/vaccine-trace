@@ -187,20 +187,35 @@ class CompanyController extends Controller
         }
 
         $currentRow = Company::where('id', $Company->id)->first();
-        $currentRow->update([
-                'uuid' => Str::uuid(),
-                'code' => $request->code,
-                'name' => $request->name,
-                'gst_number' => $request->gst_number,
-                'npwp_number' => $request->npwp_number,
-                'description' => $request->description,
-                'is_customer' => $is_customer,
-                'is_supplier' => $is_supplier,
-                'is_manufacturer' => $is_manufacturer,
-                'owned_by' => $request->user()->company_id,
-                'status' => $status,
-                'updated_by' => $request->user()->id,
+        if ( $currentRow->code == $request->code) {
+            $currentRow
+                ->update([
+                    'name' => $request->name,
+                    'gst_number' => $request->gst_number,
+                    'npwp_number' => $request->npwp_number,
+                    'description' => $request->description,
+                    'is_customer' => $is_customer,
+                    'is_supplier' => $is_supplier,
+                    'is_manufacturer' => $is_manufacturer,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+                ]);
+        }
+        else {
+            $currentRow
+                ->update([
+                    'code' => $request->code,
+                    'name' => $request->name,
+                    'gst_number' => $request->gst_number,
+                    'npwp_number' => $request->npwp_number,
+                    'description' => $request->description,
+                    'is_customer' => $is_customer,
+                    'is_supplier' => $is_supplier,
+                    'is_manufacturer' => $is_manufacturer,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
             ]);
+        }
         
         return response()->json(['success' => 'Company Data has been Updated']);
     

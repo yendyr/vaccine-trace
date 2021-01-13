@@ -799,6 +799,26 @@ class MenusTableSeeder extends Seeder
             'parent_id' => null
         ]);
 
+        $menu = Menu::create([
+            'menu_link' => 'generalsetting/airport',
+            'menu_text' => 'Master Airport',
+            'menu_route' => 'generalsetting.airport.index',
+            'menu_icon' => 'fa-university',
+            'menu_class' => 'Modules\GeneralSetting\Entities\Airport',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['generalsetting/airport', 'generalsetting/airport/*']),
+            'group' => 'General Setting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
         // ----------- END Create General Setting Menus ------------------------//
     }
 }
