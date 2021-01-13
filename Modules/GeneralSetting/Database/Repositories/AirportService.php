@@ -2,12 +2,6 @@
 
 namespace Module\GeneralSetting\Database\Repositories;
 
-use Illuminate\Container\Container;
-use Illuminate\Database\Eloquent\Collection;
-use Module\GeneralSetting\Database\Repositories\AirportRepository;
-use WebAppId\Airport\Response\AirportListResponse;
-use WebAppId\DDD\Services\BaseService;
-
 class AirportService
 {
     private $id;
