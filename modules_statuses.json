@@ -4,5 +4,6 @@
     "HumanResources": true,
     "PPC": true,
     "QualityAssurance": true,
-    "GeneralSetting": true
+    "GeneralSetting": true,
+    "SupplyChain": true
 }
