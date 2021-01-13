@@ -154,4 +154,28 @@ class TaskcardTypeController extends Controller
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = TaskcardType::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $TaskcardTypes = $query->get();
+
+        $response = [];
+        foreach($TaskcardTypes as $TaskcardType){
+            $response['results'][] = [
+                "id"=>$TaskcardType->id,
+                "text"=>$TaskcardType->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

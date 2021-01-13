@@ -168,7 +168,9 @@ class TaskcardGroupController extends Controller
     public function select2Parent(Request $request)
     {
         $search = $request->q;
-        $query = TaskcardGroup::orderby('name','asc')->select('id','name')->where('status', 1);
+        $query = TaskcardGroup::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
@@ -181,10 +183,36 @@ class TaskcardGroupController extends Controller
                 "text"=>$TaskcardGroup->name
             ];
         }
-        // $response['results'][] = [
-        //     "id" => 0,
-        //     "text" => 'none',
-        // ];
+
+        return response()->json($response);
+    }
+
+    public function select2Child(Request $request)
+    {
+        $search = $request->q;
+
+        $selectHaveParent = TaskcardGroup::orderby('name','asc')
+                            ->select('parent_id')
+                            ->where('parent_id', '<>', null)
+                            ->where('status', 1);
+
+        $query = TaskcardGroup::orderby('name','asc')
+                    ->select('id','name')
+                    ->whereNotIn('id', $selectHaveParent)
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $TaskcardGroups = $query->get();
+
+        $response = [];
+        foreach($TaskcardGroups as $TaskcardGroup){
+            $response['results'][] = [
+                "id"=>$TaskcardGroup->id,
+                "text"=>$TaskcardGroup->name
+            ];
+        }
 
         return response()->json($response);
     }

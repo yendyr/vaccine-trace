@@ -35,19 +35,13 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Task Card Group</label>
-                                                        <select class="select2 form-control" name="taskcard-group">
-                                                            <option>Basic</option>
-                                                            <option>Structure Inspection Program (SIP)</option>
-                                                            <option>Corrosion Preventive and Control Program (CPCP)</option>
-                                                        </select>
+                                                        <select class="taskcard_group form-control @error('taskcard_group') is-invalid @enderror" id="taskcard_group" name="taskcard_group"></select>
+                                                        <div class="invalid-feedback-taskcard_group text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Task Card Type</label>
-                                                        <select class="select2 form-control" name="taskcard-type">
-                                                            <option>Inspection</option>
-                                                            <option>Service</option>
-                                                            <option>Visual Check</option>
-                                                        </select>
+                                                        <select class="taskcard_type form-control @error('taskcard_type') is-invalid @enderror" id="taskcard_type" name="taskcard_type"></select>
+                                                        <div class="invalid-feedback-taskcard_type text-danger font-italic"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row m-b">
