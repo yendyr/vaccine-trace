@@ -4,7 +4,7 @@
     @component('components.delete-modal', ['name' => 'Warehouse Datalist'])
     @endcomponent
 
-    @include('ppc::supplychain.warehouse.modal')
+    @include('supplychain::pages.warehouse.modal')
 
     @component('components.crud-form.index',[
                     'title' => 'Warehouse Datalist',

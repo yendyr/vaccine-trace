@@ -2,7 +2,7 @@
 
 namespace Modules\SupplyChain\Http\Controllers;
 
-use Modules\SupplyChain\Entities\Warehouse;
+use Modules\SupplyChain\Entities\UnitClass;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class WarehouseController extends Controller
+class UnitClassController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(Warehouse::class);
+        $this->authorizeResource(UnitClass::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Warehouse::all();
+            $data = UnitClass::all();
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -42,12 +42,12 @@ class WarehouseController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', Warehouse::class)) {
+                    if(Auth::user()->can('update', UnitClass::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', Warehouse::class)) {
+                    if(Auth::user()->can('delete', UnitClass::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -65,18 +65,18 @@ class WarehouseController extends Controller
                 ->make(true);
         }
 
-        return view('supplychain::pages.warehouse.index');
+        return view('supplychain::pages.unit-class.index');
     }
 
     public function create()
     {
-        return view('supplychain::pages.warehouse.create');
+        return view('supplychain::pages.unit-class.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:warehouses,code'],
+            'code' => ['required', 'max:30', 'unique:unit_classes,code'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -87,7 +87,7 @@ class WarehouseController extends Controller
             $status = 0;
         }
 
-        Warehouse::create([
+        UnitClass::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
@@ -96,21 +96,21 @@ class WarehouseController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Warehouse Data has been Added']);
+        return response()->json(['success' => 'Unit Class has been Added']);
     
     }
 
-    public function show(Warehouse $Warehouse)
+    public function show(UnitClass $UnitClass)
     {
-        return view('supplychain::pages.warehouse.show');
+        return view('supplychain::pages.unit-class.show');
     }
 
-    public function edit(Warehouse $Warehouse)
+    public function edit(UnitClass $UnitClass)
     {
-        return view('supplychain::pages.warehouse.edit', compact('Warehouse'));
+        return view('supplychain::pages.unit-class.edit', compact('UnitClass'));
     }
 
-    public function update(Request $request, Warehouse $Warehouse)
+    public function update(Request $request, UnitClass $UnitClass)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
@@ -124,7 +124,7 @@ class WarehouseController extends Controller
             $status = 0;
         }
 
-        $currentRow = Warehouse::where('id', $Warehouse->id)->first();
+        $currentRow = UnitClass::where('id', $UnitClass->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
                 ->update([
@@ -144,13 +144,13 @@ class WarehouseController extends Controller
                     'updated_by' => Auth::user()->id,
             ]);
         }
-        return response()->json(['success' => 'Warehouse Data has been Updated']);
+        return response()->json(['success' => 'Unit Class Data has been Updated']);
     
     }
 
-    public function destroy(Warehouse $Warehouse)
+    public function destroy(UnitClass $UnitClass)
     {
-        Warehouse::destroy($Warehouse->id);
+        UnitClass::destroy($UnitClass->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
@@ -158,20 +158,20 @@ class WarehouseController extends Controller
     {
         $search = $request->q;
 
-        $query = Warehouse::orderby('name','asc')
+        $query = UnitClass::orderby('name','asc')
                     ->select('id','name')
                     ->where('status', 1);
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
-        $Warehouses = $query->get();
+        $UnitClasses = $query->get();
 
         $response = [];
-        foreach($Warehouses as $Warehouse){
+        foreach($UnitClasses as $UnitClass){
             $response['results'][] = [
-                "id"=>$Warehouse->id,
-                "text"=>$Warehouse->name
+                "id"=>$UnitClass->id,
+                "text"=>$UnitClass->name
             ];
         }
 

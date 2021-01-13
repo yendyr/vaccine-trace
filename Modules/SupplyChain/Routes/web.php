@@ -16,5 +16,10 @@ Route::name('supplychain.')->group(function () {
         Route::name('warehouse.')->group(function() {
             Route::get('supplychain/warehouse/select2', 'WarehouseController@select2')->name('select2');
         });
+
+        Route::resource('/unit-class', 'UnitClassController');
+        Route::name('unit-class.')->group(function() {
+            Route::get('supplychain/unit-class/select2', 'UnitClassController@select2')->name('select2');
+        });
     });
 });

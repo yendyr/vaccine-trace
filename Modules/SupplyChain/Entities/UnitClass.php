@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Warehouse extends Model
+class UnitClass extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
