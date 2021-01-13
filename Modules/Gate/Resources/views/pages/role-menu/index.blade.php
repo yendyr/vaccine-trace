@@ -8,13 +8,12 @@
             <select class="select2_role form-control m-b" name="role">
             </select>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-7 align-self-center">
             @can('create', Modules\Gate\Entities\RoleMenu::class) 
                 <button class="ladda-button ladda-button-submit btn btn-primary"  data-style="zoom-in" type="submit" id="saveButton">
                     <strong>Save Changes</strong>
                 </button>
-
-                <label>Check All</label>
+                <label style="margin-bottom: 0px;">Check All</label>
                 <input type="checkbox" onchange="checkAll(this)" name="chk[]" >
             @endcan
         </div>
@@ -24,13 +23,13 @@
                     'title' => 'Role Menu Datalist',
                     'tableId' => 'rolemenu-table',
                     'ajaxSource' => '/gate/role-menu'])
-
         
             <input type="hidden" name="role" value="" id="role-input">
             @slot('tableContent')
                 <th>Parent Menu</th>
                 <th>Menu Link</th>
                 <th>Menu Text</th>
+                <th>View</th>
                 <th>Add</th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -60,7 +59,7 @@
              } else {
                  for (var i = 0; i < checkboxes.length; i++) {
                      if (checkboxes[i].type == 'checkbox') {
-                         checkboxes[i].checked = false;
+                         checkboxes[i].checked = true;
                      }
                  }
              }

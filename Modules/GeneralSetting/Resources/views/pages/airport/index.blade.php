@@ -36,7 +36,7 @@
             <th>Home Link</th>            
             <th>Wikipedia Link</th>            
             <th>Keywords</th>            
-            <th>Dscription</th>            
+            <th>Description</th>            
             <th>Status</th>            
             <th>Created By</th>            
             <th>Created At</th>            
