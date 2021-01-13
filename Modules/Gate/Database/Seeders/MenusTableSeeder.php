@@ -18,6 +18,7 @@ class MenusTableSeeder extends Seeder
     {
         Model::unguard();
 
+        // ----------- Create Gate Module Menus ------------------------//
         $toolsMenu = Menu::create([
             'menu_link' => '#',
             'menu_text' => 'Tools',
@@ -136,7 +137,11 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+        // ----------- END Create Gate Module Menus ------------------------//
+
+
         
+        // ----------- Create HR Module Menus ------------------------//
         $menuHrSetting = Menu::create([
             'menu_link' => '#',
             'menu_text' => 'Setting',
@@ -475,6 +480,9 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+        // ----------- END Create HR Module Menus ------------------------//
+
+
 
         // ----------- Create PPC Module Menus ------------------------//
         $menuPpcTaskcard = Menu::create([
@@ -676,6 +684,8 @@ class MenusTableSeeder extends Seeder
         ]);
         // ----------- END Create PPC Module Menus ------------------------//
 
+
+
         // ----------- Create Quality Module Menus ------------------------//
         $menu = Menu::create([
             'menu_link' => 'qualityassurance/skill',
@@ -758,6 +768,8 @@ class MenusTableSeeder extends Seeder
         ]);
         // ----------- END Create Quality Module Menus ------------------------//
 
+
+
         // ----------- Create General Setting Menus ------------------------//
         $menu = Menu::create([
             'menu_link' => 'generalsetting/country',
@@ -820,5 +832,30 @@ class MenusTableSeeder extends Seeder
         ]);
 
         // ----------- END Create General Setting Menus ------------------------//
+
+
+
+        // ----------- Create Supply Chain Menus ------------------------//
+        $menu = Menu::create([
+            'menu_link' => 'supplychain/warehouse',
+            'menu_text' => 'Master Warehouse',
+            'menu_route' => 'supplychain.warehouse.index',
+            'menu_icon' => 'fa-database',
+            'menu_class' => 'Modules\SupplyChain\Entities\Warehouse',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['supplychain/warehouse', 'supplychain/warehouse/*']),
+            'group' => 'Supply Chain',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        // ----------- END Create Supply Chain Menus ------------------------//
     }
 }
