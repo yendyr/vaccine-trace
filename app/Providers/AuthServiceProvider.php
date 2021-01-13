@@ -94,6 +94,9 @@ use Modules\GeneralSetting\Entities\Country;
 use Modules\GeneralSetting\Policies\CompanyPolicy;
 use Modules\GeneralSetting\Entities\Company;
 
+use Modules\GeneralSetting\Policies\AirportPolicy;
+use Modules\GeneralSetting\Entities\Airport;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -142,6 +145,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Company::class => CompanyPolicy::class,
         Country::class => CountryPolicy::class,
+        Airport::class => AirportPolicy::class,
     ];
 
     /**
