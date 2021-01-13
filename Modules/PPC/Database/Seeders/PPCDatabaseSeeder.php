@@ -23,7 +23,7 @@ class PPCDatabaseSeeder extends Seeder
             TaskcardZoneSeeder::class,
             TaskcardAccessSeeder::class,
             TaskcardWorkareaSeeder::class,
-            TaskcardDocuemntLibrarySeeder::class,
+            TaskcardDocumentLibrarySeeder::class,
         ]);
     }
 }

@@ -32,7 +32,7 @@ class TaskcardWorkareaSeeder extends Seeder
         ]);
         $TaskcardWorkarea = TaskcardWorkarea::create([
             'name' => 'AC Distribution Bay',
-            'code' => 'ADB',
+            'code' => 'ADBAY',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

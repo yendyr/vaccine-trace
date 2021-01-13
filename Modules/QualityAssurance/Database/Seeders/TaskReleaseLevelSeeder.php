@@ -29,7 +29,7 @@ class TaskReleaseLevelSeeder extends Seeder
         $TaskReleaseLevel = TaskReleaseLevel::create([
             'name' => 'RII Release',
             'code' => 'RII',
-            'sequence_level' => 1,
+            'sequence_level' => 2,
             'authorized_engineering_level' => 3,
             'status' => 1,
             'uuid' => Str::uuid(),
