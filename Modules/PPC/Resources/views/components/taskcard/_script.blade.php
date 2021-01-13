@@ -4,8 +4,8 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/ppc/aircraft-type/';
-        var tableId = '#aircraft-type-table';
+        var actionUrl = '/ppc/taskcard/';
+        var tableId = '#taskcard-table';
         var inputFormId = '#inputForm';
 
         var datatableObject = $(tableId).DataTable({
@@ -13,12 +13,11 @@
             processing: true,
             serverSide: false,
             ajax: {
-                url: "{{ route('ppc.aircraft-type.index') }}",
+                url: "{{ route('ppc.taskcard.index') }}",
             },
             columns: [
                 { data: 'code', name: 'Code'  },
-                { data: 'name', name: 'Aircraft Type Name' },
-                { data: 'manufacturer.name', name: 'Manufacturer', defaultContent: '-' },
+                { data: 'name', name: 'Task Card Name' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },
@@ -29,23 +28,12 @@
             ]
         });
 
-        $('.manufacturer_id').select2({
-                theme: 'bootstrap4',
-                placeholder: 'Choose Manufacturer',
-                allowClear: true,
-                ajax: {
-                    url: "{{ route('generalsetting.company.select2.manufacturer') }}",
-                    dataType: 'json',
-                },
-                dropdownParent: $('#inputModal')
-            });
-
         $('#create').click(function () {
-            showCreateModal ('Create New Aircraft Type', inputFormId, actionUrl);
+            showCreateModal ('Create New Task Card', inputFormId, actionUrl);
         });
 
         datatableObject.on('click', '.editBtn', function () {
-            $('#modalTitle').html("Edit Aircraft Type");
+            $('#modalTitle').html("Edit Task Card");
             $(inputFormId).trigger("reset");                
             rowId= $(this).val();
             let tr = $(this).closest('tr');
@@ -60,12 +48,6 @@
 
             $('#code').val(data.code);
             $('#name').val(data.name);
-            $(".manufacturer_id").val(null).trigger('change');
-                if (data.manufacturer == null){
-                    $('#manufacturer_id').append('<option value="' + data.manufacturer_id + '" selected></option>');
-                } else {
-                    $('#manufacturer_id').append('<option value="' + data.manufacturer_id + '" selected>' + data.manufacturer.name + '</option>');
-                }
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);

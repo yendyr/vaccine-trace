@@ -33,7 +33,7 @@
         @endslot
     @endcomponent
 
-    {{-- @include('ppc::components.taskcard._script') --}}
+    @include('ppc::components.taskcard._script')
 
 @endsection
 

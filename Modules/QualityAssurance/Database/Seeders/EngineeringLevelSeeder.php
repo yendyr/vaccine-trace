@@ -34,7 +34,7 @@ class EngineeringLevelSeeder extends Seeder
         ]);
         $EngineeringLevel = EngineeringLevel::create([
             'name' => 'Certifying Staff',
-            'code' => 'HLP',
+            'code' => 'CS',
             'sequence_level' => 3,
             'status' => 1,
             'uuid' => Str::uuid(),
