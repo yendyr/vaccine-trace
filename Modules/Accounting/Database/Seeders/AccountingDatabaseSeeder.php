@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\SupplyChain\Database\Seeders;
+namespace Modules\Accounting\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class SupplyChainDatabaseSeeder extends Seeder
+class AccountingDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,9 +17,9 @@ class SupplyChainDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call([
-            UnitClassSeeder::class,
-            UnitSeeder::class,
-            ItemCategorySeeder::class,
+            ChartOfAccountClassSeeder::class,
+            ChartOfAccountGroupSeeder::class,
         ]);
+    }
     }
 }

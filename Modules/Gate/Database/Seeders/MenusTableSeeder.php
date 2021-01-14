@@ -118,25 +118,25 @@ class MenusTableSeeder extends Seeder
             'parent_id' => $toolsMenu->id
         ]);
         
-        $menu = Menu::create([
-            'menu_link' => 'examples/example',
-            'menu_text' => 'Example',
-            'menu_route' => 'examples.example.index',
-            'menu_icon' => 'fa fa-plus',
-            'menu_class' => 'Modules\Gate\Entities\Example',
-            'menu_id' => null,
-            'menu_actives' => json_encode(['examples/example', 'examples/example/*']),
-            'group' => 'Examples',
-            'add' => 1,
-            'update' => 1,
-            'delete' => 0,
-            'print' => 0,
-            'approval' => 7,
-            'process' => 0,
-            'status' => 1,
-            'uuid' => Str::uuid(),
-            'parent_id' => null
-        ]);
+        // $menu = Menu::create([
+        //     'menu_link' => 'examples/example',
+        //     'menu_text' => 'Example',
+        //     'menu_route' => 'examples.example.index',
+        //     'menu_icon' => 'fa fa-plus',
+        //     'menu_class' => 'Modules\Gate\Entities\Example',
+        //     'menu_id' => null,
+        //     'menu_actives' => json_encode(['examples/example', 'examples/example/*']),
+        //     'group' => 'Examples',
+        //     'add' => 1,
+        //     'update' => 1,
+        //     'delete' => 0,
+        //     'print' => 0,
+        //     'approval' => 7,
+        //     'process' => 0,
+        //     'status' => 1,
+        //     'uuid' => Str::uuid(),
+        //     'parent_id' => null
+        // ]);
         // ----------- END Create Gate Module Menus ------------------------//
 
 
@@ -863,6 +863,25 @@ class MenusTableSeeder extends Seeder
             'menu_class' => 'Modules\SupplyChain\Entities\Unit',
             'menu_id' => null,
             'menu_actives' => json_encode(['supplychain/unit', 'supplychain/unit/*']),
+            'group' => 'Supply Chain',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+        $menu = Menu::create([
+            'menu_link' => 'supplychain/item-category',
+            'menu_text' => 'Master Item Category',
+            'menu_route' => 'supplychain.item-category.index',
+            'menu_icon' => 'fa-share-alt',
+            'menu_class' => 'Modules\SupplyChain\Entities\ItemCategory',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['supplychain/item-category', 'supplychain/item-category/*']),
             'group' => 'Supply Chain',
             'add' => 1,
             'update' => 1,

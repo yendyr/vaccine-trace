@@ -4,8 +4,8 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/supplychain/unit/';
-        var tableId = '#unit-table';
+        var actionUrl = '/supplychain/item-category/';
+        var tableId = '#item-category-table';
         var inputFormId = '#inputForm';
 
         var datatableObject = $(tableId).DataTable({
@@ -13,12 +13,11 @@
             processing: true,
             serverSide: false,
             ajax: {
-                url: "{{ route('supplychain.unit.index') }}",
+                url: "{{ route('supplychain.item-category.index') }}",
             },
             columns: [
                 { data: 'code', name: 'Code'  },
-                { data: 'name', name: 'Unit Name' },
-                { data: 'unit_class.name', name: 'Unit Class', defaultContent: '-' },
+                { data: 'name', name: 'Item Category Name' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },
@@ -29,20 +28,20 @@
             ]
         });
 
-        $('.unit_class_id').select2({
-            theme: 'bootstrap4',
-            placeholder: 'Choose Unit Class',
-            allowClear: true,
-            ajax: {
-                url: "{{ route('supplychain.unit-class.select2') }}",
-                dataType: 'json',
-            },
-            dropdownParent: $('#inputModal')
-        });
+        // $('.unit_class_id').select2({
+        //     theme: 'bootstrap4',
+        //     placeholder: 'Choose Unit Class',
+        //     allowClear: true,
+        //     ajax: {
+        //         url: "{{ route('supplychain.unit-class.select2') }}",
+        //         dataType: 'json',
+        //     },
+        //     dropdownParent: $('#inputModal')
+        // });
 
         $('#create').click(function () {
             showCreateModal ('Create New Unit', inputFormId, actionUrl);
-            $(".unit_class_id").val(null).trigger('change');
+            // $(".unit_class_id").val(null).trigger('change');
         });
 
         datatableObject.on('click', '.editBtn', function () {
