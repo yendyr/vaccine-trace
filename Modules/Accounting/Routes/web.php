@@ -10,7 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::name('accounting.')->group(function () {
+    Route::prefix('accounting')->group(function() {
+        Route::resource('/chart-of-account-class', 'ChartOfAccountClassController');
+        Route::name('chart-of-account-class.')->group(function() {
+            Route::get('accounting/chart-of-account-class/select2/parent', 'ChartOfAccountClassController@select2Parent')->name('select2.parent');
+            Route::get('accounting/chart-of-account-class/select2/child', 'ChartOfAccountClassController@select2Child')->name('select2.child');
+        });
 
-Route::prefix('accounting')->group(function() {
-    Route::get('/', 'AccountingController@index');
-});
+        Route::resource('/chart-of-account-group', 'ChartOfAccountGroupController');
+        Route::name('chart-of-account-group.')->group(function() {
+            Route::get('accounting/chart-of-account-group/select2/parent', 'ChartOfAccountGroupController@select2Parent')->name('select2.parent');
+            Route::get('accounting/chart-of-account-group/select2/child', 'ChartOfAccountGroupController@select2Child')->name('select2.child');
+        });
+    });
+}); 

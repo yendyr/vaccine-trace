@@ -895,5 +895,28 @@ class MenusTableSeeder extends Seeder
         ]);
 
         // ----------- END Create Supply Chain Menus ------------------------//
+
+
+
+        // ----------- Create Accounting Menus ------------------------//
+        $menu = Menu::create([
+            'menu_link' => 'accounting/chart-of-account-group',
+            'menu_text' => 'Master COA Group',
+            'menu_route' => 'accounting.chart-of-account-group.index',
+            'menu_icon' => 'fa-folder',
+            'menu_class' => 'Modules\Accounting\Entities\ChartOfAccountGroup',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['Accounting/chart-of-account-group', 'Accounting/chart-of-account-group/*']),
+            'group' => 'Accounting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }

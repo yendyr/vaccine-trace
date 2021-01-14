@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PPC\Entities;
+namespace Modules\Accounting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,5 +33,10 @@ class ChartOfAccountClass extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function chart_of_account_group()
+    {
+        return $this->hasMany(\Modules\Accounting\Entities\ChartofAccountGroup::class, 'chart_of_account_class_id');
     }
 }

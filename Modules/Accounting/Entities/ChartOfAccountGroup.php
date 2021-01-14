@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\PPC\Entities;
+namespace Modules\Accounting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class TaskcardGroup extends Model
+class ChartOfAccountGroup extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -19,6 +19,7 @@ class TaskcardGroup extends Model
         'code',
         'name',
         'description',
+        'chart_of_account_class_id',
         'parent_id',
         'status',
         'created_by',
@@ -36,8 +37,13 @@ class TaskcardGroup extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function taskcard_group()
+    public function chart_of_account_class()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartofAccountClass::class, 'chart_of_account_class_id');
+    }
+
+    public function chart_of_account_group()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartofAccountGroup::class, 'parent_id');
     }
 }
