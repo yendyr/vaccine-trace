@@ -37,6 +37,6 @@ class ChartOfAccountClass extends Model
 
     public function chart_of_account_group()
     {
-        return $this->hasMany(\Modules\Accounting\Entities\ChartofAccountGroup::class, 'chart_of_account_class_id');
+        return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccountGroup::class, 'chart_of_account_class_id');
     }
 }

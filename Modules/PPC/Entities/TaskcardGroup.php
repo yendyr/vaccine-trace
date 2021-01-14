@@ -40,4 +40,10 @@ class TaskcardGroup extends Model
     {
         return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
     }
+
+    public function subGroup()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
+
+    }
 }

@@ -18,8 +18,8 @@
             columns: [
                 { data: 'code', name: 'Code'  },
                 { data: 'name', name: 'Group Name' },
-                { data: 'chart_of_account_class.name', name: 'Class' },
                 { data: 'chart_of_account_group.name', name: 'Parent Group', defaultContent: '-' },
+                { data: 'chart_of_account_class.name', name: 'Class', defaultContent: '-' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },
@@ -35,7 +35,7 @@
             placeholder: 'Choose Parent',
             allowClear: true,
             ajax: {
-                url: "{{ route('accounting.chart-of-account-group.select2Parent') }}",
+                url: "{{ route('accounting.chart-of-account-group.select2.parent') }}",
                 dataType: 'json',
             },
             dropdownParent: $('#inputModal')
@@ -51,14 +51,16 @@
             },
             dropdownParent: $('#inputModal')
         });
-        
 
         $('#create').click(function () {
-            showCreateModal ('Create New Task Card Type', inputFormId, actionUrl);
+            showCreateModal ('Create New COA Group', inputFormId, actionUrl);
+
+            $(".parent_id").val(null).trigger('change');
+            $(".chart_of_account_class_id").val(null).trigger('change');
         });
 
         datatableObject.on('click', '.editBtn', function () {
-            $('#modalTitle').html("Edit Task Card Type");
+            $('#modalTitle').html("Edit COA Group");
             $(inputFormId).trigger("reset");                
             rowId= $(this).val();
             let tr = $(this).closest('tr');
@@ -73,6 +75,23 @@
 
             $('#code').val(data.code);
             $('#name').val(data.name);
+
+            $(".parent_id").val(null).trigger('change');
+            if (data.chart_of_account_group == null) {
+                $('#parent_id').append('<option value="' + data.parent_id + '" selected></option>');
+            } 
+            else {
+                $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.chart_of_account_group.name + '</option>');
+            } 
+
+            $(".chart_of_account_class_id").val(null).trigger('change');
+            if (data.chart_of_account_class_id == null) {
+                $('#chart_of_account_class_id').append('<option value="' + data.chart_of_account_class_id + '" selected></option>');
+            } 
+            else {
+                $('#chart_of_account_class_id').append('<option value="' + data.chart_of_account_class_id + '" selected>' + data.chart_of_account_class.name + '</option>');
+            }  
+
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);

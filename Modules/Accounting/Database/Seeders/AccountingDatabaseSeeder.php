@@ -21,5 +21,4 @@ class AccountingDatabaseSeeder extends Seeder
             ChartOfAccountGroupSeeder::class,
         ]);
     }
-    }
 }

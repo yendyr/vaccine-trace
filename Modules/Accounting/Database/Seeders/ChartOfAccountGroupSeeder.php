@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\PPC\Database\Seeders;
+namespace Modules\Accounting\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\PPC\Entities\ChartOfAccountGroup;
+use Modules\Accounting\Entities\ChartOfAccountGroup;
 use Illuminate\Support\Str;
 
 class ChartOfAccountGroupSeeder extends Seeder
@@ -48,7 +48,7 @@ class ChartOfAccountGroupSeeder extends Seeder
         ]);
         $ChartOfAccountGroup = ChartOfAccountGroup::create([
             'name' => 'Equity',
-            'code' => 'DP',
+            'code' => 'EQ',
             'chart_of_account_class_id' => 3,
             'status' => 1,
             'uuid' => Str::uuid(),
@@ -99,6 +99,38 @@ class ChartOfAccountGroupSeeder extends Seeder
             'name' => 'Other Cost',
             'code' => 'OTC',
             'chart_of_account_class_id' => 5,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $ChartOfAccountGroup = ChartOfAccountGroup::create([
+            'name' => 'Sales',
+            'code' => 'SLS',
+            'chart_of_account_class_id' => 2,
+            'parent_id' => 2,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $ChartOfAccountGroup = ChartOfAccountGroup::create([
+            'name' => 'Service',
+            'code' => 'SVC',
+            'chart_of_account_class_id' => 2,
+            'parent_id' => 2,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $ChartOfAccountGroup = ChartOfAccountGroup::create([
+            'name' => 'Employee Debt',
+            'code' => 'EDB',
+            'chart_of_account_class_id' => 2,
+            'parent_id' => 4,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        $ChartOfAccountGroup = ChartOfAccountGroup::create([
+            'name' => '3rd Party Debt',
+            'code' => 'PDB',
+            'chart_of_account_class_id' => 2,
+            'parent_id' => 4,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

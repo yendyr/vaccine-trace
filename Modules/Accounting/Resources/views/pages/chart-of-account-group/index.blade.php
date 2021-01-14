@@ -22,7 +22,7 @@
                     </div>                   
                 </li>
                 @if(count($taxonomy->subGroup))
-                    @include('ppc::pages.taskcard-group.sub-group', ['subGroups' => $taxonomy->subGroup])
+                    @include('accounting::pages.chart-of-account-group.sub-group', ['subGroups' => $taxonomy->subGroup])
                 @endif
             </ol>
             @endforeach 
@@ -40,7 +40,7 @@
                         'tableId' => 'chart-of-account-group-table'])
 
             @slot('createButton')
-                @can('create', Modules\PPC\Entities\TaskcardGroup::class)                
+                @can('create', Modules\Accounting\Entities\ChartOfAccountGroup::class)                
                     <button type="button" id="create" class="btn btn-primary btn-lg">
                         <i class="fa fa-plus-circle"></i>&nbsp;Create New
                     </button>   
@@ -62,7 +62,7 @@
             @endslot
         @endcomponent
 
-        @include('accounting::pages.chart-of-account-group.modal')
+        @include('accounting::components.chart-of-account-group._script')
     </div>
 </div>
 @endsection

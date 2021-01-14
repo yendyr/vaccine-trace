@@ -14,8 +14,7 @@ Route::name('accounting.')->group(function () {
     Route::prefix('accounting')->group(function() {
         Route::resource('/chart-of-account-class', 'ChartOfAccountClassController');
         Route::name('chart-of-account-class.')->group(function() {
-            Route::get('accounting/chart-of-account-class/select2/parent', 'ChartOfAccountClassController@select2Parent')->name('select2.parent');
-            Route::get('accounting/chart-of-account-class/select2/child', 'ChartOfAccountClassController@select2Child')->name('select2.child');
+            Route::get('accounting/chart-of-account-class/select2', 'ChartOfAccountClassController@select2')->name('select2');
         });
 
         Route::resource('/chart-of-account-group', 'ChartOfAccountGroupController');

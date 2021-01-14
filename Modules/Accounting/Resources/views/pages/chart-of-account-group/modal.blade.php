@@ -29,7 +29,7 @@
                         <label class="col-sm-5 d-flex align-items-center">Parent Group Name</label>
                         <div class="col-sm-7">
                             <select class="parent_id form-control @error('parent_id') is-invalid @enderror" id="parent_id" name="parent_id"></select>
-                            <div class="invalid-feedback-parent_name text-danger font-italic"></div>
+                            <div class="invalid-feedback-parent_id text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">

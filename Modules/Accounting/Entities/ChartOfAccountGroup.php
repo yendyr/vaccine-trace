@@ -39,11 +39,17 @@ class ChartOfAccountGroup extends Model
 
     public function chart_of_account_class()
     {
-        return $this->belongsTo(\Modules\Accounting\Entities\ChartofAccountClass::class, 'chart_of_account_class_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccountClass::class, 'chart_of_account_class_id');
     }
 
     public function chart_of_account_group()
     {
-        return $this->belongsTo(\Modules\Accounting\Entities\ChartofAccountGroup::class, 'parent_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccountGroup::class, 'parent_id');
+    }
+
+    public function subGroup()
+    {
+        return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccountGroup::class, 'parent_id');
+
     }
 }

@@ -25,7 +25,8 @@ class ChartOfAccountGroupController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ChartOfAccountGroup::with(['chart_of_account_group:id,name']);
+            $data = ChartOfAccountGroup::with(['chart_of_account_class:id,name'])
+                                        ->with(['chart_of_account_group:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -209,7 +210,7 @@ class ChartOfAccountGroupController extends Controller
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
-        $TaskcardGroups = $query->get();
+        $ChartOfAccountGroups = $query->get();
 
         $response = [];
         foreach($ChartOfAccountGroups as $ChartOfAccountGroup){

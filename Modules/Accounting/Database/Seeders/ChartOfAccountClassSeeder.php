@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\PPC\Database\Seeders;
+namespace Modules\Accounting\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\PPC\Entities\ChartOfAccountClass;
+use Modules\Accounting\Entities\ChartOfAccountClass;
 use Illuminate\Support\Str;
 
 class ChartOfAccountClassSeeder extends Seeder
