@@ -206,11 +206,9 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Document Library</label>
-                                                        <select class="select2 form-control" name="taskcard-document-library" multiple="multiple">
-                                                            <option>Free Input</option>
-                                                            <option>Free Input 1</option>
-                                                            <option>Free Input 2</option>
+                                                        <select class="document_library form-control @error('document_library') is-invalid @enderror" name="document_library" id="document_library" multiple="multiple">
                                                         </select>
+                                                        <div class="invalid-feedback-document_library text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -218,11 +216,9 @@
                                                     </div>
                                                     <div class="col">
                                                         <label>Manual Affected</label>
-                                                        <select class="select2 form-control" name="taskcard-manual-affected" multiple="multiple">
-                                                            <option>AMM</option>
-                                                            <option>CMM</option>
-                                                            <option>IPC</option>
+                                                        <select class="manual_affected form-control @error('manual_affected') is-invalid @enderror" name="manual_affected" id="manual_affected" multiple="multiple">
                                                         </select>
+                                                        <div class="invalid-feedback-manual_affected text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value

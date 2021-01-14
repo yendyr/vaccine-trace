@@ -2,11 +2,9 @@
     <script>
         $(document).ready(function () {
             var tables = $('#rolemenu-table').DataTable({
-                serverSide: true,
-                paging: false,
-                info: false,
-                scrollY: 400,
-                scrollCollapse: true,
+                pageLength: 25,
+                processing: true,
+                serverSide: false,
                 ajax: {
                     url: "{{ route('gate.role-menu.index')}}",
                 },
@@ -43,11 +41,9 @@
                 }
                 $('#role-input').val(roleID);
                 tables = $('#rolemenu-table').DataTable({
+                    pageLength: 25,
                     processing: true,
-                    serverSide: true,
-                    paging: false,
-                    info: false,
-                    scrollY: 400,
+                    serverSide: false,
                     scrollCollapse: true,
                     ajax: {
                         url: "/gate/role-menu/datatable/" + roleID,
@@ -106,20 +102,5 @@
                 });
             });
         });
-
-        // function reaction(menuId) {
-        //     if($('input[name="index[' + menuId + ']"]').is(":not(:checked)")){
-        //         //$('input[name="index[' + menuId + ']"]').attr('value', 0);
-        //         $('input[name="add[' + (menuId) + ']"]').prop('checked', false);
-        //         // $('input[name="add[' + (menuId) + ']"]').hide();
-        //         $('input[name="edit[' + (menuId) + ']"]').prop('checked', false);
-        //         // $('input[name="edit[' + (menuId) + ']"]').hide();
-        //         $('input[name="delete[' + (menuId) + ']"]').prop('checked', false);
-        //         // $('input[name="delete[' + (menuId) + ']"]').hide();
-        //     } else{
-        //
-        //     }
-        // }
-
     </script>
 @endpush

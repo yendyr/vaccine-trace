@@ -154,4 +154,28 @@ class DocumentTypeController extends Controller
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = DocumentType::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $DocumentTypes = $query->get();
+
+        $response = [];
+        foreach($DocumentTypes as $DocumentType){
+            $response['results'][] = [
+                "id"=>$DocumentType->id,
+                "text"=>$DocumentType->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

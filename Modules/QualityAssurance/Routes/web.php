@@ -14,7 +14,12 @@
 Route::name('qualityassurance.')->group(function () {
     Route::prefix('qualityassurance')->group(function() {
         Route::resource('/skill', 'SkillController');
+
         Route::resource('/document-type', 'DocumentTypeController');
+        Route::name('document-type.')->group(function() {
+            Route::get('qualityassurance/document-type/select2', 'DocumentTypeController@select2')->name('select2');
+        });
+
         Route::resource('/engineering-level', 'EngineeringLevelController');
 
         Route::name('engineering-level.')->group(function() {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\PPC\Http\Controllers;
+namespace Modules\SupplyChain\Http\Controllers;
 
-use Modules\PPC\Entities\TaskcardAccess;
+use Modules\SupplyChain\Entities\Unit;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,20 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TaskcardAccessController extends Controller
+class UnitController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(TaskcardAccess::class);
+        $this->authorizeResource(Unit::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = TaskcardAccess::all();
+            $data = Unit::with(['unit_class:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -42,12 +42,12 @@ class TaskcardAccessController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', TaskcardAccess::class)) {
+                    if(Auth::user()->can('update', Unit::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', TaskcardAccess::class)) {
+                    if(Auth::user()->can('delete', Unit::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -65,19 +65,20 @@ class TaskcardAccessController extends Controller
                 ->make(true);
         }
 
-        return view('ppc::pages.taskcard-access.index');
+        return view('supplychain::pages.unit.index');
     }
 
     public function create()
     {
-        return view('ppc::pages.taskcard-access.create');
+        return view('supplychain::pages.unit.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:taskcard_accesses,code'],
+            'code' => ['required', 'max:30', 'unique:unit,code'],
             'name' => ['required', 'max:30'],
+            'unit_class_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -87,34 +88,36 @@ class TaskcardAccessController extends Controller
             $status = 0;
         }
 
-        TaskcardAccess::create([
+        Unit::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
             'description' => $request->description,
+            'unit_class_id' => $request->unit_class_id,
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Task Card Access Data has been Added']);
+        return response()->json(['success' => 'Unit has been Added']);
     
     }
 
-    public function show(TaskcardAccess $TaskcardAccess)
+    public function show(Unit $Unit)
     {
-        return view('ppc::pages.taskcard-access.show');
+        return view('supplychain::pages.unit.show');
     }
 
-    public function edit(TaskcardAccess $TaskcardAccess)
+    public function edit(Unit $Unit)
     {
-        return view('ppc::pages.taskcard-access.edit', compact('TaskcardAccess'));
+        return view('supplychain::pages.unit.edit', compact('Unit'));
     }
 
-    public function update(Request $request, TaskcardAccess $TaskcardAccess)
+    public function update(Request $request, Unit $Unit)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
+            'unit_class_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -124,12 +127,13 @@ class TaskcardAccessController extends Controller
             $status = 0;
         }
 
-        $currentRow = TaskcardAccess::where('id', $TaskcardAccess->id)->first();
+        $currentRow = Unit::where('id', $Unit->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
                 ->update([
                     'name' => $request->name,
                     'description' => $request->description,
+                    'unit_class_id' => $request->unit_class_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
@@ -140,17 +144,18 @@ class TaskcardAccessController extends Controller
                     'code' => $request->code,
                     'name' => $request->name,
                     'description' => $request->description,
+                    'unit_class_id' => $request->unit_class_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
         }
-        return response()->json(['success' => 'Task Card Access Data has been Updated']);
+        return response()->json(['success' => 'Unit Data has been Updated']);
     
     }
 
-    public function destroy(TaskcardAccess $TaskcardAccess)
+    public function destroy(Unit $Unit)
     {
-        TaskcardAccess::destroy($TaskcardAccess->id);
+        Unit::destroy($Unit->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
@@ -158,20 +163,20 @@ class TaskcardAccessController extends Controller
     {
         $search = $request->q;
 
-        $query = TaskcardAccess::orderby('name','asc')
+        $query = Unit::orderby('name','asc')
                     ->select('id','name')
                     ->where('status', 1);
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
-        $TaskcardAccesses = $query->get();
+        $Units = $query->get();
 
         $response = [];
-        foreach($TaskcardAccesses as $TaskcardAccess){
+        foreach($Units as $Unit){
             $response['results'][] = [
-                "id"=>$TaskcardAccess->id,
-                "text"=>$TaskcardAccess->name
+                "id"=>$Unit->id,
+                "text"=>$Unit->name
             ];
         }
 

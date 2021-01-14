@@ -4,8 +4,8 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/ppc/taskcard-group/';
-        var tableId = '#taskcard-group-table';
+        var actionUrl = '/supplychain/unit/';
+        var tableId = '#unit-table';
         var inputFormId = '#inputForm';
 
         var datatableObject = $(tableId).DataTable({
@@ -13,12 +13,12 @@
             processing: true,
             serverSide: false,
             ajax: {
-                url: "{{ route('ppc.taskcard-group.index') }}",
+                url: "{{ route('supplychain.unit.index') }}",
             },
             columns: [
                 { data: 'code', name: 'Code'  },
-                { data: 'name', name: 'Task Card Group Name' },
-                { data: 'taskcard_group.name', name: 'Parent Group Name', defaultContent: '-' },
+                { data: 'name', name: 'Unit Name' },
+                { data: 'unit_class.name', name: 'Unit Class', defaultContent: '-' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },
@@ -29,24 +29,23 @@
             ]
         });
 
-        $('.select2_parent_name').select2({
+        $('.unit_class_id').select2({
             theme: 'bootstrap4',
-            placeholder: 'Choose Parent',
+            placeholder: 'Choose Unit Class',
             allowClear: true,
             ajax: {
-                url: "{{ route('ppc.taskcard-group.select2.parent') }}",
+                url: "{{ route('supplychain.unit-class.select2') }}",
                 dataType: 'json',
             },
             dropdownParent: $('#inputModal')
         });
 
         $('#create').click(function () {
-            showCreateModal ('Create New Task Card Group', inputFormId, actionUrl);
-            $(".select2_parent_name").val(null).trigger('change');
+            showCreateModal ('Create New Unit', inputFormId, actionUrl);
         });
 
         datatableObject.on('click', '.editBtn', function () {
-            $('#modalTitle').html("Edit Task Card Group");
+            $('#modalTitle').html("Edit Unit");
             $(inputFormId).trigger("reset");                
             rowId= $(this).val();
             let tr = $(this).closest('tr');
@@ -61,13 +60,13 @@
 
             $('#code').val(data.code);
             $('#name').val(data.name);
-            $('#description').val(data.description);  
-            $(".select2_parent_name").val(null).trigger('change');
-                if (data.taskcard_group == null){
-                    $('#select2_parent_name').append('<option value="' + data.parent_id + '" selected></option>');
+            $('#description').val(data.description); 
+            $(".unit_class_id").val(null).trigger('change');
+                if (data.unit_class == null){
+                    $('#unit_class_id').append('<option value="' + data.unit_class_id + '" selected></option>');
                 } else {
-                    $('#select2_parent_name').append('<option value="' + data.parent_id + '" selected>' + data.taskcard_group.name + '</option>');
-                }              
+                    $('#unit_class_id').append('<option value="' + data.unit_class_id + '" selected>' + data.unit_class.name + '</option>');
+                }                 
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);
             }
@@ -81,7 +80,7 @@
         });
 
         $(inputFormId).on('submit', function (event) {
-            submitButtonProcess (tableId, inputFormId);
+            submitButtonProcess (tableId, inputFormId); 
         });
 
         deleteButtonProcess (datatableObject, tableId, actionUrl);

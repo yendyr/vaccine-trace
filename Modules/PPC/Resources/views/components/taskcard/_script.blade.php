@@ -62,12 +62,12 @@
             dropdownParent: $('#inputModal')
         });
 
-        $('.workarea').select2({
+        $('.work_area').select2({
             theme: 'bootstrap4',
-            placeholder: 'Choose Type',
+            placeholder: 'Choose Work Area',
             allowClear: true,
             ajax: {
-                url: "{{ route('ppc.aircraft-workarea.select2') }}",
+                url: "{{ route('ppc.taskcard-workarea.select2') }}",
                 dataType: 'json',
             },
             dropdownParent: $('#inputModal')
@@ -75,10 +75,10 @@
 
         $('.access').select2({
             theme: 'bootstrap4',
-            placeholder: 'Choose Type',
+            placeholder: 'Choose Access',
             allowClear: true,
             ajax: {
-                url: "{{ route('ppc.aircraft-access.select2') }}",
+                url: "{{ route('ppc.taskcard-access.select2') }}",
                 dataType: 'json',
             },
             dropdownParent: $('#inputModal')
@@ -86,10 +86,32 @@
 
         $('.zone').select2({
             theme: 'bootstrap4',
-            placeholder: 'Choose Type',
+            placeholder: 'Choose Zone',
             allowClear: true,
             ajax: {
-                url: "{{ route('ppc.aircraft-zone.select2') }}",
+                url: "{{ route('ppc.taskcard-zone.select2') }}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#inputModal')
+        });
+
+        $('.document_library').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose Document',
+            allowClear: true,
+            ajax: {
+                url: "{{ route('ppc.taskcard-document-library.select2') }}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#inputModal')
+        });
+
+        $('.manual_affected').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose Document',
+            allowClear: true,
+            ajax: {
+                url: "{{ route('qualityassurance.document-type.select2') }}",
                 dataType: 'json',
             },
             dropdownParent: $('#inputModal')

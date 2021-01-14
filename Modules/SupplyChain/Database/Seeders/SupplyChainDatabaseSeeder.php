@@ -18,6 +18,7 @@ class SupplyChainDatabaseSeeder extends Seeder
 
         $this->call([
             UnitClassSeeder::class,
+            UnitSeeder::class,
         ]);
     }
 }

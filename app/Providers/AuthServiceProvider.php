@@ -103,6 +103,9 @@ use Modules\SupplyChain\Entities\Warehouse;
 use Modules\SupplyChain\Policies\UnitClassPolicy;
 use Modules\SupplyChain\Entities\UnitClass;
 
+use Modules\SupplyChain\Policies\UnitPolicy;
+use Modules\SupplyChain\Entities\Unit;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -116,7 +119,7 @@ class AuthServiceProvider extends ServiceProvider
         Menu::class => MenuPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
 
-        Example::class => ExamplePolicy::class,
+        // Example::class => ExamplePolicy::class,
         
         OrganizationStructure::class => OrganizationStructurePolicy::class,
         OrganizationStructureTitle::class => OrganizationStructureTitlePolicy::class,
@@ -155,6 +158,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Warehouse::class => WarehousePolicy::class,
         UnitClass::class => UnitClassPolicy::class,
+        Unit::class => UnitPolicy::class,
     ];
 
     /**

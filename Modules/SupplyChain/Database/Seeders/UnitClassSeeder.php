@@ -60,5 +60,11 @@ class UnitClassSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+        $UnitClass = UnitClass::create([
+            'name' => 'Time',
+            'code' => 'TME',
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
     }
 }
