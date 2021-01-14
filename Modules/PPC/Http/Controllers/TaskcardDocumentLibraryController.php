@@ -154,4 +154,28 @@ class TaskcardDocumentLibraryController extends Controller
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = TaskcardDocumentLibrary::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $TaskcardDocumentLibraries = $query->get();
+
+        $response = [];
+        foreach($TaskcardDocumentLibraries as $TaskcardDocumentLibrary){
+            $response['results'][] = [
+                "id"=>$TaskcardDocumentLibrary->id,
+                "text"=>$TaskcardDocumentLibrary->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

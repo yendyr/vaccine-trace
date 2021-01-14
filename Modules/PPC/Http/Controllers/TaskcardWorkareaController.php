@@ -154,4 +154,28 @@ class TaskcardWorkareaController extends Controller
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = TaskcardWorkarea::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $TaskcardWorkareas = $query->get();
+
+        $response = [];
+        foreach($TaskcardWorkareas as $TaskcardWorkarea){
+            $response['results'][] = [
+                "id"=>$TaskcardWorkarea->id,
+                "text"=>$TaskcardWorkarea->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

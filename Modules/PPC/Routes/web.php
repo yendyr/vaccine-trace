@@ -24,11 +24,30 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
-        Route::resource('/taskcard-access', 'TaskcardAccessController');
-        Route::resource('/taskcard-zone', 'TaskcardZoneController');
-        Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
-        Route::resource('/taskcard', 'TaskcardController');
+        Route::name('taskcard-workarea.')->group(function() {
+            Route::get('ppc/taskcard-workarea/select2', 'TaskcardWorkareaController@select2')->name('select2');
+        });
 
+        Route::resource('/taskcard-access', 'TaskcardAccessController');
+        Route::name('taskcard-access.')->group(function() {
+            Route::get('ppc/taskcard-access/select2', 'TaskcardAccessController@select2')->name('select2');
+        });
+
+        Route::resource('/taskcard-zone', 'TaskcardZoneController');
+        Route::name('taskcard-zone.')->group(function() {
+            Route::get('ppc/taskcard-zone/select2', 'TaskcardZoneController@select2')->name('select2');
+        });
+
+        Route::resource('/taskcard-document-library', 'TaskcardDocumentLibraryController');
+        Route::name('taskcard-document-library.')->group(function() {
+            Route::get('ppc/taskcard-document-library/select2', 'TaskcardDocumentLibraryController@select2')->name('select2');
+        });
+        
         Route::resource('/aircraft-type', 'AircraftTypeController');
+        Route::name('aircraft-type.')->group(function() {
+            Route::get('ppc/aircraft-type/select2', 'AircraftTypeController@select2')->name('select2');
+        });
+
+        Route::resource('/taskcard', 'TaskcardController');
     });
 }); 

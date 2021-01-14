@@ -154,4 +154,28 @@ class TaskcardZoneController extends Controller
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = TaskcardZone::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $TaskcardZones = $query->get();
+
+        $response = [];
+        foreach($TaskcardZones as $TaskcardZone){
+            $response['results'][] = [
+                "id"=>$TaskcardZone->id,
+                "text"=>$TaskcardZone->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

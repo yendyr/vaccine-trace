@@ -157,4 +157,28 @@ class AircraftTypeController extends Controller
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = AircraftType::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $AircraftTypes = $query->get();
+
+        $response = [];
+        foreach($AircraftTypes as $AircraftType){
+            $response['results'][] = [
+                "id"=>$AircraftType->id,
+                "text"=>$AircraftType->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

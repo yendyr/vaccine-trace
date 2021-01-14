@@ -154,4 +154,28 @@ class TaskcardAccessController extends Controller
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = TaskcardAccess::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $AircraftTypes = $query->get();
+
+        $response = [];
+        foreach($TaskcardAccesses as $TaskcardAccess){
+            $response['results'][] = [
+                "id"=>$TaskcardAccess->id,
+                "text"=>$TaskcardAccess->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

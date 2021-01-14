@@ -47,11 +47,9 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Aircraft Type Effectivity</label>
-                                                        <select class="select2 form-control" name="taskcard-aircraft" multiple="multiple">
-                                                            <option>Boeing 737-900ER</option>
-                                                            <option>Boeing 737-800NG</option>
-                                                            <option>Airbus A320-300</option>
+                                                        <select class="aircraft_type form-control @error('aircraft_type') is-invalid @enderror" name="aircraft_type" id="aircraft_type" multiple="multiple">
                                                         </select>
+                                                        <div class="invalid-feedback-aircraft_type text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -94,7 +92,7 @@
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group date">
-                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i><small>&nbsp;Exact Date Based</small></span><input type="text" class="form-control" value="03/04/2014">
+                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i><small>&nbsp;Date Based</small></span><input type="text" class="form-control" value="03/04/2014">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -126,7 +124,7 @@
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group date">
-                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i><small>&nbsp;Exact Date Based</small></span><input type="text" class="form-control" value="03/04/2014">
+                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i><small>&nbsp;Date Based</small></span><input type="text" class="form-control" value="03/04/2014">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -174,19 +172,15 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Work Area</label>
-                                                        <select class="select2 form-control" name="taskcard-workarea">
-                                                            <option>AC Dist Bay</option>
-                                                            <option>AFT Cargo Bay</option>
-                                                            <option>Cabin</option>
+                                                        <select class="work_area form-control @error('work_area') is-invalid @enderror" name="work_area" id="work_area">
                                                         </select>
+                                                        <div class="invalid-feedback-work_area text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Access</label>
-                                                        <select class="select2 form-control" name="taskcard-access" multiple="multiple">
-                                                            <option>291AT</option>
-                                                            <option>293AT</option>
-                                                            <option>325CL</option>
+                                                        <select class="access form-control @error('access') is-invalid @enderror" name="access" id="access" multiple="multiple">
                                                         </select>
+                                                        <div class="invalid-feedback-access text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -196,11 +190,9 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Zone</label>
-                                                        <select class="select2 form-control" name="taskcard-zone" multiple="multiple">
-                                                            <option>101</option>
-                                                            <option>102</option>
-                                                            <option>103</option>
+                                                        <select class="zone form-control @error('zone') is-invalid @enderror" name="zone" id="zone" multiple="multiple">
                                                         </select>
+                                                        <div class="invalid-feedback-zone text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
