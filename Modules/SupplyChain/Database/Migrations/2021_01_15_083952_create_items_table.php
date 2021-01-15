@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemCategoriesTable extends Migration
+class CreateItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,17 @@ class CreateItemCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_categories', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
+            $table->integer('minimum_stock')->nullable();
+            $table->integer('taxable')->nullable()->default(1);
+
+            $table->string('category_id')->nullable();
+            $table->string('primary_unit_id')->nullable();
 
             $table->string('sales_coa_id')->nullable();
             $table->string('inventory_coa_id')->nullable();
@@ -26,7 +31,7 @@ class CreateItemCategoriesTable extends Migration
             $table->string('inventory_adjustment_coa_id')->nullable();
             $table->rememberToken();
 
-            $table->integer('status')->nullable()->default(0);
+            $table->integer('status')->nullable()->default(1);
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();
@@ -43,6 +48,6 @@ class CreateItemCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_categories');
+        Schema::dropIfExists('items');
     }
 }

@@ -22,5 +22,9 @@ Route::name('accounting.')->group(function () {
             Route::get('accounting/chart-of-account/select2/parent', 'ChartOfAccountController@select2Parent')->name('select2.parent');
             Route::get('accounting/chart-of-account/select2/child', 'ChartOfAccountController@select2Child')->name('select2.child');
         });
+
+        Route::name('item-category.')->group(function() {
+            Route::get('item-category', [Modules\SupplyChain\Http\Controllers\ItemCategoryController::class, 'index_accounting'])->name('index_accounting');
+        });
     });
 }); 

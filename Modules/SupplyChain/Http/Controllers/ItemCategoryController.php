@@ -68,6 +68,52 @@ class ItemCategoryController extends Controller
         return view('supplychain::pages.item-category.index');
     }
 
+    public function index_accounting(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = ItemCategory::all();  //with(['unit_class:id,name']);
+            return Datatables::of($data)
+                ->addColumn('status', function($row){
+                    if ($row->status == 1){
+                        return '<label class="label label-success">Active</label>';
+                    } else{
+                        return '<label class="label label-danger">Inactive</label>';
+                    }
+                })
+                ->addColumn('creator_name', function($row){
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function($row){
+                    return $row->updater->name ?? '-';
+                })
+                ->addColumn('action', function($row){
+                    $noAuthorize = true;
+                    if(Auth::user()->can('update', ItemCategory::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', ItemCategory::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted">Not Authorized</p>';
+                    }
+                    
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
+
+        return view('accounting::pages.item-category.index');
+    }
+
     public function create()
     {
         return view('supplychain::pages.item-category.create');
@@ -76,7 +122,7 @@ class ItemCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:unit,code'],
+            'code' => ['required', 'max:30', 'unique:item_categories,code'],
             'name' => ['required', 'max:30'],
         ]);
 

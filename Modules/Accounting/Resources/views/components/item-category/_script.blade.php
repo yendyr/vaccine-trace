@@ -62,17 +62,17 @@
             $('#code').val(data.code);
             $('#name').val(data.name);
             $('#description').val(data.description); 
-            $(".unit_class_id").val(null).trigger('change');
-            if (data.unit_class != null){
-                $('#unit_class_id').append('<option value="' + data.unit_class_id + '" selected>' + data.unit_class.name + '</option>');
-            } 
-
-            // if (data.status == '<label class="label label-success">Active</label>') {
-            //     $('#status').prop('checked', true);
-            // }
-            // else {
-            //     $('#status').prop('checked', false);
-            // }
+            // $(".unit_class_id").val(null).trigger('change');
+            // if (data.unit_class != null){
+            //     $('#unit_class_id').append('<option value="' + data.unit_class_id + '" selected>' + data.unit_class.name + '</option>');
+            // } 
+                            
+            if (data.status == '<label class="label label-success">Active</label>') {
+                $('#status').prop('checked', true);
+            }
+            else {
+                $('#status').prop('checked', false);
+            }
 
             $('#saveBtn').val("edit");
             $('[class^="invalid-feedback-"]').html('');  // clearing validation

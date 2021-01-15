@@ -4,24 +4,28 @@
     @component('components.delete-modal', ['name' => 'Item Category Datalist'])
     @endcomponent
 
-    @include('supplychain::pages.item-category.modal')
+    @include('accounting::pages.item-category.modal')
 
     @component('components.crud-form.index',[
                     'title' => 'Item Category Datalist',
                     'tableId' => 'item-category-table'])
 
-        @slot('createButton')
+        {{-- @slot('createButton')
             @can('create', Modules\SupplyChain\Entities\ItemCategory::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   
             @endcan
-        @endslot    
+        @endslot     --}}
 
         @slot('tableContent')
             <th>Code</th>
             <th>Category Name</th>
             <th>Description/Remark</th>
+            <th>Sales COA</th>
+            <th>Inventory COA</th>
+            <th>Cost COA</th>
+            <th>Inventory Adj. COA</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>
@@ -31,7 +35,7 @@
         @endslot
     @endcomponent
 
-    @include('supplychain::components.item-category._script')
+    @include('accounting::components.item-category._script')
 
 @endsection
 
