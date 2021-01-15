@@ -31,6 +31,11 @@
         @endslot
     @endcomponent
 
+    <span class="text-info font-italic">
+        <i class="fa fa-info-circle"></i>
+        &nbsp;after adding new item category, you have to wait for accounting department before item category activated and can be used in transaction
+    </span>
+
     @include('supplychain::components.item-category._script')
 
 @endsection
