@@ -83,7 +83,6 @@ class ChartOfAccountController extends Controller
         $request->validate([
             'code' => ['required', 'max:30', 'unique:chart_of_accounts,code'],
             'name' => ['required', 'max:30'],
-            'chart_of_account_class_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -93,13 +92,23 @@ class ChartOfAccountController extends Controller
             $status = 0;
         }
 
+        if ($request->parent_id) {
+            $parent_chart_of_account_class_id = ChartOfAccount::where('id', $request->parent_id)
+                    ->value('chart_of_account_class_id');
+
+            $chart_of_account_class_id = $parent_chart_of_account_class_id;
+        }
+        else {
+            $chart_of_account_class_id = $request->chart_of_account_class_id;
+        }
+
         ChartOfAccount::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
             'description' => $request->description,
             'parent_id' => $request->parent_id,
-            'chart_of_account_class_id' => $request->chart_of_account_class_id,
+            'chart_of_account_class_id' => $chart_of_account_class_id,
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
@@ -123,7 +132,6 @@ class ChartOfAccountController extends Controller
         $request->validate([
             'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
-            'chart_of_account_class_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -137,6 +145,16 @@ class ChartOfAccountController extends Controller
             $request->parent_id = null;
         }
 
+        if ($request->parent_id) {
+            $parent_chart_of_account_class_id = ChartOfAccount::where('id', $request->parent_id)
+                    ->value('chart_of_account_class_id');
+
+            $chart_of_account_class_id = $parent_chart_of_account_class_id;
+        }
+        else {
+            $chart_of_account_class_id = $request->chart_of_account_class_id;
+        }
+
         $currentRow = ChartOfAccount::where('id', $ChartOfAccount->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
@@ -144,7 +162,7 @@ class ChartOfAccountController extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'parent_id' => $request->parent_id,
-                    'chart_of_account_class_id' => $request->chart_of_account_class_id,
+                    'chart_of_account_class_id' => $chart_of_account_class_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
@@ -156,7 +174,7 @@ class ChartOfAccountController extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'parent_id' => $request->select2_parent_name,
-                    'chart_of_account_class_id' => $request->chart_of_account_class_id,
+                    'chart_of_account_class_id' => $chart_of_account_class_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);

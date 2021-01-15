@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Group Name</label>
+                        <label class="col-sm-5 d-flex align-items-center">COA Name</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
                             <div class="invalid-feedback-name text-danger font-italic"></div>

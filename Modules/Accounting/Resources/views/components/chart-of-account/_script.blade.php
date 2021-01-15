@@ -76,6 +76,7 @@
             $(".parent_id").val(null).trigger('change');
             $(".chart_of_account_class_id").prop("disabled", false);
             $(".chart_of_account_class_id").val(null).trigger('change');
+            $(".info-chart_of_account_class_id").html('');
         });
 
         datatableObject.on('click', '.editBtn', function () {
@@ -98,15 +99,15 @@
             $(".parent_id").val(null).trigger('change');
             if (data.chart_of_account != null) {
                 $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.chart_of_account.name + '</option>');
+
+                $(".chart_of_account_class_id").prop("disabled", true);
+                $(".info-chart_of_account_class_id").append('<i class="fa fa-info-circle"></i>&nbsp;if you choose parent, class will be same with parent');
             }  
 
             $(".chart_of_account_class_id").val(null).trigger('change');
-            if (data.chart_of_account_class_id == null) {
-                $('#chart_of_account_class_id').append('<option value="' + data.chart_of_account_class_id + '" selected></option>');
-            } 
-            else {
+            if (data.chart_of_account_class_id != null) {
                 $('#chart_of_account_class_id').append('<option value="' + data.chart_of_account_class_id + '" selected>' + data.chart_of_account_class.name + '</option>');
-            }  
+            }   
 
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
@@ -118,6 +119,7 @@
 
             $('#saveBtn').val("edit");
             $('[class^="invalid-feedback-"]').html('');  // clearing validation
+            $(".info-chart_of_account_class_id").html('');
             $('#inputModal').modal('show');
         });
 
