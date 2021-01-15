@@ -39,7 +39,6 @@
             },
             dropdownParent: $('#inputModal')
         });
-
             
         $('.taskcard_type').select2({
             theme: 'bootstrap4',

@@ -18,6 +18,7 @@ class ChartOfAccountClass extends Model
         'uuid',
         'code',
         'name',
+        'position',
         'description',
         'status',
         'created_by',

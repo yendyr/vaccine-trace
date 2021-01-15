@@ -64,11 +64,10 @@
             $('#name').val(data.name);
             $('#sequence_level').val(data.sequence_level);
             $(".authorized_engineering_level").val(null).trigger('change');
-                if (data.authorized_engineering_level == null){
-                    $('#authorized_engineering_level').append('<option value="' + data.authorized_engineering_level + '" selected></option>');
-                } else {
-                    $('#authorized_engineering_level').append('<option value="' + data.authorized_engineering_level + '" selected>' + data.authorized_engineering_level.name + '</option>');
-                } 
+            if (data.authorized_engineering_level != null) {
+                $('#authorized_engineering_level').append('<option value="' + data.authorized_engineering_level + '" selected>' + data.authorized_engineering_level.name + '</option>');
+            }
+             
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);

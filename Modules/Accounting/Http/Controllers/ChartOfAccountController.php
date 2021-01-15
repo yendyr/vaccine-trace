@@ -25,7 +25,7 @@ class ChartOfAccountController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ChartOfAccount::with(['chart_of_account_class:id,name'])
+            $data = ChartOfAccount::with(['chart_of_account_class:id,name,position'])
                                         ->with(['chart_of_account:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){

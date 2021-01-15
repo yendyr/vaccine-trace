@@ -52,6 +52,7 @@
                 <th>Name</th>
                 <th>Parent Group Name</th>
                 <th>Class</th>
+                <th>Position</th>
                 <th>Description/Remark</th>
                 <th>Status</th>
                 <th>Created By</th>

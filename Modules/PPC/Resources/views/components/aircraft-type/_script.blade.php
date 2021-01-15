@@ -62,11 +62,10 @@
             $('#code').val(data.code);
             $('#name').val(data.name);
             $(".manufacturer_id").val(null).trigger('change');
-                if (data.manufacturer == null){
-                    $('#manufacturer_id').append('<option value="' + data.manufacturer_id + '" selected></option>');
-                } else {
-                    $('#manufacturer_id').append('<option value="' + data.manufacturer_id + '" selected>' + data.manufacturer.name + '</option>');
-                }
+            if (data.chart_of_account != null) {
+                $('#manufacturer_id').append('<option value="' + data.manufacturer_id + '" selected>' + data.manufacturer.name + '</option>');
+            }
+
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);

@@ -64,11 +64,10 @@
             $('#name').val(data.name);
             $('#description').val(data.description);  
             $(".select2_parent_name").val(null).trigger('change');
-                if (data.taskcard_group == null){
-                    $('#select2_parent_name').append('<option value="' + data.parent_id + '" selected></option>');
-                } else {
-                    $('#select2_parent_name').append('<option value="' + data.parent_id + '" selected>' + data.taskcard_group.name + '</option>');
-                }              
+            if (data.taskcard_group != null) {
+                $('#select2_parent_name').append('<option value="' + data.parent_id + '" selected>' + data.taskcard_group.name + '</option>');
+            }
+                          
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);
             }

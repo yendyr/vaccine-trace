@@ -37,6 +37,7 @@
                         <div class="col-sm-7">
                             <select class="chart_of_account_class_id form-control @error('chart_of_account_class_id') is-invalid @enderror" id="chart_of_account_class_id" name="chart_of_account_class_id"></select>
                             <div class="invalid-feedback-chart_of_account_class_id text-danger font-italic"></div>
+                            <div class="info-chart_of_account_class_id text-info font-italic"></div>
                         </div>
                     </div>              
                     <div class="form-group row">
