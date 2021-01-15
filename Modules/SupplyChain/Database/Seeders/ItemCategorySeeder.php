@@ -21,19 +21,21 @@ class ItemCategorySeeder extends Seeder
         $ItemCategory = ItemCategory::create([
             'name' => 'Raw Material',
             'code' => 'RW',
-            'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ItemCategory = ItemCategory::create([
             'name' => 'Tools',
             'code' => 'TL',
-            'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ItemCategory = ItemCategory::create([
             'name' => 'Service',
             'code' => 'SV',
-            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);        
+        $ItemCategory = ItemCategory::create([
+            'name' => 'Facility',
+            'code' => 'FS',
             'uuid' => Str::uuid(),
         ]);        
     }

@@ -76,7 +76,7 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:unit,code'],
+            'code' => ['required', 'max:30', 'unique:units,code'],
             'name' => ['required', 'max:30'],
             'unit_class_id' => ['required', 'max:30'],
         ]);

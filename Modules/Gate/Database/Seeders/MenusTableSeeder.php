@@ -893,6 +893,25 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+        $menu = Menu::create([
+            'menu_link' => 'supplychain/item',
+            'menu_text' => 'Master Item',
+            'menu_route' => 'supplychain.item.index',
+            'menu_icon' => 'fa-cubes',
+            'menu_class' => 'Modules\SupplyChain\Entities\Item',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['supplychain/item', 'supplychain/item/*']),
+            'group' => 'Supply Chain',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
 
         // ----------- END Create Supply Chain Menus ------------------------//
 

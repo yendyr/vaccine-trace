@@ -31,5 +31,10 @@ Route::name('supplychain.')->group(function () {
         Route::name('item-category.')->group(function() {
             Route::get('supplychain/item-category/select2', 'ItemCategoryController@select2')->name('select2');
         });
+
+        Route::resource('/item', 'ItemController');
+        Route::name('item.')->group(function() {
+            Route::get('supplychain/item/select2', 'ItemController@select2')->name('select2');
+        });
     });
 });

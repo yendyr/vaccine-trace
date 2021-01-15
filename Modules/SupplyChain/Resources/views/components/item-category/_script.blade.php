@@ -41,7 +41,7 @@
         // });
 
         $('#create').click(function () {
-            showCreateModal ('Create New Unit', inputFormId, actionUrl);
+            showCreateModal ('Create New Item Category', inputFormId, actionUrl);
             // $(".unit_class_id").val(null).trigger('change');
         });
 

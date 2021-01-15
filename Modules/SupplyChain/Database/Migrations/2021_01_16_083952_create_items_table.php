@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
-            $table->integer('minimum_stock')->nullable();
+            $table->integer('reorder_stock_level')->nullable();
             $table->integer('taxable')->nullable()->default(1);
 
             $table->string('category_id')->nullable();

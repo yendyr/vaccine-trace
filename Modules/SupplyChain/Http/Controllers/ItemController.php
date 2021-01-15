@@ -2,7 +2,7 @@
 
 namespace Modules\SupplyChain\Http\Controllers;
 
-use Modules\SupplyChain\Entities\ItemCategory;
+use Modules\SupplyChain\Entities\Item;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,23 +12,25 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class ItemCategoryController extends Controller
+class ItemController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(ItemCategory::class);
+        $this->authorizeResource(Item::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ItemCategory::with(['sales_coa:id,name'])
-                                ->with(['inventory_coa:id,name'])
-                                ->with(['cost_coa:id,name'])
-                                ->with(['inventory_adjustment_coa:id,name']);
+            $data = Item::with(['sales_coa:id,name'])
+                            ->with(['inventory_coa:id,name'])
+                            ->with(['cost_coa:id,name'])
+                            ->with(['inventory_adjustment_coa:id,name'])
+                            ->with(['unit:id,name'])
+                            ->with(['category:id,name']);
 
             return Datatables::of($data)
                 ->addColumn('status', function($row){
@@ -46,12 +48,12 @@ class ItemCategoryController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', ItemCategory::class)) {
+                    if(Auth::user()->can('update', Item::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', ItemCategory::class)) {
+                    if(Auth::user()->can('delete', Item::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -69,24 +71,27 @@ class ItemCategoryController extends Controller
                 ->make(true);
         }
 
-        return view('supplychain::pages.item-category.index');
+        return view('supplychain::pages.item.index');
     }
 
     public function index_accounting(Request $request)
     {
-        return view('accounting::pages.item-category.index');
+        return view('accounting::pages.item.index');
     }
 
     public function create()
     {
-        return view('supplychain::pages.item-category.create');
+        return view('supplychain::pages.item.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:item_categories,code'],
+            'code' => ['required', 'max:30', 'unique:items,code'],
             'name' => ['required', 'max:30'],
+            'reorder_stock_level' => ['required', 'max:30'],
+            'category_id' => ['required', 'max:30'],
+            'primary_unit_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -96,34 +101,40 @@ class ItemCategoryController extends Controller
             $status = 0;
         }
 
-        ItemCategory::create([
+        Item::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
             'description' => $request->description,
-            'owned_by' => $request->user()->company_id,
+            'reorder_stock_level' => $request->reorder_stock_level,
+            'category_id' => $request->category_id,
+            'primary_unit_id' => $request->primary_unit_id,
             'status' => $status,
+            'owned_by' => $request->user()->company_id,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Item Category has been Added']);
+        return response()->json(['success' => 'Item has been Added']);
     
     }
 
-    public function show(ItemCategory $ItemCategory)
+    public function show(Item $Item)
     {
-        return view('supplychain::pages.item-category.show');
+        return view('supplychain::pages.item.show');
     }
 
-    public function edit(ItemCategory $ItemCategory)
+    public function edit(Item $Item)
     {
-        return view('supplychain::pages.item-category.edit', compact('ItemCategory'));
+        return view('supplychain::pages.item.edit', compact('Item'));
     }
 
-    public function update(Request $request, ItemCategory $ItemCategory)
+    public function update(Request $request, Item $Item)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
+            'reorder_stock_level' => ['required', 'max:30'],
+            'category_id' => ['required', 'max:30'],
+            'primary_unit_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -133,14 +144,18 @@ class ItemCategoryController extends Controller
             $status = 0;
         }
 
-        $currentRow = ItemCategory::where('id', $ItemCategory->id)->first();
+        $currentRow = Item::where('id', $Item->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
                 ->update([
                     'name' => $request->name,
                     'description' => $request->description,
+                    'reorder_stock_level' => $request->reorder_stock_level,
+                    'category_id' => $request->category_id,
+                    'primary_unit_id' => $request->primary_unit_id,
                     'status' => $status,
-                    'updated_by' => Auth::user()->id,
+                    'owned_by' => $request->user()->company_id,
+                    'updated_by' => $request->user()->id,
             ]);
         }
         else {
@@ -149,15 +164,19 @@ class ItemCategoryController extends Controller
                     'code' => $request->code,
                     'name' => $request->name,
                     'description' => $request->description,
+                    'reorder_stock_level' => $request->reorder_stock_level,
+                    'category_id' => $request->category_id,
+                    'primary_unit_id' => $request->primary_unit_id,
                     'status' => $status,
-                    'updated_by' => Auth::user()->id,
+                    'owned_by' => $request->user()->company_id,
+                    'updated_by' => $request->user()->id,
             ]);
         }
-        return response()->json(['success' => 'Item Category Data has been Updated']);
+        return response()->json(['success' => 'Item Data has been Updated']);
     
     }
 
-    public function update_accounting(Request $request, ItemCategory $ItemCategory)
+    public function update_accounting(Request $request, Item $Item)
     {
         $request->validate([
             'sales_coa_id' => ['required', 'max:30'],
@@ -173,7 +192,7 @@ class ItemCategoryController extends Controller
             $status = 0;
         }
 
-        ItemCategory::where('id', $ItemCategory->id)
+        Item::where('id', $Item->id)
             ->update([
                 'sales_coa_id' => $request->sales_coa_id,
                 'inventory_coa_id' => $request->inventory_coa_id,
@@ -183,13 +202,13 @@ class ItemCategoryController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
 
-        return response()->json(['success' => 'Item Category COA Data has been Updated']);
+        return response()->json(['success' => 'Item COA Data has been Updated']);
     
     }
 
-    public function destroy(ItemCategory $ItemCategory)
+    public function destroy(Item $Item)
     {
-        ItemCategory::destroy($ItemCategory->id);
+        Item::destroy($Item->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
@@ -197,20 +216,20 @@ class ItemCategoryController extends Controller
     {
         $search = $request->q;
 
-        $query = ItemCategory::orderby('name','asc')
+        $query = Item::orderby('name','asc')
                     ->select('id','name')
                     ->where('status', 1);
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
-        $ItemCategories = $query->get();
+        $Items = $query->get();
 
         $response = [];
-        foreach($ItemCategories as $ItemCategory){
+        foreach($Items as $Item){
             $response['results'][] = [
-                "id"=>$ItemCategory->id,
-                "text"=>$ItemCategory->name
+                "id"=>$Item->id,
+                "text"=>$Item->name
             ];
         }
 
