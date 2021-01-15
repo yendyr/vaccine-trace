@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\Gate\Entities\RoleMenu;
 
-class ChartOfAccountGroupPolicy
+class ChartOfAccountPolicy
 {
     use HandlesAuthorization;
 
@@ -32,7 +32,7 @@ class ChartOfAccountGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'accounting/chart-of-account-group')->whereHas('role', function($role){
+        )->where('menu_link', 'accounting/chart-of-account')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -65,7 +65,7 @@ class ChartOfAccountGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'accounting/chart-of-account-group')->whereHas('role', function($role){
+        )->where('menu_link', 'accounting/chart-of-account')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -87,7 +87,7 @@ class ChartOfAccountGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'accounting/chart-of-account-group')->whereHas('role', function($role){
+        )->where('menu_link', 'accounting/chart-of-account')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -109,7 +109,7 @@ class ChartOfAccountGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'accounting/chart-of-account-group')->whereHas('role', function($role){
+        )->where('menu_link', 'accounting/chart-of-account')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -143,7 +143,7 @@ class ChartOfAccountGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'accounting/chart-of-account-group')->whereHas('role', function($role){
+        )->where('menu_link', 'accounting/chart-of-account')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 

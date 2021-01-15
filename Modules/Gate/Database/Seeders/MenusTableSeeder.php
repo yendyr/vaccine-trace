@@ -900,13 +900,13 @@ class MenusTableSeeder extends Seeder
 
         // ----------- Create Accounting Menus ------------------------//
         $menu = Menu::create([
-            'menu_link' => 'accounting/chart-of-account-group',
-            'menu_text' => 'Master COA Group',
-            'menu_route' => 'accounting.chart-of-account-group.index',
+            'menu_link' => 'accounting/chart-of-account',
+            'menu_text' => 'Master COA',
+            'menu_route' => 'accounting.chart-of-account.index',
             'menu_icon' => 'fa-folder',
-            'menu_class' => 'Modules\Accounting\Entities\ChartOfAccountGroup',
+            'menu_class' => 'Modules\Accounting\Entities\ChartOfAccount',
             'menu_id' => null,
-            'menu_actives' => json_encode(['Accounting/chart-of-account-group', 'Accounting/chart-of-account-group/*']),
+            'menu_actives' => json_encode(['Accounting/chart-of-account', 'Accounting/chart-of-account/*']),
             'group' => 'Accounting',
             'add' => 1,
             'update' => 1,

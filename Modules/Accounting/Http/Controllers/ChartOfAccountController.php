@@ -2,7 +2,7 @@
 
 namespace Modules\Accounting\Http\Controllers;
 
-use Modules\Accounting\Entities\ChartOfAccountGroup;
+use Modules\Accounting\Entities\ChartOfAccount;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,21 +12,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class ChartOfAccountGroupController extends Controller
+class ChartOfAccountController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(ChartOfAccountGroup::class);
+        $this->authorizeResource(ChartOfAccount::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ChartOfAccountGroup::with(['chart_of_account_class:id,name'])
-                                        ->with(['chart_of_account_group:id,name']);
+            $data = ChartOfAccount::with(['chart_of_account_class:id,name'])
+                                        ->with(['chart_of_account:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -43,12 +43,12 @@ class ChartOfAccountGroupController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', ChartOfAccountGroup::class)) {
+                    if(Auth::user()->can('update', ChartOfAccount::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', ChartOfAccountGroup::class)) {
+                    if(Auth::user()->can('delete', ChartOfAccount::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -66,22 +66,22 @@ class ChartOfAccountGroupController extends Controller
                 ->make(true);
         }
 
-        $parentGroup = ChartOfAccountGroup::where('parent_id', null)
+        $parentGroup = ChartOfAccount::where('parent_id', null)
                                     ->where('status', 1)                
                                     ->get();
 
-        return view('accounting::pages.chart-of-account-group.index', compact('parentGroup'));
+        return view('accounting::pages.chart-of-account.index', compact('parentGroup'));
     }
 
     public function create()
     {
-        return view('accounting::pages.chart-of-account-group.create');
+        return view('accounting::pages.chart-of-account.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:chart_of_account_groups,code'],
+            'code' => ['required', 'max:30', 'unique:chart_of_accounts,code'],
             'name' => ['required', 'max:30'],
             'chart_of_account_class_id' => ['required', 'max:30'],
         ]);
@@ -93,7 +93,7 @@ class ChartOfAccountGroupController extends Controller
             $status = 0;
         }
 
-        ChartOfAccountGroup::create([
+        ChartOfAccount::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
@@ -104,21 +104,21 @@ class ChartOfAccountGroupController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Chart of Account Group Data has been Added']);
+        return response()->json(['success' => 'Chart of Account Data has been Added']);
     
     }
 
-    public function show(ChartOfAccountGroup $ChartOfAccountGroup)
+    public function show(ChartOfAccount $ChartOfAccount)
     {
-        return view('accounting::pages.chart-of-account-group.show');
+        return view('accounting::pages.chart-of-account.show');
     }
 
-    public function edit(ChartOfAccountGroup $ChartOfAccountGroup)
+    public function edit(ChartOfAccount $ChartOfAccount)
     {
-        return view('accounting::pages.chart-of-account-group.edit', compact('ChartOfAccountGroup'));
+        return view('accounting::pages.chart-of-account.edit', compact('ChartOfAccount'));
     }
 
-    public function update(Request $request, ChartOfAccountGroup $ChartOfAccountGroup)
+    public function update(Request $request, ChartOfAccount $ChartOfAccount)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
@@ -137,7 +137,7 @@ class ChartOfAccountGroupController extends Controller
             $request->parent_id = null;
         }
 
-        $currentRow = ChartOfAccountGroup::where('id', $ChartOfAccountGroup->id)->first();
+        $currentRow = ChartOfAccount::where('id', $ChartOfAccount->id)->first();
         if ( $currentRow->code == $request->code) {
             $currentRow
                 ->update([
@@ -161,32 +161,32 @@ class ChartOfAccountGroupController extends Controller
                     'updated_by' => Auth::user()->id,
             ]);
         }
-        return response()->json(['success' => 'Chart of Account Group Data has been Updated']);
+        return response()->json(['success' => 'Chart of Account Data has been Updated']);
     
     }
 
-    public function destroy(ChartOfAccountGroup $ChartOfAccountGroup)
+    public function destroy(ChartOfAccount $ChartOfAccount)
     {
-        ChartOfAccountGroup::destroy($ChartOfAccountGroup->id);
+        ChartOfAccount::destroy($ChartOfAccount->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 
     public function select2Parent(Request $request)
     {
         $search = $request->q;
-        $query = ChartOfAccountGroup::orderby('name','asc')
+        $query = ChartOfAccount::orderby('name','asc')
                     ->select('id','name')
                     ->where('status', 1);
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
-        $ChartOfAccountGroups = $query->get();
+        $ChartOfAccounts = $query->get();
 
         $response = [];
-        foreach($ChartOfAccountGroups as $ChartOfAccountGroup){
+        foreach($ChartOfAccounts as $ChartOfAccount){
             $response['results'][] = [
-                "id"=>$ChartOfAccountGroup->id,
-                "text"=>$ChartOfAccountGroup->name
+                "id"=>$ChartOfAccount->id,
+                "text"=>$ChartOfAccount->name
             ];
         }
 
@@ -197,12 +197,12 @@ class ChartOfAccountGroupController extends Controller
     {
         $search = $request->q;
 
-        $selectHaveParent = ChartOfAccountGroup::orderby('name','asc')
+        $selectHaveParent = ChartOfAccount::orderby('name','asc')
                             ->select('parent_id')
                             ->where('parent_id', '<>', null)
                             ->where('status', 1);
 
-        $query = ChartOfAccountGroup::orderby('name','asc')
+        $query = ChartOfAccount::orderby('name','asc')
                     ->select('id','name')
                     ->whereNotIn('id', $selectHaveParent)
                     ->where('status', 1);
@@ -210,17 +210,16 @@ class ChartOfAccountGroupController extends Controller
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
-        $ChartOfAccountGroups = $query->get();
+        $ChartOfAccounts = $query->get();
 
         $response = [];
-        foreach($ChartOfAccountGroups as $ChartOfAccountGroup){
+        foreach($ChartOfAccounts as $ChartOfAccount){
             $response['results'][] = [
-                "id"=>$ChartOfAccountGroup->id,
-                "text"=>$ChartOfAccountGroup->name
+                "id"=>$ChartOfAccount->id,
+                "text"=>$ChartOfAccount->name
             ];
         }
 
         return response()->json($response);
     }
-
 }

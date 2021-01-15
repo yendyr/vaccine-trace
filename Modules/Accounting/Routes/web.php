@@ -17,10 +17,10 @@ Route::name('accounting.')->group(function () {
             Route::get('accounting/chart-of-account-class/select2', 'ChartOfAccountClassController@select2')->name('select2');
         });
 
-        Route::resource('/chart-of-account-group', 'ChartOfAccountGroupController');
-        Route::name('chart-of-account-group.')->group(function() {
-            Route::get('accounting/chart-of-account-group/select2/parent', 'ChartOfAccountGroupController@select2Parent')->name('select2.parent');
-            Route::get('accounting/chart-of-account-group/select2/child', 'ChartOfAccountGroupController@select2Child')->name('select2.child');
+        Route::resource('/chart-of-account', 'ChartOfAccountController');
+        Route::name('chart-of-account.')->group(function() {
+            Route::get('accounting/chart-of-account/select2/parent', 'ChartOfAccountController@select2Parent')->name('select2.parent');
+            Route::get('accounting/chart-of-account/select2/child', 'ChartOfAccountController@select2Child')->name('select2.child');
         });
     });
 }); 

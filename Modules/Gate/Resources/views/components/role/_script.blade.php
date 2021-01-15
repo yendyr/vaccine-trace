@@ -5,7 +5,8 @@
 
             var table = $('#role-table').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
+                searchDelay: 1500,
                 ajax: {
                     url: "{{ route('gate.role.index')}}",
                 },

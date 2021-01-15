@@ -17,7 +17,8 @@
         $(document).ready(function () {
             var table = $('#holiday-table').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
+                searchDelay: 1500,
                 language: {
                     emptyTable: "No data existed",
                 },

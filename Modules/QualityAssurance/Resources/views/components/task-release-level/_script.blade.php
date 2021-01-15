@@ -12,6 +12,7 @@
             pageLength: 25,
             processing: true,
             serverSide: false,
+            searchDelay: 1500,
             ajax: {
                 url: "{{ route('qualityassurance.task-release-level.index') }}",
             },

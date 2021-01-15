@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChartOfAccountGroupsTable extends Migration
+class CreateChartOfAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateChartOfAccountGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('chart_of_account_groups', function (Blueprint $table) {
+        Schema::create('chart_of_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('code')->unique();

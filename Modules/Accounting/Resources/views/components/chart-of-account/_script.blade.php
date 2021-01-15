@@ -4,21 +4,22 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/accounting/chart-of-account-group/';
-        var tableId = '#chart-of-account-group-table';
+        var actionUrl = '/accounting/chart-of-account/';
+        var tableId = '#chart-of-account-table';
         var inputFormId = '#inputForm';
 
         var datatableObject = $(tableId).DataTable({
+            searchDelay: 1500,
             pageLength: 25,
             processing: true,
             serverSide: false,
             ajax: {
-                url: "{{ route('accounting.chart-of-account-group.index') }}",
+                url: "{{ route('accounting.chart-of-account.index') }}",
             },
             columns: [
                 { data: 'code', name: 'Code'  },
                 { data: 'name', name: 'Group Name' },
-                { data: 'chart_of_account_group.name', name: 'Parent Group', defaultContent: '-' },
+                { data: 'chart_of_account.name', name: 'Parent Group', defaultContent: '-' },
                 { data: 'chart_of_account_class.name', name: 'Class', defaultContent: '-' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
@@ -35,7 +36,7 @@
             placeholder: 'Choose Parent',
             allowClear: true,
             ajax: {
-                url: "{{ route('accounting.chart-of-account-group.select2.parent') }}",
+                url: "{{ route('accounting.chart-of-account.select2.parent') }}",
                 dataType: 'json',
             },
             dropdownParent: $('#inputModal')
@@ -77,11 +78,11 @@
             $('#name').val(data.name);
 
             $(".parent_id").val(null).trigger('change');
-            if (data.chart_of_account_group == null) {
+            if (data.chart_of_account == null) {
                 $('#parent_id').append('<option value="' + data.parent_id + '" selected></option>');
             } 
             else {
-                $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.chart_of_account_group.name + '</option>');
+                $('#parent_id').append('<option value="' + data.parent_id + '" selected>' + data.chart_of_account.name + '</option>');
             } 
 
             $(".chart_of_account_class_id").val(null).trigger('change');

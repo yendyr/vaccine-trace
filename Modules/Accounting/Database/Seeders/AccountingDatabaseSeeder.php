@@ -18,7 +18,7 @@ class AccountingDatabaseSeeder extends Seeder
 
         $this->call([
             ChartOfAccountClassSeeder::class,
-            ChartOfAccountGroupSeeder::class,
+            ChartOfAccountSeeder::class,
         ]);
     }
 }

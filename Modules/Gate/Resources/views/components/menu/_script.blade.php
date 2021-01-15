@@ -9,7 +9,8 @@
         var table = $('#menu-table').DataTable({
             dom: '<"top"<"row"<"col-md-6"B><"col-md-6"f>>>t<"bottom"<"row"<"col-md-2"l><"col-md-4"i><"col-md-6"p>>>',
             processing: true,
-            serverSide: true,
+            serverSide: false,
+            searchDelay: 1500,
             ajax: {
                 url: "{{ route('gate.menu.index')}}",
             },

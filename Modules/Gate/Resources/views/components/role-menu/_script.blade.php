@@ -2,9 +2,10 @@
     <script>
         $(document).ready(function () {
             var tables = $('#rolemenu-table').DataTable({
-                pageLength: 25,
+                pageLength: 100,
                 processing: true,
                 serverSide: false,
+                searchDelay: 1500,
                 ajax: {
                     url: "{{ route('gate.role-menu.index')}}",
                 },
@@ -41,9 +42,10 @@
                 }
                 $('#role-input').val(roleID);
                 tables = $('#rolemenu-table').DataTable({
-                    pageLength: 25,
+                    pageLength: 100,
                     processing: true,
                     serverSide: false,
+                    searchDelay: 1500,
                     scrollCollapse: true,
                     ajax: {
                         url: "/gate/role-menu/datatable/" + roleID,

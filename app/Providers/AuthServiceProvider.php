@@ -112,8 +112,8 @@ use Modules\SupplyChain\Entities\ItemCategory;
 use Modules\Accounting\Policies\ChartOfAccountClassPolicy;
 use Modules\Accounting\Entities\ChartOfAccountClass;
 
-use Modules\Accounting\Policies\ChartOfAccountGroupPolicy;
-use Modules\Accounting\Entities\ChartOfAccountGroup;
+use Modules\Accounting\Policies\ChartOfAccountPolicy;
+use Modules\Accounting\Entities\ChartOfAccount;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -171,7 +171,7 @@ class AuthServiceProvider extends ServiceProvider
         ItemCategory::class => ItemCategoryPolicy::class,
 
         ChartOfAccountClass::class => ChartOfAccountClassPolicy::class,
-        ChartOfAccountGroup::class => ChartOfAccountGroupPolicy::class,
+        ChartOfAccount::class => ChartOfAccountPolicy::class,
     ];
 
     /**

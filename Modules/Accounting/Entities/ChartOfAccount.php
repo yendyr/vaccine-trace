@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class ChartOfAccountGroup extends Model
+class ChartOfAccount extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -42,14 +42,14 @@ class ChartOfAccountGroup extends Model
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccountClass::class, 'chart_of_account_class_id');
     }
 
-    public function chart_of_account_group()
+    public function chart_of_account()
     {
-        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccountGroup::class, 'parent_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id');
     }
 
     public function subGroup()
     {
-        return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccountGroup::class, 'parent_id');
+        return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id');
 
     }
 }

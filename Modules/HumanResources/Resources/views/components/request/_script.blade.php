@@ -8,7 +8,7 @@
         var tableRequest = $('#request-table').DataTable({
             processing: false,
             serverSide: false,
-            scrollX: true,
+            searchDelay: 1500,
             language: {
                 emptyTable: "No data existed for Request",
             },

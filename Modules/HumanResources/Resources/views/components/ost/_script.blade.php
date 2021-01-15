@@ -4,7 +4,8 @@
         $('#ost-table').DataTable({
             retrieve: true,
             processing: true,
-            serverSide: true,
+            serverSide: false,
+            searchDelay: 1500,
             language: {
                 emptyTable: "Nothing Organization Structure Title data get",
             },
