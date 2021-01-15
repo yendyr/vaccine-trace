@@ -38,4 +38,24 @@ class ItemCategory extends Model
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
+
+    public function sales_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'sales_coa_id');
+    }
+
+    public function inventory_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'inventory_coa_id');
+    }
+
+    public function cost_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'cost_coa_id');
+    }
+
+    public function inventory_adjustment_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'inventory_adjustment_coa_id');
+    }
 }

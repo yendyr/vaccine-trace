@@ -61,30 +61,6 @@ class UserController extends Controller
         return view('gate::pages.user.index');
     }
 
-    public function select2Company(Request $request)
-    {
-        $search = $request->q;
-        $query = Company::orderby('company_name','asc')->select('id','company_name')->where('status', 1);
-        if($search != ''){
-            $query = $query->where('company_name', 'like', '%' .$search. '%');
-        }
-        $companies = $query->get();
-
-        $response = [];
-        foreach($companies as $company){
-            $response['results'][] = [
-                "id"=>$company->id,
-                "text"=>$company->company_name
-            ];
-        }
-        $response['results'][] = [
-            "id" => 0,
-            "text" => 'none',
-        ];
-
-        return response()->json($response);
-    }
-
     public function select2Role(Request $request)
     {
         $search = $request->q;
@@ -112,7 +88,6 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('role_name', 'id');
-        $companies = Company::pluck('company_name', 'id');
         return view('gate::pages.user.create', compact(['roles', 'companies']));
     }
 
@@ -168,7 +143,6 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::pluck('role_name', 'id');
-        $companies = Company::pluck('company_name', 'id');
         return view('gate::pages.user.edit', compact(['user', 'roles', 'companies']));
     }
 
