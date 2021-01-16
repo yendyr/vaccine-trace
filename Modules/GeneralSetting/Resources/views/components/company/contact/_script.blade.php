@@ -48,10 +48,6 @@
             $('#inputModal').modal('show');
         });
 
-        // datatableObject.on('click', '.editBtn', function () {
-            
-        // });
-
         $(inputFormId).on('submit', function (event) {
             event.preventDefault();
             let url_action = $(inputFormId).attr('action');
@@ -92,6 +88,8 @@
                     $('#saveBtn'). prop('disabled', false);
                 }
             }); 
+
+            setTimeout(location.reload.bind(location), 2000);
         });
     });
 </script>

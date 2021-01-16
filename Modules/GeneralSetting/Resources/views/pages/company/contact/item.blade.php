@@ -1,10 +1,10 @@
 @foreach ($Company->contacts as $contact)
 <div class="col-md-6">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">
             {{ $contact->label ?? '-' }}
         </div>
-        <div class="panel-body" style="margin: 0px; width: 100%">
+        <div class="panel-body" style="margin: 0px; width: 100%; padding-bottom: 0;">
             <div class="row">
                 <div class="col-md-6 m-b">
                     <i class="fa fa-user"></i>&nbsp;Contact Person:
