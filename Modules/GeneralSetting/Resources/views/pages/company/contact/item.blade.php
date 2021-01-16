@@ -49,8 +49,8 @@
                     </h4>
                 </div>
                 <div class="col-md-6 m-b">
-                    <i class="fa fa-info"></i>&nbsp;Status:
-                    <h4 class="no-margins">
+                    <i class="fa fa-info-circle"></i>&nbsp;Status:
+                    <div class="no-margins">
                         @if($contact->status == 1)
                             <label class="label label-success">
                                 Active
@@ -60,17 +60,17 @@
                                 Inactive
                             </label>
                         @endif
-                    </h4>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
             <div class="row">
                 <div class="col d-flex justify-content-end">
-                    <button class="editBtn btn btn-sm btn-outline btn-primary ml-1" value=
-                    "{{ $contact->id }}" data-toggle="tooltip" title="Update">
+                    <button class="editBtn btn btn-sm btn-outline btn-primary ml-1" 
+                    value="" data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit</button>
-                        
+
                     <a href="{{ $href ?? '' }}" name="delete" id="{{ (isset($deleteId) ? $deleteId : '') }}" class="deleteBtn btn btn-sm btn-outline btn-danger ml-1" data-toggle="tooltip" title="Delete">
                         <i class="fa fa-trash"></i>&nbsp;Delete
                     </a>

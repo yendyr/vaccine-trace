@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputForm">
-                <input type="hidden" value={{ $Company->id }} id="company_id" name="company_id">
+                <input type="hidden" id="id" name="id">
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">

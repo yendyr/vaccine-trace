@@ -18,14 +18,14 @@ class CompanyDetailContactController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(CompanyDetailContact::class, 'company');
+        // $this->authorizeResource(CompanyDetailContact::class, 'company_detail_contacts');
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = CompanyDetailContact::where('id', 1);
+            $data = CompanyDetailContact::all();
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -106,20 +106,22 @@ class CompanyDetailContactController extends Controller
     
     }
 
-    public function show(Company $Company)
+    public function show($id)
     {
-        return view('generalsetting::pages.company.show', compact('Company'));
+        // return view('generalsetting::pages.company-contact.show', compact('CompanyDetailContact'));
+
+        $CompanyDetailContact = CompanyDetailContact::where('id', $id)->first();
+        return response()->json($CompanyDetailContact);
     }
 
-    public function edit(Company $Company)
+    public function edit(CompanyDetailContact $CompanyDetailContact)
     {
-        return view('generalsetting::pages.company.edit', compact('Company'));
+        return view('generalsetting::pages.company-contact.edit', compact('CompanyDetailContact'));
     }
 
-    public function update(Request $request, Company $Company)
+    public function update(Request $request, CompanyDetailContact $CompanyDetailContact)
     {
         $request->validate([
-            'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
         ]);
 
@@ -129,63 +131,29 @@ class CompanyDetailContactController extends Controller
         else {
             $status = 0;
         }
-        if ($request->is_customer) {
-            $is_customer = 1;
-        } 
-        else {
-            $is_customer = 0;
-        }
-        if ($request->is_supplier) {
-            $is_supplier = 1;
-        } 
-        else {
-            $is_supplier = 0;
-        }
-        if ($request->is_manufacturer) {
-            $is_manufacturer = 1;
-        } 
-        else {
-            $is_manufacturer = 0;
-        }
-
-        $currentRow = Company::where('id', $Company->id)->first();
-        if ( $currentRow->code == $request->code) {
-            $currentRow
+        
+        $currentRow = CompanyDetailContact::where('id', $request->id)->first();
+        $currentRow
                 ->update([
+                    'label' => $request->label,
                     'name' => $request->name,
-                    'gst_number' => $request->gst_number,
-                    'npwp_number' => $request->npwp_number,
-                    'description' => $request->description,
-                    'is_customer' => $is_customer,
-                    'is_supplier' => $is_supplier,
-                    'is_manufacturer' => $is_manufacturer,
+                    'email' => $request->email,
+                    'mobile_number' => $request->mobile_number,
+                    'office_number' => $request->office_number,
+                    'fax_number' => $request->fax_number,
+                    'other_number' => $request->other_number,
+                    'website' => $request->website,
                     'status' => $status,
                     'updated_by' => $request->user()->id,
                 ]);
-        }
-        else {
-            $currentRow
-                ->update([
-                    'code' => $request->code,
-                    'name' => $request->name,
-                    'gst_number' => $request->gst_number,
-                    'npwp_number' => $request->npwp_number,
-                    'description' => $request->description,
-                    'is_customer' => $is_customer,
-                    'is_supplier' => $is_supplier,
-                    'is_manufacturer' => $is_manufacturer,
-                    'status' => $status,
-                    'updated_by' => $request->user()->id,
-            ]);
-        }
         
-        return response()->json(['success' => 'Company Data has been Updated']);
+        return response()->json(['success' => 'Contact Data has been Updated']);
     
     }
 
-    public function destroy(Company $Company)
+    public function destroy(CompanyDetailContact $CompanyDetailContact)
     {
-        Company::destroy($Company->id);
+        CompanyDetailContact::destroy($CompanyDetailContact->id);
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 

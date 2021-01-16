@@ -8,65 +8,40 @@
         var tableId = '#company-contact-table';
         var inputFormId = '#inputForm';
 
-        var datatableObject = $(tableId).DataTable({
-            pageLength: 25,
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            ajax: {
-                url: "{{ route('generalsetting.company-contact.index') }}",
-            },
-            columns: [
-                { data: 'label', name: 'Label', defaultContent: '-' },
-                { data: 'name', name: 'Name', defaultContent: '-' },
-                { data: 'email', name: 'Email', defaultContent: '-' },
-                { data: 'mobile_number', name: 'Mobile Number', defaultContent: '-' },
-                { data: 'office_number', name: 'Office Number', defaultContent: '-' },
-                { data: 'fax_number', name: 'Fax Number', defaultContent: '-' },
-                { data: 'other_number', name: 'Other Number', defaultContent: '-' },
-                { data: 'website', name: 'Website', defaultContent: '-' },
-                { data: 'status', name: 'Status', defaultContent: '-' },
-                { data: 'creator_name', name: 'Created By', defaultContent: '-' },
-                { data: 'created_at', name: 'Created At', defaultContent: '-' },
-                { data: 'updater_name', name: 'Last Updated By', defaultContent: '-' },
-                { data: 'updated_at', name: 'Last Updated At', defaultContent: '-' },
-                { data: 'action', name: 'Action', orderable: false },
-            ]
-        });
-
         $('#create').click(function () {
             showCreateModal ('Create New Contact', inputFormId, actionUrl);
         });
 
-        $('.editBtn').click(function () {
+        $('.editBtn').click(function (e) {
             $('#modalTitle').html("Edit Contact");
-            $(inputFormId).trigger("reset");                
-            rowId= $(this).val();
-            let tr = $(this).closest('tr');
-            let data = datatableObject.row(tr).data();
-            $(inputFormId).attr('action', actionUrl + data.id);
-
+            $(inputFormId).trigger("reset");
+            
             $('<input>').attr({
                 type: 'hidden',
                 name: '_method',
                 value: 'patch'
             }).prependTo('#inputForm');
 
-            $('#company_id').val(data.company_id);
-            $('#label').val(data.label);
-            $('#name').val(data.name);
-            $('#email').val(data.email);
-            $('#mobile_number').val(data.mobile_number);
-            $('#office_number').val(data.office_number);
-            $('#fax_number').val(data.fax_number);
-            $('#other_number').val(data.other_number);
-            $('#website').val(data.website);               
-            if (data.status == '<label class="label label-success">Active</label>') {
-                $('#status').prop('checked', true);
-            }
-            else {
-                $('#status').prop('checked', false);
-            }
+            var id = $(this).data('id');
+            $.get('/generalsetting/company-contact/' + id, function (data) {
+                $('#id').val(id);
+                $('#label').val(data.label);
+                $('#name').val(data.name);
+                $('#email').val(data.email);
+                $('#mobile_number').val(data.mobile_number);
+                $('#office_number').val(data.office_number);
+                $('#fax_number').val(data.fax_number);
+                $('#other_number').val(data.other_number);
+                $('#website').val(data.website);               
+                if (data.status == '1') {
+                    $('#status').prop('checked', true);
+                }
+                else {
+                    $('#status').prop('checked', false);
+                }
+
+                $(inputFormId).attr('action', actionUrl + id);
+            });
 
             $('#saveBtn').val("edit");
             $('[class^="invalid-feedback-"]').html('');  // clearing validation
@@ -78,10 +53,46 @@
         // });
 
         $(inputFormId).on('submit', function (event) {
-            submitButtonProcess (tableId, inputFormId); 
+            event.preventDefault();
+            let url_action = $(inputFormId).attr('action');
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $(
+                        'meta[name="csrf-token"]'
+                    ).attr("content")
+                },
+                url: url_action,
+                method: "POST",
+                data: $(inputFormId).serialize(),
+                dataType: 'json',
+                beforeSend:function(){
+                    let l = $( '.ladda-button-submit' ).ladda();
+                    l.ladda( 'start' );
+                    $('[class^="invalid-feedback-"]').html('');
+                    $('#saveBtn').prop('disabled', true);
+                },
+                error: function(data){
+                    let errors = data.responseJSON.errors;
+                    if (errors) {
+                        $.each(errors, function (index, value) {
+                            $('div.invalid-feedback-'+index).html(value);
+                        })
+                    }
+                },
+                success: function (data) {
+                    if (data.success) {
+                        generateToast ('success', data.success);                            
+                    }
+                    $('#inputModal').modal('hide');
+                    $(targetTableId).DataTable().ajax.reload();
+                },
+                complete: function () {
+                    let l = $( '.ladda-button-submit' ).ladda();
+                    l.ladda( 'stop' );
+                    $('#saveBtn'). prop('disabled', false);
+                }
+            }); 
         });
-
-        deleteButtonProcess (datatableObject, tableId, actionUrl);
     });
 </script>
 @endpush
