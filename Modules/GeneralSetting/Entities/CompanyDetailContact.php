@@ -4,30 +4,25 @@ namespace Modules\GeneralSetting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Airport extends Model
+class CompanyDetailContact extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
     use Notifiable;
-    
+
     protected $fillable = [
-        'ident', 
-        'type', 
+        'company_id', 
+        'uuid', 
+        'label', 
         'name', 
-        'latitude_deg', 
-        'longitude_deg', 
-        'elevation_ft', 
-        'continent', 
-        'iso_country', 
-        'iso_region', 
-        'municipality', 
-        'scheduled_service', 
-        'gps_code', 
-        'iata_code', 
-        'local_code', 
-        'home_link', 
-        'wikipedia_link', 
-        'keywords', 
+        'email', 
+        'mobile_number', 
+        'office_number', 
+        'fax_number', 
+        'other_number', 
+        'website', 
+        'website_alternative', 
+        'website_alternative', 
         'description', 
         'owned_by', 
         'status', 
@@ -43,5 +38,10 @@ class Airport extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'company_id');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompaniesTable extends Migration
+class CreateCompanyDetailBanksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,18 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {  
+        Schema::create('company_detail_banks', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('company_id');
             $table->uuid('uuid')->unique()->nullable();
-            $table->string('code')->unique()->nullable();
-            $table->string('name')->nullable();
-            $table->string('gst_number')->nullable();
-            $table->string('npwp_number')->nullable();
+            $table->string('label')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('account_holder_name')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('swift_code')->nullable();
             $table->string('description')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('logo_alternative')->nullable();
 
-            $table->string('is_customer')->default('1')->nullable();
-            $table->string('is_supplier')->default('1')->nullable();
-            $table->string('is_manufacturer')->default('1')->nullable();
+            $table->string('chart_of_account_id')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->default(1)->nullable();
@@ -46,6 +44,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('company_detail_banks');
     }
 }

@@ -41,7 +41,7 @@ class ChartOfAccountClassSeeder extends Seeder
         ]);
         $ChartOfAccountClass = ChartOfAccountClass::create([
             'name' => 'Income',
-            'position' => 'Activa',
+            'position' => 'Passiva',
             'code' => 'INC',
             'status' => 1,
             'uuid' => Str::uuid(),
@@ -49,7 +49,7 @@ class ChartOfAccountClassSeeder extends Seeder
         $ChartOfAccountClass = ChartOfAccountClass::create([
             'name' => 'Expense',
             'code' => 'EXP',
-            'position' => 'Passiva',
+            'position' => 'Activa',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

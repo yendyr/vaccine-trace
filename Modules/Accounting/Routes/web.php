@@ -27,5 +27,10 @@ Route::name('accounting.')->group(function () {
             Route::get('item-category', [Modules\SupplyChain\Http\Controllers\ItemCategoryController::class, 'index_accounting'])->name('index_accounting');
             Route::patch('item-category/{item_category}', [Modules\SupplyChain\Http\Controllers\ItemCategoryController::class, 'update_accounting'])->name('update_accounting');
         });
+
+        Route::name('item.')->group(function() {
+            Route::get('item', [Modules\SupplyChain\Http\Controllers\ItemController::class, 'index_accounting'])->name('index_accounting');
+            Route::patch('item/{item}', [Modules\SupplyChain\Http\Controllers\ItemController::class, 'update_accounting'])->name('update_accounting');
+        });
     });
 }); 

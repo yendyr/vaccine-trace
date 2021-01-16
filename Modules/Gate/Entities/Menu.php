@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
+    use softDeletes;
+    protected $dates = ['deleted_at'];
+    use Notifiable;
+    
     protected $fillable = [
         'uuid', 'menu_class', 'group', 'parent_id', 'menu_text', 'menu_link', 'menu_route', 'menu_icon', 'menu_id', 'add', 'update', 'delete', 'approval', 'print', 'process', 'owned_by', 'created_by', 'menu_actives', 'status'
     ];

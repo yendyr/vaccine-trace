@@ -27,7 +27,9 @@
                         <tbody>
                         </tbody>
                         <tfoot>
-                            <tr></tr>
+                            <tr>
+                                {{ $tableFooter ?? '' }}
+                            </tr>
                         </tfoot>
                     </table>
                 </div>

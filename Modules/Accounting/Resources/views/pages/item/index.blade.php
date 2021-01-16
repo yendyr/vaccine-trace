@@ -1,27 +1,31 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Item Category Datalist'])
+    @component('components.delete-modal', ['name' => 'Item Datalist'])
     @endcomponent
 
-    @include('supplychain::pages.item-category.modal')
+    @include('accounting::pages.item.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Item Category Datalist',
-                    'tableId' => 'item-category-table'])
+                    'title' => 'Item Datalist',
+                    'tableId' => 'item-table'])
 
-        @slot('createButton')
+        {{-- @slot('createButton')
             @can('create', Modules\SupplyChain\Entities\ItemCategory::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   
             @endcan
-        @endslot    
+        @endslot     --}}
 
         @slot('tableContent')
             <th>Code</th>
-            <th>Category Name</th>
+            <th>Item Name</th>
             <th>Description/Remark</th>
+            <th>Sales COA</th>
+            <th>Inventory COA</th>
+            <th>Cost COA</th>
+            <th>Inventory Adj. COA</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>
@@ -29,16 +33,9 @@
             <th>Last Updated At</th>
             <th>Action</th>
         @endslot
-
-        @slot('tableFooter')
-            <span class="text-success font-italic">
-                <i class="fa fa-info-circle"></i>
-                &nbsp;after adding new item category, you have to wait for accounting department before item category activated and can be used in transaction
-            </span>
-        @endslot
     @endcomponent
 
-    @include('supplychain::components.item-category._script')
+    @include('accounting::components.item._script')
 
 @endsection
 
