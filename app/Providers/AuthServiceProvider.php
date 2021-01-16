@@ -94,6 +94,9 @@ use Modules\GeneralSetting\Entities\Country;
 use Modules\GeneralSetting\Policies\CompanyPolicy;
 use Modules\GeneralSetting\Entities\Company;
 
+use Modules\GeneralSetting\Policies\CompanyDetailContactPolicy;
+use Modules\GeneralSetting\Entities\CompanyDetailContact;
+
 use Modules\GeneralSetting\Policies\AirportPolicy;
 use Modules\GeneralSetting\Entities\Airport;
 
@@ -165,6 +168,7 @@ class AuthServiceProvider extends ServiceProvider
         TaskReleaseLevel::class => TaskReleaseLevelPolicy::class,
 
         Company::class => CompanyPolicy::class,
+        CompanyDetailContact::class => CompanyDetailContactPolicy::class,
         Country::class => CountryPolicy::class,
         Airport::class => AirportPolicy::class,
 

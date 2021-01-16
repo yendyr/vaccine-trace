@@ -6,7 +6,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 use Modules\Gate\Entities\RoleMenu;
 
-class CompanyPolicy
+class CompanyDetailContactPolicy
 {
     use HandlesAuthorization;
 

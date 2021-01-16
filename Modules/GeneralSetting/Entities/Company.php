@@ -39,18 +39,18 @@ class Company extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function contact()
+    public function contacts()
     {
-        return $this->hasMany(\Modules\Gate\Entities\CompanyDetailContact::class, 'company_id');
+        return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailContact::class, 'company_id');
     }
 
-    public function address()
+    public function addresses()
     {
-        return $this->hasMany(\Modules\Gate\Entities\CompanyDetailAddress::class, 'company_id');
+        return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailAddress::class, 'company_id');
     }
 
-    public function bank()
+    public function banks()
     {
-        return $this->hasMany(\Modules\Gate\Entities\CompanyDetailBank::class, 'company_id');
+        return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailBank::class, 'company_id');
     }
 }
