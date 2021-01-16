@@ -18,7 +18,10 @@
             },
             columns: [
                 { data: 'code', name: 'Code', defaultContent: '-' },
-                { data: 'name', name: 'Name', defaultContent: '-' },
+                { data: 'name', 
+                        "render": function ( data, type, row, meta ) {
+                        return '<a href="company/' + row.id + '">' + row.name + '</a>';
+                        } },
                 { data: 'gst_number', name: 'GST Number', defaultContent: '-' },
                 { data: 'npwp_number', name: 'NPWP', defaultContent: '-' },
                 { data: 'description', name: 'Description/Remark', defaultContent: '-' },

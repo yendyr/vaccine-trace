@@ -18,7 +18,7 @@ class CompanyController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Company::class);
+        $this->authorizeResource(Company::class, 'company');
         $this->middleware('auth');
     }
 
@@ -146,7 +146,7 @@ class CompanyController extends Controller
 
     public function show(Company $Company)
     {
-        return view('generalsetting::pages.company.show');
+        return view('generalsetting::pages.company.show', compact('Company'));
     }
 
     public function edit(Company $Company)

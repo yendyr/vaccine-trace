@@ -17,15 +17,32 @@ class CompanyPolicy
 
     public function viewAny()
     {
-        $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
-        )->where('menu_link', 'generalsetting/company')->whereHas('role', function($role){
-            $role->where('status', 1);
-        })->first();
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
 
-        if ($queryRoleMenu == null){
+        if ($queryRoleMenu == null) {
             return false;
-        } else {
+        } 
+        else {
+            return true;
+        }
+    }
+
+    public function view()
+    {
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
             return true;
         }
     }

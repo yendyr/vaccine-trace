@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class CompanyDetailContact extends Model
+class CompanyDetailBank extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -17,15 +17,11 @@ class CompanyDetailContact extends Model
         'company_id', 
         'uuid', 
         'label', 
-        'name', 
-        'email', 
-        'mobile_number', 
-        'office_number', 
-        'fax_number', 
-        'other_number', 
-        'website', 
-        'website_alternative', 
-        'website_alternative', 
+        'bank_name', 
+        'bank_branch', 
+        'account_holder_name', 
+        'account_number', 
+        'swift_code', 
         'description', 
         'owned_by', 
         'status', 

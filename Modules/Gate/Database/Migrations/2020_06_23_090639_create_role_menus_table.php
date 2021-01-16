@@ -31,6 +31,7 @@ class CreateRoleMenusTable extends Migration
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -19,6 +19,7 @@ class CreateCompanyDetailBanksTable extends Migration
             $table->uuid('uuid')->unique()->nullable();
             $table->string('label')->nullable();
             $table->string('bank_name')->nullable();
+            $table->string('bank_branch')->nullable();
             $table->string('account_holder_name')->nullable();
             $table->string('account_number')->nullable();
             $table->string('swift_code')->nullable();

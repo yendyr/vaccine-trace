@@ -3,6 +3,8 @@
 namespace Modules\Gate\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RoleMenu extends Model
 {
@@ -11,7 +13,19 @@ class RoleMenu extends Model
     use Notifiable;
     
     protected $fillable = [
-        'uuid', 'menu_link', 'role_id', 'menu_id', 'add', 'update', 'delete', 'approval', 'print', 'process', 'owned_by', 'status', 'created_by'
+        'uuid', 
+        'menu_link', 
+        'role_id', 
+        'menu_id', 
+        'add', 
+        'update', 
+        'delete', 
+        'approval', 
+        'print', 
+        'process', 
+        'owned_by', 
+        'status', 
+        'created_by'
     ];
 
     protected $table = 'role_menus';

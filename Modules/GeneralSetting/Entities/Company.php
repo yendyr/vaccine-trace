@@ -3,6 +3,9 @@
 namespace Modules\GeneralSetting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Company extends Model
 {
@@ -34,5 +37,20 @@ class Company extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function contact()
+    {
+        return $this->hasMany(\Modules\Gate\Entities\CompanyDetailContact::class, 'company_id');
+    }
+
+    public function address()
+    {
+        return $this->hasMany(\Modules\Gate\Entities\CompanyDetailAddress::class, 'company_id');
+    }
+
+    public function bank()
+    {
+        return $this->hasMany(\Modules\Gate\Entities\CompanyDetailBank::class, 'company_id');
     }
 }
