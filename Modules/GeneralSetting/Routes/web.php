@@ -16,7 +16,7 @@ Route::name('generalsetting.')->group(function () {
         Route::resource('/country', 'CountryController');
 
         Route::resource('/company', 'CompanyController');
-        Route::resource('/company-contact', 'CompanyDetailContactController');
+        Route::resource('/company-detail-contact', 'CompanyDetailContactController');
 
         Route::resource('/airport', 'AirportController');
 

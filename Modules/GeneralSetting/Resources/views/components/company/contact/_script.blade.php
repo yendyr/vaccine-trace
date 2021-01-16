@@ -4,8 +4,7 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/generalsetting/company-contact/';
-        var tableId = '#company-contact-table';
+        var actionUrl = '/generalsetting/company-detail-contact/';
         var inputFormId = '#inputForm';
 
         $('#create').click(function () {
@@ -23,7 +22,7 @@
             }).prependTo('#inputForm');
 
             var id = $(this).data('id');
-            $.get('/generalsetting/company-contact/' + id, function (data) {
+            $.get(actionUrl + id, function (data) {
                 $('#id').val(id);
                 $('#label').val(data.label);
                 $('#name').val(data.name);
