@@ -49,13 +49,13 @@ class Menu extends Model
     {
         $canView = 0;
 
-        if ( $request->user()->can('viewAny', $this->menu_class) || ($request->user()->name == 'Super Admin' ) ) {
+        if ( $request->user()->can('viewAny', $this->menu_class) ) {
             $canView++;
         }
 
         if ( $this->subMenus()->count() > 0 ) {
             foreach ($this->subMenus as $subMenu) {
-                if ( $request->user()->can('viewAny', $subMenu->menu_class) || ($request->user()->name == 'Super Admin' )) {
+                if ( $request->user()->can('viewAny', $subMenu->menu_class) ) {
                     $canView++;
                 }
             }
@@ -71,15 +71,18 @@ class Menu extends Model
     {
         $canView = 0;
 
-        $menus = Menu::where('group', $this->group)->get();
+        $menus = Menu::where('group', $this->group)
+                        // ->whereNotNull('menu_route')
+                        ->get();
+
         foreach ($menus as $menu) {
-            if ( $request->user()->can('viewAny', $menu->menu_class) || ($request->user()->name == 'Super Admin' ) ) {
+            if ( $request->user()->can('viewAny', $menu->menu_class) ) {
                 $canView++;
             }
 
             if ( $menu->subMenus()->count() > 0 ) {
                 foreach ($menu->subMenus as $subMenu) {
-                    if ( $request->user()->can('viewAny', $subMenu->menu_class) || ($request->user()->name == 'Super Admin' ) ) {
+                    if ( $request->user()->can('viewAny', $subMenu->menu_class) ) {
                         $canView++;
                     }
                 }

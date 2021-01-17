@@ -120,21 +120,21 @@
             }
         }
 
-        $(document).ready(function(){
-            var nav1 = $('li#gate ul').children().length;
-            if (nav1 == 0){
-                $('li#gate').remove();
-            }
-            var nav2 = $('li#examples ul').children().length;
-            if (nav2 == 0){
-                $('li#examples').remove();
-            }
-            var nav4 = $('li#humanresources ul').children().length;
-            if (nav4 == 0){
-                $('li#humanresources').remove();
-            }
+        // $(document).ready(function(){
+        //     var nav1 = $('li#gate ul').children().length;
+        //     if (nav1 == 0){
+        //         $('li#gate').remove();
+        //     }
+        //     var nav2 = $('li#examples ul').children().length;
+        //     if (nav2 == 0){
+        //         $('li#examples').remove();
+        //     }
+        //     var nav4 = $('li#humanresources ul').children().length;
+        //     if (nav4 == 0){
+        //         $('li#humanresources').remove();
+        //     }
 
-        });
+        // });
         
     </script>
 @endpush

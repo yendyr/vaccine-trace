@@ -28,7 +28,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if( Schema::hasTable('menus') && Schema::hasColumns('menus', ['id', 'parent_id', 'group'])) {
-            $menuGroups = Menu::whereNull('parent_id')->get()->groupBy('group');
+            $menuGroups = Menu::whereNull('parent_id')
+                                // ->whereNotNull('menu_route')
+                                ->get()
+                                ->groupBy('group');
     
             View::share('menuGroups', $menuGroups);
         }

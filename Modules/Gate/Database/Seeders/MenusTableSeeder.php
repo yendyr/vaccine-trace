@@ -875,6 +875,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'supplychain/unit',
             'menu_text' => 'Master Unit',
@@ -894,6 +895,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'supplychain/item-category',
             'menu_text' => 'Master Item Category',
@@ -913,6 +915,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'supplychain/item',
             'menu_text' => 'Master Item',
@@ -957,6 +960,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'accounting/item-category',
             'menu_text' => 'Item Category COA',
@@ -976,6 +980,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+        
         $menu = Menu::create([
             'menu_link' => 'accounting/item',
             'menu_text' => 'Item COA',
