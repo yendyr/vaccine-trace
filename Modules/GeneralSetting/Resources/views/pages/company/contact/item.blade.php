@@ -1,3 +1,4 @@
+@if (sizeOf($Company->contacts) > 0)
 @foreach ($Company->contacts as $contact)
 <div class="col-md-6">
     <div class="panel panel-info">
@@ -83,3 +84,8 @@
     </div>
 </div>
 @endforeach
+@else 
+    <div class="col-md-12 m-t-xl">
+        <p class="font-italic text-center m-t-xl">No Data Found</p>
+    </div>
+@endif
