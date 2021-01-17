@@ -79,7 +79,6 @@
                         generateToast ('success', data.success);                            
                     }
                     $('#inputModal').modal('hide');
-                    $(targetTableId).DataTable().ajax.reload();
                 },
                 complete: function () {
                     let l = $( '.ladda-button-submit' ).ladda();
@@ -88,7 +87,7 @@
                 }
             }); 
 
-            setTimeout(location.reload.bind(location), 2000);
+            // setTimeout(location.reload.bind(location), 2000);
         });
     });
 </script>

@@ -11,6 +11,7 @@
 
             <form method="post" id="inputForm">
                 <input type="hidden" id="id" name="id">
+                <input type="hidden" id="company_id" name="company_id" value="{{ $Company->id }}">
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">

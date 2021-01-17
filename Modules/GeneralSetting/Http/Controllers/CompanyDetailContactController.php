@@ -18,52 +18,52 @@ class CompanyDetailContactController extends Controller
 
     public function __construct()
     {
-        // $this->authorizeResource(CompanyDetailContact::class, 'company_detail_contacts');
+        $this->authorizeResource(CompanyDetailContact::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = CompanyDetailContact::all();
-            return Datatables::of($data)
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
-                        return '<label class="label label-success">Active</label>';
-                    } else{
-                        return '<label class="label label-danger">Inactive</label>';
-                    }
-                })
-                ->addColumn('creator_name', function($row){
-                    return $row->creator->name ?? '-';
-                })
-                ->addColumn('updater_name', function($row){
-                    return $row->updater->name ?? '-';
-                })
-                ->addColumn('action', function($row){
-                    $noAuthorize = true;
-                    if(Auth::user()->can('update', CompanyDetailContact::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', CompanyDetailContact::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
+        // if ($request->ajax()) {
+        //     $data = CompanyDetailContact::all();
+        //     return Datatables::of($data)
+        //         ->addColumn('status', function($row){
+        //             if ($row->status == 1){
+        //                 return '<label class="label label-success">Active</label>';
+        //             } else{
+        //                 return '<label class="label label-danger">Inactive</label>';
+        //             }
+        //         })
+        //         ->addColumn('creator_name', function($row){
+        //             return $row->creator->name ?? '-';
+        //         })
+        //         ->addColumn('updater_name', function($row){
+        //             return $row->updater->name ?? '-';
+        //         })
+        //         ->addColumn('action', function($row){
+        //             $noAuthorize = true;
+        //             if(Auth::user()->can('update', CompanyDetailContact::class)) {
+        //                 $updateable = 'button';
+        //                 $updateValue = $row->id;
+        //                 $noAuthorize = false;
+        //             }
+        //             if(Auth::user()->can('delete', CompanyDetailContact::class)) {
+        //                 $deleteable = true;
+        //                 $deleteId = $row->id;
+        //                 $noAuthorize = false;
+        //             }
 
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
-                    }
-                    else {
-                        return '<p class="text-muted">Not Authorized</p>';
-                    }
+        //             if ($noAuthorize == false) {
+        //                 return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+        //             }
+        //             else {
+        //                 return '<p class="text-muted">Not Authorized</p>';
+        //             }
                     
-                })
-                ->escapeColumns([])
-                ->make(true);
-        }
+        //         })
+        //         ->escapeColumns([])
+        //         ->make(true);
+        // }
 
         // return view('generalsetting::pages.company.index');
     }
@@ -76,6 +76,7 @@ class CompanyDetailContactController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'company_id' => ['required', 'max:30'],
             'label' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
         ]);
@@ -106,11 +107,10 @@ class CompanyDetailContactController extends Controller
     
     }
 
-    public function show($id)
+    public function show(CompanyDetailContact $CompanyDetailContact)
     {
-        // return view('generalsetting::pages.company-contact.show', compact('CompanyDetailContact'));
-
-        $CompanyDetailContact = CompanyDetailContact::where('id', $id)->first();
+        $CompanyDetailContact = CompanyDetailContact::where('id', $CompanyDetailContact->id)
+                                ->first();
         return response()->json($CompanyDetailContact);
     }
 
@@ -159,71 +159,70 @@ class CompanyDetailContactController extends Controller
 
     public function select2Customer(Request $request)
     {
-        $search = $request->q;
-        $query = Company::orderby('name','asc')
-                        ->select('id','name')
-                        ->where('is_customer', 1)
-                        ->where('status', 1);
-        if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
-        }
-        $Companies = $query->get();
+        // $search = $request->q;
+        // $query = Company::orderby('name','asc')
+        //                 ->select('id','name')
+        //                 ->where('is_customer', 1)
+        //                 ->where('status', 1);
+        // if($search != ''){
+        //     $query = $query->where('name', 'like', '%' .$search. '%');
+        // }
+        // $Companies = $query->get();
 
-        $response = [];
-        foreach($Companies as $Company){
-            $response['results'][] = [
-                "id"=>$Company->id,
-                "text"=>$Company->name
-            ];
-        }
+        // $response = [];
+        // foreach($Companies as $Company){
+        //     $response['results'][] = [
+        //         "id"=>$Company->id,
+        //         "text"=>$Company->name
+        //     ];
+        // }
 
-        return response()->json($response);
+        // return response()->json($response);
     }
 
     public function select2Supplier(Request $request)
     {
-        $search = $request->q;
-        $query = Company::orderby('name','asc')
-                        ->select('id','name')
-                        ->where('is_supplier', 1)
-                        ->where('status', 1);
-        if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
-        }
-        $Companies = $query->get();
+        // $search = $request->q;
+        // $query = Company::orderby('name','asc')
+        //                 ->select('id','name')
+        //                 ->where('is_supplier', 1)
+        //                 ->where('status', 1);
+        // if($search != ''){
+        //     $query = $query->where('name', 'like', '%' .$search. '%');
+        // }
+        // $Companies = $query->get();
 
-        $response = [];
-        foreach($Companies as $Company){
-            $response['results'][] = [
-                "id"=>$Company->id,
-                "text"=>$Company->name
-            ];
-        }
+        // $response = [];
+        // foreach($Companies as $Company){
+        //     $response['results'][] = [
+        //         "id"=>$Company->id,
+        //         "text"=>$Company->name
+        //     ];
+        // }
 
-        return response()->json($response);
+        // return response()->json($response);
     }
 
     public function select2Manufacturer(Request $request)
     {
-        $search = $request->q;
-        $query = Company::orderby('name','asc')
-                        ->select('id','name')
-                        ->where('is_manufacturer', 1)
-                        ->where('status', 1);
-        if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
-        }
-        $Companies = $query->get();
+    //     $search = $request->q;
+    //     $query = Company::orderby('name','asc')
+    //                     ->select('id','name')
+    //                     ->where('is_manufacturer', 1)
+    //                     ->where('status', 1);
+    //     if($search != ''){
+    //         $query = $query->where('name', 'like', '%' .$search. '%');
+    //     }
+    //     $Companies = $query->get();
 
-        $response = [];
-        foreach($Companies as $Company){
-            $response['results'][] = [
-                "id"=>$Company->id,
-                "text"=>$Company->name
-            ];
-        }
+    //     $response = [];
+    //     foreach($Companies as $Company){
+    //         $response['results'][] = [
+    //             "id"=>$Company->id,
+    //             "text"=>$Company->name
+    //         ];
+    //     }
 
-        return response()->json($response);
+    //     return response()->json($response);
     }
-
 }

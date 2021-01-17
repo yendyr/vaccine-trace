@@ -3,8 +3,6 @@
 @section('content')
     @component('components.delete-modal', ['name' => 'Company Datalist'])
     @endcomponent
-    {{-- @include('generalsetting::pages.company.modal')
-    @include('generalsetting::components.company._script') --}}
 
     @include('generalsetting::pages.company.contact.modal')
 
@@ -97,7 +95,7 @@
                             <div class="panel-body">
                                 <div class="row m-b">
                                     <div class="col">
-                                    @can('create', Modules\GeneralSetting\Entities\CompanyDetailContact::class)                
+                                    @can('update', Modules\GeneralSetting\Entities\Company::class)                
                                         <button type="button" id="create" class="btn btn-primary btn-lg">
                                             <i class="fa fa-plus-circle"></i>&nbsp;Create New
                                         </button>   
