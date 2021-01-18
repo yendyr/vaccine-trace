@@ -150,8 +150,14 @@ class ChartOfAccountClassController extends Controller
 
     public function destroy(ChartOfAccountClass $ChartOfAccountClass)
     {
+        $currentRow = ChartOfAccountClass::where('id', $ChartOfAccountClass->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         ChartOfAccountClass::destroy($ChartOfAccountClass->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Chart of Account Group Class has been Deleted']);
     }
 
     public function select2(Request $request)
