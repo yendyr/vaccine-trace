@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form method="post" id="inputForm">
+            <form method="post" id="inputFormContact">
                 <input type="hidden" id="id" name="id">
                 <input type="hidden" id="company_id" name="company_id" value="{{ $Company->id }}">
                 <div class="modal-body">
@@ -92,7 +92,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
-                    <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveBtnContact">
+                    <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveButtonContact">
                         <strong>Save Changes</strong>
                     </button>
                 </div>

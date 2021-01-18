@@ -94,7 +94,7 @@
                                 <div class="row m-b">
                                     <div class="col">
                                     @can('update', Modules\GeneralSetting\Entities\Company::class)                
-                                        <button type="button" id="createContact" class="btn btn-primary btn-lg">
+                                        <button type="button" id="createNewButtonContact" class="btn btn-primary btn-lg">
                                             <i class="fa fa-plus-circle"></i>&nbsp;Create New
                                         </button>   
                                     @endcan

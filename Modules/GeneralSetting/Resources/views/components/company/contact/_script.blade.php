@@ -5,24 +5,30 @@
 <script>
     $(document).ready(function () {
         var actionUrl = '/generalsetting/company-detail-contact/';
+        var createNewButtonId = '#createNewButtonContact';
         var inputModalId = '#inputModalContact';
         var modalTitleId = '#modalTitleContact';
-        var saveButtonId = '#saveBtnContact';
+        var saveButtonId = '#saveButtonContact';
         var inputFormId = '#inputFormContact';
+        var editButtonClass = '.editButtonContact';
+        var deleteButtonClass = '.deleteButtonContact';
+        var deleteModalId = '#deleteModalContact';
+        var deleteFormId = '#deleteFormContact';
+        var deleteModalButtonId = '#deleteModalButtonContact';
 
-        $('#createContact').click(function () {
+        $(createNewButtonId).click(function () {
             showCreateModal (inputModalId, modalTitleId, 'Create New Contact', saveButtonId, inputFormId, actionUrl);
         });
 
-        $('.editBtn').click(function (e) {
-            $('#modalTitle').html("Edit Contact");
+        $(editButtonClass).click(function (e) {
+            $(modalTitleId).html("Edit Contact");
             $(inputFormId).trigger("reset");
             
             $('<input>').attr({
                 type: 'hidden',
                 name: '_method',
                 value: 'patch'
-            }).prependTo('#inputForm');
+            }).prependTo(inputFormId);
 
             var id = $(this).data('id');
             $.get(actionUrl + id, function (data) {
@@ -45,9 +51,9 @@
                 $(inputFormId).attr('action', actionUrl + id);
             });
 
-            $('#saveBtn').val("edit");
-            $('[class^="invalid-feedback-"]').html('');  // clearing validation
-            $('#inputModal').modal('show');
+            $(saveButtonId).val("edit");
+            $('[class^="invalid-feedback-"]').html('');
+            $(inputModalId).modal('show');
         });
 
         $(inputFormId).on('submit', function (event) {
@@ -67,7 +73,7 @@
                     let l = $( '.ladda-button-submit' ).ladda();
                     l.ladda( 'start' );
                     $('[class^="invalid-feedback-"]').html('');
-                    $('#saveBtn').prop('disabled', true);
+                    $(saveButtonId).prop('disabled', true);
                 },
                 error: function(data){
                     let errors = data.responseJSON.errors;
@@ -81,25 +87,25 @@
                     if (data.success) {
                         generateToast ('success', data.success);                            
                     }
-                    $('#inputModal').modal('hide');
+                    $(inputModalId).modal('hide');
                 },
                 complete: function () {
                     let l = $( '.ladda-button-submit' ).ladda();
                     l.ladda( 'stop' );
-                    $('#saveBtn'). prop('disabled', false);
+                    $(saveButtonId).prop('disabled', false);
                 }
             }); 
 
             setTimeout(location.reload.bind(location), 2000);
         });
 
-        $('.deleteBtn').click(function () {
+        $(deleteButtonClass).click(function () {
             rowId = $(this).val();
-            $('#deleteModal').modal('show');
-            $('#delete-form').attr('action', actionUrl + rowId);
+            $(deleteModalId).modal('show');
+            $(deleteFormId).attr('action', actionUrl + rowId);
         });
 
-        $('#delete-form').on('submit', function (e) {
+        $(deleteFormId).on('submit', function (e) {
             e.preventDefault();
             let url_action = $(this).attr('action');
             $.ajax({
@@ -111,8 +117,8 @@
                 url: url_action,
                 type: "DELETE",
                 beforeSend:function(){
-                    $('#delete-button').text('Deleting...');
-                    $('#delete-button').prop('disabled', true);
+                    $(deleteModalButtonId).text('Deleting...');
+                    $(deleteModalButtonId).prop('disabled', true);
                 },
                 error: function(data){
                     if (data.error) {
@@ -125,10 +131,9 @@
                     }
                 },
                 complete: function(data) {
-                    $('#delete-button').text('Delete');
-                    $('#deleteModal').modal('hide');
-                    $('#delete-button').prop('disabled', false);
-                    $(targetTableId).DataTable().ajax.reload();
+                    $(deleteModalButtonId).text('Delete');
+                    $(deleteModalId).modal('hide');
+                    $(deleteModalButtonId).prop('disabled', false);
                 }
             });
 

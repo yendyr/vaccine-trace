@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form method="post" id="inputForm">
+            <form method="post" id="inputFormAddress">
                 <input type="hidden" id="id" name="id">
                 <input type="hidden" id="company_id" name="company_id" value="{{ $Company->id }}">
                 <div class="modal-body">

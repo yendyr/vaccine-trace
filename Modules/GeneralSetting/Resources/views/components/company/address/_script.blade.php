@@ -9,6 +9,8 @@
         var modalTitleId = '#modalTitleAddress';
         var saveButtonId = '#saveBtnAddress';
         var inputFormId = '#inputFormAddress';
+        var editButtonId = '#editButtonAddress';
+        var deleteButtonId = '#deleteButtonAddress';
 
         $('#createAddress').click(function () {
             showCreateModal (inputModalId, modalTitleId, 'Create New Address', saveButtonId, inputFormId, actionUrl);
