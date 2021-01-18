@@ -6,11 +6,13 @@
     @endif
     @foreach($menuGroupRow as $key => $menuRow)
         @if( sizeof($menuRow->subMenus) == 0 )
-            @can('viewAny', $menuRow->menu_class)
-                <li class="nav-first-level {{ $menuRow->isActive(request()) }}">
-                    <a href="{{ $menuRow->renderLink() }}"><i class="fa {{ $menuRow->menu_icon ?? null }}"></i> <span class="nav-label">{{ $menuRow->menu_text ?? '' }}</span></a>
-                </li>
-            @endcan
+            @if ($menuRow->menu_route)
+                @can('viewAny', $menuRow->menu_class)
+                    <li class="nav-first-level {{ $menuRow->isActive(request()) }}">
+                        <a href="{{ $menuRow->renderLink() }}"><i class="fa {{ $menuRow->menu_icon ?? null }}"></i> <span class="nav-label">{{ $menuRow->menu_text ?? '' }}</span></a>
+                    </li>
+                @endcan
+            @endif
         @else
             @if($menuRow->hasActiveSubMenus(request()) > 0)
                 <li class="nav-first-level {{ $menuRow->isActive(request()) }}">

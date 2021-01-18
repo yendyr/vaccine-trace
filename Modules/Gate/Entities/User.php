@@ -4,10 +4,13 @@ namespace Modules\Gate\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use softDeletes;
+    protected $dates = ['deleted_at'];
     use Notifiable;
 
     /**
@@ -16,7 +19,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'uuid', 'name', 'username', 'email', 'password', 'image', 'role_id', 'company_id', 'owned_by', 'status'
+        'uuid', 
+        'name', 
+        'username', 
+        'email', 
+        'password', 
+        'image', 
+        'role_id', 
+        'company_id', 
+        'owned_by', 
+        'status'
     ];
 
     /**
@@ -47,7 +59,7 @@ class User extends Authenticatable
      */
     public function company()
     {
-        return $this->belongsTo(Company::class, 'company_id');
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'company_id');
     }
 
     public function role()

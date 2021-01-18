@@ -11,7 +11,7 @@
 
 @isset($deleteable)
     <button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger pr-2" data-toggle="tooltip" title="Delete"
-    id="{{(isset($deleteId) ? $deleteId : '')}}">
+    value="{{(isset($deleteId) ? $deleteId : '')}}">
         <i class="fa fa-trash"></i>
     </button>
 @endisset

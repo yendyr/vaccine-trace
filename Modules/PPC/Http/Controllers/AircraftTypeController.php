@@ -153,7 +153,9 @@ class AircraftTypeController extends Controller
 
     public function destroy(AircraftType $AircraftType)
     {
-        AircraftType::destroy($AircraftType->id);
+        $id = $AircraftType->id;
+        AircraftType::destroy($id);
+
         return response()->json(['success' => 'Data Deleted Successfully']);
     }
 

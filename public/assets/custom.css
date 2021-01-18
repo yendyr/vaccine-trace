@@ -147,7 +147,7 @@ body {
 }
 
 .ibox {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
 }
 
 .toast {
@@ -230,4 +230,8 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
     border: 1px solid #b3e2ff;
     border-radius: 5px;
+}
+
+.panel-footer {
+    background-color: #fbfbfb;
 }

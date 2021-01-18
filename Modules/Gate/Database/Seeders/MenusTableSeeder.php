@@ -812,6 +812,26 @@ class MenusTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
+            'menu_link' => 'generalsetting/company-detail-contact',
+            'menu_text' => '',
+            'menu_route' => null,
+            'menu_icon' => 'fa-building',
+            'menu_class' => 'Modules\GeneralSetting\Entities\CompanyDetailContact',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['generalsetting/company-detail-contact', 'generalsetting/company-detail-contact/*']),
+            'group' => 'General Setting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
             'menu_link' => 'generalsetting/airport',
             'menu_text' => 'Master Airport',
             'menu_route' => 'generalsetting.airport.index',
@@ -855,6 +875,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'supplychain/unit',
             'menu_text' => 'Master Unit',
@@ -874,6 +895,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'supplychain/item-category',
             'menu_text' => 'Master Item Category',
@@ -893,6 +915,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'supplychain/item',
             'menu_text' => 'Master Item',
@@ -937,6 +960,7 @@ class MenusTableSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
         $menu = Menu::create([
             'menu_link' => 'accounting/item-category',
             'menu_text' => 'Item Category COA',
@@ -945,6 +969,26 @@ class MenusTableSeeder extends Seeder
             'menu_class' => 'Modules\SupplyChain\Entities\ItemCategory',
             'menu_id' => null,
             'menu_actives' => json_encode(['accounting/item-category', 'accounting/item-category/*']),
+            'group' => 'Accounting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+        
+        $menu = Menu::create([
+            'menu_link' => 'accounting/item',
+            'menu_text' => 'Item COA',
+            'menu_route' => 'accounting.item.index_accounting',
+            'menu_icon' => 'fa-cubes',
+            'menu_class' => 'Modules\SupplyChain\Entities\Item',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['accounting/item', 'accounting/item/*']),
             'group' => 'Accounting',
             'add' => 1,
             'update' => 1,

@@ -11,7 +11,6 @@ class Country extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
-
     use Notifiable;
 
     protected $fillable = [

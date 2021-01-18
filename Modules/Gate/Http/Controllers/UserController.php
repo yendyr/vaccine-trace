@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Modules\Gate\Entities\Company;
+use Modules\GeneralSetting\Entities\Company;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\User;
 use Modules\Gate\Rules\MatchOldPassword;
@@ -33,7 +33,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::with(['role:id,role_name', 'company:id,company_name'])
+            $data = User::with(['role:id,role_name', 'company:id,name'])
                 ->select('id', 'username', 'email', 'name', 'password', 'role_id', 'company_id', 'status');
             return Datatables::of($data)
                 ->addColumn('status', function($row){

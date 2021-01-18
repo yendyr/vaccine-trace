@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body text-dark">
-                Are you sure to delete this {{$name}} ?
+                Are you sure to delete this data?
             </div>
             <div class="modal-footer">
                 <form class="d-inline" id="delete-form" name="deleteForm">
