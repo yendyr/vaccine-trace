@@ -29,7 +29,8 @@ class CompanyDetailAddress extends Model
         'owned_by', 
         'status', 
         'updated_by',
-        'created_by'
+        'created_by',
+        'deleted_by',
     ];
 
     public function creator()

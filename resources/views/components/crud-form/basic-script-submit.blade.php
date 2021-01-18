@@ -80,7 +80,7 @@
                     ).attr("content")
                 },
                 url: url_action,
-                type: "DELETE", //bisa method
+                type: "DELETE",
                 beforeSend:function(){
                     $('#delete-button').text('Deleting...');
                     $('#delete-button').prop('disabled', true);

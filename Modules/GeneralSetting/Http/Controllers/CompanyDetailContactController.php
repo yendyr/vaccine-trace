@@ -24,53 +24,12 @@ class CompanyDetailContactController extends Controller
 
     public function index(Request $request)
     {
-        // if ($request->ajax()) {
-        //     $data = CompanyDetailContact::all();
-        //     return Datatables::of($data)
-        //         ->addColumn('status', function($row){
-        //             if ($row->status == 1){
-        //                 return '<label class="label label-success">Active</label>';
-        //             } else{
-        //                 return '<label class="label label-danger">Inactive</label>';
-        //             }
-        //         })
-        //         ->addColumn('creator_name', function($row){
-        //             return $row->creator->name ?? '-';
-        //         })
-        //         ->addColumn('updater_name', function($row){
-        //             return $row->updater->name ?? '-';
-        //         })
-        //         ->addColumn('action', function($row){
-        //             $noAuthorize = true;
-        //             if(Auth::user()->can('update', CompanyDetailContact::class)) {
-        //                 $updateable = 'button';
-        //                 $updateValue = $row->id;
-        //                 $noAuthorize = false;
-        //             }
-        //             if(Auth::user()->can('delete', CompanyDetailContact::class)) {
-        //                 $deleteable = true;
-        //                 $deleteId = $row->id;
-        //                 $noAuthorize = false;
-        //             }
-
-        //             if ($noAuthorize == false) {
-        //                 return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
-        //             }
-        //             else {
-        //                 return '<p class="text-muted">Not Authorized</p>';
-        //             }
-                    
-        //         })
-        //         ->escapeColumns([])
-        //         ->make(true);
-        // }
-
-        // return view('generalsetting::pages.company.index');
+        
     }
 
     public function create()
     {
-        // return view('generalsetting::pages.company.create');
+        
     }
 
     public function store(Request $request)
@@ -153,76 +112,14 @@ class CompanyDetailContactController extends Controller
 
     public function destroy(CompanyDetailContact $CompanyDetailContact)
     {
+        $currentRow = CompanyDetailContact::where('id', $CompanyDetailContact->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         CompanyDetailContact::destroy($CompanyDetailContact->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Contact Data has been Deleted']);
     }
 
-    public function select2Customer(Request $request)
-    {
-        // $search = $request->q;
-        // $query = Company::orderby('name','asc')
-        //                 ->select('id','name')
-        //                 ->where('is_customer', 1)
-        //                 ->where('status', 1);
-        // if($search != ''){
-        //     $query = $query->where('name', 'like', '%' .$search. '%');
-        // }
-        // $Companies = $query->get();
-
-        // $response = [];
-        // foreach($Companies as $Company){
-        //     $response['results'][] = [
-        //         "id"=>$Company->id,
-        //         "text"=>$Company->name
-        //     ];
-        // }
-
-        // return response()->json($response);
-    }
-
-    public function select2Supplier(Request $request)
-    {
-        // $search = $request->q;
-        // $query = Company::orderby('name','asc')
-        //                 ->select('id','name')
-        //                 ->where('is_supplier', 1)
-        //                 ->where('status', 1);
-        // if($search != ''){
-        //     $query = $query->where('name', 'like', '%' .$search. '%');
-        // }
-        // $Companies = $query->get();
-
-        // $response = [];
-        // foreach($Companies as $Company){
-        //     $response['results'][] = [
-        //         "id"=>$Company->id,
-        //         "text"=>$Company->name
-        //     ];
-        // }
-
-        // return response()->json($response);
-    }
-
-    public function select2Manufacturer(Request $request)
-    {
-    //     $search = $request->q;
-    //     $query = Company::orderby('name','asc')
-    //                     ->select('id','name')
-    //                     ->where('is_manufacturer', 1)
-    //                     ->where('status', 1);
-    //     if($search != ''){
-    //         $query = $query->where('name', 'like', '%' .$search. '%');
-    //     }
-    //     $Companies = $query->get();
-
-    //     $response = [];
-    //     foreach($Companies as $Company){
-    //         $response['results'][] = [
-    //             "id"=>$Company->id,
-    //             "text"=>$Company->name
-    //         ];
-    //     }
-
-    //     return response()->json($response);
-    }
 }

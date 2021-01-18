@@ -69,12 +69,14 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editBtn btn btn-sm btn-outline btn-primary ml-1" 
+                        <button class="editBtn btn btn-sm btn-outline btn-primary" 
                         value="" data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 
-                        <button class="deleteBtn btn btn-sm btn-outline btn-danger ml-1" name="deleteButton" id="deleteButton"  data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" data-token="{{ csrf_token() }}" title="Delete">
+                        @include('components.delete-modal')
+                        <button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
+                        value="{{ $contact->id ?? '' }}">
                             <i class="fa fa-trash"></i>&nbsp;Delete
                         </button>
                     </div>

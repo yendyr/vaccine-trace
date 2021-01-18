@@ -143,8 +143,14 @@ class CountryController extends Controller
 
     public function destroy(Country $Country)
     {
+        $currentRow = Country::where('id', $Country->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         Country::destroy($Country->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Contact Data has been Deleted']);
     }
 
 }

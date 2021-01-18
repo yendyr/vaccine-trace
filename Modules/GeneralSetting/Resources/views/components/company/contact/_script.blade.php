@@ -89,6 +89,48 @@
 
             setTimeout(location.reload.bind(location), 2000);
         });
+
+        $('.deleteBtn').click(function () {
+            rowId = $(this).val();
+            $('#deleteModal').modal('show');
+            $('#delete-form').attr('action', actionUrl + rowId);
+        });
+
+        $('#delete-form').on('submit', function (e) {
+            e.preventDefault();
+            let url_action = $(this).attr('action');
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $(
+                        'meta[name="csrf-token"]'
+                    ).attr("content")
+                },
+                url: url_action,
+                type: "DELETE",
+                beforeSend:function(){
+                    $('#delete-button').text('Deleting...');
+                    $('#delete-button').prop('disabled', true);
+                },
+                error: function(data){
+                    if (data.error) {
+                        generateToast ('error', data.error);
+                    }
+                },
+                success:function(data){
+                    if (data.success){
+                        generateToast ('success', data.success);
+                    }
+                },
+                complete: function(data) {
+                    $('#delete-button').text('Delete');
+                    $('#deleteModal').modal('hide');
+                    $('#delete-button').prop('disabled', false);
+                    $(targetTableId).DataTable().ajax.reload();
+                }
+            });
+
+            setTimeout(location.reload.bind(location), 2000);
+        });
     });
 </script>
 @endpush

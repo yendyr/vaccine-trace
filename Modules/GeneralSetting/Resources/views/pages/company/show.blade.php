@@ -1,9 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Company Datalist'])
-    @endcomponent
-
     @include('generalsetting::pages.company.contact.modal')
 
     <div class="row m-b m-t">

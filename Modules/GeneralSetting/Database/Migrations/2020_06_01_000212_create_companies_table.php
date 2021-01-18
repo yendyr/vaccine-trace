@@ -34,8 +34,8 @@ class CreateCompaniesTable extends Migration
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
-            $table->timestamps();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 

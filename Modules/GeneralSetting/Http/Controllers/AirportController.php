@@ -197,8 +197,14 @@ class AirportController extends Controller
 
     public function destroy(Airport $Airport)
     {
+        $currentRow = Airport::where('id', $Airport->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         Airport::destroy($Airport->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Contact Data has been Deleted']);
     }
 
 }
