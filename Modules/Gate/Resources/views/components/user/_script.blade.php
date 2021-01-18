@@ -6,7 +6,8 @@
 
             var table = $('#user-table').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
+                searchDelay: 1500,
                 ajax: {
                     url: "{{ route('gate.user.index')}}",
                 },

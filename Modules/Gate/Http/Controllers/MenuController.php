@@ -2,18 +2,25 @@
 
 namespace Modules\Gate\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Modules\Gate\Entities\Menu;
 use Yajra\DataTables\DataTables;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Gate;
 
 class MenuController extends Controller
 {
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Menu::class, 'menu');
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -37,12 +44,13 @@ class MenuController extends Controller
 
                     return $parent->menu_text ?? null;
                 })
-                ->addColumn('action', function ($row) use ($request) {
-                    if ($request->user()->can('update', Role::class)) {
+                ->addColumn('action', function ($row) use ($request) {  
+                    if ($request->user()->can('update', Menu::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         return view('components.action-button', compact(['updateable', 'updateValue']));
                     }
+
                     return '<p class="text-muted">no action authorized</p>';
                 })
                 ->escapeColumns([])
@@ -68,21 +76,55 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'menu_link' => ['required', 'string', 'max:255'],
-            'parent' => ['required', 'string', 'max:255'],
+        DB::beginTransaction();
+        $flag = true;
+
+        $request->merge([
+            'menu_actives' => json_encode($request->menu_actives),
+            'add' => ($request->add == 'on') ? true : false,
+            'update' => ($request->update == 'on') ? true : false,
+            'delete' => ($request->delete == 'on') ? true : false,
+            'print' => ($request->print == 'on') ? true : false,
+            'process' => ($request->process == 'on') ? true : false,
+            'status' => ($request->status == 'on') ? true : false,
+            'approval' => ( empty($request->approval)) ? 0 : $request->approval,
         ]);
 
-        $menu = new Menu();
-        $menu->uuid = Str::uuid();
-        $menu->menu_link = $request->menu_link;
-        $menu->parent = $request->parent;
-        $menu->status = 1;
-        $menu->owned_by = $request->user()->company_id;
-        $menu->created_by = $request->user()->id;
-        $menu->save();
+        $request->validate([
+            'menu_text' => ['required', 'string', 'max:255'],
+            'group' => ['required', 'string', 'max:255'],
+            'menu_link' => ['required', 'string', 'max:255'],
+            'menu_route' => ['required', 'string', 'max:255'],
+            'menu_icon' => ['required', 'string', 'max:255'],
+            'menu_actives' => ['required', 'JSON', 'max:255'],
+            'menu_class' => ['string', 'max:255'],
+            'parent_id' => ['exists:menus,id'],
+            'add' => ['boolean'],
+            'update' => ['boolean'],
+            'delete' => ['boolean'],
+            'print' => ['boolean'],
+            'status' => ['boolean'],
+            'approval' => ['numeric', 'min:0'],
+        ]);
 
-        return redirect('/gate/menu')->with('status', 'a menu data has been added!');
+        $request->merge([
+            'uuid' => Str::uuid(),
+            'menu_actives' => json_decode($request->menu_actives)
+        ]);
+
+        $menu = Menu::create($request->all());
+        if( empty($menu->id) ) $flag = false;
+        
+        if($flag){
+            DB::commit();
+
+            return response()->json(['status' => 'a menu data has been added!'], 200);
+        }else{
+            DB::rollBack();
+
+            return response()->json(['status' => 'a menu failed to add!'], 200);
+        }
+
     }
 
     /**
@@ -113,18 +155,50 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        $request->validate([
-            'menu_link' => ['required', 'string', 'max:255'],
-            'parent' => ['required', 'string', 'max:255'],
-        ]);
-        Menu::where('id', $menu->id)
-            ->update([
-                'menu_link' => $request->menu_link,
-                'parent' => $request->parent,
-                'updated_by' => $request->user()->id,
-            ]);
+        DB::beginTransaction();
+        $flag = true;
 
-        return redirect('/gate/menu')->with('status', 'a menu data has been updated!');
+        $request->merge([
+            'menu_actives' => json_encode($request->menu_actives),
+            'add' => ($request->add == 'on') ? true : false,
+            'update' => ($request->update == 'on') ? true : false,
+            'delete' => ($request->delete == 'on') ? true : false,
+            'print' => ($request->print == 'on') ? true : false,
+            'process' => ($request->process == 'on') ? true : false,
+            'status' => ($request->status == 'on') ? true : false,
+            'approval' => ( empty($request->approval)) ? 0 : $request->approval,
+        ]);
+
+        $request->validate([
+            'menu_text' => ['required', 'string', 'max:255'],
+            'group' => ['required', 'string', 'max:255'],
+            'menu_link' => ['required', 'string', 'max:255'],
+            'menu_route' => ['required', 'string', 'max:255'],
+            'menu_icon' => ['required', 'string', 'max:255'],
+            'menu_actives' => ['required', 'JSON', 'max:255'],
+            'menu_class' => ['string', 'max:255'],
+            'parent_id' => ['exists:menus,id'],
+            'add' => ['boolean'],
+            'update' => ['boolean'],
+            'delete' => ['boolean'],
+            'print' => ['boolean'],
+            'status' => ['boolean'],
+            'approval' => ['numeric', 'min:0'],
+        ]);
+
+        $update = $menu->update($request->all());
+
+        if( $update == false ) $flag = false;
+
+        if($flag){
+            DB::commit();
+
+            return response()->json(['status' => 'a menu data has been updated!'], 200);
+        }else{
+            DB::rollBack();
+
+            return response()->json(['status' => 'a menu failed to update!'], 200);
+        }
     }
 
     /**
@@ -135,21 +209,25 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         Menu::destroy($menu->id);
-        return redirect('/gate/menu')->with('status', 'a menu data has been deleted!');
+        return response()->json(['status' => 'a menu data has been deleted!'], 200);
     }
 
     public function select2Menu(Request $request)
     {
-        $search = $request->q;
-
+        $response = [];
+        $response["pagination"]["more"] = true;
+        $search = $request->search;
+        
         $query = Menu::select('id', 'menu_text')->where('status', 1);
         if ($search != '') {
             $query = $query->where('menu_text', 'like', '%' . $search . '%');
         }
-        $menus = $query->get();
-        $response = [];
-
-        foreach ($menus as $menu) {
+        if($request->page) {
+            $menus = $query->paginate(10, ['*'], 'page');
+        }else{
+            $menus = $query->paginate(10);
+        }
+        foreach ($menus->items() as $menu) {
             $response['results'][] = [
                 "id" => $menu->id,
                 "text" => $menu->menu_text

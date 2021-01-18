@@ -21,8 +21,6 @@ Route::name('gate.')->group(function () {
         });
         Route::resource('/user', 'UserController');
 
-        Route::resource('/company', 'CompanyController');
-
         Route::resource('/role', 'RoleController');
 
         Route::name('menu.')->group(function () {

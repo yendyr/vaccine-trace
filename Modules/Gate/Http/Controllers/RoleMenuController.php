@@ -32,6 +32,12 @@ class RoleMenuController extends Controller
         if ($request->ajax()) {
             $data = Menu::latest()->get();
             $tables =  DataTables::of($data)
+                ->addColumn('view_menu', function ($row){
+                    if ($row->add == 1){
+                        return "<input type='checkbox' disabled>";
+                    }
+                    return null;
+                })
                 ->addColumn('add_column', function ($row){
                     if ($row->add == 1){
                         return "<input type='checkbox' disabled>";
@@ -92,10 +98,18 @@ class RoleMenuController extends Controller
                 ->addColumn('menu_text', function ($row) use ($menuID){ //looping tiap menuRow
                     if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
                         //jika role bersangkutan tidak memiliki role menu
-                        return $row->menu_text . ' <input name="index[' . $row->id . ']" type="checkbox" value="1" data-toggle="collapse" data-target="#role-menu' . $row->id . '">';
+                        return $row->menu_text;
                     } elseif ($menuID != null && in_array($row->id, $menuID)){
-                        return ('<label>' .$row->menu_text. ' <input checked name="index[' .$row->id. ']"
-                                type="checkbox" value="1" data-toggle="collapse" data-target="#role-menu' .$row->id. '"> </label>');
+                        return $row->menu_text;
+                    }
+                })
+                ->addColumn('view_menu', function ($row) use ($menuID){ //looping tiap menuRow
+                    if ($menuID == null || ($menuID != null && !in_array($row->id, $menuID))){
+                        //jika role bersangkutan tidak memiliki role menu
+                        return '<input name="index[' . $row->id . ']" type="checkbox" value="1" data-toggle="collapse" data-target="#role-menu' . $row->id . '">';
+                    } elseif ($menuID != null && in_array($row->id, $menuID)){
+                        return ('<input checked name="index[' .$row->id. ']"
+                                type="checkbox" value="1" data-toggle="collapse" data-target="#role-menu' .$row->id. '">');
                     }
                 })
                 ->addColumn('add_column', function ($row) use ($menuID, $roleMenus){

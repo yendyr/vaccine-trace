@@ -2,11 +2,10 @@
     <script>
         $(document).ready(function () {
             var tables = $('#rolemenu-table').DataTable({
-                serverSide: true,
-                paging: false,
-                info: false,
-                scrollY: 400,
-                scrollCollapse: true,
+                pageLength: 100,
+                processing: true,
+                serverSide: false,
+                searchDelay: 1500,
                 ajax: {
                     url: "{{ route('gate.role-menu.index')}}",
                 },
@@ -14,6 +13,7 @@
                     { data: 'group', name: 'group' },
                     { data: 'menu_link', name: 'menu_link' },
                     { data: 'menu_text', name: 'menu_text' },
+                    { data: 'view_menu', name: 'view_menu' },
                     { data: 'add_column', name: 'add_column', orderable: false },
                     { data: 'update_column', name: 'update_column', orderable: false },
                     { data: 'delete_column', name: 'delete_column', orderable: false },
@@ -42,11 +42,10 @@
                 }
                 $('#role-input').val(roleID);
                 tables = $('#rolemenu-table').DataTable({
+                    pageLength: 100,
                     processing: true,
-                    serverSide: true,
-                    paging: false,
-                    info: false,
-                    scrollY: 400,
+                    serverSide: false,
+                    searchDelay: 1500,
                     scrollCollapse: true,
                     ajax: {
                         url: "/gate/role-menu/datatable/" + roleID,
@@ -55,6 +54,7 @@
                         { data: 'group', name: 'group' },
                         { data: 'menu_link', name: 'menu_link' },
                         { data: 'menu_text', name: 'menu_text', className: "text-right" },
+                        { data: 'view_menu', name: 'view_menu' },
                         { data: 'add_column', name: 'add_column', orderable: false },
                         { data: 'update_column', name: 'update_column', orderable: false },
                         { data: 'delete_column', name: 'delete_column', orderable: false },
@@ -104,20 +104,5 @@
                 });
             });
         });
-
-        // function reaction(menuId) {
-        //     if($('input[name="index[' + menuId + ']"]').is(":not(:checked)")){
-        //         //$('input[name="index[' + menuId + ']"]').attr('value', 0);
-        //         $('input[name="add[' + (menuId) + ']"]').prop('checked', false);
-        //         // $('input[name="add[' + (menuId) + ']"]').hide();
-        //         $('input[name="edit[' + (menuId) + ']"]').prop('checked', false);
-        //         // $('input[name="edit[' + (menuId) + ']"]').hide();
-        //         $('input[name="delete[' + (menuId) + ']"]').prop('checked', false);
-        //         // $('input[name="delete[' + (menuId) + ']"]').hide();
-        //     } else{
-        //
-        //     }
-        // }
-
     </script>
 @endpush

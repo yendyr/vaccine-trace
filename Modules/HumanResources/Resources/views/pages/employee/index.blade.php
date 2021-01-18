@@ -103,16 +103,11 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Employee',
-                    'href' => '/hr/employee',
-                ])
         @can('create', \Modules\HumanResources\Entities\Employee::class)
             <button type="button" id="create-employee" class="btn btn-primary btn-lg">
                 <i class="fa fa-plus-square"></i> Add New Employee
             </button>
         @endcan
-    @endcomponent    
 @endsection
 
 @section('content')

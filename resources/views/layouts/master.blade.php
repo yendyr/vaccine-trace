@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>SmartAircraft 2020</title>
-
-    @include('layouts.includes._header-script')
-
     {{-- jika ada tambahan custom script pada header --}}
     @stack('header-scripts')
+    @include('layouts.includes._header-script')
 </head>
-
 <body>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
@@ -30,23 +26,23 @@
 
             {{-- membaca request http sesuai route --}}
             @if (Request::is('dashboard'))
-            @yield('content')
-            @else
-            @yield('page-heading')
-
-            <div class="wrapper wrapper-content animated fadeInRight">
                 @yield('content')
-            </div>
+            @else
+                @yield('page-heading')
+
+                @include('components.breadcrumb')
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    @yield('content')
+                </div>
             @endif
 
             <div class="footer">
-                <!-- <div class="float-right">
-                    10GB of <strong>250GB</strong> Free.
-                </div> -->
                 <div>
-                    <strong>Copyright</strong> SmartAircraft.ID &copy; {{date('Y')}}
+                    <strong>Copyright</strong> SmartAircraft.ID &copy; {{ date('Y') }}
                 </div>
-            </div>
+            </div>            
+
+            @include('components.toast.toast')
         </div>
     </div>
 
@@ -64,5 +60,4 @@
     {{-- jika ada tambahan custom script pada footer --}}
     @stack('footer-scripts')
 </body>
-
 </html>

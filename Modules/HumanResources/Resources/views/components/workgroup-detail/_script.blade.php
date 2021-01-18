@@ -2,9 +2,9 @@
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
     <script>
         $('#workgroup-detail-table').DataTable({
-            // processing: true,
-            serverSide: true,
-            scrollX: true,
+            processing: true,
+            serverSide: false,
+            searchDelay: 1500,
             language: {
                 emptyTable: "No data existed for selected workgroup",
             },

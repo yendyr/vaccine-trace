@@ -1,18 +1,13 @@
 @extends('layouts.master')
 
-@section('page-heading')
-    @component('components.breadcrumb', ['name' => 'Company'])
-        <li class="breadcrumb-item">
-            <a href="/gate/company">Company</a>
-        </li>
-        <li class="breadcrumb-item active">
-            <a>Edit Company</a>
-        </li>
-    @endcomponent
-@endsection
 
 @section('content')
-    @component('gate::components.edit', ['action' => '/gate/company/', 'row' => $company, 'name' => 'Company'])
+    @component('components.crud-form.edit', 
+            ['action' => '/gate/company/', 
+            'row' => $company, 
+            'name' => 'Company'
+        ])
+
         @slot('formEdit')
             <div class="form-group row"><label class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-6">

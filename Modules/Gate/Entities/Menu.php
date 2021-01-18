@@ -11,6 +11,14 @@ class Menu extends Model
         'uuid', 'menu_class', 'group', 'parent_id', 'menu_text', 'menu_link', 'menu_route', 'menu_icon', 'menu_id', 'add', 'update', 'delete', 'approval', 'print', 'process', 'owned_by', 'created_by', 'menu_actives', 'status'
     ];
 
+    /**
+     * Function to get current menu parent/header menu
+     */
+    public function parent() 
+    {
+        return $this->hasOne(Menu::class, 'id', 'parent_id');
+    }
+
     /** 
      * Function to get all childs menu from given menu.
      */
@@ -37,13 +45,43 @@ class Menu extends Model
     {
         $canView = 0;
 
-        if ( $request->user()->can('viewAny', $this->menu_class) ) $canView++;
+        if ( $request->user()->can('viewAny', $this->menu_class) || ($request->user()->name == 'Super Admin' ) ) {
+            $canView++;
+        }
 
         if ( $this->subMenus()->count() > 0 ) {
             foreach ($this->subMenus as $subMenu) {
-                if ( $request->user()->can('viewAny', $subMenu->menu_class) ) $canView++;
+                if ( $request->user()->can('viewAny', $subMenu->menu_class) || ($request->user()->name == 'Super Admin' )) {
+                    $canView++;
+                }
             }
         } 
+
+        return $canView;
+    }
+
+    /** 
+     * Function to check if there is any active sub menus
+     */
+    public function moduleHasActiveSubMenus(Request $request)
+    {
+        $canView = 0;
+
+        $menus = Menu::where('group', $this->group)->get();
+        foreach ($menus as $menu) {
+            if ( $request->user()->can('viewAny', $menu->menu_class) || ($request->user()->name == 'Super Admin' ) ) {
+                $canView++;
+            }
+
+            if ( $menu->subMenus()->count() > 0 ) {
+                foreach ($menu->subMenus as $subMenu) {
+                    if ( $request->user()->can('viewAny', $subMenu->menu_class) || ($request->user()->name == 'Super Admin' ) ) {
+                        $canView++;
+                    }
+                }
+            } 
+        }
+        
 
         return $canView;
     }
@@ -82,6 +120,26 @@ class Menu extends Model
     public function getActiveClasses()
     {
         return json_decode($this->menu_actives);
+    }
+
+    public function breadcrumbs($route)
+    {
+        $breadcrumbs = [];
+
+        $menu = Menu::where('menu_route', $route)->first();
+
+        if( isset($menu) ) {
+            $breadcrumbs[] = '<a href="'.$menu->renderLink().'">'.$menu->menu_text.'</a>';
+
+            while ( isset($menu->parent) ) {
+                $menu = $menu->parent;
+                if( isset($menu) && $menu->menu_link !== '#' ) $breadcrumbs[] = '<a href="'.$menu->renderLink().'">'.ucwords(str_replace('-', ' ', $menu->menu_text)).'</a>';
+            }
+    
+            return collect($breadcrumbs);
+        }else{
+            return collect($breadcrumbs);
+        }        
     }
 
 }

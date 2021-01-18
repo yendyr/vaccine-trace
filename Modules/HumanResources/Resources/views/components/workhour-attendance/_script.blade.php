@@ -3,7 +3,7 @@
         var tableWHourAttd = $('#whour-attendance-table').DataTable({
             processing: false,
             serverSide: false,
-            scrollX: true,
+            searchDelay: 1500,
             language: {
                 emptyTable: "No data existed for working hour attendance",
             },

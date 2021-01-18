@@ -22,10 +22,6 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Working Hour',
-                    'href' => '/hr/working-hour',
-                ])
         @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
             <div id="form_result" role="alert"></div>
             @if (request()->is('hr/working-hour/calculate'))
@@ -36,7 +32,6 @@
                     <i class="fa fa-plus-square"></i> Generate</button>                                        
             @endif
         @endcan
-    @endcomponent
 @endsection
 
 @section('content')

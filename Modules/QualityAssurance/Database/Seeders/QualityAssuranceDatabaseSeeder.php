@@ -1,0 +1,26 @@
+<?php
+
+namespace Modules\QualityAssurance\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+
+class QualityAssuranceDatabaseSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Model::unguard();
+
+        $this->call([
+            DocumentTypeSeeder::class,
+            SkillSeeder::class,
+            EngineeringLevelSeeder::class,
+            TaskReleaseLevelSeeder::class,
+        ]);
+    }
+}

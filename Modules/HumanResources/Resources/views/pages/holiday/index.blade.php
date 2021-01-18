@@ -1,10 +1,6 @@
 @extends('layouts.master')
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Holiday',
-                    'href' => '/hr/holiday',
-                ])
         @can('create', \Modules\HumanResources\Entities\Holiday::class)
             <div id="form_result" role="alert"></div>
             <button type="button" id="create-holiday" class="btn btn-primary btn-lg" style="margin-left: 10px;">
@@ -14,7 +10,6 @@
                 <i class="fa fa-plus-square"></i> Generate Sunday
             </button>
         @endcan
-    @endcomponent 
 @endsection
 
 @section('content')

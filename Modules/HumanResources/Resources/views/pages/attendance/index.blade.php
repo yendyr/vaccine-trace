@@ -22,10 +22,6 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Attendance',
-                    'href' => '/hr/attendance',
-                ])
         @can('create', \Modules\HumanResources\Entities\Attendance::class)
             <div id="form_result" role="alert"></div>
             @if(request()->is('hr/attendance/import'))
@@ -36,7 +32,6 @@
                     <i class="fa fa-plus-square"></i> Add Data</button>
             @endif
         @endcan
-    @endcomponent
 @endsection
 
 @section('content')

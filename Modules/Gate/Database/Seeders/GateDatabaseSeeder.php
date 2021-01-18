@@ -17,11 +17,10 @@ class GateDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call([
-            RoleTableSeeder::class,
-            CompanyTableSeeder::class,
-            UserTableSeeder::class,
-            MenuTableSeeder::class,
-            RoleMenuTableSeeder::class,
+            RolesTableSeeder::class,
+            UsersTableSeeder::class,
+            MenusTableSeeder::class,
+            RoleMenusTableSeeder::class,
         ]);
     }
 }

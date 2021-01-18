@@ -22,15 +22,10 @@
 @endpush
 
 @section('page-heading')
-    @component('components.breadcrumb',
-                    ['name' => 'Leave Quota',
-                    'href' => '/hr/leave-quota',
-                ])
         @can('create', \Modules\HumanResources\Entities\LeaveQuota::class)
             <div id="form_result" role="alert"></div>
             <button type="button" id="create-leave-quota" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i> Add New Leave Quota</button>
         @endcan
-    @endcomponent
 @endsection
 
 @section('content')

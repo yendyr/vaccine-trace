@@ -1,0 +1,13 @@
+{
+    "name": "QualityAssurance",
+    "alias": "qualityassurance",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\QualityAssurance\\Providers\\QualityAssuranceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
