@@ -16,7 +16,7 @@
                     { data: 'name', name: 'name' },
                     { data: 'email', name: 'email' },
                     { data: 'role.role_name', name: 'role.role_name' },
-                    { data: 'company.company_name', name: 'company.company_name',
+                    { data: 'company.name', name: 'company.name',
                         defaultContent: "<p class='text-muted'>none</p>" },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false },
@@ -63,7 +63,7 @@
                 if (data.company == null){
                     $('#fcompany').append('<option value="' + data.company_id + '" selected></option>');
                 } else{
-                    $('#fcompany').append('<option value="' + data.company_id + '" selected>' + data.company.company_name + '</option>');
+                    $('#fcompany').append('<option value="' + data.company_id + '" selected>' + data.company.name + '</option>');
                 }
 
                 $('#fstatus').find('option').removeAttr('selected');

@@ -19,7 +19,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'uuid', 'name', 'username', 'email', 'password', 'image', 'role_id', 'company_id', 'owned_by', 'status'
+        'uuid', 
+        'name', 
+        'username', 
+        'email', 
+        'password', 
+        'image', 
+        'role_id', 
+        'company_id', 
+        'owned_by', 
+        'status'
     ];
 
     /**
@@ -50,7 +59,7 @@ class User extends Authenticatable
      */
     public function company()
     {
-        return $this->belongsTo(Company::class, 'company_id');
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'company_id');
     }
 
     public function role()

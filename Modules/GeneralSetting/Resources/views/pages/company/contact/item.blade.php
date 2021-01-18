@@ -74,9 +74,9 @@
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 
-                        <a href="{{ $href ?? '' }}" name="delete" id="{{ (isset($deleteId) ? $deleteId : '') }}" class="deleteBtn btn btn-sm btn-outline btn-danger ml-1" data-toggle="tooltip" title="Delete">
+                        <button class="deleteBtn btn btn-sm btn-outline btn-danger ml-1" name="deleteButton" id="deleteButton"  data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" data-token="{{ csrf_token() }}" title="Delete">
                             <i class="fa fa-trash"></i>&nbsp;Delete
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
