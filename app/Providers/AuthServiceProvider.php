@@ -97,6 +97,9 @@ use Modules\GeneralSetting\Entities\Company;
 use Modules\GeneralSetting\Policies\CompanyDetailContactPolicy;
 use Modules\GeneralSetting\Entities\CompanyDetailContact;
 
+use Modules\GeneralSetting\Policies\CompanyDetailAddressPolicy;
+use Modules\GeneralSetting\Entities\CompanyDetailAddress;
+
 use Modules\GeneralSetting\Policies\AirportPolicy;
 use Modules\GeneralSetting\Entities\Airport;
 
@@ -133,8 +136,6 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Menu::class => MenuPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
-
-        // Example::class => ExamplePolicy::class,
         
         OrganizationStructure::class => OrganizationStructurePolicy::class,
         OrganizationStructureTitle::class => OrganizationStructureTitlePolicy::class,
@@ -169,6 +170,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Company::class => CompanyPolicy::class,
         CompanyDetailContact::class => CompanyDetailContactPolicy::class,
+        CompanyDetailAddress::class => CompanyDetailAddressPolicy::class,
         Country::class => CountryPolicy::class,
         Airport::class => AirportPolicy::class,
 

@@ -1,0 +1,113 @@
+<?php
+
+namespace Modules\GeneralSetting\Policies;
+
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
+use Modules\Gate\Entities\RoleMenu;
+
+class CompanyDetailAddressPolicy
+{
+    use HandlesAuthorization;
+
+    public function __construct()
+    {
+        //
+    }
+
+    public function viewAny()
+    {
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
+            return true;
+        }
+    }
+
+    public function view()
+    {
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
+            return true;
+        }
+    }
+
+    public function create()
+    {
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
+            return $queryRoleMenu->add == 1;
+        }
+    }
+
+    public function update()
+    {
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
+            return $queryRoleMenu->update == 1;
+        }
+    }
+
+    public function delete()
+    {
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
+            return $queryRoleMenu->delete == 1;
+        }
+    }
+
+    public function forceDelete()
+    {
+        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)
+                                    ->where('menu_link', 'generalsetting/company')->whereHas('role', function($role) {
+                                            $role->where('status', 1);
+                                        })
+                                    ->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
+            return $queryRoleMenu->delete == 1;
+        }
+    }
+}

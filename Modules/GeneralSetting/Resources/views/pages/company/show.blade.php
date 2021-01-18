@@ -13,7 +13,7 @@
                 <h2 class="no-margins">
                     {{ $Company->name ?? '' }}
                 </h2>
-                Code: <strong>{{ $Company->code ?? '' }}</strong>
+                Code: {{ $Company->code ?? '' }}
                 <div class="row m-t">
                     <div class="col-md-12">
                         {{ $Company->description ?? '' }}
@@ -73,24 +73,24 @@
                 <div class="tabs-left">
                     <ul class="nav nav-tabs">
                         <li>
-                            <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;"> 
+                            <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;" id="tab-contact"> 
                                 <i class="fa fa-phone fa-2x fa-fw"></i>&nbsp;Contacts
                             </a>
                         </li>
                         <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;"> 
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;" id="tab-address"> 
                                 <i class="fa fa-building fa-2x fa-fw"></i>&nbsp;Addresses
                             </a>
                         </li>
                         <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 75px;"> 
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 75px;" id="tab-account"> 
                                 <i class="fa fa-money fa-2x fa-fw"></i>&nbsp;Bank Accounts
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
-                            <div class="panel-body" style="min-height: 400px;">
+                            <div class="panel-body" style="min-height: 500px;">
                                 <div class="row m-b">
                                     <div class="col">
                                     @can('update', Modules\GeneralSetting\Entities\Company::class)                
@@ -106,11 +106,11 @@
                             </div>
                         </div>
                         <div id="tab-2" class="tab-pane">
-                            <div class="panel-body" style="min-height: 400px;">
+                            <div class="panel-body" style="min-height: 500px;">
                                 <div class="row m-b">
                                     <div class="col">
                                     @can('update', Modules\GeneralSetting\Entities\Company::class)                
-                                        <button type="button" id="createAddress" class="btn btn-primary btn-lg">
+                                        <button type="button" id="createNewButtonAddress" class="btn btn-primary btn-lg">
                                             <i class="fa fa-plus-circle"></i>&nbsp;Create New
                                         </button>   
                                     @endcan
@@ -122,8 +122,10 @@
                             </div>
                         </div>
                         <div id="tab-3" class="tab-pane">
-                            <div class="panel-body" style="min-height: 400px;">
-                                
+                            <div class="panel-body" style="min-height: 500px;">
+                                <div class="row">
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>

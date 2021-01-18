@@ -17,7 +17,7 @@
         var deleteModalButtonId = '#deleteModalButtonContact';
 
         $(createNewButtonId).click(function () {
-            showCreateModal (inputModalId, modalTitleId, 'Create New Contact', saveButtonId, inputFormId, actionUrl);
+            showCreateModalDynamic (inputModalId, modalTitleId, 'Create New Contact', saveButtonId, inputFormId, actionUrl);
         });
 
         $(editButtonClass).click(function (e) {
@@ -32,9 +32,9 @@
 
             var id = $(this).data('id');
             $.get(actionUrl + id, function (data) {
-                $('#id').val(id);
-                $('#label').val(data.label);
-                $('#name').val(data.name);
+                $('.id').val(id);
+                $('.label').val(data.label);
+                $('.name').val(data.name);
                 $('#email').val(data.email);
                 $('#mobile_number').val(data.mobile_number);
                 $('#office_number').val(data.office_number);

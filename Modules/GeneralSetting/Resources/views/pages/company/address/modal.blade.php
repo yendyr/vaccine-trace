@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputFormAddress">
-                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="id" name="id" class="id">
                 <input type="hidden" id="company_id" name="company_id" value="{{ $Company->id }}">
                 <div class="modal-body">
                     <div class="form-group row">
@@ -18,14 +18,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Label</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('label') is-invalid @enderror" name="label" id="label">                            
+                                    <input type="text" class="label form-control @error('label') is-invalid @enderror" name="label" id="label">                            
                                     <div class="invalid-feedback-label text-danger font-italic"></div>                            
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Name</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
+                                    <input type="text" class="name form-control @error('name') is-invalid @enderror" name="name" id="name">
                                     <div class="invalid-feedback-name text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Province Number</label>
+                                <label class="col-sm-5 d-flex align-items-center">Province</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control @error('province') is-invalid @enderror" name="province" id="province">
                                     <div class="invalid-feedback-province text-danger font-italic"></div>
@@ -55,8 +55,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Country</label>
                                 <div class="col-sm-7">
-                                    <select class="country form-control @error('country') is-invalid @enderror" name="country" id="country"></select>
-                                    <div class="invalid-feedback-country text-danger font-italic"></div>
+                                    <select class="country_id form-control @error('country_id') is-invalid @enderror" name="country_id" id="country_id"></select>
+                                    <div class="invalid-feedback-country_id text-danger font-italic"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -84,7 +84,7 @@
                                 <label class="col-sm-5 d-flex align-items-center">Active</label>
                                 <div class="col-sm-7">     
                                     <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
-                                        <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
+                                        <input type="checkbox" class="status form-control @error('status') is-invalid @enderror" name="status" id="status" />
                                         <div class="state p-primary">
                                             <i class="icon fa fa-check"></i>
                                             <label></label>

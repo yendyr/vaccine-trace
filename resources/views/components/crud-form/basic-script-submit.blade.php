@@ -14,7 +14,7 @@
         $("input[value='patch']").remove();
     }
 
-    function showCreateModal (inputModalId, modalTitleId, modalTitle, saveButtonId, inputFormId, actionUrl) {
+    function showCreateModalDynamic (inputModalId, modalTitleId, modalTitle, saveButtonId, inputFormId, actionUrl) {
         this.inputModalId = inputModalId;
         this.modalTitleId = modalTitleId;
         this.modalTitle = modalTitle;

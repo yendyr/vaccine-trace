@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputFormContact">
-                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="id" name="id" class="id">
                 <input type="hidden" id="company_id" name="company_id" value="{{ $Company->id }}">
                 <div class="modal-body">
                     <div class="form-group row">
@@ -18,14 +18,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Label</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('label') is-invalid @enderror" name="label" id="label">                            
+                                    <input type="text" class="label form-control @error('label') is-invalid @enderror" name="label" id="label">                            
                                     <div class="invalid-feedback-label text-danger font-italic"></div>                            
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Name</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
+                                    <input type="text" class="name form-control @error('name') is-invalid @enderror" name="name" id="name">
                                     <div class="invalid-feedback-name text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -97,7 +97,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

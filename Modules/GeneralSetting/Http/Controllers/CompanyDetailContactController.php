@@ -75,7 +75,7 @@ class CompanyDetailContactController extends Controller
 
     public function edit(CompanyDetailContact $CompanyDetailContact)
     {
-        return view('generalsetting::pages.company-contact.edit', compact('CompanyDetailContact'));
+        return view('generalsetting::pages.company-detail-contact.edit', compact('CompanyDetailContact'));
     }
 
     public function update(Request $request, CompanyDetailContact $CompanyDetailContact)

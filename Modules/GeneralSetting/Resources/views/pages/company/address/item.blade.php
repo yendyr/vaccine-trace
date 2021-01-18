@@ -1,58 +1,21 @@
 @if (sizeOf($Company->addresses) > 0)
 @foreach ($Company->addresses as $address)
-<div class="col-md-6">
-    <div class="panel panel-info">
+<div class="col-md-4">
+    <div class="panel panel-warning">
         <div class="panel-heading">
-            {{ $contact->label ?? '-' }}
+            {{ $address->label ?? '-' }}
         </div>
         <div class="panel-body" style="margin: 0px; width: 100%; padding-bottom: 0;">
             <div class="row">
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-user"></i>&nbsp;Contact Person:
-                    <h4 class="no-margins">
-                        {{ $contact->name ?? '-' }}
-                    </h4>
-                </div>
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-envelope"></i>&nbsp;Email:
-                    <h4 class="no-margins">
-                        {{ $contact->email ?? '-' }}
-                    </h4>
-                </div>
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-mobile"></i>&nbsp;Mobile Number:
-                    <h4 class="no-margins">
-                        {{ $contact->mobile_number ?? '-' }}
-                    </h4>
-                </div>
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-phone"></i>&nbsp;Office Number:
-                    <h4 class="no-margins">
-                        {{ $contact->office_number ?? '-' }}
-                    </h4>
-                </div>
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-tty"></i>&nbsp;Fax Number:
-                    <h4 class="no-margins">
-                        {{ $contact->fax_number ?? '-' }}
-                    </h4>
-                </div>
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-phone"></i>&nbsp;Other Number:
-                    <h4 class="no-margins">
-                        {{ $contact->other_number ?? '-' }}
-                    </h4>
-                </div>
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-globe"></i>&nbsp;Website:
-                    <h4 class="no-margins">
-                        <a href="{{ $contact->website ?? '#' }}" target="_blank">{{ $contact->website ?? '-' }}</a>
-                    </h4>
-                </div>
-                <div class="col-md-6 m-b">
-                    <i class="fa fa-info-circle"></i>&nbsp;Status:
-                    <div class="no-margins">
-                        @if($contact->status == 1)
+                <div class="col-md-10 m-b m-l-n">
+                    <div class="col">{{ $address->name ?? '-' }}</div>
+                    <div class="col">{{ $address->street ?? '-' }}</div>
+                    <div class="col">{{ $address->city ?? '-' }}, {{ $address->province ?? '-' }}</div>
+                    <div class="col">{{ $address->country->nice_name ?? '-' }}, {{ $address->post_code ?? '-' }}</div>
+                    <div class="col">Latitude: {{ $address->latitude ?? '-' }}</div>
+                    <div class="col m-b">Longitude: {{ $address->longitude ?? '-' }}</div>
+                    <div class="col">
+                        @if($address->status == 1)
                             <label class="label label-success">
                                 Active
                             </label>
@@ -63,20 +26,27 @@
                         @endif
                     </div>
                 </div>
+                <div class="col-md-2 m-b">
+                    <i class="text-warning fa fa-map-marker fa-5x"></i>
+                </div>
             </div>
         </div>
         @can('update', Modules\GeneralSetting\Entities\Company::class)
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editBtn btn btn-sm btn-outline btn-primary" 
-                        value="" data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" title="Update">
+                        <button class="editButtonAddress btn btn-sm btn-outline btn-primary" 
+                        data-toggle="tooltip" data-id="{{ $address->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 
-                        @include('components.delete-modal')
-                        <button type="button" name="delete" class="deleteBtn btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
-                        value="{{ $contact->id ?? '' }}">
+                        @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalAddress',
+                                'deleteFormId' => 'deleteFormAddress',
+                                'deleteModalButtonId' => 'deleteModalButtonAddress'])
+
+                        <button type="button" name="delete" class="deleteButtonAddress btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
+                        value="{{ $address->id ?? '' }}">
                             <i class="fa fa-trash"></i>&nbsp;Delete
                         </button>
                     </div>

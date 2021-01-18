@@ -832,6 +832,26 @@ class MenusTableSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
+            'menu_link' => 'generalsetting/company-detail-address',
+            'menu_text' => '',
+            'menu_route' => null,
+            'menu_icon' => 'fa-building',
+            'menu_class' => 'Modules\GeneralSetting\Entities\CompanyDetailAddress',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['generalsetting/company-detail-address', 'generalsetting/company-detail-address/*']),
+            'group' => 'General Setting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
             'menu_link' => 'generalsetting/airport',
             'menu_text' => 'Master Airport',
             'menu_route' => 'generalsetting.airport.index',

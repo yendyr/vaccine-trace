@@ -5,51 +5,75 @@
 <script>
     $(document).ready(function () {
         var actionUrl = '/generalsetting/company-detail-address/';
+        var createNewButtonId = '#createNewButtonAddress';
         var inputModalId = '#inputModalAddress';
         var modalTitleId = '#modalTitleAddress';
-        var saveButtonId = '#saveBtnAddress';
+        var saveButtonId = '#saveButtonAddress';
         var inputFormId = '#inputFormAddress';
-        var editButtonId = '#editButtonAddress';
-        var deleteButtonId = '#deleteButtonAddress';
+        var editButtonClass = '.editButtonAddress';
+        var deleteButtonClass = '.deleteButtonAddress';
+        var deleteModalId = '#deleteModalAddress';
+        var deleteFormId = '#deleteFormAddress';
+        var deleteModalButtonId = '#deleteModalButtonAddress';
 
-        $('#createAddress').click(function () {
-            showCreateModal (inputModalId, modalTitleId, 'Create New Address', saveButtonId, inputFormId, actionUrl);
+        $('#country_id').select2({
+                theme: 'bootstrap4',
+                placeholder: 'Choose Country',
+                allowClear: true,
+                // minimumInputLength: 2,
+                minimumResultsForSearch: 10,
+                ajax: {
+                    url: "{{ route('generalsetting.country.select2') }}",
+                    dataType: 'json',
+                },
+                dropdownParent: $(inputModalId)
+            });
+
+        $(createNewButtonId).click(function () {
+            showCreateModalDynamic (inputModalId, modalTitleId, 'Create New Address', saveButtonId, inputFormId, actionUrl);
         });
 
-        $('.editBtn').click(function (e) {
-            $('#modalTitle').html("Edit Address");
+        $(editButtonClass).click(function (e) {
+            $(modalTitleId).html("Edit Address");
             $(inputFormId).trigger("reset");
             
             $('<input>').attr({
                 type: 'hidden',
                 name: '_method',
                 value: 'patch'
-            }).prependTo('#inputForm');
+            }).prependTo(inputFormId);
 
             var id = $(this).data('id');
             $.get(actionUrl + id, function (data) {
-                $('#id').val(id);
-                $('#label').val(data.label);
-                $('#name').val(data.name);
-                $('#email').val(data.email);
-                $('#mobile_number').val(data.mobile_number);
-                $('#office_number').val(data.office_number);
-                $('#fax_number').val(data.fax_number);
-                $('#other_number').val(data.other_number);
-                $('#website').val(data.website);               
+                $('.id').val(id);
+                $('.label').val(data.label);
+                $('.name').val(data.name);
+                $('#street').val(data.street);
+                $('#city').val(data.city);
+                $('#province').val(data.province);
+                
+                $("#country_id").val(null).trigger('change');
+                if (data.country != null) {
+                    $('#country_id').append('<option value="' + data.country_id + '" selected>' + data.country.name + '</option>');
+                }
+
+                $('#post_code').val(data.post_code);
+                $('#latitude').val(data.latitude);
+                $('#longitude').val(data.longitude);
+                              
                 if (data.status == '1') {
-                    $('#status').prop('checked', true);
+                    $('.status').prop('checked', true);
                 }
                 else {
-                    $('#status').prop('checked', false);
+                    $('.status').prop('checked', false);
                 }
 
                 $(inputFormId).attr('action', actionUrl + id);
             });
 
-            $('#saveBtn').val("edit");
+            $(saveButtonId).val("edit");
             $('[class^="invalid-feedback-"]').html('');  // clearing validation
-            $('#inputModal').modal('show');
+            $(inputModalId).modal('show');
         });
 
         $(inputFormId).on('submit', function (event) {
@@ -69,7 +93,7 @@
                     let l = $( '.ladda-button-submit' ).ladda();
                     l.ladda( 'start' );
                     $('[class^="invalid-feedback-"]').html('');
-                    $('#saveBtn').prop('disabled', true);
+                    $(saveButtonId).prop('disabled', true);
                 },
                 error: function(data){
                     let errors = data.responseJSON.errors;
@@ -83,25 +107,25 @@
                     if (data.success) {
                         generateToast ('success', data.success);                            
                     }
-                    $('#inputModal').modal('hide');
+                    $(inputModalId).modal('hide');
                 },
                 complete: function () {
                     let l = $( '.ladda-button-submit' ).ladda();
                     l.ladda( 'stop' );
-                    $('#saveBtn'). prop('disabled', false);
+                    $(saveButtonId). prop('disabled', false);
                 }
             }); 
 
             setTimeout(location.reload.bind(location), 2000);
         });
 
-        $('.deleteBtn').click(function () {
+        $(deleteButtonClass).click(function () {
             rowId = $(this).val();
-            $('#deleteModal').modal('show');
-            $('#delete-form').attr('action', actionUrl + rowId);
+            $(deleteModalId).modal('show');
+            $(deleteFormId).attr('action', actionUrl + rowId);
         });
 
-        $('#delete-form').on('submit', function (e) {
+        $(deleteFormId).on('submit', function (e) {
             e.preventDefault();
             let url_action = $(this).attr('action');
             $.ajax({
@@ -113,8 +137,8 @@
                 url: url_action,
                 type: "DELETE",
                 beforeSend:function(){
-                    $('#delete-button').text('Deleting...');
-                    $('#delete-button').prop('disabled', true);
+                    $(deleteModalButtonId).text('Deleting...');
+                    $(deleteModalButtonId).prop('disabled', true);
                 },
                 error: function(data){
                     if (data.error) {
@@ -127,9 +151,9 @@
                     }
                 },
                 complete: function(data) {
-                    $('#delete-button').text('Delete');
-                    $('#deleteModal').modal('hide');
-                    $('#delete-button').prop('disabled', false);
+                    $(deleteModalButtonId).text('Delete');
+                    $(deleteModalId).modal('hide');
+                    $(deleteModalButtonId).prop('disabled', false);
                     $(targetTableId).DataTable().ajax.reload();
                 }
             });

@@ -21,7 +21,7 @@ class CompanyDetailAddress extends Model
         'street', 
         'city', 
         'province', 
-        'country', 
+        'country_id', 
         'post_code', 
         'latitude', 
         'longitude', 
@@ -46,5 +46,10 @@ class CompanyDetailAddress extends Model
     public function company()
     {
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'company_id');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Country::class, 'country_id');
     }
 }

@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col d-flex justify-content-end">
                         <button class="editButtonContact btn btn-sm btn-outline btn-primary" 
-                        value="" data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" title="Update">
+                        data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 

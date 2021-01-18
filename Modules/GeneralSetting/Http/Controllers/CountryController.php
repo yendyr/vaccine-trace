@@ -153,4 +153,27 @@ class CountryController extends Controller
         return response()->json(['success' => 'Contact Data has been Deleted']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+        $query = Country::orderby('nice_name','asc')
+                        ->select('id','nice_name')
+                        ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $Countries = $query->get();
+
+        $response = [];
+        foreach($Countries as $Country){
+            $response['results'][] = [
+                "id"=>$Country->id,
+                "text"=>$Country->nice_name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }
