@@ -156,8 +156,14 @@ class EngineeringLevelController extends Controller
 
     public function destroy(EngineeringLevel $EngineeringLevel)
     {
+        $currentRow = EngineeringLevel::where('id', $EngineeringLevel->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         EngineeringLevel::destroy($EngineeringLevel->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Engineering Level Data has been Deleted']);
     }
 
     public function select2(Request $request)

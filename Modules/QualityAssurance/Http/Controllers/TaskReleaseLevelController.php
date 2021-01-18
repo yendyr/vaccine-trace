@@ -158,8 +158,14 @@ class TaskReleaseLevelController extends Controller
 
     public function destroy(TaskReleaseLevel $TaskReleaseLevel)
     {
+        $currentRow = TaskReleaseLevel::where('id', $TaskReleaseLevel->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         TaskReleaseLevel::destroy($TaskReleaseLevel->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Task Release Level Data has been Deleted']);
     }
 
 }

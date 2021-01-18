@@ -150,8 +150,14 @@ class DocumentTypeController extends Controller
 
     public function destroy(DocumentType $DocumentType)
     {
+        $currentRow = DocumentType::where('id', $DocumentType->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         DocumentType::destroy($DocumentType->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Document Type Data has been Deleted']);
     }
 
     public function select2(Request $request)
