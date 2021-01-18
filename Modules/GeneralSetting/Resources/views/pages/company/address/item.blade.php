@@ -1,6 +1,6 @@
 @if (sizeOf($Company->addresses) > 0)
 @foreach ($Company->addresses as $address)
-<div class="col-md-4">
+<div class="col-md-4 fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-warning">
         <div class="panel-heading">
             {{ $address->label ?? '-' }}

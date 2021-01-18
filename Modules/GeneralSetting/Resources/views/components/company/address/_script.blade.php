@@ -16,7 +16,7 @@
         var deleteFormId = '#deleteFormAddress';
         var deleteModalButtonId = '#deleteModalButtonAddress';
 
-        $('#country_id').select2({
+        $('.country_id').select2({
                 theme: 'bootstrap4',
                 placeholder: 'Choose Country',
                 allowClear: true,
@@ -52,9 +52,9 @@
                 $('#city').val(data.city);
                 $('#province').val(data.province);
                 
-                $("#country_id").val(null).trigger('change');
+                $(".country_id").val(null).trigger('change');
                 if (data.country != null) {
-                    $('#country_id').append('<option value="' + data.country_id + '" selected>' + data.country.name + '</option>');
+                    $('.country_id').append('<option value="' + data.country_id + '" selected>' + data.country.nice_name + '</option>');
                 }
 
                 $('#post_code').val(data.post_code);

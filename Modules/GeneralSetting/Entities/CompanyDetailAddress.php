@@ -50,6 +50,6 @@ class CompanyDetailAddress extends Model
 
     public function country()
     {
-        return $this->belongsTo(\Modules\GeneralSetting\Entities\Country::class, 'country_id');
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Country::class, 'country_id', 'id');
     }
 }

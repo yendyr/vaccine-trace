@@ -70,6 +70,7 @@ class CompanyDetailAddressController extends Controller
     public function show(CompanyDetailAddress $CompanyDetailAddress)
     {
         $CompanyDetailAddress = CompanyDetailAddress::where('id', $CompanyDetailAddress->id)
+                                ->with('country:id,nice_name')
                                 ->first();
         return response()->json($CompanyDetailAddress);
     }
