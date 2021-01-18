@@ -236,8 +236,8 @@ class RoleMenuController extends Controller
      */
     public function store(Request $request)
     {
-        $collection = RoleMenu::where('role_id', $request->role)->get(['id']);
-        RoleMenu::destroy($collection->toArray());
+        $collection = RoleMenu::where('role_id', $request->role)->pluck('id');
+        RoleMenu::destroy($collection);
         $collectionMenu = DB::table('menus')->select('id')->orderBy('id')->get()->toArray();
 
         foreach ($collectionMenu as $i => $menu){
