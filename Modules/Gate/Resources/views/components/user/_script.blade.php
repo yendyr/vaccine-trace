@@ -5,6 +5,7 @@
             var userId;
 
             var table = $('#user-table').DataTable({
+                pageLength: 25,
                 processing: true,
                 serverSide: false,
                 searchDelay: 1500,
@@ -84,7 +85,7 @@
                 theme: 'bootstrap4',
                 placeholder: 'choose a company',
                 ajax: {
-                    url: "{{route('gate.user.select2.company')}}",
+                    url: "{{route('generalsetting.company.select2.company')}}",
                     dataType: 'json',
                 },
                 dropdownParent: $('#userModal')

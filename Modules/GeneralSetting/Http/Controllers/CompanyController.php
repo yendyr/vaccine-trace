@@ -296,4 +296,26 @@ class CompanyController extends Controller
         return response()->json($response);
     }
 
+    public function select2Company(Request $request)
+    {
+        $search = $request->q;
+        $query = Company::orderby('name','asc')
+                        ->select('id','name')
+                        ->where('status', 1);
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $Companies = $query->get();
+
+        $response = [];
+        foreach($Companies as $Company){
+            $response['results'][] = [
+                "id"=>$Company->id,
+                "text"=>$Company->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }
