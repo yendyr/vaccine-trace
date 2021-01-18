@@ -189,8 +189,14 @@ class ItemCategoryController extends Controller
 
     public function destroy(ItemCategory $ItemCategory)
     {
+        $currentRow = ItemCategory::where('id', $ItemCategory->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         ItemCategory::destroy($ItemCategory->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Item Category Data has been Deleted']);
     }
 
     public function select2(Request $request)

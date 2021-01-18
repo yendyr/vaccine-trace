@@ -208,8 +208,14 @@ class ItemController extends Controller
 
     public function destroy(Item $Item)
     {
+        $currentRow = Item::where('id', $Item->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         Item::destroy($Item->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Item Data has been Deleted']);
     }
 
     public function select2(Request $request)
