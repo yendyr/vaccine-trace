@@ -14,6 +14,23 @@
         $("input[value='patch']").remove();
     }
 
+    function showCreateModal (inputModalId, modalTitleId, modalTitle, saveButtonId, inputFormId, actionUrl) {
+        this.inputModalId = inputModalId;
+        this.modalTitleId = modalTitleId;
+        this.modalTitle = modalTitle;
+        this.saveButtonId = saveButtonId;
+        this.inputFormId = inputFormId;
+        this.actionUrl = actionUrl;
+
+        $(modalTitleId).html(modalTitle);
+        $(inputFormId).attr('action', actionUrl);
+        $(saveButtonId).val("create");
+        $(inputFormId).trigger("reset");
+        $('[class^="invalid-feedback-"]').html('');
+        $(inputModalId).modal('show');                
+        $("input[value='patch']").remove();
+    }
+
     function submitButtonProcess (targetTableId, inputFormId) {
         this.targetTableId = targetTableId;
         this.inputFormId = inputFormId;

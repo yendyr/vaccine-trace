@@ -2,6 +2,7 @@
 
 @section('content')
     @include('generalsetting::pages.company.contact.modal')
+    @include('generalsetting::pages.company.address.modal')
 
     <div class="row m-b m-t">
         <div class="col-md-5">
@@ -72,18 +73,18 @@
                 <div class="tabs-left">
                     <ul class="nav nav-tabs">
                         <li>
-                            <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 60px;"> 
-                                <i class="fa fa-phone"></i>&nbsp;Contacts
+                            <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;"> 
+                                <i class="fa fa-phone fa-2x fa-fw"></i>&nbsp;Contacts
                             </a>
                         </li>
                         <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 60px;"> 
-                                <i class="fa fa-building"></i>&nbsp;Addresses
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;"> 
+                                <i class="fa fa-building fa-2x fa-fw"></i>&nbsp;Addresses
                             </a>
                         </li>
                         <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 60px;"> 
-                                <i class="fa fa-money"></i>&nbsp;Bank Accounts
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 75px;"> 
+                                <i class="fa fa-money fa-2x fa-fw"></i>&nbsp;Bank Accounts
                             </a>
                         </li>
                     </ul>
@@ -93,7 +94,7 @@
                                 <div class="row m-b">
                                     <div class="col">
                                     @can('update', Modules\GeneralSetting\Entities\Company::class)                
-                                        <button type="button" id="create" class="btn btn-primary btn-lg">
+                                        <button type="button" id="createContact" class="btn btn-primary btn-lg">
                                             <i class="fa fa-plus-circle"></i>&nbsp;Create New
                                         </button>   
                                     @endcan
@@ -106,7 +107,18 @@
                         </div>
                         <div id="tab-2" class="tab-pane">
                             <div class="panel-body" style="min-height: 400px;">
-                                
+                                <div class="row m-b">
+                                    <div class="col">
+                                    @can('update', Modules\GeneralSetting\Entities\Company::class)                
+                                        <button type="button" id="createAddress" class="btn btn-primary btn-lg">
+                                            <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                                        </button>   
+                                    @endcan
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @include('generalsetting::pages.company.address.item')
+                                </div>
                             </div>
                         </div>
                         <div id="tab-3" class="tab-pane">
@@ -122,6 +134,7 @@
 @endsection
 
 @include('generalsetting::components.company.contact._script')
+@include('generalsetting::components.company.address._script')
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')

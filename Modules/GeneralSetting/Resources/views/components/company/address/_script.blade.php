@@ -4,18 +4,18 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/generalsetting/company-detail-contact/';
-        var inputModalId = '#inputModalContact';
-        var modalTitleId = '#modalTitleContact';
-        var saveButtonId = '#saveBtnContact';
-        var inputFormId = '#inputFormContact';
+        var actionUrl = '/generalsetting/company-detail-address/';
+        var inputModalId = '#inputModalAddress';
+        var modalTitleId = '#modalTitleAddress';
+        var saveButtonId = '#saveBtnAddress';
+        var inputFormId = '#inputFormAddress';
 
-        $('#createContact').click(function () {
-            showCreateModal (inputModalId, modalTitleId, 'Create New Contact', saveButtonId, inputFormId, actionUrl);
+        $('#createAddress').click(function () {
+            showCreateModal (inputModalId, modalTitleId, 'Create New Address', saveButtonId, inputFormId, actionUrl);
         });
 
         $('.editBtn').click(function (e) {
-            $('#modalTitle').html("Edit Contact");
+            $('#modalTitle').html("Edit Address");
             $(inputFormId).trigger("reset");
             
             $('<input>').attr({
