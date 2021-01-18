@@ -150,8 +150,14 @@ class TaskcardTypeController extends Controller
 
     public function destroy(TaskcardType $TaskcardType)
     {
+        $currentRow = TaskcardType::where('id', $TaskcardType->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         TaskcardType::destroy($TaskcardType->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Task Card Type Data has been Deleted']);
     }
 
     public function select2(Request $request)

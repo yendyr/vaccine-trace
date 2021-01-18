@@ -150,8 +150,14 @@ class TaskcardWorkareaController extends Controller
 
     public function destroy(TaskcardWorkarea $TaskcardWorkarea)
     {
+        $currentRow = TaskcardWorkarea::where('id', $TaskcardWorkarea->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         TaskcardWorkarea::destroy($TaskcardWorkarea->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Task Card Work Area Data has been Deleted']);
     }
 
     public function select2(Request $request)

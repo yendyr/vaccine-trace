@@ -150,8 +150,14 @@ class TaskcardDocumentLibraryController extends Controller
 
     public function destroy(TaskcardDocumentLibrary $TaskcardDocumentLibrary)
     {
+        $currentRow = TaskcardDocumentLibrary::where('id', $TaskcardDocumentLibrary->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         TaskcardDocumentLibrary::destroy($TaskcardDocumentLibrary->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Task Card Document Library Data has been Deleted']);
     }
 
     public function select2(Request $request)

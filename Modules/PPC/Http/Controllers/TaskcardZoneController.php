@@ -150,8 +150,14 @@ class TaskcardZoneController extends Controller
 
     public function destroy(TaskcardZone $TaskcardZone)
     {
+        $currentRow = TaskcardZone::where('id', $TaskcardZone->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         TaskcardZone::destroy($TaskcardZone->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Task Card Zone Data has been Deleted']);
     }
 
     public function select2(Request $request)
