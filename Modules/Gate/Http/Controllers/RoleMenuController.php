@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Menu;
@@ -350,9 +351,15 @@ class RoleMenuController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy(RoleMenu $roleMenu)
+    public function destroy(RoleMenu $RoleMenu)
     {
-        RoleMenu::destroy($roleMenu->id);
-        return redirect('/gate/role-menu')->with('status', 'a role-menu data has been deleted!');
+        $currentRow = RoleMenu::where('id', $RoleMenu->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
+        RoleMenu::destroy($RoleMenu->id);
+        return response()->json(['success' => 'Role Menu Data has been Deleted']);
     }
 }

@@ -220,11 +220,16 @@ class UserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy(User $user)
+    public function destroy(User $User)
     {
-        User::destroy($user->id);
+        $currentRow = User::where('id', $User->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
 
-        return response()->json(['success' => 'User data deleted successfully.']);
+        User::destroy($User->id);
+        return response()->json(['success' => 'User Data has been Deleted']);
     }
 
     public function changePassword(Request $request)

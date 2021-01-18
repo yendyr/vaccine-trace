@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Modules\Gate\Entities\Menu;
@@ -206,10 +207,16 @@ class MenuController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy(Menu $menu)
+    public function destroy(Menu $Menu)
     {
-        Menu::destroy($menu->id);
-        return response()->json(['status' => 'a menu data has been deleted!'], 200);
+        $currentRow = Menu::where('id', $Menu->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
+        Menu::destroy($Menu->id);
+        return response()->json(['success' => 'Menu Data has been Deleted']);
     }
 
     public function select2Menu(Request $request)

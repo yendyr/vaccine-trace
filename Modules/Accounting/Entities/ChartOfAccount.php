@@ -51,6 +51,5 @@ class ChartOfAccount extends Model
     public function subGroup()
     {
         return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id');
-
     }
 }

@@ -25,7 +25,8 @@ class RoleMenu extends Model
         'process', 
         'owned_by', 
         'status', 
-        'created_by'
+        'created_by',
+        'deleted_by',
     ];
 
     protected $table = 'role_menus';
@@ -38,5 +39,10 @@ class RoleMenu extends Model
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function delete_by()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

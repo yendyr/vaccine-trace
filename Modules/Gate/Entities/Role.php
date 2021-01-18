@@ -12,5 +12,17 @@ class Role extends Model
     protected $dates = ['deleted_at'];
     use Notifiable;
     
-    protected $fillable = ['uuid', 'role_name', 'owned_by', 'created_by', 'status'];
+    protected $fillable = [
+        'uuid', 
+        'role_name', 
+        'owned_by', 
+        'created_by', 
+        'status',
+        'deleted_by',
+    ];
+
+    public function delete_by()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
 }
