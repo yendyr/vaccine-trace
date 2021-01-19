@@ -72,4 +72,29 @@ class Taskcard extends Model
     {
         return $this->belongsTo(\Modules\PPC\Entities\TaskcardWorkarea::class, 'taskcard_workarea_id');
     }
+
+    public function aircraft_type_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAircraftType::class, 'taskcard_id');
+    }
+
+    public function access_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAccess::class, 'taskcard_id');
+    }
+
+    public function zone_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailZone::class, 'taskcard_id');
+    }
+
+    public function document_library_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailDocumentLibrary::class, 'taskcard_id');
+    }
+
+    public function affected_manual_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAffectedManual::class, 'taskcard_id');
+    }
 }
