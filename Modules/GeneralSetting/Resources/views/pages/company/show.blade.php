@@ -81,7 +81,7 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <div class="tabs-left">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" id="myTab">
                         <li>
                             <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;" id="tab-contact"> 
                                 <i class="fa fa-phone fa-2x fa-fw"></i>&nbsp;Contacts
@@ -177,4 +177,16 @@
 @endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
+
+    <script>
+        $(document).ready(function(){
+            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if(activeTab){
+                $('#myTab a[href="' + activeTab + '"]').tab('show');
+            }
+        });
+    </script>
 @endpush
