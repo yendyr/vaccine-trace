@@ -4,6 +4,7 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
+        // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
         var actionUrl = '/generalsetting/company-detail-contact/';
         var createNewButtonId = '#createNewButtonContact';
         var inputModalId = '#inputModalContact';
@@ -15,11 +16,19 @@
         var deleteModalId = '#deleteModalContact';
         var deleteFormId = '#deleteFormContact';
         var deleteModalButtonId = '#deleteModalButtonContact';
+        // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
+
+
+        // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
         $(createNewButtonId).click(function () {
             showCreateModalDynamic (inputModalId, modalTitleId, 'Create New Contact', saveButtonId, inputFormId, actionUrl);
         });
+        // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "EDIT" BUTTON SCRIPT ------------- //
         $(editButtonClass).click(function (e) {
             $(modalTitleId).html("Edit Contact");
             $(inputFormId).trigger("reset");
@@ -55,7 +64,11 @@
             $('[class^="invalid-feedback-"]').html('');
             $(inputModalId).modal('show');
         });
+        // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "SUBMIT FORM" BUTTON SCRIPT ------------- //
         $(inputFormId).on('submit', function (event) {
             event.preventDefault();
             let url_action = $(inputFormId).attr('action');
@@ -98,7 +111,11 @@
 
             setTimeout(location.reload.bind(location), 2000);
         });
+        // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "DELETE" BUTTON  SCRIPT ------------- //
         $(deleteButtonClass).click(function () {
             rowId = $(this).val();
             $(deleteModalId).modal('show');
@@ -139,6 +156,7 @@
 
             setTimeout(location.reload.bind(location), 2000);
         });
+        // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
     });
 </script>
 @endpush

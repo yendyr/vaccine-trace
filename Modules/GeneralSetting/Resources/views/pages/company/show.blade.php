@@ -88,6 +88,11 @@
                                 <i class="fa fa-cc-mastercard fa-2x fa-fw"></i>&nbsp;Bank Accounts
                             </a>
                         </li>
+                        <li>
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 75px;" id="tab-account"> 
+                                <i class="fa fa-tags fa-2x fa-fw"></i>&nbsp;Accounting Setting
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
@@ -135,6 +140,13 @@
                                 </div>
                                 <div class="row">
                                     @include('generalsetting::pages.company.bank.item')
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-4" class="tab-pane">
+                            <div class="panel-body" style="min-height: 500px;">
+                                <div class="row m-b">
+                                    @include('generalsetting::pages.company.accounting-setting.item')
                                 </div>
                             </div>
                         </div>
