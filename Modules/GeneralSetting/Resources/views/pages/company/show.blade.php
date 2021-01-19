@@ -21,7 +21,7 @@
             </div>
             <div class="profile-info">
                 <h2 class="no-margins">
-                    {{ $Company->name ?? '' }}
+                    <strong>{{ $Company->name ?? '' }}</strong>
                 </h2>
                 Code: {{ $Company->code ?? '' }}
                 <div class="row m-t">

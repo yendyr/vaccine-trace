@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\GeneralSetting\Entities\Company;
 use Illuminate\Support\Str;
 
-class CompaniesTableSeeder extends Seeder
+class CompanySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -37,7 +37,7 @@ class CompaniesTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $company = Company::create([
-            'name' => 'Boeing International',
+            'name' => 'Boeing International, Pte, Ltd',
             'code' => 'BI',
             'gst_number' => '99.4877.AXXED-HDGTEHS',
             'npwp_number' => '01.855.081.4-412.000',
@@ -46,7 +46,7 @@ class CompaniesTableSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $company = Company::create([
-            'name' => 'Airbus France',
+            'name' => 'Airbus France, Pte, Ltd',
             'code' => 'AF',
             'gst_number' => '99.4877.AXXED-HDGTEHS',
             'npwp_number' => '01.855.081.4-412.000',

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\HumanResources\Entities\HrLookup;
 
-class HrLookupsTableSeeder extends Seeder
+class HrLookupSeeder extends Seeder
 {
     /**
      * Run the database seeds.

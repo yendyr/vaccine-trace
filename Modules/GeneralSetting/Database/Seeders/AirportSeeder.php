@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\GeneralSetting\Database\Repositories\AirportRepository;
 use Modules\GeneralSetting\Database\Repositories\AirportParam;
 
-class AirportsTableSeeder extends Seeder
+class AirportSeeder extends Seeder
 {
     public function run(AirportRepository $airportRepository, AirportParam $airportParam)
     {

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\HumanResources\Entities\OrganizationStructure;
 
-class OrganizationStructureTableSeeder extends Seeder
+class OrganizationStructureSeeder extends Seeder
 {
     /**
      * Run the database seeds.

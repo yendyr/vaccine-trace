@@ -5,7 +5,7 @@ namespace Modules\HumanResources\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class OrganizationStructureTitleTableSeeder extends Seeder
+class OrganizationStructureTitleSeeder extends Seeder
 {
     /**
      * Run the database seeds.

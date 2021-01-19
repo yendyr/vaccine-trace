@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\RoleMenu;
 
-class RoleMenusTableSeeder extends Seeder
+class RoleMenuSeeder extends Seeder
 {
     /**
      * Run the database seeds.
