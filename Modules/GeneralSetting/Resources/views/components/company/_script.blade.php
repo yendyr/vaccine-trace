@@ -37,10 +37,17 @@
             ]
         });
 
+
+
+        // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
         $('#create').click(function () {
             showCreateModal ('Create New Company', inputFormId, actionUrl);
         });
+        // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "EDIT" BUTTON SCRIPT ------------- //
         datatableObject.on('click', '.editBtn', function () {
             $('#modalTitle').html("Edit Company");
             $(inputFormId).trigger("reset");                
@@ -86,15 +93,107 @@
             }
 
             $('#saveBtn').val("edit");
-            $('[class^="invalid-feedback-"]').html('');  // clearing validation
+            $('[class^="invalid-feedback-"]').html('');
             $('#inputModal').modal('show');
         });
+        // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "SUBMIT FORM" BUTTON SCRIPT ------------- //
         $(inputFormId).on('submit', function (event) {
             submitButtonProcess (tableId, inputFormId); 
         });
+        // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "DELETE" BUTTON  SCRIPT ------------- //
         deleteButtonProcess (datatableObject, tableId, actionUrl);
+        // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
+
+
+
+        // ----------------- PROFILE PICTURE UPLOAD SCRIPT ------------- //
+        function getPict(input) {
+        
+            var filedata = input.files[0];
+            let imgtype = filedata.type;
+            let imgsize = filedata.size;
+
+            let match=["image/jpeg", "image/jpg", "image/png"];
+
+            if((imgtype != match[0]) && (imgtype != match[1]) && (imgtype != match[2])){
+                swal({
+                    title: "Upload image failed!",
+                    text: "input file format only for: .jpeg, .jpg, .png !",
+                    type: "error"
+                });
+            } else if((imgsize < 10000) || (imgsize > 1000000)){
+                swal({
+                    title: "Upload image failed!",
+                    text: "input file size only between 10 KB - 1 MB !",
+                    type: "error"
+                });
+            } else{
+                // IMAGE PREVIEW
+                var reader = new FileReader();
+
+                reader.onload=function(ev){
+                    $('#image_user').attr('src',ev.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+
+                // PROCESS UPLOAD
+                var postData = new FormData();
+                postData.append('file', input.files[0]);
+                let url="/gate/user/upload-image";
+
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $(
+                            'meta[name="csrf-token"]'
+                        ).attr("content")
+                    },
+                    url: url,
+                    method: "POST",
+                    async: true,
+                    contentType: false,
+                    cache: false,
+                    data: postData,
+                    processData:false,
+                    beforeSend:function(){
+                        $('#saveButton').html('<strong>Saving...</strong>');
+                        $('#saveButton'). prop('disabled', true);
+                    },
+                    success:function(data){
+                        if (data.success) {
+                            swal({
+                                title: "Image Uploaded!",
+                                text: data.success,
+                                type: "success"
+                            });
+                        }
+                    },
+                    error: function(data){
+                        let html = '';
+                        let errors = data.responseJSON.errors;
+                        if (errors) {
+                            let textError = '';
+                            $.each(errors, function (index, value) {
+                                textError += value;
+                            });
+                            swal({
+                                title: "Failed to upload!",
+                                text: textError,
+                                type: "error"
+                            });
+                        }
+                    },
+                });
+            }
+        }
+        // ----------------- END PROFILE PICTURE UPLOAD SCRIPT ------------- //
     });
 </script>
 @endpush

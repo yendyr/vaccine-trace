@@ -4,6 +4,7 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
+        // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
         var actionUrl = '/generalsetting/company-detail-address/';
         var createNewButtonId = '#createNewButtonAddress';
         var inputModalId = '#inputModalAddress';
@@ -15,6 +16,8 @@
         var deleteModalId = '#deleteModalAddress';
         var deleteFormId = '#deleteFormAddress';
         var deleteModalButtonId = '#deleteModalButtonAddress';
+        // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
+
 
         $('.country_id').select2({
                 theme: 'bootstrap4',
@@ -29,10 +32,17 @@
                 dropdownParent: $(inputModalId)
             });
 
+
+
+        // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
         $(createNewButtonId).click(function () {
             showCreateModalDynamic (inputModalId, modalTitleId, 'Create New Address', saveButtonId, inputFormId, actionUrl);
         });
+        // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "EDIT" BUTTON SCRIPT ------------- //
         $(editButtonClass).click(function (e) {
             $(modalTitleId).html("Edit Address");
             $(inputFormId).trigger("reset");
@@ -75,7 +85,11 @@
             $('[class^="invalid-feedback-"]').html('');  // clearing validation
             $(inputModalId).modal('show');
         });
+        // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "SUBMIT FORM" BUTTON SCRIPT ------------- //
         $(inputFormId).on('submit', function (event) {
             event.preventDefault();
             let url_action = $(inputFormId).attr('action');
@@ -118,7 +132,11 @@
 
             setTimeout(location.reload.bind(location), 2000);
         });
+        // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "DELETE" BUTTON  SCRIPT ------------- //
         $(deleteButtonClass).click(function () {
             rowId = $(this).val();
             $(deleteModalId).modal('show');
@@ -160,6 +178,7 @@
 
             setTimeout(location.reload.bind(location), 2000);
         });
+        // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
     });
 </script>
 @endpush
