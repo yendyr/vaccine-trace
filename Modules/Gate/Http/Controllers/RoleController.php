@@ -132,15 +132,13 @@ class RoleController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy(Role $Role)
+    public function destroy(Role $role)
     {
-        $currentRow = Role::where('id', $Role->id)->first();
-        $currentRow
-                ->update([
+        $role->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
 
-        Role::destroy($Role->id);
+        Role::destroy($role->id);
         return response()->json(['success' => 'Role Data has been Deleted']);
     }
 }

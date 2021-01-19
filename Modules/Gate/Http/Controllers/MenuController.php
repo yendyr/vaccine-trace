@@ -207,15 +207,13 @@ class MenuController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy(Menu $Menu)
+    public function destroy(Menu $menu)
     {
-        $currentRow = Menu::where('id', $Menu->id)->first();
-        $currentRow
-                ->update([
+        $menu->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
 
-        Menu::destroy($Menu->id);
+        Menu::destroy($menu->id);
         return response()->json(['success' => 'Menu Data has been Deleted']);
     }
 
