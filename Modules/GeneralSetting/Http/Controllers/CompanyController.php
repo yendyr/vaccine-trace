@@ -140,8 +140,7 @@ class CompanyController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Company Data has been Added']);
-    
+        return response()->json(['success' => 'Company Data has been Added']);    
     }
 
     public function show(Company $Company)
@@ -156,69 +155,81 @@ class CompanyController extends Controller
 
     public function update(Request $request, Company $Company)
     {
-        $request->validate([
-            'code' => ['required', 'max:30'],
-            'name' => ['required', 'max:30'],
-        ]);
+        if ($request->updateAccounting != '1') {
+            $request->validate([
+                'code' => ['required', 'max:30'],
+                'name' => ['required', 'max:30'],
+            ]);
 
-        if ($request->status) {
-            $status = 1;
-        } 
-        else {
-            $status = 0;
-        }
-        if ($request->is_customer) {
-            $is_customer = 1;
-        } 
-        else {
-            $is_customer = 0;
-        }
-        if ($request->is_supplier) {
-            $is_supplier = 1;
-        } 
-        else {
-            $is_supplier = 0;
-        }
-        if ($request->is_manufacturer) {
-            $is_manufacturer = 1;
-        } 
-        else {
-            $is_manufacturer = 0;
-        }
+            if ($request->status) {
+                $status = 1;
+            } 
+            else {
+                $status = 0;
+            }
+            if ($request->is_customer) {
+                $is_customer = 1;
+            } 
+            else {
+                $is_customer = 0;
+            }
+            if ($request->is_supplier) {
+                $is_supplier = 1;
+            } 
+            else {
+                $is_supplier = 0;
+            }
+            if ($request->is_manufacturer) {
+                $is_manufacturer = 1;
+            } 
+            else {
+                $is_manufacturer = 0;
+            }
 
-        $currentRow = Company::where('id', $Company->id)->first();
-        if ( $currentRow->code == $request->code) {
+            $currentRow = Company::where('id', $Company->id)->first();
+            if ( $currentRow->code == $request->code) {
+                $currentRow
+                    ->update([
+                        'name' => $request->name,
+                        'gst_number' => $request->gst_number,
+                        'npwp_number' => $request->npwp_number,
+                        'description' => $request->description,
+                        'is_customer' => $is_customer,
+                        'is_supplier' => $is_supplier,
+                        'is_manufacturer' => $is_manufacturer,
+                        'status' => $status,
+                        'updated_by' => $request->user()->id,
+                    ]);
+            }
+            else {
+                $currentRow
+                    ->update([
+                        'code' => $request->code,
+                        'name' => $request->name,
+                        'gst_number' => $request->gst_number,
+                        'npwp_number' => $request->npwp_number,
+                        'description' => $request->description,
+                        'is_customer' => $is_customer,
+                        'is_supplier' => $is_supplier,
+                        'is_manufacturer' => $is_manufacturer,
+                        'status' => $status,
+                        'updated_by' => $request->user()->id,
+                ]);
+            }
+        }
+        else {
+            $currentRow = Company::where('id', $Company->id)->first();
             $currentRow
                 ->update([
-                    'name' => $request->name,
-                    'gst_number' => $request->gst_number,
-                    'npwp_number' => $request->npwp_number,
-                    'description' => $request->description,
-                    'is_customer' => $is_customer,
-                    'is_supplier' => $is_supplier,
-                    'is_manufacturer' => $is_manufacturer,
-                    'status' => $status,
+                    'account_receivable_coa_id' => $request->account_receivable_coa_id,
+                    'sales_discount_coa_id' => $request->sales_discount_coa_id,
+                    'account_payable_coa_id' => $request->account_payable_coa_id,
+                    'purchase_discount_coa_id' => $request->purchase_discount_coa_id,
                     'updated_by' => $request->user()->id,
                 ]);
         }
-        else {
-            $currentRow
-                ->update([
-                    'code' => $request->code,
-                    'name' => $request->name,
-                    'gst_number' => $request->gst_number,
-                    'npwp_number' => $request->npwp_number,
-                    'description' => $request->description,
-                    'is_customer' => $is_customer,
-                    'is_supplier' => $is_supplier,
-                    'is_manufacturer' => $is_manufacturer,
-                    'status' => $status,
-                    'updated_by' => $request->user()->id,
-            ]);
-        }
         
         return response()->json(['success' => 'Company Data has been Updated']);
-    
     }
 
     public function destroy(Company $Company)

@@ -4,6 +4,7 @@
     @include('generalsetting::pages.company.contact.modal')
     @include('generalsetting::pages.company.address.modal')
     @include('generalsetting::pages.company.bank.modal')
+    @include('generalsetting::pages.company.accounting-setting.modal')
 
     <div class="row m-b m-t">
         <div class="col-md-5">
@@ -160,6 +161,7 @@
 @include('generalsetting::components.company.contact._script')
 @include('generalsetting::components.company.address._script')
 @include('generalsetting::components.company.bank._script')
+@include('generalsetting::components.company.accounting-setting._script')
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')

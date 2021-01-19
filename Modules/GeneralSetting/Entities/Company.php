@@ -63,21 +63,21 @@ class Company extends Model
 
     public function account_receivable_coa()
     {
-        return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailBank::class, 'account_receivable_coa_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'account_receivable_coa_id');
     }
 
     public function sales_discount_coa()
     {
-        return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailBank::class, 'sales_discount_coa_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'sales_discount_coa_id');
     }
 
     public function account_payable_coa()
     {
-        return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailBank::class, 'account_payable_coa_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'account_payable_coa_id');
     }
 
     public function purchase_discount_coa()
     {
-        return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailBank::class, 'purchase_discount_coa_id');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'purchase_discount_coa_id');
     }
 }

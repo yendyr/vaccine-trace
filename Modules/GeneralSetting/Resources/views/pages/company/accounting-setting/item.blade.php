@@ -6,12 +6,10 @@
         <div class="panel-body" style="margin: 0px; width: 100%; padding-bottom: 0;">
             <div class="row">
                 <div class="col-md-10 m-b m-l-n">
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col m-b"></div>
+                    <div class="col">Account Receivable COA:</div>
+                    <div class="col"><strong>{{ $Company->account_payable_coa->code ?? '' }} | {{ $Company->account_receivable_coa->name ?? '- not set yet -' }}</strong></div>
+                    <div class="col">Sales Discount COA</div>
+                    <div class="col m-b"><strong>{{ $Company->account_payable_coa->code ?? '' }} | {{ $Company->sales_discount_coa->name ?? '- not set yet -' }}</strong></div>
                 </div>
                 <div class="col-md-2 m-b">
                     <i class="text-danger fa fa-arrow-circle-left fa-5x"></i>
@@ -22,8 +20,8 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editButtonCustomer btn btn-sm btn-outline btn-primary" 
-                        data-toggle="tooltip" data-id="{{ $address->id ?? '' }}" title="Update">
+                        <button class="editButtonAccounting btn btn-sm btn-outline btn-primary" 
+                        data-toggle="tooltip" data-id="{{ $Company->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
                     </div>
@@ -41,12 +39,10 @@
         <div class="panel-body" style="margin: 0px; width: 100%; padding-bottom: 0;">
             <div class="row">
                 <div class="col-md-10 m-b m-l-n">
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col m-b"></div>
+                    <div class="col">Account Payable COA:</div>
+                    <div class="col"><strong>{{ $Company->account_payable_coa->code ?? '' }} | {{ $Company->account_payable_coa->name ?? '- not set yet -' }}</strong></div>
+                    <div class="col">Purchase Discount COA</div>
+                    <div class="col m-b"><strong>{{ $Company->account_payable_coa->code ?? '' }} | {{ $Company->purchase_discount_coa->name ?? '- not set yet -' }}</strong></div>
                 </div>
                 <div class="col-md-2 m-b">
                     <i class="text-danger fa fa-arrow-circle-right fa-5x"></i>
@@ -57,8 +53,8 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editButtonCustomer btn btn-sm btn-outline btn-primary" 
-                        data-toggle="tooltip" data-id="{{ $address->id ?? '' }}" title="Update">
+                        <button class="editButtonAccounting btn btn-sm btn-outline btn-primary" 
+                        data-toggle="tooltip" data-id="{{ $Company->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
                     </div>
