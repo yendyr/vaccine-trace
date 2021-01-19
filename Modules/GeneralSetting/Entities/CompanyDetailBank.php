@@ -23,6 +23,7 @@ class CompanyDetailBank extends Model
         'account_number', 
         'swift_code', 
         'description', 
+        'chart_of_account_id', 
         'owned_by', 
         'status', 
         'updated_by',
@@ -47,6 +48,6 @@ class CompanyDetailBank extends Model
 
     public function chart_of_account()
     {
-        return $this->belongsTo(\Modules\Accounting\Entities\Company::class, 'chart_of_account');
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'chart_of_account_id');
     }
 }

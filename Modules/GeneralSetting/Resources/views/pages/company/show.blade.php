@@ -3,6 +3,7 @@
 @section('content')
     @include('generalsetting::pages.company.contact.modal')
     @include('generalsetting::pages.company.address.modal')
+    @include('generalsetting::pages.company.bank.modal')
 
     <div class="row m-b m-t">
         <div class="col-md-5">
@@ -79,12 +80,12 @@
                         </li>
                         <li>
                             <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;" id="tab-address"> 
-                                <i class="fa fa-building fa-2x fa-fw"></i>&nbsp;Addresses
+                                <i class="fa fa-map-marker fa-2x fa-fw"></i>&nbsp;Addresses
                             </a>
                         </li>
                         <li>
                             <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 75px;" id="tab-account"> 
-                                <i class="fa fa-money fa-2x fa-fw"></i>&nbsp;Bank Accounts
+                                <i class="fa fa-cc-mastercard fa-2x fa-fw"></i>&nbsp;Bank Accounts
                             </a>
                         </li>
                     </ul>
@@ -123,8 +124,17 @@
                         </div>
                         <div id="tab-3" class="tab-pane">
                             <div class="panel-body" style="min-height: 500px;">
+                                <div class="row m-b">
+                                    <div class="col">
+                                    @can('update', Modules\GeneralSetting\Entities\Company::class)                
+                                        <button type="button" id="createNewButtonBank" class="btn btn-primary btn-lg">
+                                            <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                                        </button>   
+                                    @endcan
+                                    </div>
+                                </div>
                                 <div class="row">
-                                    
+                                    @include('generalsetting::pages.company.bank.item')
                                 </div>
                             </div>
                         </div>
@@ -137,6 +147,7 @@
 
 @include('generalsetting::components.company.contact._script')
 @include('generalsetting::components.company.address._script')
+@include('generalsetting::components.company.bank._script')
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')

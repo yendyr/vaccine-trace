@@ -37,7 +37,6 @@ class CompanyDetailBankController extends Controller
         $request->validate([
             'company_id' => ['required', 'max:30'],
             'label' => ['required', 'max:30'],
-            'name' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -51,14 +50,13 @@ class CompanyDetailBankController extends Controller
             'company_id' => $request->company_id,
             'uuid' => Str::uuid(),
             'label' => $request->label,
-            'name' => $request->name,
-            'street' => $request->street,
-            'city' => $request->city,
-            'province' => $request->province,
-            'country_id' => $request->country_id,
-            'post_code' => $request->post_code,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
+            'bank_name' => $request->bank_name,
+            'bank_branch' => $request->bank_branch,
+            'account_holder_name' => $request->account_holder_name,
+            'account_number' => $request->account_number,
+            'swift_code' => $request->swift_code,
+            'description' => $request->description,
+            'chart_of_account_id' => $request->chart_of_account_id,
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
@@ -70,6 +68,7 @@ class CompanyDetailBankController extends Controller
     public function show(CompanyDetailBank $CompanyDetailBank)
     {
         $CompanyDetailBank = CompanyDetailBank::where('id', $CompanyDetailBank->id)
+                                ->with('chart_of_account:id,code,name')
                                 ->first();
         return response()->json($CompanyDetailBank);
     }
@@ -82,7 +81,7 @@ class CompanyDetailBankController extends Controller
     public function update(Request $request, CompanyDetailBank $CompanyDetailBank)
     {
         $request->validate([
-            'name' => ['required', 'max:30'],
+            'label' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -96,15 +95,13 @@ class CompanyDetailBankController extends Controller
         $currentRow
                 ->update([
                     'label' => $request->label,
-                    'name' => $request->name,
-                    'street' => $request->street,
-                    'city' => $request->city,
-                    'province' => $request->province,
-                    'country_id' => $request->country_id,
-                    'post_code' => $request->post_code,
-                    'latitude' => $request->latitude,
-                    'longitude' => $request->longitude,
-                    'owned_by' => $request->user()->company_id,
+                    'bank_name' => $request->bank_name,
+                    'bank_branch' => $request->bank_branch,
+                    'account_holder_name' => $request->account_holder_name,
+                    'account_number' => $request->account_number,
+                    'swift_code' => $request->swift_code,
+                    'description' => $request->description,
+                    'chart_of_account_id' => $request->chart_of_account_id,
                     'status' => $status,
                     'updated_by' => $request->user()->id,
                 ]);

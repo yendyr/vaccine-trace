@@ -1,21 +1,22 @@
-@if (sizeOf($Company->addresses) > 0)
-@foreach ($Company->addresses as $address)
+@if (sizeOf($Company->banks) > 0)
+@foreach ($Company->banks as $bank)
 <div class="col-md-4 fadeIn" style="animation-duration: 1.5s">
-    <div class="panel panel-warning">
+    <div class="panel panel-success">
         <div class="panel-heading">
-            {{ $address->label ?? '-' }}
+            {{ $bank->label ?? '-' }}
         </div>
         <div class="panel-body" style="margin: 0px; width: 100%; padding-bottom: 0;">
             <div class="row">
-                <div class="col-md-10 m-b m-l-n">
-                    <div class="col">{{ $address->name ?? '-' }}</div>
-                    <div class="col">{{ $address->street ?? '-' }}</div>
-                    <div class="col">{{ $address->city ?? '-' }}, {{ $address->province ?? '-' }}</div>
-                    <div class="col">{{ $address->country->nice_name ?? '-' }}, {{ $address->post_code ?? '-' }}</div>
-                    <div class="col">Latitude: {{ $address->latitude ?? '-' }}</div>
-                    <div class="col m-b">Longitude: {{ $address->longitude ?? '-' }}</div>
+                <div class="col-md-9 m-b m-l-n">
+                    <div class="col"><h3>{{ $bank->account_number ?? '-' }}</h3></div>
+                    <div class="col">{{ $bank->bank_name ?? '-' }}</div>
+                    <div class="col">{{ $bank->bank_branch ?? '-' }}</div>
+                    <div class="col">{{ $bank->account_holder_name ?? '-' }}</div>
+                    <div class="col">{{ $bank->swift_code ?? '-' }}</div>
+                    <div class="col">{{ $bank->description ?? '-' }}</div>
+                    <div class="col m-b">COA: {{ $bank->chart_of_account->name ?? '-' }}</div>
                     <div class="col">
-                        @if($address->status == 1)
+                        @if($bank->status == 1)
                             <label class="label label-success">
                                 Active
                             </label>
@@ -26,8 +27,8 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-2 m-b">
-                    <i class="text-warning fa fa-map-marker fa-5x"></i>
+                <div class="col-md-3 m-b">
+                    <i class="text-success fa fa-cc-mastercard fa-3x"></i>
                 </div>
             </div>
         </div>
@@ -35,18 +36,18 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editButtonAddress btn btn-sm btn-outline btn-primary" 
-                        data-toggle="tooltip" data-id="{{ $address->id ?? '' }}" title="Update">
+                        <button class="editButtonBank btn btn-sm btn-outline btn-primary" 
+                        data-toggle="tooltip" data-id="{{ $bank->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 
                         @include('components.delete-modal', 
-                                ['deleteModalId' => 'deleteModalAddress',
-                                'deleteFormId' => 'deleteFormAddress',
-                                'deleteModalButtonId' => 'deleteModalButtonAddress'])
+                                ['deleteModalId' => 'deleteModalBank',
+                                'deleteFormId' => 'deleteFormBank',
+                                'deleteModalButtonId' => 'deleteModalButtonBank'])
 
-                        <button type="button" name="delete" class="deleteButtonAddress btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
-                        value="{{ $address->id ?? '' }}">
+                        <button type="button" name="delete" class="deleteButtonBank btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
+                        value="{{ $bank->id ?? '' }}">
                             <i class="fa fa-trash"></i>&nbsp;Delete
                         </button>
                     </div>

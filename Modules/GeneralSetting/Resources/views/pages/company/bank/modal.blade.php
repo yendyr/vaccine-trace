@@ -52,13 +52,13 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            {{-- <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Country</label>
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Chart of Account</label>
                                 <div class="col-sm-7">
-                                    <select class="country_id form-control @error('country_id') is-invalid @enderror" name="country_id" id="country_id"></select>
-                                    <div class="invalid-feedback-country_id text-danger font-italic"></div>
+                                    <select class="chart_of_account_id form-control @error('chart_of_account_id') is-invalid @enderror" name="chart_of_account_id" id="chart_of_account_id"></select>
+                                    <div class="invalid-feedback-chart_of_account_id text-danger font-italic"></div>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Swift Code</label>
                                 <div class="col-sm-7">

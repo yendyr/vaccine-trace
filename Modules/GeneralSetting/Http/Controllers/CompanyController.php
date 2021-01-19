@@ -126,7 +126,7 @@ class CompanyController extends Controller
             $is_manufacturer = 0;
         }
 
-        Country::create([
+        Company::create([
             'uuid' => Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
