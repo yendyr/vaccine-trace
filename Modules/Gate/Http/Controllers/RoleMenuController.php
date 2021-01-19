@@ -238,7 +238,7 @@ class RoleMenuController extends Controller
     public function store(Request $request)
     {
         $collection = RoleMenu::where('role_id', $request->role)->pluck('id');
-        RoleMenu::destroy($collection);
+        RoleMenu::whereIn('id', $collection->toArray())->forceDelete();
         $collectionMenu = DB::table('menus')->select('id')->orderBy('id')->get()->toArray();
 
         foreach ($collectionMenu as $i => $menu){
@@ -292,14 +292,11 @@ class RoleMenuController extends Controller
      * @param int $id
      * @return Response
      */
-    public function edit(RoleMenu $roleMenu)
+    public function edit(RoleMenu $role_menu)
     {
-        $role = Role::where('id', $roleMenu->role_id)->first();
-        $menu = DB::table('menus')->select('id', 'menu_text', 'menu_link')->get();
+        $role = $role_menu->role;
 
-        $selectedRoleId = DB::table('role_menus')->select('role_id')->where('id', $roleMenu->id)->first();
-        //first karena hanya get 1 row dgn role_id yg bersangkutan
-        $selectedRoleMenus = DB::table('role_menus')->where('role_id', $selectedRoleId->role_id)->get();
+        $selectedRoleMenus = DB::table('role_menus')->where('role_id', $role->id)->get();
 
         $i = 0;
         foreach ($selectedRoleMenus as $selectedRoleMenu){
