@@ -243,3 +243,8 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .input-group-addon {
     background-color: #f4f6ff;
 }
+
+.select2-container--bootstrap4 .select2-selection, .select2-container--bootstrap4 .select2-dropdown.select2-dropdown--above, .select2-container--bootstrap4 .select2-dropdown {
+    border: 1px solid #b3e2ff;
+    border-radius: 5px;
+}

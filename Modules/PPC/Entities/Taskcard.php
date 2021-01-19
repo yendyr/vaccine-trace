@@ -15,9 +15,32 @@ class Taskcard extends Model
 
     protected $fillable = [
         'uuid',
-        'code',
-        'name',
-        'description',
+        'mpd_number',
+        'title',
+        'taskcard_group_id',
+        'taskcard_type_id',
+        'threshold_flight_hour',
+        'threshold_flight_cycle',
+        'threshold_day_count',
+        'threshold_date',
+        'repeat_flight_hour',
+        'repeat_flight_cycle',
+        'repeat_day_count',
+        'repeat_date',
+        'interval_control_method',
+
+        'company_number',
+        'ata',
+        'version',
+        'revision',
+        'effectivity',
+        'taskcard_workarea_id',
+        'source',
+        'reference',
+        'file_attachment',
+        'scheduled_priority',
+        'recurrence',
+
         'status',
         'created_by',
         'updated_by',
@@ -33,5 +56,20 @@ class Taskcard extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function taskcard_group()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'taskcard_group_id');
+    }
+
+    public function taskcard_type()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardType::class, 'taskcard_type_id');
+    }
+
+    public function taskcard_workarea()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardWorkarea::class, 'taskcard_workarea_id');
     }
 }

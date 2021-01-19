@@ -20,7 +20,7 @@ class CreateTaskcardsTable extends Migration
             $table->string('title');
             $table->string('taskcard_group_id');
             $table->string('taskcard_type_id');
-            $table->json('aircraft_type_id');
+            // $table->json('aircraft_type_id');
             $table->string('threshold_flight_hour')->nullable();
             $table->string('threshold_flight_cycle')->nullable();
             $table->string('threshold_day_count')->nullable();
@@ -37,11 +37,11 @@ class CreateTaskcardsTable extends Migration
             $table->string('revision')->nullable();
             $table->string('effectivity')->nullable();
             $table->string('taskcard_workarea_id')->nullable();
-            $table->json('taskcard_access_id')->nullable();
-            $table->json('taskcard_zone_id')->nullable();
+            // $table->json('taskcard_access_id')->nullable();
+            // $table->json('taskcard_zone_id')->nullable();
             $table->string('source')->nullable();
-            $table->json('taskcard_document_library_id')->nullable();
-            $table->json('taskcard_manual_affected_id')->nullable();
+            // $table->json('taskcard_document_library_id')->nullable();
+            // $table->json('taskcard_manual_affected_id')->nullable();
             $table->string('reference')->nullable();
             $table->string('file_attachment')->nullable();
             $table->string('scheduled_priority')->nullable();
