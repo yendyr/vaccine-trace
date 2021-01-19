@@ -44,4 +44,9 @@ class CompanyDetailBank extends Model
     {
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'company_id');
     }
+
+    public function chart_of_account()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\Company::class, 'chart_of_account');
+    }
 }

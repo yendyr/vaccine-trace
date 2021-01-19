@@ -30,5 +30,6 @@ Route::name('generalsetting.')->group(function () {
 
         Route::resource('/company-detail-contact', 'CompanyDetailContactController');
         Route::resource('/company-detail-address', 'CompanyDetailAddressController');
+        Route::resource('/company-detail-bank', 'CompanyDetailBankController');
     });
 });

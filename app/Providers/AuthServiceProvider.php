@@ -6,9 +6,6 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-use Modules\Examples\Entities\Example;
-use Modules\Examples\Policies\ExamplePolicy;
-
 use Modules\Gate\Entities\Menu;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\RoleMenu;
@@ -100,6 +97,9 @@ use Modules\GeneralSetting\Entities\CompanyDetailContact;
 use Modules\GeneralSetting\Policies\CompanyDetailAddressPolicy;
 use Modules\GeneralSetting\Entities\CompanyDetailAddress;
 
+use Modules\GeneralSetting\Policies\CompanyDetailBankPolicy;
+use Modules\GeneralSetting\Entities\CompanyDetailBank;
+
 use Modules\GeneralSetting\Policies\AirportPolicy;
 use Modules\GeneralSetting\Entities\Airport;
 
@@ -171,6 +171,7 @@ class AuthServiceProvider extends ServiceProvider
         Company::class => CompanyPolicy::class,
         CompanyDetailContact::class => CompanyDetailContactPolicy::class,
         CompanyDetailAddress::class => CompanyDetailAddressPolicy::class,
+        CompanyDetailBank::class => CompanyDetailBankPolicy::class,
         Country::class => CountryPolicy::class,
         Airport::class => AirportPolicy::class,
 
