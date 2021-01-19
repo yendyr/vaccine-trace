@@ -4,24 +4,37 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/generalsetting/company-detail-contact/';
-        var createNewButtonId = '#createNewButtonContact';
-        var inputModalId = '#inputModalContact';
-        var modalTitleId = '#modalTitleContact';
-        var saveButtonId = '#saveButtonContact';
-        var inputFormId = '#inputFormContact';
-        var editButtonClass = '.editButtonContact';
-        var deleteButtonClass = '.deleteButtonContact';
-        var deleteModalId = '#deleteModalContact';
-        var deleteFormId = '#deleteFormContact';
-        var deleteModalButtonId = '#deleteModalButtonContact';
+        var actionUrl = '/generalsetting/company-detail-address/';
+        var createNewButtonId = '#createNewButtonAddress';
+        var inputModalId = '#inputModalAddress';
+        var modalTitleId = '#modalTitleAddress';
+        var saveButtonId = '#saveButtonAddress';
+        var inputFormId = '#inputFormAddress';
+        var editButtonClass = '.editButtonAddress';
+        var deleteButtonClass = '.deleteButtonAddress';
+        var deleteModalId = '#deleteModalAddress';
+        var deleteFormId = '#deleteFormAddress';
+        var deleteModalButtonId = '#deleteModalButtonAddress';
+
+        $('.country_id').select2({
+                theme: 'bootstrap4',
+                placeholder: 'Choose Country',
+                allowClear: true,
+                // minimumInputLength: 2,
+                minimumResultsForSearch: 10,
+                ajax: {
+                    url: "{{ route('generalsetting.country.select2') }}",
+                    dataType: 'json',
+                },
+                dropdownParent: $(inputModalId)
+            });
 
         $(createNewButtonId).click(function () {
-            showCreateModalDynamic (inputModalId, modalTitleId, 'Create New Contact', saveButtonId, inputFormId, actionUrl);
+            showCreateModalDynamic (inputModalId, modalTitleId, 'Create New Address', saveButtonId, inputFormId, actionUrl);
         });
 
         $(editButtonClass).click(function (e) {
-            $(modalTitleId).html("Edit Contact");
+            $(modalTitleId).html("Edit Address");
             $(inputFormId).trigger("reset");
             
             $('<input>').attr({
@@ -35,24 +48,31 @@
                 $('.id').val(id);
                 $('.label').val(data.label);
                 $('.name').val(data.name);
-                $('#email').val(data.email);
-                $('#mobile_number').val(data.mobile_number);
-                $('#office_number').val(data.office_number);
-                $('#fax_number').val(data.fax_number);
-                $('#other_number').val(data.other_number);
-                $('#website').val(data.website);               
+                $('#street').val(data.street);
+                $('#city').val(data.city);
+                $('#province').val(data.province);
+                
+                $(".country_id").val(null).trigger('change');
+                if (data.country != null) {
+                    $('.country_id').append('<option value="' + data.country_id + '" selected>' + data.country.nice_name + '</option>');
+                }
+
+                $('#post_code').val(data.post_code);
+                $('#latitude').val(data.latitude);
+                $('#longitude').val(data.longitude);
+                              
                 if (data.status == '1') {
-                    $('#status').prop('checked', true);
+                    $('.status').prop('checked', true);
                 }
                 else {
-                    $('#status').prop('checked', false);
+                    $('.status').prop('checked', false);
                 }
 
                 $(inputFormId).attr('action', actionUrl + id);
             });
 
             $(saveButtonId).val("edit");
-            $('[class^="invalid-feedback-"]').html('');
+            $('[class^="invalid-feedback-"]').html('');  // clearing validation
             $(inputModalId).modal('show');
         });
 
@@ -92,7 +112,7 @@
                 complete: function () {
                     let l = $( '.ladda-button-submit' ).ladda();
                     l.ladda( 'stop' );
-                    $(saveButtonId).prop('disabled', false);
+                    $(saveButtonId). prop('disabled', false);
                 }
             }); 
 
@@ -134,6 +154,7 @@
                     $(deleteModalButtonId).text('Delete');
                     $(deleteModalId).modal('hide');
                     $(deleteModalButtonId).prop('disabled', false);
+                    $(targetTableId).DataTable().ajax.reload();
                 }
             });
 

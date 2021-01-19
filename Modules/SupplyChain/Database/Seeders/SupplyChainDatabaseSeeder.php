@@ -17,6 +17,7 @@ class SupplyChainDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call([
+            WarehouseSeeder::class,
             UnitClassSeeder::class,
             UnitSeeder::class,
             ItemCategorySeeder::class,

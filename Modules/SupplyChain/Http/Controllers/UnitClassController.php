@@ -150,8 +150,14 @@ class UnitClassController extends Controller
 
     public function destroy(UnitClass $UnitClass)
     {
+        $currentRow = UnitClass::where('id', $UnitClass->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         UnitClass::destroy($UnitClass->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Unit Class Data has been Deleted']);
     }
 
     public function select2(Request $request)

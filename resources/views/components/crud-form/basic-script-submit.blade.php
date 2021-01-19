@@ -14,6 +14,23 @@
         $("input[value='patch']").remove();
     }
 
+    function showCreateModalDynamic (inputModalId, modalTitleId, modalTitle, saveButtonId, inputFormId, actionUrl) {
+        this.inputModalId = inputModalId;
+        this.modalTitleId = modalTitleId;
+        this.modalTitle = modalTitle;
+        this.saveButtonId = saveButtonId;
+        this.inputFormId = inputFormId;
+        this.actionUrl = actionUrl;
+
+        $(modalTitleId).html(modalTitle);
+        $(inputFormId).attr('action', actionUrl);
+        $(saveButtonId).val("create");
+        $(inputFormId).trigger("reset");
+        $('[class^="invalid-feedback-"]').html('');
+        $(inputModalId).modal('show');                
+        $("input[value='patch']").remove();
+    }
+
     function submitButtonProcess (targetTableId, inputFormId) {
         this.targetTableId = targetTableId;
         this.inputFormId = inputFormId;
@@ -80,7 +97,7 @@
                     ).attr("content")
                 },
                 url: url_action,
-                type: "DELETE", //bisa method
+                type: "DELETE",
                 beforeSend:function(){
                     $('#delete-button').text('Deleting...');
                     $('#delete-button').prop('disabled', true);

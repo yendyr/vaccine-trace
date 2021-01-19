@@ -153,10 +153,14 @@ class AircraftTypeController extends Controller
 
     public function destroy(AircraftType $AircraftType)
     {
-        $id = $AircraftType->id;
-        AircraftType::destroy($id);
+        $currentRow = AircraftType::where('id', $AircraftType->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
 
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        AircraftType::destroy($AircraftType->id);
+        return response()->json(['success' => 'Aircraft Type Data has been Deleted']);
     }
 
     public function select2(Request $request)

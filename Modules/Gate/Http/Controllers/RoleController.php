@@ -134,8 +134,11 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        Role::destroy($role->id);
+        $role->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
 
-        return response()->json(['success' => 'Role data deleted successfully.']);
+        Role::destroy($role->id);
+        return response()->json(['success' => 'Role Data has been Deleted']);
     }
 }

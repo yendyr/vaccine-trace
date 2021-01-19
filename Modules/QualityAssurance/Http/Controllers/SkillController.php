@@ -151,8 +151,14 @@ class SkillController extends Controller
 
     public function destroy(Skill $Skill)
     {
+        $currentRow = Skill::where('id', $Skill->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         Skill::destroy($Skill->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Skill Data has been Deleted']);
     }
 
 }

@@ -143,8 +143,37 @@ class CountryController extends Controller
 
     public function destroy(Country $Country)
     {
+        $currentRow = Country::where('id', $Country->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         Country::destroy($Country->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Contact Data has been Deleted']);
+    }
+
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+        $query = Country::orderby('nice_name','asc')
+                        ->select('id','nice_name')
+                        ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $Countries = $query->get();
+
+        $response = [];
+        foreach($Countries as $Country){
+            $response['results'][] = [
+                "id"=>$Country->id,
+                "text"=>$Country->nice_name
+            ];
+        }
+
+        return response()->json($response);
     }
 
 }

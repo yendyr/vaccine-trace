@@ -25,6 +25,7 @@ class ChartOfAccount extends Model
         'created_by',
         'updated_by',
         'owned_by',
+        'deleted_by',
     ];
 
     public function creator()
@@ -50,6 +51,5 @@ class ChartOfAccount extends Model
     public function subGroup()
     {
         return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id');
-
     }
 }

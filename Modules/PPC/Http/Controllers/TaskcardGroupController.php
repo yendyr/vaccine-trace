@@ -161,8 +161,14 @@ class TaskcardGroupController extends Controller
 
     public function destroy(TaskcardGroup $TaskcardGroup)
     {
+        $currentRow = TaskcardGroup::where('id', $TaskcardGroup->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         TaskcardGroup::destroy($TaskcardGroup->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Task Card Group Data has been Deleted']);
     }
 
     public function select2Parent(Request $request)

@@ -150,8 +150,14 @@ class WarehouseController extends Controller
 
     public function destroy(Warehouse $Warehouse)
     {
+        $currentRow = Warehouse::where('id', $Warehouse->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         Warehouse::destroy($Warehouse->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Warehouse Data has been Deleted']);
     }
 
     public function select2(Request $request)

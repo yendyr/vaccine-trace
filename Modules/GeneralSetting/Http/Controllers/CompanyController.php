@@ -223,8 +223,14 @@ class CompanyController extends Controller
 
     public function destroy(Company $Company)
     {
+        $currentRow = Company::where('id', $Company->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         Company::destroy($Company->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Contact Data has been Deleted']);
     }
 
     public function select2Customer(Request $request)

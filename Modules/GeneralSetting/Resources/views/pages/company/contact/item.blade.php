@@ -1,6 +1,6 @@
 @if (sizeOf($Company->contacts) > 0)
 @foreach ($Company->contacts as $contact)
-<div class="col-md-6">
+<div class="col-md-6 fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-info">
         <div class="panel-heading">
             {{ $contact->label ?? '-' }}
@@ -69,12 +69,18 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editBtn btn btn-sm btn-outline btn-primary ml-1" 
-                        value="" data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" title="Update">
+                        <button class="editButtonContact btn btn-sm btn-outline btn-primary" 
+                        data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 
-                        <button class="deleteBtn btn btn-sm btn-outline btn-danger ml-1" name="deleteButton" id="deleteButton"  data-toggle="tooltip" data-id="{{ $contact->id ?? '' }}" data-token="{{ csrf_token() }}" title="Delete">
+                        @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalContact',
+                                'deleteFormId' => 'deleteFormContact',
+                                'deleteModalButtonId' => 'deleteModalButtonContact'])
+
+                        <button type="button" name="delete" class="deleteButtonContact btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
+                        value="{{ $contact->id ?? '' }}">
                             <i class="fa fa-trash"></i>&nbsp;Delete
                         </button>
                     </div>

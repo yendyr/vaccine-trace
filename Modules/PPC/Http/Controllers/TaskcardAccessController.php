@@ -150,8 +150,14 @@ class TaskcardAccessController extends Controller
 
     public function destroy(TaskcardAccess $TaskcardAccess)
     {
+        $currentRow = TaskcardAccess::where('id', $TaskcardAccess->id)->first();
+        $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+
         TaskcardAccess::destroy($TaskcardAccess->id);
-        return response()->json(['success' => 'Data Deleted Successfully']);
+        return response()->json(['success' => 'Taskcard Access Data has been Deleted']);
     }
 
     public function select2(Request $request)

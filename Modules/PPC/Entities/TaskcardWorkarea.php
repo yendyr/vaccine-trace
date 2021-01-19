@@ -22,6 +22,7 @@ class TaskcardWorkarea extends Model
         'created_by',
         'updated_by',
         'owned_by',
+        'deleted_by',
     ];
 
     public function creator()

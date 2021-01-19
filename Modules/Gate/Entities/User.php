@@ -67,4 +67,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+    public function delete_by()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
 }
