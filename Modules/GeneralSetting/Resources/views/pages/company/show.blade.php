@@ -10,7 +10,11 @@
         <div class="col-md-5">
             <div class="profile-image">
                 <label for="logo-input" style="cursor:pointer;" data-toggle="tooltip" title="Change Company Logo">
-                    <img src="{{ URL::asset('assets/default-company-logo.jpg') }}" class="rounded-circle circle-border m-b-md" alt="profile" id="companyLogo">
+                    @if($Company->logo)
+                        <img src="{{ URL::asset('uploads/company/' . $Company->id . '/logo/' . $Company->logo) }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
+                    @else
+                        <img src="{{ URL::asset('assets/default-company-logo.jpg') }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
+                    @endif
                 </label>
 
                 <input onchange="getCompanyLogo(this)" style="display: none;" id="logo-input" type="file" name="logo-input" data-id="{{ $Company->id }}"/>
