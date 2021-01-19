@@ -6,7 +6,7 @@ use Modules\GeneralSetting\Entities\Company;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -333,6 +333,36 @@ class CompanyController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function logoUpload(Request $request, Company $Company)
+    {
+        if($request->ajax()) {
+            $data = $request->file('file');
+            $extension = $data->getClientOriginalExtension();
+            $filename = 'company_logo_' . $Company->id . '.' . $extension;
+            $path = public_path('uploads/company/' . $Company->id . '/logo/');
+            // $path = public_path('uploads/user/img/');
+
+            $usersImage = public_path('uploads/company/' . $Company->id . '/logo/' . $filename); // get previous image from folder
+
+            if (File::exists($usersImage)) { // unlink or remove previous image from folder
+                unlink($usersImage);
+                $successText = 'Company Logo has been Updated';
+            } else {
+                $successText = 'Company Logo has been Updated';
+            }
+
+            Company::where('id', $Company->id)
+                ->update([
+                    'logo' => $filename,
+                    'updated_by' => $request->user()->id
+                ]);
+
+            $data->move($path, $filename);
+
+            return response()->json(['success' => $successText]);
+        }
     }
 
 }

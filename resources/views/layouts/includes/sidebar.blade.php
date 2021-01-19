@@ -7,7 +7,7 @@
                         <img id="image_user" alt="image" width="45px" class="rounded-circle" src="{{
                             isset(\Illuminate\Support\Facades\Auth::user()->image)
                             ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image)
-                            : URL::asset('uploads/user/img/avatar.png')
+                            : URL::asset('assets/default-user-image.png')
                         }}"/>
                     </label>
 

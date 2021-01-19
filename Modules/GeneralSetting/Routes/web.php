@@ -25,11 +25,13 @@ Route::name('generalsetting.')->group(function () {
             Route::get('generalsetting/company/select2/customer', 'CompanyController@select2Customer')->name('select2.customer');
             Route::get('generalsetting/company/select2/supplier', 'CompanyController@select2Supplier')->name('select2.supplier');
             Route::get('generalsetting/company/select2/manufacturer', 'CompanyController@select2Manufacturer')->name('select2.manufacturer');
-            Route::get('generalsetting/company/select2/company', 'CompanyController@select2Manufacturer')->name('select2.company');
+            Route::get('generalsetting/company/select2/company', 'CompanyController@select2Company')->name('select2.company');
+
+            Route::post('/company/logo-upload/{company}', 'CompanyController@logoUpload')->name('logo-upload');
         });
 
         Route::resource('/company-detail-contact', 'CompanyDetailContactController');
         Route::resource('/company-detail-address', 'CompanyDetailAddressController');
-        Route::resource('/company-detail-bank', 'CompanyDetailBankController');
+        Route::resource('/company-detail-bank', 'CompanyDetailBankController');        
     });
 });

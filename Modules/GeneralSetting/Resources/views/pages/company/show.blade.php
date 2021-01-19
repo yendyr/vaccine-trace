@@ -9,7 +9,11 @@
     <div class="row m-b m-t">
         <div class="col-md-5">
             <div class="profile-image">
-                <img src="{{ URL::asset('uploads/user/img/avatar.png') }}" class="rounded-circle circle-border m-b-md" alt="profile">
+                <label for="logo-input" style="cursor:pointer;" data-toggle="tooltip" title="Change Company Logo">
+                    <img src="{{ URL::asset('assets/default-company-logo.jpg') }}" class="rounded-circle circle-border m-b-md" alt="profile" id="companyLogo">
+                </label>
+
+                <input onchange="getCompanyLogo(this)" style="display: none;" id="logo-input" type="file" name="logo-input" data-id="{{ $Company->id }}"/>
             </div>
             <div class="profile-info">
                 <h2 class="no-margins">
@@ -162,6 +166,7 @@
 @include('generalsetting::components.company.address._script')
 @include('generalsetting::components.company.bank._script')
 @include('generalsetting::components.company.accounting-setting._script')
+@include('generalsetting::components.company._logo_upload_script')
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')
