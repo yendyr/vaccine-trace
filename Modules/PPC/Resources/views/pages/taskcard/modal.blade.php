@@ -16,11 +16,17 @@
                             <div class="tabs-container">        
                                 <div class="tabs-left">
                                     <ul class="nav nav-tabs">
-                                        <li><a class="nav-link active" data-toggle="tab" href="#tab-1"> Required Data</a></li>
-                                        <li><a class="nav-link" data-toggle="tab" href="#tab-2">Optional</a></li>
+                                        <li>
+                                            <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;"><i class="text-danger fa fa-asterisk fa-2x fa-fw"></i>&nbsp;Required Data
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;"><i class="fa fa-external-link fa-2x fa-fw"></i>&nbsp;Optional
+                                            </a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content ">
-                                        <div id="tab-1" class="tab-pane active">
+                                        <div id="tab-1" class="tab-pane active fadeIn" style="animation-duration: 1.5s">
                                             <div class="panel-body">
                                                 <div class="row m-b">
                                                     <div class="col">
@@ -58,10 +64,10 @@
                                                 </div>
                                                 <div class="row m-b">                
                                                     <div class="col-lg-12">
-                                                        <div class="panel panel-success">
+                                                        <div class="panel panel-danger">
                                                             <div class="panel-heading">
-                                                                <i class="fa fa-history"></i>
-                                                                &nbsp;Interval to be Controlled
+                                                                <i class="fa fa-exclamation-circle fw"></i>
+                                                                &nbsp;Control Parameter (Interval)
                                                             </div>
                                                             <div class="panel-body" style="margin: 0px; width: 100%">
                                                                 <div class="row">
@@ -80,19 +86,16 @@
                                                                         <div class="input-group">
                                                                             <input type="number" class="form-control">
                                                                             <div class="input-group-append">
-                                                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Day Count
-                                                                            </button>
-                                                                                <div class="dropdown-menu">
-                                                                                    <a class="dropdown-item" href="#">Day(s)</a>
-                                                                                    <a class="dropdown-item" href="#">Month(s)</a>
-                                                                                    <a class="dropdown-item" href="#">Year(s)</a>
-                                                                                </div>
+                                                                                <span class="input-group-addon">Day</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col">
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group" id="threshold_date">
                                                                         <div class="input-group date">
-                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i><small>&nbsp;Date Based</small></span><input type="text" class="form-control" value="03/04/2014">
+                                                                            <span class="input-group-addon">Exact Date</span>
+                                                                            <input type="text" class="form-control" value="03/04/2021">
+                                                                        </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -112,28 +115,25 @@
                                                                         <div class="input-group">
                                                                             <input type="number" class="form-control">
                                                                             <div class="input-group-append">
-                                                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Day Count
-                                                                            </button>
-                                                                                <div class="dropdown-menu">
-                                                                                    <a class="dropdown-item" href="#">Day(s)</a>
-                                                                                    <a class="dropdown-item" href="#">Month(s)</a>
-                                                                                    <a class="dropdown-item" href="#">Year(s)</a>
-                                                                                </div>
+                                                                                <span class="input-group-addon">Day</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col">
-                                                                        <div class="input-group date">
-                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i><small>&nbsp;Date Based</small></span><input type="text" class="form-control" value="03/04/2014">
-                                                                        </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group" id="repeat_date">
+                                                                            <div class="input-group date">
+                                                                                <span class="input-group-addon">Exact Date</span>
+                                                                                <input type="text" class="form-control" value="03/04/2021">
+                                                                            </div>
+                                                                            </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row m-b">
                                                                     <div class="col">
                                                                         <label>Interval Control Method</label>
-                                                                            <select class="select2 form-control" name="taskcard-type">
-                                                                                <option>Which One Comes First</option>
-                                                                                <option>Which One Comes Last</option>
+                                                                            <select class="interval_control_method form-control" name="taskcard-type">
+                                                                                <option value="1">Which One Comes First</option>
+                                                                                <option value="2">Which One Comes Last</option>
                                                                             </select>
                                                                     </div>
                                                                 </div>
@@ -143,7 +143,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="tab-2" class="tab-pane">
+                                        <div id="tab-2" class="tab-pane fadeIn" style="animation-duration: 1.5s">
                                             <div class="panel-body">
                                                 <div class="row m-b">
                                                     <div class="col">
@@ -241,18 +241,18 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Scheduled Priority</label>
-                                                        <select class="select2 form-control" name="taskcard-scheduled-priority">
-                                                            <option>Next Check / Workshop Visit</option>
-                                                            <option>Next Heavy Maintenance Visit</option>
-                                                            <option>As Scheduled</option>
+                                                        <select class="scheduled_priority form-control" name="scheduled_priority">
+                                                            <option value="1">Next Check / Workshop Visit</option>
+                                                            <option value="2">Next Heavy Maintenance Visit</option>
+                                                            <option value="3">As Scheduled</option>
                                                         </select>
                                                     </div>
                                                     <div class="col">
                                                         <label>Recurrence</label>
-                                                        <select class="select2 form-control" name="taskcard-recurrence">
-                                                            <option>One Time</option>
-                                                            <option>As Required</option>
-                                                            <option>Repetitive</option>
+                                                        <select class="recurrence form-control" name="recurrence">
+                                                            <option value="1">One Time</option>
+                                                            <option value="2">As Required</option>
+                                                            <option value="3">Repetitive</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -280,6 +280,7 @@
 </div>
 
 @push('header-scripts')
+<link href="{{ URL::asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 <style>
     .select2-container.select2-container--default.select2-container--open {
         z-index: 9999999 !important;
@@ -288,4 +289,25 @@
         width: 100% !important;
     }
 </style>
+@endpush
+
+@push('footer-scripts')
+<script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+<script>
+    var mem_threshold = $('#threshold_date .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+
+    var mem_repeat = $('#repeat_date .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+</script>
 @endpush

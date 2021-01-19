@@ -62,6 +62,14 @@
             dropdownParent: $('#inputModal')
         });
 
+        $('.interval_control_method').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose Interval Control Method',
+            allowClear: false,
+            minimumResultsForSearch: -1,
+            dropdownParent: $('#inputModal')
+        });
+
         $('.work_area').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Work Area',
@@ -108,12 +116,28 @@
 
         $('.manual_affected').select2({
             theme: 'bootstrap4',
-            placeholder: 'Choose Document',
+            placeholder: 'Choose Manual',
             allowClear: true,
             ajax: {
                 url: "{{ route('qualityassurance.document-type.select2') }}",
                 dataType: 'json',
             },
+            dropdownParent: $('#inputModal')
+        });
+
+        $('.scheduled_priority').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose Scheduled',
+            minimumResultsForSearch: -1,
+            allowClear: false,
+            dropdownParent: $('#inputModal')
+        });
+
+        $('.recurrence').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose Recurrence',
+            minimumResultsForSearch: -1,
+            allowClear: false,
             dropdownParent: $('#inputModal')
         });
 

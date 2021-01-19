@@ -51,6 +51,10 @@ class CompanySeeder extends Seeder
             'gst_number' => '99.4877.AXXED-HDGTEHS',
             'npwp_number' => '01.855.081.4-412.000',
             'description' => 'one of biggest aviation industry supplier and manufacturer, part of global supply chain',
+            'account_receivable_coa_id' => 2,
+            'sales_discount_coa_id' => 4,
+            'account_payable_coa_id' => 6,
+            'purchase_discount_coa_id' => 8,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

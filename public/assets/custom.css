@@ -235,3 +235,11 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .panel-footer {
     background-color: #fbfbfb;
 }
+
+.btn-secondary:hover {
+    background-color: #343b40;
+}
+
+.input-group-addon {
+    background-color: #f4f6ff;
+}

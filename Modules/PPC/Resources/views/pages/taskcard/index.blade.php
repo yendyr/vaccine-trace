@@ -8,7 +8,7 @@
 
     @component('components.crud-form.index',[
                     'title' => 'Task Card Datalist',
-                    'tableId' => 'taskcard-table'])
+                    'tableId' => 'taskcard-table-'])
 
         @slot('createButton')
             @can('create', Modules\PPC\Entities\Taskcard::class)                
