@@ -30,32 +30,34 @@
                                             <div class="panel-body">
                                                 <div class="row m-b">
                                                     <div class="col">
-                                                        <label>MPD Task Card Number</label>
-                                                        <input class="form-control">
+                                                        <label>MPD/Manufacturer Task Card Number</label>
+                                                        <input type="text" class="form-control @error('mpd_number') is-invalid @enderror" name="mpd_number" id="mpd_number">                            
+                                                        <div class="invalid-feedback-mpd_number text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Task Card Title</label>
-                                                        <input class="form-control">
+                                                        <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title">                            
+                                                        <div class="invalid-feedback-title text-danger font-italic"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Task Card Group</label>
-                                                        <select class="taskcard_group form-control @error('taskcard_group') is-invalid @enderror" id="taskcard_group" name="taskcard_group"></select>
-                                                        <div class="invalid-feedback-taskcard_group text-danger font-italic"></div>
+                                                        <select class="taskcard_group_id form-control @error('taskcard_group_id') is-invalid @enderror" id="taskcard_group_id" name="taskcard_group_id"></select>
+                                                        <div class="invalid-feedback-taskcard_group_id text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Task Card Type</label>
-                                                        <select class="taskcard_type form-control @error('taskcard_type') is-invalid @enderror" id="taskcard_type" name="taskcard_type"></select>
-                                                        <div class="invalid-feedback-taskcard_type text-danger font-italic"></div>
+                                                        <select class="taskcard_type_id form-control @error('taskcard_type_id') is-invalid @enderror" id="taskcard_type_id" name="taskcard_type_id"></select>
+                                                        <div class="invalid-feedback-taskcard_type_id text-danger font-italic"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Aircraft Type Effectivity</label>
-                                                        <select class="aircraft_type form-control @error('aircraft_type') is-invalid @enderror" name="aircraft_type" id="aircraft_type" multiple="multiple">
+                                                        <select class="aircraft_type_id form-control @error('aircraft_type_id') is-invalid @enderror" name="aircraft_type_id" id="aircraft_type_id" multiple="multiple">
                                                         </select>
-                                                        <div class="invalid-feedback-aircraft_type text-danger font-italic"></div>
+                                                        <div class="invalid-feedback-aircraft_type_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -77,14 +79,27 @@
                                                                 </div>
                                                                 <div class="row m-b">
                                                                     <div class="col">
-                                                                        <input type="number" class="form-control" placeholder="Flight Hour (FH)">
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <input type="number" class="form-control" placeholder="Flight Cycle (FC)">
+                                                                        <div class="input-group">
+                                                                        <input type="number" class="form-control @error('threshold_flight_hour') is-invalid @enderror" name="threshold_flight_hour" id="threshold_flight_hour">
+                                                                        <div class="invalid-feedback-threshold_flight_hour text-danger font-italic"></div>
+                                                                        <div class="input-group-append">
+                                                                            <span class="input-group-addon">FH</span>
+                                                                        </div>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                            <input type="number" class="form-control">
+                                                                        <input type="number" class="form-control @error('threshold_flight_cycle') is-invalid @enderror" name="threshold_flight_cycle" id="threshold_flight_cycle">
+                                                                        <div class="invalid-feedback-threshold_flight_cycle text-danger font-italic"></div>
+                                                                        <div class="input-group-append">
+                                                                            <span class="input-group-addon">FC</span>
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="input-group">
+                                                                            <input type="number" class="form-control @error('threshold_day_count') is-invalid @enderror" name="threshold_day_count" id="threshold_day_count">
+                                                                            <div class="invalid-feedback-threshold_day_count text-danger font-italic"></div>
                                                                             <div class="input-group-append">
                                                                                 <span class="input-group-addon">Day</span>
                                                                             </div>
@@ -94,7 +109,8 @@
                                                                         <div class="form-group" id="threshold_date">
                                                                         <div class="input-group date">
                                                                             <span class="input-group-addon">Exact Date</span>
-                                                                            <input type="text" class="form-control" value="03/04/2021">
+                                                                            <input type="text" class="form-control @error('threshold_date') is-invalid @enderror" name="threshold_date" id="threshold_date">
+                                                                            <div class="invalid-feedback-threshold_date text-danger font-italic"></div>
                                                                         </div>
                                                                         </div>
                                                                     </div>
@@ -106,14 +122,27 @@
                                                                 </div>
                                                                 <div class="row m-b">
                                                                     <div class="col">
-                                                                        <input type="number" class="form-control" placeholder="Flight Hour (FH)">
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <input type="number" class="form-control" placeholder="Flight Cycle (FC)">
+                                                                        <div class="input-group">
+                                                                        <input type="number" class="form-control @error('repeat_flight_hour') is-invalid @enderror" name="repeat_flight_hour" id="repeat_flight_hour">
+                                                                        <div class="invalid-feedback-repeat_flight_hour text-danger font-italic"></div>
+                                                                        <div class="input-group-append">
+                                                                            <span class="input-group-addon">FH</span>
+                                                                        </div>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                            <input type="number" class="form-control">
+                                                                        <input type="number" class="form-control @error('repeat_flight_cycle') is-invalid @enderror" name="repeat_flight_cycle" id="repeat_flight_cycle">
+                                                                        <div class="invalid-feedback-repeat_flight_cycle text-danger font-italic"></div>
+                                                                        <div class="input-group-append">
+                                                                            <span class="input-group-addon">FC</span>
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="input-group">
+                                                                            <input type="number" class="form-control @error('repeat_day_count') is-invalid @enderror" name="repeat_day_count" id="repeat_day_count">
+                                                                            <div class="invalid-feedback-repeat_day_count text-danger font-italic"></div>
                                                                             <div class="input-group-append">
                                                                                 <span class="input-group-addon">Day</span>
                                                                             </div>
@@ -121,20 +150,22 @@
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div class="form-group" id="repeat_date">
-                                                                            <div class="input-group date">
-                                                                                <span class="input-group-addon">Exact Date</span>
-                                                                                <input type="text" class="form-control" value="03/04/2021">
-                                                                            </div>
-                                                                            </div>
+                                                                        <div class="input-group date">
+                                                                            <span class="input-group-addon">Exact Date</span>
+                                                                            <input type="text" class="form-control @error('repeat_date') is-invalid @enderror" name="repeat_date" id="repeat_date">
+                                                                            <div class="invalid-feedback-repeat_date text-danger font-italic"></div>
+                                                                        </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row m-b">
                                                                     <div class="col">
                                                                         <label>Interval Control Method</label>
-                                                                            <select class="interval_control_method form-control" name="taskcard-type">
-                                                                                <option value="1">Which One Comes First</option>
-                                                                                <option value="2">Which One Comes Last</option>
-                                                                            </select>
+                                                                        <select class="interval_control_method form-control @error('interval_control_method') is-invalid @enderror" name="interval_control_method" id="interval_control_method">
+                                                                            <option value="1">Which One Comes First</option>
+                                                                            <option value="2">Which One Comes Last</option>
+                                                                        </select>
+                                                                        <div class="invalid-feedback-interval_control_method text-danger font-italic"></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -147,40 +178,45 @@
                                             <div class="panel-body">
                                                 <div class="row m-b">
                                                     <div class="col">
-                                                        <label>Company Task Card Number</label>
-                                                        <input class="form-control">
+                                                        <label>Company/Local Task Card Number</label>
+                                                        <input type="text" class="form-control @error('company_number') is-invalid @enderror" name="company_number" id="company_number">                            
+                                                        <div class="invalid-feedback-company_number text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>ATA</label>
-                                                        <input class="form-control">
+                                                        <input type="text" class="form-control @error('ata') is-invalid @enderror" name="ata" id="ata">                            
+                                                        <div class="invalid-feedback-ata text-danger font-italic"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Version</label>
-                                                        <input class="form-control">
+                                                        <input type="text" class="form-control @error('version') is-invalid @enderror" name="version" id="version">                            
+                                                        <div class="invalid-feedback-version text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Revision</label>
-                                                        <input class="form-control">
+                                                        <input type="text" class="form-control @error('revision') is-invalid @enderror" name="revision" id="revision">                            
+                                                        <div class="invalid-feedback-revision text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Effectivity</label>
-                                                        <input class="form-control">
+                                                        <input type="text" class="form-control @error('effectivity') is-invalid @enderror" name="effectivity" id="effectivity">                            
+                                                        <div class="invalid-feedback-effectivity text-danger font-italic"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Work Area</label>
-                                                        <select class="work_area form-control @error('work_area') is-invalid @enderror" name="work_area" id="work_area">
+                                                        <select class="taskcard_workarea_id form-control @error('taskcard_workarea_id') is-invalid @enderror" name="taskcard_workarea_id" id="taskcard_workarea_id">
                                                         </select>
-                                                        <div class="invalid-feedback-work_area text-danger font-italic"></div>
+                                                        <div class="invalid-feedback-taskcard_workarea_id text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Access</label>
-                                                        <select class="access form-control @error('access') is-invalid @enderror" name="access" id="access" multiple="multiple">
+                                                        <select class="taskcard_access_id form-control @error('taskcard_access_id') is-invalid @enderror" name="taskcard_access_id" id="taskcard_access_id" multiple="multiple">
                                                         </select>
-                                                        <div class="invalid-feedback-access text-danger font-italic"></div>
+                                                        <div class="invalid-feedback-taskcard_access_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -190,9 +226,9 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Zone</label>
-                                                        <select class="zone form-control @error('zone') is-invalid @enderror" name="zone" id="zone" multiple="multiple">
+                                                        <select class="taskcard_zone_id form-control @error('taskcard_zone_id') is-invalid @enderror" name="taskcard_zone_id" id="taskcard_zone_id" multiple="multiple">
                                                         </select>
-                                                        <div class="invalid-feedback-zone text-danger font-italic"></div>
+                                                        <div class="invalid-feedback-taskcard_zone_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -200,15 +236,16 @@
                                                     </div>
                                                     <div class="col">
                                                         <label>Source</label>
-                                                        <input class="form-control">
+                                                        <input type="text" class="form-control @error('source') is-invalid @enderror" name="source" id="source">                            
+                                                        <div class="invalid-feedback-source text-danger font-italic"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Document Library</label>
-                                                        <select class="document_library form-control @error('document_library') is-invalid @enderror" name="document_library" id="document_library" multiple="multiple">
+                                                        <select class="taskcard_document_library_id form-control @error('taskcard_document_library_id') is-invalid @enderror" name="taskcard_document_library_id" id="taskcard_document_library_id" multiple="multiple">
                                                         </select>
-                                                        <div class="invalid-feedback-document_library text-danger font-italic"></div>
+                                                        <div class="invalid-feedback-taskcard_document_library_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -216,9 +253,9 @@
                                                     </div>
                                                     <div class="col">
                                                         <label>Manual Affected</label>
-                                                        <select class="manual_affected form-control @error('manual_affected') is-invalid @enderror" name="manual_affected" id="manual_affected" multiple="multiple">
+                                                        <select class="taskcard_affected_manual_id form-control @error('taskcard_affected_manual_id') is-invalid @enderror" name="taskcard_affected_manual_id" id="taskcard_affected_manual_id" multiple="multiple">
                                                         </select>
-                                                        <div class="invalid-feedback-manual_affected text-danger font-italic"></div>
+                                                        <div class="invalid-feedback-taskcard_affected_manual_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
                                                             <i class="fa fa-info-circle"></i>
                                                             you can choose multiple value
@@ -228,12 +265,13 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Reference</label>
-                                                        <input class="form-control">
+                                                        <input type="text" class="form-control @error('reference') is-invalid @enderror" name="reference" id="reference">                            
+                                                        <div class="invalid-feedback-reference text-danger font-italic"></div>
                                                     </div>
                                                     <div class="col">
                                                         <label>Document Attach (*.PDF)</label>
                                                         <div class="custom-file">
-                                                            <input id="inputGroupFile01" type="file" class="custom-file-input">
+                                                            <input id="file_attachment" type="file" class="custom-file-input" name="file_attachment">
                                                             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                                         </div>
                                                     </div>
@@ -241,7 +279,7 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Scheduled Priority</label>
-                                                        <select class="scheduled_priority form-control" name="scheduled_priority">
+                                                        <select class="scheduled_priority form-control @error('scheduled_priority') is-invalid @enderror" name="scheduled_priority" id="scheduled_priority">
                                                             <option value="1">Next Check / Workshop Visit</option>
                                                             <option value="2">Next Heavy Maintenance Visit</option>
                                                             <option value="3">As Scheduled</option>
@@ -249,7 +287,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <label>Recurrence</label>
-                                                        <select class="recurrence form-control" name="recurrence">
+                                                        <select class="recurrence form-control @error('recurrence') is-invalid @enderror" name="recurrence" id="recurrence">
                                                             <option value="1">One Time</option>
                                                             <option value="2">As Required</option>
                                                             <option value="3">Repetitive</option>

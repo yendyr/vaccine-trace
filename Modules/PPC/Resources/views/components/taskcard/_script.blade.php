@@ -29,7 +29,10 @@
             ]
         });
 
-        $('.taskcard_group').select2({
+
+        
+
+        $('.taskcard_group_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Group',
             allowClear: true,
@@ -40,7 +43,7 @@
             dropdownParent: $('#inputModal')
         });
             
-        $('.taskcard_type').select2({
+        $('.taskcard_type_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Type',
             allowClear: true,
@@ -51,7 +54,7 @@
             dropdownParent: $('#inputModal')
         });
 
-        $('.aircraft_type').select2({
+        $('.aircraft_type_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Type',
             allowClear: true,
@@ -70,7 +73,7 @@
             dropdownParent: $('#inputModal')
         });
 
-        $('.work_area').select2({
+        $('.taskcard_workarea_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Work Area',
             allowClear: true,
@@ -81,7 +84,7 @@
             dropdownParent: $('#inputModal')
         });
 
-        $('.access').select2({
+        $('.taskcard_access_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Access',
             allowClear: true,
@@ -92,7 +95,7 @@
             dropdownParent: $('#inputModal')
         });
 
-        $('.zone').select2({
+        $('.taskcard_zone_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Zone',
             allowClear: true,
@@ -103,7 +106,7 @@
             dropdownParent: $('#inputModal')
         });
 
-        $('.document_library').select2({
+        $('.taskcard_document_library_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Document',
             allowClear: true,
@@ -114,7 +117,7 @@
             dropdownParent: $('#inputModal')
         });
 
-        $('.manual_affected').select2({
+        $('.taskcard_affected_manual_id').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Manual',
             allowClear: true,
@@ -141,9 +144,15 @@
             dropdownParent: $('#inputModal')
         });
 
+
+
+
         $('#create').click(function () {
             showCreateModal ('Create New Task Card', inputFormId, actionUrl);
         });
+
+
+
 
         datatableObject.on('click', '.editBtn', function () {
             $('#modalTitle').html("Edit Task Card");
