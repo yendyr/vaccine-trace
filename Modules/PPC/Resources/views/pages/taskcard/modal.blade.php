@@ -252,7 +252,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="col">
-                                                        <label>Manual Affected</label>
+                                                        <label>Affected Manual</label>
                                                         <select class="taskcard_affected_manual_id form-control @error('taskcard_affected_manual_id') is-invalid @enderror" name="taskcard_affected_manual_id[]" id="taskcard_affected_manual_id" multiple="multiple">
                                                         </select>
                                                         <div class="invalid-feedback-taskcard_affected_manual_id text-danger font-italic"></div>

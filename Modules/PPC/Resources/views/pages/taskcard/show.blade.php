@@ -6,7 +6,7 @@
     @include('generalsetting::pages.company.bank.modal')
     @include('generalsetting::pages.company.accounting-setting.modal') --}}
 
-    <div class="row m-t">
+    <div class="row m-b m-t">
         <div class="col-md-5">
             <div class="profile-image">
                 <label for="logo-input" style="cursor:pointer;" data-toggle="tooltip" title="Change Taskcard File">
@@ -54,26 +54,31 @@
                 @endif
                 </strong>
             </div>
-            {{-- <div>Effectivity: <strong>{{ $Taskcard->effectivity ?? '-' }}</strong></div>
-            <div>Work Area: <strong>{{ $Taskcard->taskcard_workarea->name ?? '-' }}</strong></div> --}}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            Aircraft Type Applicability:&nbsp;
-            @include('ppc::pages.taskcard.aircraft-type-detail.item')
         </div>
     </div>
 
     <div class="row m-b">
-        <div class="col-md-6">
-            Access:&nbsp;
-            @include('ppc::pages.taskcard.access-detail.item')
+        <div class="col-md-5">
+            Aircraft Type Applicability:&nbsp;
+            @include('ppc::pages.taskcard.aircraft-type-detail.item')
         </div>
-        <div class="col-md-6">
-            Zone:&nbsp;
-            @include('ppc::pages.taskcard.zone-detail.item')
+        <div class="col-md-7" style="padding-left: 0;">
+            <div class="col">
+                Access:&nbsp;
+                @include('ppc::pages.taskcard.access-detail.item')
+                &nbsp;&nbsp;&nbsp;&nbsp;Zone:&nbsp;
+                @include('ppc::pages.taskcard.zone-detail.item')
+                &nbsp;&nbsp;&nbsp;&nbsp;Work Area:&nbsp;
+                <label class="label label-info">{{ $Taskcard->taskcard_workarea->name ?? '' }}</label>
+            </div>
+            <div class="col">
+                Document Library:&nbsp;
+                @include('ppc::pages.taskcard.document-library-detail.item')
+            </div>
+            <div class="col">
+                Affected Manual:&nbsp;
+                @include('ppc::pages.taskcard.affected-manual-detail.item')
+            </div>
         </div>
     </div>
 
@@ -89,17 +94,7 @@
                         </li>
                         <li>
                             <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;" id="tab-address"> 
-                                <i class="fa fa-map-marker fa-2x fa-fw"></i>&nbsp;Addresses
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 75px;" id="tab-account"> 
-                                <i class="fa fa-cc-mastercard fa-2x fa-fw"></i>&nbsp;Bank Accounts
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 75px;" id="tab-account"> 
-                                <i class="fa fa-tags fa-2x fa-fw"></i>&nbsp;Accounting Setting
+                                <i class="fa fa-edit fa-2x fa-fw"></i>&nbsp;Instructions and Tasks
                             </a>
                         </li>
                     </ul>
@@ -107,54 +102,28 @@
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body" style="min-height: 500px;">
                                 <div class="row m-b">
-                                    {{-- <div class="col">
-                                    @can('update', Modules\GeneralSetting\Entities\Taskcard::class)                
-                                        <button type="button" id="createNewButtonContact" class="btn btn-primary btn-lg">
-                                            <i class="fa fa-plus-circle"></i>&nbsp;Create New
-                                        </button>   
-                                    @endcan
-                                    </div> --}}
+                                    <div class="col text-info">
+                                        <i class="fa fa-info-circle"></i>
+                                        Interval Control Method: <strong>{{ $Taskcard->interval_control_method ?? '' }}</strong>
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    
+                                    @include('ppc::pages.taskcard.control-parameter.item')
                                 </div>
                             </div>
                         </div>
                         <div id="tab-2" class="tab-pane">
                             <div class="panel-body" style="min-height: 500px;">
                                 <div class="row m-b">
-                                    {{-- <div class="col">
-                                    @can('update', Modules\GeneralSetting\Entities\Taskcard::class)                
-                                        <button type="button" id="createNewButtonAddress" class="btn btn-primary btn-lg">
+                                    <div class="col">
+                                    @can('update', Modules\PPC\Entities\Taskcard::class)                
+                                        <button type="button" id="createNewButtonInstruction" class="btn btn-primary btn-lg">
                                             <i class="fa fa-plus-circle"></i>&nbsp;Create New
                                         </button>   
                                     @endcan
-                                    </div> --}}
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div id="tab-3" class="tab-pane">
-                            <div class="panel-body" style="min-height: 500px;">
-                                <div class="row m-b">
-                                    {{-- <div class="col">
-                                    @can('update', Modules\GeneralSetting\Entities\Taskcard::class)                
-                                        <button type="button" id="createNewButtonBank" class="btn btn-primary btn-lg">
-                                            <i class="fa fa-plus-circle"></i>&nbsp;Create New
-                                        </button>   
-                                    @endcan
-                                    </div> --}}
-                                </div>
-                                <div class="row">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div id="tab-4" class="tab-pane">
-                            <div class="panel-body" style="min-height: 500px;">
-                                <div class="row m-b">
                                     
                                 </div>
                             </div>

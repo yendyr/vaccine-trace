@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskcardDetailAffectedManualsTable extends Migration
+class CreateTaskcardDetailInstructionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateTaskcardDetailAffectedManualsTable extends Migration
      */
     public function up()
     {
-        Schema::create('taskcard_detail_affected_manuals', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->uuid('uuid')->unique();
-            $table->string('taskcard_id');
-            $table->string('taskcard_affected_manual_id'); // alias of "document_type_id"
-            $table->string('description')->nullable();
+        Schema::create('taskcard_detail_instructions', function (Blueprint $table) {
+            $table->id();
 
             $table->rememberToken();
             $table->integer('status')->nullable();
@@ -38,6 +34,6 @@ class CreateTaskcardDetailAffectedManualsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taskcard_detail_affected_manuals');
+        Schema::dropIfExists('taskcard_detail_instructions');
     }
 }

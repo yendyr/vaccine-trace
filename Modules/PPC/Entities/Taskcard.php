@@ -83,9 +83,19 @@ class Taskcard extends Model
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAircraftType::class, 'taskcard_id');
     }
 
+    public function accesses()
+    {
+        return $this->belongsToMany(\Modules\PPC\Entities\TaskcardAccess::class, 'taskcard_detail_accesses');
+    }
+
     public function access_details()
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAccess::class, 'taskcard_id');
+    }
+
+    public function zones()
+    {
+        return $this->belongsToMany(\Modules\PPC\Entities\TaskcardZone::class, 'taskcard_detail_zones');
     }
 
     public function zone_details()
@@ -93,9 +103,19 @@ class Taskcard extends Model
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailZone::class, 'taskcard_id');
     }
 
+    public function document_libraries()
+    {
+        return $this->belongsToMany(\Modules\PPC\Entities\TaskcardDocumentLibrary::class, 'taskcard_detail_document_libraries');
+    }
+
     public function document_library_details()
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailDocumentLibrary::class, 'taskcard_id');
+    }
+
+    public function affected_manuals()
+    {
+        return $this->belongsToMany(\Modules\QualityAssurance\Entities\DocumentType::class, 'taskcard_detail_affected_manuals','taskcard_id','taskcard_affected_manual_id');
     }
 
     public function affected_manual_details()
