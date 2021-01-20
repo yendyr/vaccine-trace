@@ -3,10 +3,15 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\Taskcard;
+use Modules\PPC\Entities\TaskcardDetailAircraftType;
+use Modules\PPC\Entities\TaskcardDetailAccess;
+use Modules\PPC\Entities\TaskcardDetailZone;
+use Modules\PPC\Entities\TaskcardDetailDocumentLibrary;
+use Modules\PPC\Entities\TaskcardDetailAffectedManual;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -101,7 +106,21 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
-        Taskcard::create([
+        if ($request->threshold_date) {
+            $threshold_date = Carbon::createFromFormat('m/d/Y', $request->threshold_date)->format('Y-m-d');
+        }
+        else {
+            $threshold_date = null;
+        }
+
+        if ($request->repeat_date) {
+            $repeat_date = Carbon::createFromFormat('m/d/Y', $request->repeat_date)->format('Y-m-d');
+        }
+        else {
+            $repeat_date = null;
+        }
+
+        $Taskcard = Taskcard::create([
             'uuid' =>  Str::uuid(),
             'mpd_number' => $request->mpd_number,
             'title' => $request->title,
@@ -110,11 +129,11 @@ class TaskcardController extends Controller
             'threshold_flight_hour' => $request->threshold_flight_hour,
             'threshold_flight_cycle' => $request->threshold_flight_cycle,
             'threshold_day_count' => $request->threshold_day_count,
-            'threshold_date' => $request->threshold_date,
+            'threshold_date' => $threshold_date,
             'repeat_flight_hour' => $request->repeat_flight_hour,
             'repeat_flight_cycle' => $request->repeat_flight_cycle,
             'repeat_day_count' => $request->repeat_day_count,
-            'repeat_date' => $request->repeat_date,
+            'repeat_date' => $repeat_date,
             'interval_control_method' => $request->interval_control_method,
 
             'company_number' => $request->company_number,
@@ -133,6 +152,62 @@ class TaskcardController extends Controller
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
+
+        foreach ($request->aircraft_type_id as $aircraft_type_id) {
+            $Taskcard->aircraft_type_details()
+                    ->save(new TaskcardDetailAircraftType([
+                        'uuid' => Str::uuid(),
+                        'aircraft_type_id' => $aircraft_type_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
+        }
+
+        foreach ($request->taskcard_access_id as $taskcard_access_id) {
+            $Taskcard->aircraft_type_details()
+                    ->save(new TaskcardDetailAccess([
+                        'uuid' => Str::uuid(),
+                        'taskcard_access_id' => $taskcard_access_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
+        }
+
+        foreach ($request->taskcard_zone_id as $taskcard_zone_id) {
+            $Taskcard->aircraft_type_details()
+                    ->save(new TaskcardDetailZone([
+                        'uuid' => Str::uuid(),
+                        'taskcard_zone_id' => $taskcard_zone_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
+        }
+
+        foreach ($request->taskcard_document_library_id as $taskcard_document_library_id) {
+            $Taskcard->aircraft_type_details()
+                    ->save(new TaskcardDetailDocumentLibrary([
+                        'uuid' => Str::uuid(),
+                        'taskcard_document_library_id' => $taskcard_document_library_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
+        }
+
+        foreach ($request->taskcard_affected_manual_id as $taskcard_affected_manual_id) {
+            $Taskcard->aircraft_type_details()
+                    ->save(new TaskcardDetailAffectedManual([
+                        'uuid' => Str::uuid(),
+                        'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
+        }
+
         return response()->json(['success' => 'Task Card Data has been Added']);
     
     }

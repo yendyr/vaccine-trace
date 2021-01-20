@@ -55,7 +55,7 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Aircraft Type Effectivity</label>
-                                                        <select class="aircraft_type_id form-control @error('aircraft_type_id') is-invalid @enderror" name="aircraft_type_id" id="aircraft_type_id" multiple="multiple">
+                                                        <select class="aircraft_type_id form-control @error('aircraft_type_id') is-invalid @enderror" name="aircraft_type_id[]" id="aircraft_type_id" multiple="multiple">
                                                         </select>
                                                         <div class="invalid-feedback-aircraft_type_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
@@ -80,29 +80,29 @@
                                                                 <div class="row m-b">
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                        <input type="number" class="form-control @error('threshold_flight_hour') is-invalid @enderror" name="threshold_flight_hour" id="threshold_flight_hour">
-                                                                        <div class="invalid-feedback-threshold_flight_hour text-danger font-italic"></div>
+                                                                        <input type="number" min="0" class="form-control @error('threshold_flight_hour') is-invalid @enderror" name="threshold_flight_hour" id="threshold_flight_hour">
                                                                         <div class="input-group-append">
                                                                             <span class="input-group-addon">FH</span>
                                                                         </div>
+                                                                        <div class="invalid-feedback-threshold_flight_hour text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                        <input type="number" class="form-control @error('threshold_flight_cycle') is-invalid @enderror" name="threshold_flight_cycle" id="threshold_flight_cycle">
-                                                                        <div class="invalid-feedback-threshold_flight_cycle text-danger font-italic"></div>
+                                                                        <input type="number" min="0" class="form-control @error('threshold_flight_cycle') is-invalid @enderror" name="threshold_flight_cycle" id="threshold_flight_cycle">
                                                                         <div class="input-group-append">
                                                                             <span class="input-group-addon">FC</span>
                                                                         </div>
+                                                                        <div class="invalid-feedback-threshold_flight_cycle text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                            <input type="number" class="form-control @error('threshold_day_count') is-invalid @enderror" name="threshold_day_count" id="threshold_day_count">
-                                                                            <div class="invalid-feedback-threshold_day_count text-danger font-italic"></div>
+                                                                            <input type="number" min="0" class="form-control @error('threshold_day_count') is-invalid @enderror" name="threshold_day_count" id="threshold_day_count">
                                                                             <div class="input-group-append">
                                                                                 <span class="input-group-addon">Day</span>
                                                                             </div>
+                                                                            <div class="invalid-feedback-threshold_day_count text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -123,29 +123,29 @@
                                                                 <div class="row m-b">
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                        <input type="number" class="form-control @error('repeat_flight_hour') is-invalid @enderror" name="repeat_flight_hour" id="repeat_flight_hour">
-                                                                        <div class="invalid-feedback-repeat_flight_hour text-danger font-italic"></div>
+                                                                        <input type="number" min="0" class="form-control @error('repeat_flight_hour') is-invalid @enderror" name="repeat_flight_hour" id="repeat_flight_hour">
                                                                         <div class="input-group-append">
                                                                             <span class="input-group-addon">FH</span>
                                                                         </div>
+                                                                        <div class="invalid-feedback-repeat_flight_hour text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                        <input type="number" class="form-control @error('repeat_flight_cycle') is-invalid @enderror" name="repeat_flight_cycle" id="repeat_flight_cycle">
-                                                                        <div class="invalid-feedback-repeat_flight_cycle text-danger font-italic"></div>
+                                                                        <input type="number" min="0" class="form-control @error('repeat_flight_cycle') is-invalid @enderror" name="repeat_flight_cycle" id="repeat_flight_cycle">
                                                                         <div class="input-group-append">
                                                                             <span class="input-group-addon">FC</span>
                                                                         </div>
+                                                                        <div class="invalid-feedback-repeat_flight_cycle text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                            <input type="number" class="form-control @error('repeat_day_count') is-invalid @enderror" name="repeat_day_count" id="repeat_day_count">
-                                                                            <div class="invalid-feedback-repeat_day_count text-danger font-italic"></div>
+                                                                            <input type="number" min="0" class="form-control @error('repeat_day_count') is-invalid @enderror" name="repeat_day_count" id="repeat_day_count">
                                                                             <div class="input-group-append">
                                                                                 <span class="input-group-addon">Day</span>
                                                                             </div>
+                                                                            <div class="invalid-feedback-repeat_day_count text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -214,7 +214,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <label>Access</label>
-                                                        <select class="taskcard_access_id form-control @error('taskcard_access_id') is-invalid @enderror" name="taskcard_access_id" id="taskcard_access_id" multiple="multiple">
+                                                        <select class="taskcard_access_id form-control @error('taskcard_access_id') is-invalid @enderror" name="taskcard_access_id[]" id="taskcard_access_id" multiple="multiple">
                                                         </select>
                                                         <div class="invalid-feedback-taskcard_access_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
@@ -226,7 +226,7 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Zone</label>
-                                                        <select class="taskcard_zone_id form-control @error('taskcard_zone_id') is-invalid @enderror" name="taskcard_zone_id" id="taskcard_zone_id" multiple="multiple">
+                                                        <select class="taskcard_zone_id form-control @error('taskcard_zone_id') is-invalid @enderror" name="taskcard_zone_id[]" id="taskcard_zone_id" multiple="multiple">
                                                         </select>
                                                         <div class="invalid-feedback-taskcard_zone_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
@@ -243,7 +243,7 @@
                                                 <div class="row m-b">
                                                     <div class="col">
                                                         <label>Document Library</label>
-                                                        <select class="taskcard_document_library_id form-control @error('taskcard_document_library_id') is-invalid @enderror" name="taskcard_document_library_id" id="taskcard_document_library_id" multiple="multiple">
+                                                        <select class="taskcard_document_library_id form-control @error('taskcard_document_library_id') is-invalid @enderror" name="taskcard_document_library_id[]" id="taskcard_document_library_id" multiple="multiple">
                                                         </select>
                                                         <div class="invalid-feedback-taskcard_document_library_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
@@ -253,7 +253,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <label>Manual Affected</label>
-                                                        <select class="taskcard_affected_manual_id form-control @error('taskcard_affected_manual_id') is-invalid @enderror" name="taskcard_affected_manual_id" id="taskcard_affected_manual_id" multiple="multiple">
+                                                        <select class="taskcard_affected_manual_id form-control @error('taskcard_affected_manual_id') is-invalid @enderror" name="taskcard_affected_manual_id[]" id="taskcard_affected_manual_id" multiple="multiple">
                                                         </select>
                                                         <div class="invalid-feedback-taskcard_affected_manual_id text-danger font-italic"></div>
                                                         <span class="text-info font-italic">
