@@ -17,14 +17,16 @@
                 url: "{{ route('ppc.taskcard.index') }}",
             },
             columns: [
-                { data: 'code', name: 'Code'  },
-                { data: 'name', name: 'Task Card Name' },
-                { data: 'description', name: 'Description/Remark' },
-                { data: 'status', name: 'Status' },
+                { data: 'mpd_number', 
+                        "render": function ( data, type, row, meta ) {
+                        return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
+                { data: 'title', name: 'Title' },
+                { data: 'taskcard_group.name', name: 'Group' },
+                { data: 'taskcard_type.name', name: 'Task Type' },
+                { data: 'aircraft_type', name: 'Aircraft Type' },
+                { data: 'aircraft_type', name: 'Skill' },
                 { data: 'creator_name', name: 'Created By' },
                 { data: 'created_at', name: 'Created At' },
-                { data: 'updater_name', name: 'Last Updated By' },
-                { data: 'updated_at', name: 'Last Updated At' },
                 { data: 'action', name: 'Action', orderable: false },
             ]
         });

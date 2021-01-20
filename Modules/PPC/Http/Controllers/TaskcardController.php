@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -31,7 +32,10 @@ class TaskcardController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Taskcard::all();
+            $data = Taskcard::with([
+                    'taskcard_group:id,name',
+                    'taskcard_type:id,name',
+                    ]);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -39,6 +43,13 @@ class TaskcardController extends Controller
                     } else{
                         return '<label class="label label-danger">Inactive</label>';
                     }
+                })
+                ->addColumn('aircraft_type', function($row){
+                    $aircraft_type_name = null;
+                    foreach ($row->aircraft_types as $aircraft_type) {
+                        $aircraft_type_name .= $aircraft_type->name . ', ';
+                    }
+                    return $aircraft_type_name;
                 })
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';
@@ -48,12 +59,12 @@ class TaskcardController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', AircraftType::class)) {
+                    if(Auth::user()->can('update', Taskcard::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', AircraftType::class)) {
+                    if(Auth::user()->can('delete', Taskcard::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -120,6 +131,7 @@ class TaskcardController extends Controller
             $repeat_date = null;
         }
 
+        DB::beginTransaction();
         $Taskcard = Taskcard::create([
             'uuid' =>  Str::uuid(),
             'mpd_number' => $request->mpd_number,
@@ -153,60 +165,71 @@ class TaskcardController extends Controller
             'created_by' => $request->user()->id,
         ]);
 
-        foreach ($request->aircraft_type_id as $aircraft_type_id) {
-            $Taskcard->aircraft_type_details()
-                    ->save(new TaskcardDetailAircraftType([
-                        'uuid' => Str::uuid(),
-                        'aircraft_type_id' => $aircraft_type_id,
-                        'owned_by' => $request->user()->company_id,
-                        'status' => 1,
-                        'created_by' => $request->user()->id,
-                    ]));
+        if ($request->aircraft_type_id) {
+            foreach ($request->aircraft_type_id as $aircraft_type_id) {
+                $Taskcard->aircraft_type_details()
+                        ->save(new TaskcardDetailAircraftType([
+                            'uuid' => Str::uuid(),
+                            'aircraft_type_id' => $aircraft_type_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
         }
 
-        foreach ($request->taskcard_access_id as $taskcard_access_id) {
-            $Taskcard->aircraft_type_details()
-                    ->save(new TaskcardDetailAccess([
-                        'uuid' => Str::uuid(),
-                        'taskcard_access_id' => $taskcard_access_id,
-                        'owned_by' => $request->user()->company_id,
-                        'status' => 1,
-                        'created_by' => $request->user()->id,
-                    ]));
+        if ($request->taskcard_access_id) {
+            foreach ($request->taskcard_access_id as $taskcard_access_id) {
+                $Taskcard->access_details()
+                        ->save(new TaskcardDetailAccess([
+                            'uuid' => Str::uuid(),
+                            'taskcard_access_id' => $taskcard_access_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
         }
 
-        foreach ($request->taskcard_zone_id as $taskcard_zone_id) {
-            $Taskcard->aircraft_type_details()
-                    ->save(new TaskcardDetailZone([
-                        'uuid' => Str::uuid(),
-                        'taskcard_zone_id' => $taskcard_zone_id,
-                        'owned_by' => $request->user()->company_id,
-                        'status' => 1,
-                        'created_by' => $request->user()->id,
-                    ]));
+        if ($request->taskcard_zone_id) {
+            foreach ($request->taskcard_zone_id as $taskcard_zone_id) {
+                $Taskcard->zone_details()
+                        ->save(new TaskcardDetailZone([
+                            'uuid' => Str::uuid(),
+                            'taskcard_zone_id' => $taskcard_zone_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
         }
 
-        foreach ($request->taskcard_document_library_id as $taskcard_document_library_id) {
-            $Taskcard->aircraft_type_details()
-                    ->save(new TaskcardDetailDocumentLibrary([
-                        'uuid' => Str::uuid(),
-                        'taskcard_document_library_id' => $taskcard_document_library_id,
-                        'owned_by' => $request->user()->company_id,
-                        'status' => 1,
-                        'created_by' => $request->user()->id,
-                    ]));
+        if ($request->taskcard_document_library_id) {
+            foreach ($request->taskcard_document_library_id as $taskcard_document_library_id) {
+                $Taskcard->document_library_details()
+                        ->save(new TaskcardDetailDocumentLibrary([
+                            'uuid' => Str::uuid(),
+                            'taskcard_document_library_id' => $taskcard_document_library_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
         }
 
-        foreach ($request->taskcard_affected_manual_id as $taskcard_affected_manual_id) {
-            $Taskcard->aircraft_type_details()
-                    ->save(new TaskcardDetailAffectedManual([
-                        'uuid' => Str::uuid(),
-                        'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
-                        'owned_by' => $request->user()->company_id,
-                        'status' => 1,
-                        'created_by' => $request->user()->id,
-                    ]));
+        if ($request->taskcard_affected_manual_id) {
+            foreach ($request->taskcard_affected_manual_id as $taskcard_affected_manual_id) {
+                $Taskcard->affected_manual_details()
+                        ->save(new TaskcardDetailAffectedManual([
+                            'uuid' => Str::uuid(),
+                            'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
         }
+        DB::commit();
 
         return response()->json(['success' => 'Task Card Data has been Added']);
     
@@ -214,7 +237,7 @@ class TaskcardController extends Controller
 
     public function show(Taskcard $Taskcard)
     {
-        return view('ppc::pages.taskcard.show');
+        return view('ppc::pages.taskcard.show', compact('Taskcard'));
     }
 
     public function edit(Taskcard $Taskcard)

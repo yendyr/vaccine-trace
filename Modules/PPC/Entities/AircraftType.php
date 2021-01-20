@@ -40,4 +40,9 @@ class AircraftType extends Model
     {
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'manufacturer_id');
     }
+
+    public function taskcards()
+    {
+        return $this->belongsToMany(\Modules\PPC\Entities\Taskcard::class, 'taskcard_detail_aircraft_types');
+    }
 }

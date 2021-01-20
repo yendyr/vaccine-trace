@@ -16,7 +16,7 @@ class TaskcardDetailAffectedManual extends Model
     protected $fillable = [
         'uuid',
         'taskcard_id',
-        'affected_manual_id',
+        'taskcard_affected_manual_id',
         'description',
 
         'status',

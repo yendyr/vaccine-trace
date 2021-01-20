@@ -17,7 +17,7 @@ class CreateTaskcardDetailAffectedManualsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('taskcard_id');
-            $table->string('affected_manual_id');
+            $table->string('taskcard_affected_manual_id');
             $table->string('description')->nullable();
 
             $table->rememberToken();

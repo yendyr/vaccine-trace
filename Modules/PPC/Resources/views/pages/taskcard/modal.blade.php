@@ -162,8 +162,8 @@
                                                                     <div class="col">
                                                                         <label>Interval Control Method</label>
                                                                         <select class="interval_control_method form-control @error('interval_control_method') is-invalid @enderror" name="interval_control_method" id="interval_control_method">
-                                                                            <option value="1">Which One Comes First</option>
-                                                                            <option value="2">Which One Comes Last</option>
+                                                                            <option value="Which One Comes First">Which One Comes First</option>
+                                                                            <option value="Which One Comes Last">Which One Comes Last</option>
                                                                         </select>
                                                                         <div class="invalid-feedback-interval_control_method text-danger font-italic"></div>
                                                                     </div>
@@ -280,17 +280,17 @@
                                                     <div class="col">
                                                         <label>Scheduled Priority</label>
                                                         <select class="scheduled_priority form-control @error('scheduled_priority') is-invalid @enderror" name="scheduled_priority" id="scheduled_priority">
-                                                            <option value="1">Next Check / Workshop Visit</option>
-                                                            <option value="2">Next Heavy Maintenance Visit</option>
-                                                            <option value="3">As Scheduled</option>
+                                                            <option value="Next Check / Workshop Visit">Next Check / Workshop Visit</option>
+                                                            <option value="Next Heavy Maintenance Visit">Next Heavy Maintenance Visit</option>
+                                                            <option value="As Scheduled">As Scheduled</option>
                                                         </select>
                                                     </div>
                                                     <div class="col">
                                                         <label>Recurrence</label>
                                                         <select class="recurrence form-control @error('recurrence') is-invalid @enderror" name="recurrence" id="recurrence">
-                                                            <option value="1">One Time</option>
-                                                            <option value="2">As Required</option>
-                                                            <option value="3">Repetitive</option>
+                                                            <option value="One Time">One Time</option>
+                                                            <option value="As Required">As Required</option>
+                                                            <option value="Repetitive">Repetitive</option>
                                                         </select>
                                                     </div>
                                                 </div>
