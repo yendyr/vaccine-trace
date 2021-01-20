@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskcardDetailInstructionsTable extends Migration
+class CreateTaskcardDetailInstructionManpowerRequirementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTaskcardDetailInstructionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('taskcard_detail_instructions', function (Blueprint $table) {
+        Schema::create('taskcard_detail_instruction_manpower_requirements', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->tinyInteger('sequence')->nullable();
@@ -41,6 +41,6 @@ class CreateTaskcardDetailInstructionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taskcard_detail_instructions');
+        Schema::dropIfExists('taskcard_detail_instruction_manpower_requirements');
     }
 }
