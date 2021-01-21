@@ -186,15 +186,54 @@
                 value: 'patch'
             }).prependTo('#inputForm');
 
-            $('#code').val(data.code);
-            $('#name').val(data.name);
-            $('#description').val(data.description);                
-            if (data.status == '<label class="label label-success">Active</label>') {
-                $('#status').prop('checked', true);
+            $('#mpd_number').val(data.mpd_number);
+            $('#title').val(data.title);
+            $('#threshold_flight_hour').val(data.threshold_flight_hour);
+            $('#threshold_flight_cycle').val(data.threshold_flight_cycle);
+            $('#threshold_daily').val(data.threshold_daily);
+            $('#threshold_daily_unit').val(data.threshold_daily_unit);
+            $('#threshold_date').val(data.threshold_date);
+            $('#repeat_flight_hour').val(data.repeat_flight_hour);
+            $('#repeat_flight_cycle').val(data.repeat_flight_cycle);
+            $('#repeat_daily').val(data.repeat_daily);
+            $('#repeat_daily_unit').val(data.repeat_daily_unit);
+            $('#repeat_date').val(data.repeat_date);
+            $('#interval_control_method').val(data.interval_control_method);
+
+            $('#company_number').val(data.company_number);
+            $('#ata').val(data.ata);
+            $('#version').val(data.version);
+            $('#revision').val(data.revision);
+            $('#effectivity').val(data.effectivity);
+            $('#source').val(data.source);
+            $('#reference').val(data.reference);
+            $('#file_attachment').val(data.file_attachment);
+            $('#scheduled_priority').val(data.scheduled_priority);
+            $('#recurrence').val(data.recurrence); 
+
+            if (data.taskcard_group != null) {
+                $('#taskcard_group_id').append('<option value="' + data.taskcard_group_id + '" selected>' + data.taskcard_group.name + '</option>');
+            }   
+
+            if (data.taskcard_type != null) {
+                $('#taskcard_type_id').append('<option value="' + data.taskcard_type_id + '" selected>' + data.taskcard_type.name + '</option>');
             }
-            else {
-                $('#status').prop('checked', false);
+
+            if (data.taskcard_workarea != null) {
+                $('#taskcard_workarea_id').append('<option value="' + data.taskcard_workarea_id + '" selected>' + data.taskcard_workarea.name + '</option>');
             }
+
+            // if (data.aircraft_type_details != null) {
+                $('#aircraft_type_id').val(['1','2']);
+                $('#aircraft_type_id').trigger('change');
+            // }
+
+            // if (data.status == '<label class="label label-success">Active</label>') {
+            //     $('#status').prop('checked', true);
+            // }
+            // else {
+            //     $('#status').prop('checked', false);
+            // }
 
             $('#saveBtn').val("edit");
             $('[class^="invalid-feedback-"]').html('');  // clearing validation

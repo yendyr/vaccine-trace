@@ -35,6 +35,8 @@ class TaskcardController extends Controller
             $data = Taskcard::with([
                     'taskcard_group:id,name',
                     'taskcard_type:id,name',
+                    'taskcard_workarea:id,name',
+                    'aircraft_type_details:id,aircraft_type_id',
                     ]);
             return Datatables::of($data)
                 ->addColumn('status', function($row){

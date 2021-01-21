@@ -24,7 +24,7 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editButtonAccounting btn btn-sm btn-outline btn-primary" 
+                        <button class="editButtonInterval btn btn-sm btn-outline btn-primary" 
                         data-toggle="tooltip" data-id="{{ $Taskcard->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
@@ -61,7 +61,7 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="editButtonAccounting btn btn-sm btn-outline btn-primary" 
+                        <button class="editButtonInterval btn btn-sm btn-outline btn-primary" 
                         data-toggle="tooltip" data-id="{{ $Taskcard->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>

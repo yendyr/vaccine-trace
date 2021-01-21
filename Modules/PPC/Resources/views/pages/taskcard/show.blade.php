@@ -1,10 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    {{-- @include('generalsetting::pages.company.contact.modal')
-    @include('generalsetting::pages.company.address.modal')
-    @include('generalsetting::pages.company.bank.modal')
-    @include('generalsetting::pages.company.accounting-setting.modal') --}}
+    @include('ppc::pages.taskcard.control-parameter.modal')
 
     <div class="row m-b m-t">
         <div class="col-md-5">
@@ -135,11 +132,7 @@
     </div>
 @endsection
 
-{{-- @include('generalsetting::components.company.contact._script')
-@include('generalsetting::components.company.address._script')
-@include('generalsetting::components.company.bank._script')
-@include('generalsetting::components.company.accounting-setting._script')
-@include('generalsetting::components.company._logo_upload_script') --}}
+@include('ppc::components.taskcard.control-parameter._script')
 
 @push('footer-scripts')
 <script>
