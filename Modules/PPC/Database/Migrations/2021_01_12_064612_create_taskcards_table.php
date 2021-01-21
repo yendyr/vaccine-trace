@@ -22,11 +22,13 @@ class CreateTaskcardsTable extends Migration
             $table->string('taskcard_type_id');
             $table->string('threshold_flight_hour')->nullable();
             $table->string('threshold_flight_cycle')->nullable();
-            $table->string('threshold_day_count')->nullable();
+            $table->string('threshold_daily')->nullable();
+            $table->string('threshold_daily_unit')->nullable();
             $table->date('threshold_date')->nullable();
             $table->string('repeat_flight_hour')->nullable();
             $table->string('repeat_flight_cycle')->nullable();
-            $table->string('repeat_day_count')->nullable();
+            $table->string('repeat_daily')->nullable();
+            $table->string('repeat_daily_unit')->nullable();
             $table->date('repeat_date')->nullable();
             $table->string('interval_control_method');
 

@@ -98,11 +98,15 @@
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                            <input type="number" min="0" class="form-control @error('threshold_day_count') is-invalid @enderror" name="threshold_day_count" id="threshold_day_count">
+                                                                            <input type="number" min="0" class="form-control @error('threshold_daily') is-invalid @enderror" name="threshold_daily" id="threshold_daily">
                                                                             <div class="input-group-append">
-                                                                                <span class="input-group-addon">Day</span>
+                                                                                <select class="threshold_daily_unit form-control @error('threshold_daily_unit') is-invalid @enderror" name="threshold_daily_unit" id="threshold_daily_unit">
+                                                                                    <option value="Day">Day</option>
+                                                                                    <option value="Month">Month</option>
+                                                                                    <option value="Year">Year</option>
+                                                                                </select>
                                                                             </div>
-                                                                            <div class="invalid-feedback-threshold_day_count text-danger font-italic"></div>
+                                                                            <div class="invalid-feedback-threshold_daily text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -141,11 +145,15 @@
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
-                                                                            <input type="number" min="0" class="form-control @error('repeat_day_count') is-invalid @enderror" name="repeat_day_count" id="repeat_day_count">
+                                                                            <input type="number" min="0" class="form-control @error('repeat_daily') is-invalid @enderror" name="repeat_daily" id="repeat_daily">
                                                                             <div class="input-group-append">
-                                                                                <span class="input-group-addon">Day</span>
+                                                                                <select class="repeat_daily_unit form-control @error('repeat_daily_unit') is-invalid @enderror" name="repeat_daily_unit" id="repeat_daily_unit">
+                                                                                    <option value="Day">Day</option>
+                                                                                    <option value="Month">Month</option>
+                                                                                    <option value="Year">Year</option>
+                                                                                </select>
                                                                             </div>
-                                                                            <div class="invalid-feedback-repeat_day_count text-danger font-italic"></div>
+                                                                            <div class="invalid-feedback-repeat_daily text-danger font-italic"></div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">

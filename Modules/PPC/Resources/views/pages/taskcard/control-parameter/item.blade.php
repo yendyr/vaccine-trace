@@ -11,7 +11,7 @@
                     <div class="col">After Flight Cycle (FC):</div>
                     <div class="col m-b"><h3>{{ $Taskcard->threshold_flight_cycle ?? '-' }} FC</h3></div>
                     <div class="col">After Daily Basis:</div>
-                    <div class="col m-b"><h3>{{ $Taskcard->threshold_day_count ?? '-' }} Day(s)</h3></div>
+                    <div class="col m-b"><h3>{{ $Taskcard->threshold_daily ?? '-' }} {{ $Taskcard->threshold_daily_unit ?? '' }}(s)</h3></div>
                     <div class="col">After Exact Calendar Date:</div>
                     <div class="col m-b"><h3>{{ $Taskcard->threshold_date ?? '-' }}</h3></div>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="col">After Flight Cycle (FC):</div>
                     <div class="col m-b"><h3>{{ $Taskcard->repeat_flight_cycle ?? '-' }} FC</h3></div>
                     <div class="col">After Daily Basis:</div>
-                    <div class="col m-b"><h3>{{ $Taskcard->repeat_day_count ?? '-' }} Day(s)</h3></div>
+                    <div class="col m-b"><h3>{{ $Taskcard->repeat_daily ?? '-' }} {{ $Taskcard->repeat_daily_unit ?? '' }}(s)</h3></div>
                     <div class="col">After Exact Calendar Date:</div>
                     <div class="col m-b"><h3>{{ $Taskcard->repeat_date ?? '-' }}</h3></div>
                 </div>

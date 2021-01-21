@@ -99,15 +99,15 @@ class TaskcardController extends Controller
             'taskcard_type_id' => ['required', 'max:30'],
             'interval_control_method' => ['required', 'max:30'],
 
-            'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_day_count,threshold_date'],
-            'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_day_count,threshold_date'],
-            'threshold_day_count' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
-            'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_day_count'],
+            'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
+            'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
+            'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
+            'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
 
-            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_day_count,repeat_date'],
-            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_day_count,repeat_date'],
-            'repeat_day_count' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
-            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_day_count'],
+            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_daily,repeat_date'],
+            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_daily,repeat_date'],
+            'repeat_daily' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
+            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
         ]);
 
         if ($request->status) {
@@ -140,11 +140,13 @@ class TaskcardController extends Controller
             'taskcard_type_id' => $request->taskcard_type_id,
             'threshold_flight_hour' => $request->threshold_flight_hour,
             'threshold_flight_cycle' => $request->threshold_flight_cycle,
-            'threshold_day_count' => $request->threshold_day_count,
+            'threshold_daily' => $request->threshold_daily,
+            'threshold_daily_unit' => $request->threshold_daily_unit,
             'threshold_date' => $threshold_date,
             'repeat_flight_hour' => $request->repeat_flight_hour,
             'repeat_flight_cycle' => $request->repeat_flight_cycle,
-            'repeat_day_count' => $request->repeat_day_count,
+            'repeat_daily' => $request->repeat_daily,
+            'repeat_daily_unit' => $request->repeat_daily_unit,
             'repeat_date' => $repeat_date,
             'interval_control_method' => $request->interval_control_method,
 

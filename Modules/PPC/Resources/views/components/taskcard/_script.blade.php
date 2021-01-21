@@ -67,6 +67,22 @@
             dropdownParent: $('#inputModal')
         });
 
+        $('.threshold_daily_unit').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose',
+            allowClear: false,
+            minimumResultsForSearch: -1,
+            dropdownParent: $('#inputModal')
+        });
+
+        $('.repeat_daily_unit').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose',
+            allowClear: false,
+            minimumResultsForSearch: -1,
+            dropdownParent: $('#inputModal')
+        });
+
         $('.interval_control_method').select2({
             theme: 'bootstrap4',
             placeholder: 'Choose Interval Control Method',
