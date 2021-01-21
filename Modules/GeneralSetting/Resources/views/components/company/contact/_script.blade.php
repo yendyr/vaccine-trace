@@ -5,7 +5,7 @@
 <script>
     $(document).ready(function () {
         // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
-        var actionUrl = '/generalsetting/company-detail-contact/';
+        var actionUrl = '/generalsetting/company-detail-contact';
         var createNewButtonId = '#createNewButtonContact';
         var inputModalId = '#inputModalContact';
         var modalTitleId = '#modalTitleContact';
@@ -57,7 +57,7 @@
                     $('#status').prop('checked', false);
                 }
 
-                $(inputFormId).attr('action', actionUrl + id);
+                $(inputFormId).attr('action', actionUrl + '/' + id);
             });
 
             $(saveButtonId).val("edit");

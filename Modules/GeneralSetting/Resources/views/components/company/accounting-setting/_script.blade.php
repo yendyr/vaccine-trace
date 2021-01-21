@@ -5,7 +5,7 @@
 <script>
     $(document).ready(function () {
         // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
-        var actionUrl = '/generalsetting/company/';
+        var actionUrl = '/generalsetting/company';
         var inputModalId = '#inputModalAccounting';
         var modalTitleId = '#modalTitleAccounting';
         var saveButtonId = '#saveButtonAccounting';
@@ -84,7 +84,7 @@
 
             var id = $(this).data('id');
             
-            $(inputFormId).attr('action', actionUrl + id);
+            $(inputFormId).attr('action', actionUrl + '/' + id);
             $(saveButtonId).val("edit");
             $('[class^="invalid-feedback-"]').html('');  // clearing validation
             $(inputModalId).modal('show');

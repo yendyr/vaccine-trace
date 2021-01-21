@@ -4,7 +4,7 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/ppc/taskcard/';
+        var actionUrl = '/ppc/taskcard';
         var tableId = '#taskcard-table';
         var inputFormId = '#inputForm';
 
@@ -178,7 +178,7 @@
             rowId= $(this).val();
             let tr = $(this).closest('tr');
             let data = datatableObject.row(tr).data();
-            $(inputFormId).attr('action', actionUrl + data.id);
+            $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
             $('<input>').attr({
                 type: 'hidden',
