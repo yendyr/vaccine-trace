@@ -57,7 +57,7 @@
                     <div class="row m-b">
                         <div class="col">
                             <label>Instruction</label>
-                            <div class="summernote" style="min-height: 300px;">
+                            <div class="summernote">
                                 
                             </div>
                         </div>

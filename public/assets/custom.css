@@ -248,3 +248,8 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     border: 1px solid #b3e2ff;
     border-radius: 5px;
 }
+
+.note-editor.note-frame {
+    border: 1px solid #b3e2ff;
+    min-height: 200px;
+}
