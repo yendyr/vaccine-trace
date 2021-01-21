@@ -2,6 +2,7 @@
 
 @section('content')
     @include('ppc::pages.taskcard.control-parameter.modal')
+    @include('ppc::pages.taskcard.instruction.modal')
 
     <div class="row m-b m-t">
         <div class="col-md-5">
@@ -133,6 +134,7 @@
 @endsection
 
 @include('ppc::components.taskcard.control-parameter._script')
+@include('ppc::components.taskcard.instruction._script')
 
 @push('footer-scripts')
 <script>

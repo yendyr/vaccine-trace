@@ -161,4 +161,28 @@ class SkillController extends Controller
         return response()->json(['success' => 'Skill Data has been Deleted']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = Skill::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $Skills = $query->get();
+
+        $response = [];
+        foreach($Skills as $Skill){
+            $response['results'][] = [
+                "id"=>$Skill->id,
+                "text"=>$Skill->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

@@ -21,6 +21,7 @@ class CreateTaskcardDetailInstructionsTable extends Migration
             $table->string('taskcard_workarea_id')->nullable();
             $table->double('manhours_estimation', 12, 4)->default(0);
             $table->double('performance_factor', 2, 2)->default(1);
+            $table->string('task_release_level_id');
             $table->string('instruction')->nullable();
 
             $table->rememberToken();

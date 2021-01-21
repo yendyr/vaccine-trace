@@ -168,4 +168,28 @@ class TaskReleaseLevelController extends Controller
         return response()->json(['success' => 'Task Release Level Data has been Deleted']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = TaskReleaseLevel::orderby('name','asc')
+                    ->select('id','name')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $TaskReleaseLevels = $query->get();
+
+        $response = [];
+        foreach($TaskReleaseLevels as $TaskReleaseLevel){
+            $response['results'][] = [
+                "id"=>$TaskReleaseLevel->id,
+                "text"=>$TaskReleaseLevel->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

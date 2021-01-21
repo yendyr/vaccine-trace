@@ -14,6 +14,9 @@
 Route::name('qualityassurance.')->group(function () {
     Route::prefix('qualityassurance')->group(function() {
         Route::resource('/skill', 'SkillController');
+        Route::name('skill.')->group(function() {
+            Route::get('qualityassurance/skill/select2', 'SkillController@select2')->name('select2');
+        });
 
         Route::resource('/document-type', 'DocumentTypeController');
         Route::name('document-type.')->group(function() {
@@ -27,5 +30,8 @@ Route::name('qualityassurance.')->group(function () {
         });
 
         Route::resource('/task-release-level', 'TaskReleaseLevelController');
+        Route::name('task-release-level.')->group(function() {
+            Route::get('qualityassurance/task-release-level/select2', 'TaskReleaseLevelController@select2')->name('select2');
+        });
     });
 });
