@@ -14,7 +14,7 @@ class CreateTaskcardDetailInstructionsTable extends Migration
     public function up()
     {
         Schema::create('taskcard_detail_instructions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
 
             $table->rememberToken();
             $table->integer('status')->nullable();
