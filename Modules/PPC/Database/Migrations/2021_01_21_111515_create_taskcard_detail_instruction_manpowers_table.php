@@ -19,7 +19,7 @@ class CreateTaskcardDetailInstructionManpowersTable extends Migration
             
             $table->string('taskcard_detail_instructions_id');
             $table->string('engineering_level_id');
-            $table->tinyInteger('qty');
+            $table->tinyInteger('quantity');
 
             $table->rememberToken();
             $table->integer('status')->nullable();

@@ -14,7 +14,15 @@ class CreateTaskcardDetailInstructionsTable extends Migration
     public function up()
     {
         Schema::create('taskcard_detail_instructions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->uuid('uuid')->unique();
+
+            $table->tinyInteger('sequence')->nullable();
+            $table->string('taskcard_workarea_id')->nullable();
+            $table->double('manhours_estimation', 4, 4)->default(0);
+            $table->double('performance_factor', 2, 2);
+            $table->string('task_release_level_id');
+            $table->string('instruction')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();
