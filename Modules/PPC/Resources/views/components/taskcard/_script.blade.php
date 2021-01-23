@@ -164,14 +164,16 @@
 
 
 
-
+        // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
         $('#create').click(function () {
             showCreateModal ('Create New Task Card', inputFormId, actionUrl);
         });
+        // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
 
 
 
+        // ----------------- "EDIT" BUTTON SCRIPT ------------- //
         datatableObject.on('click', '.editBtn', function () {
             $('#modalTitle').html("Edit Task Card");
             $(inputFormId).trigger("reset");                
@@ -192,13 +194,21 @@
             $('#threshold_flight_cycle').val(data.threshold_flight_cycle);
             $('#threshold_daily').val(data.threshold_daily);
             $('#threshold_daily_unit').val(data.threshold_daily_unit);
-            $('#threshold_date').val(data.threshold_date);
+
+            $('#threshold_daily_unit').append('<option value="' + data.threshold_daily_unit + '" selected>' + data.threshold_daily_unit + '</option>');
+
+            $('#threshold_date').datepicker('setDate', data.threshold_date);
+            $('#threshold_date').datepicker('autoclose', true);
+
             $('#repeat_flight_hour').val(data.repeat_flight_hour);
             $('#repeat_flight_cycle').val(data.repeat_flight_cycle);
             $('#repeat_daily').val(data.repeat_daily);
-            $('#repeat_daily_unit').val(data.repeat_daily_unit);
+
+            $('#repeat_daily_unit').append('<option value="' + data.repeat_daily_unit + '" selected>' + data.repeat_daily_unit + '</option>');
+
             $('#repeat_date').val(data.repeat_date);
-            $('#interval_control_method').val(data.interval_control_method);
+
+            $('#interval_control_method').append('<option value="' + data.interval_control_method + '" selected>' + data.interval_control_method + '</option>');
 
             $('#company_number').val(data.company_number);
             $('#ata').val(data.ata);
@@ -208,8 +218,10 @@
             $('#source').val(data.source);
             $('#reference').val(data.reference);
             $('#file_attachment').val(data.file_attachment);
-            $('#scheduled_priority').val(data.scheduled_priority);
-            $('#recurrence').val(data.recurrence); 
+
+            $('#scheduled_priority').append('<option value="' + data.interval_control_method + '" selected>' + data.scheduled_priority + '</option>');
+
+            $('#recurrence').append('<option value="' + data.recurrence + '" selected>' + data.recurrence + '</option>');
 
             if (data.taskcard_group != null) {
                 $('#taskcard_group_id').append('<option value="' + data.taskcard_group_id + '" selected>' + data.taskcard_group.name + '</option>');
@@ -223,10 +235,8 @@
                 $('#taskcard_workarea_id').append('<option value="' + data.taskcard_workarea_id + '" selected>' + data.taskcard_workarea.name + '</option>');
             }
 
-            // if (data.aircraft_type_details != null) {
-                $('#aircraft_type_id').val(['1','2']);
-                $('#aircraft_type_id').trigger('change');
-            // }
+            $('#aircraft_type_id').val([1,2]);
+            $('#aircraft_type_id').trigger('change');
 
             // if (data.status == '<label class="label label-success">Active</label>') {
             //     $('#status').prop('checked', true);
@@ -239,6 +249,10 @@
             $('[class^="invalid-feedback-"]').html('');  // clearing validation
             $('#inputModal').modal('show');
         });
+        // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
+
+
+
 
         $(inputFormId).on('submit', function (event) {
             submitButtonProcess (tableId, inputFormId); 

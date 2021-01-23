@@ -65,6 +65,7 @@
 
 
 
+
         // ----------------- "EDIT" BUTTON SCRIPT ------------- //
         $(editButtonClass).click(function (e) {
             $(modalTitleId).html("Edit Task/Instruction");

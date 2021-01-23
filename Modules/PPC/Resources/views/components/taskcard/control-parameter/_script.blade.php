@@ -44,7 +44,7 @@
 
         // ----------------- "EDIT" BUTTON SCRIPT ------------- //
         $(editButtonClass).click(function (e) {
-            $(modalTitleId).html("Edit Setting");
+            $(modalTitleId).html("Edit Control Parameter Setting");
             $(inputFormId).trigger("reset");
             
             $('<input>').attr({

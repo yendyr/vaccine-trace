@@ -97,9 +97,9 @@
                                                 <input type="number" min="0" class="form-control @error('repeat_daily') is-invalid @enderror" name="repeat_daily" id="repeat_daily" value="{{ $Taskcard->repeat_daily ?? '' }}">
                                                 <div class="input-group-append">
                                                     <select class="repeat_daily_unit form-control @error('repeat_daily_unit') is-invalid @enderror" name="repeat_daily_unit" id="repeat_daily_unit">
-                                                        <option value="Day">Day</option>
-                                                        <option value="Month">Month</option>
-                                                        <option value="Year">Year</option>
+                                                        <option value="Day" @if ($Taskcard->repeat_daily_unit == 'Day') selected @endif>Day</option>
+                                                        <option value="Month" @if ($Taskcard->repeat_daily_unit == 'Month') selected @endif>Month</option>
+                                                        <option value="Year" @if ($Taskcard->repeat_daily_unit == 'Year') selected @endif>Year</option>
                                                     </select>
                                                 </div>
                                                 <div class="invalid-feedback-repeat_daily text-danger font-italic"></div>
@@ -119,8 +119,9 @@
                                         <div class="col">
                                             <label>Interval Control Method</label>
                                             <select class="interval_control_method form-control @error('interval_control_method') is-invalid @enderror" name="interval_control_method" id="interval_control_method">
-                                                <option value="Which One Comes First">Which One Comes First</option>
-                                                <option value="Which One Comes Last">Which One Comes Last</option>
+                                                <option value="Which One Comes First"
+                                                @if ($Taskcard->interval_control_method == 'Which One Comes First') selected @endif>Which One Comes First</option>
+                                                <option value="Which One Comes Last" @if ($Taskcard->interval_control_method == 'Which One Comes Last') selected @endif>Which One Comes Last</option>
                                             </select>
                                             <div class="invalid-feedback-interval_control_method text-danger font-italic"></div>
                                         </div>
