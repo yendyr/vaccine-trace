@@ -24,7 +24,6 @@ Route::name('qualityassurance.')->group(function () {
         });
 
         Route::resource('/engineering-level', 'EngineeringLevelController');
-
         Route::name('engineering-level.')->group(function() {
             Route::get('qualityassurance/engineering-level/select2', 'EngineeringLevelController@select2')->name('select2');
         });

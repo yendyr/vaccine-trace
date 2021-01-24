@@ -124,4 +124,9 @@ class Taskcard extends Model
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAffectedManual::class, 'taskcard_id');
     }
+
+    public function instruction_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailInstruction::class, 'taskcard_id');
+    }
 }

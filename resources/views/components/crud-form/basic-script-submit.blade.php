@@ -84,7 +84,7 @@
         datatabelObject.on('click', '.deleteBtn', function () {
             rowId = $(this).val();
             $('#deleteModal').modal('show');
-            $('#delete-form').attr('action', actionUrl + rowId);
+            $('#delete-form').attr('action', actionUrl + '/' + rowId);
         });
 
         $('#delete-form').on('submit', function (e) {

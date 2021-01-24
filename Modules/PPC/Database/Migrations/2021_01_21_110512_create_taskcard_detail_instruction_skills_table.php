@@ -17,7 +17,7 @@ class CreateTaskcardDetailInstructionSkillsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             
-            $table->string('taskcard_detail_instructions_id');
+            $table->string('taskcard_detail_instruction_id');
             $table->string('skill_id');
 
             $table->rememberToken();

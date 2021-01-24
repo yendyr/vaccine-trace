@@ -122,7 +122,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    
+                                    @include('ppc::pages.taskcard.instruction.item')
                                 </div>
                             </div>
                         </div>

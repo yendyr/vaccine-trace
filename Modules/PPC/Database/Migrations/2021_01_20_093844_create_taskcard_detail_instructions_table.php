@@ -17,10 +17,13 @@ class CreateTaskcardDetailInstructionsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
+            $table->string('taskcard_id');
             $table->tinyInteger('sequence')->nullable();
             $table->string('taskcard_workarea_id')->nullable();
-            $table->double('manhours_estimation', 4, 4)->default(0);
-            $table->double('performance_factor', 2, 2);
+            $table->double('manhours_estimation')->default(0);
+            $table->double('performance_factor');
+            $table->string('engineering_level_id'); // set minimum authorized engineering level to execute this taskcard
+            $table->tinyInteger('manpower_quantity');
             $table->string('task_release_level_id');
             $table->string('instruction')->nullable();
 

@@ -5,7 +5,7 @@
 <script>
     $(document).ready(function () {
         // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
-        var actionUrl = '/generalsetting/taskcard-detail-instruction';
+        var actionUrl = '/ppc/taskcard-detail-instruction';
         var createNewButtonId = '#createNewButtonInstruction';
         var inputModalId = '#inputModalInstruction';
         var modalTitleId = '#modalTitleInstruction';
@@ -38,6 +38,17 @@
             allowClear: true,
             ajax: {
                 url: "{{ route('qualityassurance.skill.select2') }}",
+                dataType: 'json',
+            },
+            dropdownParent: $(inputModalId)
+        });
+
+        $('.engineering_level_id').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose Level',
+            allowClear: true,
+            ajax: {
+                url: "{{ route('qualityassurance.engineering-level.select2') }}",
                 dataType: 'json',
             },
             dropdownParent: $(inputModalId)
@@ -80,25 +91,33 @@
             var id = $(this).data('id');
             $.get(actionUrl + id, function (data) {
                 $('.id').val(id);
-                $('.label').val(data.label);
-                $('#bank_name').val(data.bank_name);
-                $('#bank_branch').val(data.bank_branch);
-                $('#account_holder_name').val(data.account_holder_name);
-                $('#account_number').val(data.account_number);
-                $('#swift_code').val(data.swift_code);
-                $('#description').val(data.description);
+                $('#sequence').val(data.sequence);
+                $('#manhours_estimation').val(data.manhours_estimation);
+                $('#performance_factor').val(data.performance_factor);
+                $('#manpower_quantity').val(data.manpower_quantity);
+                $('#instruction').val(data.instruction);
                 
-                $(".chart_of_account_id").val(null).trigger('change');
-                if (data.chart_of_account != null) {
-                    $('.chart_of_account_id').append('<option value="' + data.chart_of_account_id + '" selected>' + data.chart_of_account_id.name + '</option>');
+                $(".taskcard_workarea_id").val(null).trigger('change');
+                if (data.taskcard_workarea != null) {
+                    $('.taskcard_workarea_id').append('<option value="' + data.taskcard_workarea_id + '" selected>' + data.taskcard_workarea.name + '</option>');
+                }
+
+                $(".engineering_level_id").val(null).trigger('change');
+                if (data.engineering_level != null) {
+                    $('.engineering_level_id').append('<option value="' + data.engineering_level_id + '" selected>' + data.engineering_level.name + '</option>');
+                }
+
+                $(".task_release_level_id").val(null).trigger('change');
+                if (data.task_release_level != null) {
+                    $('.task_release_level_id').append('<option value="' + data.task_release_level_id + '" selected>' + data.task_release_level.name + '</option>');
                 }
                               
-                if (data.status == '1') {
-                    $('.status').prop('checked', true);
-                }
-                else {
-                    $('.status').prop('checked', false);
-                }
+                // if (data.status == '1') {
+                //     $('.status').prop('checked', true);
+                // }
+                // else {
+                //     $('.status').prop('checked', false);
+                // }
 
                 $(inputFormId).attr('action', actionUrl + '/' + id);
             });
@@ -108,6 +127,8 @@
             $(inputModalId).modal('show');
         });
         // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
+
+
 
 
 
@@ -152,9 +173,10 @@
                 }
             }); 
 
-            setTimeout(location.reload.bind(location), 2000);
+            // setTimeout(location.reload.bind(location), 2000);
         });
         // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
+
 
 
 
@@ -162,7 +184,7 @@
         $(deleteButtonClass).click(function () {
             rowId = $(this).val();
             $(deleteModalId).modal('show');
-            $(deleteFormId).attr('action', actionUrl + rowId);
+            $(deleteFormId).attr('action', actionUrl + '/' + rowId);
         });
 
         $(deleteFormId).on('submit', function (e) {
@@ -198,7 +220,7 @@
                 }
             });
 
-            setTimeout(location.reload.bind(location), 2000);
+            // setTimeout(location.reload.bind(location), 2000);
         });
         // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
     });

@@ -11,8 +11,10 @@
 
             <form method="post" id="inputFormInstruction">
                 <input type="hidden" id="updateInstruction" name="updateInstruction" class="updateInstruction" value="1">
-                <input type="hidden" id="id" name="id" class="id" value="{{ $Taskcard->id }}">
+                <input type="hidden" id="taskcard_id" name="taskcard_id" class="taskcard_id" value="{{ $Taskcard->id }}">
+                <input type="hidden" id="id" name="id" class="id">
                 <div class="modal-body">
+
                     <div class="row m-b">    
                         <div class="col">
                             <label>Task Sequence</label>
@@ -24,7 +26,10 @@
                             <select class="taskcard_workarea_id form-control @error('taskcard_workarea_id') is-invalid @enderror" name="taskcard_workarea_id" id="taskcard_workarea_id">
                             </select>
                             <div class="invalid-feedback-taskcard_workarea_id text-danger font-italic"></div>
-                        </div>
+                        </div>                        
+                    </div>
+
+                    <div class="row m-b">
                         <div class="col">
                             <label>Skill Requirement</label>
                             <select class="skill_id form-control @error('skill_id') is-invalid @enderror" name="skill_id[]" id="skill_id" multiple="multiple">
@@ -35,11 +40,23 @@
                                 you can choose multiple value
                             </span>
                         </div>
+                        <div class="col">
+                            <label>Minimum Authorized Engineering Level</label>
+                            <select class="engineering_level_id form-control @error('engineering_level_id') is-invalid @enderror" name="engineering_level_id" id="engineering_level_id">
+                            </select>
+                            <div class="invalid-feedback-engineering_level_id text-danger font-italic"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Manpower Quantity</label>
+                            <input type="number" min="1" class="form-control @error('manpower_quantity') is-invalid @enderror" name="manpower_quantity" id="manpower_quantity">
+                            <div class="invalid-feedback-manpower_quantity text-danger font-italic"></div>
+                        </div>
                     </div>
+
                     <div class="row m-b">
                         <div class="col">
                             <label>Manhours Estimation</label>
-                            <input type="number" min="0.5" step="0.1" class="form-control @error('manhours_estimation') is-invalid @enderror" name="manhours_estimation" id="manhours_estimation">
+                            <input type="number" min="0.1" step="0.1" class="form-control @error('manhours_estimation') is-invalid @enderror" name="manhours_estimation" id="manhours_estimation">
                             <div class="invalid-feedback-manhours_estimation text-danger font-italic"></div>
                         </div>
                             <div class="col">
@@ -54,12 +71,13 @@
                             <div class="invalid-feedback-task_release_level_id text-danger font-italic"></div>
                         </div>
                     </div>
+
                     <div class="row m-b">
                         <div class="col">
                             <label>Instruction</label>
-                            <div class="summernote">
+                            <textarea class="instruction" name="instruction" id="instruction">
                                 
-                            </div>
+                            </textarea>
                         </div>
                     </div>
                 </div>
@@ -92,7 +110,7 @@
     <script src="{{URL::asset('theme/js/plugins/summernote/summernote-bs4.js')}}"></script>
     <script>
         $(document).ready(function(){
-            $('.summernote').summernote();
+            $('.instruction').summernote();
        });
     </script>
 @endpush

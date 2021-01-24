@@ -140,7 +140,7 @@
         $(deleteButtonClass).click(function () {
             rowId = $(this).val();
             $(deleteModalId).modal('show');
-            $(deleteFormId).attr('action', actionUrl + rowId);
+            $(deleteFormId).attr('action', actionUrl + '/' + rowId);
         });
 
         $(deleteFormId).on('submit', function (e) {
