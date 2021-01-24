@@ -77,7 +77,7 @@ class TaskcardDetailInstruction extends Model
         parent::boot();
 
         static::deleting(function($TaskcardDetailInstruction) {
-             $TaskcardDetailInstruction->skill_details()->delete();
+             $TaskcardDetailInstruction->skill_details()->forceDelete();
         });
     }
 }

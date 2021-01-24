@@ -22,7 +22,7 @@
                     </p>
                     @endif
                 </div>
-                <div class="col-md-12 p-xs">Instruction:</div>
+                <div class="col-md-12 p-xs text-center">--- INSTRUCTION/TASK: ---</div>
                 <div class="col-md-12 p-xs border">
                     @if ($instruction_detail->instruction)
                         {!! $instruction_detail->instruction !!}

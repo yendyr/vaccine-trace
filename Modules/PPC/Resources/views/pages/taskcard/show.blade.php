@@ -65,9 +65,7 @@
                 Access:&nbsp;
                 @include('ppc::pages.taskcard.access-detail.item')
                 &nbsp;&nbsp;&nbsp;&nbsp;Zone:&nbsp;
-                @include('ppc::pages.taskcard.zone-detail.item')
-                &nbsp;&nbsp;&nbsp;&nbsp;Work Area:&nbsp;
-                <label class="label label-info">{{ $Taskcard->taskcard_workarea->name ?? '' }}</label>
+                @include('ppc::pages.taskcard.zone-detail.item')                
             </div>
             <div class="col">
                 Document Library:&nbsp;

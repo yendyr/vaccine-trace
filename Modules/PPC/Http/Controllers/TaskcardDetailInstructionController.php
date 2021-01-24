@@ -140,7 +140,7 @@ class TaskcardDetailInstructionController extends Controller
         ]);  
         
         if ($request->skill_id) {
-            $currentRow->skill_details()->delete();
+            $currentRow->skill_details()->forceDelete();
 
             foreach ($request->skill_id as $skill_id) {
                 $currentRow->skill_details()

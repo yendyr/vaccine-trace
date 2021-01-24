@@ -8,6 +8,8 @@ use Modules\PPC\Entities\TaskcardDetailAccess;
 use Modules\PPC\Entities\TaskcardDetailZone;
 use Modules\PPC\Entities\TaskcardDetailDocumentLibrary;
 use Modules\PPC\Entities\TaskcardDetailAffectedManual;
+use Modules\PPC\Entities\TaskcardDetailInstruction;
+use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -36,7 +38,11 @@ class TaskcardController extends Controller
                     'taskcard_group:id,name',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
-                    'aircraft_type_details:id,aircraft_type_id',
+                    'aircraft_types:id,name',
+                    'accesses:id,name',
+                    'zones:id,name',
+                    'document_libraries:id,name',
+                    'affected_manuals:id,name',
                     ]);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
@@ -46,12 +52,27 @@ class TaskcardController extends Controller
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
-                ->addColumn('aircraft_type', function($row){
+                ->addColumn('aircraft_type_name', function($row){
                     $aircraft_type_name = null;
                     foreach ($row->aircraft_types as $aircraft_type) {
                         $aircraft_type_name .= $aircraft_type->name . ', ';
                     }
                     return $aircraft_type_name;
+                })
+                ->addColumn('skills', function($row){
+                    $skill_name = '';
+
+                    $TaskcardDetailInstructions = TaskcardDetailInstruction::where('taskcard_id', $row->id)->get();
+                    
+                    foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
+                        $TaskcardDetailInstructionSkills = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id)->get();
+
+                        foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
+                            $skill_name .= $TaskcardDetailInstructionSkill->skill->name . ', ';
+                        }
+                    }
+                    
+                    return $skill_name;
                 })
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';
@@ -165,7 +186,7 @@ class TaskcardController extends Controller
             'recurrence' => $request->recurrence,
 
             'owned_by' => $request->user()->company_id,
-            'status' => $status,
+            'status' => 1,
             'created_by' => $request->user()->id,
         ]);
 
@@ -246,14 +267,27 @@ class TaskcardController extends Controller
 
     public function edit(Taskcard $Taskcard)
     {
-        return view('ppc::pages.taskcard.edit', compact('Taskcard'));
+        
     }
 
     public function update(Request $request, Taskcard $Taskcard)
     {
         $request->validate([
-            'code' => ['required', 'max:30'],
-            'name' => ['required', 'max:30'],
+            'mpd_number' => ['required', 'max:30'],
+            'title' => ['required', 'max:30'],
+            'taskcard_group_id' => ['required', 'max:30'],
+            'taskcard_type_id' => ['required', 'max:30'],
+            'interval_control_method' => ['required', 'max:30'],
+
+            'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
+            'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
+            'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
+            'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
+
+            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_daily,repeat_date'],
+            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_daily,repeat_date'],
+            'repeat_daily' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
+            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
         ]);
 
         if ($request->status) {
@@ -263,28 +297,133 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
-        $currentRow = AircraftType::where('id', $AircraftType->id)->first();
-        if ( $currentRow->code == $request->code) {
-            $currentRow
-                ->update([
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'manufacturer_id' => $request->manufacturer_id,
-                    'status' => $status,
-                    'updated_by' => Auth::user()->id,
-            ]);
+        if ($request->threshold_date) {
+            $threshold_date = Carbon::createFromFormat('m/d/Y', $request->threshold_date)->format('Y-m-d');
         }
         else {
-            $currentRow
-                ->update([
-                    'code' => $request->code,
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'manufacturer_id' => $request->manufacturer_id,
-                    'status' => $status,
-                    'updated_by' => Auth::user()->id,
-            ]);
+            $threshold_date = null;
         }
+
+        if ($request->repeat_date) {
+            $repeat_date = Carbon::createFromFormat('m/d/Y', $request->repeat_date)->format('Y-m-d');
+        }
+        else {
+            $repeat_date = null;
+        }
+
+        DB::beginTransaction();
+        $currentRow = Taskcard::where('id', $Taskcard->id)->first();
+        $currentRow
+            ->update([
+                'mpd_number' => $request->mpd_number,
+                'title' => $request->title,
+                'taskcard_group_id' => $request->taskcard_group_id,
+                'taskcard_type_id' => $request->taskcard_type_id,
+                'threshold_flight_hour' => $request->threshold_flight_hour,
+                'threshold_flight_cycle' => $request->threshold_flight_cycle,
+                'threshold_daily' => $request->threshold_daily,
+                'threshold_daily_unit' => $request->threshold_daily_unit,
+                'threshold_date' => $threshold_date,
+                'repeat_flight_hour' => $request->repeat_flight_hour,
+                'repeat_flight_cycle' => $request->repeat_flight_cycle,
+                'repeat_daily' => $request->repeat_daily,
+                'repeat_daily_unit' => $request->repeat_daily_unit,
+                'repeat_date' => $repeat_date,
+                'interval_control_method' => $request->interval_control_method,
+
+                'company_number' => $request->company_number,
+                'ata' => $request->ata,
+                'version' => $request->version,
+                'revision' => $request->revision,
+                'effectivity' => $request->effectivity,
+                'taskcard_workarea_id' => $request->taskcard_workarea_id,
+                'source' => $request->source,
+                'reference' => $request->reference,
+                'file_attachment' => $request->file_attachment,
+                'scheduled_priority' => $request->scheduled_priority,
+                'recurrence' => $request->recurrence,
+
+                'status' => 1,
+                'updated_by' => $request->user()->id,
+        ]);
+
+        if ($request->aircraft_type_id) {
+            $Taskcard->aircraft_type_details()->forceDelete();
+
+            foreach ($request->aircraft_type_id as $aircraft_type_id) {
+                $Taskcard->aircraft_type_details()
+                        ->save(new TaskcardDetailAircraftType([
+                            'uuid' => Str::uuid(),
+                            'aircraft_type_id' => $aircraft_type_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->taskcard_access_id) {
+            $Taskcard->access_details()->forceDelete();
+
+            foreach ($request->taskcard_access_id as $taskcard_access_id) {
+                $Taskcard->access_details()
+                        ->save(new TaskcardDetailAccess([
+                            'uuid' => Str::uuid(),
+                            'taskcard_access_id' => $taskcard_access_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->taskcard_zone_id) {
+            $Taskcard->zone_details()->forceDelete();
+
+            foreach ($request->taskcard_zone_id as $taskcard_zone_id) {
+                $Taskcard->zone_details()
+                        ->save(new TaskcardDetailZone([
+                            'uuid' => Str::uuid(),
+                            'taskcard_zone_id' => $taskcard_zone_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->taskcard_document_library_id) {
+            $Taskcard->document_library_details()->forceDelete();
+
+            foreach ($request->taskcard_document_library_id as $taskcard_document_library_id) {
+                $Taskcard->document_library_details()
+                        ->save(new TaskcardDetailDocumentLibrary([
+                            'uuid' => Str::uuid(),
+                            'taskcard_document_library_id' => $taskcard_document_library_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->taskcard_affected_manual_id) {
+            $Taskcard->affected_manual_details()->forceDelete();
+
+            foreach ($request->taskcard_affected_manual_id as $taskcard_affected_manual_id) {
+                $Taskcard->affected_manual_details()
+                        ->save(new TaskcardDetailAffectedManual([
+                            'uuid' => Str::uuid(),
+                            'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        DB::commit();
+
         return response()->json(['success' => 'Task Card Data has been Updated']);
     
     }

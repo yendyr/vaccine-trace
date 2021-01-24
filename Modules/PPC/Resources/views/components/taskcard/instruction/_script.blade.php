@@ -112,7 +112,6 @@
                     $('.task_release_level_id').append('<option value="' + data.task_release_level_id + '" selected>' + data.task_release_level.name + '</option>');
                 }
 
-                // $("#skill_id").val(null).trigger('change');
                 if (data.skills != null) {
                     $.each(data.skills, function(index, value) {
                         var option = new Option(data.skills[index].name, data.skills[index].id, true, true);
@@ -181,7 +180,7 @@
                 }
             }); 
 
-            // setTimeout(location.reload.bind(location), 2000);
+            setTimeout(location.reload.bind(location), 2000);
         });
         // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 
@@ -228,7 +227,7 @@
                 }
             });
 
-            // setTimeout(location.reload.bind(location), 2000);
+            setTimeout(location.reload.bind(location), 2000);
         });
         // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
     });

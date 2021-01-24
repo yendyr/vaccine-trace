@@ -23,8 +23,8 @@
                 { data: 'title', name: 'Title' },
                 { data: 'taskcard_group.name', name: 'Group' },
                 { data: 'taskcard_type.name', name: 'Task Type' },
-                { data: 'aircraft_type', name: 'Aircraft Type' },
-                { data: 'aircraft_type', name: 'Skill' },
+                { data: 'aircraft_type_name', name: 'Aircraft Type' },
+                { data: 'skills', name: 'Skill' },
                 { data: 'creator_name', name: 'Created By' },
                 { data: 'created_at', name: 'Created At' },
                 { data: 'action', name: 'Action', orderable: false },
@@ -197,8 +197,7 @@
 
             $('#threshold_daily_unit').append('<option value="' + data.threshold_daily_unit + '" selected>' + data.threshold_daily_unit + '</option>');
 
-            $('#threshold_date').datepicker('setDate', data.threshold_date);
-            $('#threshold_date').datepicker('autoclose', true);
+            $('#threshold_date').val(data.threshold_date);
 
             $('#repeat_flight_hour').val(data.repeat_flight_hour);
             $('#repeat_flight_cycle').val(data.repeat_flight_cycle);
@@ -235,8 +234,40 @@
                 $('#taskcard_workarea_id').append('<option value="' + data.taskcard_workarea_id + '" selected>' + data.taskcard_workarea.name + '</option>');
             }
 
-            $('#aircraft_type_id').val([1,2]);
-            $('#aircraft_type_id').trigger('change');
+            if (data.aircraft_types != null) {
+                $.each(data.aircraft_types, function(index, value) {
+                    var option = new Option(data.aircraft_types[index].name, data.aircraft_types[index].id, true, true);
+                    $("#aircraft_type_id").append(option).trigger('change');
+                });
+            }
+
+            if (data.accesses != null) {
+                $.each(data.accesses, function(index, value) {
+                    var option = new Option(data.accesses[index].name, data.accesses[index].id, true, true);
+                    $("#taskcard_access_id").append(option).trigger('change');
+                });
+            }
+
+            if (data.zones != null) {
+                $.each(data.zones, function(index, value) {
+                    var option = new Option(data.zones[index].name, data.zones[index].id, true, true);
+                    $("#taskcard_zone_id").append(option).trigger('change');
+                });
+            }
+
+            if (data.document_libraries != null) {
+                $.each(data.document_libraries, function(index, value) {
+                    var option = new Option(data.document_libraries[index].name, data.document_libraries[index].id, true, true);
+                    $("#taskcard_document_library_id").append(option).trigger('change');
+                });
+            }
+
+            if (data.affected_manuals != null) {
+                $.each(data.affected_manuals, function(index, value) {
+                    var option = new Option(data.affected_manuals[index].name, data.affected_manuals[index].id, true, true);
+                    $("#taskcard_affected_manual_id").append(option).trigger('change');
+                });
+            }
 
             // if (data.status == '<label class="label label-success">Active</label>') {
             //     $('#status').prop('checked', true);
