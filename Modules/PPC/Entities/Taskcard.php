@@ -129,4 +129,17 @@ class Taskcard extends Model
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailInstruction::class, 'taskcard_id');
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($Taskcard) {
+             $Taskcard->aircraft_type_details()->delete();
+             $Taskcard->access_details()->delete();
+             $Taskcard->zone_details()->delete();
+             $Taskcard->document_library_details()->delete();
+             $Taskcard->affected_manual_details()->delete();
+             $Taskcard->instruction_details()->delete();
+        });
+    }
 }

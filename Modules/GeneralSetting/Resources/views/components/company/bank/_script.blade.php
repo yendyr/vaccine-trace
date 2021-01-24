@@ -56,7 +56,7 @@
             }).prependTo(inputFormId);
 
             var id = $(this).data('id');
-            $.get(actionUrl + id, function (data) {
+            $.get(actionUrl + '/' + id, function (data) {
                 $('.id').val(id);
                 $('.label').val(data.label);
                 $('#bank_name').val(data.bank_name);

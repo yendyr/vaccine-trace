@@ -72,4 +72,12 @@ class TaskcardDetailInstruction extends Model
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailInstructionSkill::class, 'taskcard_detail_instruction_id');
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($TaskcardDetailInstruction) {
+             $TaskcardDetailInstruction->skill_details()->delete();
+        });
+    }
 }

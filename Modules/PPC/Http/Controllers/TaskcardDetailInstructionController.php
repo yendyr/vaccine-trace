@@ -95,13 +95,14 @@ class TaskcardDetailInstructionController extends Controller
                             ->with('engineering_level:id,name')
                             ->with('taskcard_workarea:id,name')
                             ->with('task_release_level:id,name')
+                            ->with('skills:id,name')
                             ->first();
         return response()->json($TaskcardDetailInstruction);
     }
 
-    public function edit(Taskcard $Taskcard)
+    public function edit(TaskcardDetailInstruction $TaskcardDetailInstruction)
     {
-        return view('generalsetting::pages.company-detail-bank.edit', compact('CompanyDetailBank'));
+        
     }
 
     public function update(Request $request, TaskcardDetailInstruction $TaskcardDetailInstruction)
@@ -122,6 +123,7 @@ class TaskcardDetailInstructionController extends Controller
             $status = 0;
         }
 
+        DB::beginTransaction();
         $currentRow = TaskcardDetailInstruction::where('id', $TaskcardDetailInstruction->id)->first();
         $currentRow->update([
             'sequence' => $request->sequence,
@@ -135,8 +137,24 @@ class TaskcardDetailInstructionController extends Controller
 
             'status' => 1,
             'updated_by' => Auth::user()->id,
-        ]);
+        ]);  
         
+        if ($request->skill_id) {
+            $currentRow->skill_details()->delete();
+
+            foreach ($request->skill_id as $skill_id) {
+                $currentRow->skill_details()
+                    ->save(new TaskcardDetailInstructionSkill([
+                        'uuid' => Str::uuid(),
+                        'skill_id' => $skill_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                ]));
+            }
+        }
+        DB::commit();
+
         return response()->json(['success' => 'Instrcution has been Updated']);
     
     }
@@ -149,14 +167,14 @@ class TaskcardDetailInstructionController extends Controller
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
+                    
+        // $currentDetailInstructionSkill = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id);
+        // $currentDetailInstructionSkill
+        //         ->update([
+        //             'deleted_by' => Auth::user()->id,
+        //         ]);
 
-        $currentDetailInstructionSkill = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id);
-        $currentDetailInstructionSkill
-                ->update([
-                    'deleted_by' => Auth::user()->id,
-                ]);
-
-        $currentDetailInstruction->skill_details()->delete();
+        // $currentDetailInstruction->skill_details()->delete();
 
         TaskcardDetailInstruction::destroy($TaskcardDetailInstruction->id);
         DB::commit();

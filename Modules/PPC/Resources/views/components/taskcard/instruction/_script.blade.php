@@ -89,13 +89,13 @@
             }).prependTo(inputFormId);
 
             var id = $(this).data('id');
-            $.get(actionUrl + id, function (data) {
+            $.get(actionUrl + '/' + id, function (data) {
                 $('.id').val(id);
                 $('#sequence').val(data.sequence);
                 $('#manhours_estimation').val(data.manhours_estimation);
                 $('#performance_factor').val(data.performance_factor);
                 $('#manpower_quantity').val(data.manpower_quantity);
-                $('#instruction').val(data.instruction);
+                $("#instruction").summernote("code", data.instruction);
                 
                 $(".taskcard_workarea_id").val(null).trigger('change');
                 if (data.taskcard_workarea != null) {
@@ -110,6 +110,14 @@
                 $(".task_release_level_id").val(null).trigger('change');
                 if (data.task_release_level != null) {
                     $('.task_release_level_id').append('<option value="' + data.task_release_level_id + '" selected>' + data.task_release_level.name + '</option>');
+                }
+
+                // $("#skill_id").val(null).trigger('change');
+                if (data.skills != null) {
+                    $.each(data.skills, function(index, value) {
+                        var option = new Option(data.skills[index].name, data.skills[index].id, true, true);
+                        $("#skill_id").append(option).trigger('change');
+                    });
                 }
                               
                 // if (data.status == '1') {
