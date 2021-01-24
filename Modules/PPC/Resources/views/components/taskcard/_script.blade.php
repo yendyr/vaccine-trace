@@ -234,6 +234,7 @@
                 $('#taskcard_workarea_id').append('<option value="' + data.taskcard_workarea_id + '" selected>' + data.taskcard_workarea.name + '</option>');
             }
 
+            $("#aircraft_type_id").val('').trigger('change');
             if (data.aircraft_types != null) {
                 $.each(data.aircraft_types, function(index, value) {
                     var option = new Option(data.aircraft_types[index].name, data.aircraft_types[index].id, true, true);
@@ -241,6 +242,7 @@
                 });
             }
 
+            $("#taskcard_access_id").val('').trigger('change');
             if (data.accesses != null) {
                 $.each(data.accesses, function(index, value) {
                     var option = new Option(data.accesses[index].name, data.accesses[index].id, true, true);
@@ -248,6 +250,7 @@
                 });
             }
 
+            $("#taskcard_zone_id").val('').trigger('change');
             if (data.zones != null) {
                 $.each(data.zones, function(index, value) {
                     var option = new Option(data.zones[index].name, data.zones[index].id, true, true);
@@ -255,6 +258,7 @@
                 });
             }
 
+            $("#taskcard_document_library_id").val('').trigger('change');
             if (data.document_libraries != null) {
                 $.each(data.document_libraries, function(index, value) {
                     var option = new Option(data.document_libraries[index].name, data.document_libraries[index].id, true, true);
@@ -262,6 +266,7 @@
                 });
             }
 
+            $("#taskcard_affected_manual_id").val('').trigger('change');
             if (data.affected_manuals != null) {
                 $.each(data.affected_manuals, function(index, value) {
                     var option = new Option(data.affected_manuals[index].name, data.affected_manuals[index].id, true, true);
