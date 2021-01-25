@@ -3,21 +3,21 @@
 <div class="col-md-12 fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-success">
         <div class="panel-heading">
-            Instruction Sequence: <label class="label label-danger">{{ $instruction_detail->sequence ?? '-' }}</label>
+            Instruction Sequence: <label class="label label-danger m-b-none">{{ $instruction_detail->sequence ?? '-' }}</label>
         </div>
         <div class="panel-body" style="margin: 0px; width: 100%;">
             <div class="row">
-                <div class="col-md-3 p-xs border">Work Area: <p><strong>{{ $instruction_detail->taskcard_workarea->name ?? '-' }}</strong></p></div>
-                <div class="col-md-3 p-xs border">Manhours Estimation: <p><strong>{{ $instruction_detail->manhours_estimation ?? '-' }}</strong></p></div>
-                <div class="col-md-3 p-xs border">Performance Factor: <p><strong>{{ $instruction_detail->performance_factor ?? '-' }}</strong></p></div>
-                <div class="col-md-3 p-xs border">Minimum Authorized Engineering Level: <p><strong>{{ $instruction_detail->engineering_level->name ?? '-' }}</strong></p></div>
-                <div class="col-md-3 p-xs border">Manpower Quantity: <p><strong>{{ $instruction_detail->manpower_quantity ?? '-' }}</strong></p></div>
-                <div class="col-md-3 p-xs border">Task Release Level: <p><strong>{{ $instruction_detail->task_release_level->name ?? '-' }}</strong></p></div>
+                <div class="col-md-3 p-xs border">Work Area: <p class="m-b-xs"><strong>{{ $instruction_detail->taskcard_workarea->name ?? '-' }}</strong></p></div>
+                <div class="col-md-3 p-xs border">Manhours Estimation: <p class="m-b-xs"><strong>{{ $instruction_detail->manhours_estimation ?? '-' }}</strong></p></div>
+                <div class="col-md-3 p-xs border">Performance Factor: <p class="m-b-xs"><strong>{{ $instruction_detail->performance_factor ?? '-' }}</strong></p></div>
+                <div class="col-md-3 p-xs border">Minimum Engineering Level: <p class="m-b-xs"><strong>{{ $instruction_detail->engineering_level->name ?? '-' }}</strong></p></div>
+                <div class="col-md-3 p-xs border">Manpower Quantity: <p class="m-b-xs"><strong>{{ $instruction_detail->manpower_quantity ?? '-' }}</strong></p></div>
+                <div class="col-md-3 p-xs border">Task Release Level: <p class="m-b-xs"><strong>{{ $instruction_detail->task_release_level->name ?? '-' }}</strong></p></div>
                 <div class="col-md-6 p-xs border">Skill Requirement: 
                     @if (sizeOf($instruction_detail->skills) > 0)
-                    <p>
+                    <p class="m-b-xs">
                     @foreach ($instruction_detail->skills as $skill)
-                        <label class="label label-success">{{ $skill->name }}</label>
+                        <label class="label label-success m-b-none">{{ $skill->name }}</label>
                     @endforeach
                     </p>
                     @endif

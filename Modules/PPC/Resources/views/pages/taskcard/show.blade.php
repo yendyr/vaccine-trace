@@ -56,24 +56,30 @@
     </div>
 
     <div class="row m-b">
-        <div class="col-md-5">
-            Aircraft Type Applicability:&nbsp;
+        <div class="col-lg-4">
+            Aircraft Type Applicability:
             @include('ppc::pages.taskcard.aircraft-type-detail.item')
         </div>
-        <div class="col-md-7" style="padding-left: 0;">
-            <div class="col">
-                Access:&nbsp;
-                @include('ppc::pages.taskcard.access-detail.item')
-                &nbsp;&nbsp;&nbsp;&nbsp;Zone:&nbsp;
-                @include('ppc::pages.taskcard.zone-detail.item')                
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-5">
+                    Access:
+                    @include('ppc::pages.taskcard.access-detail.item')                
+                </div>
+                <div class="col-lg-7">
+                    Zone:
+                    @include('ppc::pages.taskcard.zone-detail.item')                
+                </div>
             </div>
-            <div class="col">
-                Document Library:&nbsp;
-                @include('ppc::pages.taskcard.document-library-detail.item')
-            </div>
-            <div class="col">
-                Affected Manual:&nbsp;
-                @include('ppc::pages.taskcard.affected-manual-detail.item')
+            <div class="row">
+                <div class="col-lg-5">
+                    Document Library:
+                    @include('ppc::pages.taskcard.document-library-detail.item')
+                </div>
+                <div class="col-lg-7">
+                    Affected Manual:
+                    @include('ppc::pages.taskcard.affected-manual-detail.item')
+                </div>
             </div>
         </div>
     </div>
