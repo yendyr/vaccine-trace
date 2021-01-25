@@ -60,6 +60,7 @@ class TaskcardController extends Controller
                     return $aircraft_type_name;
                 })
                 ->addColumn('skills', function($row){
+                    $skillsArray = array();
                     $skill_name = '';
 
                     $TaskcardDetailInstructions = TaskcardDetailInstruction::where('taskcard_id', $row->id)->get();
@@ -68,8 +69,14 @@ class TaskcardController extends Controller
                         $TaskcardDetailInstructionSkills = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id)->get();
 
                         foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
-                            $skill_name .= $TaskcardDetailInstructionSkill->skill->name . ', ';
+                            if (!in_array($TaskcardDetailInstructionSkill->skill->name, $skillsArray)) {
+                                $skillsArray[] = $TaskcardDetailInstructionSkill->skill->name;
+                            }
                         }
+                    }
+
+                    foreach ($skillsArray as $skill) {
+                        $skill_name .= $skill . ', ';
                     }
                     
                     return $skill_name;
