@@ -22,9 +22,10 @@
                 <input onchange="getTaskcardFile(this)" style="display: none;" id="taskcardFile" type="file" name="taskcardFile" data-id="{{ $Taskcard->id }}" accept="application/pdf" />
             </div>
             <div class="profile-info">
-                <h2 style="margin-top: 0;">
-                    <strong class="m-b">{{ $Taskcard->title ?? 'Task Card MPD Number' }}</strong>
+                <h2 class="m-t-none m-b-none">
+                    <strong>{{ $Taskcard->title ?? 'Task Card Title' }}</strong>
                 </h2>
+                <h2 class="text-info m-t-none"><strong>{{ $Taskcard->mpd_number ?? '' }}</strong></h2>
                 <div>Task Card Group: <strong class="text-info">{{ $Taskcard->taskcard_group->name ?? '' }}</strong></div>
                 <div>Task Card Type: <strong class="text-info">{{ $Taskcard->taskcard_type->name ?? '' }}</strong></div>
             </div>
