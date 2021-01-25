@@ -7,15 +7,19 @@
     <div class="row m-b m-t">
         <div class="col-md-5">
             <div class="profile-image">
-                <label for="logo-input" style="cursor:pointer;" data-toggle="tooltip" title="Change Taskcard File">
-                    @if($Taskcard->logo)
-                        <img src="{{ URL::asset('uploads/company/' . $Taskcard->id . '/logo/' . $Taskcard->logo) }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
-                    @else
-                        <img src="{{ URL::asset('assets/default-file-image.png') }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
-                    @endif
-                </label>
+                @if($Taskcard->file_attachment)
+                    <a target="_blank" href="{{ URL::asset('uploads/company/' . $Taskcard->owned_by . '/taskcard/' . $Taskcard->file_attachment) }}">
+                    <img src="{{ URL::asset('assets/default-pdf-image.png') }}" class="m-t-xs" id="fileTaskcard">
+                    </a>
 
-                <input onchange="getTaskcardLogo(this)" style="display: none;" id="logo-input" type="file" name="logo-input" data-id="{{ $Taskcard->id }}"/>
+                    <span class="m-l-sm font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Task Card Attachment File">Replace File</label></small></span>
+                @else
+                    <img src="{{ URL::asset('assets/default-file-image.png') }}" class="m-t-xs" id="fileTaskcard">
+
+                    <span class="font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Task Card Attachment File">Attach New File</label></small></span>
+                @endif
+
+                <input onchange="getTaskcardFile(this)" style="display: none;" id="taskcardFile" type="file" name="taskcardFile" data-id="{{ $Taskcard->id }}" accept="application/pdf" />
             </div>
             <div class="profile-info">
                 <h2 style="margin-top: 0;">
@@ -139,6 +143,7 @@
 
 @include('ppc::components.taskcard.control-parameter._script')
 @include('ppc::components.taskcard.instruction._script')
+@include('ppc::components.taskcard._file_upload_script')
 
 @push('footer-scripts')
 <script>

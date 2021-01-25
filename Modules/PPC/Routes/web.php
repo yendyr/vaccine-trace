@@ -49,6 +49,9 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/taskcard', 'TaskcardController');
+        Route::name('taskcard.')->group(function() {
+            Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');
+        });
 
         Route::resource('/taskcard-detail-instruction', 'TaskcardDetailInstructionController');
     });

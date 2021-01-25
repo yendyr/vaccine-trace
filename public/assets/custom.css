@@ -253,3 +253,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     border: 1px solid #b3e2ff;
     min-height: 200px;
 }
+
+.sweet-alert button {
+    background-color: #007bff;
+}

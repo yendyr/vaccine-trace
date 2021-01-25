@@ -471,4 +471,33 @@ class TaskcardController extends Controller
     //     return response()->json($response);
     // }
 
+    public function fileUpload(Request $request, Taskcard $Taskcard)
+    {
+        if($request->ajax()) {
+            $data = $request->file('file');
+            $extension = $data->getClientOriginalExtension();
+            $filename = 'taskcard_attachment_' . $Taskcard->id . '.' . $extension;
+            $path = public_path('uploads/company/' . $Taskcard->owned_by . '/taskcard/');
+            
+            $usersImage = public_path('uploads/company/' . $Taskcard->owned_by . '/taskcard/' . $filename);
+
+            if (File::exists($usersImage)) {
+                unlink($usersImage);
+                $successText = 'Task Card Attachment has been Updated';
+            } else {
+                $successText = 'Task Card Attachment has been Updated';
+            }
+
+            Taskcard::where('id', $Taskcard->id)
+                ->update([
+                    'file_attachment' => $filename,
+                    'updated_by' => $request->user()->id
+                ]);
+
+            $data->move($path, $filename);
+
+            return response()->json(['success' => $successText]);
+        }
+    }
+
 }
