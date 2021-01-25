@@ -23,6 +23,8 @@ $(document).ready(function () {
             { data: 'title', name: 'Title' },
             { data: 'taskcard_group.name', name: 'Group' },
             { data: 'taskcard_type.name', name: 'Task Type' },
+            { data: 'instruction_count', name: 'Instruction/Task Total' },
+            { data: 'manhours_total', name: 'Manhours Total' },
             { data: 'aircraft_type_name', name: 'Aircraft Type' },
             { data: 'skills', name: 'Skill' },
             { data: 'creator_name', name: 'Created By' },

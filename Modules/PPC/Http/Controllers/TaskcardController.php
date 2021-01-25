@@ -52,6 +52,12 @@ class TaskcardController extends Controller
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
+                ->addColumn('instruction_count', function($row){
+                    return '<label class="label label-success">' . $row->instruction_details()->count() . '</label>';
+                })
+                ->addColumn('manhours_total', function($row){
+                    return '<label class="label label-primary">' . $row->instruction_details()->sum('manhours_estimation') . '</label>';
+                })
                 ->addColumn('aircraft_type_name', function($row){
                     $aircraft_type_name = null;
                     foreach ($row->aircraft_types as $aircraft_type) {

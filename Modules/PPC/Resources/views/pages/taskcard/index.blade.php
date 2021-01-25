@@ -23,6 +23,8 @@
             <th>Title</th>
             <th>Group</th>
             <th>Type</th>
+            <th>Instruction/Task Total</th>
+            <th>Manhours Total</th>
             <th>Aircraft Type</th>
             <th>Skill</th>
             <th>Created By</th>
