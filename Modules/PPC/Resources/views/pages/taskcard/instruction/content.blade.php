@@ -58,14 +58,15 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <div class="table-responsive">
-                                <table id="{{ $instruction_detail->id ?? '' }}" class="table table-hover table-striped text-center" style="width:100%" data-ajaxsource="{{ $ajaxSource ?? '' }}">
+                            <div class="table-responsive" style="font-size: 9pt;">
+                                <table id="taskcard-detail-item" class="taskcard-detail-item table table-hover table-striped text-center" style="width:100%" data-ajaxsource="{{ $ajaxSource ?? '' }}">
                                     <thead>
                                         <tr>
                                             <th style="font-weight: normal;">Code</th>
                                             <th style="font-weight: normal;">Item Name</th>
                                             <th style="font-weight: normal;">Qty</th>
                                             <th style="font-weight: normal;">Unit</th>
+                                            <th style="font-weight: normal;">Category</th>
                                             <th style="font-weight: normal;">Remark</th>
                                             <th style="font-weight: normal;">Action</th>
                                         </tr>
@@ -77,7 +78,7 @@
                         </div>
                         <div class="ibox-footer text-center">
                             @can('update', Modules\PPC\Entities\Taskcard::class)                
-                            <button type="button" class="createNewButtonItem btn btn-primary btn-xs" data-taskcard_detail_instruction_id="{{ $instruction_detail->id ?? '' }}" data-taskcard_id="{{ $Taskcard->id ?? '' }}">
+                            <button type="button" class="createNewButtonItem btn btn-primary btn-xs" data-taskcard_detail_instruction_id="{{ $instruction_detail->id ?? '' }}">
                                 <i class="fa fa-plus-circle"></i>&nbsp;Add
                             </button>   
                             @endcan 
@@ -102,7 +103,7 @@
                                 'deleteFormId' => 'deleteFormInstruction',
                                 'deleteModalButtonId' => 'deleteModalButtonInstruction'])
 
-                        <button type="button" name="delete" class="deleteButtonInstruction btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
+                        <button type="button" name="delete" class="deleteButtonInstruction btn btn-outline btn-danger" data-toggle="tooltip" title="Delete"
                         value="{{ $instruction_detail->id ?? '' }}">
                             <i class="fa fa-trash"></i>&nbsp;Delete
                         </button>

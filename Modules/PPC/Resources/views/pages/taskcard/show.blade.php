@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
+    @include('components.delete-modal', 
+                        ['deleteModalId' => 'deleteModalItem',
+                        'deleteFormId' => 'deleteFormItem',
+                        'deleteModalButtonId' => 'deleteModalButtonItem'])
+
     @include('ppc::pages.taskcard.control-parameter.modal')
     @include('ppc::pages.taskcard.instruction.modal')
 
@@ -147,16 +152,20 @@
 @include('ppc::components.taskcard.instruction._item_script')
 @include('ppc::components.taskcard._file_upload_script')
 
+@push('header-scripts')
+    @include('layouts.includes._header-datatable-script')
+@endpush
 @push('footer-scripts')
-<script>
-    $(document).ready(function(){
-        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-            localStorage.setItem('activeTab', $(e.target).attr('href'));
+    @include('layouts.includes._footer-datatable-script')
+    <script>
+        $(document).ready(function(){
+            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if(activeTab){
+                $('#myTab a[href="' + activeTab + '"]').tab('show');
+            }
         });
-        var activeTab = localStorage.getItem('activeTab');
-        if(activeTab){
-            $('#myTab a[href="' + activeTab + '"]').tab('show');
-        }
-    });
-</script>
+    </script>
 @endpush

@@ -57,7 +57,12 @@ class TaskcardDetailItem extends Model
 
     public function unit()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemUnit::class, 'unit_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\Unit::class, 'unit_id');
+    }
+
+    public function category()
+    {
+        return $this->hasOneThrough(\Modules\SupplyChain\Entities\ItemCategory::class, \Modules\SupplyChain\Entities\Item::class);
     }
 
 

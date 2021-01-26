@@ -135,6 +135,11 @@ class Taskcard extends Model
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailItem::class, 'taskcard_id');
     }
 
+    public function items()
+    {
+        return $this->belongsToMany(\Modules\SupplyChain\Entities\Item::class, 'taskcard_detail_items');
+    }
+
     public static function boot() {
         parent::boot();
 

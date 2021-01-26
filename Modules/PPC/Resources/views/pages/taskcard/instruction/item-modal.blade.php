@@ -10,6 +10,9 @@
             </div>
 
             <form method="post" id="inputFormItem">
+                <input type="hidden" id="taskcard_id" name="taskcard_id" value="{{ $Taskcard->id }}">
+                <input type="hidden" id="taskcard_detail_instruction_id" name="taskcard_detail_instruction_id" value="">
+
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Code / Item Name</label>
@@ -25,13 +28,13 @@
                             <div class="invalid-feedback-quantity text-danger font-italic"></div>
                         </div>
                     </div>      
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Unit</label>
                         <div class="col-sm-7">
                             <select class="unit_id form-control @error('unit_id') is-invalid @enderror" id="unit_id" name="unit_id"></select>
                             <div class="invalid-feedback-unit_id text-danger font-italic"></div>                           
                         </div>
-                    </div>      
+                    </div>       --}}
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
                         <div class="col-sm-7">
@@ -48,7 +51,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

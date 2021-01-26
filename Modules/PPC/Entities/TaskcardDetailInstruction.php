@@ -75,7 +75,7 @@ class TaskcardDetailInstruction extends Model
 
     public function item_details()
     {
-        return $this->hasMany(\Modules\SupplyChain\Entities\TaskcardDetailItem::class, 'taskcard_detail_instruction_id');
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailItem::class, 'taskcard_detail_instruction_id');
     }
 
     public static function boot() {

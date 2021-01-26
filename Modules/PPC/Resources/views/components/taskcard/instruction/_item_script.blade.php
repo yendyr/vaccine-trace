@@ -6,7 +6,7 @@
 $(document).ready(function () {
     // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
     var actionUrl = '/ppc/taskcard-detail-item';
-    var tableId = '#taskcard-detail-item';
+    var tableId = '.taskcard-detail-item';
     var createNewButtonId = '.createNewButtonItem';
     var inputModalId = '#inputModalItem';
     var modalTitleId = '#modalTitleItem';
@@ -19,12 +19,34 @@ $(document).ready(function () {
     var deleteModalButtonId = '#deleteModalButtonItem';
     // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
+    var datatableObject = $(tableId).DataTable({
+        pageLength: 25,
+        processing: true,
+        serverSide: false,
+        searchDelay: 1500,
+        ajax: {
+            url: "{{ route('ppc.taskcard-detail-item.index') }}",
+        },
+        columns: [
+            { data: 'item.code', name: 'Code' },
+            { data: 'item.name', name: 'Item Name' },
+            { data: 'quantity', name: 'Qty' },
+            { data: 'unit.name', name: 'Unit' },
+            { data: 'unit.name', name: 'Category' },
+            { data: 'description', name: 'Description' },
+            { data: 'action', name: 'Action', orderable: false },
+        ]
+    });
 
 
-    $('.item_id').select2({
+
+
+
+    $('#item_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Item',
         minimumInputLength: 3,
+        minimumResultsForSearch: 10,
         allowClear: true,
         ajax: {
             url: "{{ route('supplychain.item.select2') }}",
@@ -37,43 +59,36 @@ $(document).ready(function () {
 
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $(createNewButtonId).click(function () {
+        $('#taskcard_detail_instruction_id').val($(this).data('taskcard_detail_instruction_id'));
+
         showCreateModalDynamic (inputModalId, modalTitleId, 'Add New Item', saveButtonId, inputFormId, actionUrl);
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
 
 
+
+
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
-    $(editButtonClass).click(function (e) {
-        $(modalTitleId).html("Edit Item");
-        $(inputFormId).trigger("reset");
-        
+    datatableObject.on('click', editButtonClass, function () {
+        $(modalTitleId).html("Edit Item Requirement");
+        $(inputFormId).trigger("reset");                
+        rowId= $(this).val();
+        let tr = $(this).closest('tr');
+        let data = datatableObject.row(tr).data();
+        $(inputFormId).attr('action', actionUrl + '/' + data.id);
+
         $('<input>').attr({
             type: 'hidden',
             name: '_method',
             value: 'patch'
         }).prependTo(inputFormId);
 
-        var id = $(this).data('id');
-        $.get(actionUrl + '/' + id, function (data) {
-            $('.id').val(id);
-            $('.label').val(data.label);
-            $('.name').val(data.name);
-            $('#email').val(data.email);
-            $('#mobile_number').val(data.mobile_number);
-            $('#office_number').val(data.office_number);
-            $('#fax_number').val(data.fax_number);
-            $('#other_number').val(data.other_number);
-            $('#website').val(data.website);               
-            if (data.status == '1') {
-                $('#status').prop('checked', true);
-            }
-            else {
-                $('#status').prop('checked', false);
-            }
-
-            $(inputFormId).attr('action', actionUrl + '/' + id);
-        });
+        if (data.item != null) {
+            $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.code + ' | ' + data.item.name + '</option>');
+        }
+        $('#quantity').val(data.quantity);
+        $('#description').val(data.description);
 
         $(saveButtonId).val("edit");
         $('[class^="invalid-feedback-"]').html('');
@@ -83,55 +98,17 @@ $(document).ready(function () {
 
 
 
-    // ----------------- "SUBMIT FORM" BUTTON SCRIPT ------------- //
-    $(inputFormId).on('submit', function (event) {
-        event.preventDefault();
-        let url_action = $(inputFormId).attr('action');
-        $.ajax({
-            headers: {
-                "X-CSRF-TOKEN": $(
-                    'meta[name="csrf-token"]'
-                ).attr("content")
-            },
-            url: url_action,
-            method: "POST",
-            data: $(inputFormId).serialize(),
-            dataType: 'json',
-            beforeSend:function(){
-                let l = $( '.ladda-button-submit' ).ladda();
-                l.ladda( 'start' );
-                $('[class^="invalid-feedback-"]').html('');
-                $(saveButtonId).prop('disabled', true);
-            },
-            error: function(data){
-                let errors = data.responseJSON.errors;
-                if (errors) {
-                    $.each(errors, function (index, value) {
-                        $('div.invalid-feedback-'+index).html(value);
-                    })
-                }
-            },
-            success: function (data) {
-                if (data.success) {
-                    generateToast ('success', data.success);                            
-                }
-                $(inputModalId).modal('hide');
-            },
-            complete: function () {
-                let l = $( '.ladda-button-submit' ).ladda();
-                l.ladda( 'stop' );
-                $(saveButtonId).prop('disabled', false);
-            }
-        }); 
 
-        setTimeout(location.reload.bind(location), 2000);
+
+    $(inputFormId).on('submit', function (event) {
+        submitButtonProcessDynamic (tableId, inputFormId, inputModalId); 
     });
-    // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
+
 
 
 
     // ----------------- "DELETE" BUTTON  SCRIPT ------------- //
-    $(deleteButtonClass).click(function () {
+    datatableObject.on('click', deleteButtonClass, function () {
         rowId = $(this).val();
         $(deleteModalId).modal('show');
         $(deleteFormId).attr('action', actionUrl + '/' + rowId);
@@ -166,10 +143,10 @@ $(document).ready(function () {
                 $(deleteModalButtonId).text('Delete');
                 $(deleteModalId).modal('hide');
                 $(deleteModalButtonId).prop('disabled', false);
+
+                $(tableId).DataTable().ajax.reload();
             }
         });
-
-        setTimeout(location.reload.bind(location), 2000);
     });
     // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
 });
