@@ -54,5 +54,7 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/taskcard-detail-instruction', 'TaskcardDetailInstructionController');
+
+        Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
     });
 }); 

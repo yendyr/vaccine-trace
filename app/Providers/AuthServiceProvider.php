@@ -73,6 +73,9 @@ use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Policies\TaskcardDetailInstructionPolicy;
 use Modules\PPC\Entities\TaskcardDetailInstruction;
 
+use Modules\PPC\Policies\TaskcardDetailItemPolicy;
+use Modules\PPC\Entities\TaskcardDetailItem;
+
 use Modules\PPC\Policies\AircraftTypePolicy;
 use Modules\PPC\Entities\AircraftType;
 
@@ -165,6 +168,7 @@ class AuthServiceProvider extends ServiceProvider
         TaskcardDocumentLibrary::class => TaskcardDocumentLibraryPolicy::class,
         Taskcard::class => TaskcardPolicy::class,
         TaskcardDetailInstruction::class => TaskcardDetailInstructionPolicy::class,
+        TaskcardDetailItem::class => TaskcardDetailItemPolicy::class,
         AircraftType::class => AircraftTypePolicy::class,
         
         Skill::class => SkillPolicy::class,

@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    @include('generalsetting::pages.company.contact.item')
+                                    @include('generalsetting::pages.company.contact.content')
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    @include('generalsetting::pages.company.address.item')
+                                    @include('generalsetting::pages.company.address.content')
                                 </div>
                             </div>
                         </div>
@@ -148,14 +148,14 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    @include('generalsetting::pages.company.bank.item')
+                                    @include('generalsetting::pages.company.bank.content')
                                 </div>
                             </div>
                         </div>
                         <div id="tab-4" class="tab-pane">
                             <div class="panel-body" style="min-height: 500px;">
                                 <div class="row m-b">
-                                    @include('generalsetting::pages.company.accounting-setting.item')
+                                    @include('generalsetting::pages.company.accounting-setting.content')
                                 </div>
                             </div>
                         </div>

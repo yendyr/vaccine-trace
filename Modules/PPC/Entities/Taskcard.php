@@ -130,6 +130,11 @@ class Taskcard extends Model
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailInstruction::class, 'taskcard_id');
     }
 
+    public function item_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailItem::class, 'taskcard_id');
+    }
+
     public static function boot() {
         parent::boot();
 
@@ -140,6 +145,7 @@ class Taskcard extends Model
              $Taskcard->document_library_details()->delete();
              $Taskcard->affected_manual_details()->delete();
              $Taskcard->instruction_details()->delete();
+             $Taskcard->item_details()->delete();
         });
     }
 }

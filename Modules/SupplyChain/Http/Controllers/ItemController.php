@@ -222,8 +222,8 @@ class ItemController extends Controller
     {
         $search = $request->q;
 
-        $query = Item::orderby('name','asc')
-                    ->select('id','name')
+        $query = Item::orderby('code','asc')
+                    ->select('id','code','name')
                     ->where('status', 1);
 
         if($search != ''){
@@ -234,8 +234,8 @@ class ItemController extends Controller
         $response = [];
         foreach($Items as $Item){
             $response['results'][] = [
-                "id"=>$Item->id,
-                "text"=>$Item->name
+                "id" => $Item->id,
+                "text" => $Item->code . ' | ' . $Item->name
             ];
         }
 

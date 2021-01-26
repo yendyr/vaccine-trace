@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    @include('ppc::pages.taskcard.instruction.item')
+                                    @include('ppc::pages.taskcard.instruction.content')
                                 </div>
                             </div>
                         </div>
@@ -144,6 +144,7 @@
 
 @include('ppc::components.taskcard.control-parameter._script')
 @include('ppc::components.taskcard.instruction._script')
+@include('ppc::components.taskcard.instruction._item_script')
 @include('ppc::components.taskcard._file_upload_script')
 
 @push('footer-scripts')
