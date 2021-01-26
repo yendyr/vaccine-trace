@@ -74,11 +74,6 @@
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 
-                        @include('components.delete-modal', 
-                                ['deleteModalId' => 'deleteModalContact',
-                                'deleteFormId' => 'deleteFormContact',
-                                'deleteModalButtonId' => 'deleteModalButtonContact'])
-
                         <button type="button" name="delete" class="deleteButtonContact btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
                         value="{{ $contact->id ?? '' }}">
                             <i class="fa fa-trash"></i>&nbsp;Delete

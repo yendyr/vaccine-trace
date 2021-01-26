@@ -59,7 +59,7 @@
                         </div>
                         <div class="ibox-content">
                             <div class="table-responsive" style="font-size: 9pt;">
-                                <table id="taskcard-detail-item" class="taskcard-detail-item table table-hover table-striped text-center" style="width:100%" data-ajaxsource="{{ $ajaxSource ?? '' }}">
+                                <table id="{{ $instruction_detail->id ?? '-' }}" class="perInstructionItem table table-hover table-striped text-center" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th style="font-weight: normal;">Code</th>
@@ -72,6 +72,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if (sizeOf($instruction_detail->item_details) > 0)
+                                        @foreach ($instruction_detail->item_details as $item_detail)
+                                        <tr>
+                                            <td>{{ $item_detail->item->code ?? '' }}</td>
+                                            <td>{{ $item_detail->item->name ?? '' }}</td>
+                                            <td>{{ $item_detail->quantity ?? '' }}</td>
+                                            <td>{{ $item_detail->unit->name ?? '' }}</td>
+                                            <td>{{ $item_detail->category->name ?? '' }}</td>
+                                            <td>{{ $item_detail->description ?? '' }}</td>
+                                            <td>
+                                            @can('update', Modules\PPC\Entities\Taskcard::class)                
+                                            <button class="editButtonItem btn btn-sm btn-outline btn-primary" 
+                                            data-toggle="tooltip" data-id="{{ $item_detail->id ?? '' }}" title="Update">
+                                            <i class="fa fa-edit"></i></button>
+
+                                            <button type="button" name="delete" class="deleteButtonItem btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
+                                            value="{{ $item_detail->id ?? '' }}">
+                                            <i class="fa fa-trash"></i></button>  
+                                            @endcan 
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div> 
@@ -96,12 +119,7 @@
                         <button class="editButtonInstruction btn btn-sm btn-outline btn-primary" 
                         data-toggle="tooltip" data-id="{{ $instruction_detail->id ?? '' }}" title="Update">
                         <i class="fa fa-edit"></i>&nbsp;Edit
-                        </button>
-
-                        @include('components.delete-modal', 
-                                ['deleteModalId' => 'deleteModalInstruction',
-                                'deleteFormId' => 'deleteFormInstruction',
-                                'deleteModalButtonId' => 'deleteModalButtonInstruction'])
+                        </button>                        
 
                         <button type="button" name="delete" class="deleteButtonInstruction btn btn-outline btn-danger" data-toggle="tooltip" title="Delete"
                         value="{{ $instruction_detail->id ?? '' }}">

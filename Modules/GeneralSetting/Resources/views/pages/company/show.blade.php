@@ -6,6 +6,21 @@
     @include('generalsetting::pages.company.bank.modal')
     @include('generalsetting::pages.company.accounting-setting.modal')
 
+    @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalAddress',
+                                'deleteFormId' => 'deleteFormAddress',
+                                'deleteModalButtonId' => 'deleteModalButtonAddress'])
+
+    @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalBank',
+                                'deleteFormId' => 'deleteFormBank',
+                                'deleteModalButtonId' => 'deleteModalButtonBank'])
+
+    @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalContact',
+                                'deleteFormId' => 'deleteFormContact',
+                                'deleteModalButtonId' => 'deleteModalButtonContact'])
+
     <div class="row m-b m-t">
         <div class="col-md-5">
             <div class="profile-image">

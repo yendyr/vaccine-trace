@@ -101,6 +101,8 @@
                         generateToast ('success', data.success);                            
                     }
                     $(inputModalId).modal('hide');
+
+                    setTimeout(location.reload.bind(location), 2000);
                 },
                 complete: function () {
                     let l = $( '.ladda-button-submit' ).ladda();
@@ -108,8 +110,6 @@
                     $(saveButtonId).prop('disabled', false);
                 }
             }); 
-
-            setTimeout(location.reload.bind(location), 2000);
         });
         // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 
@@ -145,6 +145,8 @@
                 success:function(data){
                     if (data.success){
                         generateToast ('success', data.success);
+
+                        setTimeout(location.reload.bind(location), 2000);
                     }
                 },
                 complete: function(data) {
@@ -153,8 +155,6 @@
                     $(deleteModalButtonId).prop('disabled', false);
                 }
             });
-
-            setTimeout(location.reload.bind(location), 2000);
         });
         // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
     });

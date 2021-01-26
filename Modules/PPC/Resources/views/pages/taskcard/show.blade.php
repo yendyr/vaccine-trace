@@ -2,9 +2,14 @@
 
 @section('content')
     @include('components.delete-modal', 
-                        ['deleteModalId' => 'deleteModalItem',
-                        'deleteFormId' => 'deleteFormItem',
-                        'deleteModalButtonId' => 'deleteModalButtonItem'])
+                    ['deleteModalId' => 'deleteModalInstruction',
+                    'deleteFormId' => 'deleteFormInstruction',
+                    'deleteModalButtonId' => 'deleteModalButtonInstruction'])
+    
+    @include('components.delete-modal', 
+                    ['deleteModalId' => 'deleteModalItem',
+                    'deleteFormId' => 'deleteFormItem',
+                    'deleteModalButtonItem' => 'deleteModalButtonItem'])
 
     @include('ppc::pages.taskcard.control-parameter.modal')
     @include('ppc::pages.taskcard.instruction.modal')

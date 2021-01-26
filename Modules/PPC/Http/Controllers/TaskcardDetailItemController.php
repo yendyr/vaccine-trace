@@ -69,11 +69,6 @@ class TaskcardDetailItemController extends Controller
         }
     }
 
-    public function create()
-    {
-        
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -111,18 +106,11 @@ class TaskcardDetailItemController extends Controller
 
     public function show(TaskcardDetailItem $TaskcardDetailItem)
     {
-        // $TaskcardDetailInstruction = TaskcardDetailInstruction::where('id', $TaskcardDetailInstruction->id)
-        //                     ->with('engineering_level:id,name')
-        //                     ->with('taskcard_workarea:id,name')
-        //                     ->with('task_release_level:id,name')
-        //                     ->with('skills:id,name')
-        //                     ->first();
-        return response()->json($TaskcardDetailItem);
-    }
+        $TaskcardDetailItem = TaskcardDetailItem::where('id', $TaskcardDetailItem->id)
+                                ->with('item:id,code,name')
+                                ->first();
 
-    public function edit(TaskcardDetailItem $TaskcardDetailItem)
-    {
-        
+        return response()->json($TaskcardDetailItem);
     }
 
     public function update(Request $request, TaskcardDetailItem $TaskcardDetailItem)

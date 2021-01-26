@@ -40,11 +40,6 @@
                         <i class="fa fa-edit"></i>&nbsp;Edit
                         </button>
 
-                        @include('components.delete-modal', 
-                                ['deleteModalId' => 'deleteModalAddress',
-                                'deleteFormId' => 'deleteFormAddress',
-                                'deleteModalButtonId' => 'deleteModalButtonAddress'])
-
                         <button type="button" name="delete" class="deleteButtonAddress btn btn-sm btn-outline btn-danger" data-toggle="tooltip" title="Delete"
                         value="{{ $address->id ?? '' }}">
                             <i class="fa fa-trash"></i>&nbsp;Delete
