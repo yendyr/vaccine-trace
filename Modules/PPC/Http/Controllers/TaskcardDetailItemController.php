@@ -32,8 +32,9 @@ class TaskcardDetailItemController extends Controller
             $data = TaskcardDetailItem::with([
                                             'item:id,code,name',
                                             'unit:id,name',
+                                            'category:id,name',
                                         ]);
-            return Datatables::of($data)                
+            return Datatables::of($data)  
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';
                 })

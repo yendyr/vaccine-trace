@@ -254,6 +254,6 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     min-height: 200px;
 }
 
-.sweet-alert button {
-    background-color: #007bff;
+.nav-tabs > li > a {
+    background-color: #eee;
 }

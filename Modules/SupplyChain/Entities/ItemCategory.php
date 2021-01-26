@@ -58,4 +58,9 @@ class ItemCategory extends Model
     {
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'inventory_adjustment_coa_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\Item::class, 'category_id');
+    }
 }

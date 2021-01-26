@@ -32,7 +32,7 @@ $(document).ready(function () {
             { data: 'item.name', name: 'Item Name' },
             { data: 'quantity', name: 'Qty' },
             { data: 'unit.name', name: 'Unit' },
-            { data: 'unit.name', name: 'Category' },
+            { data: 'category.name', name: 'Category' },
             { data: 'description', name: 'Description' },
             { data: 'action', name: 'Action', orderable: false },
         ]

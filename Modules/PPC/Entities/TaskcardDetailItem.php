@@ -62,7 +62,7 @@ class TaskcardDetailItem extends Model
 
     public function category()
     {
-        return $this->hasOneThrough(\Modules\SupplyChain\Entities\ItemCategory::class, \Modules\SupplyChain\Entities\Item::class);
+        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemCategory::class, 'item_id');
     }
 
 

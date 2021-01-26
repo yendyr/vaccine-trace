@@ -97,47 +97,45 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="tabs-container">
-                <div class="tabs-left">
-                    <ul class="nav nav-tabs" id="myTab">
-                        <li>
-                            <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;" id="tab-contact"> 
-                                <i class="fa fa-refresh fa-2x fa-fw"></i>&nbsp;Control Parameter (Interval)
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;" id="tab-address"> 
-                                <i class="fa fa-edit fa-2x fa-fw"></i>&nbsp;Instructions and Tasks
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane active">
-                            <div class="panel-body" style="min-height: 500px;">
-                                <div class="row m-b">
-                                    <div class="col text-info">
-                                        <i class="fa fa-info-circle"></i>
-                                        Interval Control Method: <strong>{{ $Taskcard->interval_control_method ?? '' }}</strong>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @include('ppc::pages.taskcard.control-parameter.item')
+                <ul class="nav nav-tabs" id="myTab">
+                    <li>
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;" id="tab-contact"> 
+                            <i class="fa fa-refresh fa-2x"></i>&nbsp;Control Parameter (Interval)
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;" id="tab-address"> 
+                            <i class="fa fa-edit fa-2x"></i>&nbsp;Instructions and Tasks
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                <div class="col text-info">
+                                    <i class="fa fa-info-circle"></i>
+                                    Interval Control Method: <strong>{{ $Taskcard->interval_control_method ?? '' }}</strong>
                                 </div>
                             </div>
+                            <div class="row">
+                                @include('ppc::pages.taskcard.control-parameter.item')
+                            </div>
                         </div>
-                        <div id="tab-2" class="tab-pane">
-                            <div class="panel-body" style="min-height: 500px;">
-                                <div class="row m-b">
-                                    <div class="col">
-                                    @can('update', Modules\PPC\Entities\Taskcard::class)                
-                                        <button type="button" id="createNewButtonInstruction" class="btn btn-primary btn-lg">
-                                            <i class="fa fa-plus-circle"></i>&nbsp;Create New
-                                        </button>   
-                                    @endcan
-                                    </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                <div class="col">
+                                @can('update', Modules\PPC\Entities\Taskcard::class)                
+                                    <button type="button" id="createNewButtonInstruction" class="btn btn-primary btn-lg">
+                                        <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                                    </button>   
+                                @endcan
                                 </div>
-                                <div class="row">
-                                    @include('ppc::pages.taskcard.instruction.content')
-                                </div>
+                            </div>
+                            <div class="row">
+                                @include('ppc::pages.taskcard.instruction.content')
                             </div>
                         </div>
                     </div>
