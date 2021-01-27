@@ -157,11 +157,7 @@
 @include('ppc::components.taskcard.instruction._item_script')
 @include('ppc::components.taskcard._file_upload_script')
 
-@push('header-scripts')
-    @include('layouts.includes._header-datatable-script')
-@endpush
 @push('footer-scripts')
-    @include('layouts.includes._footer-datatable-script')
     <script>
         $(document).ready(function(){
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
