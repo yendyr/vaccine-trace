@@ -38,6 +38,7 @@
                 <h2 class="text-info m-t-none"><strong>{{ $Taskcard->mpd_number ?? '' }}</strong></h2>
                 <div>Task Card Group: <strong class="text-info">{{ $Taskcard->taskcard_group->name ?? '' }}</strong></div>
                 <div>Task Card Type: <strong class="text-info">{{ $Taskcard->taskcard_type->name ?? '' }}</strong></div>
+                <div>Task Card Compliance: <strong class="text-info">{{ $Taskcard->compliance ?? '' }}</strong></div>
             </div>
         </div>
         <div class="col-md-3">
@@ -50,6 +51,7 @@
             
         </div>
         <div class="col-md-4">
+            <div>Issued Date: <strong class="text-info">{{ $Taskcard->issued_date ?? '-' }}</strong></div>
             <div>Work Area: <strong class="text-info">{{ $Taskcard->taskcard_workarea->name ?? '-' }}</strong></div>
             <div>Source: <strong class="text-info">{{ $Taskcard->source ?? '-' }}</strong></div>
             <div>Reference: <strong class="text-info">{{ $Taskcard->reference ?? '-' }}</strong></div>

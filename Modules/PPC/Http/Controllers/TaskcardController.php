@@ -133,6 +133,7 @@ class TaskcardController extends Controller
             'title' => ['required', 'max:30'],
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
+            'compliance' => ['required'],
             'interval_control_method' => ['required', 'max:30'],
 
             'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
@@ -167,6 +168,13 @@ class TaskcardController extends Controller
             $repeat_date = null;
         }
 
+        if ($request->issued_date) {
+            $issued_date = Carbon::createFromFormat('m/d/Y', $request->issued_date)->format('Y-m-d');
+        }
+        else {
+            $issued_date = null;
+        }
+
         DB::beginTransaction();
         $Taskcard = Taskcard::create([
             'uuid' =>  Str::uuid(),
@@ -174,6 +182,7 @@ class TaskcardController extends Controller
             'title' => $request->title,
             'taskcard_group_id' => $request->taskcard_group_id,
             'taskcard_type_id' => $request->taskcard_type_id,
+            'compliance' => $request->compliance,
             'threshold_flight_hour' => $request->threshold_flight_hour,
             'threshold_flight_cycle' => $request->threshold_flight_cycle,
             'threshold_daily' => $request->threshold_daily,
@@ -188,6 +197,7 @@ class TaskcardController extends Controller
 
             'company_number' => $request->company_number,
             'ata' => $request->ata,
+            'issued_date' => $issued_date,
             'version' => $request->version,
             'revision' => $request->revision,
             'effectivity' => $request->effectivity,
@@ -278,11 +288,6 @@ class TaskcardController extends Controller
         return view('ppc::pages.taskcard.show', compact('Taskcard'));
     }
 
-    public function edit(Taskcard $Taskcard)
-    {
-        
-    }
-
     public function update(Request $request, Taskcard $Taskcard)
     {
         $request->validate([
@@ -290,6 +295,7 @@ class TaskcardController extends Controller
             'title' => ['required', 'max:30'],
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
+            'compliance' => ['required'],
             'interval_control_method' => ['required', 'max:30'],
 
             'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
@@ -324,6 +330,13 @@ class TaskcardController extends Controller
             $repeat_date = null;
         }
 
+        if ($request->issued_date) {
+            $issued_date = Carbon::createFromFormat('m/d/Y', $request->issued_date)->format('Y-m-d');
+        }
+        else {
+            $issued_date = null;
+        }
+
         DB::beginTransaction();
         $currentRow = Taskcard::where('id', $Taskcard->id)->first();
         $currentRow
@@ -332,6 +345,7 @@ class TaskcardController extends Controller
                 'title' => $request->title,
                 'taskcard_group_id' => $request->taskcard_group_id,
                 'taskcard_type_id' => $request->taskcard_type_id,
+                'compliance' => $request->compliance,
                 'threshold_flight_hour' => $request->threshold_flight_hour,
                 'threshold_flight_cycle' => $request->threshold_flight_cycle,
                 'threshold_daily' => $request->threshold_daily,
@@ -346,6 +360,7 @@ class TaskcardController extends Controller
 
                 'company_number' => $request->company_number,
                 'ata' => $request->ata,
+                'issued_date' => $issued_date,
                 'version' => $request->version,
                 'revision' => $request->revision,
                 'effectivity' => $request->effectivity,

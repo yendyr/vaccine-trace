@@ -58,6 +58,14 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
+    $('.compliance').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Compliance',
+        allowClear: false,
+        minimumResultsForSearch: -1,
+        dropdownParent: $('#inputModal')
+    });
+
     $('.aircraft_type_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Type',
@@ -194,6 +202,9 @@ $(document).ready(function () {
 
         $('#mpd_number').val(data.mpd_number);
         $('#title').val(data.title);
+
+        $('#compliance').append('<option value="' + data.compliance + '" selected>' + data.compliance + '</option>');
+
         $('#threshold_flight_hour').val(data.threshold_flight_hour);
         $('#threshold_flight_cycle').val(data.threshold_flight_cycle);
         $('#threshold_daily').val(data.threshold_daily);
@@ -215,6 +226,7 @@ $(document).ready(function () {
 
         $('#company_number').val(data.company_number);
         $('#ata').val(data.ata);
+        $('#issued_date').val(data.issued_date);
         $('#version').val(data.version);
         $('#revision').val(data.revision);
         $('#effectivity').val(data.effectivity);

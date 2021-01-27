@@ -19,6 +19,7 @@ class Taskcard extends Model
         'title',
         'taskcard_group_id',
         'taskcard_type_id',
+        'compliance',
         'threshold_flight_hour',
         'threshold_flight_cycle',
         'threshold_daily',
@@ -33,6 +34,7 @@ class Taskcard extends Model
 
         'company_number',
         'ata',
+        'issued_date',
         'version',
         'revision',
         'effectivity',

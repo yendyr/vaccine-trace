@@ -14,15 +14,6 @@
             });
         } 
         else {
-            // IMAGE PREVIEW
-            // var reader = new FileReader();
-
-            // reader.onload=function(ev){
-            //     $('#fileTaskcard').attr('src',ev.target.result);
-            // }
-            // reader.readAsDataURL(input.files[0]);
-
-            // PROCESS UPLOAD
             var postData = new FormData();
             var id = $('#taskcardFile').data('id');
             postData.append('file', input.files[0]);
@@ -48,6 +39,7 @@
                             text: data.success,
                             type: "success"
                         });
+                        setTimeout(location.reload.bind(location), 2000);
                     }
                 },
                 error: function(data){
