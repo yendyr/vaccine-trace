@@ -80,4 +80,9 @@ class Company extends Model
     {
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'purchase_discount_coa_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\Item::class, 'manufacturer_id');
+    }
 }

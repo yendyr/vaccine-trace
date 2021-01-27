@@ -19,9 +19,12 @@
             columns: [
                 { data: 'code', name: 'Code'  },
                 { data: 'name', name: 'Item Name' },
+                { data: 'model', name: 'Model' },
+                { data: 'type', name: 'Type' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'category.name', name: 'Category' },
                 { data: 'unit.name', name: 'Unit' },
+                { data: 'manufacturer.name', name: 'Manufacturer' },
                 { data: 'reorder_stock_level', name: 'Reorder Stock Level' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },
@@ -54,11 +57,24 @@
             dropdownParent: $('#inputModal')
         });
 
+        $('.manufacturer_id').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose Company',
+            allowClear: true,
+            ajax: {
+                url: "{{ route('generalsetting.company.select2.manufacturer') }}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#inputModal')
+        });
+
+
         $('#create').click(function () {
             showCreateModal ('Create New Item', inputFormId, actionUrl);
 
             $(".category_id").val(null).trigger('change');
             $(".primary_unit_id").val(null).trigger('change');
+            $(".manufacturer_id").val(null).trigger('change');
         });
 
         datatableObject.on('click', '.editBtn', function () {
@@ -77,6 +93,8 @@
 
             $('#code').val(data.code);
             $('#name').val(data.name);
+            $('#model').val(data.name);
+            $('#type').val(data.name);
             $('#description').val(data.description); 
             $('#reorder_stock_level').val(data.reorder_stock_level); 
             $(".category_id").val(null).trigger('change');
@@ -87,6 +105,11 @@
             $(".primary_unit_id").val(null).trigger('change');
             if (data.unit != null){
                 $('#primary_unit_id').append('<option value="' + data.primary_unit_id + '" selected>' + data.unit.name + '</option>');
+            } 
+
+            $(".manufacturer_id").val(null).trigger('change');
+            if (data.manufacturer != null){
+                $('#manufacturer_id').append('<option value="' + data.manufacturer_id + '" selected>' + data.manufacturer.name + '</option>');
             } 
 
             if (data.status == '<label class="label label-success">Active</label>') {
