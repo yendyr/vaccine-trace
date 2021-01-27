@@ -104,12 +104,12 @@
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
                     <li>
-                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;" id="tab-contact"> 
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
                             <i class="fa fa-refresh fa-2x text-warning"></i>&nbsp;Control Parameter (Interval)
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;" id="tab-address"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-edit fa-2x text-warning"></i>&nbsp;Instructions and Tasks
                         </a>
                     </li>

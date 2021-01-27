@@ -257,3 +257,8 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .nav-tabs > li > a {
     background-color: #ededed;
 }
+
+.nav-tabs .nav-link {
+    border: 1px solid #1c84c63d;
+    border-bottom-style: none;
+}
