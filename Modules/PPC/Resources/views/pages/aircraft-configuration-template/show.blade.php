@@ -2,12 +2,13 @@
 
 @section('content')
     <div class="row m-b m-t">
-        <div class="col-md-1">
+        <div class="col-md-1 d-flex align-items-center">
             <i class="fa fa-paper-plane fa-5x fa-fw text-success"></i>
         </div>
         <div class="col-md-6">            
             <h2 class="m-t-none font-bold">{{ $AircraftConfigurationTemplate->name ?? '' }}</h2>
-            <h3 class="m-t-none font-normal">{{ $AircraftConfigurationTemplate->code ?? '' }}</h3>
+            <p class="m-t-none m-b-none font-normal">{{ $AircraftConfigurationTemplate->code ?? '' }}</p>
+            <p class="m-t-none">{{ $AircraftConfigurationTemplate->description ?? '' }}</p>
         </div>
         <div class="col-md-5">
             <p  class="m-t-none m-b-none">Aircraft Type:</p>

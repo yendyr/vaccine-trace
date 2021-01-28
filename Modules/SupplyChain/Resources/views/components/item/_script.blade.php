@@ -93,8 +93,8 @@
 
             $('#code').val(data.code);
             $('#name').val(data.name);
-            $('#model').val(data.name);
-            $('#type').val(data.name);
+            $('#model').val(data.model);
+            $('#type').val(data.type);
             $('#description').val(data.description); 
             $('#reorder_stock_level').val(data.reorder_stock_level); 
             $(".category_id").val(null).trigger('change');

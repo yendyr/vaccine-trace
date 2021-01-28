@@ -54,6 +54,11 @@ class AircraftConfigurationTemplateDetail extends Model
         return $this->belongsTo(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_id');
     }
 
+    public function parent_item()
+    {
+        return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'parent_id');
+    }
+
     public function subGroup()
     {
         return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_id');
