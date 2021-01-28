@@ -49,12 +49,19 @@ $(document).ready(function () {
     $('.parent_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Parent Item',
-        // minimumInputLength: 3,
+        minimumInputLength: 3,
         minimumResultsForSearch: 10,
         allowClear: true,
         ajax: {
             url: "{{ route('ppc.configuration-template-detail.select2') }}",
             dataType: 'json',
+            data: function (params) {
+                var getHeaderId = { 
+                    term: params.term,
+                    aircraft_configuration_template_id: $('#aircraft_configuration_template_id').val(),
+                }
+                return getHeaderId;
+            }
         },
         dropdownParent: $('#inputModal')
     });

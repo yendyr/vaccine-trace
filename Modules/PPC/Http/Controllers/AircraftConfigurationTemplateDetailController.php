@@ -151,13 +151,15 @@ class AircraftConfigurationTemplateDetailController extends Controller
 
     public function select2Parent(Request $request)
     {
-        $search = $request->q;
+        $search = $request->term;
+        $aircraft_configuration_template_id = $request->aircraft_configuration_template_id;
 
-        $query = AircraftConfigurationTemplateDetail::with('item:id,code,name')
-                                                    ->where('status', 1);
+        $query = AircraftConfigurationTemplateDetail::with(['item:id,code,name'])
+                ->where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
+                ->where('status', 1);
 
         if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
+            $query = $query->where('item.name', 'like', '%' .$search. '%');
         }
         $AircraftConfigurationTemplateDetails = $query->get();
 
@@ -165,7 +167,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
         foreach($AircraftConfigurationTemplateDetails as $AircraftConfigurationTemplateDetail){
             $response['results'][] = [
                 "id" => $AircraftConfigurationTemplateDetail->id,
-                "text" => $AircraftConfigurationTemplateDetail->item->code . ' | ' . $AircraftConfigurationTemplateDetail->item->name
+                "text" => $AircraftConfigurationTemplateDetail->item->code . ' | ' . $AircraftConfigurationTemplateDetail->item->name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
             ];
         }
 
