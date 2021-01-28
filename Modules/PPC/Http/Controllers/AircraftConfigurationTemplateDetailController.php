@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -29,7 +30,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
         
         $data = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
                                                 ->with(['item:id,code,name',
-                                                        'item_group:id,item_id',
+                                                        'item_group:id,item_id,alias_name',
                                                         'subGroup'])
                                                 ->orderBy('created_at','asc')
                                                 ->get();
@@ -40,6 +41,18 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 } else{
                     return '<label class="label label-danger">Inactive</label>';
                 }
+            })
+            ->addColumn('parent_code', function($row){
+                return $row->item_group->item->code ?? '-';
+            })
+            ->addColumn('parent_name', function($row){
+                if ($row->item_group) {
+                    return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
+                }
+                else {
+                    return '-';
+                }
+                
             })
             ->addColumn('creator_name', function($row){
                 return $row->creator->name ?? '-';
@@ -154,12 +167,17 @@ class AircraftConfigurationTemplateDetailController extends Controller
         $search = $request->term;
         $aircraft_configuration_template_id = $request->aircraft_configuration_template_id;
 
-        $query = AircraftConfigurationTemplateDetail::with(['item:id,code,name'])
-                ->where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
-                ->where('status', 1);
+        // $query = AircraftConfigurationTemplateDetail::with(['item:id,code,name'])
+        //         ->where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
+        //         ->where('status', 1);
+
+        $query = DB::table('aircraft_configuration_template_details')
+                    ->leftJoin('items', 'aircraft_configuration_template_details.item_id', '=', 'items.id')
+                    ->where('aircraft_configuration_template_details.aircraft_configuration_template_id', '=', $aircraft_configuration_template_id)
+                    ->select('aircraft_configuration_template_details.id', 'aircraft_configuration_template_details.alias_name', 'items.code', 'items.name');
 
         if($search != ''){
-            $query = $query->where('item.name', 'like', '%' .$search. '%');
+            $query = $query->where('items.name', 'like', '%' .$search. '%');
         }
         $AircraftConfigurationTemplateDetails = $query->get();
 
@@ -167,7 +185,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
         foreach($AircraftConfigurationTemplateDetails as $AircraftConfigurationTemplateDetail){
             $response['results'][] = [
                 "id" => $AircraftConfigurationTemplateDetail->id,
-                "text" => $AircraftConfigurationTemplateDetail->item->code . ' | ' . $AircraftConfigurationTemplateDetail->item->name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
+                "text" => $AircraftConfigurationTemplateDetail->code . ' | ' . $AircraftConfigurationTemplateDetail->name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
             ];
         }
 

@@ -22,7 +22,7 @@
         <th>Alias Name</th>
         <th>Description/Remark</th>
         <th>Parent Item/Group PN</th>
-        <th>Parent Item/Group Name</th>
+        <th>Parent Item/Group Name & Alias</th>
         <th>Status</th>
         <th>Created By</th>
         <th>Created At</th>

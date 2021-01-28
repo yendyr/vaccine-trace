@@ -21,8 +21,8 @@ $(document).ready(function () {
             { data: 'item.name', name: 'Item Name' },
             { data: 'alias_name', name: 'Alias Name' },
             { data: 'description', name: 'Description/Remark' },
-            { data: 'parent_item.code', name: 'Parent Item/Group PN', defaultContent: '-' },
-            { data: 'parent_item.name', name: 'Parent Item/Group Name', defaultContent: '-' },
+            { data: 'parent_code', name: 'Parent Item/Group PN', defaultContent: '-' },
+            { data: 'parent_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
             { data: 'status', name: 'Status' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
@@ -49,7 +49,7 @@ $(document).ready(function () {
     $('.parent_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Parent Item',
-        minimumInputLength: 3,
+        minimumInputLength: 2,
         minimumResultsForSearch: 10,
         allowClear: true,
         ajax: {
@@ -103,7 +103,7 @@ $(document).ready(function () {
         }
 
         if (data.item_group != null) {
-            $('.parent_id').append('<option value="' + data.parent_id + '" selected>' + data.item_group.name + '</option>');
+            $('.parent_id').append('<option value="' + data.parent_id + '" selected>' + data.parent_code + ' | ' + data.parent_name + '</option>');
         }   
 
         if (data.status == '<label class="label label-success">Active</label>') {
