@@ -18,7 +18,8 @@
             },
             columns: [
                 { data: 'code', name: 'Code'  },
-                { data: 'name', name: 'Aircraft Type Name' },
+                { data: 'name', "render": function ( data, type, row, meta ) {
+                                return '<a href="aircraft-configuration-template/' + row.id + '">' + row.name + '</a>'; }},
                 { data: 'aircraft_type.name', name: 'Aircraft Type', defaultContent: '-' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
@@ -62,7 +63,7 @@
             $('#code').val(data.code);
             $('#name').val(data.name);
             $(".aircraft_type_id").val(null).trigger('change');
-            if (data.manufacturer != null) {
+            if (data.aircraft_type != null) {
                 $('#aircraft_type_id').append('<option value="' + data.aircraft_type_id + '" selected>' + data.aircraft_type.name + '</option>');
             }
 

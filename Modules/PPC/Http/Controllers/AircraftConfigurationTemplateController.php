@@ -25,7 +25,7 @@ class AircraftConfigurationTemplateController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = AircraftConfigurationTemplate::all();
+            $data = AircraftConfigurationTemplate::with(['aircraft_type:id,name']);
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

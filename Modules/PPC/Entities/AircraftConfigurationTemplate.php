@@ -50,16 +50,14 @@ class AircraftConfigurationTemplate extends Model
 
     public function aircraft_configuration_template_details()
     {
-        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'aircraft_configuration_template_details_id');
+        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'aircraft_configuration_template_id');
     }
 
     public static function boot() {
         parent::boot();
 
         static::deleting(function($AircraftConfigurationTemplate) {
-            if (sizeof($AircraftConfigurationTemplate->aircraft_configuration_template_details) > 0) {
-                $AircraftConfigurationTemplate->aircraft_configuration_template_details()->delete();
-            }             
+            $AircraftConfigurationTemplate->aircraft_configuration_template_details()->delete();             
         });
     }
 }

@@ -34,10 +34,7 @@
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                <div class="col text-info">
-                                    <i class="fa fa-info-circle"></i>
-                                    Interval Control Method: <strong>{{ $Taskcard->interval_control_method ?? '' }}</strong>
-                                </div>
+                                @include('ppc::pages.aircraft-configuration-template.item-configuration-content.content')
                             </div>
                         </div>
                     </div>

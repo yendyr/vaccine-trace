@@ -24,7 +24,7 @@
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'category.name', name: 'Category' },
                 { data: 'unit.name', name: 'Unit' },
-                { data: 'manufacturer.name', name: 'Manufacturer' },
+                { data: 'manufacturer.name', name: 'Manufacturer', defaultContent: '-' },
                 { data: 'reorder_stock_level', name: 'Reorder Stock Level' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },

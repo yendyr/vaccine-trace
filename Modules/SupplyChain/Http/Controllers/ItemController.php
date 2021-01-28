@@ -26,12 +26,12 @@ class ItemController extends Controller
     {
         if ($request->ajax()) {
             $data = Item::with(['sales_coa:id,name'])
-                            ->with(['inventory_coa:id,name'])
-                            ->with(['cost_coa:id,name'])
-                            ->with(['inventory_adjustment_coa:id,name'])
-                            ->with(['unit:id,name'])
-                            ->with(['category:id,name'])
-                            ->with(['manufacturer:id,name']);
+                            ->with(['inventory_coa:id,name',
+                                    'cost_coa:id,name',
+                                    'inventory_adjustment_coa:id,name',
+                                    'unit:id,name',
+                                    'category:id,name',
+                                    'manufacturer:id,name']);
 
             return Datatables::of($data)
                 ->addColumn('status', function($row){
@@ -106,8 +106,8 @@ class ItemController extends Controller
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
-            'model' => $request->name,
-            'type' => $request->name,
+            'model' => $request->model,
+            'type' => $request->type,
             'description' => $request->description,
             'reorder_stock_level' => $request->reorder_stock_level,
             'category_id' => $request->category_id,
@@ -153,8 +153,8 @@ class ItemController extends Controller
             $currentRow
                 ->update([
                     'name' => $request->name,
-                    'model' => $request->name,
-                    'type' => $request->name,
+                    'model' => $request->model,
+                    'type' => $request->type,
                     'description' => $request->description,
                     'reorder_stock_level' => $request->reorder_stock_level,
                     'category_id' => $request->category_id,
@@ -170,8 +170,8 @@ class ItemController extends Controller
                 ->update([
                     'code' => $request->code,
                     'name' => $request->name,
-                    'model' => $request->name,
-                    'type' => $request->name,
+                    'model' => $request->model,
+                    'type' => $request->type,
                     'description' => $request->description,
                     'reorder_stock_level' => $request->reorder_stock_level,
                     'category_id' => $request->category_id,
