@@ -129,7 +129,7 @@ class AircraftConfigurationTemplateController extends Controller
                 ->update([
                     'name' => $request->name,
                     'description' => $request->description,
-                    'aircraft_type_id' => $request->manufacturer_id,
+                    'aircraft_type_id' => $request->aircraft_type_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
@@ -140,12 +140,13 @@ class AircraftConfigurationTemplateController extends Controller
                     'code' => $request->code,
                     'name' => $request->name,
                     'description' => $request->description,
-                    'aircraft_type_id' => $request->manufacturer_id,
+                    'aircraft_type_id' => $request->aircraft_type_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
         }
-        return response()->json(['success' => 'Aircraft Configuration Template Data has been Updated']);
+        return response()->json(['success' => 'Aircraft Configuration Template Data has been Updated',
+                                'id' => $AircraftConfigurationTemplate->id]);
     }
 
     public function destroy(AircraftConfigurationTemplate $AircraftConfigurationTemplate)

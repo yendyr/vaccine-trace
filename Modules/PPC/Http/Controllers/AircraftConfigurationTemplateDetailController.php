@@ -18,7 +18,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(AircraftConfigurationTemplateDetail::class);
+        $this->authorizeResource(AircraftConfigurationTemplateDetail::class, 'configuration_template_detail');
         $this->middleware('auth');
     }
 
@@ -31,7 +31,8 @@ class AircraftConfigurationTemplateDetailController extends Controller
                                                 ->with(['item:id,code,name',
                                                         'item_group:id,item_id',
                                                         'subGroup'])
-                                                ->orderBy('created_at', 'desc');
+                                                ->orderBy('created_at','desc')
+                                                ->get();
         return Datatables::of($data)
             ->addColumn('status', function($row){
                 if ($row->status == 1){
@@ -107,7 +108,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
         return view('ppc::pages.aircraft-configuration-template-detail.show', compact('AircraftConfigurationTemplateDetail'));
     }
 
-    public function update(Request $request, AircraftConfigurationTemplateDetail $AircraftConfigurationTemplateDetail)
+    public function update(Request $request, AircraftConfigurationTemplateDetail $ConfigurationTemplateDetail)
     {
         $request->validate([
             'item_id' => ['required'],
@@ -120,7 +121,8 @@ class AircraftConfigurationTemplateDetailController extends Controller
             $status = 0;
         }
 
-        $currentRow = AircraftConfigurationTemplateDetail::where('id', $AircraftConfigurationTemplateDetail->id);
+        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)->first();
+
         $currentRow
             ->update([
                 'item_id' => $request->item_id,
@@ -135,26 +137,24 @@ class AircraftConfigurationTemplateDetailController extends Controller
         return response()->json(['success' => 'Item/Component Data has been Updated']);
     }
 
-    public function destroy(AircraftConfigurationTemplateDetail $AircraftConfigurationTemplateDetail)
+    public function destroy(AircraftConfigurationTemplateDetail $ConfigurationTemplateDetail)
     {
-        $currentRow = AircraftConfigurationTemplateDetail::where('id', $AircraftConfigurationTemplateDetail->id)->first();
+        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)->first();
         $currentRow
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
 
-        AircraftConfigurationTemplateDetail::destroy($AircraftConfigurationTemplateDetail->id);
-        return response()->json(['success' => 'Item/COmponent Data has been Deleted']);
+        AircraftConfigurationTemplateDetail::destroy($ConfigurationTemplateDetail->id);
+        return response()->json(['success' => 'Item/Component Data has been Deleted']);
     }
 
     public function select2Parent(Request $request)
     {
         $search = $request->q;
 
-        $query = AircraftConfigurationTemplateDetail::orderby('name','asc')
-                    ->with('item:id,code,name')
-                    ->select('id','name')
-                    ->where('status', 1);
+        $query = AircraftConfigurationTemplateDetail::with('item:id,code,name')
+                                                    ->where('status', 1);
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');

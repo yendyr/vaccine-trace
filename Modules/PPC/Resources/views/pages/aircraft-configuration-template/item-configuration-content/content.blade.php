@@ -1,4 +1,7 @@
 <div class="col fadeIn" style="animation-duration: 1.5s">
+    @component('components.delete-modal', ['name' => 'Item/Component Datalist'])
+    @endcomponent
+
     @include('ppc::pages.aircraft-configuration-template.item-configuration-content.modal')
     
     @component('components.crud-form.index',[

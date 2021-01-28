@@ -49,7 +49,7 @@ $(document).ready(function () {
     $('.parent_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Parent Item',
-        minimumInputLength: 3,
+        // minimumInputLength: 3,
         minimumResultsForSearch: 10,
         allowClear: true,
         ajax: {

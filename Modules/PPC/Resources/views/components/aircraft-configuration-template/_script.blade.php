@@ -114,9 +114,9 @@
                     $('#inputModal').modal('hide');
                     $(targetTableId).DataTable().ajax.reload();
 
-                    setTimeout(function () {
-                        window.location.href = "aircraft-configuration-template/" + data.id;
-                    }, 2000);
+                    // setTimeout(function () {
+                    //     window.location.href = "aircraft-configuration-template/" + data.id;
+                    // }, 2000);
                 },
                 complete: function () {
                     let l = $( '.ladda-button-submit' ).ladda();
