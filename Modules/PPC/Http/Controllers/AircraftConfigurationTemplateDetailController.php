@@ -31,7 +31,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
                                                 ->with(['item:id,code,name',
                                                         'item_group:id,item_id',
                                                         'subGroup'])
-                                                ->orderBy('created_at','desc')
+                                                ->orderBy('created_at','asc')
                                                 ->get();
         return Datatables::of($data)
             ->addColumn('status', function($row){

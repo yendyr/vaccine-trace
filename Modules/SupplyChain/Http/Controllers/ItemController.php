@@ -237,7 +237,8 @@ class ItemController extends Controller
                     ->where('status', 1);
 
         if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
+            $query = $query->where('name', 'like', '%' .$search. '%')
+                            ->orWhere('code', 'like', '%' .$search. '%');
         }
         $Items = $query->get();
 
