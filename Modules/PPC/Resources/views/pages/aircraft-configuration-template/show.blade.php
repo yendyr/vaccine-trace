@@ -3,11 +3,12 @@
 @section('content')
     <div class="row m-b m-t">
         <div class="col-md-1">
-            <i class="fa fa-paper-plane fa-5x fa-fw text-success"></i>
+            <img src="{{ URL::asset('assets/crank.png') }}" style="width: 100%; height: auto;">
         </div>
-        <div class="col-md-6">            
+        <div class="col-md-6 p-l-md">            
             <h2 class="m-t-none font-bold">{{ $AircraftConfigurationTemplate->name ?? '' }}</h2>
-            <h3 class="m-t-none font-normal">{{ $AircraftConfigurationTemplate->code ?? '' }}</h3>
+            <p class="m-t-none m-b-none font-normal">{{ $AircraftConfigurationTemplate->code ?? '' }}</p>
+            <p class="m-t-none">{{ $AircraftConfigurationTemplate->description ?? '' }}</p>
         </div>
         <div class="col-md-5">
             <p  class="m-t-none m-b-none">Aircraft Type:</p>
@@ -34,10 +35,7 @@
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                <div class="col text-info">
-                                    <i class="fa fa-info-circle"></i>
-                                    Interval Control Method: <strong>{{ $Taskcard->interval_control_method ?? '' }}</strong>
-                                </div>
+                                @include('ppc::pages.aircraft-configuration-template.item-configuration-content.content')
                             </div>
                         </div>
                     </div>

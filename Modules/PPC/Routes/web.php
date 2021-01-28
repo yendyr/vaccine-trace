@@ -50,6 +50,11 @@ Route::name('ppc.')->group(function () {
 
         Route::resource('/aircraft-configuration-template', 'AircraftConfigurationTemplateController');
 
+        Route::resource('/configuration-template-detail', 'AircraftConfigurationTemplateDetailController');        
+        Route::name('configuration-template-detail.')->group(function() {
+            Route::get('ppc/configuration-template-detail/select2', 'AircraftConfigurationTemplateDetailController@select2Parent')->name('select2');
+        });
+
         Route::resource('/taskcard', 'TaskcardController');
         Route::name('taskcard.')->group(function() {
             Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');

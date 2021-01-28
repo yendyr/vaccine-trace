@@ -24,7 +24,7 @@
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'category.name', name: 'Category' },
                 { data: 'unit.name', name: 'Unit' },
-                { data: 'manufacturer.name', name: 'Manufacturer' },
+                { data: 'manufacturer.name', name: 'Manufacturer', defaultContent: '-' },
                 { data: 'reorder_stock_level', name: 'Reorder Stock Level' },
                 { data: 'status', name: 'Status' },
                 { data: 'creator_name', name: 'Created By' },
@@ -93,8 +93,8 @@
 
             $('#code').val(data.code);
             $('#name').val(data.name);
-            $('#model').val(data.name);
-            $('#type').val(data.name);
+            $('#model').val(data.model);
+            $('#type').val(data.type);
             $('#description').val(data.description); 
             $('#reorder_stock_level').val(data.reorder_stock_level); 
             $(".category_id").val(null).trigger('change');
