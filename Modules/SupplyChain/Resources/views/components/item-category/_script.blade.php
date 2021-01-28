@@ -4,7 +4,7 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/supplychain/item-category/';
+        var actionUrl = '/supplychain/item-category';
         var tableId = '#item-category-table';
         var inputFormId = '#inputForm';
 
@@ -29,20 +29,9 @@
             ]
         });
 
-        // $('.unit_class_id').select2({
-        //     theme: 'bootstrap4',
-        //     placeholder: 'Choose Unit Class',
-        //     allowClear: true,
-        //     ajax: {
-        //         url: "{{ route('supplychain.unit-class.select2') }}",
-        //         dataType: 'json',
-        //     },
-        //     dropdownParent: $('#inputModal')
-        // });
 
         $('#create').click(function () {
             showCreateModal ('Create New Item Category', inputFormId, actionUrl);
-            // $(".unit_class_id").val(null).trigger('change');
         });
 
         datatableObject.on('click', '.editBtn', function () {
@@ -51,7 +40,7 @@
             rowId= $(this).val();
             let tr = $(this).closest('tr');
             let data = datatableObject.row(tr).data();
-            $(inputFormId).attr('action', actionUrl + data.id);
+            $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
             $('<input>').attr({
                 type: 'hidden',

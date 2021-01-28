@@ -30,7 +30,8 @@ class ItemController extends Controller
                             ->with(['cost_coa:id,name'])
                             ->with(['inventory_adjustment_coa:id,name'])
                             ->with(['unit:id,name'])
-                            ->with(['category:id,name']);
+                            ->with(['category:id,name'])
+                            ->with(['manufacturer:id,name']);
 
             return Datatables::of($data)
                 ->addColumn('status', function($row){
@@ -105,10 +106,13 @@ class ItemController extends Controller
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
+            'model' => $request->name,
+            'type' => $request->name,
             'description' => $request->description,
             'reorder_stock_level' => $request->reorder_stock_level,
             'category_id' => $request->category_id,
             'primary_unit_id' => $request->primary_unit_id,
+            'manufacturer_id' => $request->manufacturer_id,
             'status' => $status,
             'owned_by' => $request->user()->company_id,
             'created_by' => $request->user()->id,
@@ -149,10 +153,13 @@ class ItemController extends Controller
             $currentRow
                 ->update([
                     'name' => $request->name,
+                    'model' => $request->name,
+                    'type' => $request->name,
                     'description' => $request->description,
                     'reorder_stock_level' => $request->reorder_stock_level,
                     'category_id' => $request->category_id,
                     'primary_unit_id' => $request->primary_unit_id,
+                    'manufacturer_id' => $request->manufacturer_id,
                     'status' => $status,
                     'owned_by' => $request->user()->company_id,
                     'updated_by' => $request->user()->id,
@@ -163,10 +170,13 @@ class ItemController extends Controller
                 ->update([
                     'code' => $request->code,
                     'name' => $request->name,
+                    'model' => $request->name,
+                    'type' => $request->name,
                     'description' => $request->description,
                     'reorder_stock_level' => $request->reorder_stock_level,
                     'category_id' => $request->category_id,
                     'primary_unit_id' => $request->primary_unit_id,
+                    'manufacturer_id' => $request->manufacturer_id,
                     'status' => $status,
                     'owned_by' => $request->user()->company_id,
                     'updated_by' => $request->user()->id,
@@ -222,8 +232,8 @@ class ItemController extends Controller
     {
         $search = $request->q;
 
-        $query = Item::orderby('name','asc')
-                    ->select('id','name')
+        $query = Item::orderby('code','asc')
+                    ->select('id','code','name')
                     ->where('status', 1);
 
         if($search != ''){
@@ -234,8 +244,8 @@ class ItemController extends Controller
         $response = [];
         foreach($Items as $Item){
             $response['results'][] = [
-                "id"=>$Item->id,
-                "text"=>$Item->name
+                "id" => $Item->id,
+                "text" => $Item->code . ' | ' . $Item->name
             ];
         }
 

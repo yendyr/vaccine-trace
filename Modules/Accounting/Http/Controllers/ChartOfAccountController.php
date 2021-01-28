@@ -199,7 +199,7 @@ class ChartOfAccountController extends Controller
     {
         $search = $request->q;
         $query = ChartOfAccount::orderby('name','asc')
-                    ->select('id','name')
+                    ->select('id', 'code', 'name')
                     ->where('status', 1);
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
@@ -210,7 +210,7 @@ class ChartOfAccountController extends Controller
         foreach($ChartOfAccounts as $ChartOfAccount){
             $response['results'][] = [
                 "id"=>$ChartOfAccount->id,
-                "text"=>$ChartOfAccount->name
+                "text"=>$ChartOfAccount->code . ' | ' . $ChartOfAccount->name
             ];
         }
 
@@ -227,7 +227,7 @@ class ChartOfAccountController extends Controller
                             ->where('status', 1);
 
         $query = ChartOfAccount::orderby('name','asc')
-                    ->select('id','name')
+                    ->select('id', 'code', 'name')
                     ->whereNotIn('id', $selectHaveParent)
                     ->where('status', 1);
 
@@ -240,7 +240,7 @@ class ChartOfAccountController extends Controller
         foreach($ChartOfAccounts as $ChartOfAccount){
             $response['results'][] = [
                 "id"=>$ChartOfAccount->id,
-                "text"=>$ChartOfAccount->name
+                "text"=>$ChartOfAccount->code . ' | ' . $ChartOfAccount->name
             ];
         }
 

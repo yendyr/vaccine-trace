@@ -17,6 +17,8 @@ class Item extends Model
         'uuid',
         'code',
         'name',
+        'model',
+        'type',
         'description',
 
         'reorder_stock_level',
@@ -24,6 +26,7 @@ class Item extends Model
 
         'category_id',
         'primary_unit_id',
+        'manufacturer_id',
 
         'sales_coa_id',
         'inventory_coa_id',
@@ -75,5 +78,10 @@ class Item extends Model
     public function category()
     {
         return $this->belongsTo(\Modules\SupplyChain\Entities\ItemCategory::class, 'category_id');
+    }
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'manufacturer_id');
     }
 }

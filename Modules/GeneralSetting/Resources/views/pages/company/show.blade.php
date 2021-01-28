@@ -3,15 +3,40 @@
 @section('content')
     @include('generalsetting::pages.company.contact.modal')
     @include('generalsetting::pages.company.address.modal')
+    @include('generalsetting::pages.company.bank.modal')
+    @include('generalsetting::pages.company.accounting-setting.modal')
+
+    @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalAddress',
+                                'deleteFormId' => 'deleteFormAddress',
+                                'deleteModalButtonId' => 'deleteModalButtonAddress'])
+
+    @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalBank',
+                                'deleteFormId' => 'deleteFormBank',
+                                'deleteModalButtonId' => 'deleteModalButtonBank'])
+
+    @include('components.delete-modal', 
+                                ['deleteModalId' => 'deleteModalContact',
+                                'deleteFormId' => 'deleteFormContact',
+                                'deleteModalButtonId' => 'deleteModalButtonContact'])
 
     <div class="row m-b m-t">
         <div class="col-md-5">
             <div class="profile-image">
-                <img src="{{ URL::asset('uploads/user/img/avatar.png') }}" class="rounded-circle circle-border m-b-md" alt="profile">
+                <label for="logo-input" style="cursor:pointer;" data-toggle="tooltip" title="Change Company Logo">
+                    @if($Company->logo)
+                        <img src="{{ URL::asset('uploads/company/' . $Company->id . '/logo/' . $Company->logo) }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
+                    @else
+                        <img src="{{ URL::asset('assets/default-company-logo.jpg') }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
+                    @endif
+                </label>
+
+                <input onchange="getCompanyLogo(this)" style="display: none;" id="logo-input" type="file" name="logo-input" data-id="{{ $Company->id }}"/>
             </div>
             <div class="profile-info">
                 <h2 class="no-margins">
-                    {{ $Company->name ?? '' }}
+                    <strong>{{ $Company->name ?? '' }}</strong>
                 </h2>
                 Code: {{ $Company->code ?? '' }}
                 <div class="row m-t">
@@ -70,62 +95,81 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="tabs-container">
-                <div class="tabs-left">
-                    <ul class="nav nav-tabs">
-                        <li>
-                            <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 75px;" id="tab-contact"> 
-                                <i class="fa fa-phone fa-2x fa-fw"></i>&nbsp;Contacts
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 75px;" id="tab-address"> 
-                                <i class="fa fa-building fa-2x fa-fw"></i>&nbsp;Addresses
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 75px;" id="tab-account"> 
-                                <i class="fa fa-money fa-2x fa-fw"></i>&nbsp;Bank Accounts
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane active">
-                            <div class="panel-body" style="min-height: 500px;">
-                                <div class="row m-b">
-                                    <div class="col">
-                                    @can('update', Modules\GeneralSetting\Entities\Company::class)                
-                                        <button type="button" id="createNewButtonContact" class="btn btn-primary btn-lg">
-                                            <i class="fa fa-plus-circle"></i>&nbsp;Create New
-                                        </button>   
-                                    @endcan
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @include('generalsetting::pages.company.contact.item')
-                                </div>
-                            </div>
-                        </div>
-                        <div id="tab-2" class="tab-pane">
-                            <div class="panel-body" style="min-height: 500px;">
-                                <div class="row m-b">
-                                    <div class="col">
-                                    @can('update', Modules\GeneralSetting\Entities\Company::class)                
-                                        <button type="button" id="createNewButtonAddress" class="btn btn-primary btn-lg">
-                                            <i class="fa fa-plus-circle"></i>&nbsp;Create New
-                                        </button>   
-                                    @endcan
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @include('generalsetting::pages.company.address.item')
+                <ul class="nav nav-tabs" id="myTab">
+                    <li>
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
+                            <i class="fa fa-phone fa-2x text-warning"></i>&nbsp;Contacts
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
+                            <i class="fa fa-map-marker fa-2x text-warning"></i>&nbsp;Addresses
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-account"> 
+                            <i class="fa fa-cc-mastercard fa-2x text-warning"></i>&nbsp;Bank Accounts
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;" id="tab-account"> 
+                            <i class="fa fa-tags fa-2x text-warning"></i>&nbsp;Accounting Setting
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                <div class="col">
+                                @can('update', Modules\GeneralSetting\Entities\Company::class)                
+                                    <button type="button" id="createNewButtonContact" class="btn btn-primary btn-lg">
+                                        <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                                    </button>   
+                                @endcan
                                 </div>
                             </div>
+                            <div class="row">
+                                @include('generalsetting::pages.company.contact.content')
+                            </div>
                         </div>
-                        <div id="tab-3" class="tab-pane">
-                            <div class="panel-body" style="min-height: 500px;">
-                                <div class="row">
-                                    
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                <div class="col">
+                                @can('update', Modules\GeneralSetting\Entities\Company::class)                
+                                    <button type="button" id="createNewButtonAddress" class="btn btn-primary btn-lg">
+                                        <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                                    </button>   
+                                @endcan
                                 </div>
+                            </div>
+                            <div class="row">
+                                @include('generalsetting::pages.company.address.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-3" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                <div class="col">
+                                @can('update', Modules\GeneralSetting\Entities\Company::class)                
+                                    <button type="button" id="createNewButtonBank" class="btn btn-primary btn-lg">
+                                        <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                                    </button>   
+                                @endcan
+                                </div>
+                            </div>
+                            <div class="row">
+                                @include('generalsetting::pages.company.bank.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-4" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('generalsetting::pages.company.accounting-setting.content')
                             </div>
                         </div>
                     </div>
@@ -137,10 +181,20 @@
 
 @include('generalsetting::components.company.contact._script')
 @include('generalsetting::components.company.address._script')
+@include('generalsetting::components.company.bank._script')
+@include('generalsetting::components.company.accounting-setting._script')
+@include('generalsetting::components.company._logo_upload_script')
 
-@push('header-scripts')
-    @include('layouts.includes._header-datatable-script')
-@endpush
 @push('footer-scripts')
-    @include('layouts.includes._footer-datatable-script')
+<script>
+    $(document).ready(function(){
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if(activeTab){
+            $('#myTab a[href="' + activeTab + '"]').tab('show');
+        }
+    });
+</script>
 @endpush

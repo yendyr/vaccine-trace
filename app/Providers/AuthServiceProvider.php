@@ -6,9 +6,6 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-use Modules\Examples\Entities\Example;
-use Modules\Examples\Policies\ExamplePolicy;
-
 use Modules\Gate\Entities\Menu;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\RoleMenu;
@@ -73,8 +70,20 @@ use Modules\PPC\Entities\TaskcardDocumentLibrary;
 use Modules\PPC\Policies\TaskcardPolicy;
 use Modules\PPC\Entities\Taskcard;
 
+use Modules\PPC\Policies\TaskcardDetailInstructionPolicy;
+use Modules\PPC\Entities\TaskcardDetailInstruction;
+
+use Modules\PPC\Policies\TaskcardDetailItemPolicy;
+use Modules\PPC\Entities\TaskcardDetailItem;
+
 use Modules\PPC\Policies\AircraftTypePolicy;
 use Modules\PPC\Entities\AircraftType;
+
+use Modules\PPC\Policies\AircraftConfigurationTemplatePolicy;
+use Modules\PPC\Entities\AircraftConfigurationTemplate;
+
+use Modules\PPC\Policies\AircraftConfigurationTemplateDetailPolicy;
+use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 
 use Modules\QualityAssurance\Policies\SkillPolicy;
 use Modules\QualityAssurance\Entities\Skill;
@@ -99,6 +108,9 @@ use Modules\GeneralSetting\Entities\CompanyDetailContact;
 
 use Modules\GeneralSetting\Policies\CompanyDetailAddressPolicy;
 use Modules\GeneralSetting\Entities\CompanyDetailAddress;
+
+use Modules\GeneralSetting\Policies\CompanyDetailBankPolicy;
+use Modules\GeneralSetting\Entities\CompanyDetailBank;
 
 use Modules\GeneralSetting\Policies\AirportPolicy;
 use Modules\GeneralSetting\Entities\Airport;
@@ -161,7 +173,11 @@ class AuthServiceProvider extends ServiceProvider
         TaskcardZone::class => TaskcardZonePolicy::class,
         TaskcardDocumentLibrary::class => TaskcardDocumentLibraryPolicy::class,
         Taskcard::class => TaskcardPolicy::class,
+        TaskcardDetailInstruction::class => TaskcardDetailInstructionPolicy::class,
+        TaskcardDetailItem::class => TaskcardDetailItemPolicy::class,
         AircraftType::class => AircraftTypePolicy::class,
+        AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
+        AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
         
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
@@ -171,6 +187,7 @@ class AuthServiceProvider extends ServiceProvider
         Company::class => CompanyPolicy::class,
         CompanyDetailContact::class => CompanyDetailContactPolicy::class,
         CompanyDetailAddress::class => CompanyDetailAddressPolicy::class,
+        CompanyDetailBank::class => CompanyDetailBankPolicy::class,
         Country::class => CountryPolicy::class,
         Airport::class => AirportPolicy::class,
 

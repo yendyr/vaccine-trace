@@ -28,6 +28,12 @@ class CreateCompaniesTable extends Migration
             $table->string('is_supplier')->default('1')->nullable();
             $table->string('is_manufacturer')->default('1')->nullable();
 
+            $table->string('account_receivable_coa_id')->nullable();
+            $table->string('sales_discount_coa_id')->nullable();
+
+            $table->string('account_payable_coa_id')->nullable();
+            $table->string('purchase_discount_coa_id')->nullable();
+
             $table->rememberToken();
             $table->integer('status')->default(1)->nullable();
             $table->integer('owned_by')->nullable()->unsigned();

@@ -105,7 +105,6 @@ class CompanyDetailAddressController extends Controller
                     'post_code' => $request->post_code,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
-                    'owned_by' => $request->user()->company_id,
                     'status' => $status,
                     'updated_by' => $request->user()->id,
                 ]);

@@ -17,8 +17,11 @@ class GeneralSettingDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call([
-            CountriesTableSeeder::class,
-            CompaniesTableSeeder::class,
+            CountrySeeder::class,
+            CompanySeeder::class,
+            CompanyDetailContactSeeder::class,
+            CompanyDetailAddressSeeder::class,
+            CompanyDetailBankSeeder::class,
             // AirportsTableSeeder::class,
         ]);
     }

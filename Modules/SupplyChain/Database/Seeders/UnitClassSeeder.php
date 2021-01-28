@@ -18,51 +18,57 @@ class UnitClassSeeder extends Seeder
     {
         Model::unguard();
 
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Distance',
             'code' => 'DST',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Area',
             'code' => 'ARE',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Mass',
             'code' => 'MS',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Volume',
             'code' => 'VLM',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Speed',
             'code' => 'SPD',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Temperature',
             'code' => 'TMP',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Pressure',
             'code' => 'PRS',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $UnitClass = UnitClass::create([
+        UnitClass::create([
             'name' => 'Time',
             'code' => 'TME',
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        UnitClass::create([
+            'name' => 'Pieces',
+            'code' => 'PS',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

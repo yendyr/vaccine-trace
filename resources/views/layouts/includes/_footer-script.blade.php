@@ -1,5 +1,5 @@
 <!-- Mainly scripts -->
-<script src="{{URL::asset('theme/js/jquery-3.1.1.min.js')}}"></script>
+<script src="{{URL::asset('theme/js/jquery-3.5.2.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/popper.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/bootstrap.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>

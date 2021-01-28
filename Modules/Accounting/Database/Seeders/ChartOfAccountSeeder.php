@@ -20,91 +20,91 @@ class ChartOfAccountSeeder extends Seeder
 
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Cash and Bank',
-            'code' => 'CB',
+            'code' => '1111',
             'chart_of_account_class_id' => 1,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Account Receivable',
-            'code' => 'AR',
+            'code' => '1112',
             'chart_of_account_class_id' => 1,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Down Payment',
-            'code' => 'DP',
+            'code' => '2222',
             'chart_of_account_class_id' => 1,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Debt',
-            'code' => 'DB',
+            'code' => '2224',
             'chart_of_account_class_id' => 2,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Equity',
-            'code' => 'EQ',
+            'code' => '5555',
             'chart_of_account_class_id' => 3,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Prive',
-            'code' => 'PR',
+            'code' => '5552',
             'chart_of_account_class_id' => 3,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Profit and Loss',
-            'code' => 'PL',
+            'code' => '7779',
             'chart_of_account_class_id' => 3,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Operating Revenue',
-            'code' => 'RV',
+            'code' => '6664',
             'chart_of_account_class_id' => 4,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Other Revenue',
-            'code' => 'OR',
+            'code' => '4446',
             'chart_of_account_class_id' => 4,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Cost of Good Sales',
-            'code' => 'COGS',
+            'code' => '8888',
             'chart_of_account_class_id' => 5,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Operational Cost',
-            'code' => 'OC',
+            'code' => '8887',
             'chart_of_account_class_id' => 5,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Other Cost',
-            'code' => 'OTC',
+            'code' => '8889',
             'chart_of_account_class_id' => 5,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Sales',
-            'code' => 'SLS',
+            'code' => '2226',
             'chart_of_account_class_id' => 2,
             'parent_id' => 2,
             'status' => 1,
@@ -112,7 +112,7 @@ class ChartOfAccountSeeder extends Seeder
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Service',
-            'code' => 'SVC',
+            'code' => '2227',
             'chart_of_account_class_id' => 2,
             'parent_id' => 2,
             'status' => 1,
@@ -120,7 +120,7 @@ class ChartOfAccountSeeder extends Seeder
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => 'Employee Debt',
-            'code' => 'EDB',
+            'code' => '2221',
             'chart_of_account_class_id' => 2,
             'parent_id' => 4,
             'status' => 1,
@@ -128,7 +128,7 @@ class ChartOfAccountSeeder extends Seeder
         ]);
         $ChartOfAccount = ChartOfAccount::create([
             'name' => '3rd Party Debt',
-            'code' => 'PDB',
+            'code' => '2229',
             'chart_of_account_class_id' => 2,
             'parent_id' => 4,
             'status' => 1,

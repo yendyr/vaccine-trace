@@ -4,7 +4,7 @@
 @push('footer-scripts')
 <script>
     $(document).ready(function () {
-        var actionUrl = '/generalsetting/company/';
+        var actionUrl = '/generalsetting/company';
         var tableId = '#company-table';
         var inputFormId = '#inputForm';
 
@@ -37,17 +37,24 @@
             ]
         });
 
+
+
+        // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
         $('#create').click(function () {
             showCreateModal ('Create New Company', inputFormId, actionUrl);
         });
+        // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "EDIT" BUTTON SCRIPT ------------- //
         datatableObject.on('click', '.editBtn', function () {
             $('#modalTitle').html("Edit Company");
             $(inputFormId).trigger("reset");                
             rowId= $(this).val();
             let tr = $(this).closest('tr');
             let data = datatableObject.row(tr).data();
-            $(inputFormId).attr('action', actionUrl + data.id);
+            $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
             $('<input>').attr({
                 type: 'hidden',
@@ -86,15 +93,27 @@
             }
 
             $('#saveBtn').val("edit");
-            $('[class^="invalid-feedback-"]').html('');  // clearing validation
+            $('[class^="invalid-feedback-"]').html('');
             $('#inputModal').modal('show');
         });
+        // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "SUBMIT FORM" BUTTON SCRIPT ------------- //
         $(inputFormId).on('submit', function (event) {
             submitButtonProcess (tableId, inputFormId); 
         });
+        // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 
+
+
+        // ----------------- "DELETE" BUTTON  SCRIPT ------------- //
         deleteButtonProcess (datatableObject, tableId, actionUrl);
+        // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
+
+
+        
     });
 </script>
 @endpush

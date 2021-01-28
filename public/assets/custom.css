@@ -235,3 +235,30 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .panel-footer {
     background-color: #fbfbfb;
 }
+
+.btn-secondary:hover {
+    background-color: #343b40;
+}
+
+.input-group-addon {
+    background-color: #f4f6ff;
+}
+
+.select2-container--bootstrap4 .select2-selection, .select2-container--bootstrap4 .select2-dropdown.select2-dropdown--above, .select2-container--bootstrap4 .select2-dropdown {
+    border: 1px solid #b3e2ff;
+    border-radius: 5px;
+}
+
+.note-editor.note-frame {
+    border: 1px solid #b3e2ff;
+    min-height: 200px;
+}
+
+.nav-tabs > li > a {
+    background-color: #ededed;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid #1c84c63d;
+    border-bottom-style: none;
+}

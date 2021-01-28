@@ -22,7 +22,13 @@ class Company extends Model
         'description', 
         'is_customer', 
         'is_supplier', 
-        'is_manufacturer', 
+        'is_manufacturer',
+
+        'account_receivable_coa_id',
+        'sales_discount_coa_id',
+        'account_payable_coa_id',
+        'purchase_discount_coa_id',
+
         'owned_by', 
         'status', 
         'updated_by',
@@ -53,5 +59,30 @@ class Company extends Model
     public function banks()
     {
         return $this->hasMany(\Modules\GeneralSetting\Entities\CompanyDetailBank::class, 'company_id');
+    }
+
+    public function account_receivable_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'account_receivable_coa_id');
+    }
+
+    public function sales_discount_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'sales_discount_coa_id');
+    }
+
+    public function account_payable_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'account_payable_coa_id');
+    }
+
+    public function purchase_discount_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'purchase_discount_coa_id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\Item::class, 'manufacturer_id');
     }
 }

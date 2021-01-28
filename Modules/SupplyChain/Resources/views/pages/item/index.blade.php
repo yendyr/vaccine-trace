@@ -21,9 +21,12 @@
         @slot('tableContent')
             <th>Code</th>
             <th>Item Name</th>
+            <th>Model</th>
+            <th>Type</th>
             <th>Description/Remark</th>
             <th>Category</th>
             <th>Unit</th>
+            <th>Manufacturer</th>
             <th>Reorder Stock Level</th>
             <th>Status</th>
             <th>Created By</th>

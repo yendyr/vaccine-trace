@@ -7,7 +7,7 @@
                         <img id="image_user" alt="image" width="45px" class="rounded-circle" src="{{
                             isset(\Illuminate\Support\Facades\Auth::user()->image)
                             ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image)
-                            : URL::asset('uploads/user/img/avatar.png')
+                            : URL::asset('assets/default-user-image.png')
                         }}"/>
                     </label>
 
@@ -40,101 +40,84 @@
 </div>
 
 @push('footer-scripts')
-    <script>
-        function getPict(input){
-            
-            var filedata = input.files[0];
-            let imgtype = filedata.type;
-            let imgsize = filedata.size;
+<script>
+function getPict(input){
+    
+    var filedata = input.files[0];
+    let imgtype = filedata.type;
+    let imgsize = filedata.size;
 
-            let match=["image/jpeg", "image/jpg", "image/png"];
+    let match=["image/jpeg", "image/jpg", "image/png"];
 
-            if((imgtype != match[0]) && (imgtype != match[1]) && (imgtype != match[2])){
-                swal({
-                    title: "Upload image failed!",
-                    text: "input file format only for: .jpeg, .jpg, .png !",
-                    type: "error"
-                });
-            } else if((imgsize < 10000) || (imgsize > 1000000)){
-                swal({
-                    title: "Upload image failed!",
-                    text: "input file size only between 10 KB - 1 MB !",
-                    type: "error"
-                });
-            } else{
-                // IMAGE PREVIEW
-                var reader = new FileReader();
+    if((imgtype != match[0]) && (imgtype != match[1]) && (imgtype != match[2])){
+        swal({
+            title: "Upload Image Failed",
+            text: "input file format only for: .jpeg, .jpg, .png !",
+            type: "error"
+        });
+    } else if((imgsize < 10000) || (imgsize > 100000)){
+        swal({
+            title: "Upload Image Failed",
+            text: "input file size only between 10 KB - 100 KB !",
+            type: "error"
+        });
+    } else{
+        // IMAGE PREVIEW
+        var reader = new FileReader();
 
-                reader.onload=function(ev){
-                    $('#image_user').attr('src',ev.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-
-                // PROCESS UPLOAD
-                var postData = new FormData();
-                postData.append('file', input.files[0]);
-                let url="/gate/user/upload-image";
-
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: url,
-                    method: "POST",
-                    async: true,
-                    contentType: false,
-                    cache: false,
-                    data: postData,
-                    processData:false,
-                    beforeSend:function(){
-                        $('#saveButton').html('<strong>Saving...</strong>');
-                        $('#saveButton'). prop('disabled', true);
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            swal({
-                                title: "Image Uploaded!",
-                                text: data.success,
-                                type: "success"
-                            });
-                        }
-                    },
-                    error: function(data){
-                        let html = '';
-                        let errors = data.responseJSON.errors;
-                        if (errors) {
-                            let textError = '';
-                            $.each(errors, function (index, value) {
-                                textError += value;
-                            });
-                            swal({
-                                title: "Failed to upload!",
-                                text: textError,
-                                type: "error"
-                            });
-                        }
-                    },
-                });
-            }
+        reader.onload=function(ev){
+            $('#image_user').attr('src',ev.target.result);
         }
+        reader.readAsDataURL(input.files[0]);
 
-        // $(document).ready(function(){
-        //     var nav1 = $('li#gate ul').children().length;
-        //     if (nav1 == 0){
-        //         $('li#gate').remove();
-        //     }
-        //     var nav2 = $('li#examples ul').children().length;
-        //     if (nav2 == 0){
-        //         $('li#examples').remove();
-        //     }
-        //     var nav4 = $('li#humanresources ul').children().length;
-        //     if (nav4 == 0){
-        //         $('li#humanresources').remove();
-        //     }
+        // PROCESS UPLOAD
+        var postData = new FormData();
+        postData.append('file', input.files[0]);
+        let url="/gate/user/upload-image";
 
-        // });
-        
-    </script>
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url,
+            method: "POST",
+            async: true,
+            contentType: false,
+            cache: false,
+            data: postData,
+            processData:false,
+            beforeSend:function(){
+                $('#saveButton').html('<strong>Saving...</strong>');
+                $('#saveButton'). prop('disabled', true);
+            },
+            success:function(data){
+                if (data.success) {
+                    swal({
+                        title: "Image Uploaded!",
+                        text: data.success,
+                        type: "success"
+                    });
+                }
+            },
+            error: function(data){
+                let html = '';
+                let errors = data.responseJSON.errors;
+                if (errors) {
+                    let textError = '';
+                    $.each(errors, function (index, value) {
+                        textError += value;
+                    });
+                    swal({
+                        title: "Failed to upload!",
+                        text: textError,
+                        type: "error"
+                    });
+                }
+            },
+        });
+    }
+}
+</script>
 @endpush
