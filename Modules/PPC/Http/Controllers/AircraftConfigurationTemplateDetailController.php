@@ -164,12 +164,19 @@ class AircraftConfigurationTemplateDetailController extends Controller
 
         $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)->first();
 
+        if ($request->parent_id == $currentRow->id) {
+            $parent_id = null;
+        }
+        else {
+            $parent_id = $request->parent_id;
+        }
+
         $currentRow
             ->update([
                 'item_id' => $request->item_id,
                 'alias_name' => $request->alias_name,
                 'description' => $request->description,
-                'parent_id' => $request->parent_id,
+                'parent_id' => $parent_id,
 
                 'status' => $status,
                 'updated_by' => Auth::user()->id,
@@ -195,17 +202,14 @@ class AircraftConfigurationTemplateDetailController extends Controller
         $search = $request->term;
         $aircraft_configuration_template_id = $request->aircraft_configuration_template_id;
 
-        // $query = AircraftConfigurationTemplateDetail::with(['item:id,code,name'])
-        //         ->where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
-        //         ->where('status', 1);
-
         $query = DB::table('aircraft_configuration_template_details')
                     ->leftJoin('items', 'aircraft_configuration_template_details.item_id', '=', 'items.id')
                     ->where('aircraft_configuration_template_details.aircraft_configuration_template_id', '=', $aircraft_configuration_template_id)
                     ->select('aircraft_configuration_template_details.id', 'aircraft_configuration_template_details.alias_name', 'items.code', 'items.name');
 
         if($search != ''){
-            $query = $query->where('items.name', 'like', '%' .$search. '%');
+            $query = $query->where('items.name', 'like', '%' .$search. '%')
+                            ->orWhere('items.code', 'like', '%' .$search. '%');
         }
         $AircraftConfigurationTemplateDetails = $query->get();
 

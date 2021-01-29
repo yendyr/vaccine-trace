@@ -1,4 +1,4 @@
-<div class="col m-t-lg fadeIn" style="animation-duration: 1.5s">
+<div class="col m-t-md fadeIn" style="animation-duration: 1.5s">
     <div id="tree_view">
 
     </div>
