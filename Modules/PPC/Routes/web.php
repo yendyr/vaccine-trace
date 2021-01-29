@@ -55,6 +55,8 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/configuration-template-detail/select2', 'AircraftConfigurationTemplateDetailController@select2Parent')->name('select2');
         });
 
+        Route::get('/template-detail-tree', 'AircraftConfigurationTemplateDetailController@tree'); 
+
         Route::resource('/taskcard', 'TaskcardController');
         Route::name('taskcard.')->group(function() {
             Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');

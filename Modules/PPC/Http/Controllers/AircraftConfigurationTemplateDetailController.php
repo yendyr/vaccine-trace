@@ -26,7 +26,6 @@ class AircraftConfigurationTemplateDetailController extends Controller
     public function index(Request $request)
     {
         $aircraft_configuration_template_id = $request->id;
-
         
         $data = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
                                                 ->with(['item:id,code,name',
@@ -84,6 +83,35 @@ class AircraftConfigurationTemplateDetailController extends Controller
             ->escapeColumns([])
             ->make(true);
         
+    }
+
+    public function tree(Request $request)
+    {
+        $aircraft_configuration_template_id = $request->id;
+        
+        $datas = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
+                                                ->with(['item:id,code,name',
+                                                        'item_group:id,item_id,alias_name',
+                                                        'subGroup'])
+                                                ->orderBy('created_at','asc')
+                                                ->get();
+        $response = [];
+        foreach($datas as $data) {
+            if ($data->parent_id) {
+                $parent = $data->parent_id;
+            }
+            else {
+                $parent = '#';
+            }
+
+            $response[] = [
+                "id" => $data->id,
+                "parent" => $parent,
+                "text" => 'P/N: <strong>' . $data->item->code . '</strong> | Item Name: <strong>' . $data->item->name . '</strong> | Alias Name: <strong>' . $data->alias_name . '</strong>'
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function store(Request $request)
