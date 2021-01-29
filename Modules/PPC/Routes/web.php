@@ -49,6 +49,9 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/aircraft-configuration-template', 'AircraftConfigurationTemplateController');
+        Route::name('aircraft-configuration-template.')->group(function() {
+            Route::get('ppc/aircraft-configuration-template/select2', 'AircraftConfigurationTemplateController@select2')->name('select2');
+        });
 
         Route::resource('/configuration-template-detail', 'AircraftConfigurationTemplateDetailController');        
         Route::name('configuration-template-detail.')->group(function() {
