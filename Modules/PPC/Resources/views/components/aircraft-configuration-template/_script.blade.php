@@ -58,6 +58,9 @@ $(document).ready(function () {
 
 
     $('#create').click(function () {
+        $('.aircraft_type_id').val(null).trigger('change');
+        $('.duplicated_from').val(null).trigger('change');
+        
         $('#duplicated_from').show();
         showCreateModal ('Create New Aircraft Configuration Template', inputFormId, actionUrl);
     });

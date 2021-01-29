@@ -133,6 +133,9 @@ class AircraftConfigurationTemplateController extends Controller
                 ]);
             }
             DB::commit();
+
+            return response()->json(['success' => 'Aircraft Configuration Template Data has been Saved',
+                                    'id' => $AircraftConfigurationTemplate->id]);
         }
     }
 
