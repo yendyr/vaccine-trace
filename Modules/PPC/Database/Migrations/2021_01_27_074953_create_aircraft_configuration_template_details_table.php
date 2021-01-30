@@ -17,11 +17,12 @@ class CreateAircraftConfigurationTemplateDetailsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
+            $table->string('coding')->nullable();
             $table->string('aircraft_configuration_template_id');
             $table->string('item_id');
             $table->string('alias_name')->nullable();
             $table->string('description')->nullable();
-            $table->string('parent_id')->nullable();
+            $table->string('parent_coding')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();

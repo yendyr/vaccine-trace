@@ -29,8 +29,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
         
         $data = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
                                                 ->with(['item:id,code,name',
-                                                        'item_group:id,item_id,alias_name',
-                                                        'subGroup'])
+                                                        'item_group:id,item_id,alias_name,coding,parent_coding'])
                                                 ->orderBy('created_at','asc')
                                                 ->get();
         return Datatables::of($data)
@@ -41,10 +40,10 @@ class AircraftConfigurationTemplateDetailController extends Controller
                     return '<label class="label label-danger">Inactive</label>';
                 }
             })
-            ->addColumn('parent_code', function($row){
+            ->addColumn('parent_item_code', function($row){
                 return $row->item_group->item->code ?? '-';
             })
-            ->addColumn('parent_name', function($row){
+            ->addColumn('parent_item_name', function($row){
                 if ($row->item_group) {
                     return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
                 }
@@ -91,21 +90,21 @@ class AircraftConfigurationTemplateDetailController extends Controller
         
         $datas = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
                                                 ->with(['item:id,code,name',
-                                                        'item_group:id,item_id,alias_name',
-                                                        'subGroup'])
+                                                        'item_group:id,item_id,alias_name'])
+                                                ->where('aircraft_configuration_template_details.status','1')
                                                 ->orderBy('created_at','asc')
                                                 ->get();
         $response = [];
         foreach($datas as $data) {
-            if ($data->parent_id) {
-                $parent = $data->parent_id;
+            if ($data->parent_coding) {
+                $parent = $data->parent_coding;
             }
             else {
                 $parent = '#';
             }
 
             $response[] = [
-                "id" => $data->id,
+                "id" => $data->coding,
                 "parent" => $parent,
                 "text" => 'P/N: <strong>' . $data->item->code . '</strong> | Item Name: <strong>' . $data->item->name . '</strong> | Alias Name: <strong>' . $data->alias_name . '</strong>'
             ];
@@ -127,19 +126,24 @@ class AircraftConfigurationTemplateDetailController extends Controller
             $status = 0;
         }
 
-        AircraftConfigurationTemplateDetail::create([
+        DB::beginTransaction();
+        $AircraftConfigurationTemplateDetail = AircraftConfigurationTemplateDetail::create([
             'uuid' =>  Str::uuid(),
 
             'aircraft_configuration_template_id' => $request->aircraft_configuration_template_id,
             'item_id' => $request->item_id,
             'alias_name' => $request->alias_name,
             'description' => $request->description,
-            'parent_id' => $request->parent_id,
+            'parent_coding' => $request->parent_coding,
 
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
+        $AircraftConfigurationTemplateDetail->update([
+            'coding' => $AircraftConfigurationTemplateDetail->aircraft_configuration_template_id . '-' . $AircraftConfigurationTemplateDetail->id,
+        ]);
+        DB::commit();
 
         return response()->json(['success' => 'Item/Component Data has been Added']);
     }
@@ -164,11 +168,11 @@ class AircraftConfigurationTemplateDetailController extends Controller
 
         $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)->first();
 
-        if ($request->parent_id == $currentRow->id) {
-            $parent_id = null;
+        if ($request->parent_coding == $currentRow->coding) {
+            $parent_coding = null;
         }
         else {
-            $parent_id = $request->parent_id;
+            $parent_coding = $request->parent_coding;
         }
 
         $currentRow
@@ -176,7 +180,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 'item_id' => $request->item_id,
                 'alias_name' => $request->alias_name,
                 'description' => $request->description,
-                'parent_id' => $parent_id,
+                'parent_coding' => $parent_coding,
 
                 'status' => $status,
                 'updated_by' => Auth::user()->id,
@@ -204,8 +208,9 @@ class AircraftConfigurationTemplateDetailController extends Controller
 
         $query = DB::table('aircraft_configuration_template_details')
                     ->leftJoin('items', 'aircraft_configuration_template_details.item_id', '=', 'items.id')
-                    ->where('aircraft_configuration_template_details.aircraft_configuration_template_id', '=', $aircraft_configuration_template_id)
-                    ->select('aircraft_configuration_template_details.id', 'aircraft_configuration_template_details.alias_name', 'items.code', 'items.name');
+                    ->where('aircraft_configuration_template_details.aircraft_configuration_template_id', $aircraft_configuration_template_id)
+                    ->where('aircraft_configuration_template_details.status', '1')
+                    ->select('aircraft_configuration_template_details.id', 'aircraft_configuration_template_details.coding', 'aircraft_configuration_template_details.alias_name', 'items.code', 'items.name');
 
         if($search != ''){
             $query = $query->where('items.name', 'like', '%' .$search. '%')
@@ -216,7 +221,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
         $response = [];
         foreach($AircraftConfigurationTemplateDetails as $AircraftConfigurationTemplateDetail){
             $response['results'][] = [
-                "id" => $AircraftConfigurationTemplateDetail->id,
+                "id" => $AircraftConfigurationTemplateDetail->coding,
                 "text" => $AircraftConfigurationTemplateDetail->code . ' | ' . $AircraftConfigurationTemplateDetail->name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
             ];
         }

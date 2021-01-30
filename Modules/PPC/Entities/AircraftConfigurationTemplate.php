@@ -48,7 +48,7 @@ class AircraftConfigurationTemplate extends Model
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'aircraft_type_id');
     }
 
-    public function aircraft_configuration_template_details()
+    public function template_details()
     {
         return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'aircraft_configuration_template_id');
     }
