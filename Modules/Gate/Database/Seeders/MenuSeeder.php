@@ -702,6 +702,26 @@ class MenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcAircraft->id
         ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'ppc/aircraft-configuration',
+            'menu_text' => 'My Own Aircraft',
+            'menu_route' => 'ppc.aircraft-configuration.index',
+            'menu_icon' => 'fa-fighter-jet',
+            'menu_class' => 'Modules\PPC\Entities\AircraftConfiguration',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/aircraft-configuration', 'ppc/aircraft-configuration/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcAircraft->id
+        ]);
         // ----------- END Create PPC Module Menus ------------------------//
 
 

@@ -85,6 +85,12 @@ use Modules\PPC\Entities\AircraftConfigurationTemplate;
 use Modules\PPC\Policies\AircraftConfigurationTemplateDetailPolicy;
 use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 
+use Modules\PPC\Policies\AircraftConfigurationPolicy;
+use Modules\PPC\Entities\AircraftConfiguration;
+
+use Modules\PPC\Policies\AircraftConfigurationDetailPolicy;
+use Modules\PPC\Entities\AircraftConfigurationDetail;
+
 use Modules\QualityAssurance\Policies\SkillPolicy;
 use Modules\QualityAssurance\Entities\Skill;
 
@@ -178,6 +184,8 @@ class AuthServiceProvider extends ServiceProvider
         AircraftType::class => AircraftTypePolicy::class,
         AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
+        AircraftConfiguration::class => AircraftConfigurationPolicy::class,
+        AircraftConfigurationDetail::class => AircraftConfigurationDetailPolicy::class,
         
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
