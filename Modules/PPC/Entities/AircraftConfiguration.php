@@ -31,6 +31,11 @@ class AircraftConfiguration extends Model
         'max_landing_weight_unit_id',
         'max_zero_fuel_weight',
         'max_zero_fuel_weight_unit_id',
+
+        'fuel_capacity',
+        'fuel_capacity_unit_id',
+        'basic_empty_weight',
+        'basic_empty_weight_unit_id',
         
         'status',
         'created_by',
@@ -77,6 +82,16 @@ class AircraftConfiguration extends Model
     public function max_zero_fuel_weight_unit()
     {
         return $this->belongsTo(\Modules\SupplyChain\Entities\Unit::class, 'max_zero_fuel_weight_unit_id');
+    }
+
+    public function fuel_capacity_unit()
+    {
+        return $this->belongsTo(\Modules\SupplyChain\Entities\Unit::class, 'fuel_capacity_unit_id');
+    }
+
+    public function basic_empty_weight_unit()
+    {
+        return $this->belongsTo(\Modules\SupplyChain\Entities\Unit::class, 'basic_empty_weight_unit_id');
     }
 
     public static function boot() {

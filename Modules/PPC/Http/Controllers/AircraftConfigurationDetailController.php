@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Carbon;
 
 class AircraftConfigurationDetailController extends Controller
 {
@@ -126,20 +127,35 @@ class AircraftConfigurationDetailController extends Controller
             $status = 0;
         }
 
+        if ($request->highlight) {
+            $highlight = 1;
+        } 
+        else {
+            $highlight = 0;
+        }
+
+        if ($request->initial_start_date) {
+            $initial_start_date = Carbon::createFromFormat('m/d/Y', $request->initial_start_date)->format('Y-m-d');
+        }
+        else {
+            $initial_start_date = null;
+        }
+
         DB::beginTransaction();
         $AircraftConfigurationDetail = AircraftConfigurationDetail::create([
             'uuid' =>  Str::uuid(),
 
             'aircraft_configuration_id' => $request->aircraft_configuration_id,
             'item_id' => $request->item_id,
+            'serial_number' => $request->serial_number,
             'alias_name' => $request->alias_name,
-            'highlight' => $request->highlight,
+            'highlight' => $highlight,
             'description' => $request->description,
             'parent_coding' => $request->parent_coding,
 
             'initial_flight_hour' => $request->initial_flight_hour,
             'initial_flight_cycle' => $request->initial_flight_cycle,
-            'initial_start_date' => $request->initial_start_date,
+            'initial_start_date' => $initial_start_date,
 
             'owned_by' => $request->user()->company_id,
             'status' => $status,
@@ -171,6 +187,20 @@ class AircraftConfigurationDetailController extends Controller
             $status = 0;
         }
 
+        if ($request->highlight) {
+            $highlight = 1;
+        } 
+        else {
+            $highlight = 0;
+        }
+
+        if ($request->initial_start_date) {
+            $initial_start_date = Carbon::createFromFormat('m/d/Y', $request->initial_start_date)->format('Y-m-d');
+        }
+        else {
+            $initial_start_date = null;
+        }
+
         $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)->first();
 
         if ($request->parent_coding == $currentRow->coding) {
@@ -184,13 +214,14 @@ class AircraftConfigurationDetailController extends Controller
             ->update([
                 'item_id' => $request->item_id,
                 'alias_name' => $request->alias_name,
-                'highlight' => $request->highlight,
+                'serial_number' => $request->serial_number,
+                'highlight' => $highlight,
                 'description' => $request->description,
                 'parent_coding' => $request->parent_coding,
 
                 'initial_flight_hour' => $request->initial_flight_hour,
                 'initial_flight_cycle' => $request->initial_flight_cycle,
-                'initial_start_date' => $request->initial_start_date,
+                'initial_start_date' => $initial_start_date,
 
                 'status' => $status,
                 'updated_by' => Auth::user()->id,

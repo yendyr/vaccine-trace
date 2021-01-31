@@ -24,7 +24,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Serial Number</label>
                                 <div class="col-sm-7">
-                                    <select class="serial_number form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number"></select>
+                                    <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number">
                                     <div class="invalid-feedback-serial_number text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -67,34 +67,25 @@
                             </div>  
                             
                             <div class="form-group row">
-                                <label class="d-flex align-items-center">Initial Flight Hour Aging</label>
-                                <div class="input-group">
+                                <label class="col-sm-5 d-flex align-items-center">Initial Flight Hour Aging</label>
+                                <div class="col-sm-7">
                                     <input type="number" min="0" class="form-control @error('initial_flight_hour') is-invalid @enderror" name="initial_flight_hour" id="initial_flight_hour">
-                                    <div class="input-group-append">
-                                        <span class="input-group-addon">FH</span>
-                                    </div>
                                     <div class="invalid-feedback-initial_flight_hour text-danger font-italic"></div>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="d-flex align-items-center">Initial Flight Cycle Aging</label>
-                                <div class="input-group">
+                                <label class="col-sm-5 d-flex align-items-center">Initial Flight Cycle Aging</label>
+                                <div class="col-sm-7">
                                     <input type="number" min="0" class="form-control @error('initial_flight_cycle') is-invalid @enderror" name="initial_flight_cycle" id="initial_flight_cycle">
-                                    <div class="input-group-append">
-                                        <span class="input-group-addon">FH</span>
-                                    </div>
                                     <div class="invalid-feedback-initial_flight_cycle text-danger font-italic"></div>
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <label class="d-flex align-items-center">Initial Start Date Aging</label>
-                                <div class="input-group">
-                                    <input type="number" min="0" class="form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date">
-                                    <div class="input-group-append">
-                                        <span class="input-group-addon">FH</span>
-                                    </div>
+                            
+                            <div class="form-group row" id="initial_start_date">
+                                <div class="col-md-12 input-group date">
+                                    <span class="input-group-addon">Initial Start Date</span>
+                                    <input type="text" class="form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date">
                                     <div class="invalid-feedback-initial_start_date text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -130,6 +121,7 @@
 </div>
 
 @push('header-scripts')
+<link href="{{ URL::asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 <style>
     .select2-container.select2-container--default.select2-container--open {
         z-index: 9999999 !important;
@@ -138,4 +130,17 @@
         width: 100% !important;
     }
 </style>
+@endpush
+
+@push('footer-scripts')
+<script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+<script>
+    var mem_initial_start_date = $('#initial_start_date .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+</script>
 @endpush

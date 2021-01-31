@@ -74,9 +74,9 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/aircraft-configuration/select2', 'AircraftConfigurationController@select2')->name('select2');
         });
 
-        Route::resource('/aircraft-configuration-detail', 'AircraftConfigurationDetailController');        
-        Route::name('aircraft-configuration-detail.')->group(function() {
-            Route::get('ppc/aircraft-configuration-detail/select2', 'AircraftConfigurationDetailController@select2Parent')->name('select2');
+        Route::resource('/configuration-detail', 'AircraftConfigurationDetailController');        
+        Route::name('configuration-detail.')->group(function() {
+            Route::get('ppc/configuration-detail/select2', 'AircraftConfigurationDetailController@select2Parent')->name('select2');
         });
 
         Route::get('/detail-tree', 'AircraftConfigurationDetailController@tree');

@@ -94,6 +94,28 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
+    $('.fuel_capacity_unit_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Unit',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.unit.select2.mass') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.basic_empty_weight_unit_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Unit',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.unit.select2.mass') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
 
 
 
@@ -105,6 +127,8 @@ $(document).ready(function () {
         $('.max_takeoff_weight_unit_id').val(null).trigger('change');
         $('.max_landing_weight_unit_id').val(null).trigger('change');
         $('.max_zero_fuel_weight_unit_id').val(null).trigger('change');
+        $('.fuel_capacity_unit_id').val(null).trigger('change');
+        $('.basic_empty_weight_unit_id').val(null).trigger('change');
         $('.duplicated_from').val(null).trigger('change');
         
         $('#duplicated_from').show();
@@ -158,6 +182,16 @@ $(document).ready(function () {
         $(".max_zero_fuel_weight_unit_id").val(null).trigger('change');
         if (data.max_zero_fuel_weight_unit != null) {
             $('#max_zero_fuel_weight_unit_id').append('<option value="' + data.max_zero_fuel_weight_unit_id + '" selected>' + data.max_zero_fuel_weight_unit.name + '</option>');
+        }
+
+        $(".fuel_capacity_unit_id").val(null).trigger('change');
+        if (data.fuel_capacity_unit != null) {
+            $('#fuel_capacity_unit_id').append('<option value="' + data.fuel_capacity_unit_id + '" selected>' + data.fuel_capacity_unit.name + '</option>');
+        }
+
+        $(".basic_empty_unit_id").val(null).trigger('change');
+        if (data.basic_empty_unit != null) {
+            $('#basic_empty_unit_id').append('<option value="' + data.basic_empty_unit_id + '" selected>' + data.basic_empty_unit.name + '</option>');
         }
                
         if (data.status == '<label class="label label-success">Active</label>') {

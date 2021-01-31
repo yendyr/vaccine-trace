@@ -19,7 +19,7 @@ class CreateAircraftConfigurationsTable extends Migration
 
             $table->string('aircraft_type_id');
             $table->string('registration_number');
-            $table->string('serial_number');
+            $table->string('serial_number')->nullable();
             $table->date('manufactured_date')->nullable();
             $table->date('received_date')->nullable();
             $table->string('code')->nullable();
@@ -32,6 +32,11 @@ class CreateAircraftConfigurationsTable extends Migration
             $table->string('max_landing_weight_unit_id')->nullable();
             $table->integer('max_zero_fuel_weight')->nullable();
             $table->string('max_zero_fuel_weight_unit_id')->nullable();
+
+            $table->integer('fuel_capacity')->nullable();
+            $table->string('fuel_capacity_unit_id')->nullable();
+            $table->integer('basic_empty_weight')->nullable();
+            $table->string('basic_empty_weight_unit_id')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();

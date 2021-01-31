@@ -30,8 +30,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Registration</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('registration') is-invalid @enderror" name="registration" id="registration">
-                                    <div class="invalid-feedback-registration text-danger font-italic"></div>
+                                    <input type="text" class="form-control @error('registration_number') is-invalid @enderror" name="registration_number" id="registration_number">
+                                    <div class="invalid-feedback-registration_number text-danger font-italic"></div>
                                 </div>
                             </div>
         
@@ -50,53 +50,6 @@
                                     <div class="invalid-feedback-received_date text-danger font-italic"></div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Max Take-Off Weight</label>
-                                <div class="col-sm-7 input-group">
-                                    <input type="number" min="0" class="form-control @error('max_takeoff_weight') is-invalid @enderror" name="max_takeoff_weight" id="max_takeoff_weight">
-                                    <div class="input-group-append">
-                                        <select class="max_takeoff_weight_unit_id form-control @error('max_takeoff_weight_unit_id') is-invalid @enderror" name="max_takeoff_weight_unit_id" id="max_takeoff_weight_unit_id">
-                                            <option value="Day">Day</option>
-                                            <option value="Month">Month</option>
-                                            <option value="Year">Year</option>
-                                        </select>
-                                    </div>
-                                    <div class="invalid-feedback-max_takeoff_weight text-danger font-italic"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Max Landing Weight</label>
-                                <div class="col-sm-7 input-group">
-                                    <input type="number" min="0" class="form-control @error('max_landing_weight') is-invalid @enderror" name="max_landing_weight" id="max_landing_weight">
-                                    <div class="input-group-append">
-                                        <select class="max_landing_weight_unit_id form-control @error('max_landing_weight_unit_id') is-invalid @enderror" name="max_landing_weight_unit_id" id="max_landing_weight_unit_id">
-                                            <option value="Day">Day</option>
-                                            <option value="Month">Month</option>
-                                            <option value="Year">Year</option>
-                                        </select>
-                                    </div>
-                                    <div class="invalid-feedback-max_landing_weight text-danger font-italic"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Max Landing Weight</label>
-                                <div class="col-sm-7 input-group">
-                                    <input type="number" min="0" class="form-control @error('max_zero_fuel_weight') is-invalid @enderror" name="max_zero_fuel_weight" id="max_zero_fuel_weight">
-                                    <div class="input-group-append">
-                                        <select class="max_zero_fuel_weight_unit_id form-control @error('max_zero_fuel_weight_unit_id') is-invalid @enderror" name="max_zero_fuel_weight_unit_id" id="max_zero_fuel_weight_unit_id">
-                                            <option value="Day">Day</option>
-                                            <option value="Month">Month</option>
-                                            <option value="Year">Year</option>
-                                        </select>
-                                    </div>
-                                    <div class="invalid-feedback-max_zero_fuel_weight text-danger font-italic"></div>
-                                </div>
-                            </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
@@ -105,7 +58,64 @@
                                     <div class="invalid-feedback-description text-danger font-italic"></div>
                                 </div>
                             </div>
-        
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 d-flex align-items-center">Max Take-Off Weight</label>
+                                <div class="col-sm-8 input-group">
+                                    <input type="number" min="0" class="form-control @error('max_takeoff_weight') is-invalid @enderror" name="max_takeoff_weight" id="max_takeoff_weight">
+                                    <div class="input-group-append">
+                                        <select class="max_takeoff_weight_unit_id form-control @error('max_takeoff_weight_unit_id') is-invalid @enderror" name="max_takeoff_weight_unit_id" id="max_takeoff_weight_unit_id"></select>
+                                    </div>
+                                    <div class="invalid-feedback-max_takeoff_weight text-danger font-italic"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 d-flex align-items-center">Max Landing Weight</label>
+                                <div class="col-sm-8 input-group">
+                                    <input type="number" min="0" class="form-control @error('max_landing_weight') is-invalid @enderror" name="max_landing_weight" id="max_landing_weight">
+                                    <div class="input-group-append">
+                                        <select class="max_landing_weight_unit_id form-control @error('max_landing_weight_unit_id') is-invalid @enderror" name="max_landing_weight_unit_id" id="max_landing_weight_unit_id"></select>
+                                    </div>
+                                    <div class="invalid-feedback-max_landing_weight text-danger font-italic"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 d-flex align-items-center">Max ZFW</label>
+                                <div class="col-sm-8 input-group">
+                                    <input type="number" min="0" class="form-control @error('max_zero_fuel_weight') is-invalid @enderror" name="max_zero_fuel_weight" id="max_zero_fuel_weight">
+                                    <div class="input-group-append">
+                                        <select class="max_zero_fuel_weight_unit_id form-control @error('max_zero_fuel_weight_unit_id') is-invalid @enderror" name="max_zero_fuel_weight_unit_id" id="max_zero_fuel_weight_unit_id"></select>
+                                    </div>
+                                    <div class="invalid-feedback-max_zero_fuel_weight text-danger font-italic"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 d-flex align-items-center">Fuel Capacity</label>
+                                <div class="col-sm-8 input-group">
+                                    <input type="number" min="0" class="form-control @error('fuel_capacity') is-invalid @enderror" name="fuel_capacity" id="fuel_capacity">
+                                    <div class="input-group-append">
+                                        <select class="fuel_capacity_unit_id form-control @error('fuel_capacity_unit_id') is-invalid @enderror" name="fuel_capacity_unit_id" id="fuel_capacity_unit_id"></select>
+                                    </div>
+                                    <div class="invalid-feedback-fuel_capacity text-danger font-italic"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 d-flex align-items-center">Basic Empty Weight</label>
+                                <div class="col-sm-8 input-group">
+                                    <input type="number" min="0" class="form-control @error('basic_empty_weight') is-invalid @enderror" name="basic_empty_weight" id="basic_empty_weight">
+                                    <div class="input-group-append">
+                                        <select class="basic_empty_weight_unit_id form-control @error('basic_empty_weight_unit_id') is-invalid @enderror" name="basic_empty_weight_unit_id" id="basic_empty_weight_unit_id"></select>
+                                    </div>
+                                    <div class="invalid-feedback-basic_empty_weight_unit_id text-danger font-italic"></div>
+                                </div>
+                            </div>
+
                             <div class="form-group row" id="duplicated_from">
                                 <label class="col-sm-5 d-flex align-items-center">Copy Configuration from Template</label>
                                 <div class="col-sm-7">

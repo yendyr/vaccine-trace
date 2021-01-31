@@ -20,7 +20,7 @@ class CreateAircraftConfigurationDetailsTable extends Migration
             $table->string('coding')->nullable();
             $table->string('aircraft_configuration_id');
             $table->string('item_id');
-            $table->string('serial_number');
+            $table->string('serial_number')->nullable();
             $table->string('alias_name')->nullable();
             $table->string('description')->nullable();
             $table->integer('highlight')->default(0)->nullable();
