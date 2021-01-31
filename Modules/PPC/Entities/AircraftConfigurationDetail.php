@@ -18,7 +18,7 @@ class AircraftConfigurationDetail extends Model
         'uuid',
 
         'coding',
-        'aircraft_configuration_template_id',
+        'aircraft_configuration_id',
         'item_id',
         'serial_number',
         'alias_name',
@@ -59,11 +59,11 @@ class AircraftConfigurationDetail extends Model
 
     public function item_group()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_coding', 'coding');
+        return $this->belongsTo(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'parent_coding', 'coding');
     }
 
     public function subGroup()
     {
-        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_coding', 'coding');
+        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'parent_coding', 'coding');
     }
 }

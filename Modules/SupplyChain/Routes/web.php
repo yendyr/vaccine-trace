@@ -25,6 +25,7 @@ Route::name('supplychain.')->group(function () {
         Route::resource('/unit', 'UnitController');
         Route::name('unit.')->group(function() {
             Route::get('supplychain/unit/select2', 'UnitController@select2')->name('select2');
+            Route::get('supplychain/unit/select2Mass', 'UnitController@select2Mass')->name('select2.mass');
         });
 
         Route::resource('/item-category', 'ItemCategoryController');

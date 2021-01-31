@@ -27,11 +27,11 @@ class CreateAircraftConfigurationsTable extends Migration
             $table->string('description')->nullable();
 
             $table->integer('max_takeoff_weight')->nullable();
-            $table->string('max_takeoff_weight_unit')->nullable();
+            $table->string('max_takeoff_weight_unit_id')->nullable();
             $table->integer('max_landing_weight')->nullable();
-            $table->string('max_landing_weight_unit')->nullable();
+            $table->string('max_landing_weight_unit_id')->nullable();
             $table->integer('max_zero_fuel_weight')->nullable();
-            $table->string('max_zero_fuel_weight_unit')->nullable();
+            $table->string('max_zero_fuel_weight_unit_id')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();

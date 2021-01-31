@@ -48,6 +48,15 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/aircraft-type/select2', 'AircraftTypeController@select2')->name('select2');
         });
 
+        Route::resource('/taskcard', 'TaskcardController');
+        Route::name('taskcard.')->group(function() {
+            Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');
+        });
+
+        Route::resource('/taskcard-detail-instruction', 'TaskcardDetailInstructionController');
+
+        Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
+
         Route::resource('/aircraft-configuration-template', 'AircraftConfigurationTemplateController');
         Route::name('aircraft-configuration-template.')->group(function() {
             Route::get('ppc/aircraft-configuration-template/select2', 'AircraftConfigurationTemplateController@select2')->name('select2');
@@ -60,13 +69,16 @@ Route::name('ppc.')->group(function () {
 
         Route::get('/template-detail-tree', 'AircraftConfigurationTemplateDetailController@tree'); 
 
-        Route::resource('/taskcard', 'TaskcardController');
-        Route::name('taskcard.')->group(function() {
-            Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');
+        Route::resource('/aircraft-configuration', 'AircraftConfigurationController');
+        Route::name('aircraft-configuration.')->group(function() {
+            Route::get('ppc/aircraft-configuration/select2', 'AircraftConfigurationController@select2')->name('select2');
         });
 
-        Route::resource('/taskcard-detail-instruction', 'TaskcardDetailInstructionController');
+        Route::resource('/aircraft-configuration-detail', 'AircraftConfigurationDetailController');        
+        Route::name('aircraft-configuration-detail.')->group(function() {
+            Route::get('ppc/aircraft-configuration-detail/select2', 'AircraftConfigurationDetailController@select2Parent')->name('select2');
+        });
 
-        Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
+        Route::get('/detail-tree', 'AircraftConfigurationDetailController@tree');
     });
 }); 

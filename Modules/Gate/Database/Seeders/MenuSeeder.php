@@ -705,7 +705,7 @@ class MenuSeeder extends Seeder
 
         $menu = Menu::create([
             'menu_link' => 'ppc/aircraft-configuration',
-            'menu_text' => 'My Own Aircraft',
+            'menu_text' => 'Owned Aircraft',
             'menu_route' => 'ppc.aircraft-configuration.index',
             'menu_icon' => 'fa-fighter-jet',
             'menu_class' => 'Modules\PPC\Entities\AircraftConfiguration',
