@@ -122,7 +122,7 @@
                                                                     <div class="form-group" id="threshold_date">
                                                                     <div class="input-group date">
                                                                         <span class="input-group-addon">Exact Date</span>
-                                                                        <input type="text" class="form-control @error('threshold_date') is-invalid @enderror" name="threshold_date" id="threshold_date">
+                                                                        <input type="text" class="threshold_date form-control @error('threshold_date') is-invalid @enderror" name="threshold_date" id="threshold_date">
                                                                         <div class="invalid-feedback-threshold_date text-danger font-italic"></div>
                                                                     </div>
                                                                     </div>
@@ -169,7 +169,7 @@
                                                                     <div class="form-group" id="repeat_date">
                                                                     <div class="input-group date">
                                                                         <span class="input-group-addon">Exact Date</span>
-                                                                        <input type="text" class="form-control @error('repeat_date') is-invalid @enderror" name="repeat_date" id="repeat_date">
+                                                                        <input type="text" class="repeat_date form-control @error('repeat_date') is-invalid @enderror" name="repeat_date" id="repeat_date">
                                                                         <div class="invalid-feedback-repeat_date text-danger font-italic"></div>
                                                                     </div>
                                                                     </div>
@@ -209,7 +209,7 @@
                                                     <label>Issued Date</label>
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">Issued Date</span>
-                                                        <input type="text" class="form-control @error('issued_date') is-invalid @enderror" name="issued_date" id="issued_date">
+                                                        <input type="text" class="issued_date form-control @error('issued_date') is-invalid @enderror" name="issued_date" id="issued_date">
                                                         <div class="invalid-feedback-issued_date text-danger font-italic"></div>
                                                     </div>
                                                     </div>

@@ -31,7 +31,14 @@ class AircraftConfigurationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = AircraftConfiguration::with(['aircraft_type:id,name']);
+            $data = AircraftConfiguration::with(['aircraft_type:id,name',
+                                                'max_takeoff_weight_unit:id,name',
+                                                'max_landing_weight_unit:id,name',
+                                                'max_zero_fuel_weight_unit:id,name',
+                                                'fuel_capacity_unit:id,name',
+                                                'basic_empty_weight_unit:id,name',
+                                                ]);
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

@@ -155,10 +155,11 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo('#inputForm');
 
+        $('#description').val(data.description);
         $('#registration_number').val(data.registration_number);
         $('#serial_number').val(data.serial_number);
-        $('#manufactured_date').val(data.manufactured_date);
-        $('#received_date').val(data.received_date);
+        $('.manufactured_date').val(data.manufactured_date);
+        $('.received_date').val(data.received_date);
 
         $('#max_takeoff_weight').val(data.max_takeoff_weight);
         $('#max_landing_weight').val(data.max_landing_weight);
@@ -191,9 +192,9 @@ $(document).ready(function () {
             $('#fuel_capacity_unit_id').append('<option value="' + data.fuel_capacity_unit_id + '" selected>' + data.fuel_capacity_unit.name + '</option>');
         }
 
-        $(".basic_empty_unit_id").val(null).trigger('change');
-        if (data.basic_empty_unit != null) {
-            $('#basic_empty_unit_id').append('<option value="' + data.basic_empty_unit_id + '" selected>' + data.basic_empty_unit.name + '</option>');
+        $(".basic_empty_weight_unit_id").val(null).trigger('change');
+        if (data.basic_empty_weight_unit != null) {
+            $('#basic_empty_weight_unit_id').append('<option value="' + data.basic_empty_weight_unit_id + '" selected>' + data.basic_empty_weight_unit.name + '</option>');
         }
                
         if (data.status == '<label class="label label-success">Active</label>') {
