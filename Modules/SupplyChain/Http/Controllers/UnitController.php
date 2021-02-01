@@ -27,6 +27,7 @@ class UnitController extends Controller
     {
         if ($request->ajax()) {
             $data = Unit::with(['unit_class:id,name']);
+
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

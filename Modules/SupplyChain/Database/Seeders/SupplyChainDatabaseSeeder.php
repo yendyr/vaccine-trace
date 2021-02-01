@@ -21,6 +21,7 @@ class SupplyChainDatabaseSeeder extends Seeder
             UnitClassSeeder::class,
             UnitSeeder::class,
             ItemCategorySeeder::class,
+            ItemSeeder::class,
         ]);
     }
 }
