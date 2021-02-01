@@ -22,7 +22,7 @@
         <th>Serial Number</th>
         <th>Alias Name</th>
         <th>Description/Remark</th>
-        <th>Highlight Item</th>
+        <th>Highlighted Item</th>
         <th>Parent Item/Group PN</th>
         <th>Parent Item/Group Name & Alias</th>
         <th>Initial FH</th>

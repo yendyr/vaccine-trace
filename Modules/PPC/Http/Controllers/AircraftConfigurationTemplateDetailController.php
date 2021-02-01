@@ -167,6 +167,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
         }
 
         $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)->first();
+        $childRows = AircraftConfigurationTemplateDetail::where('parent_coding', $currentRow->coding)->get();
 
         if ($request->parent_coding == $currentRow->coding) {
             $parent_coding = null;
@@ -175,6 +176,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
             $parent_coding = $request->parent_coding;
         }
 
+        DB::beginTransaction();
         $currentRow
             ->update([
                 'item_id' => $request->item_id,
@@ -185,6 +187,12 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 'status' => $status,
                 'updated_by' => Auth::user()->id,
         ]);
+        if (sizeof($childRows) > 0) {
+            foreach($childRows as $childRow) {
+                $childRow->update(['status' => $status]);
+            }
+        }
+        DB::commit();
         
         return response()->json(['success' => 'Item/Component Data has been Updated']);
     }

@@ -85,7 +85,7 @@
                             <div class="form-group row" id="initial_start_date">
                                 <div class="col-md-12 input-group date">
                                     <span class="input-group-addon">Initial Start Date</span>
-                                    <input type="text" class="form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date">
+                                    <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date">
                                     <div class="invalid-feedback-initial_start_date text-danger font-italic"></div>
                                 </div>
                             </div>

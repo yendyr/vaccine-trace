@@ -39,7 +39,7 @@
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
-                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Tree View
+                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Item/Component Tree View
                         </a>
                     </li>
                 </ul>

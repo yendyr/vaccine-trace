@@ -22,7 +22,7 @@ $(document).ready(function () {
             { data: 'serial_number', name: 'Serial Number' },
             { data: 'alias_name', name: 'Alias Name' },
             { data: 'description', name: 'Description/Remark' },
-            { data: 'highlight', name: 'Highlight Item' },
+            { data: 'highlighted', name: 'Highlight Item' },
             { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
             { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
             { data: 'initial_flight_hour', name: 'Initial FH' },

@@ -41,6 +41,13 @@ class AircraftConfigurationDetailController extends Controller
                     return '<label class="label label-danger">Inactive</label>';
                 }
             })
+            ->addColumn('highlighted', function($row){
+                if ($row->highlight == 1){
+                    return '<label class="label label-primary">Yes</label>';
+                } else{
+                    return '<label class="label label-danger">No</label>';
+                }
+            })
             ->addColumn('parent_item_code', function($row){
                 return $row->item_group->item->code ?? '-';
             })
@@ -92,7 +99,7 @@ class AircraftConfigurationDetailController extends Controller
         $datas = AircraftConfigurationDetail::where('aircraft_configuration_id', $aircraft_configuration_id)
                                                 ->with(['item:id,code,name',
                                                         'item_group:id,item_id,alias_name'])
-                                                ->where('aircraft_configuration_details.status','1')
+                                                ->where('aircraft_configuration_details.status', 1)
                                                 ->orderBy('created_at','asc')
                                                 ->get();
         $response = [];
@@ -202,6 +209,7 @@ class AircraftConfigurationDetailController extends Controller
         }
 
         $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)->first();
+        $childRows = AircraftConfigurationDetail::where('parent_coding', $currentRow->coding)->get();
 
         if ($request->parent_coding == $currentRow->coding) {
             $parent_coding = null;
@@ -210,6 +218,7 @@ class AircraftConfigurationDetailController extends Controller
             $parent_coding = $request->parent_coding;
         }
 
+        DB::beginTransaction();
         $currentRow
             ->update([
                 'item_id' => $request->item_id,
@@ -226,6 +235,12 @@ class AircraftConfigurationDetailController extends Controller
                 'status' => $status,
                 'updated_by' => Auth::user()->id,
         ]);
+        if (sizeof($childRows) > 0) {
+            foreach($childRows as $childRow) {
+                $childRow->update(['status' => $status]);
+            }
+        }
+        DB::commit();
         
         return response()->json(['success' => 'Item/Component Data has been Updated']);
     }
