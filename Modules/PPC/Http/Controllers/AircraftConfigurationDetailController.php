@@ -217,7 +217,7 @@ class AircraftConfigurationDetailController extends Controller
                 'serial_number' => $request->serial_number,
                 'highlight' => $highlight,
                 'description' => $request->description,
-                'parent_coding' => $request->parent_coding,
+                'parent_coding' => $parent_coding,
 
                 'initial_flight_hour' => $request->initial_flight_hour,
                 'initial_flight_cycle' => $request->initial_flight_cycle,

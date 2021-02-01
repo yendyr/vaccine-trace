@@ -163,6 +163,8 @@ $(document).ready(function () {
         $('#max_takeoff_weight').val(data.max_takeoff_weight);
         $('#max_landing_weight').val(data.max_landing_weight);
         $('#max_zero_fuel_weight').val(data.max_zero_fuel_weight);
+        $('#fuel_capacity').val(data.fuel_capacity);
+        $('#basic_empty_weight').val(data.basic_empty_weight);
 
         $(".aircraft_type_id").val(null).trigger('change');
         if (data.aircraft_type != null) {

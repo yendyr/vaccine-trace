@@ -126,6 +126,11 @@ class AircraftConfigurationController extends Controller
                 'max_landing_weight_unit_id' => $request->max_landing_weight_unit_id,
                 'max_zero_fuel_weight' => $request->max_zero_fuel_weight,
                 'max_zero_fuel_weight_unit_id' => $request->max_zero_fuel_weight_unit_id,
+
+                'fuel_capacity' => $request->fuel_capacity,
+                'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
+                'basic_empty_weight' => $request->basic_empty_weight,
+                'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
@@ -280,6 +285,11 @@ class AircraftConfigurationController extends Controller
                     'max_landing_weight_unit_id' => $request->max_landing_weight_unit_id,
                     'max_zero_fuel_weight' => $request->max_zero_fuel_weight,
                     'max_zero_fuel_weight_unit_id' => $request->max_zero_fuel_weight_unit_id,
+
+                    'fuel_capacity' => $request->fuel_capacity,
+                    'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
+                    'basic_empty_weight' => $request->basic_empty_weight,
+                    'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
                     
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
