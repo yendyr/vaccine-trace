@@ -154,27 +154,12 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
-        if ($request->threshold_date) {
-            $threshold_date = Carbon::createFromFormat('m/d/Y', $request->threshold_date)->format('Y-m-d');
-        }
-        else {
-            $threshold_date = null;
-        }
-
-        if ($request->repeat_date) {
-            $repeat_date = Carbon::createFromFormat('m/d/Y', $request->repeat_date)->format('Y-m-d');
-        }
-        else {
-            $repeat_date = null;
-        }
-
-        if ($request->issued_date) {
-            $issued_date = Carbon::createFromFormat('m/d/Y', $request->issued_date)->format('Y-m-d');
-        }
-        else {
-            $issued_date = null;
-        }
-
+        $threshold_date = $request->threshold_date;
+        
+        $repeat_date = $request->repeat_date;
+        
+        $issued_date = $request->issued_date;
+        
         DB::beginTransaction();
         $Taskcard = Taskcard::create([
             'uuid' =>  Str::uuid(),
@@ -316,26 +301,11 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
-        if ($request->threshold_date) {
-            $threshold_date = Carbon::createFromFormat('m/d/Y', $request->threshold_date)->format('Y-m-d');
-        }
-        else {
-            $threshold_date = null;
-        }
-
-        if ($request->repeat_date) {
-            $repeat_date = Carbon::createFromFormat('m/d/Y', $request->repeat_date)->format('Y-m-d');
-        }
-        else {
-            $repeat_date = null;
-        }
-
-        if ($request->issued_date) {
-            $issued_date = Carbon::createFromFormat('m/d/Y', $request->issued_date)->format('Y-m-d');
-        }
-        else {
-            $issued_date = null;
-        }
+        $threshold_date = $request->threshold_date;
+        
+        $repeat_date = $request->repeat_date;
+        
+        $issued_date = $request->issued_date;
 
         DB::beginTransaction();
         $currentRow = Taskcard::where('id', $Taskcard->id)->first();

@@ -56,8 +56,8 @@ class AircraftConfigurationTemplateDetail extends Model
         return $this->belongsTo(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_coding', 'coding');
     }
 
-    public function subGroup()
+    public function all_childs()
     {
-        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_coding', 'coding');
+        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
 }

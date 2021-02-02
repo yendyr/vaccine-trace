@@ -136,6 +136,7 @@
 <script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 <script>
     var mem_initial_start_date = $('#initial_start_date .input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,

@@ -166,8 +166,9 @@ class AircraftConfigurationTemplateDetailController extends Controller
             $status = 0;
         }
 
-        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)->first();
-        $childRows = AircraftConfigurationTemplateDetail::where('parent_coding', $currentRow->coding)->get();
+        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)
+                                                    ->with('all_childs')
+                                                    ->first();
 
         if ($request->parent_coding == $currentRow->coding) {
             $parent_coding = null;
@@ -187,9 +188,22 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 'status' => $status,
                 'updated_by' => Auth::user()->id,
         ]);
-        if (sizeof($childRows) > 0) {
-            foreach($childRows as $childRow) {
-                $childRow->update(['status' => $status]);
+        if (sizeof($currentRow->all_childs) > 0) {
+            foreach($currentRow->all_childs as $childRow) {
+                $childRow
+                    ->update([
+                        'status' => $status,
+                        'updated_by' => Auth::user()->id,
+                    ]);
+                if (sizeof($currentRow->all_childs->first()->all_childs) > 0) {
+                    foreach($currentRow->all_childs->first()->all_childs as $grandChildRow) {
+                        $grandChildRow
+                            ->update([
+                                'status' => $status,
+                                'updated_by' => Auth::user()->id,
+                            ]);
+                    }
+                }
             }
         }
         DB::commit();

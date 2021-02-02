@@ -169,6 +169,7 @@
 <script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 <script>
     var mem_manufactured_date = $('#manufactured_date .input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -177,6 +178,7 @@
     });
 
     var mem_received_date = $('#received_date .input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,

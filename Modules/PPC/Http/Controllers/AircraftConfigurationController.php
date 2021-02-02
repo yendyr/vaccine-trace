@@ -96,20 +96,10 @@ class AircraftConfigurationController extends Controller
             $status = 0;
         }
 
-        if ($request->manufactured_date) {
-            $manufactured_date = Carbon::createFromFormat('m/d/Y', $request->manufactured_date)->format('Y-m-d');
-        }
-        else {
-            $manufactured_date = null;
-        }
-
-        if ($request->received_date) {
-            $received_date = Carbon::createFromFormat('m/d/Y', $request->received_date)->format('Y-m-d');
-        }
-        else {
-            $received_date = null;
-        }
-
+        $manufactured_date = $request->manufactured_date;
+        
+        $received_date = $request->received_date;
+        
         if ($request->duplicated_from) {
             $detail_source = AircraftConfigurationTemplate::where('id', $request->duplicated_from)
                                                 ->with('template_details')

@@ -201,16 +201,12 @@ class AircraftConfigurationDetailController extends Controller
             $highlight = 0;
         }
 
-        if ($request->initial_start_date) {
-            $initial_start_date = Carbon::createFromFormat('m/d/Y', $request->initial_start_date)->format('Y-m-d');
-        }
-        else {
-            $initial_start_date = null;
-        }
-
-        $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)->first();
-        $childRows = AircraftConfigurationDetail::where('parent_coding', $currentRow->coding)->get();
-
+        $initial_start_date = $request->initial_start_date;
+        
+        $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)
+                                                ->with('all_childs')
+                                                ->first();
+        
         if ($request->parent_coding == $currentRow->coding) {
             $parent_coding = null;
         }
@@ -235,9 +231,22 @@ class AircraftConfigurationDetailController extends Controller
                 'status' => $status,
                 'updated_by' => Auth::user()->id,
         ]);
-        if (sizeof($childRows) > 0) {
-            foreach($childRows as $childRow) {
-                $childRow->update(['status' => $status]);
+        if (sizeof($currentRow->all_childs) > 0) {
+            foreach($currentRow->all_childs as $childRow) {
+                $childRow
+                    ->update([
+                        'status' => $status,
+                        'updated_by' => Auth::user()->id,
+                    ]);
+                if (sizeof($currentRow->all_childs->first()->all_childs) > 0) {
+                    foreach($currentRow->all_childs->first()->all_childs as $grandChildRow) {
+                        $grandChildRow
+                            ->update([
+                                'status' => $status,
+                                'updated_by' => Auth::user()->id,
+                            ]);
+                    }
+                }
             }
         }
         DB::commit();

@@ -105,7 +105,7 @@ $(document).ready(function () {
         $('#description').val(data.description);
         $('#initial_flight_hour').val(data.initial_flight_hour);
         $('#initial_flight_cycle').val(data.initial_flight_cycle);
-        $('#initial_start_date').val(data.initial_start_date);
+        $('.initial_start_date').val(data.initial_start_date);
 
         if (data.item != null) {
             $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.name + '</option>');
