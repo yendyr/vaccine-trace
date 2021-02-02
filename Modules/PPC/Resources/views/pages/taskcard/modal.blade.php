@@ -72,6 +72,17 @@
                                                         you can choose multiple value
                                                     </span>
                                                 </div>
+
+                                                <div class="col">
+                                                    <label>Affected Item/Component Part Number</label>
+                                                    <select class="affected_item_id form-control @error('affected_item_id') is-invalid @enderror" name="affected_item_id[]" id="affected_item_id" multiple="multiple">
+                                                    </select>
+                                                    <div class="invalid-feedback-affected_item_id text-danger font-italic"></div>
+                                                    <span class="text-info font-italic">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        you can choose multiple value
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div class="row m-b">                
                                                 <div class="col-lg-12">

@@ -75,27 +75,30 @@
     <div class="row m-b">
         <div class="col-lg-4">
             Aircraft Type Applicability:
-            @include('ppc::pages.taskcard.aircraft-type-detail.item')
+            @include('ppc::pages.taskcard.aircraft-type-detail.content')
+
+            Affected Item/Component Part Number:
+            @include('ppc::pages.taskcard.affected-item-detail.content')
         </div>
         <div class="col-lg-8">
             <div class="row">
                 <div class="col-lg-5">
                     Access:
-                    @include('ppc::pages.taskcard.access-detail.item')                
+                    @include('ppc::pages.taskcard.access-detail.content')                
                 </div>
                 <div class="col-lg-7">
                     Zone:
-                    @include('ppc::pages.taskcard.zone-detail.item')                
+                    @include('ppc::pages.taskcard.zone-detail.content')                
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-5">
                     Document Library:
-                    @include('ppc::pages.taskcard.document-library-detail.item')
+                    @include('ppc::pages.taskcard.document-library-detail.content')
                 </div>
                 <div class="col-lg-7">
                     Affected Manual:
-                    @include('ppc::pages.taskcard.affected-manual-detail.item')
+                    @include('ppc::pages.taskcard.affected-manual-detail.content')
                 </div>
             </div>
         </div>
@@ -126,7 +129,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                @include('ppc::pages.taskcard.control-parameter.item')
+                                @include('ppc::pages.taskcard.control-parameter.content')
                             </div>
                         </div>
                     </div>

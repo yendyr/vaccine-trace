@@ -43,6 +43,6 @@ class TaskcardDetailAffectedItem extends Model
 
     public function item()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'affected_item_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'affected_item_id', 'id');
     }
 }

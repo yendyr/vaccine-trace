@@ -4,6 +4,7 @@ namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardDetailAircraftType;
+use Modules\PPC\Entities\TaskcardDetailAffectedItem;
 use Modules\PPC\Entities\TaskcardDetailAccess;
 use Modules\PPC\Entities\TaskcardDetailZone;
 use Modules\PPC\Entities\TaskcardDetailDocumentLibrary;
@@ -11,7 +12,6 @@ use Modules\PPC\Entities\TaskcardDetailAffectedManual;
 use Modules\PPC\Entities\TaskcardDetailInstruction;
 use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -39,6 +39,7 @@ class TaskcardController extends Controller
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',
+                    'affected_items:id,code,name',
                     'accesses:id,name',
                     'zones:id,name',
                     'document_libraries:id,name',
@@ -119,11 +120,6 @@ class TaskcardController extends Controller
         }
 
         return view('ppc::pages.taskcard.index');
-    }
-
-    public function create()
-    {
-        return view('ppc::pages.taskcard.create');
     }
 
     public function store(Request $request)
