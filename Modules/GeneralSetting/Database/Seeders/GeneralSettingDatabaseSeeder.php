@@ -22,7 +22,7 @@ class GeneralSettingDatabaseSeeder extends Seeder
             CompanyDetailContactSeeder::class,
             CompanyDetailAddressSeeder::class,
             CompanyDetailBankSeeder::class,
-            // AirportsTableSeeder::class,
+            AirportSeeder::class,
         ]);
     }
 }

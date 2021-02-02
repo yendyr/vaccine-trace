@@ -274,7 +274,7 @@ $(document).ready(function () {
         $("#affected_item_id").val('').trigger('change');
         if (data.affected_items != null) {
             $.each(data.affected_items, function(index, value) {
-                var option = new Option(data.affected_items[index].name, data.affected_items[index].id, true, true);
+                var option = new Option(data.affected_items[index].code + ' | ' + data.affected_items[index].name, data.affected_items[index].id, true, true);
                 $("#affected_item_id").append(option);
             });
         }
