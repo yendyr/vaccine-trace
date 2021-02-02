@@ -19,7 +19,6 @@
         @endslot    
 
         @slot('tableContent')
-            <th>Identity</th>
             <th>Type</th>
             <th>Name</th>
             <th>Latitude</th>
@@ -32,10 +31,7 @@
             <th>Scheduled Service</th>
             <th>GPS Code</th>
             <th>IATA Code</th>
-            <th>Local Code</th>            
-            <th>Home Link</th>            
-            <th>Wikipedia Link</th>            
-            <th>Keywords</th>            
+            <th>Local Code</th>           
             <th>Description</th>            
             <th>Status</th>            
             <th>Created By</th>            
