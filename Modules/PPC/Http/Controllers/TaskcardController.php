@@ -136,6 +136,9 @@ class TaskcardController extends Controller
             'compliance' => ['required'],
             'interval_control_method' => ['required', 'max:30'],
 
+            'aircraft_type_id' => ['required_without_all:item_id'],
+            'affected_item_id' => ['required_without_all:aircraft_type_id'],
+
             'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
             'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
             'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
@@ -204,6 +207,19 @@ class TaskcardController extends Controller
                         ->save(new TaskcardDetailAircraftType([
                             'uuid' => Str::uuid(),
                             'aircraft_type_id' => $aircraft_type_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->affected_item_id) {
+            foreach ($request->affected_item_id as $affected_item_id) {
+                $Taskcard->affected_item_details()
+                        ->save(new TaskcardDetailAffectedItem([
+                            'uuid' => Str::uuid(),
+                            'affected_item_id' => $affected_item_id,
                             'owned_by' => $request->user()->company_id,
                             'status' => 1,
                             'created_by' => $request->user()->id,
@@ -283,6 +299,9 @@ class TaskcardController extends Controller
             'compliance' => ['required'],
             'interval_control_method' => ['required', 'max:30'],
 
+            'aircraft_type_id' => ['required_without_all:item_id'],
+            'affected_item_id' => ['required_without_all:aircraft_type_id'],
+
             'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
             'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
             'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
@@ -353,6 +372,19 @@ class TaskcardController extends Controller
                         ->save(new TaskcardDetailAircraftType([
                             'uuid' => Str::uuid(),
                             'aircraft_type_id' => $aircraft_type_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->affected_item_id) {
+            foreach ($request->affected_item_id as $affected_item_id) {
+                $Taskcard->affected_item_details()
+                        ->save(new TaskcardDetailAffectedItem([
+                            'uuid' => Str::uuid(),
+                            'affected_item_id' => $affected_item_id,
                             'owned_by' => $request->user()->company_id,
                             'status' => 1,
                             'created_by' => $request->user()->id,
