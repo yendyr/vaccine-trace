@@ -262,3 +262,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     border: 1px solid #1c84c63d;
     border-bottom-style: none;
 }
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    color: #000;
+}
