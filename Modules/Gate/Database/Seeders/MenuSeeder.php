@@ -1008,7 +1008,7 @@ class MenuSeeder extends Seeder
             'menu_icon' => 'fa-folder',
             'menu_class' => 'Modules\Accounting\Entities\ChartOfAccount',
             'menu_id' => null,
-            'menu_actives' => json_encode(['Accounting/chart-of-account', 'Accounting/chart-of-account/*']),
+            'menu_actives' => json_encode(['accounting/chart-of-account', 'accounting/chart-of-account/*']),
             'group' => 'Accounting',
             'add' => 1,
             'update' => 1,
@@ -1062,5 +1062,48 @@ class MenuSeeder extends Seeder
         ]);
 
         // ----------- END Create Accounting Menus ------------------------//
+
+
+        // ----------- Create Flight Operations Menus ------------------------//
+        $menu = Menu::create([
+            'menu_link' => 'flightoperations/maintenance-log',
+            'menu_text' => 'Aircraft Maintenance Log',
+            'menu_route' => 'flightoperations.maintenance-log.index',
+            'menu_icon' => 'fa-steam',
+            'menu_class' => 'Modules\FlightOperations\Entities\MaintenanceLog',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['flightoperations/maintenance-log', 'flightoperations/maintenance-log/*']),
+            'group' => 'Flight Operations',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        $menu = Menu::create([
+            'menu_link' => 'flightoperations/flight-log',
+            'menu_text' => 'Aircraft Flight Log',
+            'menu_route' => 'flightoperations.flight-log.index',
+            'menu_icon' => 'fa-location-arrow',
+            'menu_class' => 'Modules\FlightOperations\EntitiesFlightLog',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['flightoperations/flight-log', 'flightoperations/flight-log/*']),
+            'group' => 'Flight Operations',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+        // ----------- END Create Flight Operations Menus ------------------------//
     }
 }

@@ -10,7 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::name('flightoperations.')->group(function () {
+    Route::prefix('flightoperations')->group(function () {
+        
+        Route::resource('/maintenance-log', 'MaintenanceLogController');
 
-Route::prefix('flightoperations')->group(function() {
-    Route::get('/', 'FlightOperationsController@index');
+        Route::resource('/flight-log', 'FlightLogController');
+    });
 });
