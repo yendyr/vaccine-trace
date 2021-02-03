@@ -24,6 +24,18 @@ class CreateAircraftFlightMaintenanceLogsTable extends Migration
             $table->date('last_inspection');
             $table->date('next_inspection');
 
+            $table->datetime('pre_flight_check_date');
+            $table->datetime('pre_flight_check_place');
+            $table->datetime('pre_flight_check_nearest_airport');
+            $table->datetime('pre_flight_check_person');
+            $table->datetime('pre_flight_check_compressor_wash');
+
+            $table->datetime('post_flight_check_date');
+            $table->datetime('post_flight_check_place');
+            $table->datetime('post_flight_check_nearest_airport');
+            $table->datetime('post_flight_check_person');
+            $table->datetime('post_flight_check_compressor_wash');
+
             $table->rememberToken();
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
