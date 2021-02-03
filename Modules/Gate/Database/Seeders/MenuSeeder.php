@@ -1090,7 +1090,7 @@ class MenuSeeder extends Seeder
             'menu_text' => 'Aircraft Flight Log',
             'menu_route' => 'flightoperations.flight-log.index',
             'menu_icon' => 'fa-location-arrow',
-            'menu_class' => 'Modules\FlightOperations\EntitiesFlightLog',
+            'menu_class' => 'Modules\FlightOperations\Entities\FlightLog',
             'menu_id' => null,
             'menu_actives' => json_encode(['flightoperations/flight-log', 'flightoperations/flight-log/*']),
             'group' => 'Flight Operations',
