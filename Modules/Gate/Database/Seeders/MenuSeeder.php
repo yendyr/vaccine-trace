@@ -1066,13 +1066,13 @@ class MenuSeeder extends Seeder
 
         // ----------- Create Flight Operations Menus ------------------------//
         $menu = Menu::create([
-            'menu_link' => 'flightoperations/maintenance-log',
-            'menu_text' => 'Aircraft Maintenance Log',
-            'menu_route' => 'flightoperations.maintenance-log.index',
-            'menu_icon' => 'fa-steam',
-            'menu_class' => 'Modules\FlightOperations\Entities\MaintenanceLog',
+            'menu_link' => 'flightoperations/flight-log',
+            'menu_text' => 'Aircraft Flight Log',
+            'menu_route' => 'flightoperations.flight-log.index',
+            'menu_icon' => 'fa-location-arrow',
+            'menu_class' => 'Modules\FlightOperations\Entities\FlightLog',
             'menu_id' => null,
-            'menu_actives' => json_encode(['flightoperations/maintenance-log', 'flightoperations/maintenance-log/*']),
+            'menu_actives' => json_encode(['flightoperations/flight-log', 'flightoperations/flight-log/*']),
             'group' => 'Flight Operations',
             'add' => 1,
             'update' => 1,
@@ -1086,13 +1086,13 @@ class MenuSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => 'flightoperations/flight-log',
-            'menu_text' => 'Aircraft Flight Log',
-            'menu_route' => 'flightoperations.flight-log.index',
-            'menu_icon' => 'fa-location-arrow',
-            'menu_class' => 'Modules\FlightOperations\Entities\FlightLog',
+            'menu_link' => 'flightoperations/maintenance-log',
+            'menu_text' => 'Aircraft Maintenance Log',
+            'menu_route' => 'flightoperations.maintenance-log.index',
+            'menu_icon' => 'fa-steam',
+            'menu_class' => 'Modules\FlightOperations\Entities\MaintenanceLog',
             'menu_id' => null,
-            'menu_actives' => json_encode(['flightoperations/flight-log', 'flightoperations/flight-log/*']),
+            'menu_actives' => json_encode(['flightoperations/maintenance-log', 'flightoperations/maintenance-log/*']),
             'group' => 'Flight Operations',
             'add' => 1,
             'update' => 1,
