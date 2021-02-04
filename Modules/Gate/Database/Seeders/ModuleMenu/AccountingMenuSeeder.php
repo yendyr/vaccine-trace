@@ -18,7 +18,7 @@ class AccountingMenuSeeder extends Seeder
     {
         Model::unguard();
 
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'accounting/chart-of-account',
             'menu_text' => 'Master COA',
             'menu_route' => 'accounting.chart-of-account.index',
@@ -38,7 +38,7 @@ class AccountingMenuSeeder extends Seeder
             'parent_id' => null
         ]);
 
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'accounting/item-category',
             'menu_text' => 'Item Category COA',
             'menu_route' => 'accounting.item-category.index_accounting',
@@ -58,7 +58,7 @@ class AccountingMenuSeeder extends Seeder
             'parent_id' => null
         ]);
         
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'accounting/item',
             'menu_text' => 'Item COA',
             'menu_route' => 'accounting.item.index_accounting',

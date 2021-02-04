@@ -18,7 +18,7 @@ class GateMenuSeeder extends Seeder
     {
         Model::unguard();
         
-        Menu::create([
+        $toolsMenu = Menu::create([
             'menu_link' => '#',
             'menu_text' => 'Tools',
             'menu_route' => null,
@@ -43,7 +43,7 @@ class GateMenuSeeder extends Seeder
             'menu_route' => 'gate.user.index',
             'menu_icon' => 'fa-user-circle-o',
             'menu_class' => 'Modules\Gate\Entities\User',
-            'menu_id' => 'gate',
+            'menu_id' => null,
             'menu_actives' => json_encode(['gate/user', 'gate/user/*']),
             'group' => 'Gate',
             'add' => 1,

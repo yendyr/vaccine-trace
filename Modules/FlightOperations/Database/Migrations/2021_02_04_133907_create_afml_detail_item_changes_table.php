@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAircraftFlightMaintenanceLogDetailItemChangesTable extends Migration
+class CreateAfmlDetailItemChangesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAircraftFlightMaintenanceLogDetailItemChangesTable extends Migration
      */
     public function up()
     {
-        Schema::create('aircraft_flight_maintenance_log_detail_item_changes', function (Blueprint $table) {
+        Schema::create('afml_detail_item_changes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 

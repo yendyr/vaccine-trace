@@ -30,11 +30,24 @@ class RoleController extends Controller
         if ($request->ajax()) {
             $data = Role::latest()->get();
             return Datatables::of($data)
+                ->addColumn('is_in_flight_role', function($row){
+                    if ($row->is_in_flight_role == 1){
+                        return '<label class="label label-primary">Yes</label>';
+                    } else{
+                        return '<label class="label label-danger">No</label>';
+                    }
+                })
+                ->addColumn('creator_name', function($row){
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function($row){
+                    return $row->updater->name ?? '-';
+                })
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
-                        return '<p class="text-success">Active</p>';
+                        return '<label class="label label-success">Active</label>';
                     } else{
-                        return '<p class="text-danger">Inactive</p>';
+                        return '<label class="label label-danger">Inactive</label>';
                     }
                 })
                 ->addColumn('action', function($row){
@@ -50,6 +63,11 @@ class RoleController extends Controller
         }
 
         return view('gate::pages.role.index');
+    }
+
+    public function index_flightoperations(Request $request)
+    {
+        return view('flightoperations::pages.in-flight-role.index');
     }
 
     /**
@@ -125,6 +143,28 @@ class RoleController extends Controller
             ]);
 
         return response()->json(['success' => 'Role data updated successfully.']);
+    }
+
+    public function update_flightoperations(Request $request, Role $role)
+    {
+        if ($request->is_in_flight_role) {
+            $is_in_flight_role = 1;
+        } 
+        else {
+            $is_in_flight_role = 0;
+        }
+
+        Role::where('id', $role->id)
+            ->update([
+                'code' => $request->code,
+                'role_name_alias' => $request->role_name_alias,
+                'description' => $request->description,
+                'is_in_flight_role' => $is_in_flight_role,
+
+                'updated_by' => $request->user()->id,
+            ]);
+
+        return response()->json(['success' => 'Role Data has been Updated']);
     }
 
     /**

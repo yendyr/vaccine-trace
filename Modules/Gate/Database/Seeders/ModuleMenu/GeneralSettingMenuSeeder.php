@@ -18,7 +18,7 @@ class GeneralSettingMenuSeeder extends Seeder
     {
         Model::unguard();
 
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'generalsetting/country',
             'menu_text' => 'Master Country',
             'menu_route' => 'generalsetting.country.index',
@@ -38,7 +38,7 @@ class GeneralSettingMenuSeeder extends Seeder
             'parent_id' => null
         ]);
 
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'generalsetting/company',
             'menu_text' => 'Master Company',
             'menu_route' => 'generalsetting.company.index',
@@ -58,7 +58,7 @@ class GeneralSettingMenuSeeder extends Seeder
             'parent_id' => null
         ]);
 
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'generalsetting/company-detail-contact',
             'menu_text' => '',
             'menu_route' => null,
@@ -78,7 +78,7 @@ class GeneralSettingMenuSeeder extends Seeder
             'parent_id' => null
         ]);
 
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'generalsetting/company-detail-address',
             'menu_text' => '',
             'menu_route' => null,
@@ -98,7 +98,7 @@ class GeneralSettingMenuSeeder extends Seeder
             'parent_id' => null
         ]);
 
-        $menu = Menu::create([
+        Menu::create([
             'menu_link' => 'generalsetting/airport',
             'menu_text' => 'Master Airport',
             'menu_route' => 'generalsetting.airport.index',

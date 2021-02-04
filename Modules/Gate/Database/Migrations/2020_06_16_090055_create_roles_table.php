@@ -16,7 +16,13 @@ class CreateRolesTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
+
+            $table->string('code')->nullable();
             $table->string('role_name');
+            $table->string('role_name_alias')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('is_in_flight_role')->nullable()->default(0);
+
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();

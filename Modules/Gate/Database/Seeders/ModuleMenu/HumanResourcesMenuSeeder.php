@@ -18,7 +18,7 @@ class HumanResourcesMenuSeeder extends Seeder
     {
         Model::unguard();
 
-        Menu::create([
+        $menuHrSetting = Menu::create([
             'menu_link' => '#',
             'menu_text' => 'Setting',
             'menu_route' => null,
@@ -63,7 +63,7 @@ class HumanResourcesMenuSeeder extends Seeder
             'menu_route' => 'hr.user.index',
             'menu_icon' => 'fa-user-circle-o',
             'menu_class' => 'Modules\HumanResources\Entities\User',
-            'menu_id' => 'gate',
+            'menu_id' => null,
             'menu_actives' => json_encode(['hr/org-structure-title', 'hr/org-structure-title/*']),
             'group' => 'Human Resources',
             'add' => 1,
@@ -77,7 +77,7 @@ class HumanResourcesMenuSeeder extends Seeder
             'parent_id' => null
         ]);
         
-        Menu::create([
+        $workGroupMenu = Menu::create([
             'menu_link' => 'hr/working-group',
             'menu_text' => 'Working Group',
             'menu_route' => 'hr.workgroup.index',

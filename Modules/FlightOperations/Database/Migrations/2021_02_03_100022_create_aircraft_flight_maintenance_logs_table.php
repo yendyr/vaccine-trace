@@ -25,16 +25,16 @@ class CreateAircraftFlightMaintenanceLogsTable extends Migration
             $table->date('next_inspection')->nullable();
 
             $table->datetime('pre_flight_check_date')->nullable();
-            $table->datetime('pre_flight_check_place')->nullable();
-            $table->datetime('pre_flight_check_nearest_airport_id')->nullable();
-            $table->datetime('pre_flight_check_person_id')->nullable();
-            $table->datetime('pre_flight_check_compressor_wash')->nullable();
+            $table->string('pre_flight_check_place')->nullable();
+            $table->string('pre_flight_check_nearest_airport_id')->nullable();
+            $table->string('pre_flight_check_person_id')->nullable();
+            $table->string('pre_flight_check_compressor_wash')->nullable();
 
             $table->datetime('post_flight_check_date')->nullable();
-            $table->datetime('post_flight_check_place')->nullable();
-            $table->datetime('post_flight_check_nearest_airport')->nullable();
-            $table->datetime('post_flight_check_person_id'->nullable());
-            $table->datetime('post_flight_check_compressor_wash')->nullable();
+            $table->string('post_flight_check_place')->nullable();
+            $table->string('post_flight_check_nearest_airport')->nullable();
+            $table->string('post_flight_check_person_id')->nullable();
+            $table->string('post_flight_check_compressor_wash')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();

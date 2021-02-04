@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAircraftFlightMaintenanceLogDetailDeferedMaintenanceItemsTable extends Migration
+class CreateAfmlDetailManpowersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateAircraftFlightMaintenanceLogDetailDeferedMaintenanceItemsTable exten
      */
     public function up()
     {
-        Schema::create('aircraft_flight_maintenance_log_detail_defered_maintenance_items', function (Blueprint $table) {
+        Schema::create('afml_detail_manpowers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
             $table->string('aircraft_flight_maintenance_logs_id');
-            $table->string('item_id'); // refer to id in aircraft configuration detail
+            $table->string('person_id');
+            $table->string('position_id');
             $table->string('description')->nullable();
 
             $table->rememberToken();
@@ -39,6 +40,6 @@ class CreateAircraftFlightMaintenanceLogDetailDeferedMaintenanceItemsTable exten
      */
     public function down()
     {
-        Schema::dropIfExists('aircraft_flight_maintenance_log_detail_defered_maintenance_items');
+        Schema::dropIfExists('aircraft_flight_maintenance_log_detail_manpowers');
     }
 }

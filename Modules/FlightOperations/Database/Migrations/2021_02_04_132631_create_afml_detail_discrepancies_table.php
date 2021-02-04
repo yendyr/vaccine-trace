@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAircraftFlightMaintenanceLogDetailRectificationsTable extends Migration
+class CreateAfmlDetailDiscrepanciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateAircraftFlightMaintenanceLogDetailRectificationsTable extends Migrat
      */
     public function up()
     {
-        Schema::create('aircraft_flight_maintenance_log_detail_rectifications', function (Blueprint $table) {
+        Schema::create('afml_detail_discrepancies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
             $table->string('aircraft_flight_maintenance_logs_id');
-            $table->string('aircraft_flight_maintenance_log_detail_discrepancies_id')->nullable();
             $table->string('title');
             $table->string('description')->nullable();
 
@@ -40,6 +39,6 @@ class CreateAircraftFlightMaintenanceLogDetailRectificationsTable extends Migrat
      */
     public function down()
     {
-        Schema::dropIfExists('aircraft_flight_maintenance_log_detail_rectifications');
+        Schema::dropIfExists('aircraft_flight_maintenance_log_detail_discrepancies');
     }
 }

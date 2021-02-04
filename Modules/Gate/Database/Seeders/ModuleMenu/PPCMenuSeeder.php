@@ -18,7 +18,7 @@ class PPCMenuSeeder extends Seeder
     {
         Model::unguard();
 
-        Menu::create([
+        $menuPpcTaskcard = Menu::create([
             'menu_link' => '#',
             'menu_text' => 'Task Card',
             'menu_route' => null,
@@ -177,7 +177,7 @@ class PPCMenuSeeder extends Seeder
             'parent_id' => $menuPpcTaskcard->id
         ]);
 
-        Menu::create([
+        $menuPpcAircraft = Menu::create([
             'menu_link' => '#',
             'menu_text' => 'Aircraft',
             'menu_route' => null,

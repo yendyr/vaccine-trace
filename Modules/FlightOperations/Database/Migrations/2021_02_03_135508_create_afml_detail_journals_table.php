@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAircraftFlightMaintenanceLogDetailJournalsTable extends Migration
+class CreateAfmlDetailJournalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAircraftFlightMaintenanceLogDetailJournalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('aircraft_flight_maintenance_log_detail_journals', function (Blueprint $table) {
+        Schema::create('afml_detail_journals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
@@ -40,7 +40,6 @@ class CreateAircraftFlightMaintenanceLogDetailJournalsTable extends Migration
             $table->integer('fuel_burned')->nullable();
             $table->string('fuel_burned_unit_id')->nullable();
             $table->string('fuel_receipt_number')->nullable();
-            $table->string('fuel_uplifted_unit_id')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();

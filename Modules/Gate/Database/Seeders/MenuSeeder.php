@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Gate\Database\Seeders\ModuleMenu;
+namespace Modules\Gate\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
@@ -17,14 +17,14 @@ class MenuSeeder extends Seeder
         Model::unguard();
 
         $this->call([
-            GateMenuSeeder::class,
-            HumanResourcesMenuSeeder::class,
-            GeneralSettingMenuSeeder::class,
-            AccountingMenuSeeder::class,
-            QualityAssuranceMenuSeeder::class,
-            SupplyChainMenuSeeder::class,
-            PPCMenuSeeder::class,
-            FlightOperationsMenuSeeder::class,
+            ModuleMenu\GateMenuSeeder::class,
+            ModuleMenu\HumanResourcesMenuSeeder::class,
+            ModuleMenu\GeneralSettingMenuSeeder::class,
+            ModuleMenu\AccountingMenuSeeder::class,
+            ModuleMenu\QualityAssuranceMenuSeeder::class,
+            ModuleMenu\SupplyChainMenuSeeder::class,
+            ModuleMenu\PPCMenuSeeder::class,
+            ModuleMenu\FlightOperationsMenuSeeder::class,
         ]);
     }
 }
