@@ -20,16 +20,27 @@ class CreateAircraftFlightMaintenanceLogDetailJournalsTable extends Migration
             $table->string('aircraft_flight_maintenance_logs_id');
             $table->string('route_from');
             $table->date('route_to');
-            $table->time('block_off');
-            $table->time('take_off');
-            $table->time('landing');
-            $table->time('block_on');
-            $table->string('timezone');
+            $table->time('block_off')->nullable();
+            $table->time('take_off')->nullable();
+            $table->time('landing')->nullable();
+            $table->time('block_on')->nullable();
+            $table->string('timezone')->nullable();
 
-            $table->integer('total_flight_hour');
-            $table->integer('total_block_hour');
-            $table->integer('total_cycle');
-            $table->integer('total_event');
+            $table->integer('total_flight_hour')->nullable();
+            $table->integer('total_block_hour')->nullable();
+            $table->integer('total_cycle')->nullable();
+            $table->integer('total_event')->nullable();
+
+            $table->integer('fuel_remaining')->nullable();
+            $table->string('fuel_remaining_unit_id')->nullable();
+            $table->integer('fuel_uplifted')->nullable();
+            $table->string('fuel_uplifted_unit_id')->nullable();
+            $table->integer('fuel_block')->nullable();
+            $table->string('fuel_block_unit_id')->nullable();
+            $table->integer('fuel_burned')->nullable();
+            $table->string('fuel_burned_unit_id')->nullable();
+            $table->string('fuel_receipt_number')->nullable();
+            $table->string('fuel_uplifted_unit_id')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();

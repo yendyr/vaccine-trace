@@ -17,24 +17,24 @@ class CreateAircraftFlightMaintenanceLogsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('page_number');
-            $table->string('previous_page_number');
+            $table->string('page_number')->unique();
+            $table->string('previous_page_number')->nullable();
             $table->date('transaction_date');
             $table->string('aircraft_configuration_id');
-            $table->date('last_inspection');
-            $table->date('next_inspection');
+            $table->date('last_inspection')->nullable();
+            $table->date('next_inspection')->nullable();
 
-            $table->datetime('pre_flight_check_date');
-            $table->datetime('pre_flight_check_place');
-            $table->datetime('pre_flight_check_nearest_airport');
-            $table->datetime('pre_flight_check_person');
-            $table->datetime('pre_flight_check_compressor_wash');
+            $table->datetime('pre_flight_check_date')->nullable();
+            $table->datetime('pre_flight_check_place')->nullable();
+            $table->datetime('pre_flight_check_nearest_airport_id')->nullable();
+            $table->datetime('pre_flight_check_person_id')->nullable();
+            $table->datetime('pre_flight_check_compressor_wash')->nullable();
 
-            $table->datetime('post_flight_check_date');
-            $table->datetime('post_flight_check_place');
-            $table->datetime('post_flight_check_nearest_airport');
-            $table->datetime('post_flight_check_person');
-            $table->datetime('post_flight_check_compressor_wash');
+            $table->datetime('post_flight_check_date')->nullable();
+            $table->datetime('post_flight_check_place')->nullable();
+            $table->datetime('post_flight_check_nearest_airport')->nullable();
+            $table->datetime('post_flight_check_person_id'->nullable());
+            $table->datetime('post_flight_check_compressor_wash')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();

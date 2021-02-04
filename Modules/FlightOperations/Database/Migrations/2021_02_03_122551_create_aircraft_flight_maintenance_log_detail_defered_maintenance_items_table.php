@@ -14,8 +14,20 @@ class CreateAircraftFlightMaintenanceLogDetailDeferedMaintenanceItemsTable exten
     public function up()
     {
         Schema::create('aircraft_flight_maintenance_log_detail_defered_maintenance_items', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->uuid('uuid')->unique();
 
+            $table->string('aircraft_flight_maintenance_logs_id');
+            $table->string('item_id'); // refer to id in aircraft configuration detail
+            $table->string('description')->nullable();
+
+            $table->rememberToken();
+            $table->integer('status')->nullable();
+            $table->integer('owned_by')->nullable()->unsigned();
+            $table->integer('created_by')->nullable()->unsigned();
+            $table->integer('updated_by')->nullable()->unsigned();
+            $table->integer('deleted_by')->nullable()->unsigned();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
