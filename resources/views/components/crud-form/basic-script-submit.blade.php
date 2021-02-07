@@ -165,6 +165,13 @@
                     if (data.success){
                         generateToast ('success', data.success);
                     }
+                    else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });                          
+                }
                 },
                 complete: function(data) {
                     $('#delete-button').text('Delete');
@@ -183,6 +190,7 @@
 
         datatabelObject.on('click', '.approveBtn', function () {
             rowId = $(this).val();
+            $('#approve-form').trigger("reset");
             $('#approveModal').modal('show');
             $('#approve-form').attr('action', actionUrl + '/' + rowId + '/approve');
         });
@@ -198,6 +206,8 @@
                 },
                 url: url_action,
                 type: "POST",
+                data: $('#approve-form').serialize(),
+                dataType: 'json',
                 beforeSend:function(){
                     $('#approve-button').text('Approving...');
                     $('#approve-button').prop('disabled', true);

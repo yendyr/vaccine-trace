@@ -105,6 +105,7 @@ $(document).ready(function () {
         $('#description').val(data.description);
         $('#initial_flight_hour').val(data.initial_flight_hour);
         $('#initial_flight_cycle').val(data.initial_flight_cycle);
+        $('#initial_flight_event').val(data.initial_flight_event);
         $('.initial_start_date').val(data.initial_start_date);
 
         if (data.item != null) {
@@ -142,7 +143,61 @@ $(document).ready(function () {
         submitButtonProcess (tableId, inputFormId); 
     });
 
+
+
+
     deleteButtonProcess (datatableObject, tableId, actionUrl);
+
+
+
+    // ----------------- "APPROVE" BUTTON SCRIPT ------------- //
+    $('.approveBtn').on('click', function () {
+        rowId = $(this).val();
+        $('#approve-form').trigger("reset");
+        $('#approveModal').modal('show');
+        $('#approve-form').attr('action', '/ppc/aircraft-configuration/' + rowId + '/approve');
+    });
+
+    $('#approve-form').on('submit', function (e) {
+        e.preventDefault();
+        let url_action = $(this).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            type: "POST",
+            data: $('#approve-form').serialize(),
+            dataType: 'json',
+            beforeSend:function(){
+                $('#approve-button').text('Approving...');
+                $('#approve-button').prop('disabled', true);
+            },
+            error: function(data){
+                if (data.error) {
+                    generateToast ('error', data.error);
+                }
+            },
+            success:function(data){
+                if (data.success){
+                    generateToast ('success', data.success);
+                }
+                setTimeout(location.reload.bind(location), 2000);
+            },
+            complete: function(data) {
+                $('#approve-button').text('Approve');
+                $('#approveModal').modal('hide');
+                $('#approve-button').prop('disabled', false);
+                $(targetTableId).DataTable().ajax.reload();
+            }
+        });
+    });
+    // ----------------- END "APPROVE" BUTTON SCRIPT ------------- //
+
+
+
 
     function clearForm()
     {

@@ -81,6 +81,14 @@
                                     <div class="invalid-feedback-initial_flight_cycle text-danger font-italic"></div>
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Initial Flight Event Aging</label>
+                                <div class="col-sm-7">
+                                    <input type="number" min="0" class="form-control @error('initial_flight_event') is-invalid @enderror" name="initial_flight_event" id="initial_flight_event">
+                                    <div class="invalid-feedback-initial_flight_event text-danger font-italic"></div>
+                                </div>
+                            </div>
                             
                             <div class="form-group row" id="initial_start_date">
                                 <div class="col-md-12 input-group date">

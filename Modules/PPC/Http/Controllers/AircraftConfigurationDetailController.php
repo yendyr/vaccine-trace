@@ -2,6 +2,7 @@
 
 namespace Modules\PPC\Http\Controllers;
 
+use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Entities\AircraftConfigurationDetail;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -33,6 +34,16 @@ class AircraftConfigurationDetailController extends Controller
                                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
                                                 ->orderBy('created_at','asc')
                                                 ->get();
+                                                
+        $AircraftConfiguration = AircraftConfiguration::where('id', $aircraft_configuration_id)->first();
+
+        if ($AircraftConfiguration->approvals()->count() == 0) {
+            $alreadyApproved = false;
+        }
+        else {
+            $alreadyApproved = true;
+        }
+
         return Datatables::of($data)
             ->addColumn('status', function($row){
                 if ($row->status == 1){
@@ -66,26 +77,30 @@ class AircraftConfigurationDetailController extends Controller
             ->addColumn('updater_name', function($row){
                 return $row->updater->name ?? '-';
             })
-            ->addColumn('action', function($row){
-                $noAuthorize = true;
-                if(Auth::user()->can('update', AircraftConfigurationDetail::class)) {
-                    $updateable = 'button';
-                    $updateValue = $row->id;
-                    $noAuthorize = false;
-                }
-                if(Auth::user()->can('delete', AircraftConfigurationDetail::class)) {
-                    $deleteable = true;
-                    $deleteId = $row->id;
-                    $noAuthorize = false;
-                }
-
-                if ($noAuthorize == false) {
-                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+            ->addColumn('action', function($row) {
+                if ($alreadyApproved = false) {
+                    $noAuthorize = true;
+                    if(Auth::user()->can('update', AircraftConfigurationDetail::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', AircraftConfigurationDetail::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+    
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted">Not Authorized</p>';
+                    }
                 }
                 else {
-                    return '<p class="text-muted">Not Authorized</p>';
+                    return '<p class="text-muted">Already Approved</p>';
                 }
-                
             })
             ->escapeColumns([])
             ->make(true);
@@ -123,57 +138,65 @@ class AircraftConfigurationDetailController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'item_id' => ['required'],
-        ]);
+        $AircraftConfiguration = AircraftConfiguration::where('id', $request->aircraft_configuration_id)->first();
 
-        if ($request->status) {
-            $status = 1;
-        } 
+        if ($AircraftConfiguration->approvals()->count() == 0) {
+            $request->validate([
+                'item_id' => ['required'],
+            ]);
+    
+            if ($request->status) {
+                $status = 1;
+            } 
+            else {
+                $status = 0;
+            }
+    
+            if ($request->highlight) {
+                $highlight = 1;
+            } 
+            else {
+                $highlight = 0;
+            }
+    
+            if ($request->initial_start_date) {
+                $initial_start_date = Carbon::createFromFormat('m/d/Y', $request->initial_start_date)->format('Y-m-d');
+            }
+            else {
+                $initial_start_date = null;
+            }
+    
+            DB::beginTransaction();
+            $AircraftConfigurationDetail = AircraftConfigurationDetail::create([
+                'uuid' =>  Str::uuid(),
+    
+                'aircraft_configuration_id' => $request->aircraft_configuration_id,
+                'item_id' => $request->item_id,
+                'serial_number' => $request->serial_number,
+                'alias_name' => $request->alias_name,
+                'highlight' => $highlight,
+                'description' => $request->description,
+                'parent_coding' => $request->parent_coding,
+    
+                'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_flight_cycle' => $request->initial_flight_cycle,
+                'initial_flight_event' => $request->initial_flight_event,
+                'initial_start_date' => $initial_start_date,
+    
+                'owned_by' => $request->user()->company_id,
+                'status' => $status,
+                'created_by' => $request->user()->id,
+            ]);
+            $AircraftConfigurationDetail->update([
+                'coding' => $AircraftConfigurationDetail->aircraft_configuration_id . '-' . $AircraftConfigurationDetail->id,
+            ]);
+            DB::commit();
+    
+            return response()->json(['success' => 'Item/Component Data has been Added']);
+        }
         else {
-            $status = 0;
+            return response()->json(['error' => "This Aircraft Configuration and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
-
-        if ($request->highlight) {
-            $highlight = 1;
-        } 
-        else {
-            $highlight = 0;
-        }
-
-        if ($request->initial_start_date) {
-            $initial_start_date = Carbon::createFromFormat('m/d/Y', $request->initial_start_date)->format('Y-m-d');
-        }
-        else {
-            $initial_start_date = null;
-        }
-
-        DB::beginTransaction();
-        $AircraftConfigurationDetail = AircraftConfigurationDetail::create([
-            'uuid' =>  Str::uuid(),
-
-            'aircraft_configuration_id' => $request->aircraft_configuration_id,
-            'item_id' => $request->item_id,
-            'serial_number' => $request->serial_number,
-            'alias_name' => $request->alias_name,
-            'highlight' => $highlight,
-            'description' => $request->description,
-            'parent_coding' => $request->parent_coding,
-
-            'initial_flight_hour' => $request->initial_flight_hour,
-            'initial_flight_cycle' => $request->initial_flight_cycle,
-            'initial_start_date' => $initial_start_date,
-
-            'owned_by' => $request->user()->company_id,
-            'status' => $status,
-            'created_by' => $request->user()->id,
-        ]);
-        $AircraftConfigurationDetail->update([
-            'coding' => $AircraftConfigurationDetail->aircraft_configuration_id . '-' . $AircraftConfigurationDetail->id,
-        ]);
-        DB::commit();
-
-        return response()->json(['success' => 'Item/Component Data has been Added']);
     }
 
     public function show(AircraftConfigurationDetail $AircraftConfigurationDetail)
@@ -183,66 +206,74 @@ class AircraftConfigurationDetailController extends Controller
 
     public function update(Request $request, AircraftConfigurationDetail $ConfigurationDetail)
     {
-        $request->validate([
-            'item_id' => ['required'],
-        ]);
-
         $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)
                                                 ->with('all_childs')
                                                 ->first();
 
-        if ($request->status) {
-            $status = 1; 
-            
-            if ($currentRow->parent_coding != null) {
-                if ($currentRow->item_group->status == 0) {
-                    return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
+        $AircraftConfiguration = AircraftConfiguration::where('id', $currentRow->aircraft_configuration_id)->first();
+
+        if ($AircraftConfiguration->approvals()->count() == 0) {
+            $request->validate([
+                'item_id' => ['required'],
+            ]);
+    
+            if ($request->status) {
+                $status = 1; 
+                
+                if ($currentRow->parent_coding != null) {
+                    if ($currentRow->item_group->status == 0) {
+                        return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
+                    }
                 }
+            } 
+            else {
+                $status = 0;
             }
-        } 
+    
+            if ($request->highlight) {
+                $highlight = 1;
+            } 
+            else {
+                $highlight = 0;
+            }
+    
+            $initial_start_date = $request->initial_start_date;
+            
+            if ($request->parent_coding == $currentRow->coding) {
+                $parent_coding = null;
+            }
+            else {
+                $parent_coding = $request->parent_coding;
+            }
+    
+            DB::beginTransaction();
+            $currentRow
+                ->update([
+                    'item_id' => $request->item_id,
+                    'alias_name' => $request->alias_name,
+                    'serial_number' => $request->serial_number,
+                    'highlight' => $highlight,
+                    'description' => $request->description,
+                    'parent_coding' => $parent_coding,
+    
+                    'initial_flight_hour' => $request->initial_flight_hour,
+                    'initial_flight_cycle' => $request->initial_flight_cycle,
+                    'initial_flight_event' => $request->initial_flight_event,
+                    'initial_start_date' => $initial_start_date,
+    
+                    'status' => $status,
+                    'updated_by' => Auth::user()->id,
+            ]);
+            if (sizeof($currentRow->all_childs) > 0) {
+                Self::updateChilds($currentRow, $status);
+            }
+            DB::commit();
+            
+            return response()->json(['success' => 'Item/Component Data has been Updated']);
+        }
         else {
-            $status = 0;
+            return response()->json(['error' => "This Aircraft Configuration and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
-
-        if ($request->highlight) {
-            $highlight = 1;
-        } 
-        else {
-            $highlight = 0;
-        }
-
-        $initial_start_date = $request->initial_start_date;
-        
-        if ($request->parent_coding == $currentRow->coding) {
-            $parent_coding = null;
-        }
-        else {
-            $parent_coding = $request->parent_coding;
-        }
-
-        DB::beginTransaction();
-        $currentRow
-            ->update([
-                'item_id' => $request->item_id,
-                'alias_name' => $request->alias_name,
-                'serial_number' => $request->serial_number,
-                'highlight' => $highlight,
-                'description' => $request->description,
-                'parent_coding' => $parent_coding,
-
-                'initial_flight_hour' => $request->initial_flight_hour,
-                'initial_flight_cycle' => $request->initial_flight_cycle,
-                'initial_start_date' => $initial_start_date,
-
-                'status' => $status,
-                'updated_by' => Auth::user()->id,
-        ]);
-        if (sizeof($currentRow->all_childs) > 0) {
-            Self::updateChilds($currentRow, $status);
-        }
-        DB::commit();
-        
-        return response()->json(['success' => 'Item/Component Data has been Updated']);
     }
 
     public function updateChilds($currentRow, $status)
@@ -262,13 +293,20 @@ class AircraftConfigurationDetailController extends Controller
     public function destroy(AircraftConfigurationDetail $ConfigurationDetail)
     {
         $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)->first();
-        $currentRow
-                ->update([
-                    'deleted_by' => Auth::user()->id,
-                ]);
+        $AircraftConfiguration = AircraftConfiguration::where('id', $currentRow->aircraft_configuration_id)->first();
 
-        AircraftConfigurationDetail::destroy($ConfigurationDetail->id);
-        return response()->json(['success' => 'Item/Component Data has been Deleted']);
+        if ($AircraftConfiguration->approvals()->count() == 0) {
+            $currentRow
+                    ->update([
+                        'deleted_by' => Auth::user()->id,
+                    ]);
+
+            AircraftConfigurationDetail::destroy($ConfigurationDetail->id);
+            return response()->json(['success' => 'Item/Component Data has been Deleted']);
+        }
+        else {
+            return response()->json(['error' => "This Aircraft Configuration and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
     }
 
     public function select2Parent(Request $request)

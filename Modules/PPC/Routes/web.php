@@ -73,6 +73,7 @@ Route::name('ppc.')->group(function () {
         Route::name('aircraft-configuration.')->group(function() {
             Route::get('ppc/aircraft-configuration/select2', 'AircraftConfigurationController@select2')->name('select2');
         });
+        Route::post('/aircraft-configuration/{aircraft_configuration}/approve', 'AircraftConfigurationController@approve');
 
         Route::resource('/configuration-detail', 'AircraftConfigurationDetailController');        
         Route::name('configuration-detail.')->group(function() {

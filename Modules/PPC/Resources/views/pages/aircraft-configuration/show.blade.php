@@ -42,6 +42,11 @@
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Item/Component Tree View
                         </a>
                     </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
+                            <i class="fa fa-check-circle fa-2x text-warning"></i>&nbsp;Approval Status
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div id="tab-0" class="tab-pane active">
@@ -68,6 +73,11 @@
                             <div class="row m-b">
                                 @include('ppc::pages.aircraft-configuration.tree-view-content.content')
                             </div>
+                        </div>
+                    </div>
+                    <div id="tab-3" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            @include('ppc::pages.aircraft-configuration.approval-status.content')
                         </div>
                     </div>
                 </div>

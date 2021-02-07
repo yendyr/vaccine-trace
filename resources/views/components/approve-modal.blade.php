@@ -18,7 +18,8 @@
                         Approval Notes:
                     </div>
                     <div class="row">
-                        <input class="form-control" type="text" id="approval_notes"  name="approval_notes" required>
+                        <input class="form-control @error('approval_notes') is-invalid @enderror" type="text" id="approval_notes"  name="approval_notes" required>
+                        <div class="invalid-feedback-approval_notes text-danger font-italic"></div>
                     </div>
                 </div>
                 <div class="modal-footer">

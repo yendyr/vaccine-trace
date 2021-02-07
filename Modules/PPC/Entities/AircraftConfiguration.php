@@ -69,6 +69,11 @@ class AircraftConfiguration extends Model
         return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'aircraft_configuration_id');
     }
 
+    public function approvals()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationApproval::class, 'aircraft_configuration_id');
+    }
+
     public function max_takeoff_weight_unit()
     {
         return $this->belongsTo(\Modules\SupplyChain\Entities\Unit::class, 'max_takeoff_weight_unit_id');
@@ -98,7 +103,8 @@ class AircraftConfiguration extends Model
         parent::boot();
 
         static::deleting(function($AircraftConfiguration) {
-            $AircraftConfiguration->aircraft_configuration_details()->delete();             
+            $AircraftConfiguration->configuration_details()->delete();             
+            $AircraftConfiguration->approvals()->delete();             
         });
     }
 }

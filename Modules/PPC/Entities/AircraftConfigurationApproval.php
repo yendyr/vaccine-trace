@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AircraftConfigurationDetail extends Model
+class AircraftConfigurationApproval extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -17,19 +17,8 @@ class AircraftConfigurationDetail extends Model
     protected $fillable = [
         'uuid',
 
-        'coding',
         'aircraft_configuration_id',
-        'item_id',
-        'serial_number',
-        'alias_name',
-        'description',
-        'highlight',
-        'parent_coding',
-
-        'initial_flight_hour',
-        'initial_flight_cycle',
-        'initial_flight_event',
-        'initial_start_date',
+        'approval_notes',
         
         'status',
         'created_by',
@@ -51,20 +40,5 @@ class AircraftConfigurationDetail extends Model
     public function aircraft_configuration()
     {
         return $this->belongsTo(\Modules\PPC\Entities\AircraftConfiguration::class, 'aircraft_configuration_id');
-    }
-
-    public function item()
-    {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'item_id');
-    }
-
-    public function item_group()
-    {
-        return $this->belongsTo(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'parent_coding', 'coding');
-    }
-
-    public function all_childs()
-    {
-        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
 }
