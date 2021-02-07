@@ -108,7 +108,7 @@
                 swal.fire({
                     title: "Are you sure?",
                     text: "If you sure to validate all attendance data, you won't be able to restore the validated attendance data",
-                    type: "info",
+                    icon: "info",
                     showCancelButton: true,
                     confirmButtonColor: "#1a9905",
                     confirmButtonText: "Yes, i'm sure!"
@@ -127,7 +127,7 @@
                                     swal.fire({
                                         title: 'Failed when validating data',
                                         text: data.error,
-                                        type: 'error',
+                                        icon: 'error',
                                         closeOnConfirm: false
                                     })
                                 }
@@ -137,14 +137,14 @@
                                     swal.fire({
                                         title: 'Successfully validated',
                                         text: data.success,
-                                        type: 'success',
+                                        icon: 'success',
                                         closeOnEscape: true
                                     })
                                 }else if(data.error){
                                     swal.fire({
                                         title: 'Failed when validating data',
                                         text: data.error,
-                                        type: 'warning',
+                                        icon: 'warning',
                                         closeOnEscape: true
                                     })
                                 }

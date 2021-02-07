@@ -10,7 +10,7 @@
             swal.fire({
                 title: "Upload Failed",
                 text: "Size Must Between 10 KB - 100 KB !",
-                type: "error"
+                icon: "error"
             });
         } 
         else {
@@ -37,7 +37,7 @@
                         swal.fire({
                             title: "File Uploaded",
                             text: data.success,
-                            type: "success"
+                            icon: "success"
                         });
                         setTimeout(location.reload.bind(location), 2000);
                     }
@@ -53,7 +53,7 @@
                         swal.fire({
                             title: "Upload Failed",
                             text: textError,
-                            type: "error"
+                            icon: "error"
                         });
                     }
                 },

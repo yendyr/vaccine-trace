@@ -13,13 +13,13 @@
             swal.fire({
                 title: "Upload Failed",
                 text: "input file format only for: .jpeg, .jpg, .png !",
-                type: "error"
+                icon: "error"
             });
         } else if((imgsize < 10000) || (imgsize > 100000)){
             swal.fire({
                 title: "Upload Failed",
                 text: "input file size only between 10 KB - 100 KB !",
-                type: "error"
+                icon: "error"
             });
         } else{
             // IMAGE PREVIEW
@@ -54,7 +54,7 @@
                         swal.fire({
                             title: "Image Uploaded",
                             text: data.success,
-                            type: "success"
+                            icon: "success"
                         });
                     }
                 },
@@ -69,7 +69,7 @@
                         swal.fire({
                             title: "Upload Failed",
                             text: textError,
-                            type: "error"
+                            icon: "error"
                         });
                     }
                 },

@@ -96,7 +96,7 @@
                         swal.fire({
                             title: "Password changed!",
                             text: data.success,
-                            type: "success"
+                            icon: "success"
                         });
                     }
                 },
