@@ -100,19 +100,19 @@ class TaskcardGroupSeeder extends Seeder
         //     'parent_id' => 7,
         //     'uuid' => Str::uuid(),
         // ]);
-        $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Certification Maintenance Requirement',
-            'code' => 'CMR',
-            'status' => 1,
-            'parent_id' => 7,
-            'uuid' => Str::uuid(),
-        ]);
-        $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Airworthiness Limitation',
-            'code' => 'AWL',
-            'status' => 1,
-            'parent_id' => 7,
-            'uuid' => Str::uuid(),
-        ]);
+        // $TaskcardGroup = TaskcardGroup::create([
+        //     'name' => 'Certification Maintenance Requirement',
+        //     'code' => 'CMR',
+        //     'status' => 1,
+        //     'parent_id' => 7,
+        //     'uuid' => Str::uuid(),
+        // ]);
+        // $TaskcardGroup = TaskcardGroup::create([
+        //     'name' => 'Airworthiness Limitation',
+        //     'code' => 'AWL',
+        //     'status' => 1,
+        //     'parent_id' => 7,
+        //     'uuid' => Str::uuid(),
+        // ]);
     }
 }
