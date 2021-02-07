@@ -50,13 +50,13 @@ function getPict(input){
     let match=["image/jpeg", "image/jpg", "image/png"];
 
     if((imgtype != match[0]) && (imgtype != match[1]) && (imgtype != match[2])){
-        swal({
+        swal.fire({
             title: "Upload Image Failed",
             text: "input file format only for: .jpeg, .jpg, .png !",
             type: "error"
         });
     } else if((imgsize < 10000) || (imgsize > 100000)){
-        swal({
+        swal.fire({
             title: "Upload Image Failed",
             text: "input file size only between 10 KB - 100 KB !",
             type: "error"
@@ -94,7 +94,7 @@ function getPict(input){
             },
             success:function(data){
                 if (data.success) {
-                    swal({
+                    swal.fire({
                         title: "Image Uploaded!",
                         text: data.success,
                         type: "success"
@@ -109,7 +109,7 @@ function getPict(input){
                     $.each(errors, function (index, value) {
                         textError += value;
                     });
-                    swal({
+                    swal.fire({
                         title: "Failed to upload!",
                         text: textError,
                         type: "error"

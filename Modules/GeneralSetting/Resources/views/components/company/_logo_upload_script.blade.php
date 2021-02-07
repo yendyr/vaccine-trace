@@ -10,13 +10,13 @@
         let match=["image/jpeg", "image/jpg", "image/png"];
 
         if((imgtype != match[0]) && (imgtype != match[1]) && (imgtype != match[2])){
-            swal({
+            swal.fire({
                 title: "Upload Failed",
                 text: "input file format only for: .jpeg, .jpg, .png !",
                 type: "error"
             });
         } else if((imgsize < 10000) || (imgsize > 100000)){
-            swal({
+            swal.fire({
                 title: "Upload Failed",
                 text: "input file size only between 10 KB - 100 KB !",
                 type: "error"
@@ -51,7 +51,7 @@
                 processData:false,
                 success:function(data){
                     if (data.success) {
-                        swal({
+                        swal.fire({
                             title: "Image Uploaded",
                             text: data.success,
                             type: "success"
@@ -66,7 +66,7 @@
                         $.each(errors, function (index, value) {
                             textError += value;
                         });
-                        swal({
+                        swal.fire({
                             title: "Upload Failed",
                             text: textError,
                             type: "error"

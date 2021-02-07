@@ -105,7 +105,7 @@
             });
 
             $('#validate-attendance').click(function () {
-                swal({
+                swal.fire({
                     title: "Are you sure?",
                     text: "If you sure to validate all attendance data, you won't be able to restore the validated attendance data",
                     type: "info",
@@ -124,7 +124,7 @@
                             type: "POST",
                             error: function(data){
                                 if (data.error) {
-                                    swal({
+                                    swal.fire({
                                         title: 'Failed when validating data',
                                         text: data.error,
                                         type: 'error',
@@ -134,14 +134,14 @@
                             },
                             success:function(data){
                                 if (data.success) {
-                                    swal({
+                                    swal.fire({
                                         title: 'Successfully validated',
                                         text: data.success,
                                         type: 'success',
                                         closeOnEscape: true
                                     })
                                 }else if(data.error){
-                                    swal({
+                                    swal.fire({
                                         title: 'Failed when validating data',
                                         text: data.error,
                                         type: 'warning',
@@ -153,7 +153,7 @@
                             }
                         });
                     } else {
-                        swal("Cancelled", "no data changed", "info");
+                        swal.fire("Cancelled", "no data changed", "info");
                     }
                 })
             });

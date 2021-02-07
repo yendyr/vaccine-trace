@@ -93,7 +93,7 @@
                     $('#userPasswordModal').modal('hide');
                     $('#user-password-form').trigger("reset");
                     if (data.success) {
-                        swal({
+                        swal.fire({
                             title: "Password changed!",
                             text: data.success,
                             type: "success"

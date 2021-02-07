@@ -7,7 +7,7 @@
         let imgsize = filedata.size;
 
         if((imgsize < 10000) || (imgsize > 100000)) {
-            swal({
+            swal.fire({
                 title: "Upload Failed",
                 text: "Size Must Between 10 KB - 100 KB !",
                 type: "error"
@@ -34,7 +34,7 @@
                 processData:false,
                 success:function(data){
                     if (data.success) {
-                        swal({
+                        swal.fire({
                             title: "File Uploaded",
                             text: data.success,
                             type: "success"
@@ -50,7 +50,7 @@
                         $.each(errors, function (index, value) {
                             textError += value;
                         });
-                        swal({
+                        swal.fire({
                             title: "Upload Failed",
                             text: textError,
                             type: "error"
