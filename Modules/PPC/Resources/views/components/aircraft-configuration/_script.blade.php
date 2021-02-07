@@ -21,7 +21,8 @@ $(document).ready(function () {
                             return '<a href="aircraft-configuration/' + row.id + '">' + row.aircraft_type.name + '</a>'; } },
             { data: 'serial_number', "render": function ( data, type, row, meta ) {
                             return '<a href="aircraft-configuration/' + row.id + '">' + row.serial_number + '</a>'; } },
-            { data: 'registration_number', name: 'Aircraft Registration' },
+            { data: 'registration_number', "render": function ( data, type, row, meta ) {
+                            return '<a href="aircraft-configuration/' + row.id + '">' + row.registration_number + '</a>'; } },
             { data: 'manufactured_date', name: 'Manufactured Date' },
             { data: 'received_date', name: 'Received Date' },
             { data: 'description', name: 'Description/Remark' },

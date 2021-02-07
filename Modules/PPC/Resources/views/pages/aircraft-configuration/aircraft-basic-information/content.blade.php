@@ -26,7 +26,8 @@
                 </div>
             </div>
         </div>
-        
+
+        @if($AircraftConfiguration->approvals()->count() == 0)
         @can('update', Modules\PPC\Entities\AircraftConfiguration::class)
             <div class="panel-footer">
                 <div class="row">
@@ -42,6 +43,7 @@
             @include('ppc::pages.aircraft-configuration.aircraft-basic-information.modal')
             @include('ppc::components.aircraft-configuration.aircraft-basic-information._script')
         @endcan
+        @endif
     </div>
 </div>
 
