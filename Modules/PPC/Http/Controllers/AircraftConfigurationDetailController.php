@@ -187,8 +187,18 @@ class AircraftConfigurationDetailController extends Controller
             'item_id' => ['required'],
         ]);
 
+        $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)
+                                                ->with('all_childs')
+                                                ->first();
+
         if ($request->status) {
-            $status = 1;
+            $status = 1; 
+            
+            if ($currentRow->parent_coding != null) {
+                if ($currentRow->item_group->status == 0) {
+                    return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
+                }
+            }
         } 
         else {
             $status = 0;
@@ -202,10 +212,6 @@ class AircraftConfigurationDetailController extends Controller
         }
 
         $initial_start_date = $request->initial_start_date;
-        
-        $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)
-                                                ->with('all_childs')
-                                                ->first();
         
         if ($request->parent_coding == $currentRow->coding) {
             $parent_coding = null;

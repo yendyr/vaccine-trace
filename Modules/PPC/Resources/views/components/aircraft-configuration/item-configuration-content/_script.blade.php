@@ -108,7 +108,7 @@ $(document).ready(function () {
         $('.initial_start_date').val(data.initial_start_date);
 
         if (data.item != null) {
-            $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.name + '</option>');
+            $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.code + ' | ' + data.item.name + '</option>');
         }
 
         if (data.item_group != null) {

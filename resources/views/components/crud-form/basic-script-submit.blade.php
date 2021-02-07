@@ -65,6 +65,14 @@
                 if (data.success) {
                     generateToast ('success', data.success);                            
                 }
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });                          
+                }
+
                 $('#inputModal').modal('hide');
                 $(targetTableId).DataTable().ajax.reload();
             },
