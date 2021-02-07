@@ -192,12 +192,7 @@ class AircraftConfigurationDetailController extends Controller
                 $highlight = 0;
             }
     
-            if ($request->initial_start_date) {
-                $initial_start_date = Carbon::createFromFormat('m/d/Y', $request->initial_start_date)->format('Y-m-d');
-            }
-            else {
-                $initial_start_date = null;
-            }
+            $initial_start_date = $request->initial_start_date;
     
             DB::beginTransaction();
             $AircraftConfigurationDetail = AircraftConfigurationDetail::create([
