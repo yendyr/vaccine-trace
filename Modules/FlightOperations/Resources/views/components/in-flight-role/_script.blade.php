@@ -52,7 +52,7 @@
             $('#role_name_alias').val(data.role_name_alias);
             $('#description').val(data.description); 
 
-            if (data.is_in_flight_role == '<label class="label label-success">Yes</label>') {
+            if (data.is_in_flight_role == '<label class="label label-primary">Yes</label>') {
                 $('#is_in_flight_role').prop('checked', true);
             }
             else {
