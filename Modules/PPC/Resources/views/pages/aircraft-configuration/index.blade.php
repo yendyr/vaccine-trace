@@ -4,6 +4,9 @@
     @component('components.delete-modal', ['name' => 'Aircraft Configuration Datalist'])
     @endcomponent
 
+    @component('components.approve-modal', ['name' => 'Aircraft Configuration Datalist'])
+    @endcomponent
+
     @include('ppc::pages.aircraft-configuration.modal')
 
     @component('components.crud-form.index',[

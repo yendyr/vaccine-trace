@@ -175,5 +175,51 @@
             });
         });
     }
+
+    function approveButtonProcess (datatabelObject, targetTableId, actionUrl) {
+        this.datatabelObject = datatabelObject;
+        this.targetTableId = targetTableId;
+        this.actionUrl = actionUrl;
+
+        datatabelObject.on('click', '.approveBtn', function () {
+            rowId = $(this).val();
+            $('#approveModal').modal('show');
+            $('#approve-form').attr('action', actionUrl + '/' + rowId + '/approve');
+        });
+
+        $('#approve-form').on('submit', function (e) {
+            e.preventDefault();
+            let url_action = $(this).attr('action');
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $(
+                        'meta[name="csrf-token"]'
+                    ).attr("content")
+                },
+                url: url_action,
+                type: "POST",
+                beforeSend:function(){
+                    $('#approve-button').text('Approving...');
+                    $('#approve-button').prop('disabled', true);
+                },
+                error: function(data){
+                    if (data.error) {
+                        generateToast ('error', data.error);
+                    }
+                },
+                success:function(data){
+                    if (data.success){
+                        generateToast ('success', data.success);
+                    }
+                },
+                complete: function(data) {
+                    $('#approve-button').text('Approve');
+                    $('#approveModal').modal('hide');
+                    $('#approve-button').prop('disabled', false);
+                    $(targetTableId).DataTable().ajax.reload();
+                }
+            });
+        });
+    }
 </script>
 @endpush

@@ -8,13 +8,24 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body approve-content"></div>
-            <div class="modal-footer">
-                <form class="d-inline" id="approve-form" name="approveForm">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="approve-button" type="submit" class="btn btn-primary">Approve</button>
-                </form>
-            </div>
+
+            <form class="d-inline" id="{{ $approveFormId ?? 'approve-form' }}" name="approveForm">
+                <div class="modal-body">
+                    <div class="row m-b d-flex justify-content-center">
+                        <i class="fa fa-check-circle-o fa-5x fa-fw text-success"></i>
+                    </div>
+                    <div class="row m-b">
+                        Approval Notes:
+                    </div>
+                    <div class="row">
+                        <input class="form-control" type="text" id="approval_notes"  name="approval_notes" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="{{ $approveModalButtonId ?? 'approve-button' }}" type="submit" class="btn btn-primary">Approve</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

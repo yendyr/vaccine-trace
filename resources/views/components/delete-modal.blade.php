@@ -9,7 +9,12 @@
                 </button>
             </div>
             <div class="modal-body text-dark">
-                Are you sure to delete this data?
+                <div class="row m-b d-flex justify-content-center">
+                    <i class="fa fa-trash-o fa-5x fa-fw text-danger"></i>
+                </div>
+                <div class="row m-b">
+                    Are you sure to delete this data?
+                </div>
             </div>
             <div class="modal-footer">
                 <form class="d-inline" id="{{ $deleteFormId ?? 'delete-form' }}" name="deleteForm">
