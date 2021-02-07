@@ -38,6 +38,11 @@ class CreateAircraftConfigurationsTable extends Migration
             $table->integer('basic_empty_weight')->nullable();
             $table->string('basic_empty_weight_unit_id')->nullable();
 
+            $table->double('initial_flight_hour')->nullable()->default(0);
+            $table->integer('initial_flight_cycle')->nullable()->default(0);
+            $table->integer('initial_flight_event')->nullable()->default(0);
+            $table->datetime('initial_start_date')->nullable()->default(\DB::RAW('CURRENT_TIMESTAMP'));
+
             $table->rememberToken();
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();

@@ -1,3 +1,50 @@
+<div class="col-md-12 m-t-md fadeIn" style="animation-duration: 1.5s">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <i class="fa fa-paw"></i> &nbsp;Initial Aircraft Life Aging Count
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <p class="m-b-none">Initial Flight Hour:</p>
+                    <h2 class="m-t-none"><strong>{{ $AircraftConfiguration->initial_flight_hour ?? '-' }} FH</strong></h2>
+                </div>
+                <div class="col-md-2">
+                    <p class="m-b-none">Initial Flight Cycle:</p>
+                    <h2 class="m-t-none"><strong>{{ $AircraftConfiguration->initial_flight_cycle ?? '-' }} FC</strong></h2>
+                </div>
+                <div class="col-md-2">
+                    <p class="m-b-none">Initial Flight Event:</p>
+                    <h2 class="m-t-none"><strong>{{ $AircraftConfiguration->initial_flight_event ?? '-' }} Event(s)</strong></h2>
+                </div>
+                <div class="col-md-5">
+                    <p class="m-b-none">Initial Start Operation Date:</p>
+                    <h2 class="m-t-none"><strong>{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-M-d') ?? '-' }} </strong></h2>
+                </div>
+                <div class="col-md-1 p-r-xl">
+                    <i class="text-danger fa fa-recycle fa-3x fw"></i>
+                </div>
+            </div>
+        </div>
+        
+        @can('update', Modules\PPC\Entities\AircraftConfiguration::class)
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col d-flex justify-content-end">
+                        <button class="editButtonAircraftConfiguration btn btn-sm btn-outline btn-primary" 
+                        data-toggle="tooltip" data-id="{{ $AircraftConfiguration->id ?? '' }}" title="Update">
+                        <i class="fa fa-edit"></i>&nbsp;Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            @include('ppc::pages.aircraft-configuration.aircraft-basic-information.modal')
+            @include('ppc::components.aircraft-configuration.aircraft-basic-information._script')
+        @endcan
+    </div>
+</div>
+
 <div class="col-md-4 m-t-md fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-primary h-100">
         <div class="panel-heading">

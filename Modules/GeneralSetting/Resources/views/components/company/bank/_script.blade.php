@@ -68,7 +68,7 @@
                 
                 $(".chart_of_account_id").val(null).trigger('change');
                 if (data.chart_of_account != null) {
-                    $('.chart_of_account_id').append('<option value="' + data.chart_of_account_id + '" selected>' + data.chart_of_account_id.name + '</option>');
+                    $('.chart_of_account_id').append('<option value="' + data.chart_of_account_id + '" selected>' + data.chart_of_account.code + ' | ' + data.chart_of_account.name + '</option>');
                 }
                               
                 if (data.status == '1') {

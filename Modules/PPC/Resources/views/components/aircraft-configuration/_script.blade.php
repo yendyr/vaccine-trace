@@ -167,6 +167,11 @@ $(document).ready(function () {
         $('#fuel_capacity').val(data.fuel_capacity);
         $('#basic_empty_weight').val(data.basic_empty_weight);
 
+        $('#initial_flight_hour').val(data.initial_flight_hour);
+        $('#initial_flight_cycle').val(data.initial_flight_cycle);
+        $('#initial_flight_event').val(data.initial_flight_event);
+        $('.initial_start_date').val(data.initial_start_date.split(' ')[0]);
+
         $(".aircraft_type_id").val(null).trigger('change');
         if (data.aircraft_type != null) {
             $('#aircraft_type_id').append('<option value="' + data.aircraft_type_id + '" selected>' + data.aircraft_type.name + '</option>');

@@ -27,7 +27,7 @@ class CreateAircraftConfigurationDetailsTable extends Migration
             $table->integer('highlight')->default(0)->nullable();
             $table->string('parent_coding')->nullable();
 
-            $table->integer('initial_flight_hour')->nullable()->default(0);
+            $table->double('initial_flight_hour')->nullable()->default(0);
             $table->integer('initial_flight_cycle')->nullable()->default(0);
             $table->integer('initial_flight_event')->nullable()->default(0);
             $table->datetime('initial_start_date')->nullable()->default(\DB::RAW('CURRENT_TIMESTAMP'));

@@ -36,6 +36,11 @@ class AircraftConfiguration extends Model
         'fuel_capacity_unit_id',
         'basic_empty_weight',
         'basic_empty_weight_unit_id',
+
+        'initial_flight_hour',
+        'initial_flight_cycle',
+        'initial_flight_event',
+        'initial_start_date',
         
         'status',
         'created_by',

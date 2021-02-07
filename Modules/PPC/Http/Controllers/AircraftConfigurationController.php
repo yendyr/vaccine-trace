@@ -113,6 +113,8 @@ class AircraftConfigurationController extends Controller
         $manufactured_date = $request->manufactured_date;
         
         $received_date = $request->received_date;
+
+        $initial_start_date = $request->initial_start_date;
         
         if ($request->duplicated_from) {
             $detail_source = AircraftConfigurationTemplate::where('id', $request->duplicated_from)
@@ -142,6 +144,11 @@ class AircraftConfigurationController extends Controller
                 'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
                 'basic_empty_weight' => $request->basic_empty_weight,
                 'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
+
+                'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_flight_cycle' => $request->initial_flight_cycle,
+                'initial_flight_event' => $request->initial_flight_event,
+                'initial_start_date' => $request->initial_start_date,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
@@ -201,6 +208,11 @@ class AircraftConfigurationController extends Controller
                 'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
                 'basic_empty_weight' => $request->basic_empty_weight,
                 'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
+
+                'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_flight_cycle' => $request->initial_flight_cycle,
+                'initial_flight_event' => $request->initial_flight_event,
+                'initial_start_date' => $request->initial_start_date,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
@@ -239,19 +251,11 @@ class AircraftConfigurationController extends Controller
                 $status = 0;
             }
     
-            if ($request->manufactured_date) {
-                $manufactured_date = Carbon::createFromFormat('m/d/Y', $request->manufactured_date)->format('Y-m-d');
-            }
-            else {
-                $manufactured_date = null;
-            }
+            $manufactured_date = $request->manufactured_date;
     
-            if ($request->received_date) {
-                $received_date = Carbon::createFromFormat('m/d/Y', $request->received_date)->format('Y-m-d');
-            }
-            else {
-                $received_date = null;
-            }
+            $received_date = $request->received_date;
+
+            $initial_start_date = $request->initial_start_date;
     
             if ( $currentRow->code == $request->code) {
                 $currentRow
@@ -275,6 +279,11 @@ class AircraftConfigurationController extends Controller
                         'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
                         'basic_empty_weight' => $request->basic_empty_weight,
                         'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
+
+                        'initial_flight_hour' => $request->initial_flight_hour,
+                        'initial_flight_cycle' => $request->initial_flight_cycle,
+                        'initial_flight_event' => $request->initial_flight_event,
+                        'initial_start_date' => $request->initial_start_date,
     
                         'status' => $status,
                         'updated_by' => Auth::user()->id,
@@ -302,6 +311,11 @@ class AircraftConfigurationController extends Controller
                         'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
                         'basic_empty_weight' => $request->basic_empty_weight,
                         'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
+
+                        'initial_flight_hour' => $request->initial_flight_hour,
+                        'initial_flight_cycle' => $request->initial_flight_cycle,
+                        'initial_flight_event' => $request->initial_flight_event,
+                        'initial_start_date' => $request->initial_start_date,
                         
                         'status' => $status,
                         'updated_by' => Auth::user()->id,
