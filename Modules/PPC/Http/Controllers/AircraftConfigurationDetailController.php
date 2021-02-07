@@ -38,13 +38,7 @@ class AircraftConfigurationDetailController extends Controller
         $AircraftConfiguration = AircraftConfiguration::where('id', $aircraft_configuration_id)->first();
 
         if ($AircraftConfiguration->approvals()->count() == 0) {
-            $alreadyApproved = false;
-        }
-        else {
-            $alreadyApproved = true;
-        }
-
-        return Datatables::of($data)
+            return Datatables::of($data)
             ->addColumn('status', function($row){
                 if ($row->status == 1){
                     return '<label class="label label-success">Active</label>';
@@ -78,32 +72,71 @@ class AircraftConfigurationDetailController extends Controller
                 return $row->updater->name ?? '-';
             })
             ->addColumn('action', function($row) {
-                if ($alreadyApproved = false) {
-                    $noAuthorize = true;
-                    if(Auth::user()->can('update', AircraftConfigurationDetail::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', AircraftConfigurationDetail::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
-    
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
-                    }
-                    else {
-                        return '<p class="text-muted">Not Authorized</p>';
-                    }
+                $noAuthorize = true;
+
+                if(Auth::user()->can('update', AircraftConfigurationDetail::class)) {
+                    $updateable = 'button';
+                    $updateValue = $row->id;
+                    $noAuthorize = false;
+                }
+                if(Auth::user()->can('delete', AircraftConfigurationDetail::class)) {
+                    $deleteable = true;
+                    $deleteId = $row->id;
+                    $noAuthorize = false;
+                }
+
+                if ($noAuthorize == false) {
+                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
                 }
                 else {
-                    return '<p class="text-muted">Already Approved</p>';
+                    return '<p class="text-muted">Not Authorized</p>';
                 }
             })
             ->escapeColumns([])
             ->make(true);
+        }
+        else {
+            return Datatables::of($data)
+            ->addColumn('status', function($row){
+                if ($row->status == 1){
+                    return '<label class="label label-success">Active</label>';
+                } else{
+                    return '<label class="label label-danger">Inactive</label>';
+                }
+            })
+            ->addColumn('highlighted', function($row){
+                if ($row->highlight == 1){
+                    return '<label class="label label-primary">Yes</label>';
+                } else{
+                    return '<label class="label label-danger">No</label>';
+                }
+            })
+            ->addColumn('parent_item_code', function($row){
+                return $row->item_group->item->code ?? '-';
+            })
+            ->addColumn('parent_item_name', function($row){
+                if ($row->item_group) {
+                    return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
+                }
+                else {
+                    return '-';
+                }
+                
+            })
+            ->addColumn('creator_name', function($row){
+                return $row->creator->name ?? '-';
+            })
+            ->addColumn('updater_name', function($row){
+                return $row->updater->name ?? '-';
+            })
+            ->addColumn('action', function($row) {
+                return '<p class="text-muted">Already Approved</p>';
+            })
+            ->escapeColumns([])
+            ->make(true);
+        }
+
+        
         
     }
 

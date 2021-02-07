@@ -8,13 +8,15 @@
         'title' => 'Item/Component Datalist',
         'tableId' => 'configuration-detail'])
 
-    @slot('createButton')
-        @can('create', Modules\PPC\Entities\AircraftConfiguration::class)                
-            <button type="button" id="create" class="btn btn-primary btn-lg">
-                <i class="fa fa-plus-circle"></i>&nbsp;Add Item
-            </button>   
-        @endcan
-    @endslot    
+    @if($AircraftConfiguration->approvals()->count() == 0)
+        @slot('createButton')
+            @can('create', Modules\PPC\Entities\AircraftConfiguration::class)                
+                <button type="button" id="create" class="btn btn-primary btn-lg">
+                    <i class="fa fa-plus-circle"></i>&nbsp;Add Item
+                </button>   
+            @endcan
+        @endslot    
+    @endif
 
     @slot('tableContent')
         <th>Item Code/PN</th>

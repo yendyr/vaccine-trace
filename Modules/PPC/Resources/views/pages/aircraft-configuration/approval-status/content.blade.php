@@ -32,14 +32,16 @@
     </div>
 
     @if($AircraftConfiguration->approvals()->count() == 0)
-        @component('components.approve-modal', ['name' => 'Aircraft Configuration Datalist'])
-        @endcomponent
+        @can('approval', Modules\PPC\Entities\AircraftConfiguration::class)
+            @component('components.approve-modal', ['name' => 'Aircraft Configuration Datalist'])
+            @endcomponent
 
-        <div class="col-md-4">
-            <button type="button" class="approveBtn btn btn-lg btn-outline btn-success" data-toggle="tooltip" title="Approve"
-                value="{{ $AircraftConfiguration->id }}">
-                <i class="fa fa-check-circle"></i>&nbsp;Approve Now
-            </button>
-        </div>
+            <div class="col-md-4">
+                <button type="button" class="approveBtn btn btn-lg btn-outline btn-success" data-toggle="tooltip" title="Approve"
+                    value="{{ $AircraftConfiguration->id }}">
+                    <i class="fa fa-check-circle"></i>&nbsp;Approve Now
+                </button>
+            </div>
+        @endcan
     @endif
 </div>
