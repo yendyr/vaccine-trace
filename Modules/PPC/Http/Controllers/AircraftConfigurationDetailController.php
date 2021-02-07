@@ -238,26 +238,25 @@ class AircraftConfigurationDetailController extends Controller
                 'updated_by' => Auth::user()->id,
         ]);
         if (sizeof($currentRow->all_childs) > 0) {
-            foreach($currentRow->all_childs as $childRow) {
-                $childRow
-                    ->update([
-                        'status' => $status,
-                        'updated_by' => Auth::user()->id,
-                    ]);
-                if (sizeof($currentRow->all_childs->first()->all_childs) > 0) {
-                    foreach($currentRow->all_childs->first()->all_childs as $grandChildRow) {
-                        $grandChildRow
-                            ->update([
-                                'status' => $status,
-                                'updated_by' => Auth::user()->id,
-                            ]);
-                    }
-                }
-            }
+            Self::updateChilds($currentRow, $status);
         }
         DB::commit();
         
         return response()->json(['success' => 'Item/Component Data has been Updated']);
+    }
+
+    public function updateChilds($currentRow, $status)
+    {
+        foreach($currentRow->all_childs as $childRow) {
+            $childRow
+                ->update([
+                    'status' => $status,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::updateChilds($childRow, $status);
+            }
+        }
     }
 
     public function destroy(AircraftConfigurationDetail $ConfigurationDetail)

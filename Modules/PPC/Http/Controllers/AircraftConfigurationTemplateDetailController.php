@@ -159,16 +159,22 @@ class AircraftConfigurationTemplateDetailController extends Controller
             'item_id' => ['required'],
         ]);
 
+        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)
+                                                    ->with('all_childs')
+                                                    ->first();
+
         if ($request->status) {
-            $status = 1;
+            $status = 1; 
+            
+            if ($currentRow->parent_coding != null) {
+                if ($currentRow->item_group->status == 0) {
+                    return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
+                }
+            }
         } 
         else {
             $status = 0;
         }
-
-        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)
-                                                    ->with('all_childs')
-                                                    ->first();
 
         if ($request->parent_coding == $currentRow->coding) {
             $parent_coding = null;
@@ -189,26 +195,25 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 'updated_by' => Auth::user()->id,
         ]);
         if (sizeof($currentRow->all_childs) > 0) {
-            foreach($currentRow->all_childs as $childRow) {
-                $childRow
-                    ->update([
-                        'status' => $status,
-                        'updated_by' => Auth::user()->id,
-                    ]);
-                if (sizeof($currentRow->all_childs->first()->all_childs) > 0) {
-                    foreach($currentRow->all_childs->first()->all_childs as $grandChildRow) {
-                        $grandChildRow
-                            ->update([
-                                'status' => $status,
-                                'updated_by' => Auth::user()->id,
-                            ]);
-                    }
-                }
-            }
+            Self::updateChilds($currentRow, $status);
         }
         DB::commit();
         
         return response()->json(['success' => 'Item/Component Data has been Updated']);
+    }
+
+    public function updateChilds($currentRow, $status)
+    {
+        foreach($currentRow->all_childs as $childRow) {
+            $childRow
+                ->update([
+                    'status' => $status,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::updateChilds($childRow, $status);
+            }
+        }
     }
 
     public function destroy(AircraftConfigurationTemplateDetail $ConfigurationTemplateDetail)
