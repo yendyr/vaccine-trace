@@ -64,7 +64,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function pre_flight_check_person()
     {
-        return $this->belongsTo(\Modules\PPC\HumanResources\Employee::class, 'pre_flight_check_person_id');
+        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'pre_flight_check_person_id');
     }
 
     public function post_flight_check_nearest_airport()
@@ -74,7 +74,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function post_flight_check_person()
     {
-        return $this->belongsTo(\Modules\PPC\HumanResources\Employee::class, 'post_flight_check_person_id');
+        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'post_flight_check_person_id');
     }
 
     // public function aircraft_types()

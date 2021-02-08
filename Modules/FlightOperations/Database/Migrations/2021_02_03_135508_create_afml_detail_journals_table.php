@@ -19,7 +19,7 @@ class CreateAfmlDetailJournalsTable extends Migration
 
             $table->string('aircraft_flight_maintenance_logs_id');
             $table->string('route_from');
-            $table->date('route_to');
+            $table->string('route_to');
             $table->time('block_off')->nullable();
             $table->time('take_off')->nullable();
             $table->time('landing')->nullable();

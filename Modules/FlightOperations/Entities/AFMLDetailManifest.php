@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AFMLDetailManpower extends Model
+class AFMLDetailManifest extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -17,8 +17,12 @@ class AFMLDetailManpower extends Model
         'uuid',
 
         'aircraft_flight_maintenance_logs_id',
-        'person_id',
-        'role_id',
+        'person',
+        'pax',
+        'cargo_weight',
+        'cargo_weight_unit_id',
+        'pcm_number',
+        'cm_number',
         'description',
 
         'status',
@@ -38,14 +42,9 @@ class AFMLDetailManpower extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function person()
+    public function cargo_weight_unit()
     {
-        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'person_id');
-    }
-
-    public function in_flight_role()
-    {
-        return $this->belongsTo(\Modules\Gate\Entities\Role::class, 'role_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\Unit::class, 'cargo_weight_unit_id');
     }
 
     public function aircraft_flight_maintenance_log()
