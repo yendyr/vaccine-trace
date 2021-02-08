@@ -26,18 +26,18 @@ class CreateAfmlDetailJournalsTable extends Migration
             $table->time('block_on')->nullable();
             $table->string('timezone')->nullable();
 
-            $table->integer('total_flight_hour')->nullable();
-            $table->integer('total_block_hour')->nullable();
+            $table->double('total_flight_hour')->nullable();
+            $table->double('total_block_hour')->nullable();
             $table->integer('total_cycle')->nullable();
             $table->integer('total_event')->nullable();
 
-            $table->integer('fuel_remaining')->nullable();
+            $table->double('fuel_remaining')->nullable();
             $table->string('fuel_remaining_unit_id')->nullable();
-            $table->integer('fuel_uplifted')->nullable();
+            $table->double('fuel_uplifted')->nullable();
             $table->string('fuel_uplifted_unit_id')->nullable();
-            $table->integer('fuel_block')->nullable();
+            $table->double('fuel_block')->nullable();
             $table->string('fuel_block_unit_id')->nullable();
-            $table->integer('fuel_burned')->nullable();
+            $table->double('fuel_burned')->nullable();
             $table->string('fuel_burned_unit_id')->nullable();
             $table->string('fuel_receipt_number')->nullable();
 

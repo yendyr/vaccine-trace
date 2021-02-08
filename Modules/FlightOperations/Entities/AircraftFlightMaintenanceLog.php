@@ -147,6 +147,11 @@ class AircraftFlightMaintenanceLog extends Model
         return $this->hasMany(\Modules\FlightOperations\Entities\AFMLDetailItemChange::class, 'aircraft_flight_maintenance_logs_id');
     }
 
+    public function approvals()
+    {
+        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLApproval::class, 'aircraft_flight_maintenance_logs_id');
+    }
+
     public static function boot() {
         parent::boot();
 
@@ -159,6 +164,7 @@ class AircraftFlightMaintenanceLog extends Model
              $AFML->discrepancy_details()->delete();
              $AFML->rectification_details()->delete();
              $AFML->item_change_details()->delete();
+             $AFML->approvals()->delete();
         });
     }
 }

@@ -148,7 +148,7 @@ class AircraftConfigurationController extends Controller
                 'initial_flight_hour' => $request->initial_flight_hour,
                 'initial_flight_cycle' => $request->initial_flight_cycle,
                 'initial_flight_event' => $request->initial_flight_event,
-                'initial_start_date' => $request->initial_start_date,
+                'initial_start_date' => $initial_start_date,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
