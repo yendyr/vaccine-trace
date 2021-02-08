@@ -1,21 +1,29 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'In-Flight Role Datalist'])
+    @component('components.delete-modal', ['name' => 'Aircraft Flight & Maintenance Log Datalist'])
     @endcomponent
 
-    @include('flightoperations::pages.in-flight-role.modal')
+    @include('flightoperations::pages.afml.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'In-Flight Role Datalist',
-                    'tableId' => 'in-flight-role-table'])
+                    'title' => 'Aircraft Flight & Maintenance Log Datalist',
+                    'tableId' => 'afml-table'])
+
+        @slot('createButton')
+            @can('create', Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog::class)                
+                <button type="button" id="create" class="btn btn-primary btn-lg">
+                    <i class="fa fa-plus-circle"></i>&nbsp;Create New
+                </button>   
+            @endcan
+        @endslot
 
         @slot('tableContent')
-            <th>Code</th>
-            <th>Role Name</th>
-            <th>Role Name Alias</th>
-            <th>Description/Remark</th>
-            <th>Authorize as In-Flight Role</th>
+            <th>Aircraft Type</th>
+            <th>Aircraft S/N</th>
+            <th>Aircraft Register</th>
+            <th>Date</th>
+            <th>AFML Page Number</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>
@@ -25,7 +33,7 @@
         @endslot
     @endcomponent
 
-    @include('flightoperations::components.in-flight-role._script')
+    @include('flightoperations::components.afml._script')
 
 @endsection
 

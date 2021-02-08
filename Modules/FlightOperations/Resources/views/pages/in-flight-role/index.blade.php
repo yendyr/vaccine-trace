@@ -1,14 +1,14 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Aircraft Flight & Maintenance Logs Datalist'])
+    @component('components.delete-modal', ['name' => 'In-Flight Role Datalist'])
     @endcomponent
 
-    @include('flightoperations::pages.afml.modal')
+    @include('flightoperations::pages.in-flight-role.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Aircraft Flight & Maintenance Logs Datalist',
-                    'tableId' => 'afml-table'])
+                    'title' => 'In-Flight Role Datalist',
+                    'tableId' => 'in-flight-role-table'])
 
         @slot('tableContent')
             <th>Code</th>
@@ -25,7 +25,7 @@
         @endslot
     @endcomponent
 
-    @include('flightoperations::components.afml._script')
+    @include('flightoperations::components.in-flight-role._script')
 
 @endsection
 

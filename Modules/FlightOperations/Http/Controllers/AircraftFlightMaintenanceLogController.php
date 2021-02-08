@@ -26,7 +26,7 @@ class AircraftFlightMaintenanceLogController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = AircraftFlightMaintenanceLog::all();
+            $data = AircraftFlightMaintenanceLog::with(['aircraft_configurations']);
 
             return Datatables::of($data)
                 ->addColumn('status', function($row){
