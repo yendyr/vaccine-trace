@@ -1,3 +1,10 @@
+.nav-second-level .nav-second-table-group {
+    display: table-row-group;
+}
+.nav-second-level .nav-second-table-group span {
+    display: table-cell !important;
+}
+
 .bg-plane {
     background-image: url(../theme/img/landing/background_login.jpg);
     background-size: cover;

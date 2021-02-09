@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>SmartAircraft 2021</title>
-    @stack('header-scripts')
+    
     @include('layouts.includes._header-script')
+    @stack('header-scripts')
 </head>
 <body>
     <div id="wrapper">

@@ -7,7 +7,13 @@
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Transaction Date:</p>         
-            <p class="m-t-none font-bold text-success">{{ Carbon\Carbon::parse($afml->transaction_date)->format('Y-F-d') ?? '-' }}</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afml->transaction_date)->format('Y-F-d') ?? '-' }}</p>
+
+            <p  class="m-t-none m-b-none">Last Inspection:</p>         
+            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afml->last_inspection)->format('Y-F-d') ?? '-' }}</p>
+
+            <p  class="m-t-none m-b-none">Next Inspection:</p>         
+            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afml->next_inspection)->format('Y-F-d') ?? '-' }}</p>
         </div>
         <div class="col">
             <p  class="m-t-none m-b-none">Current Page:</p>
@@ -37,26 +43,52 @@
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
                     <li>
-                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-0" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-info-circle fa-2x text-warning"></i>&nbsp;Basic Aircraft Information
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-0" style="min-height: 50px;"> 
+                            <i class="fa fa-users text-warning"></i>&nbsp;Crew
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Item/Component Configuration
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;"> 
+                            <i class="fa fa-stack-overflow text-warning"></i>&nbsp;Journal
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
-                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Item/Component Tree View
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;"> 
+                            <i class="fa fa-stack-exchange text-warning"></i>&nbsp;Manifest
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
-                            <i class="fa fa-check-circle fa-2x text-warning"></i>&nbsp;Approval Status
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;"> 
+                            <i class="fa fa-chain-broken text-warning"></i>&nbsp;Discrepancy
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;"> 
+                            <i class="fa fa-wrench text-warning"></i>&nbsp;Rectification
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-5" style="min-height: 50px;" role="tab"> 
+                            <i class="fa fa-unsorted text-warning"></i>&nbsp;Item Change
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-6" style="min-height: 50px;"> 
+                            <i class="fa fa-exclamation-circle text-warning"></i>&nbsp;MEL
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-7" style="min-height: 50px;"> 
+                            <i class="fa fa-exchange text-warning"></i>&nbsp;Defered Item
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-8" style="min-height: 50px;"> 
+                            <i class="fa fa-history text-warning"></i>&nbsp;Pre/Post Check
                         </a>
                     </li>
                 </ul>
+
                 <div class="tab-content">
                     <div id="tab-0" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
@@ -95,16 +127,20 @@
     </div>
 @endsection
 
+@push('header-scripts')
+
+@endpush
+
 @push('footer-scripts')
-    <script>
-        $(document).ready(function(){
-            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            var activeTab = localStorage.getItem('activeTab');
-            if(activeTab){
-                $('#myTab a[href="' + activeTab + '"]').tab('show');
-            }
+<script>
+    $(document).ready(function(){
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
-    </script>
+        var activeTab = localStorage.getItem('activeTab');
+        if(activeTab){
+            $('#myTab a[href="' + activeTab + '"]').tab('show');
+        }
+    });
+</script>
 @endpush
