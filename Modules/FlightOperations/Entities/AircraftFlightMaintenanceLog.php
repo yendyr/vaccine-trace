@@ -104,7 +104,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function dmi_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDMI::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDmi::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     // public function zones()
@@ -158,7 +158,7 @@ class AircraftFlightMaintenanceLog extends Model
         static::deleting(function($AFML) {
              $AFML->manpower_details()->delete();
              $AFML->item_record_details()->delete();
-             $AFML->defered_maintenance_details()->delete();
+             $AFML->dmi_details()->delete();
              $AFML->manifest_details()->delete();
              $AFML->journal_details()->delete();
              $AFML->discrepancy_details()->delete();

@@ -128,6 +128,8 @@ $(document).ready(function () {
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {
         showCreateModal ('Create New Aircraft Flight & Maintenance Log', inputFormId, actionUrl);
+        $('#pre_flight_check_compressor_wash').select2("val", "");
+        $('#post_flight_check_compressor_wash').select2("val", "");
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
@@ -152,20 +154,18 @@ $(document).ready(function () {
 
         $('#page_number').val(data.page_number);
         $('#previous_page_number').val(data.previous_page_number);
-        $('#transaction_date').val(data.transaction_date);
+        $('.transaction_date').val(data.transaction_date);
         $('#aircraft_configuration_id').val(data.aircraft_configuration_id); 
-        $('#last_inspection').val(data.last_inspection); 
-        $('#next_inspection').val(data.next_inspection); 
+        $('.last_inspection').val(data.last_inspection); 
+        $('.next_inspection').val(data.next_inspection); 
 
-        $('#pre_flight_check_date').val(data.pre_flight_check_date); 
+        $('.pre_flight_check_date').val(data.pre_flight_check_date); 
         $('#pre_flight_check_place').val(data.pre_flight_check_place); 
         $('#pre_flight_check_person_id').val(data.pre_flight_check_person_id); 
 
-        $('#post_flight_check_date').val(data.post_flight_check_date); 
+        $('.post_flight_check_date').val(data.post_flight_check_date); 
         $('#post_flight_check_place').val(data.post_flight_check_place); 
-        $('#post_flight_check_nearest_airport').val(data.post_flight_check_nearest_airport); 
         $('#post_flight_check_person_id').val(data.post_flight_check_person_id); 
-        $('#post_flight_check_compressor_wash').val(data.post_flight_check_compressor_wash); 
 
         if (data.aircraft_configuration != null) {
             $('#aircraft_configuration_id').append('<option value="' + data.aircraft_configuration_id + '" selected>' + data.aircraft_configuration.registration_number + ' | ' + data.aircraft_configuration.serial_number + ' | ' + data.aircraft_type_name + '</option>');
@@ -179,7 +179,9 @@ $(document).ready(function () {
             $('#pre_flight_check_person_id').append('<option value="' + data.pre_flight_check_person_id + '" selected>' + data.pre_flight_check_person.fullname + '</option>');
         }
 
-        $('#pre_flight_check_compressor_wash').append('<option value="' + data.pre_flight_check_compressor_wash + '" selected>' + data.pre_flight_check_compressor_wash + '</option>');
+        if (data.pre_flight_check_compressor_wash != null) {
+            $('#pre_flight_check_compressor_wash').val(data.pre_flight_check_compressor_wash).trigger('change');
+        }
 
         if (data.post_flight_check_nearest_airport != null) {
             $('#post_flight_check_nearest_airport_id').append('<option value="' + data.post_flight_check_nearest_airport_id + '" selected>' + data.post_flight_check_nearest_airport.iata_code + ' | ' + data.post_flight_check_nearest_airport.name + '</option>');
@@ -189,7 +191,9 @@ $(document).ready(function () {
             $('#post_flight_check_person_id').append('<option value="' + data.post_flight_check_person_id + '" selected>' + data.post_flight_check_person.fullname + '</option>');
         }
 
-        $('#post_flight_check_compressor_wash').append('<option value="' + data.post_flight_check_compressor_wash + '" selected>' + data.post_flight_check_compressor_wash + '</option>');
+        if (data.post_flight_check_compressor_wash != null) {
+            $('#post_flight_check_compressor_wash').val(data.post_flight_check_compressor_wash).trigger('change');
+        }
 
         $('#saveBtn').val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation
@@ -199,13 +203,64 @@ $(document).ready(function () {
 
 
 
-    $(inputFormId).on('submit', function (event) {
-        submitButtonProcess (tableId, inputFormId); 
 
-        setTimeout(function () {
-            window.location.href = "afml/" + data.id;
-        }, 2000);
+
+
+    $(inputFormId).on('submit', function (event) {
+        event.preventDefault();
+        let url_action = $(inputFormId).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            method: "POST",
+            data: $(inputFormId).serialize(),
+            dataType: 'json',
+            beforeSend:function(){
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'start' );
+                $('[class^="invalid-feedback-"]').html('');
+                $('#saveBtn').prop('disabled', true);
+            },
+            error: function(data){
+                let errors = data.responseJSON.errors;
+                if (errors) {
+                    $.each(errors, function (index, value) {
+                        $('div.invalid-feedback-'+index).html(value);
+                    })
+                }
+            },
+            success: function (data) {
+                if (data.success) {
+                    generateToast ('success', data.success);  
+
+                    setTimeout(function () {
+                        window.location.href = "afml/" + data.id;
+                    }, 2000);                          
+                }
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });                          
+                }
+
+                $('#inputModal').modal('hide');
+                $(targetTableId).DataTable().ajax.reload();
+            },
+            complete: function () {
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'stop' );
+                $('#saveBtn'). prop('disabled', false);
+            }
+        }); 
     });
+
+    deleteButtonProcess (datatableObject, tableId, actionUrl);
 });
 </script>
 @endpush

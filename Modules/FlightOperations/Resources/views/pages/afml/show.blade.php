@@ -2,24 +2,33 @@
 
 @section('content')
     <div class="row m-b m-t">
-        <div class="col-md-2 d-flex align-items-start">
-            <img src="{{ URL::asset('assets/aircraft-component.png') }}" style="width: 80%; height: auto;">
+        <div class="col d-flex align-items-start">
+            <img src="{{ URL::asset('assets/afml.png') }}" style="width: 50%; height: auto;">
         </div>
-        <div class="col-md-2">   
-            <p  class="m-t-none m-b-none">Aircraft Registration:</p>         
-            <h2 class="m-t-none font-bold">-</h2>
+        <div class="col">   
+            <p  class="m-t-none m-b-none">Transaction Date:</p>         
+            <p class="m-t-none font-bold text-success">{{ Carbon\Carbon::parse($afml->transaction_date)->format('Y-F-d') ?? '-' }}</p>
         </div>
-        <div class="col-md-2">
-            <p  class="m-t-none m-b-none">Aircraft Serial Number:</p>
-            <h2 class="m-t-none font-bold">-</h2>
+        <div class="col">
+            <p  class="m-t-none m-b-none">Current Page:</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ $afml->page_number ?? '-' }}</p>
+
+            <p  class="m-t-none m-b-none">Continuous from Page:</p>
+            <p class="m-t-none font-bold text-success">{{ $afml->previous_page_number ?? '-' }}</p>
         </div>
-        <div class="col-md-3">
+        <div class="col">
+            <p  class="m-t-none m-b-none">Aircraft Registration:</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ $afml->aircraft_configuration->registration_number ?? '-' }}</p>
+
+            <p  class="m-t-none m-b-none">Aircraft Serial:</p>
+            <p class="m-t-none font-bold text-success">{{ $afml->aircraft_configuration->serial_number ?? '-' }}</p>
+        </div>
+        <div class="col">
             <p  class="m-t-none m-b-none">Aircraft Type:</p>
-            <h2 class="m-t-none font-bold">-</h2>
-        </div>
-        <div class="col-md-3">
+            <p class="m-t-none m-b-xs font-bold text-success">{{ $afml->aircraft_configuration->aircraft_type->name ?? '-' }}</p>
+
             <p  class="m-t-none m-b-none">Aircraft Manufacturer:</p>
-            <h2 class="m-t-none font-bold">-</h2>
+            <p class="m-t-none font-bold text-success">{{ $afml->aircraft_configuration->aircraft_type->manufacturer->name ?? '-' }}</p>
         </div>
     </div>
 

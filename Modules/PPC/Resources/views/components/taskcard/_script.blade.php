@@ -8,6 +8,21 @@ $(document).ready(function () {
     var tableId = '#taskcard-table';
     var inputFormId = '#inputForm';
 
+    // $('#taskcard-table thead tr').clone(true).appendTo( '#taskcard-table thead' );
+    // $('#taskcard-table thead tr:eq(1) th').each( function (i) {
+    //     var title = $(this).text();
+    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+ 
+    //     $( 'input', this ).on( 'keyup change', function () {
+    //         if ( table.column(i).search() !== this.value ) {
+    //             table
+    //                 .column(i)
+    //                 .search( this.value )
+    //                 .draw();
+    //         }
+    //     } );
+    // });
+
     var datatableObject = $(tableId).DataTable({
         pageLength: 25,
         processing: true,
@@ -216,7 +231,7 @@ $(document).ready(function () {
         $('#mpd_number').val(data.mpd_number);
         $('#title').val(data.title);
 
-        $('#compliance').append('<option value="' + data.compliance + '" selected>' + data.compliance + '</option>');
+        $('#compliance').val(data.compliance).trigger('change');
 
         $('#threshold_flight_hour').val(data.threshold_flight_hour);
         $('#threshold_flight_cycle').val(data.threshold_flight_cycle);
@@ -247,9 +262,9 @@ $(document).ready(function () {
         $('#reference').val(data.reference);
         $('#file_attachment').val(data.file_attachment);
 
-        $('#scheduled_priority').append('<option value="' + data.interval_control_method + '" selected>' + data.scheduled_priority + '</option>');
+        $('#scheduled_priority').val(data.scheduled_priority).trigger('change');
 
-        $('#recurrence').append('<option value="' + data.recurrence + '" selected>' + data.recurrence + '</option>');
+        $('#recurrence').val(data.recurrence).trigger('change');
 
         if (data.taskcard_group != null) {
             $('#taskcard_group_id').append('<option value="' + data.taskcard_group_id + '" selected>' + data.taskcard_group.name + '</option>');

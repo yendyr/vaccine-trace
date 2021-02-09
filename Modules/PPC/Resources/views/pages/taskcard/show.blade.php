@@ -35,28 +35,28 @@
                 <h2 class="m-t-none m-b-none">
                     <strong>{{ $Taskcard->title ?? 'Task Card Title' }}</strong>
                 </h2>
-                <h2 class="text-info m-t-none"><strong>{{ $Taskcard->mpd_number ?? '' }}</strong></h2>
-                <div>Task Card Group: <strong class="text-info">{{ $Taskcard->taskcard_group->name ?? '' }}</strong></div>
-                <div>Task Card Type: <strong class="text-info">{{ $Taskcard->taskcard_type->name ?? '' }}</strong></div>
-                <div>Task Card Compliance: <strong class="text-info">{{ $Taskcard->compliance ?? '' }}</strong></div>
+                <h2 class="text-success m-t-none"><strong>{{ $Taskcard->mpd_number ?? '' }}</strong></h2>
+                <div>Task Card Group: <strong class="text-success">{{ $Taskcard->taskcard_group->name ?? '' }}</strong></div>
+                <div>Task Card Type: <strong class="text-success">{{ $Taskcard->taskcard_type->name ?? '' }}</strong></div>
+                <div>Task Card Compliance: <strong class="text-success">{{ $Taskcard->compliance ?? '' }}</strong></div>
             </div>
         </div>
         <div class="col-md-3">
-            <div>MPD Number: <strong class="text-info">{{ $Taskcard->mpd_number ?? '' }}</strong></div>
-            <div>Local Task Card Number: <strong class="text-info">{{ $Taskcard->company_number ?? '-' }}</strong></div>
-            <div>ATA: <strong class="text-info">{{ $Taskcard->ata ?? '-' }}</strong></div>
-            <div>Version: <strong class="text-info">{{ $Taskcard->version ?? '-' }}</strong></div>
-            <div>Revision: <strong class="text-info">{{ $Taskcard->revision ?? '-' }}</strong></div>
-            <div>Effectivity: <strong class="text-info">{{ $Taskcard->effectivity ?? '-' }}</strong></div>
+            <div>MPD Number: <strong class="text-success">{{ $Taskcard->mpd_number ?? '' }}</strong></div>
+            <div>Local Task Card Number: <strong class="text-success">{{ $Taskcard->company_number ?? '-' }}</strong></div>
+            <div>ATA: <strong class="text-success">{{ $Taskcard->ata ?? '-' }}</strong></div>
+            <div>Version: <strong class="text-success">{{ $Taskcard->version ?? '-' }}</strong></div>
+            <div>Revision: <strong class="text-success">{{ $Taskcard->revision ?? '-' }}</strong></div>
+            <div>Effectivity: <strong class="text-success">{{ $Taskcard->effectivity ?? '-' }}</strong></div>
             
         </div>
         <div class="col-md-4">
-            <div>Issued Date: <strong class="text-info">{{ $Taskcard->issued_date ?? '-' }}</strong></div>
-            <div>Work Area: <strong class="text-info">{{ $Taskcard->taskcard_workarea->name ?? '-' }}</strong></div>
-            <div>Source: <strong class="text-info">{{ $Taskcard->source ?? '-' }}</strong></div>
-            <div>Reference: <strong class="text-info">{{ $Taskcard->reference ?? '-' }}</strong></div>
-            <div>Scheduled Priority: <strong class="text-info">{{ $Taskcard->scheduled_priority ?? '-' }}</strong></div>
-            <div>Recurrence: <strong class="text-info">{{ $Taskcard->recurrence ?? '-' }}</strong></div>
+            <div>Issued Date: <strong class="text-success">{{ $Taskcard->issued_date ?? '-' }}</strong></div>
+            <div>Work Area: <strong class="text-success">{{ $Taskcard->taskcard_workarea->name ?? '-' }}</strong></div>
+            <div>Source: <strong class="text-success">{{ $Taskcard->source ?? '-' }}</strong></div>
+            <div>Reference: <strong class="text-success">{{ $Taskcard->reference ?? '-' }}</strong></div>
+            <div>Scheduled Priority: <strong class="text-success">{{ $Taskcard->scheduled_priority ?? '-' }}</strong></div>
+            <div>Recurrence: <strong class="text-success">{{ $Taskcard->recurrence ?? '-' }}</strong></div>
             <div>Status: <strong>
                 @if($Taskcard->status == 1)
                     <label class="label label-success">
