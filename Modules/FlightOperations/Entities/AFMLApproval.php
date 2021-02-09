@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AFMLApproval extends Model
+class AfmlApproval extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

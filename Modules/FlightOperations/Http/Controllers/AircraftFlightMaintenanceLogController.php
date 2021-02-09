@@ -26,9 +26,17 @@ class AircraftFlightMaintenanceLogController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = AircraftFlightMaintenanceLog::with(['aircraft_configurations']);
+            $data = AircraftFlightMaintenanceLog::with(['aircraft_configuration']);
 
             return Datatables::of($data)
+                ->addColumn('aircraft_type_name', function($row) {
+                    if ($row->aircraft_configuration_id){
+                        return $row->aircraft_configuration->aircraft_type->name;
+                    } 
+                    else {
+                        return '-';
+                    }
+                })
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
                         return '<label class="label label-success">Active</label>';
@@ -74,7 +82,6 @@ class AircraftFlightMaintenanceLogController extends Controller
                             return '<p class="text-muted">Not Authorized</p>';
                         }
                     }
-                    
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -86,158 +93,48 @@ class AircraftFlightMaintenanceLogController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mpd_number' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
-            'taskcard_group_id' => ['required', 'max:30'],
-            'taskcard_type_id' => ['required', 'max:30'],
-            'compliance' => ['required'],
-            'interval_control_method' => ['required', 'max:30'],
-
-            'aircraft_type_id' => ['required_without_all:item_id'],
-            'affected_item_id' => ['required_without_all:aircraft_type_id'],
-
-            'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
-            'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
-            'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
-            'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
-
-            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_daily,repeat_date'],
-            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_daily,repeat_date'],
-            'repeat_daily' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
-            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
+            'page_number' => ['required', 'max:30', 'unique:aircraft_flight_maintenance_logs,aircraft_configuration_id'],
+            'transaction_date' => ['required', 'max:30'],
+            'aircraft_configuration_id' => ['required', 'max:30', 'unique:aircraft_flight_maintenance_logs,page_number'],
         ]);
 
-        if ($request->status) {
-            $status = 1;
-        } 
-        else {
-            $status = 0;
-        }
+        $status = 1;
 
-        $threshold_date = $request->threshold_date;
-        
-        $repeat_date = $request->repeat_date;
-        
-        $issued_date = $request->issued_date;
+        $transaction_date = $request->transaction_date;
+        $pre_flight_check_date = $request->pre_flight_check_date;
+        $post_flight_check_date = $request->post_flight_check_date;
         
         DB::beginTransaction();
-        $Taskcard = Taskcard::create([
+        $AircraftFlightMaintenanceLog = AircraftFlightMaintenanceLog::create([
             'uuid' =>  Str::uuid(),
-            'mpd_number' => $request->mpd_number,
-            'title' => $request->title,
-            'taskcard_group_id' => $request->taskcard_group_id,
-            'taskcard_type_id' => $request->taskcard_type_id,
-            'compliance' => $request->compliance,
-            'threshold_flight_hour' => $request->threshold_flight_hour,
-            'threshold_flight_cycle' => $request->threshold_flight_cycle,
-            'threshold_daily' => $request->threshold_daily,
-            'threshold_daily_unit' => $request->threshold_daily_unit,
-            'threshold_date' => $threshold_date,
-            'repeat_flight_hour' => $request->repeat_flight_hour,
-            'repeat_flight_cycle' => $request->repeat_flight_cycle,
-            'repeat_daily' => $request->repeat_daily,
-            'repeat_daily_unit' => $request->repeat_daily_unit,
-            'repeat_date' => $repeat_date,
-            'interval_control_method' => $request->interval_control_method,
 
-            'company_number' => $request->company_number,
-            'ata' => $request->ata,
-            'issued_date' => $issued_date,
-            'version' => $request->version,
-            'revision' => $request->revision,
-            'effectivity' => $request->effectivity,
-            'taskcard_workarea_id' => $request->taskcard_workarea_id,
-            'source' => $request->source,
-            'reference' => $request->reference,
-            'file_attachment' => $request->file_attachment,
-            'scheduled_priority' => $request->scheduled_priority,
-            'recurrence' => $request->recurrence,
+            'page_number' => $request->page_number,
+            'previous_page_number' => $request->previous_page_number,
+            'transaction_date' => $transaction_date,
+            'aircraft_configuration_id' => $request->aircraft_configuration_id,
+            'last_inspection' => $request->last_inspection,
+            'next_inspection' => $request->next_inspection,
+
+            'pre_flight_check_date' => $pre_flight_check_date,
+            'pre_flight_check_place' => $request->pre_flight_check_place,
+            'pre_flight_check_nearest_airport_id' => $request->pre_flight_check_nearest_airport_id,
+            'pre_flight_check_person_id' => $request->pre_flight_check_person_id,
+            'pre_flight_check_compressor_wash' => $request->pre_flight_check_compressor_wash,
+
+            'post_flight_check_date' => $post_flight_check_date,
+            'post_flight_check_place' => $request->post_flight_check_place,
+            'post_flight_check_nearest_airport_id' => $request->post_flight_check_nearest_airport_id,
+            'post_flight_check_person_id' => $request->post_flight_check_person_id,
+            'post_flight_check_compressor_wash' => $request->post_flight_check_compressor_wash,
 
             'owned_by' => $request->user()->company_id,
-            'status' => 1,
+            'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-
-        if ($request->aircraft_type_id) {
-            foreach ($request->aircraft_type_id as $aircraft_type_id) {
-                $Taskcard->aircraft_type_details()
-                        ->save(new TaskcardDetailAircraftType([
-                            'uuid' => Str::uuid(),
-                            'aircraft_type_id' => $aircraft_type_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
-            }
-        }
-
-        if ($request->affected_item_id) {
-            foreach ($request->affected_item_id as $affected_item_id) {
-                $Taskcard->affected_item_details()
-                        ->save(new TaskcardDetailAffectedItem([
-                            'uuid' => Str::uuid(),
-                            'affected_item_id' => $affected_item_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
-            }
-        }
-
-        if ($request->taskcard_access_id) {
-            foreach ($request->taskcard_access_id as $taskcard_access_id) {
-                $Taskcard->access_details()
-                        ->save(new TaskcardDetailAccess([
-                            'uuid' => Str::uuid(),
-                            'taskcard_access_id' => $taskcard_access_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
-            }
-        }
-
-        if ($request->taskcard_zone_id) {
-            foreach ($request->taskcard_zone_id as $taskcard_zone_id) {
-                $Taskcard->zone_details()
-                        ->save(new TaskcardDetailZone([
-                            'uuid' => Str::uuid(),
-                            'taskcard_zone_id' => $taskcard_zone_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
-            }
-        }
-
-        if ($request->taskcard_document_library_id) {
-            foreach ($request->taskcard_document_library_id as $taskcard_document_library_id) {
-                $Taskcard->document_library_details()
-                        ->save(new TaskcardDetailDocumentLibrary([
-                            'uuid' => Str::uuid(),
-                            'taskcard_document_library_id' => $taskcard_document_library_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
-            }
-        }
-
-        if ($request->taskcard_affected_manual_id) {
-            foreach ($request->taskcard_affected_manual_id as $taskcard_affected_manual_id) {
-                $Taskcard->affected_manual_details()
-                        ->save(new TaskcardDetailAffectedManual([
-                            'uuid' => Str::uuid(),
-                            'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
-            }
-        }
         DB::commit();
 
-        return response()->json(['success' => 'Task Card Data has been Added']);
+        return response()->json(['success' => 'Aircraft Flight and Maintenance Log Data has been Saved',
+                                    'id' => $AircraftFlightMaintenanceLog->id]);
     
     }
 

@@ -22,7 +22,7 @@
             <th>Aircraft Type</th>
             <th>Aircraft S/N</th>
             <th>Aircraft Register</th>
-            <th>Date</th>
+            <th>Transaction Date</th>
             <th>AFML Page Number</th>
             <th>Status</th>
             <th>Created By</th>

@@ -32,7 +32,7 @@ class CreateAircraftFlightMaintenanceLogsTable extends Migration
 
             $table->datetime('post_flight_check_date')->nullable();
             $table->string('post_flight_check_place')->nullable();
-            $table->string('post_flight_check_nearest_airport')->nullable();
+            $table->string('post_flight_check_nearest_airport_id')->nullable();
             $table->string('post_flight_check_person_id')->nullable();
             $table->string('post_flight_check_compressor_wash')->nullable();
 

@@ -84,7 +84,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function manpower_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLDetailManpower::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManpower::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     // public function affected_items()
@@ -94,7 +94,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function item_record_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLDetailItemRecord::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemRecord::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     // public function accesses()
@@ -104,7 +104,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function dmi_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLDetailDMI::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDMI::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     // public function zones()
@@ -114,7 +114,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function manifest_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\EntitiesAFMLDetailManifest::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManifest::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     // public function document_libraries()
@@ -124,7 +124,7 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function journal_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AircraftFlightMaintenanceLogDetailJournal::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailJournal::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     // public function affected_manuals()
@@ -134,22 +134,22 @@ class AircraftFlightMaintenanceLog extends Model
 
     public function discrepancy_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLDetailDiscrepancy::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     public function rectification_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLDetailRectification::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailRectification::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     public function item_change_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLDetailItemChange::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemChange::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     public function approvals()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AFMLApproval::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlApproval::class, 'aircraft_flight_maintenance_logs_id');
     }
 
     public static function boot() {

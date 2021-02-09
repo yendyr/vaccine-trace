@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AFMLDetailManpower extends Model
+class AfmlDetailManpower extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

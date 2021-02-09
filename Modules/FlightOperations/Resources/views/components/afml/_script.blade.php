@@ -17,17 +17,32 @@ $(document).ready(function () {
             url: "{{ route('flightoperations.afml.index') }}",
         },
         columns: [
-            { data: 'aircraft_configurations.aircraft_type.name', defaultContent: '-' },
-            { data: 'aircraft_configurations.serial_number', defaultContent: '-' },
-            { data: 'aircraft_configurations.registration_number', defaultContent: '-' },
-            { data: 'transaction_date', defaultContent: '-' },
-            { data: 'page_number', defaultContent: '-' },
+            { data: 'aircraft_type_name', defaultContent: '-',
+                            'render': function ( data, type, row, meta ) {
+                                return '<a href="afml/' + row.id + '">' + row.aircraft_type_name + '</a>';
+                            }},
+            { data: 'aircraft_configuration.serial_number', defaultContent: '-',
+                            'render': function ( data, type, row, meta ) {
+                                return '<a href="afml/' + row.id + '">' + row.aircraft_configuration.serial_number + '</a>';
+                            }},
+            { data: 'aircraft_configuration.registration_number', defaultContent: '-',
+                            'render': function ( data, type, row, meta ) {
+                                return '<a href="afml/' + row.id + '">' + row.aircraft_configuration.registration_number + '</a>';
+                            }},
+            { data: 'transaction_date', defaultContent: '-',
+                            'render': function ( data, type, row, meta ) {
+                                return '<a href="afml/' + row.id + '">' + row.transaction_date + '</a>';
+                            }},
+            { data: 'page_number', defaultContent: '-',
+                            'render': function ( data, type, row, meta ) {
+                                return '<a href="afml/' + row.id + '">' + row.page_number + '</a>';
+                            }},
             { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'updater_name', name: 'Last Updated By' },
-            { data: 'updated_at', name: 'Last Updated At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'creator_name' },
+            { data: 'created_at' },
+            { data: 'updater_name' },
+            { data: 'updated_at' },
+            { data: 'action', orderable: false },
         ]
     });
 
@@ -65,6 +80,36 @@ $(document).ready(function () {
     });
 
     $('.pre_flight_check_person_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Person',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('hr.employee.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.post_flight_check_nearest_airport_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Airport',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('generalsetting.airport.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.post_flight_check_compressor_wash').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Answer',
+        minimumResultsForSearch: Infinity,
+        allowClear: false,
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.post_flight_check_person_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Person',
         allowClear: true,
@@ -123,7 +168,7 @@ $(document).ready(function () {
         $('#post_flight_check_compressor_wash').val(data.post_flight_check_compressor_wash); 
 
         if (data.aircraft_configuration != null) {
-            $('#aircraft_configuration_id').append('<option value="' + data.aircraft_configuration_id + '" selected>' + data.aircraft_configuration.registration_number + ' | ' + data.aircraft_configuration.serial_number + '</option>');
+            $('#aircraft_configuration_id').append('<option value="' + data.aircraft_configuration_id + '" selected>' + data.aircraft_configuration.registration_number + ' | ' + data.aircraft_configuration.serial_number + ' | ' + data.aircraft_type_name + '</option>');
         }
 
         if (data.pre_flight_check_nearest_airport != null) {
@@ -136,6 +181,16 @@ $(document).ready(function () {
 
         $('#pre_flight_check_compressor_wash').append('<option value="' + data.pre_flight_check_compressor_wash + '" selected>' + data.pre_flight_check_compressor_wash + '</option>');
 
+        if (data.post_flight_check_nearest_airport != null) {
+            $('#post_flight_check_nearest_airport_id').append('<option value="' + data.post_flight_check_nearest_airport_id + '" selected>' + data.post_flight_check_nearest_airport.iata_code + ' | ' + data.post_flight_check_nearest_airport.name + '</option>');
+        }
+
+        if (data.post_flight_check_person != null) {
+            $('#post_flight_check_person_id').append('<option value="' + data.post_flight_check_person_id + '" selected>' + data.post_flight_check_person.fullname + '</option>');
+        }
+
+        $('#post_flight_check_compressor_wash').append('<option value="' + data.post_flight_check_compressor_wash + '" selected>' + data.post_flight_check_compressor_wash + '</option>');
+
         $('#saveBtn').val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $('#inputModal').modal('show');
@@ -146,6 +201,10 @@ $(document).ready(function () {
 
     $(inputFormId).on('submit', function (event) {
         submitButtonProcess (tableId, inputFormId); 
+
+        setTimeout(function () {
+            window.location.href = "afml/" + data.id;
+        }, 2000);
     });
 });
 </script>
