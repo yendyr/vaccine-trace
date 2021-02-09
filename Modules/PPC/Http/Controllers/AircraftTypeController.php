@@ -186,5 +186,4 @@ class AircraftTypeController extends Controller
 
         return response()->json($response);
     }
-
 }

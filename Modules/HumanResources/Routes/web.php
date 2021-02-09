@@ -34,6 +34,11 @@ Route::name('hr.')->group(function () {
         Route::post('/holiday/sundays', 'HolidayController@generateSundays')->name('holiday.sundays');
         Route::resource('holiday', 'HolidayController');
 
+
+        Route::name('employee.')->group(function() {
+            Route::get('hr/employee/select2', 'EmployeeController@select2')->name('select2');
+        });
+
         Route::get('/employee/select2/orgcode', 'EmployeeController@select2Orgcode')->name('employee.select2.orgcode');
         Route::get('/employee/select2/title', 'EmployeeController@select2Title')->name('employee.select2.title');
         Route::get('/employee/select2/jobtitle', 'EmployeeController@select2Jobtitle')->name('employee.select2.jobtitle');

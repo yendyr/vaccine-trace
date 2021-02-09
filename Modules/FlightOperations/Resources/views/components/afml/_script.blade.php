@@ -3,70 +3,143 @@
 
 @push('footer-scripts')
 <script>
-    $(document).ready(function () {
-        var actionUrl = "/flightoperations/afml";
-        var tableId = '#afml-table';
-        var inputFormId = '#inputForm';
+$(document).ready(function () {
+    var actionUrl = "/flightoperations/afml";
+    var tableId = '#afml-table';
+    var inputFormId = '#inputForm';
 
-        var datatableObject = $(tableId).DataTable({
-            pageLength: 25,
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            ajax: {
-                url: "{{ route('flightoperations.afml.index') }}",
-            },
-            columns: [
-                { data: 'aircraft_configurations.aircraft_type.name', defaultContent: '-' },
-                { data: 'aircraft_configurations.serial_number', defaultContent: '-' },
-                { data: 'aircraft_configurations.registration_number', defaultContent: '-' },
-                { data: 'transaction_date', defaultContent: '-' },
-                { data: 'page_number', defaultContent: '-' },
-                { data: 'status', name: 'Status' },
-                { data: 'creator_name', name: 'Created By' },
-                { data: 'created_at', name: 'Created At' },
-                { data: 'updater_name', name: 'Last Updated By' },
-                { data: 'updated_at', name: 'Last Updated At' },
-                { data: 'action', name: 'Action', orderable: false },
-            ]
-        });
-
-        
-
-        datatableObject.on('click', '.editBtn', function () {
-            $('#modalTitle').html("Edit Item COA");
-            $(inputFormId).trigger("reset");                
-            rowId= $(this).val();
-            let tr = $(this).closest('tr');
-            let data = datatableObject.row(tr).data();
-            $(inputFormId).attr('action', actionUrl + '/' + data.id);
-
-            $('<input>').attr({
-                type: 'hidden',
-                name: '_method',
-                value: 'patch'
-            }).prependTo('#inputForm');
-
-            $('#code').val(data.code);
-            $('#role_name').val(data.role_name);
-            $('#role_name_alias').val(data.role_name_alias);
-            $('#description').val(data.description); 
-
-            if (data.is_in_flight_role == '<label class="label label-primary">Yes</label>') {
-                $('#is_in_flight_role').prop('checked', true);
-            }
-            else {
-                $('#is_in_flight_role').prop('checked', false);
-            }
-
-            $('#saveBtn').val("edit");
-            $('[class^="invalid-feedback-"]').html('');  // clearing validation
-            $('#inputModal').modal('show');
-        });
-
-        $(inputFormId).on('submit', function (event) {
-            submitButtonProcess (tableId, inputFormId); 
-        });
+    var datatableObject = $(tableId).DataTable({
+        pageLength: 25,
+        processing: true,
+        serverSide: false,
+        searchDelay: 1500,
+        ajax: {
+            url: "{{ route('flightoperations.afml.index') }}",
+        },
+        columns: [
+            { data: 'aircraft_configurations.aircraft_type.name', defaultContent: '-' },
+            { data: 'aircraft_configurations.serial_number', defaultContent: '-' },
+            { data: 'aircraft_configurations.registration_number', defaultContent: '-' },
+            { data: 'transaction_date', defaultContent: '-' },
+            { data: 'page_number', defaultContent: '-' },
+            { data: 'status', name: 'Status' },
+            { data: 'creator_name', name: 'Created By' },
+            { data: 'created_at', name: 'Created At' },
+            { data: 'updater_name', name: 'Last Updated By' },
+            { data: 'updated_at', name: 'Last Updated At' },
+            { data: 'action', name: 'Action', orderable: false },
+        ]
     });
+
+
+    
+
+    $('.aircraft_configuration_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Aircraft',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.aircraft-configuration.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.pre_flight_check_nearest_airport_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Airport',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('generalsetting.airport.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.pre_flight_check_compressor_wash').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Answer',
+        minimumResultsForSearch: Infinity,
+        allowClear: false,
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.pre_flight_check_person_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Person',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('hr.employee.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
+
+
+
+
+
+    // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
+    $('#create').click(function () {
+        showCreateModal ('Create New Aircraft Flight & Maintenance Log', inputFormId, actionUrl);
+    });
+    // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
+
+
+
+
+    
+
+    datatableObject.on('click', '.editBtn', function () {
+        $('#modalTitle').html("Edit Item COA");
+        $(inputFormId).trigger("reset");                
+        rowId= $(this).val();
+        let tr = $(this).closest('tr');
+        let data = datatableObject.row(tr).data();
+        $(inputFormId).attr('action', actionUrl + '/' + data.id);
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: '_method',
+            value: 'patch'
+        }).prependTo('#inputForm');
+
+        $('#page_number').val(data.page_number);
+        $('#previous_page_number').val(data.previous_page_number);
+        $('#transaction_date').val(data.transaction_date);
+        $('#aircraft_configuration_id').val(data.aircraft_configuration_id); 
+        $('#last_inspection').val(data.last_inspection); 
+        $('#next_inspection').val(data.next_inspection); 
+
+        $('#pre_flight_check_date').val(data.pre_flight_check_date); 
+        $('#pre_flight_check_place').val(data.pre_flight_check_place); 
+        $('#pre_flight_check_nearest_airport_id').val(data.pre_flight_check_nearest_airport_id); 
+        $('#pre_flight_check_person_id').val(data.pre_flight_check_person_id); 
+        $('#pre_flight_check_compressor_wash').val(data.pre_flight_check_compressor_wash);
+
+        $('#post_flight_check_date').val(data.post_flight_check_date); 
+        $('#post_flight_check_place').val(data.post_flight_check_place); 
+        $('#post_flight_check_nearest_airport').val(data.post_flight_check_nearest_airport); 
+        $('#post_flight_check_person_id').val(data.post_flight_check_person_id); 
+        $('#post_flight_check_compressor_wash').val(data.post_flight_check_compressor_wash); 
+
+        if (data.aircraft_configuration != null) {
+            $('#aircraft_configuration_id').append('<option value="' + data.aircraft_configuration_id + '" selected>' + data.aircraft_configuration.registration_number + ' | ' + data.aircraft_configuration.serial_number + '</option>');
+        }
+
+        if (data.pre_flight_check_nearest_airport != null) {
+            $('#pre_flight_check_nearest_airport_id').append('<option value="' + data.pre_flight_check_nearest_airport_id + '" selected>' + data.pre_flight_check_nearest_airport.iata_code + ' | ' + data.pre_flight_check_nearest_airport.name + '</option>');
+        }
+
+        $('#saveBtn').val("edit");
+        $('[class^="invalid-feedback-"]').html('');  // clearing validation
+        $('#inputModal').modal('show');
+    });
+
+    $(inputFormId).on('submit', function (event) {
+        submitButtonProcess (tableId, inputFormId); 
+    });
+});
 </script>
 @endpush

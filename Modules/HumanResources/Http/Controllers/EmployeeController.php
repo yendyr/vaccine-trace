@@ -555,4 +555,27 @@ class EmployeeController extends Controller
 
         return $validationArray;
     }
+
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+        $query = Employee::orderby('fullname','asc')
+                        ->select('id','fullname')
+                        ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $Employees = $query->get();
+
+        $response = [];
+        foreach($Employees as $Employee){
+            $response['results'][] = [
+                "id" => $Employee->id,
+                "text" => $Employee->fullname
+            ];
+        }
+
+        return response()->json($response);
+    }
 }

@@ -363,4 +363,30 @@ class AircraftConfigurationController extends Controller
 
         return response()->json(['success' => 'Aircraft Configuration Data has been Approved']);
     }
+
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = AircraftConfiguration::with('aircraft_type')
+                    ->orderby('registration_number','asc')
+                    ->select('id','registration_number','serial_number','aircraft_type_id')
+                    // ->whereHas('approvals')
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('registration_number', 'like', '%' .$search. '%');
+        }
+        $AircraftConfigurations = $query->get();
+
+        $response = [];
+        foreach($AircraftConfigurations as $AircraftConfiguration){
+            $response['results'][] = [
+                "id" => $AircraftConfiguration->id,
+                "text" => $AircraftConfiguration->registration_number . ' | ' . $AircraftConfiguration->serial_number . ' | ' . $AircraftConfiguration->aircraft_type->name
+            ];
+        }
+
+        return response()->json($response);
+    }
 }

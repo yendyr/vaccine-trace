@@ -17,7 +17,7 @@ class CreateAircraftFlightMaintenanceLogsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('page_number')->unique();
+            $table->string('page_number');
             $table->string('previous_page_number')->nullable();
             $table->date('transaction_date');
             $table->string('aircraft_configuration_id');
@@ -44,6 +44,8 @@ class CreateAircraftFlightMaintenanceLogsTable extends Migration
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->unique(['page_number', 'aircraft_configuration_id']);
         });
     }
 
