@@ -23,7 +23,7 @@
                             <div class="form-group" id="transaction_date" style="width: 100%;">
                                 <div class="input-group date">
                                     <span class="input-group-addon">Date</span>
-                                    <input type="text" class="transaction_date form-control @error('transaction_date') is-invalid @enderror" name="transaction_date" id="transaction_date">
+                                    <input type="text" class="transaction_date form-control @error('transaction_date') is-invalid @enderror" name="transaction_date" id="transaction_date" readonly="true">
                                     <div class="invalid-feedback-transaction_date text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                             <div class="form-group" id="last_inspection" style="width: 100%;">
                                 <div class="input-group date">
                                     <span class="input-group-addon">Date</span>
-                                    <input type="text" class="last_inspection form-control @error('last_inspection') is-invalid @enderror" name="last_inspection" id="last_inspection">
+                                    <input type="text" class="last_inspection form-control @error('last_inspection') is-invalid @enderror" name="last_inspection" id="last_inspection" readonly="true">
                                     <div class="invalid-feedback-last_inspection text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="form-group" id="next_inspection" style="width: 100%;">
                                 <div class="input-group date">
                                     <span class="input-group-addon">Date</span>
-                                    <input type="text" class="next_inspection form-control @error('next_inspection') is-invalid @enderror" name="next_inspection" id="next_inspection">
+                                    <input type="text" class="next_inspection form-control @error('next_inspection') is-invalid @enderror" name="next_inspection" id="next_inspection" readonly="true">
                                     <div class="invalid-feedback-next_inspection text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </span>
-                                                    <input type="text" class="pre_flight_check_date form-control @error('pre_flight_check_date') is-invalid @enderror" name="pre_flight_check_date" id="pre_flight_check_date">
+                                                    <input type="text" class="pre_flight_check_date form-control @error('pre_flight_check_date') is-invalid @enderror" name="pre_flight_check_date" id="pre_flight_check_date" readonly="true">
                                                     <div class="invalid-feedback-pre_flight_check_date text-danger font-italic"></div>
                                                 </div>
                                             </div>

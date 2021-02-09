@@ -124,14 +124,6 @@ $(document).ready(function () {
 
 
     $('#create').click(function () {
-        $('.aircraft_type_id').val(null).trigger('change');
-        $('.max_takeoff_weight_unit_id').val(null).trigger('change');
-        $('.max_landing_weight_unit_id').val(null).trigger('change');
-        $('.max_zero_fuel_weight_unit_id').val(null).trigger('change');
-        $('.fuel_capacity_unit_id').val(null).trigger('change');
-        $('.basic_empty_weight_unit_id').val(null).trigger('change');
-        $('.duplicated_from').val(null).trigger('change');
-        
         $('#duplicated_from').show();
         showCreateModal ('Create New Aircraft Configuration', inputFormId, actionUrl);
     });

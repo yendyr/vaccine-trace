@@ -9,7 +9,7 @@
         $(inputFormId).attr('action', actionUrl);
         $('#saveBtn').val("create");
         $(inputFormId).trigger("reset");
-        $('[class^="invalid-feedback-"]').html('');
+        $('select').not('[name$="_length"]').val(null).trigger('change');
         $('#inputModal').modal('show');                
         $("input[value='patch']").remove();
     }
@@ -26,6 +26,7 @@
         $(inputFormId).attr('action', actionUrl);
         $(saveButtonId).val("create");
         $(inputFormId).trigger("reset");
+        $('select').not('[name$="_length"]').val(null).trigger('change');
         $('[class^="invalid-feedback-"]').html('');
         $(inputModalId).modal('show');                
         $("input[value='patch']").remove();

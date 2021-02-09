@@ -45,7 +45,7 @@
                             <div class="form-group row" id="manufactured_date">
                                 <div class="col-md-12 input-group date">
                                     <span class="input-group-addon">Manufactured Date</span>
-                                    <input type="text" class="manufactured_date form-control @error('manufactured_date') is-invalid @enderror" name="manufactured_date" id="manufactured_date" value="{{ $AircraftConfiguration->manufactured_date }}">
+                                    <input type="text" class="manufactured_date form-control @error('manufactured_date') is-invalid @enderror" name="manufactured_date" id="manufactured_date" value="{{ $AircraftConfiguration->manufactured_date }}" readonly="true">
                                     <div class="invalid-feedback-manufactured_date text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="form-group row" id="received_date">
                                 <div class="col-md-12 input-group date">
                                     <span class="input-group-addon">Received Date</span>
-                                    <input type="text" class="received_date form-control @error('received_date') is-invalid @enderror" name="received_date" id="received_date" value="{{ $AircraftConfiguration->received_date }}">
+                                    <input type="text" class="received_date form-control @error('received_date') is-invalid @enderror" name="received_date" id="received_date" value="{{ $AircraftConfiguration->received_date }}" readonly="true">
                                     <div class="invalid-feedback-received_date text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                                             <label>Initial Operation Date:</label>
                                             <div class="input-group date">
                                                 <span class="input-group-addon">Date</span>
-                                                <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" value="{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-m-d') }}">
+                                                <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" value="{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-m-d') }}" readonly="true">
                                             </div>
                                             </div>
                                         </div>

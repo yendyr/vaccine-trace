@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-md-5">
                     <p class="m-b-none">Initial Start Operation Date:</p>
-                    <h2 class="m-t-none"><strong>{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-M-d') ?? '-' }} </strong></h2>
+                    <h2 class="m-t-none"><strong>{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-F-d') ?? '-' }} </strong></h2>
                 </div>
                 <div class="col-md-1 p-r-xl">
                     <i class="text-danger fa fa-recycle fa-3x fw"></i>

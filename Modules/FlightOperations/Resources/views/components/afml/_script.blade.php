@@ -114,9 +114,7 @@ $(document).ready(function () {
 
         $('#pre_flight_check_date').val(data.pre_flight_check_date); 
         $('#pre_flight_check_place').val(data.pre_flight_check_place); 
-        $('#pre_flight_check_nearest_airport_id').val(data.pre_flight_check_nearest_airport_id); 
         $('#pre_flight_check_person_id').val(data.pre_flight_check_person_id); 
-        $('#pre_flight_check_compressor_wash').val(data.pre_flight_check_compressor_wash);
 
         $('#post_flight_check_date').val(data.post_flight_check_date); 
         $('#post_flight_check_place').val(data.post_flight_check_place); 
@@ -132,10 +130,19 @@ $(document).ready(function () {
             $('#pre_flight_check_nearest_airport_id').append('<option value="' + data.pre_flight_check_nearest_airport_id + '" selected>' + data.pre_flight_check_nearest_airport.iata_code + ' | ' + data.pre_flight_check_nearest_airport.name + '</option>');
         }
 
+        if (data.pre_flight_check_person != null) {
+            $('#pre_flight_check_person_id').append('<option value="' + data.pre_flight_check_person_id + '" selected>' + data.pre_flight_check_person.fullname + '</option>');
+        }
+
+        $('#pre_flight_check_compressor_wash').append('<option value="' + data.pre_flight_check_compressor_wash + '" selected>' + data.pre_flight_check_compressor_wash + '</option>');
+
         $('#saveBtn').val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $('#inputModal').modal('show');
     });
+
+
+
 
     $(inputFormId).on('submit', function (event) {
         submitButtonProcess (tableId, inputFormId); 
