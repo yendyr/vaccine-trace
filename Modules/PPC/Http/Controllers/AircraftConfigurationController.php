@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-use Illuminate\Support\Carbon;
-
 class AircraftConfigurationController extends Controller
 {
     use AuthorizesRequests;

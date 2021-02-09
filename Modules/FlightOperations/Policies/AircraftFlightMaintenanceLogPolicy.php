@@ -75,6 +75,21 @@ class AircraftFlightMaintenanceLogPolicy
         }
     }
 
+    public function approval()
+    {
+        $queryRoleMenu = RoleMenu::where(
+            'role_id', Auth::user()->role_id
+        )->where('menu_link', 'flightoperations/afml')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
+
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return json_decode($queryRoleMenu->approval, true) != 0;
+        }
+    }
+
     public function delete()
     {
         $queryRoleMenu = RoleMenu::where(

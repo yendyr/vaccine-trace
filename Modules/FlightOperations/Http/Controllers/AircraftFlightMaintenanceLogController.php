@@ -19,7 +19,7 @@ class AircraftFlightMaintenanceLogController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(AircraftFlightMaintenanceLog::class);
+        $this->authorizeResource(AircraftFlightMaintenanceLog::class,'afml');
         $this->middleware('auth');
     }
 
@@ -138,34 +138,14 @@ class AircraftFlightMaintenanceLogController extends Controller
     
     }
 
-    public function show(Taskcard $Taskcard)
+    public function show(AircraftFlightMaintenanceLog $afml)
     {
-        return view('ppc::pages.taskcard.show', compact('Taskcard'));
+        return view('flightoperations::pages.afml.show', compact('afml'));
     }
 
-    public function update(Request $request, Taskcard $Taskcard)
+    public function update(Request $request, AircraftFlightMaintenanceLog $AircraftFlightMaintenanceLog)
     {
-        $request->validate([
-            'mpd_number' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
-            'taskcard_group_id' => ['required', 'max:30'],
-            'taskcard_type_id' => ['required', 'max:30'],
-            'compliance' => ['required'],
-            'interval_control_method' => ['required', 'max:30'],
-
-            'aircraft_type_id' => ['required_without_all:item_id'],
-            'affected_item_id' => ['required_without_all:aircraft_type_id'],
-
-            'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
-            'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
-            'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
-            'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
-
-            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_daily,repeat_date'],
-            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_daily,repeat_date'],
-            'repeat_daily' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
-            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
-        ]);
+        
 
         if ($request->status) {
             $status = 1;

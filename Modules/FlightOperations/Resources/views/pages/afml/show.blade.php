@@ -7,19 +7,19 @@
         </div>
         <div class="col-md-2">   
             <p  class="m-t-none m-b-none">Aircraft Registration:</p>         
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->registration_number ?? '' }}</h2>
+            <h2 class="m-t-none font-bold">-</h2>
         </div>
         <div class="col-md-2">
             <p  class="m-t-none m-b-none">Aircraft Serial Number:</p>
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->serial_number ?? '' }}</h2>
+            <h2 class="m-t-none font-bold">-</h2>
         </div>
         <div class="col-md-3">
             <p  class="m-t-none m-b-none">Aircraft Type:</p>
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->aircraft_type->name ?? '' }}</h2>
+            <h2 class="m-t-none font-bold">-</h2>
         </div>
         <div class="col-md-3">
             <p  class="m-t-none m-b-none">Aircraft Manufacturer:</p>
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->manufacturer->name ?? '' }}</h2>
+            <h2 class="m-t-none font-bold">-</h2>
         </div>
     </div>
 
@@ -52,14 +52,14 @@
                     <div id="tab-0" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.aircraft-basic-information.content')
+                                {{-- @include('ppc::pages.aircraft-configuration.aircraft-basic-information.content') --}}
                             </div>
                         </div>
                     </div>
                     <div id="tab-1" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.item-configuration-content.content')
+                                {{-- @include('ppc::pages.aircraft-configuration.item-configuration-content.content') --}}
                             </div>
                         </div>
                     </div>
@@ -71,13 +71,13 @@
                                 </div>
                             </div>
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.tree-view-content.content')
+                                {{-- @include('ppc::pages.aircraft-configuration.tree-view-content.content') --}}
                             </div>
                         </div>
                     </div>
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
-                            @include('ppc::pages.aircraft-configuration.approval-status.content')
+                            {{-- @include('ppc::pages.aircraft-configuration.approval-status.content') --}}
                         </div>
                     </div>
                 </div>
