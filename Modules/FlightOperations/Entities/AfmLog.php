@@ -35,6 +35,11 @@ class AfmLog extends Model
         'post_flight_check_person_id',
         'post_flight_check_compressor_wash',
 
+        'total_flight_hour',
+        'total_block_hour',
+        'total_flight_cycle',
+        'total_flight_event',
+
         'status',
         'created_by',
         'updated_by',

@@ -93,7 +93,7 @@
                     <div id="tab-0" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                {{-- @include('ppc::pages.aircraft-configuration.aircraft-basic-information.content') --}}
+                                @include('flightoperations::pages.afmlog.crew.content')
                             </div>
                         </div>
                     </div>

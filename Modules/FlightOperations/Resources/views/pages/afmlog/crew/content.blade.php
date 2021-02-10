@@ -2,15 +2,15 @@
     @component('components.delete-modal', ['name' => 'Flight Crew Datalist'])
     @endcomponent
 
-    @include('flightoperations::pages.afml.crew.modal')
+    @include('flightoperations::pages.afmlog.crew.modal')
     
     @component('components.crud-form.index',[
         'title' => 'Flight Crew Datalist',
-        'tableId' => 'crew-detail'])
+        'tableId' => 'afml-detail-crew'])
 
-    @if($afml->approvals()->count() == 0)
+    @if($afmlog->approvals()->count() == 0)
         @slot('createButton')
-            @can('update', Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog::class)                
+            @can('update', Modules\FlightOperations\Entities\AfmLog::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Add Crew
                 </button>   
@@ -30,4 +30,4 @@
     @endcomponent
 </div>
 
-@include('flightoperations::components.afml.crew._script')
+@include('flightoperations::components.afmlog.crew._script')

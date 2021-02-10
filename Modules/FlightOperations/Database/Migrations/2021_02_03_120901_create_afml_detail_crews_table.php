@@ -18,8 +18,8 @@ class CreateAfmlDetailCrewsTable extends Migration
             $table->uuid('uuid')->unique();
 
             $table->string('afm_logs_id');
-            $table->string('person_id');
-            $table->string('position_id');
+            $table->string('employee_id');
+            $table->string('role_id');
             $table->string('description')->nullable();
 
             $table->rememberToken();

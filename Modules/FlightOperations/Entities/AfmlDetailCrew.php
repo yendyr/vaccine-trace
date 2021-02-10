@@ -17,7 +17,7 @@ class AfmlDetailCrew extends Model
         'uuid',
 
         'afm_logs_id',
-        'person_id',
+        'employee_id',
         'role_id',
         'description',
 
@@ -38,9 +38,9 @@ class AfmlDetailCrew extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function person()
+    public function employee()
     {
-        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'person_id');
+        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'employee_id');
     }
 
     public function in_flight_role()

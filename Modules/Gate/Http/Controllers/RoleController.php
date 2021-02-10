@@ -221,4 +221,29 @@ class RoleController extends Controller
         Role::destroy($role->id);
         return response()->json(['success' => 'Role Data has been Deleted']);
     }
+
+    public function select2InFlightRole(Request $request)
+    {
+        $search = $request->q;
+
+        $query = Role::select('id','role_name','role_name_alias')
+                    ->where('is_in_flight_role', 1)
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('role_name', 'like', '%' .$search. '%')
+                        ->orWhere('role_name_alias', 'like', '%' .$search. '%');
+        }
+        $Roles = $query->get();
+
+        $response = [];
+        foreach($Roles as $Role){
+            $response['results'][] = [
+                "id" => $Role->id,
+                "text" => $Role->role_name . ' | ' . $Role->role_name_alias
+            ];
+        }
+
+        return response()->json($response);
+    }
 }

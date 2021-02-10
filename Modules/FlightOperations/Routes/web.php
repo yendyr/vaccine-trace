@@ -19,5 +19,7 @@ Route::name('flightoperations.')->group(function () {
         });
         
         Route::resource('/afmlog', 'AfmLogController');
+
+        Route::resource('/afml-detail-crew', 'AfmlDetailCrewController');
     });
 });

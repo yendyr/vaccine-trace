@@ -25,10 +25,10 @@ class AfmlDetailJournal extends Model
         'block_on',
         'timezone',
 
-        'total_flight_hour',
-        'total_block_hour',
-        'total_cycle',
-        'total_event',
+        'sub_total_flight_hour',
+        'sub_total_block_hour',
+        'sub_total_cycle',
+        'sub_total_event',
 
         'fuel_remaining',
         'fuel_remaining_unit_id',
