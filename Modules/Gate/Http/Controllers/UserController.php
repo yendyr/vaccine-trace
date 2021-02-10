@@ -118,6 +118,17 @@ class UserController extends Controller
                 $status = 0;
             }
 
+            if ($request->employee_id) {
+                $employee = Employee::where('id', $request->employee_id)
+                                    ->select('company_id')
+                                    ->first();
+                                    
+                $company_id = $employee->company_id;
+            } 
+            else {
+                $company_id = null;
+            }
+
             User::create([
                 'uuid' => Str::uuid(),
                 'username' => $request->username,
@@ -126,6 +137,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'role_id' => $request->role,
                 'employee_id' => $request->employee_id,
+                'company_id' => $company_id,
                 'status' => $status,
                 'created_by' => $request->user()->id,
             ]);
@@ -188,7 +200,7 @@ class UserController extends Controller
                 $employee = Employee::where('id', $request->employee_id)
                                     ->select('company_id')
                                     ->first();
-                                    
+
                 $company_id = $employee->company_id;
             } 
             else {
