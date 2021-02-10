@@ -2,7 +2,7 @@
     @component('components.delete-modal', ['name' => 'Item/Component Datalist'])
     @endcomponent
 
-    @include('ppc::pages.aircraft-configuration.item-configuration-content.modal')
+    @include('ppc::pages.aircraft-configuration.item-configuration.modal')
     
     @component('components.crud-form.index',[
         'title' => 'Item/Component Datalist',

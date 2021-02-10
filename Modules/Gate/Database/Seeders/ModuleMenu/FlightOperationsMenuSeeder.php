@@ -58,13 +58,13 @@ class FlightOperationsMenuSeeder extends Seeder
         ]);
 
         $menu = Menu::create([
-            'menu_link' => 'flightoperations/afml',
+            'menu_link' => 'flightoperations/afmlog',
             'menu_text' => 'Aircraft Flight & Maintenance Log',
             'menu_route' => 'flightoperations.afml.index',
             'menu_icon' => 'fa-location-arrow',
-            'menu_class' => 'Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog',
+            'menu_class' => 'Modules\FlightOperations\Entities\AfmLog',
             'menu_id' => null,
-            'menu_actives' => json_encode(['flightoperations/afml', 'flightoperations/afml/*']),
+            'menu_actives' => json_encode(['flightoperations/afmlog', 'flightoperations/afmlog/*']),
             'group' => 'Flight Operations',
             'add' => 1,
             'update' => 1,

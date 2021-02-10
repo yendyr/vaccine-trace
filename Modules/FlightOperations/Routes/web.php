@@ -18,6 +18,6 @@ Route::name('flightoperations.')->group(function () {
             Route::patch('in-flight-role/{role}', [Modules\Gate\Http\Controllers\RoleController::class, 'update_flightoperations'])->name('update');
         });
         
-        Route::resource('/afml', 'AircraftFlightMaintenanceLogController');
+        Route::resource('/afmlog', 'AfmLogController');
     });
 });
