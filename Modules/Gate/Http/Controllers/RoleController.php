@@ -114,7 +114,7 @@ class RoleController extends Controller
             'status' => $request->status,
         ]);
 
-        return response()->json(['success' => 'a new role added successfully.']);
+        return response()->json(['success' => 'Role Data has been Saved']);
     }
 
     /**
@@ -157,7 +157,7 @@ class RoleController extends Controller
                 'updated_by' => $request->user()->id,
             ]);
 
-        return response()->json(['success' => 'Role data updated successfully.']);
+        return response()->json(['success' => 'Role Data has been Updated']);
     }
 
     public function update_flightoperations(Request $request, Role $role)
