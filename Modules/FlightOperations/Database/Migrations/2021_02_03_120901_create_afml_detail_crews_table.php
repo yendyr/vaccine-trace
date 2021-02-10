@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAfmlDetailManpowersTable extends Migration
+class CreateAfmlDetailCrewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAfmlDetailManpowersTable extends Migration
      */
     public function up()
     {
-        Schema::create('afml_detail_manpowers', function (Blueprint $table) {
+        Schema::create('afml_detail_crews', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 

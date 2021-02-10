@@ -77,9 +77,9 @@ class AfmLog extends Model
         return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'post_flight_check_person_id');
     }
 
-    public function manpower_details()
+    public function crew_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManpower::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailCrew::class, 'afm_logs_id');
     }
 
     public function item_record_details()
@@ -126,7 +126,7 @@ class AfmLog extends Model
         parent::boot();
 
         static::deleting(function($AFML) {
-             $AFML->manpower_details()->delete();
+             $AFML->crew_details()->delete();
              $AFML->item_record_details()->delete();
              $AFML->dmi_details()->delete();
              $AFML->manifest_details()->delete();
