@@ -19,7 +19,7 @@ class AfmLogController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(AfmLog::class);
+        $this->authorizeResource(AfmLog::class, 'afmlog');
         $this->middleware('auth');
     }
 
@@ -91,15 +91,15 @@ class AfmLogController extends Controller
                 ->make(true);
         }
 
-        return view('flightoperations::pages.afml.index');
+        return view('flightoperations::pages.afmlog.index');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'page_number' => ['required', 'max:30', 'unique:aircraft_flight_maintenance_logs,aircraft_configuration_id'],
+            'page_number' => ['required', 'max:30', 'unique:afm_logs,aircraft_configuration_id'],
             'transaction_date' => ['required', 'max:30'],
-            'aircraft_configuration_id' => ['required', 'max:30', 'unique:aircraft_flight_maintenance_logs,page_number'],
+            'aircraft_configuration_id' => ['required', 'max:30', 'unique:afm_logs,page_number'],
         ]);
 
         $status = 1;
@@ -142,9 +142,9 @@ class AfmLogController extends Controller
     
     }
 
-    public function show(AfmLog $AfmLog)
+    public function show(AfmLog $afmlog)
     {
-        return view('flightoperations::pages.afml.show', compact('AfmLog'));
+        return view('flightoperations::pages.afmlog.show', compact('afmlog'));
     }
 
     public function update(Request $request, AfmLog $AfmLog)

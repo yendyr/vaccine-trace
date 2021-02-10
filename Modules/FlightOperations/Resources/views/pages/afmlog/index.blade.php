@@ -4,14 +4,14 @@
     @component('components.delete-modal', ['name' => 'Aircraft Flight & Maintenance Log Datalist'])
     @endcomponent
 
-    @include('flightoperations::pages.afml.modal')
+    @include('flightoperations::pages.afmlog.modal')
 
     @component('components.crud-form.index',[
                     'title' => 'Aircraft Flight & Maintenance Log Datalist',
-                    'tableId' => 'afml-table'])
+                    'tableId' => 'afmlog-table'])
 
         @slot('createButton')
-            @can('create', Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog::class)                
+            @can('create', Modules\FlightOperations\Entities\AfmLog::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   
@@ -33,7 +33,7 @@
         @endslot
     @endcomponent
 
-    @include('flightoperations::components.afml._script')
+    @include('flightoperations::components.afmlog._script')
 
 @endsection
 

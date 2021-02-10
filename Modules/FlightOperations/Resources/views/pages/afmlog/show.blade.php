@@ -7,34 +7,34 @@
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Transaction Date:</p>         
-            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afml->transaction_date)->format('Y-F-d') ?? '-' }}</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afmlog->transaction_date)->format('Y-F-d') ?? '-' }}</p>
 
             <p  class="m-t-none m-b-none">Last Inspection:</p>         
-            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afml->last_inspection)->format('Y-F-d') ?? '-' }}</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afmlog->last_inspection)->format('Y-F-d') ?? '-' }}</p>
 
             <p  class="m-t-none m-b-none">Next Inspection:</p>         
-            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afml->next_inspection)->format('Y-F-d') ?? '-' }}</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ Carbon\Carbon::parse($afmlog->next_inspection)->format('Y-F-d') ?? '-' }}</p>
         </div>
         <div class="col">
             <p  class="m-t-none m-b-none">Current Page:</p>
-            <p class="m-t-none m-b-xs font-bold text-success">{{ $afml->page_number ?? '-' }}</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ $afmlog->page_number ?? '-' }}</p>
 
             <p  class="m-t-none m-b-none">Continuous from Page:</p>
-            <p class="m-t-none font-bold text-success">{{ $afml->previous_page_number ?? '-' }}</p>
+            <p class="m-t-none font-bold text-success">{{ $afmlog->previous_page_number ?? '-' }}</p>
         </div>
         <div class="col">
             <p  class="m-t-none m-b-none">Aircraft Registration:</p>
-            <p class="m-t-none m-b-xs font-bold text-success">{{ $afml->aircraft_configuration->registration_number ?? '-' }}</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ $afmlog->aircraft_configuration->registration_number ?? '-' }}</p>
 
             <p  class="m-t-none m-b-none">Aircraft Serial:</p>
-            <p class="m-t-none font-bold text-success">{{ $afml->aircraft_configuration->serial_number ?? '-' }}</p>
+            <p class="m-t-none font-bold text-success">{{ $afmlog->aircraft_configuration->serial_number ?? '-' }}</p>
         </div>
         <div class="col">
             <p  class="m-t-none m-b-none">Aircraft Type:</p>
-            <p class="m-t-none m-b-xs font-bold text-success">{{ $afml->aircraft_configuration->aircraft_type->name ?? '-' }}</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ $afmlog->aircraft_configuration->aircraft_type->name ?? '-' }}</p>
 
             <p  class="m-t-none m-b-none">Aircraft Manufacturer:</p>
-            <p class="m-t-none font-bold text-success">{{ $afml->aircraft_configuration->aircraft_type->manufacturer->name ?? '-' }}</p>
+            <p class="m-t-none font-bold text-success">{{ $afmlog->aircraft_configuration->aircraft_type->manufacturer->name ?? '-' }}</p>
         </div>
     </div>
 

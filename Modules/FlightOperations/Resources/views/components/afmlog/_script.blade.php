@@ -4,8 +4,8 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = "/flightoperations/afml";
-    var tableId = '#afml-table';
+    var actionUrl = "/flightoperations/afmlog";
+    var tableId = '#afmlog-table';
     var inputFormId = '#inputForm';
 
     var datatableObject = $(tableId).DataTable({
@@ -14,28 +14,28 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "{{ route('flightoperations.afml.index') }}",
+            url: "{{ route('flightoperations.afmlog.index') }}",
         },
         columns: [
             { data: 'aircraft_type_name', defaultContent: '-',
                             'render': function ( data, type, row, meta ) {
-                                return '<a href="afml/' + row.id + '">' + row.aircraft_type_name + '</a>';
+                                return '<a href="afmlog/' + row.id + '">' + row.aircraft_type_name + '</a>';
                             }},
             { data: 'aircraft_configuration.serial_number', defaultContent: '-',
                             'render': function ( data, type, row, meta ) {
-                                return '<a href="afml/' + row.id + '">' + row.aircraft_configuration.serial_number + '</a>';
+                                return '<a href="afmlog/' + row.id + '">' + row.aircraft_configuration.serial_number + '</a>';
                             }},
             { data: 'aircraft_configuration.registration_number', defaultContent: '-',
                             'render': function ( data, type, row, meta ) {
-                                return '<a href="afml/' + row.id + '">' + row.aircraft_configuration.registration_number + '</a>';
+                                return '<a href="afmlog/' + row.id + '">' + row.aircraft_configuration.registration_number + '</a>';
                             }},
             { data: 'transaction_date', defaultContent: '-',
                             'render': function ( data, type, row, meta ) {
-                                return '<a href="afml/' + row.id + '">' + row.transaction_date + '</a>';
+                                return '<a href="afmlog/' + row.id + '">' + row.transaction_date + '</a>';
                             }},
             { data: 'page_number', defaultContent: '-',
                             'render': function ( data, type, row, meta ) {
-                                return '<a href="afml/' + row.id + '">' + row.page_number + '</a>';
+                                return '<a href="afmlog/' + row.id + '">' + row.page_number + '</a>';
                             }},
             { data: 'status', name: 'Status' },
             { data: 'creator_name' },
@@ -238,7 +238,7 @@ $(document).ready(function () {
                     generateToast ('success', data.success);  
 
                     setTimeout(function () {
-                        window.location.href = "afml/" + data.id;
+                        window.location.href = "afmlog/" + data.id;
                     }, 2000);                          
                 }
                 else if (data.error) {
