@@ -103,15 +103,21 @@ class RoleController extends Controller
     {
         $request->validate([
             'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
-            'status' => ['min:0', 'max:1'],
         ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
 
         Role::create([
             'uuid' => Str::uuid(),
             'role_name' => $request->role_name,
             'owned_by' => $request->user()->company_id,
             'created_by' => $request->user()->id,
-            'status' => $request->status,
+            'status' => $status,
         ]);
 
         return response()->json(['success' => 'Role Data has been Saved']);
@@ -145,18 +151,37 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $request->validate([
-            'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
-            'status' => ['min:0', 'max:1'],
-        ]);
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
 
-        Role::where('id', $role->id)
-            ->update([
-                'role_name' => $request->role_name,
-                'status' => $request->status,
-                'updated_by' => $request->user()->id,
+        if ($role->role_name == $request->role_name) {
+            $request->validate([
+                'role_name' => ['required', 'string', 'max:255'],
             ]);
 
+            Role::where('id', $role->id)
+                ->update([
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]); 
+        }
+        else {
+            $request->validate([
+                'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
+            ]);
+
+            Role::where('id', $role->id)
+                ->update([
+                    'role_name' => $request->role_name,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]);
+        }
+        
         return response()->json(['success' => 'Role Data has been Updated']);
     }
 

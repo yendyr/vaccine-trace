@@ -4,10 +4,10 @@
     @component('components.delete-modal', ['name' => 'User Datalist'])
     @endcomponent
 
-    @include('gate::components.user.modal')
+    @include('gate::pages.user.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Company Datalist',
+                    'title' => 'User Datalist',
                     'tableId' => 'user-table'])
 
         @slot('createButton')
@@ -43,7 +43,9 @@
             width: 100% !important;
         }
     </style>
+    @include('layouts.includes._header-datatable-script')
 @endpush
 @push('footer-scripts')
+    <script src="{{ URL::asset('theme/js/plugins/pwstrength/pwstrength-bootstrap.min.js') }}"></script>
     @include('layouts.includes._footer-datatable-script')
 @endpush

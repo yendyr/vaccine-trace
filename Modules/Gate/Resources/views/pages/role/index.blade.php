@@ -4,7 +4,7 @@
     @component('components.delete-modal', ['name' => 'Role Datalist'])
     @endcomponent
 
-    @include('gate::components.role.modal')
+    @include('gate::pages.role.modal')
 
     @component('components.crud-form.index',[
         'title' => 'Role Datalist',

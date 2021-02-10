@@ -7,8 +7,8 @@
         var actionUrl = '/gate/role';
         var tableId = '#role-table';
         var inputFormId = '#inputForm';
-
         var roleId;
+        
         var datatableObject = $(tableId).DataTable({
             pageLength: 25,
             processing: true,
@@ -42,7 +42,7 @@
             $('#modalTitle').html("Edit Role");
             roleId= $(this).val();
             let tr = $(this).closest('tr');
-            let data = table.row(tr).data();
+            let data = datatableObject.row(tr).data();
 
             $('<input>').attr({
                 type: 'hidden',
@@ -52,10 +52,12 @@
 
             $('#frolename').val(data.role_name);
             $('#fstatus').find('option').removeAttr('selected');
-            if (data.status == '<p class="text-success">Active</p>'){
-                $('#fstatus').find('option[value="1"]').attr('selected', '');
-            }else{
-                $('#fstatus').find('option[value="0"]').attr('selected', '');
+            
+            if (data.status == '<label class="label label-success">Active</label>') {
+                $('#status').prop('checked', true);
+            }
+            else {
+                $('#status').prop('checked', false);
             }
 
             $('#saveBtn').val("edit-role");

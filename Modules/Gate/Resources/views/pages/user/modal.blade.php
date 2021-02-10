@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="userModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" id="inputModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form method="POST" id="userForm">
+            <form method="post" id="inputForm">
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">
@@ -36,11 +36,17 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <label>Company</label>
                             <select class="select2_company form-control m-b " id="fcompany" name="company">
                             </select>
                             <div class="invalid-feedback-company text-danger"></div>
+                        </div> --}}
+                        <div class="col-md-6">
+                            <label>Assign to Employee</label>
+                            <select class="employee_id form-control m-b" id="employee_id" name="employee_id">
+                            </select>
+                            <div class="invalid-feedback-employee_id text-danger"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Role</label>
