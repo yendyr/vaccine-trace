@@ -128,7 +128,7 @@
 @endsection
 
 @push('header-scripts')
-
+    @include('layouts.includes._header-datatable-script')
 @endpush
 
 @push('footer-scripts')
@@ -143,4 +143,5 @@
         }
     });
 </script>
+@include('layouts.includes._footer-datatable-script')
 @endpush

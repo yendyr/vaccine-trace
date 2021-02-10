@@ -18,13 +18,28 @@ class RoleSeeder extends Seeder
     {
         Model::unguard();
 
-        $role = Role::create([
+        Role::create([
             'role_name' => 'Super Admin',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
-        $role = Role::create([
+        Role::create([
             'role_name' => 'User',
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        Role::create([
+            'role_name' => 'Engineer',
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        Role::create([
+            'role_name' => 'Pilot in Command',
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
+        Role::create([
+            'role_name' => 'First Officer',
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

@@ -13,7 +13,7 @@
         @slot('tableContent')
             <th>Code</th>
             <th>Role Name</th>
-            <th>Role Name Alias</th>
+            <th>In-Flight Role Name</th>
             <th>Description/Remark</th>
             <th>Authorize as In-Flight Role</th>
             <th>Status</th>

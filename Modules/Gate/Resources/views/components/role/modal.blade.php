@@ -1,15 +1,15 @@
 <!-- Modal -->
-<div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle"></h5>
+                <h4 class="modal-title" id="modalTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <form method="post" id="roleForm">
+            <form method="post" id="inputForm">
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">

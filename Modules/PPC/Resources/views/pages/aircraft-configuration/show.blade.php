@@ -59,7 +59,7 @@
                     <div id="tab-1" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.item-configuration-content.content')
+                                @include('ppc::pages.aircraft-configuration.item-configuration.content')
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.tree-view-content.content')
+                                @include('ppc::pages.aircraft-configuration.tree-view.content')
                             </div>
                         </div>
                     </div>
