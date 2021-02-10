@@ -16,8 +16,8 @@ class AfmlDetailRectification extends Model
     protected $fillable = [
         'uuid',
 
-        'aircraft_flight_maintenance_logs_id',
-        'aircraft_flight_maintenance_log_detail_discrepancies_id',
+        'afm_logs_id',
+        'afml_detail_discrepancies_id',
         'title',
         'description',
 
@@ -38,13 +38,13 @@ class AfmlDetailRectification extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function aircraft_flight_maintenance_log()
+    public function afm_log()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog::class, 'aircraft_flight_maintenance_log_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
     }
 
-    public function aircraft_flight_maintenance_log_detail_discrepancies()
+    public function afml_detail_discrepancy()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AFMLDetailDiscrepancy::class, 'aircraft_flight_maintenance_log_detail_discrepancies_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'afml_detail_discrepancies_id');
     }
 }

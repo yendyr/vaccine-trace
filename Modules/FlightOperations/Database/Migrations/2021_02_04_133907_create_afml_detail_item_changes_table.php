@@ -17,8 +17,8 @@ class CreateAfmlDetailItemChangesTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('aircraft_flight_maintenance_logs_id');
-            $table->string('aircraft_flight_maintenance_log_detail_rectification_id')->nullable();
+            $table->string('afm_logs_id');
+            $table->string('afml_detail_rectifications_id')->nullable();
             $table->string('item_id_off')->nullable(); // refer to id in aircraft configuration detail
             $table->string('item_id_on')->nullable(); // refer to id in aircraft configuration detail
             $table->string('description')->nullable();

@@ -13,7 +13,7 @@ class CreateAircraftFlightMaintenanceLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('aircraft_flight_maintenance_logs', function (Blueprint $table) {
+        Schema::create('afm_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 

@@ -56,13 +56,16 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-6">
-                            <label>Status</label>
-                            <select class="form-control m-b " id="fstatus" name="status">
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                            <div class="invalid-feedback-status text-danger"></div>
+                        <label class="col-sm-5 d-flex align-items-center">Active</label>
+                        <div class="col-sm-7">     
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,4 +79,3 @@
         </div>
     </div>
 </div>
-

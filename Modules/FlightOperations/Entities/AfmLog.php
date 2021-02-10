@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AircraftFlightMaintenanceLog extends Model
+class AfmLog extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -77,79 +77,49 @@ class AircraftFlightMaintenanceLog extends Model
         return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'post_flight_check_person_id');
     }
 
-    // public function aircraft_types()
-    // {
-    //     return $this->belongsToMany(\Modules\PPC\Entities\AircraftType::class, 'taskcard_detail_aircraft_types');
-    // }
-
     public function manpower_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManpower::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManpower::class, 'afm_logs_id');
     }
-
-    // public function affected_items()
-    // {
-    //     return $this->belongsToMany(\Modules\SupplyChain\Entities\Item::class, 'taskcard_detail_affected_items','taskcard_id','affected_item_id');
-    // }
 
     public function item_record_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemRecord::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemRecord::class, 'afm_logs_id');
     }
-
-    // public function accesses()
-    // {
-    //     return $this->belongsToMany(\Modules\PPC\Entities\TaskcardAccess::class, 'taskcard_detail_accesses');
-    // }
 
     public function dmi_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDmi::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDmi::class, 'afm_logs_id');
     }
-
-    // public function zones()
-    // {
-    //     return $this->belongsToMany(\Modules\PPC\Entities\TaskcardZone::class, 'taskcard_detail_zones');
-    // }
 
     public function manifest_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManifest::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManifest::class, 'afm_logs_id');
     }
-
-    // public function document_libraries()
-    // {
-    //     return $this->belongsToMany(\Modules\PPC\Entities\TaskcardDocumentLibrary::class, 'taskcard_detail_document_libraries');
-    // }
 
     public function journal_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailJournal::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailJournal::class, 'afm_logs_id');
     }
-
-    // public function affected_manuals()
-    // {
-    //     return $this->belongsToMany(\Modules\QualityAssurance\Entities\DocumentType::class, 'taskcard_detail_affected_manuals','taskcard_id','taskcard_affected_manual_id');
-    // }
 
     public function discrepancy_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'afm_logs_id');
     }
 
     public function rectification_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailRectification::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailRectification::class, 'afm_logs_id');
     }
 
     public function item_change_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemChange::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemChange::class, 'afm_logs_id');
     }
 
     public function approvals()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlApproval::class, 'aircraft_flight_maintenance_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlApproval::class, 'afm_logs_id');
     }
 
     public static function boot() {

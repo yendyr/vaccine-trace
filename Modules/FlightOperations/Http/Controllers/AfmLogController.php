@@ -2,7 +2,7 @@
 
 namespace Modules\FlightOperations\Http\Controllers;
 
-use Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog;
+use Modules\FlightOperations\Entities\AfmLog;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -13,20 +13,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class AircraftFlightMaintenanceLogController extends Controller
+class AfmLogController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(AircraftFlightMaintenanceLog::class,'afml');
+        $this->authorizeResource(AfmLog::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = AircraftFlightMaintenanceLog::with(['aircraft_configuration',
+            $data = AfmLog::with(['aircraft_configuration',
                                                     'pre_flight_check_nearest_airport',
                                                     'pre_flight_check_person',
                                                     'post_flight_check_nearest_airport',
@@ -63,17 +63,17 @@ class AircraftFlightMaintenanceLogController extends Controller
                         return '<p class="text-muted">Already Approved</p>';
                     }
                     else {
-                        if(Auth::user()->can('update', AircraftFlightMaintenanceLog::class)) {
+                        if(Auth::user()->can('update', AfmLog::class)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if(Auth::user()->can('delete', AircraftFlightMaintenanceLog::class)) {
+                        if(Auth::user()->can('delete', AfmLog::class)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
                         }
-                        if(Auth::user()->can('approval', AircraftFlightMaintenanceLog::class)) {
+                        if(Auth::user()->can('approval', AfmLog::class)) {
                             $approvable = true;
                             $approveId = $row->id;
                             $noAuthorize = false;
@@ -109,7 +109,7 @@ class AircraftFlightMaintenanceLogController extends Controller
         $post_flight_check_date = $request->post_flight_check_date;
         
         DB::beginTransaction();
-        $AircraftFlightMaintenanceLog = AircraftFlightMaintenanceLog::create([
+        $AfmLog = AfmLog::create([
             'uuid' =>  Str::uuid(),
 
             'page_number' => $request->page_number,
@@ -138,18 +138,18 @@ class AircraftFlightMaintenanceLogController extends Controller
         DB::commit();
 
         return response()->json(['success' => 'Aircraft Flight and Maintenance Log Data has been Saved',
-                                    'id' => $AircraftFlightMaintenanceLog->id]);
+                                    'id' => $AfmLog->id]);
     
     }
 
-    public function show(AircraftFlightMaintenanceLog $afml)
+    public function show(AfmLog $AfmLog)
     {
-        return view('flightoperations::pages.afml.show', compact('afml'));
+        return view('flightoperations::pages.afml.show', compact('AfmLog'));
     }
 
-    public function update(Request $request, AircraftFlightMaintenanceLog $afml)
+    public function update(Request $request, AfmLog $AfmLog)
     {
-        $currentRow = AircraftFlightMaintenanceLog::where('id', $afml->id)->first();
+        $currentRow = AfmLog::where('id', $AfmLog->id)->first();
         if ($currentRow->approvals()->count() == 0) {
             $request->validate([
                 'page_number' => ['required', 'max:30', 'unique:aircraft_flight_maintenance_logs,aircraft_configuration_id'],
@@ -197,15 +197,15 @@ class AircraftFlightMaintenanceLogController extends Controller
         }
     }
 
-    public function destroy(AircraftFlightMaintenanceLog $afml)
+    public function destroy(AfmLog $AfmLog)
     {
-        $currentRow = AircraftFlightMaintenanceLog::where('id', $afml->id)->first();
+        $currentRow = AfmLog::where('id', $AfmLog->id)->first();
         $currentRow
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
 
-        AircraftFlightMaintenanceLog::destroy($afml->id);
+        AfmLog::destroy($AfmLog->id);
         return response()->json(['success' => 'Aircraft Flight & Maintenance Log Data has been Deleted']);
     }
 

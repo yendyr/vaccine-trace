@@ -17,7 +17,7 @@ class CreateAfmlApprovalsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('aircraft_flight_maintenance_logs_id');
+            $table->string('afm_logs_id');
             $table->string('approval_notes');
 
             $table->rememberToken();

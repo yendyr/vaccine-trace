@@ -16,8 +16,8 @@ class AfmlDetailItemChange extends Model
     protected $fillable = [
         'uuid',
 
-        'aircraft_flight_maintenance_logs_id',
-        'aircraft_flight_maintenance_log_detail_rectification_id',
+        'afm_logs_id',
+        'afml_detail_rectifications_id',
         'item_id_off',
         'item_id_on',
         'description',
@@ -39,14 +39,14 @@ class AfmlDetailItemChange extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function aircraft_flight_maintenance_log()
+    public function afm_log()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog::class, 'aircraft_flight_maintenance_log_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
     }
 
-    public function aircraft_flight_maintenance_log_detail_rectification()
+    public function afml_detail_rectification()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AFMLDetailRectification::class, 'aircraft_flight_maintenance_log_detail_rectification_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmlDetailRectification::class, 'afml_detail_rectifications_id');
     }
 
     public function item_id_off()

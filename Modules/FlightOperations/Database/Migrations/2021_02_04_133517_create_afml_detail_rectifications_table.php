@@ -17,8 +17,8 @@ class CreateAfmlDetailRectificationsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('aircraft_flight_maintenance_logs_id');
-            $table->string('aircraft_flight_maintenance_log_detail_discrepancies_id')->nullable();
+            $table->string('afm_logs_id');
+            $table->string('afml_detail_discrepancies_id')->nullable();
             $table->string('title');
             $table->string('description')->nullable();
 

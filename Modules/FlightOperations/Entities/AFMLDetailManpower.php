@@ -16,7 +16,7 @@ class AfmlDetailManpower extends Model
     protected $fillable = [
         'uuid',
 
-        'aircraft_flight_maintenance_logs_id',
+        'afm_logs_id',
         'person_id',
         'role_id',
         'description',
@@ -48,8 +48,8 @@ class AfmlDetailManpower extends Model
         return $this->belongsTo(\Modules\Gate\Entities\Role::class, 'role_id');
     }
 
-    public function aircraft_flight_maintenance_log()
+    public function afm_log()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AircraftFlightMaintenanceLog::class, 'aircraft_flight_maintenance_log_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
     }
 }

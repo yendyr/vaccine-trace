@@ -38,9 +38,9 @@ class UserController extends Controller
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
-                        return '<p class="text-success">Active</p>';
+                        return '<label class="label label-success">Active</label>';
                     } else{
-                        return '<p class="text-danger">Inactive</p>';
+                        return '<label class="label label-danger">Inactive</label>';
                     }
                 })
                 ->addColumn('action', function($row){
@@ -105,9 +105,14 @@ class UserController extends Controller
                 'password' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:users'],
                 'role' => ['required', 'integer'],
-                'company' => ['required', 'integer'],
-                'status' => ['min:0', 'max:1'],
             ]);
+
+            if ($request->status) {
+                $status = 1;
+            } 
+            else {
+                $status = 0;
+            }
 
             User::create([
                 'uuid' => Str::uuid(),
@@ -116,9 +121,8 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role_id' => $request->role,
-                'company_id' => (($request->company == 0) ? null : $request->company),
-                'owned_by' => $request->company,
-                'status' => $request->status,
+                'employee_id' => $request->employee_id,
+                'status' => $status,
                 'created_by' => $request->user()->id,
             ]);
         }
@@ -167,9 +171,14 @@ class UserController extends Controller
                 'email' => ['required', 'email:rfc,dns', 'max:255'],
                 'password' => ['required', 'string', 'max:255'],
                 'role' => ['required', 'integer'],
-                'company' => ['required', 'integer'],
-                'status' => ['min:0', 'max:1'],
             ]);
+
+            if ($request->status) {
+                $status = 1;
+            } 
+            else {
+                $status = 0;
+            }
 
             User::where('id', $user->id)
                 ->update([
@@ -178,9 +187,7 @@ class UserController extends Controller
                     'email' => $request->email,
                     'password' => $request->password,
                     'role_id' => $request->role,
-                    'company_id' => (($request->company == 0) ? null : $request->company),
-                    'owned_by' => $request->company,
-                    'status' => $request->status,
+                    'status' => $status,
                     'updated_by' => $request->user()->id
                 ]);
         }
