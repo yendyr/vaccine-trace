@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email', 
         'password', 
         'image', 
+        'employee_id', 
         'role_id', 
         'company_id', 
         'owned_by', 
@@ -70,6 +71,11 @@ class User extends Authenticatable
     public function delete_by()
     {
         return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'employee_id');
     }
 
 }
