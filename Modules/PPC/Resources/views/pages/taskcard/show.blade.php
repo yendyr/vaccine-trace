@@ -51,7 +51,7 @@
             
         </div>
         <div class="col-md-4">
-            <div>Issued Date: <strong class="text-success">{{ $Taskcard->issued_date ?? '-' }}</strong></div>
+            <div>Issued Date: <strong class="text-success">{{ Carbon\Carbon::parse($Taskcard->issued_date)->format('Y-F-d') ?? '-' }}</strong></div>
             <div>Work Area: <strong class="text-success">{{ $Taskcard->taskcard_workarea->name ?? '-' }}</strong></div>
             <div>Source: <strong class="text-success">{{ $Taskcard->source ?? '-' }}</strong></div>
             <div>Reference: <strong class="text-success">{{ $Taskcard->reference ?? '-' }}</strong></div>

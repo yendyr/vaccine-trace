@@ -21,32 +21,37 @@ class EmployeeSeeder extends Seeder
         Employee::create([
            'empid' => '001',
            'fullname' => 'Subagiyo Hong',
+           'company_id' => 1,
            'status' => 1,
            'uuid' => Str::uuid(),
-       ]); 
+        ]); 
         Employee::create([
            'empid' => '002',
            'fullname' => 'Ali Muhammad',
+           'company_id' => 1,
            'status' => 1,
            'uuid' => Str::uuid(),
-       ]); 
+        ]); 
         Employee::create([
            'empid' => '003',
            'fullname' => 'Ong Lu Ya',
+           'company_id' => 2,
            'status' => 1,
            'uuid' => Str::uuid(),
-       ]); 
+        ]); 
         Employee::create([
            'empid' => '004',
            'fullname' => 'Hong Ti',
+           'company_id' => 2,
            'status' => 1,
            'uuid' => Str::uuid(),
-       ]); 
+        ]); 
         Employee::create([
            'empid' => '005',
            'fullname' => 'Heng Tho',
+           'company_id' => 2,
            'status' => 1,
            'uuid' => Str::uuid(),
-       ]); 
+        ]); 
     }
 }

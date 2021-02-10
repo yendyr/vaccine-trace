@@ -22,8 +22,8 @@ $(document).ready(function () {
             { data: 'name', defaultContent: '-' },
             { data: 'email', defaultContent: '-' },
             { data: 'role.role_name', name: 'role.role_name', defaultContent: '-' },
-            { data: 'employee.name', name: 'employee.name', defaultContent: '-' },
-            { data: 'employee.company.name', name: 'employee.company.name', defaultContent: '-' },
+            { data: 'employee.fullname', name: 'employee.fullname', defaultContent: '-' },
+            { data: 'company.name', name: 'company.name', defaultContent: '-' },
             { data: 'status', defaultContent: '-' },
             { data: 'action', name: 'action', orderable: false },
             { data: 'password', name: 'password', visible: false },
@@ -97,7 +97,7 @@ $(document).ready(function () {
 
         $(".employee_id").val(null).trigger('change');
         if (data.employee != null){
-            $('#employee_id').append('<option value="' + data.employee_id + '" selected>' + data.employee.name + '</option>');
+            $('#employee_id').append('<option value="' + data.employee_id + '" selected>' + data.employee.fullname + '</option>');
         } 
 
         if (data.status == '<label class="label label-success">Active</label>') {

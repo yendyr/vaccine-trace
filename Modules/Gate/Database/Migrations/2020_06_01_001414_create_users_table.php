@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
 
             $table->integer('company_id')->nullable()->unsigned();
             $table->integer('role_id')->unsigned();
+            $table->integer('employee_id')->nullable();
+
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();

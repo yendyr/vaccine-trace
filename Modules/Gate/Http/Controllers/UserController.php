@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
 use Modules\GeneralSetting\Entities\Company;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\User;
 use Modules\Gate\Rules\MatchOldPassword;
+use Modules\HumanResources\Entities\Employee;
+
 use Yajra\DataTables\DataTables;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -33,13 +36,14 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::with(['role:id,role_name', 'company:id,name'])
-                ->select('id', 'username', 'email', 'name', 'password', 'role_id', 'company_id', 'status');
+            $data = User::with(['role:id,role_name', 'company:id,name', 'employee:id,fullname']);
+
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
                         return '<label class="label label-success">Active</label>';
-                    } else{
+                    } 
+                    else {
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
@@ -180,6 +184,17 @@ class UserController extends Controller
                 $status = 0;
             }
 
+            if ($request->employee_id) {
+                $employee = Employee::where('id', $request->employee_id)
+                                    ->select('company_id')
+                                    ->first();
+                                    
+                $company_id = $employee->company_id;
+            } 
+            else {
+                $company_id = null;
+            }
+
             User::where('id', $user->id)
                 ->update([
                     'username' => $request->username,
@@ -187,11 +202,13 @@ class UserController extends Controller
                     'email' => $request->email,
                     'password' => $request->password,
                     'role_id' => $request->role,
+                    'employee_id' => $request->employee_id,
+                    'company_id' => $company_id,
                     'status' => $status,
                     'updated_by' => $request->user()->id
                 ]);
         }
-        return response()->json(['success' => 'User data updated successfully.']);
+        return response()->json(['success' => 'User Data has been Updated']);
     }
 
     public function uploadImage(Request $request){

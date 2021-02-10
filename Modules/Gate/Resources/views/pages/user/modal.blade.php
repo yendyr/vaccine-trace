@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="inputModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle"></h5>
@@ -56,8 +56,8 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Active</label>
-                        <div class="col-sm-7">     
+                        <label class="col-sm-4 d-flex align-items-center">Active</label>
+                        <div class="col-sm-1">     
                             <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
                                 <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
                                 <div class="state p-primary">
