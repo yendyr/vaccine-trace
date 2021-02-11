@@ -45,18 +45,22 @@ $(document).ready(function () {
     $('.block_off').clockpicker({
         autoclose: true,
         donetext: 'Done',
+        twelvehour: false,
     });
     $('.take_off').clockpicker({
         autoclose: true,
         donetext: 'Done',
+        twelvehour: false,
     });
     $('.landing').clockpicker({
         autoclose: true,
         donetext: 'Done',
+        twelvehour: false,
     });
     $('.block_on').clockpicker({
         autoclose: true,
         donetext: 'Done',
+        twelvehour: false,
     });
 
     $('.route_from').select2({

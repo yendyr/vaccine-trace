@@ -29,7 +29,7 @@
         <th>Total Block Hour</th>
         <th>Total Cycle</th>
         <th>Total Event</th>
-        <th>Description/Remark</th>
+        <th>Remark</th>
         <th>Created By</th>
         <th>Created At</th>
         <th>Action</th>

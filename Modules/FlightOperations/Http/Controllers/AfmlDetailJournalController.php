@@ -29,8 +29,8 @@ class AfmlDetailJournalController extends Controller
         $afm_logs_id = $request->id;
         
         $data = AfmlDetailJournal::where('afm_logs_id', $afm_logs_id)
-                            ->with(['route_from:id,name',
-                                    'route_to:id,name'])
+                            ->with(['route_from:id,iata_code,name',
+                                    'route_to:id,iata_code,name'])
                             ->get();
                                                 
         $AfmLog = AfmLog::where('id', $afm_logs_id)->first();
@@ -103,12 +103,12 @@ class AfmlDetailJournalController extends Controller
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
-                'route_from' => ['required'],
-                'route_to' => ['required'],
-                'block_off' => ['required'],
-                'take_off' => ['required'],
-                'landing' => ['required'],
-                'block_on' => ['required'],
+                'route_from' => 'required',
+                'route_to' => 'required',
+                'block_off' => 'required',
+                'take_off' => 'required | after:block_off',
+                'landing' => 'required | after:take_off',
+                'block_on' => 'required | after:landing',
             ]);
     
             if ($request->status) {
@@ -128,8 +128,8 @@ class AfmlDetailJournalController extends Controller
                 'take_off' => $request->take_off,
                 'landing' => $request->landing,
                 'block_on' => $request->block_on,
-                'total_cycle' => 1,
-                'total_event' => $request->total_event,
+                'sub_total_cycle' => 1,
+                'sub_total_event' => $request->sub_total_event,
                 'description' => $request->description,
 
                 'owned_by' => $request->user()->company_id,
@@ -153,12 +153,12 @@ class AfmlDetailJournalController extends Controller
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
-                'route_from' => ['required'],
-                'route_to' => ['required'],
-                'block_off' => ['required'],
-                'take_off' => ['required'],
-                'landing' => ['required'],
-                'block_on' => ['required'],
+                'route_from' => 'required',
+                'route_to' => 'required',
+                'block_off' => 'required',
+                'take_off' => 'required | after:block_off',
+                'landing' => 'required | after:take_off',
+                'block_on' => 'required | after:landing',
             ]);
     
             if ($request->status) {
@@ -176,8 +176,8 @@ class AfmlDetailJournalController extends Controller
                     'take_off' => $request->take_off,
                     'landing' => $request->landing,
                     'block_on' => $request->block_on,
-                    'total_cycle' => 1,
-                    'total_event' => $request->total_event,
+                    'sub_total_cycle' => 1,
+                    'sub_total_event' => $request->sub_total_event,
                     'description' => $request->description,
     
                     'status' => 1,

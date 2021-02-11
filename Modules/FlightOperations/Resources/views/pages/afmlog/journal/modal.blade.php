@@ -31,7 +31,7 @@
                                 <span class="input-group-prepend">
                                     <span class="input-group-addon">UTC</span>
                                 </span>
-                                <input type="text" class="form-control @error('block_off') is-invalid @enderror" value="09:30" id="block_off" name="block_off" data-autoclose="true">
+                                <input type="text" class="form-control @error('block_off') is-invalid @enderror" value="09:30" id="block_off" name="block_off" data-autoclose="true" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
@@ -45,7 +45,7 @@
                                 <span class="input-group-prepend">
                                     <span class="input-group-addon">UTC</span>
                                 </span>
-                                <input type="text" class="form-control @error('take_off') is-invalid @enderror" value="09:30" id="take_off" name="take_off" data-autoclose="true">
+                                <input type="text" class="form-control @error('take_off') is-invalid @enderror" value="09:30" id="take_off" name="take_off" data-autoclose="true" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
@@ -59,7 +59,7 @@
                                 <span class="input-group-prepend">
                                     <span class="input-group-addon">UTC</span>
                                 </span>
-                                <input type="text" class="form-control @error('landing') is-invalid @enderror" value="09:30" id="landing" name="landing" data-autoclose="true">
+                                <input type="text" class="form-control @error('landing') is-invalid @enderror" value="09:30" id="landing" name="landing" data-autoclose="true" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
@@ -73,7 +73,7 @@
                                 <span class="input-group-prepend">
                                     <span class="input-group-addon">UTC</span>
                                 </span>
-                                <input type="text" class="form-control @error('block_on') is-invalid @enderror" value="09:30" id="block_on" name="block_on" data-autoclose="true">
+                                <input type="text" class="form-control @error('block_on') is-invalid @enderror" value="09:30" id="block_on" name="block_on" data-autoclose="true" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
