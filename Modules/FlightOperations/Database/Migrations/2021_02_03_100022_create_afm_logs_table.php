@@ -36,10 +36,10 @@ class CreateAfmLogsTable extends Migration
             $table->string('post_flight_check_person_id')->nullable();
             $table->string('post_flight_check_compressor_wash')->nullable();
 
-            $table->double('total_flight_hour');
-            $table->double('total_block_hour');
-            $table->integer('total_flight_cycle');
-            $table->integer('total_flight_event');
+            $table->double('total_flight_hour')->nullable();
+            $table->double('total_block_hour')->nullable();
+            $table->integer('total_flight_cycle')->nullable();
+            $table->integer('total_flight_event')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();
