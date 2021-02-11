@@ -100,7 +100,7 @@
                     <div id="tab-1" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                {{-- @include('ppc::pages.aircraft-configuration.item-configuration-content.content') --}}
+                                @include('flightoperations::pages.afmlog.journal.content')
                             </div>
                         </div>
                     </div>

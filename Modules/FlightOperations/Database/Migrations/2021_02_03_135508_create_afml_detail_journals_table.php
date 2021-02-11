@@ -25,6 +25,7 @@ class CreateAfmlDetailJournalsTable extends Migration
             $table->time('landing')->nullable();
             $table->time('block_on')->nullable();
             $table->string('timezone')->nullable();
+            $table->string('description')->nullable();
 
             $table->double('sub_total_flight_hour')->nullable();
             $table->double('sub_total_block_hour')->nullable();

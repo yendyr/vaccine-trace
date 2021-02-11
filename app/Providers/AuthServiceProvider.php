@@ -148,6 +148,9 @@ use Modules\FlightOperations\Entities\AfmLog;
 use Modules\FlightOperations\Policies\AfmlDetailCrewPolicy;
 use Modules\FlightOperations\Entities\AfmlDetailCrew;
 
+use Modules\FlightOperations\Policies\AfmlDetailJournalPolicy;
+use Modules\FlightOperations\Entities\AfmlDetailJournal;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -214,8 +217,9 @@ class AuthServiceProvider extends ServiceProvider
         ChartOfAccountClass::class => ChartOfAccountClassPolicy::class,
         ChartOfAccount::class => ChartOfAccountPolicy::class,
 
-        AfmLog::class =>AfmLogPolicy::class,
-        AfmlDetailCrew::class =>AfmlDetailCrewPolicy::class,
+        AfmLog::class => AfmLogPolicy::class,
+        AfmlDetailCrew::class => AfmlDetailCrewPolicy::class,
+        AfmlDetailJournal::class => AfmlDetailJournalPolicy::class,
     ];
 
     /**

@@ -24,6 +24,7 @@ class AfmlDetailJournal extends Model
         'landing',
         'block_on',
         'timezone',
+        'description',
 
         'sub_total_flight_hour',
         'sub_total_block_hour',
@@ -69,7 +70,7 @@ class AfmlDetailJournal extends Model
 
     public function route_to()
     {
-        return $this->belongsTo(\Modules\GeneralSetting\Entities\Airport::class, 'route_from');
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Airport::class, 'route_to');
     }
 
     public function fuel_remaining_unit()

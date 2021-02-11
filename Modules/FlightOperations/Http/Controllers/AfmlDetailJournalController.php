@@ -3,7 +3,7 @@
 namespace Modules\FlightOperations\Http\Controllers;
 
 use Modules\FlightOperations\Entities\AfmLog;
-use Modules\FlightOperations\Entities\AfmlDetailCrew;
+use Modules\FlightOperations\Entities\AfmlDetailJournal;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class AfmlDetailCrewController extends Controller
+class AfmlDetailJournalController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(AfmlDetailCrew::class);
+        $this->authorizeResource(AfmlDetailJournal::class);
         $this->middleware('auth');
     }
 
@@ -28,22 +28,22 @@ class AfmlDetailCrewController extends Controller
     {
         $afm_logs_id = $request->id;
         
-        $data = AfmlDetailCrew::where('afm_logs_id', $afm_logs_id)
-                            ->with(['employee:id,fullname',
-                                    'in_flight_role:id,role_name,role_name_alias'])
+        $data = AfmlDetailJournal::where('afm_logs_id', $afm_logs_id)
+                            ->with(['route_from:id,name',
+                                    'route_to:id,name'])
                             ->get();
                                                 
         $AfmLog = AfmLog::where('id', $afm_logs_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
-                    return '<label class="label label-success">Active</label>';
-                } else{
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
+            // ->addColumn('status', function($row){
+            //     if ($row->status == 1){
+            //         return '<label class="label label-success">Active</label>';
+            //     } else{
+            //         return '<label class="label label-danger">Inactive</label>';
+            //     }
+            // })
             ->addColumn('creator_name', function($row){
                 return $row->creator->name ?? '-';
             })
@@ -53,12 +53,12 @@ class AfmlDetailCrewController extends Controller
             ->addColumn('action', function($row) {
                 $noAuthorize = true;
 
-                if(Auth::user()->can('update', AfmlDetailCrew::class)) {
+                if(Auth::user()->can('update', AfmlDetailJournal::class)) {
                     $updateable = 'button';
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', AfmlDetailCrew::class)) {
+                if(Auth::user()->can('delete', AfmlDetailJournal::class)) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
@@ -103,8 +103,12 @@ class AfmlDetailCrewController extends Controller
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
-                'employee_id' => ['required'],
-                'role_id' => ['required'],
+                'route_from' => ['required'],
+                'route_to' => ['required'],
+                'block_off' => ['required'],
+                'take_off' => ['required'],
+                'landing' => ['required'],
+                'block_on' => ['required'],
             ]);
     
             if ($request->status) {
@@ -114,37 +118,47 @@ class AfmlDetailCrewController extends Controller
                 $status = 0;
             }
     
-            AfmlDetailCrew::create([
+            AfmlDetailJournal::create([
                 'uuid' =>  Str::uuid(),
     
                 'afm_logs_id' => $request->afm_logs_id,
-                'employee_id' => $request->employee_id,
-                'role_id' => $request->role_id,
+                'route_from' => $request->route_from,
+                'route_to' => $request->route_to,
+                'block_off' => $request->block_off,
+                'take_off' => $request->take_off,
+                'landing' => $request->landing,
+                'block_on' => $request->block_on,
+                'total_cycle' => 1,
+                'total_event' => $request->total_event,
                 'description' => $request->description,
 
                 'owned_by' => $request->user()->company_id,
-                'status' => $status,
+                'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
     
-            return response()->json(['success' => 'Crew Data has been Added']);
+            return response()->json(['success' => 'Journal Data has been Added']);
         }
         else {
             return response()->json(['error' => "This AFML and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
-    public function update(Request $request, AfmlDetailCrew $AfmlDetailCrew)
+    public function update(Request $request, AfmlDetailJournal $AfmlDetailJournal)
     {
-        $currentRow = AfmlDetailCrew::where('id', $AfmlDetailCrew->id)
+        $currentRow = AfmlDetailJournal::where('id', $AfmlDetailJournal->id)
                                                 ->first();
 
         $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
-                'employee_id' => ['required'],
-                'role_id' => ['required'],
+                'route_from' => ['required'],
+                'route_to' => ['required'],
+                'block_off' => ['required'],
+                'take_off' => ['required'],
+                'landing' => ['required'],
+                'block_on' => ['required'],
             ]);
     
             if ($request->status) {
@@ -156,25 +170,30 @@ class AfmlDetailCrewController extends Controller
             
             $currentRow
                 ->update([
-                    'afm_logs_id' => $request->afm_logs_id,
-                    'employee_id' => $request->employee_id,
-                    'role_id' => $request->role_id,
+                    'route_from' => $request->route_from,
+                    'route_to' => $request->route_to,
+                    'block_off' => $request->block_off,
+                    'take_off' => $request->take_off,
+                    'landing' => $request->landing,
+                    'block_on' => $request->block_on,
+                    'total_cycle' => 1,
+                    'total_event' => $request->total_event,
                     'description' => $request->description,
     
-                    'status' => $status,
+                    'status' => 1,
                     'updated_by' => Auth::user()->id,
             ]);
             
-            return response()->json(['success' => 'Crew Data has been Updated']);
+            return response()->json(['success' => 'Journal Data has been Updated']);
         }
         else {
             return response()->json(['error' => "This AFML and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
-    public function destroy(AfmlDetailCrew $AfmlDetailCrew)
+    public function destroy(AfmlDetailJournal $AfmlDetailJournal)
     {
-        $currentRow = AfmlDetailCrew::where('id', $AfmlDetailCrew->id)->first();
+        $currentRow = AfmlDetailJournal::where('id', $AfmlDetailJournal->id)->first();
         $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
@@ -183,8 +202,8 @@ class AfmlDetailCrewController extends Controller
                         'deleted_by' => Auth::user()->id,
                     ]);
 
-            AfmlDetailCrew::destroy($AfmlDetailCrew->id);
-            return response()->json(['success' => 'Crew Data has been Deleted']);
+            AfmlDetailJournal::destroy($AfmlDetailJournal->id);
+            return response()->json(['success' => 'Journal Data has been Deleted']);
         }
         else {
             return response()->json(['error' => "This AFML and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
