@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class AfmlDetailJournalController extends Controller
 {
@@ -29,8 +30,8 @@ class AfmlDetailJournalController extends Controller
         $afm_logs_id = $request->id;
         
         $data = AfmlDetailJournal::where('afm_logs_id', $afm_logs_id)
-                            ->with(['route_from:id,iata_code,name',
-                                    'route_to:id,iata_code,name'])
+                            ->with(['from_airport:id,iata_code,name',
+                                    'to_airport:id,iata_code,name'])
                             ->get();
                                                 
         $AfmLog = AfmLog::where('id', $afm_logs_id)->first();
@@ -60,12 +61,13 @@ class AfmlDetailJournalController extends Controller
                 }
                 if(Auth::user()->can('delete', AfmlDetailJournal::class)) {
                     $deleteable = true;
+                    $deleteButtonClass = 'deleteButtonJournal';
                     $deleteId = $row->id;
                     $noAuthorize = false;
                 }
 
                 if ($noAuthorize == false) {
-                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteButtonClass', 'deleteId']));
                 }
                 else {
                     return '<p class="text-muted">Not Authorized</p>';
@@ -111,12 +113,20 @@ class AfmlDetailJournalController extends Controller
                 'block_on' => 'required | after:landing',
             ]);
     
-            if ($request->status) {
-                $status = 1;
-            } 
-            else {
-                $status = 0;
-            }
+            // if ($request->status) {
+            //     $status = 1;
+            // } 
+            // else {
+            //     $status = 0;
+            // }
+
+            $take_off = Carbon::parse($request->take_off);
+            $landing = Carbon::parse($request->landing);
+            $sub_total_flight_hour = gmdate('H:i', $landing->diffInSeconds($take_off));
+
+            $block_off = Carbon::parse($request->block_off);
+            $block_on = Carbon::parse($request->block_on);
+            $sub_total_block_hour = gmdate('H:i', $block_on->diffInSeconds($block_off));
     
             AfmlDetailJournal::create([
                 'uuid' =>  Str::uuid(),
@@ -128,8 +138,12 @@ class AfmlDetailJournalController extends Controller
                 'take_off' => $request->take_off,
                 'landing' => $request->landing,
                 'block_on' => $request->block_on,
+
+                'sub_total_flight_hour' => $sub_total_flight_hour,
+                'sub_total_block_hour' => $sub_total_block_hour,
                 'sub_total_cycle' => 1,
                 'sub_total_event' => $request->sub_total_event,
+
                 'description' => $request->description,
 
                 'owned_by' => $request->user()->company_id,
@@ -161,12 +175,20 @@ class AfmlDetailJournalController extends Controller
                 'block_on' => 'required | after:landing',
             ]);
     
-            if ($request->status) {
-                $status = 1; 
-            } 
-            else {
-                $status = 0;
-            }
+            // if ($request->status) {
+            //     $status = 1; 
+            // } 
+            // else {
+            //     $status = 0;
+            // }
+
+            $take_off = Carbon::parse($request->take_off);
+            $landing = Carbon::parse($request->landing);
+            $sub_total_flight_hour = gmdate('H:i', $landing->diffInSeconds($take_off));
+
+            $block_off = Carbon::parse($request->block_off);
+            $block_on = Carbon::parse($request->block_on);
+            $sub_total_block_hour = gmdate('H:i', $block_on->diffInSeconds($block_off));
             
             $currentRow
                 ->update([
@@ -176,8 +198,12 @@ class AfmlDetailJournalController extends Controller
                     'take_off' => $request->take_off,
                     'landing' => $request->landing,
                     'block_on' => $request->block_on,
+                    
+                    'sub_total_flight_hour' => $sub_total_flight_hour,
+                    'sub_total_block_hour' => $sub_total_block_hour,
                     'sub_total_cycle' => 1,
                     'sub_total_event' => $request->sub_total_event,
+
                     'description' => $request->description,
     
                     'status' => 1,

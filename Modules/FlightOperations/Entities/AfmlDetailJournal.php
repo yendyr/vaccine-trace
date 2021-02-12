@@ -63,12 +63,12 @@ class AfmlDetailJournal extends Model
         return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
     }
 
-    public function route_from()
+    public function from_airport()
     {
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Airport::class, 'route_from');
     }
 
-    public function route_to()
+    public function to_airport()
     {
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Airport::class, 'route_to');
     }

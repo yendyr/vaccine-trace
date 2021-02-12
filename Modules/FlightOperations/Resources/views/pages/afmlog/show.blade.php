@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row m-b m-t">
-        <div class="col d-flex align-items-start">
+        <div class="col-md-2 d-flex align-items-start">
             <img src="{{ URL::asset('assets/afml.png') }}" style="width: 50%; height: auto;">
         </div>
         <div class="col">   

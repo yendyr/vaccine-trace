@@ -1,6 +1,8 @@
 <div class="col fadeIn" style="animation-duration: 1.5s">
-    @component('components.delete-modal', ['name' => 'Flight Journal Datalist'])
-    @endcomponent
+    @include('components.delete-modal', 
+                    ['deleteModalId' => 'deleteModalJournal',
+                    'deleteFormId' => 'deleteFormJournal',
+                    'deleteModalButtonId' => 'deleteModalButtonJournal'])
 
     @include('flightoperations::pages.afmlog.journal.modal')
     

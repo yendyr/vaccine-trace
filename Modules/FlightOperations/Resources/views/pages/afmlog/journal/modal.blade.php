@@ -84,8 +84,8 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label>Event Count</label>
-                            <input type="number" min=1 value=1 class="form-control @error('total_event') is-invalid @enderror" name="total_event" id="total_event">
-                            <div class="invalid-feedback-total_event text-danger font-italic"></div>
+                            <input type="number" min=1 value=1 class="form-control @error('sub_total_event') is-invalid @enderror" name="sub_total_event" id="sub_total_event">
+                            <div class="invalid-feedback-sub_total_event text-danger font-italic"></div>
                         </div>
 
                         <div class="col-md-6">

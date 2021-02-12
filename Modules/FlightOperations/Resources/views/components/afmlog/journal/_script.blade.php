@@ -11,6 +11,10 @@ $(document).ready(function () {
     var inputFormId = '#inputFormJournal';
     var modalTitleId = '#modalTitleJournal';
     var saveButtonId = '#saveButtonJournal';
+    var deleteModalId = '#deleteModalJournal';
+    var deleteFormId = '#deleteFormJournal';
+    var deleteModalButtonId = '#deleteModalButtonJournal';
+    var deleteButtonClass = '.deleteButtonJournal';
 
     var datatableObject = $(tableId).DataTable({
         pageLength: 25,
@@ -21,16 +25,20 @@ $(document).ready(function () {
             url: actionUrl + "/?id=" + $('#afm_logs_id').val(),
         },
         columns: [
-            { data: 'route_from.name', defaultContent: '-' },
-            { data: 'route_to.name', defaultContent: '-' },
+            { data: 'from_airport.name', defaultContent: '-' },
+            { data: 'to_airport.name', defaultContent: '-' },
             { data: 'block_off', defaultContent: '-' },
             { data: 'take_off', defaultContent: '-' },
             { data: 'landing', defaultContent: '-' },
             { data: 'block_on', defaultContent: '-' },
-            { data: 'sub_total_flight_hour', defaultContent: '-' },
-            { data: 'sub_total_block_hour', defaultContent: '-' },
-            { data: 'sub_total_cycle', defaultContent: '-' },
-            { data: 'sub_total_event', defaultContent: '-' },
+            { data: 'sub_total_flight_hour', "render": function ( data, type, row, meta ) {
+                            return '<label class="label label-success">' + row.sub_total_flight_hour + '</label>'; } },
+            { data: 'sub_total_block_hour', "render": function ( data, type, row, meta ) {
+                            return '<label class="label label-success">' + row.sub_total_block_hour + '</label>'; } },
+            { data: 'sub_total_cycle', "render": function ( data, type, row, meta ) {
+                            return '<label class="label label-success">' + row.sub_total_cycle + '</label>'; } },
+            { data: 'sub_total_event', "render": function ( data, type, row, meta ) {
+                            return '<label class="label label-success">' + row.sub_total_event + '</label>'; } },
             { data: 'description', defaultContent: '-' },
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
@@ -121,15 +129,15 @@ $(document).ready(function () {
         $('#take_off').val(data.take_off);
         $('#landing').val(data.landing);
         $('#block_on').val(data.block_on);
-        $('#total_event').val(data.total_event);
+        $('#sub_total_event').val(data.sub_total_event);
         $('#description').val(data.description);
 
         if (data.route_from != null) {
-            $('#route_from').append('<option value="' + data.route_from + '" selected>' + data.route_from.iata_code + ' | ' + data.route_from.name + '</option>');
+            $('#route_from').append('<option value="' + data.route_from + '" selected>' + data.from_airport.iata_code + ' | ' + data.from_airport.name + '</option>');
         }
 
         if (data.route_to != null) {
-            $('#route_to').append('<option value="' + data.route_to + '" selected>' + data.route_to.iata_code + ' | ' + data.route_to.name + '</option>');
+            $('#route_to').append('<option value="' + data.route_to + '" selected>' + data.to_airport.iata_code + ' | ' + data.to_airport.name + '</option>');
         }   
 
         $(saveButtonId).val("edit");
@@ -141,14 +149,59 @@ $(document).ready(function () {
 
 
 
+
+    // ----------------- "SUBMIT" BUTTON  SCRIPT ------------- //
     $(inputFormId).on('submit', function (event) {
         submitButtonProcessDynamic (tableId, inputFormId, inputModalId); 
     });
+    // ----------------- END "SUBMIT" BUTTON  SCRIPT ------------- //
 
 
 
 
-    deleteButtonProcess (datatableObject, tableId, actionUrl);
+
+
+    // ----------------- "DELETE" BUTTON  SCRIPT ------------- //
+    datatableObject.on('click', deleteButtonClass, function () {
+        rowId = $(this).val();
+        $(deleteModalId).modal('show');
+        $(deleteFormId).attr('action', actionUrl + '/' + rowId);
+    });
+
+    $(deleteFormId).on('submit', function (e) {
+        e.preventDefault();
+        let url_action = $(this).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            type: "DELETE",
+            beforeSend:function(){
+                $(deleteModalButtonId).text('Deleting...');
+                $(deleteModalButtonId).prop('disabled', true);
+            },
+            error: function(data){
+                if (data.error) {
+                    generateToast ('error', data.error);
+                }
+            },
+            success:function(data){
+                if (data.success){
+                    generateToast ('success', data.success);
+                }
+            },
+            complete: function(data) {
+                $(deleteModalButtonId).text('Delete');
+                $(deleteModalId).modal('hide');
+                $(deleteModalButtonId).prop('disabled', false);
+                $(tableId).DataTable().ajax.reload();
+            }
+        });
+    });
+    // ----------------- END "DELETE" BUTTON  SCRIPT ------------- //
 
 
 
