@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
+                                <label class="col-sm-5 d-flex align-items-center">Remark</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                                     <div class="invalid-feedback-description text-danger font-italic"></div>
@@ -93,7 +93,7 @@
                             <div class="form-group row" id="initial_start_date">
                                 <div class="col-md-12 input-group date">
                                     <span class="input-group-addon">Initial Start Date</span>
-                                    <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date">
+                                    <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" readonly>
                                     <div class="invalid-feedback-initial_start_date text-danger font-italic"></div>
                                 </div>
                             </div>

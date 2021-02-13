@@ -23,7 +23,7 @@
         <th>Item Name</th>
         <th>Serial Number</th>
         <th>Alias Name</th>
-        <th>Description/Remark</th>
+        <th>Remark</th>
         <th>Highlighted Item</th>
         <th>Parent Item/Group PN</th>
         <th>Parent Item/Group Name & Alias</th>

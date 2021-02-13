@@ -74,9 +74,10 @@ $(document).ready(function () {
 
 
 
+
+
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {
-        clearForm();
         showCreateModal ('Add New Item/Component', inputFormId, actionUrl);
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
@@ -84,9 +85,10 @@ $(document).ready(function () {
 
 
 
+
+
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
     datatableObject.on('click', '.editBtn', function () {
-        clearForm();
         $('#modalTitle').html("Edit Item/Component");
         $(inputFormId).trigger("reset");                
         rowId= $(this).val();
@@ -195,15 +197,6 @@ $(document).ready(function () {
         });
     });
     // ----------------- END "APPROVE" BUTTON SCRIPT ------------- //
-
-
-
-
-    function clearForm()
-    {
-        $('.item_id').empty().trigger("change");
-        $('.parent_coding').empty().trigger("change");
-    }
 });
 </script>
 @endpush

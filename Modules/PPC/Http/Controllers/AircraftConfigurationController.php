@@ -8,6 +8,7 @@ use Modules\PPC\Entities\AircraftConfigurationApproval;
 use Modules\PPC\Entities\AircraftConfigurationTemplate;
 use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 use Modules\SupplyChain\Entities\Warehouse;
+use Modules\SupplyChain\Entities\ItemStock;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -168,11 +169,11 @@ class AircraftConfigurationController extends Controller
             ]);
                 
             foreach ($detail_source->template_details as $template_detail) {
-                $newDetail = AircraftConfigurationDetail::create([
+                $newDetail = ItemStock::create([
                     'uuid' =>  Str::uuid(),
 
                     'coding' => $template_detail->coding,
-                    'aircraft_configuration_id' => $AircraftConfiguration->id,
+                    'warehouse_id' => $AircraftConfiguration->warehouse->id,
                     'item_id' => $template_detail->item_id,
                     'alias_name' => $template_detail->alias_name,
                     'description' => $template_detail->description,
@@ -184,20 +185,46 @@ class AircraftConfigurationController extends Controller
                     'created_by' => $request->user()->id,
                 ]);
                 $newDetail->update([
-                    'coding' => $newDetail->aircraft_configuration_id . '-' . Str::after($newDetail->coding, '-')
+                    'coding' => $newDetail->warehouse_id . '-' . Str::after($newDetail->coding, '-')
                 ]);
                 if ($newDetail->parent_coding) {
                     $newDetail->update([
-                        'parent_coding' => $newDetail->aircraft_configuration_id . '-' . Str::after($newDetail->parent_coding, '-')
+                        'parent_coding' => $newDetail->warehouse_id . '-' . Str::after($newDetail->parent_coding, '-')
                     ]);
                 }
             }
+            // foreach ($detail_source->template_details as $template_detail) {
+            //     $newDetail = AircraftConfigurationDetail::create([
+            //         'uuid' =>  Str::uuid(),
+
+            //         'coding' => $template_detail->coding,
+            //         'aircraft_configuration_id' => $AircraftConfiguration->id,
+            //         'item_id' => $template_detail->item_id,
+            //         'alias_name' => $template_detail->alias_name,
+            //         'description' => $template_detail->description,
+            //         'highlight' => $template_detail->highlight,
+            //         'parent_coding' => $template_detail->parent_coding,
+        
+            //         'owned_by' => $request->user()->company_id,
+            //         'status' => $template_detail->status,
+            //         'created_by' => $request->user()->id,
+            //     ]);
+            //     $newDetail->update([
+            //         'coding' => $newDetail->aircraft_configuration_id . '-' . Str::after($newDetail->coding, '-')
+            //     ]);
+            //     if ($newDetail->parent_coding) {
+            //         $newDetail->update([
+            //             'parent_coding' => $newDetail->aircraft_configuration_id . '-' . Str::after($newDetail->parent_coding, '-')
+            //         ]);
+            //     }
+            // }
             DB::commit();
 
             return response()->json(['success' => 'Aircraft Configuration Data has been Saved',
                                     'id' => $AircraftConfiguration->id]);
         }
         else {
+            DB::beginTransaction();
             $AircraftConfiguration = AircraftConfiguration::create([
                 'uuid' =>  Str::uuid(),
                 'code' => $request->code,
@@ -230,6 +257,20 @@ class AircraftConfigurationController extends Controller
                 'status' => $status,
                 'created_by' => $request->user()->id,
             ]);
+
+            $AircraftConfiguration->warehouse()->create([
+                'uuid' =>  Str::uuid(),
+
+                'code' => $AircraftConfiguration->id . '/' . $request->registration_number . '/' . $request->serial_number,
+                'name' => $AircraftConfiguration->id . '/' . $request->registration_number . '/' . $request->serial_number,
+                'description' => $AircraftConfiguration->id . '/' . $request->registration_number . '/' . $request->serial_number,
+                'is_aircraft' => 1,
+
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
+                'created_by' => $request->user()->id,
+            ]);
+            DB::commit();
     
             return response()->json(['success' => 'Aircraft Configuration Data has been Saved',
                                     'id' => $AircraftConfiguration->id]);

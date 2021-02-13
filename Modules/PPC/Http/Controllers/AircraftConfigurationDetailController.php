@@ -4,6 +4,7 @@ namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Entities\AircraftConfigurationDetail;
+use Modules\SupplyChain\Entities\ItemStock;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -21,22 +22,22 @@ class AircraftConfigurationDetailController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(AircraftConfigurationDetail::class, 'configuration_detail');
+        // $this->authorizeResource(AircraftConfigurationDetail::class, 'configuration_detail');
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         $aircraft_configuration_id = $request->id;
-        
-        $data = AircraftConfigurationDetail::where('aircraft_configuration_id', $aircraft_configuration_id)
-                                                ->with(['item:id,code,name',
-                                                        'item_group:id,item_id,alias_name,coding,parent_coding'])
-                                                ->orderBy('created_at','asc')
-                                                ->get();
-                                                
         $AircraftConfiguration = AircraftConfiguration::where('id', $aircraft_configuration_id)->first();
-
+        $warehouse_id = $AircraftConfiguration->warehouse->id;
+        
+        $data = ItemStock::where('warehouse_id', $warehouse_id)
+                        ->with(['item:id,code,name',
+                                'item_group:id,item_id,alias_name,coding,parent_coding'])
+                        ->orderBy('created_at','desc')
+                        ->get();
+                                                
         if ($AircraftConfiguration->approvals()->count() == 0) {
             return Datatables::of($data)
             ->addColumn('status', function($row){
@@ -143,13 +144,16 @@ class AircraftConfigurationDetailController extends Controller
     public function tree(Request $request)
     {
         $aircraft_configuration_id = $request->id;
+        $AircraftConfiguration = AircraftConfiguration::where('id', $aircraft_configuration_id)->first();
+        $warehouse_id = $AircraftConfiguration->warehouse->id;
         
-        $datas = AircraftConfigurationDetail::where('aircraft_configuration_id', $aircraft_configuration_id)
-                                                ->with(['item:id,code,name',
-                                                        'item_group:id,item_id,alias_name'])
-                                                ->where('aircraft_configuration_details.status', 1)
-                                                ->orderBy('created_at','asc')
-                                                ->get();
+        $datas = ItemStock::where('warehouse_id', $warehouse_id)
+                                ->with(['item:id,code,name',
+                                        'item_group:id,item_id,alias_name,coding,parent_coding'])
+                                ->where('item_stocks.status', 1)
+                                ->orderBy('created_at','asc')
+                                ->get();
+
         $response = [];
         foreach($datas as $data) {
             if ($data->parent_coding) {
@@ -172,6 +176,7 @@ class AircraftConfigurationDetailController extends Controller
     public function store(Request $request)
     {
         $AircraftConfiguration = AircraftConfiguration::where('id', $request->aircraft_configuration_id)->first();
+        $warehouse_id = $AircraftConfiguration->warehouse->id;
 
         if ($AircraftConfiguration->approvals()->count() == 0) {
             $request->validate([
@@ -195,10 +200,10 @@ class AircraftConfigurationDetailController extends Controller
             $initial_start_date = $request->initial_start_date;
     
             DB::beginTransaction();
-            $AircraftConfigurationDetail = AircraftConfigurationDetail::create([
+            $AircraftConfigurationDetail = ItemStock::create([
                 'uuid' =>  Str::uuid(),
     
-                'aircraft_configuration_id' => $request->aircraft_configuration_id,
+                'warehouse_id' => $warehouse_id,
                 'item_id' => $request->item_id,
                 'serial_number' => $request->serial_number,
                 'alias_name' => $request->alias_name,
@@ -216,7 +221,7 @@ class AircraftConfigurationDetailController extends Controller
                 'created_by' => $request->user()->id,
             ]);
             $AircraftConfigurationDetail->update([
-                'coding' => $AircraftConfigurationDetail->aircraft_configuration_id . '-' . $AircraftConfigurationDetail->id,
+                'coding' => $AircraftConfigurationDetail->warehouse_id . '-' . $AircraftConfigurationDetail->id,
             ]);
             DB::commit();
     
@@ -227,18 +232,13 @@ class AircraftConfigurationDetailController extends Controller
         }
     }
 
-    public function show(AircraftConfigurationDetail $AircraftConfigurationDetail)
+    public function update(Request $request, ItemStock $ConfigurationDetail)
     {
-        return view('ppc::pages.aircraft-configuration-detail.show', compact('AircraftConfigurationDetail'));
-    }
+        $currentRow = ItemStock::where('id', $ConfigurationDetail->id)
+                                ->with('all_childs')
+                                ->first();
 
-    public function update(Request $request, AircraftConfigurationDetail $ConfigurationDetail)
-    {
-        $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)
-                                                ->with('all_childs')
-                                                ->first();
-
-        $AircraftConfiguration = AircraftConfiguration::where('id', $currentRow->aircraft_configuration_id)->first();
+        $AircraftConfiguration = AircraftConfiguration::where('id', $currentRow->warehouse->aircraft_configuration->id)->first();
 
         if ($AircraftConfiguration->approvals()->count() == 0) {
             $request->validate([
@@ -318,9 +318,9 @@ class AircraftConfigurationDetailController extends Controller
         }
     }
 
-    public function destroy(AircraftConfigurationDetail $ConfigurationDetail)
+    public function destroy(ItemStock $ConfigurationDetail)
     {
-        $currentRow = AircraftConfigurationDetail::where('id', $ConfigurationDetail->id)->first();
+        $currentRow = ItemStock::where('id', $ConfigurationDetail->id)->first();
         $AircraftConfiguration = AircraftConfiguration::where('id', $currentRow->aircraft_configuration_id)->first();
 
         if ($AircraftConfiguration->approvals()->count() == 0) {
@@ -329,7 +329,7 @@ class AircraftConfigurationDetailController extends Controller
                         'deleted_by' => Auth::user()->id,
                     ]);
 
-            AircraftConfigurationDetail::destroy($ConfigurationDetail->id);
+            ItemStock::destroy($ConfigurationDetail->id);
             return response()->json(['success' => 'Item/Component Data has been Deleted']);
         }
         else {
@@ -342,15 +342,19 @@ class AircraftConfigurationDetailController extends Controller
         $search = $request->term;
         $aircraft_configuration_id = $request->aircraft_configuration_id;
 
-        $query = DB::table('aircraft_configuration_details')
-                    ->leftJoin('items', 'aircraft_configuration_details.item_id', '=', 'items.id')
-                    ->where('aircraft_configuration_details.aircraft_configuration_id', $aircraft_configuration_id)
-                    ->where('aircraft_configuration_details.status', '1')
-                    ->select('aircraft_configuration_details.id', 'aircraft_configuration_details.coding', 'aircraft_configuration_details.alias_name', 'items.code', 'items.name');
+        $AircraftConfiguration = AircraftConfiguration::where('id', $aircraft_configuration_id)->first();
+
+        $warehouse_id = $AircraftConfiguration->warehouse->id;
+
+        $query = DB::table('item_stocks')
+                    ->leftJoin('items', 'item_stocks.item_id', '=', 'items.id')
+                    ->where('item_stocks.warehouse_id', $warehouse_id)
+                    ->where('item_stocks.status', '1')
+                    ->select('item_stocks.id', 'item_stocks.coding', 'item_stocks.alias_name', 'items.code', 'items.name');
 
         if($search != ''){
             $query = $query->where('items.name', 'like', '%' .$search. '%')
-                            ->orWhere('items.code', 'like', '%' .$search. '%');
+                        ->orWhere('items.code', 'like', '%' .$search. '%');
         }
         $AircraftConfigurationDetails = $query->get();
 
@@ -361,8 +365,6 @@ class AircraftConfigurationDetailController extends Controller
                 "text" => $AircraftConfigurationDetail->code . ' | ' . $AircraftConfigurationDetail->name . ' | ' . $AircraftConfigurationDetail->alias_name
             ];
         }
-
         return response()->json($response);
     }
-
 }

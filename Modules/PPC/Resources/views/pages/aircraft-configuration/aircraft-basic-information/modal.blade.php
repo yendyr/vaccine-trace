@@ -30,7 +30,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Serial Number</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number" value="{{ $AircraftConfiguration->serial_number }}">
+                                    <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="aircraft_serial_number" value="{{ $AircraftConfiguration->serial_number }}">
                                     <div class="invalid-feedback-serial_number text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" value="{{ $AircraftConfiguration->description }}">
+                                    <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="aircraft_description" value="{{ $AircraftConfiguration->description }}">
                                     <div class="invalid-feedback-description text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                 <label class="col-sm-5 d-flex align-items-center">Active</label>
                                 <div class="col-sm-7">     
                                     <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
-                                        <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" @if($AircraftConfiguration->status == 1) checked @endif />
+                                        <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="aircraft_status" @if($AircraftConfiguration->status == 1) checked @endif />
                                         <div class="state p-primary">
                                             <i class="icon fa fa-check"></i>
                                             <label></label>
@@ -178,15 +178,15 @@
                                     <div class="row">
                                         <div class="col">
                                             <label>Initial Flight Hour:</label>
-                                            <input type="number" min="0" class="form-control @error('initial_flight_hour') is-invalid @enderror" name="initial_flight_hour" id="initial_flight_hour" value="{{ $AircraftConfiguration->initial_flight_hour }}">
+                                            <input type="number" min="0" class="form-control @error('initial_flight_hour') is-invalid @enderror" name="initial_flight_hour" id="aircraft_initial_flight_hour" value="{{ $AircraftConfiguration->initial_flight_hour }}">
                                         </div>
                                         <div class="col">
                                             <label>Initial Flight Cycle:</label>
-                                            <input type="number" min="0" class="form-control @error('initial_flight_cycle') is-invalid @enderror" name="initial_flight_cycle" id="initial_flight_cycle" value="{{ $AircraftConfiguration->initial_flight_cycle }}">
+                                            <input type="number" min="0" class="form-control @error('initial_flight_cycle') is-invalid @enderror" name="initial_flight_cycle" id="aircraft_initial_flight_cycle" value="{{ $AircraftConfiguration->initial_flight_cycle }}">
                                         </div>
                                         <div class="col">
                                             <label>Initial Flight Event:</label>
-                                            <input type="number" min="0" class="form-control @error('initial_flight_event') is-invalid @enderror" name="initial_flight_event" id="initial_flight_event" value="{{ $AircraftConfiguration->initial_flight_event }}">
+                                            <input type="number" min="0" class="form-control @error('initial_flight_event') is-invalid @enderror" name="initial_flight_event" id="aircraft_initial_flight_event" value="{{ $AircraftConfiguration->initial_flight_event }}">
                                         </div>
                                         
                                         <div class="col-md-4">
@@ -194,7 +194,7 @@
                                             <label>Initial Operation Date:</label>
                                             <div class="input-group date">
                                                 <span class="input-group-addon">Date</span>
-                                                <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" value="{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-m-d') }}" readonly="true">
+                                                <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="aircraft_initial_start_date" value="{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-m-d') }}" readonly="true">
                                             </div>
                                             </div>
                                         </div>
