@@ -232,5 +232,12 @@
             });
         });
     }
+
+    function clearForm(inputFormId) {
+        this.inputFormId = inputFormId;
+
+        $(inputFormId).trigger("reset");
+        $('select').not('[name$="_length"]').val(null).trigger('change');
+    }
 </script>
 @endpush

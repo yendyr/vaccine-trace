@@ -3,7 +3,6 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\AircraftConfiguration;
-use Modules\PPC\Entities\AircraftConfigurationDetail;
 use Modules\SupplyChain\Entities\ItemStock;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -22,7 +21,7 @@ class AircraftConfigurationDetailController extends Controller
 
     public function __construct()
     {
-        // $this->authorizeResource(AircraftConfigurationDetail::class, 'configuration_detail');
+        // $this->authorizeResource(AircraftConfiguration::class, 'configuration_detail');
         $this->middleware('auth');
     }
 
@@ -75,12 +74,12 @@ class AircraftConfigurationDetailController extends Controller
             ->addColumn('action', function($row) {
                 $noAuthorize = true;
 
-                if(Auth::user()->can('update', AircraftConfigurationDetail::class)) {
+                if(Auth::user()->can('update', AircraftConfiguration::class)) {
                     $updateable = 'button';
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', AircraftConfigurationDetail::class)) {
+                if(Auth::user()->can('delete', AircraftConfiguration::class)) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;

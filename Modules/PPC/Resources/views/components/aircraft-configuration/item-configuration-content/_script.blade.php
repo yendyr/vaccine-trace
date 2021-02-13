@@ -89,8 +89,9 @@ $(document).ready(function () {
 
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
     datatableObject.on('click', '.editBtn', function () {
+        clearForm(inputFormId);
+
         $('#modalTitle').html("Edit Item/Component");
-        $(inputFormId).trigger("reset");                
         rowId= $(this).val();
         let tr = $(this).closest('tr');
         let data = datatableObject.row(tr).data();
@@ -118,7 +119,7 @@ $(document).ready(function () {
             $('.parent_coding').append('<option value="' + data.parent_coding + '" selected>' + data.parent_item_code + ' | ' + data.parent_item_name + '</option>');
         }   
 
-        if (data.highlight == '<label class="label label-success">Active</label>') {
+        if (data.highlight == '<label class="label label-success">Yes</label>') {
             $('#highlight').prop('checked', true);
         }
         else {

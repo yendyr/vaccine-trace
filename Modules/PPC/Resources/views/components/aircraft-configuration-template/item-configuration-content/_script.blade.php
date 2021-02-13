@@ -71,7 +71,7 @@ $(document).ready(function () {
 
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {
-        clearForm();
+        clearForm(inputFormId);
         showCreateModal ('Add New Item/Component', inputFormId, actionUrl);
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
@@ -81,7 +81,8 @@ $(document).ready(function () {
 
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
     datatableObject.on('click', '.editBtn', function () {
-        clearForm();
+        clearForm(inputFormId);
+
         $('#modalTitle').html("Edit Item/Component");
         $(inputFormId).trigger("reset");                
         rowId= $(this).val();
@@ -128,11 +129,6 @@ $(document).ready(function () {
 
     deleteButtonProcess (datatableObject, tableId, actionUrl);
 
-    function clearForm()
-    {
-        $('.item_id').val(null).empty().trigger("change");
-        $('.parent_coding').val(null).empty().trigger("change");
-    }
 });
 </script>
 @endpush
