@@ -32,9 +32,9 @@ $(document).ready(function () {
             { data: 'landing', defaultContent: '-' },
             { data: 'block_on', defaultContent: '-' },
             { data: 'sub_total_flight_hour', "render": function ( data, type, row, meta ) {
-                            return '<label class="label label-success">' + row.sub_total_flight_hour + '</label>'; } },
+                            return '<label class="label label-success">' + (row.sub_total_flight_hour).slice(0,-3) + '</label>'; } },
             { data: 'sub_total_block_hour', "render": function ( data, type, row, meta ) {
-                            return '<label class="label label-success">' + row.sub_total_block_hour + '</label>'; } },
+                            return '<label class="label label-success">' + (row.sub_total_block_hour).slice(0,-3) + '</label>'; } },
             { data: 'sub_total_cycle', "render": function ( data, type, row, meta ) {
                             return '<label class="label label-success">' + row.sub_total_cycle + '</label>'; } },
             { data: 'sub_total_event', "render": function ( data, type, row, meta ) {

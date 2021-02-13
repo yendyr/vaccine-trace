@@ -35,4 +35,4 @@
     @endcomponent
 </div>
 
-{{-- @include('flightoperations::components.afmlog.manifest._script') --}}
+@include('flightoperations::components.afmlog.manifest._script')

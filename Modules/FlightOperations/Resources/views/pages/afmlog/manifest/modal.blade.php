@@ -36,7 +36,18 @@
                             <select class="cargo_weight_unit_id form-control @error('cargo_weight_unit_id') is-invalid @enderror" id="cargo_weight_unit_id" name="cargo_weight_unit_id"></select>
                             <div class="invalid-feedback-cargo_weight_unit_id text-danger font-italic"></div>
                         </div>
-                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label>PCM Number</label>
+                            <input type="text" class="form-control @error('pcm_number') is-invalid @enderror" name="pcm_number" id="pcm_number">
+                            <div class="invalid-feedback-pcm_number text-danger font-italic"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>CM Number</label>
+                            <input type="text" class="form-control @error('cm_number') is-invalid @enderror" name="cm_number" id="cm_number">
+                            <div class="invalid-feedback-cm_number text-danger font-italic"></div>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-12">
