@@ -21,6 +21,7 @@
                 { data: 'name', name: 'Warehouse Name' },
                 { data: 'description', name: 'Description/Remark' },
                 { data: 'status', name: 'Status' },
+                { data: 'is_aircraft' },
                 { data: 'creator_name', name: 'Created By' },
                 { data: 'created_at', name: 'Created At' },
                 { data: 'updater_name', name: 'Last Updated By' },

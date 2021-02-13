@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWarehousesTable extends Migration
+class CreateStockMutationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,9 @@ class CreateWarehousesTable extends Migration
      */
     public function up()
     {
-        Schema::create('warehouses', function (Blueprint $table) {
+        Schema::create('stock_mutations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-
-            $table->string('aircraft_configuration_id')->nullable();
-
-            $table->string('code')->unique();
-            $table->string('name')->nullable();
-            $table->integer('is_aircraft')->nullable()->default(0);
-            $table->string('description')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable()->default(1);
@@ -42,6 +35,6 @@ class CreateWarehousesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('warehouses');
+        Schema::dropIfExists('stock_mutations');
     }
 }

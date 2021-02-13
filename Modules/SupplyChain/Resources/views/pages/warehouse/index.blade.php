@@ -23,6 +23,7 @@
             <th>Warehouse Name</th>
             <th>Description/Remark</th>
             <th>Status</th>
+            <th>Recognized as Aircraft</th>
             <th>Created By</th>
             <th>Created At</th>
             <th>Last Updated By</th>

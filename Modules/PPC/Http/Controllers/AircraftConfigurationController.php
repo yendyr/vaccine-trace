@@ -7,6 +7,7 @@ use Modules\PPC\Entities\AircraftConfigurationDetail;
 use Modules\PPC\Entities\AircraftConfigurationApproval;
 use Modules\PPC\Entities\AircraftConfigurationTemplate;
 use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
+use Modules\SupplyChain\Entities\Warehouse;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -150,6 +151,19 @@ class AircraftConfigurationController extends Controller
     
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
+                'created_by' => $request->user()->id,
+            ]);
+
+            $AircraftConfiguration->warehouse()->create([
+                'uuid' =>  Str::uuid(),
+
+                'code' => $AircraftConfiguration->id . '/' . $request->registration_number . '/' . $request->serial_number,
+                'name' => $AircraftConfiguration->id . '/' . $request->registration_number . '/' . $request->serial_number,
+                'description' => $AircraftConfiguration->id . '/' . $request->registration_number . '/' . $request->serial_number,
+                'is_aircraft' => 1,
+
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
                 
