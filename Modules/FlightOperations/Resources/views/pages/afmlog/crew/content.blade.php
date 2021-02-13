@@ -21,8 +21,8 @@
     @slot('tableContent')
         <th>Person Name</th>
         <th>In-Flight Role</th>
-        <th>Description/Remark</th>
-        <th>Status</th>
+        <th>Remark</th>
+        {{-- <th>Status</th> --}}
         <th>Created By</th>
         <th>Created At</th>
         <th>Action</th>

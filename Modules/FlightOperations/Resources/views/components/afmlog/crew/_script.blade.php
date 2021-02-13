@@ -20,7 +20,7 @@ $(document).ready(function () {
             { data: 'employee.fullname', defaultContent: '-' },
             { data: 'in_flight_role.role_name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
-            { data: 'status', defaultContent: '-' },
+            // { data: 'status', defaultContent: '-' },
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
             { data: 'action', name: 'Action', orderable: false },
@@ -98,12 +98,12 @@ $(document).ready(function () {
             }
         }   
 
-        if (data.status == '<label class="label label-success">Active</label>') {
-            $('#status').prop('checked', true);
-        }
-        else {
-            $('#status').prop('checked', false);
-        }
+        // if (data.status == '<label class="label label-success">Active</label>') {
+        //     $('#status').prop('checked', true);
+        // }
+        // else {
+        //     $('#status').prop('checked', false);
+        // }
 
         $('#saveBtn').val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation

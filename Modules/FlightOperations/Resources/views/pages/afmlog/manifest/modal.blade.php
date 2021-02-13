@@ -1,34 +1,46 @@
 <!-- Modal -->
-<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" id="inputModalManifest" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="modalTitle"></h4>
+                <h4 class="modal-title" id="modalTitleManifest"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <form method="post" id="inputForm">
+            <form method="post" id="inputFormManifest">
                 <input type="hidden" id="afm_logs_id" name="afm_logs_id" value="{{ $afmlog->id ?? '' }}">
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Crew Name</label>
-                        <div class="col-sm-7">
-                            <select class="employee_id form-control @error('employee_id') is-invalid @enderror" name="employee_id" id="employee_id"></select>
-                            <div class="invalid-feedback-employee_id text-danger font-italic"></div>
+                        <div class="col-md-6">
+                            <label>Person</label>
+                            <input type="text" class="form-control @error('person') is-invalid @enderror" name="person" id="person">
+                            <div class="invalid-feedback-person text-danger font-italic"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Pax</label>
+                            <input type="text" class="form-control @error('pax') is-invalid @enderror" name="pax" id="pax">
+                            <div class="invalid-feedback-pax text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">In-Flight Role</label>
-                        <div class="col-sm-7">
-                            <select class="role_id form-control @error('role_id') is-invalid @enderror" name="role_id" id="role_id"></select>
-                            <div class="invalid-feedback-role_id text-danger font-italic"></div>
+                        <div class="col-md-6">
+                            <label>Cargo Weight</label>
+                            <input type="text" class="form-control @error('cargo_weight') is-invalid @enderror" name="cargo_weight" id="cargo_weight">
+                            <div class="invalid-feedback-cargo_weight text-danger font-italic"></div>
                         </div>
+
+                        <div class="col-md-6">
+                            <label>Cargo Weight Unit</label>
+                            <select class="cargo_weight_unit_id form-control @error('cargo_weight_unit_id') is-invalid @enderror" id="cargo_weight_unit_id" name="cargo_weight_unit_id"></select>
+                            <div class="invalid-feedback-cargo_weight_unit_id text-danger font-italic"></div>
+                        </div>
+                        
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Remark</label>
-                        <div class="col-sm-7">
+                        <div class="col-md-12">
+                            <label>Remark</label>
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                             <div class="invalid-feedback-description text-danger font-italic"></div>
                         </div>
@@ -47,12 +59,11 @@
                             </div>
                         </div>
                     </div> --}}
-                    
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
-                    <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveBtn">
+                    <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveButtonManifest">
                         <strong>Save Changes</strong>
                     </button>
                 </div>

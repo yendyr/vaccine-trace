@@ -23,5 +23,7 @@ Route::name('flightoperations.')->group(function () {
         Route::resource('/afml-detail-crew', 'AfmlDetailCrewController');
 
         Route::resource('/afml-detail-journal', 'AfmlDetailJournalController');
+
+        Route::resource('/afml-detail-manifest', 'AfmlDetailManifestController');
     });
 });

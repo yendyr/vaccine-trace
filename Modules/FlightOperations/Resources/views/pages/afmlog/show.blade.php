@@ -107,12 +107,7 @@
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                <div class="col">
-                                    <span class="text-info font-italic"><i class="fa fa-info-circle"></i>&nbsp;Refresh Page to See Tree Structure Changes After Add or Updating Data</span>
-                                </div>
-                            </div>
-                            <div class="row m-b">
-                                {{-- @include('ppc::pages.aircraft-configuration.tree-view-content.content') --}}
+                                @include('flightoperations::pages.afmlog.manifest.content')
                             </div>
                         </div>
                     </div>
