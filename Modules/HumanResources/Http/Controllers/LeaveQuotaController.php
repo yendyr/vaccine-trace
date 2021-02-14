@@ -197,7 +197,9 @@ class LeaveQuotaController extends Controller
      */
     public function destroy(LeaveQuota $leave_quotum)
     {
-        return view('humanresources::pages.leave-quota.index');
+        $currentRow = LeaveQuota::where('id', $leave_quotum->id)->first();
+        LeaveQuota::destroy($leave_quotum->id);
+        return response()->json(['success' => 'Contact Data has been Deleted']);
     }
 
     //Validation array default for this controller

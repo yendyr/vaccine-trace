@@ -18,7 +18,7 @@
                 },
                 height: 180,
                 ajax: {
-                    url: "/hr/request",
+                    url: actionUrl,
                     type: "GET",
                     dataType: "json",
                 },
@@ -56,7 +56,7 @@
                 autoclose: true
             });
 
-            $('#inputForm').find('.select2_empidRequest').select2({
+            $(inputFormId).find('.select2_empidRequest').select2({
                 theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
                 ajax: {
@@ -66,7 +66,7 @@
                 dropdownParent: $('#inputModal')
             });
 
-            $('#inputForm').find('#freqcode').select2({
+            $(inputFormId).find('#freqcode').select2({
                 theme: 'bootstrap4',
                 placeholder: 'choose Req code',
                 ajax: {
@@ -117,7 +117,6 @@
             });
 
             $(inputFormId).on('submit', function (event) {
-                console.log($(this));
                 submitButtonProcess (tableId, inputFormId);
             });
 

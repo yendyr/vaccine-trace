@@ -19,63 +19,48 @@
             top: -13px !important;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" />
 @endpush
 
-@section('page-heading')
-        @can('create', \Modules\HumanResources\Entities\LeaveQuota::class)
-            <div id="form_result" role="alert"></div>
-            <button type="button" id="create-leave-quota" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i> Add New Leave Quota</button>
-        @endcan
-@endsection
-
 @section('content')
-    @can('viewAny', \Modules\HumanResources\Entities\LeaveQuota::class)
-        @include('humanresources::components.leave-quota.modal')
-        @component('components.delete-modal', ['name' => 'Leave Quota data'])
-        @endcomponent
-    @endcan
+    @component('components.delete-modal', ['name' => 'Leave Quota Datalist'])
+    @endcomponent
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <h4 class="text-center">Leave Quota Datalist</h4>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-footer" id="ibox-leave-quota">
-                    <div class="table-responsive">
-                        <table id="leave-quota-table" class="table table-hover text-center display nowrap" width="100%">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>Employee ID</th>
-                                    <th>Quota Year</th>
-                                    <th>Quota Code</th>
-                                    <th>Quota start date</th>
-                                    <th>Quota exp date</th>
-                                    <th>Quota alloc date</th>
-                                    <th>Quota quantity</th>
-                                    <th>Quota remains</th>
-                                    <th>Remark</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    @include('humanresources::pages.leave-quota.modal')
 
-        </div>
-    </div>
+    @component('components.crud-form.index',[
+                    'title' => 'Leave Quota Datalist',
+                    'tableId' => 'leave-quota-table'])
 
-    @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
-        @include('humanresources::components.leave-quota._script')
-    @endcan
+        @slot('createButton')
+            @can('create', \Modules\HumanResources\Entities\LeaveQuota::class)
+                <div id="form_result" role="alert"></div>
+                <button type="button" id="create" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i> New Leave Quota</button>
+            @endcan
+        @endslot
+
+        @slot('tableContent')
+            <th>Employee ID</th>
+            <th>Quota Year</th>
+            <th>Quota Code</th>
+            <th>Quota start date</th>
+            <th>Quota exp date</th>
+            <th>Quota alloc date</th>
+            <th>Quota quantity</th>
+            <th>Quota remains</th>
+            <th>Remark</th>
+            <th>Status</th>
+            <th>Action</th>
+        @endslot
+
+    @endcomponent
+
+    @include('humanresources::components.leave-quota._script')
 
 @endsection
+@push('header-scripts')
+    @include('layouts.includes._header-datatable-script')
+@endpush
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
+@endpush
