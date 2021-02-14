@@ -4,6 +4,7 @@ namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardDetailAircraftType;
+use Modules\PPC\Entities\TaskcardDetailAffectedItem;
 use Modules\PPC\Entities\TaskcardDetailAccess;
 use Modules\PPC\Entities\TaskcardDetailZone;
 use Modules\PPC\Entities\TaskcardDetailDocumentLibrary;
@@ -11,7 +12,6 @@ use Modules\PPC\Entities\TaskcardDetailAffectedManual;
 use Modules\PPC\Entities\TaskcardDetailInstruction;
 use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -39,6 +39,7 @@ class TaskcardController extends Controller
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',
+                    'affected_items:id,code,name',
                     'accesses:id,name',
                     'zones:id,name',
                     'document_libraries:id,name',
@@ -121,11 +122,6 @@ class TaskcardController extends Controller
         return view('ppc::pages.taskcard.index');
     }
 
-    public function create()
-    {
-        return view('ppc::pages.taskcard.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -135,6 +131,9 @@ class TaskcardController extends Controller
             'taskcard_type_id' => ['required', 'max:30'],
             'compliance' => ['required'],
             'interval_control_method' => ['required', 'max:30'],
+
+            'aircraft_type_id' => ['required_without_all:item_id'],
+            'affected_item_id' => ['required_without_all:aircraft_type_id'],
 
             'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
             'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
@@ -154,27 +153,12 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
-        if ($request->threshold_date) {
-            $threshold_date = Carbon::createFromFormat('m/d/Y', $request->threshold_date)->format('Y-m-d');
-        }
-        else {
-            $threshold_date = null;
-        }
-
-        if ($request->repeat_date) {
-            $repeat_date = Carbon::createFromFormat('m/d/Y', $request->repeat_date)->format('Y-m-d');
-        }
-        else {
-            $repeat_date = null;
-        }
-
-        if ($request->issued_date) {
-            $issued_date = Carbon::createFromFormat('m/d/Y', $request->issued_date)->format('Y-m-d');
-        }
-        else {
-            $issued_date = null;
-        }
-
+        $threshold_date = $request->threshold_date;
+        
+        $repeat_date = $request->repeat_date;
+        
+        $issued_date = $request->issued_date;
+        
         DB::beginTransaction();
         $Taskcard = Taskcard::create([
             'uuid' =>  Str::uuid(),
@@ -219,6 +203,19 @@ class TaskcardController extends Controller
                         ->save(new TaskcardDetailAircraftType([
                             'uuid' => Str::uuid(),
                             'aircraft_type_id' => $aircraft_type_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->affected_item_id) {
+            foreach ($request->affected_item_id as $affected_item_id) {
+                $Taskcard->affected_item_details()
+                        ->save(new TaskcardDetailAffectedItem([
+                            'uuid' => Str::uuid(),
+                            'affected_item_id' => $affected_item_id,
                             'owned_by' => $request->user()->company_id,
                             'status' => 1,
                             'created_by' => $request->user()->id,
@@ -298,6 +295,9 @@ class TaskcardController extends Controller
             'compliance' => ['required'],
             'interval_control_method' => ['required', 'max:30'],
 
+            'aircraft_type_id' => ['required_without_all:item_id'],
+            'affected_item_id' => ['required_without_all:aircraft_type_id'],
+
             'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
             'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
             'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
@@ -316,26 +316,11 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
-        if ($request->threshold_date) {
-            $threshold_date = Carbon::createFromFormat('m/d/Y', $request->threshold_date)->format('Y-m-d');
-        }
-        else {
-            $threshold_date = null;
-        }
-
-        if ($request->repeat_date) {
-            $repeat_date = Carbon::createFromFormat('m/d/Y', $request->repeat_date)->format('Y-m-d');
-        }
-        else {
-            $repeat_date = null;
-        }
-
-        if ($request->issued_date) {
-            $issued_date = Carbon::createFromFormat('m/d/Y', $request->issued_date)->format('Y-m-d');
-        }
-        else {
-            $issued_date = null;
-        }
+        $threshold_date = $request->threshold_date;
+        
+        $repeat_date = $request->repeat_date;
+        
+        $issued_date = $request->issued_date;
 
         DB::beginTransaction();
         $currentRow = Taskcard::where('id', $Taskcard->id)->first();
@@ -383,6 +368,19 @@ class TaskcardController extends Controller
                         ->save(new TaskcardDetailAircraftType([
                             'uuid' => Str::uuid(),
                             'aircraft_type_id' => $aircraft_type_id,
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]));
+            }
+        }
+
+        if ($request->affected_item_id) {
+            foreach ($request->affected_item_id as $affected_item_id) {
+                $Taskcard->affected_item_details()
+                        ->save(new TaskcardDetailAffectedItem([
+                            'uuid' => Str::uuid(),
+                            'affected_item_id' => $affected_item_id,
                             'owned_by' => $request->user()->company_id,
                             'status' => 1,
                             'created_by' => $request->user()->id,

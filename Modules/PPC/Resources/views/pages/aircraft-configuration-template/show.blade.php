@@ -35,7 +35,7 @@
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration-template.item-configuration-content.content')
+                                @include('ppc::pages.aircraft-configuration-template.item-configuration.content')
                             </div>
                         </div>
                     </div>
@@ -43,8 +43,11 @@
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
                                 <div class="col">
-                                    WIP
+                                    <span class="text-info font-italic"><i class="fa fa-info-circle"></i>&nbsp;Refresh Page to See Tree Structure Changes After Add or Updating Data</span>
                                 </div>
+                            </div>
+                            <div class="row m-b">
+                                @include('ppc::pages.aircraft-configuration-template.tree-view.content')
                             </div>
                         </div>
                     </div>

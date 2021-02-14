@@ -9,7 +9,7 @@
         $(inputFormId).attr('action', actionUrl);
         $('#saveBtn').val("create");
         $(inputFormId).trigger("reset");
-        $('[class^="invalid-feedback-"]').html('');
+        $('select').not('[name$="_length"]').val(null).trigger('change');
         $('#inputModal').modal('show');                
         $("input[value='patch']").remove();
     }
@@ -26,6 +26,7 @@
         $(inputFormId).attr('action', actionUrl);
         $(saveButtonId).val("create");
         $(inputFormId).trigger("reset");
+        $('select').not('[name$="_length"]').val(null).trigger('change');
         $('[class^="invalid-feedback-"]').html('');
         $(inputModalId).modal('show');                
         $("input[value='patch']").remove();
@@ -65,6 +66,14 @@
                 if (data.success) {
                     generateToast ('success', data.success);                            
                 }
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });                          
+                }
+
                 $('#inputModal').modal('hide');
                 $(targetTableId).DataTable().ajax.reload();
             },
@@ -157,6 +166,13 @@
                     if (data.success){
                         generateToast ('success', data.success);
                     }
+                    else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });                          
+                }
                 },
                 complete: function(data) {
                     $('#delete-button').text('Delete');
@@ -166,6 +182,62 @@
                 }
             });
         });
+    }
+
+    function approveButtonProcess (datatabelObject, targetTableId, actionUrl) {
+        this.datatabelObject = datatabelObject;
+        this.targetTableId = targetTableId;
+        this.actionUrl = actionUrl;
+
+        datatabelObject.on('click', '.approveBtn', function () {
+            rowId = $(this).val();
+            $('#approve-form').trigger("reset");
+            $('#approveModal').modal('show');
+            $('#approve-form').attr('action', actionUrl + '/' + rowId + '/approve');
+        });
+
+        $('#approve-form').on('submit', function (e) {
+            e.preventDefault();
+            let url_action = $(this).attr('action');
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $(
+                        'meta[name="csrf-token"]'
+                    ).attr("content")
+                },
+                url: url_action,
+                type: "POST",
+                data: $('#approve-form').serialize(),
+                dataType: 'json',
+                beforeSend:function(){
+                    $('#approve-button').text('Approving...');
+                    $('#approve-button').prop('disabled', true);
+                },
+                error: function(data){
+                    if (data.error) {
+                        generateToast ('error', data.error);
+                    }
+                },
+                success:function(data){
+                    if (data.success){
+                        generateToast ('success', data.success);
+                    }
+                },
+                complete: function(data) {
+                    $('#approve-button').text('Approve');
+                    $('#approveModal').modal('hide');
+                    $('#approve-button').prop('disabled', false);
+                    $(targetTableId).DataTable().ajax.reload();
+                }
+            });
+        });
+    }
+
+    function clearForm(inputFormId) {
+        this.inputFormId = inputFormId;
+
+        $(inputFormId).trigger("reset");
+        $('select').not('[name$="_length"]').val(null).trigger('change');
     }
 </script>
 @endpush

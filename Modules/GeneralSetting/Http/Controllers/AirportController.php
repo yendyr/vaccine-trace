@@ -207,4 +207,28 @@ class AirportController extends Controller
         return response()->json(['success' => 'Contact Data has been Deleted']);
     }
 
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+        $query = Airport::orderby('iata_code','asc')
+                        ->select('id','name','iata_code')
+                        ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%')
+                        ->orWhere('iata_code', 'like', '%' .$search. '%');
+        }
+        $Airports = $query->get();
+
+        $response = [];
+        foreach($Airports as $Airport){
+            $response['results'][] = [
+                "id" => $Airport->id,
+                "text" => $Airport->iata_code . ' | ' . $Airport->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
 }

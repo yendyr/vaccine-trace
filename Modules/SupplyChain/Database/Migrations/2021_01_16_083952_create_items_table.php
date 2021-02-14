@@ -16,16 +16,17 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
+
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('model')->nullable();
             $table->string('type')->nullable();
             $table->string('description')->nullable();
-            $table->integer('reorder_stock_level')->nullable();
+            $table->integer('reorder_stock_level')->nullable()->default(1);
             $table->integer('taxable')->nullable()->default(1);
 
             $table->string('category_id')->nullable();
-            $table->string('primary_unit_id')->nullable();
+            $table->string('primary_unit_id');
             $table->string('manufacturer_id')->nullable();
 
             $table->string('sales_coa_id')->nullable();

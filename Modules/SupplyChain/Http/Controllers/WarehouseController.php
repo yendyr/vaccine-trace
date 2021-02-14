@@ -34,6 +34,13 @@ class WarehouseController extends Controller
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
+                ->addColumn('is_aircraft', function($row){
+                    if ($row->is_aircraft == 0){
+                        return '<label class="label label-warning">No</label>';
+                    } else{
+                        return '<label class="label label-primary">Yes</label>';
+                    }
+                })
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';
                 })
@@ -41,23 +48,28 @@ class WarehouseController extends Controller
                     return $row->updater->name ?? '-';
                 })
                 ->addColumn('action', function($row){
-                    $noAuthorize = true;
-                    if(Auth::user()->can('update', Warehouse::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', Warehouse::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
-
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    if ($row->is_aircraft == 0) {
+                        $noAuthorize = true;
+                        if(Auth::user()->can('update', Warehouse::class)) {
+                            $updateable = 'button';
+                            $updateValue = $row->id;
+                            $noAuthorize = false;
+                        }
+                        if(Auth::user()->can('delete', Warehouse::class)) {
+                            $deleteable = true;
+                            $deleteId = $row->id;
+                            $noAuthorize = false;
+                        }
+    
+                        if ($noAuthorize == false) {
+                            return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                        }
+                        else {
+                            return '<p class="text-muted">Not Authorized</p>';
+                        }
                     }
                     else {
-                        return '<p class="text-muted">Not Authorized</p>';
+                        return "<p class='text-muted'>Can't Modify Aircraft Here</p>";
                     }
                     
                 })

@@ -30,18 +30,46 @@ class RoleController extends Controller
         if ($request->ajax()) {
             $data = Role::latest()->get();
             return Datatables::of($data)
+                ->addColumn('is_in_flight_role', function($row){
+                    if ($row->is_in_flight_role == 1){
+                        return '<label class="label label-primary">Yes</label>';
+                    } else{
+                        return '<label class="label label-danger">No</label>';
+                    }
+                })
+                ->addColumn('creator_name', function($row){
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function($row){
+                    return $row->updater->name ?? '-';
+                })
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
-                        return '<p class="text-success">Active</p>';
+                        return '<label class="label label-success">Active</label>';
                     } else{
-                        return '<p class="text-danger">Inactive</p>';
+                        return '<label class="label label-danger">Inactive</label>';
                     }
                 })
                 ->addColumn('action', function($row){
+                    $noAuthorize = true;
+                    $approvable = false;
+                    $approveId = null;
+
                     if(Auth::user()->can('update', Role::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
-                        return view('components.action-button', compact(['updateable', 'updateValue']));
+                    }
+                    if(Auth::user()->can('delete', Role::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
+                    }
+                    else {
+                        return '<p class="text-muted">Not Authorized</p>';
                     }
                     return '<p class="text-muted">no action authorized</p>';
                 })
@@ -50,6 +78,11 @@ class RoleController extends Controller
         }
 
         return view('gate::pages.role.index');
+    }
+
+    public function index_flightoperations(Request $request)
+    {
+        return view('flightoperations::pages.in-flight-role.index');
     }
 
     /**
@@ -70,18 +103,24 @@ class RoleController extends Controller
     {
         $request->validate([
             'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
-            'status' => ['min:0', 'max:1'],
         ]);
+
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
 
         Role::create([
             'uuid' => Str::uuid(),
             'role_name' => $request->role_name,
             'owned_by' => $request->user()->company_id,
             'created_by' => $request->user()->id,
-            'status' => $request->status,
+            'status' => $status,
         ]);
 
-        return response()->json(['success' => 'a new role added successfully.']);
+        return response()->json(['success' => 'Role Data has been Saved']);
     }
 
     /**
@@ -112,19 +151,60 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $request->validate([
-            'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
-            'status' => ['min:0', 'max:1'],
-        ]);
+        if ($request->status) {
+            $status = 1;
+        } 
+        else {
+            $status = 0;
+        }
+
+        if ($role->role_name == $request->role_name) {
+            $request->validate([
+                'role_name' => ['required', 'string', 'max:255'],
+            ]);
+
+            Role::where('id', $role->id)
+                ->update([
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]); 
+        }
+        else {
+            $request->validate([
+                'role_name' => ['required', 'string', 'max:255', 'unique:roles,role_name'],
+            ]);
+
+            Role::where('id', $role->id)
+                ->update([
+                    'role_name' => $request->role_name,
+                    'status' => $status,
+                    'updated_by' => $request->user()->id,
+            ]);
+        }
+        
+        return response()->json(['success' => 'Role Data has been Updated']);
+    }
+
+    public function update_flightoperations(Request $request, Role $role)
+    {
+        if ($request->is_in_flight_role) {
+            $is_in_flight_role = 1;
+        } 
+        else {
+            $is_in_flight_role = 0;
+        }
 
         Role::where('id', $role->id)
             ->update([
-                'role_name' => $request->role_name,
-                'status' => $request->status,
+                'code' => $request->code,
+                'role_name_alias' => $request->role_name_alias,
+                'description' => $request->description,
+                'is_in_flight_role' => $is_in_flight_role,
+
                 'updated_by' => $request->user()->id,
             ]);
 
-        return response()->json(['success' => 'Role data updated successfully.']);
+        return response()->json(['success' => 'Role Data has been Updated']);
     }
 
     /**
@@ -140,5 +220,30 @@ class RoleController extends Controller
 
         Role::destroy($role->id);
         return response()->json(['success' => 'Role Data has been Deleted']);
+    }
+
+    public function select2InFlightRole(Request $request)
+    {
+        $search = $request->q;
+
+        $query = Role::select('id','role_name','role_name_alias')
+                    ->where('is_in_flight_role', 1)
+                    ->where('status', 1);
+
+        if($search != ''){
+            $query = $query->where('role_name', 'like', '%' .$search. '%')
+                        ->orWhere('role_name_alias', 'like', '%' .$search. '%');
+        }
+        $Roles = $query->get();
+
+        $response = [];
+        foreach($Roles as $Role){
+            $response['results'][] = [
+                "id" => $Role->id,
+                "text" => $Role->role_name . ' | ' . $Role->role_name_alias
+            ];
+        }
+
+        return response()->json($response);
     }
 }

@@ -17,8 +17,11 @@ class CreateEmployeesTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('empid', 20)->comment('Nomor NIK karyawan');
+            $table->string('company_id');
+
             $table->string('fullname', 50)->nullable();
             $table->string('nickname', 50)->nullable();
+            
             $table->string('photo', 100)->nullable();
             $table->string('pob', 30)->comment('kota Tempat lahir')->nullable();
             $table->date('dob')->comment('Tanggal lahir')->nullable();

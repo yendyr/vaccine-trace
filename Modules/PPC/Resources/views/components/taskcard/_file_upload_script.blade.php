@@ -7,10 +7,10 @@
         let imgsize = filedata.size;
 
         if((imgsize < 10000) || (imgsize > 100000)) {
-            swal({
+            swal.fire({
                 title: "Upload Failed",
                 text: "Size Must Between 10 KB - 100 KB !",
-                type: "error"
+                icon: "error"
             });
         } 
         else {
@@ -34,10 +34,10 @@
                 processData:false,
                 success:function(data){
                     if (data.success) {
-                        swal({
+                        swal.fire({
                             title: "File Uploaded",
                             text: data.success,
-                            type: "success"
+                            icon: "success"
                         });
                         setTimeout(location.reload.bind(location), 2000);
                     }
@@ -50,10 +50,10 @@
                         $.each(errors, function (index, value) {
                             textError += value;
                         });
-                        swal({
+                        swal.fire({
                             title: "Upload Failed",
                             text: textError,
-                            type: "error"
+                            icon: "error"
                         });
                     }
                 },

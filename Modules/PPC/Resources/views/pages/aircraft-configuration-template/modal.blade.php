@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"></h4>
@@ -39,6 +39,15 @@
                             <div class="invalid-feedback-description text-danger font-italic"></div>
                         </div>
                     </div>
+
+                    <div class="form-group row" id="duplicated_from">
+                        <label class="col-sm-5 d-flex align-items-center">Copy Configuration from Previous Template</label>
+                        <div class="col-sm-7">
+                            <select class="duplicated_from form-control @error('duplicated_from') is-invalid @enderror" name="duplicated_from" id="duplicated_from"></select>
+                            <div class="invalid-feedback-duplicated_from text-danger font-italic"></div>
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Active</label>
                         <div class="col-sm-7">     

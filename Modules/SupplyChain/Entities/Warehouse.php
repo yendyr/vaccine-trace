@@ -15,9 +15,14 @@ class Warehouse extends Model
 
     protected $fillable = [
         'uuid',
+
+        'aircraft_configuration_id',
+
         'code',
         'name',
+        'is_aircraft',
         'description',
+
         'status',
         'created_by',
         'updated_by',
@@ -33,5 +38,10 @@ class Warehouse extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function aircraft_configuration()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\AircraftConfiguration::class, 'aircraft_configuration_id');
     }
 }

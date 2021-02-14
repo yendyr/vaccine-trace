@@ -85,4 +85,9 @@ class Company extends Model
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\Item::class, 'manufacturer_id');
     }
+
+    public function employees()
+    {
+        return $this->hasMany(\Modules\HumanResources\Entities\Employee::class, 'employee_id');
+    }
 }

@@ -25,12 +25,3 @@
 <link href="{{URL::asset('theme/css/animate.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/css/style.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/custom.css')}}" rel="stylesheet">
-
-<style>
-    .nav-second-level .nav-second-table-group{
-        display: table-row-group;
-    }
-    .nav-second-level .nav-second-table-group span {
-        display: table-cell !important;
-    }
-</style>

@@ -3,12 +3,14 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\AircraftConfigurationTemplate;
+use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -83,20 +85,69 @@ class AircraftConfigurationTemplateController extends Controller
             $status = 0;
         }
 
-        $AircraftConfigurationTemplate = AircraftConfigurationTemplate::create([
-            'uuid' =>  Str::uuid(),
-            'code' => $request->code,
-            'name' => $request->name,
-            'description' => $request->description,
-            'aircraft_type_id' => $request->aircraft_type_id,
+        if ($request->duplicated_from) {
+            $detail_source = AircraftConfigurationTemplate::where('id', $request->duplicated_from)
+                                                ->with('template_details')
+                                                ->first();
 
-            'owned_by' => $request->user()->company_id,
-            'status' => $status,
-            'created_by' => $request->user()->id,
-        ]);
+            DB::beginTransaction();
+            $AircraftConfigurationTemplate = AircraftConfigurationTemplate::create([
+                'uuid' =>  Str::uuid(),
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'aircraft_type_id' => $request->aircraft_type_id,
+    
+                'owned_by' => $request->user()->company_id,
+                'status' => $status,
+                'created_by' => $request->user()->id,
+            ]);
+                
+            foreach ($detail_source->template_details as $template_detail) {
+                $newDetail = AircraftConfigurationTemplateDetail::create([
+                    'uuid' =>  Str::uuid(),
 
-        return response()->json(['success' => 'Aircraft Configuration Template Data has been Saved',
-                                'id' => $AircraftConfigurationTemplate->id]);
+                    'coding' => $template_detail->coding,
+                    'aircraft_configuration_template_id' => $AircraftConfigurationTemplate->id,
+                    'item_id' => $template_detail->item_id,
+                    'alias_name' => $template_detail->alias_name,
+                    'description' => $template_detail->description,
+                    'parent_coding' => $template_detail->parent_coding,
+        
+                    'owned_by' => $request->user()->company_id,
+                    'status' => $template_detail->status,
+                    'created_by' => $request->user()->id,
+                ]);
+                $newDetail->update([
+                    'coding' => $newDetail->aircraft_configuration_template_id . '-' . Str::after($newDetail->coding, '-')
+                ]);
+                if ($newDetail->parent_coding) {
+                    $newDetail->update([
+                        'parent_coding' => $newDetail->aircraft_configuration_template_id . '-' . Str::after($newDetail->parent_coding, '-')
+                    ]);
+                }
+            }
+            DB::commit();
+
+            return response()->json(['success' => 'Aircraft Configuration Template Data has been Saved',
+                                    'id' => $AircraftConfigurationTemplate->id]);
+        }
+        else {
+            $AircraftConfigurationTemplate = AircraftConfigurationTemplate::create([
+                'uuid' =>  Str::uuid(),
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'aircraft_type_id' => $request->aircraft_type_id,
+    
+                'owned_by' => $request->user()->company_id,
+                'status' => $status,
+                'created_by' => $request->user()->id,
+            ]);
+    
+            return response()->json(['success' => 'Aircraft Configuration Template Data has been Saved',
+                                    'id' => $AircraftConfigurationTemplate->id]);
+        }
     }
 
     public function show(AircraftConfigurationTemplate $AircraftConfigurationTemplate)
@@ -166,7 +217,7 @@ class AircraftConfigurationTemplateController extends Controller
         $search = $request->q;
 
         $query = AircraftConfigurationTemplate::orderby('name','asc')
-                    ->select('id','name')
+                    ->select('id','code','name')
                     ->where('status', 1);
 
         if($search != ''){
@@ -178,7 +229,7 @@ class AircraftConfigurationTemplateController extends Controller
         foreach($AircraftConfigurationTemplates as $AircraftConfigurationTemplate){
             $response['results'][] = [
                 "id"=>$AircraftConfigurationTemplate->id,
-                "text"=>$AircraftConfigurationTemplate->name
+                "text"=>$AircraftConfigurationTemplate->code . ' | ' . $AircraftConfigurationTemplate->name
             ];
         }
 

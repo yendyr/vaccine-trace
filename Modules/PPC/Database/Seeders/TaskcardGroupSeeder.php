@@ -52,8 +52,8 @@ class TaskcardGroupSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Preliminary Check',
-            'code' => 'PC',
+            'name' => 'Airworthiness Directive/Service Bulletin',
+            'code' => 'ADSB',
             'status' => 1,
             'parent_id' => 2,
             'uuid' => Str::uuid(),
@@ -66,8 +66,8 @@ class TaskcardGroupSeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Engineering Order',
-            'code' => 'EO',
+            'name' => 'On Condition',
+            'code' => 'OC',
             'status' => 1,
             'parent_id' => 2,
             'uuid' => Str::uuid(),
@@ -79,40 +79,40 @@ class TaskcardGroupSeeder extends Seeder
             'parent_id' => 2,
             'uuid' => Str::uuid(),
         ]);
-        $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Airworthiness Directive',
-            'code' => 'AD',
-            'status' => 1,
-            'parent_id' => 7,
-            'uuid' => Str::uuid(),
-        ]);
-        $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Service Buletin',
-            'code' => 'SB',
-            'status' => 1,
-            'parent_id' => 7,
-            'uuid' => Str::uuid(),
-        ]);
-        $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Engineering Authorization',
-            'code' => 'EA',
-            'status' => 1,
-            'parent_id' => 7,
-            'uuid' => Str::uuid(),
-        ]);
-        $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Certification Maintenance Requirement',
-            'code' => 'CMR',
-            'status' => 1,
-            'parent_id' => 7,
-            'uuid' => Str::uuid(),
-        ]);
-        $TaskcardGroup = TaskcardGroup::create([
-            'name' => 'Airworthiness Limitation',
-            'code' => 'AWL',
-            'status' => 1,
-            'parent_id' => 7,
-            'uuid' => Str::uuid(),
-        ]);
+        // $TaskcardGroup = TaskcardGroup::create([
+        //     'name' => 'Airworthiness Directive',
+        //     'code' => 'AD',
+        //     'status' => 1,
+        //     'parent_id' => 7,
+        //     'uuid' => Str::uuid(),
+        // ]);
+        // $TaskcardGroup = TaskcardGroup::create([
+        //     'name' => 'Service Buletin',
+        //     'code' => 'SB',
+        //     'status' => 1,
+        //     'parent_id' => 7,
+        //     'uuid' => Str::uuid(),
+        // ]);
+        // $TaskcardGroup = TaskcardGroup::create([
+        //     'name' => 'Engineering Authorization',
+        //     'code' => 'EA',
+        //     'status' => 1,
+        //     'parent_id' => 7,
+        //     'uuid' => Str::uuid(),
+        // ]);
+        // $TaskcardGroup = TaskcardGroup::create([
+        //     'name' => 'Certification Maintenance Requirement',
+        //     'code' => 'CMR',
+        //     'status' => 1,
+        //     'parent_id' => 7,
+        //     'uuid' => Str::uuid(),
+        // ]);
+        // $TaskcardGroup = TaskcardGroup::create([
+        //     'name' => 'Airworthiness Limitation',
+        //     'code' => 'AWL',
+        //     'status' => 1,
+        //     'parent_id' => 7,
+        //     'uuid' => Str::uuid(),
+        // ]);
     }
 }

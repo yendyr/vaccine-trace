@@ -13,8 +13,14 @@ class Role extends Model
     use Notifiable;
     
     protected $fillable = [
-        'uuid', 
+        'uuid',
+
+        'code', 
         'role_name', 
+        'role_name_alias', 
+        'description', 
+        'is_in_flight_role', 
+
         'owned_by', 
         'created_by', 
         'status',
@@ -24,5 +30,15 @@ class Role extends Model
     public function delete_by()
     {
         return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(\Modules\Gate\Entities\User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 }

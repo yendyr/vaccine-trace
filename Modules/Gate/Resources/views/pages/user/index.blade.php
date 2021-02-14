@@ -4,15 +4,15 @@
     @component('components.delete-modal', ['name' => 'User Datalist'])
     @endcomponent
 
-    @include('gate::components.user.modal')
+    @include('gate::pages.user.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Company Datalist',
+                    'title' => 'User Datalist',
                     'tableId' => 'user-table'])
 
         @slot('createButton')
             @can('create', Modules\Gate\Entities\User::class)
-                <button id="createUser" class="btn btn-primary btn-lg" type="button">
+                <button id="create" class="btn btn-primary btn-lg" type="button">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New</button>
             @endcan
         @endslot
@@ -22,6 +22,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Employee Name</th>
             <th>Company</th>
             <th>Status</th>
             <th>Action</th>            
@@ -43,7 +44,9 @@
             width: 100% !important;
         }
     </style>
+    @include('layouts.includes._header-datatable-script')
 @endpush
 @push('footer-scripts')
+    <script src="{{ URL::asset('theme/js/plugins/pwstrength/pwstrength-bootstrap.min.js') }}"></script>
     @include('layouts.includes._footer-datatable-script')
 @endpush

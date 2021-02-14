@@ -18,6 +18,7 @@ class HumanResourcesDatabaseSeeder extends Seeder
 
         $this->call([
             HrLookupSeeder::class,
+            EmployeeSeeder::class,
         ]);
 
     }

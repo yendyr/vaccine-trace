@@ -21,8 +21,8 @@ $(document).ready(function () {
             { data: 'item.name', name: 'Item Name' },
             { data: 'alias_name', name: 'Alias Name' },
             { data: 'description', name: 'Description/Remark' },
-            { data: 'parent_item.code', name: 'Parent Item/Group PN', defaultContent: '-' },
-            { data: 'parent_item.name', name: 'Parent Item/Group Name', defaultContent: '-' },
+            { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
+            { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
             { data: 'status', name: 'Status' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
@@ -46,15 +46,22 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
         
-    $('.parent_id').select2({
+    $('.parent_coding').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Parent Item',
-        // minimumInputLength: 3,
+        minimumInputLength: 2,
         minimumResultsForSearch: 10,
         allowClear: true,
         ajax: {
             url: "{{ route('ppc.configuration-template-detail.select2') }}",
             dataType: 'json',
+            data: function (params) {
+                var getHeaderId = { 
+                    term: params.term,
+                    aircraft_configuration_template_id: $('#aircraft_configuration_template_id').val(),
+                }
+                return getHeaderId;
+            }
         },
         dropdownParent: $('#inputModal')
     });
@@ -64,7 +71,7 @@ $(document).ready(function () {
 
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {
-        clearForm();
+        clearForm(inputFormId);
         showCreateModal ('Add New Item/Component', inputFormId, actionUrl);
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
@@ -74,7 +81,8 @@ $(document).ready(function () {
 
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
     datatableObject.on('click', '.editBtn', function () {
-        clearForm();
+        clearForm(inputFormId);
+
         $('#modalTitle').html("Edit Item/Component");
         $(inputFormId).trigger("reset");                
         rowId= $(this).val();
@@ -92,11 +100,11 @@ $(document).ready(function () {
         $('#description').val(data.description);
 
         if (data.item != null) {
-            $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.name + '</option>');
+            $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.code + ' | ' + data.item.name + '</option>');
         }
 
         if (data.item_group != null) {
-            $('.parent_id').append('<option value="' + data.parent_id + '" selected>' + data.item_group.name + '</option>');
+            $('.parent_coding').append('<option value="' + data.parent_coding + '" selected>' + data.parent_item_code + ' | ' + data.parent_item_name + '</option>');
         }   
 
         if (data.status == '<label class="label label-success">Active</label>') {
@@ -121,11 +129,6 @@ $(document).ready(function () {
 
     deleteButtonProcess (datatableObject, tableId, actionUrl);
 
-    function clearForm()
-    {
-        $('.item_id').val(null).empty().trigger("change");
-        $('.parent_id').val(null).empty().trigger("change");
-    }
 });
 </script>
 @endpush

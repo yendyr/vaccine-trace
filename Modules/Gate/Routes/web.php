@@ -22,6 +22,9 @@ Route::name('gate.')->group(function () {
         Route::resource('/user', 'UserController');
 
         Route::resource('/role', 'RoleController');
+        Route::name('role.')->group(function () {
+            Route::get('/role/select2/in-flight', 'RoleController@select2InFlightRole')->name('select2.in-flight');
+        });
 
         Route::name('menu.')->group(function () {
             Route::get('/menu/select2/all', 'MenuController@select2Menu')->name('select2.all');

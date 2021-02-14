@@ -15,20 +15,21 @@ class CreateAirportsTable extends Migration
     {
         Schema::create('airports', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ident', 10);
-            $table->string('type', 20)->nullable();
-            $table->string('name', 175);
-            $table->double('latitude_deg', 16, 10)->nullable()->default(0);
-            $table->double('longitude_deg', 16, 10)->nullable()->default(0);
-            $table->integer('elevation_ft')->nullable();
-            $table->string('continent', 5)->nullable();
-            $table->string('iso_country', 5)->nullable();
-            $table->string('iso_region', 10)->nullable();
-            $table->string('municipality', 75)->nullable();
-            $table->string('scheduled_service', 5)->nullable();
-            $table->string('gps_code', 5)->nullable();
-            $table->string('iata_code', 5)->nullable();
-            $table->string('local_code', 20)->nullable();
+            $table->string('code')->nullable();
+            $table->string('ident');
+            $table->string('type')->nullable();
+            $table->string('name');
+            $table->string('latitude_deg')->nullable();
+            $table->string('longitude_deg')->nullable();
+            $table->string('elevation_ft')->nullable();
+            $table->string('continent')->nullable();
+            $table->string('iso_country')->nullable();
+            $table->string('iso_region')->nullable();
+            $table->string('municipality')->nullable();
+            $table->string('scheduled_service')->nullable();
+            $table->string('gps_code')->nullable();
+            $table->string('iata_code')->nullable();
+            $table->string('local_code')->nullable();
             $table->string('home_link')->nullable();
             $table->string('wikipedia_link')->nullable();
             $table->text('keywords')->nullable();

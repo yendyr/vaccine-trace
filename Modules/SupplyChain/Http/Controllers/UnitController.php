@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -26,6 +27,7 @@ class UnitController extends Controller
     {
         if ($request->ajax()) {
             $data = Unit::with(['unit_class:id,name']);
+
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -175,6 +177,36 @@ class UnitController extends Controller
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $Units = $query->get();
+
+        $response = [];
+        foreach($Units as $Unit){
+            $response['results'][] = [
+                "id"=>$Unit->id,
+                "text"=>$Unit->name
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function select2Mass(Request $request)
+    {
+        $search = $request->q;
+
+        // $query = Unit::orderby('name','asc')
+        //             ->select('id','name')
+        //             ->where('status', 1);
+
+        $query = DB::table('units')
+                    ->leftJoin('unit_classes', 'units.unit_class_id', '=', 'unit_classes.id')
+                    ->where('unit_classes.name', 'Mass')
+                    ->where('units.status', 1)
+                    ->select('units.id', 'units.code', 'units.name');
+
+        if($search != ''){
+            $query = $query->where('units.name', 'like', '%' .$search. '%');
         }
         $Units = $query->get();
 

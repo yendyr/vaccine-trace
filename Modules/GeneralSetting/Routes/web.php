@@ -19,6 +19,9 @@ Route::name('generalsetting.')->group(function () {
         });
 
         Route::resource('/airport', 'AirportController');
+        Route::name('airport.')->group(function() {
+            Route::get('generalsetting/airport/select2', 'AirportController@select2')->name('select2');
+        });
 
         Route::resource('/company', 'CompanyController');
         Route::name('company.')->group(function() {

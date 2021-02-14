@@ -4,6 +4,7 @@ namespace Modules\PPC\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -16,11 +17,12 @@ class AircraftConfigurationTemplateDetail extends Model
     protected $fillable = [
         'uuid',
 
+        'coding',
         'aircraft_configuration_template_id',
         'item_id',
         'alias_name',
         'description',
-        'parent_id',
+        'parent_coding',
         
         'status',
         'created_by',
@@ -51,16 +53,11 @@ class AircraftConfigurationTemplateDetail extends Model
 
     public function item_group()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_id');
+        return $this->belongsTo(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_coding', 'coding');
     }
 
-    public function parent_item()
+    public function all_childs()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'parent_id');
-    }
-
-    public function subGroup()
-    {
-        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_id');
+        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
 }

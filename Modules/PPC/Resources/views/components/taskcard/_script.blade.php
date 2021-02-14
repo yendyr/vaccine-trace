@@ -8,6 +8,21 @@ $(document).ready(function () {
     var tableId = '#taskcard-table';
     var inputFormId = '#inputForm';
 
+    // $('#taskcard-table thead tr').clone(true).appendTo( '#taskcard-table thead' );
+    // $('#taskcard-table thead tr:eq(1) th').each( function (i) {
+    //     var title = $(this).text();
+    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+ 
+    //     $( 'input', this ).on( 'keyup change', function () {
+    //         if ( table.column(i).search() !== this.value ) {
+    //             table
+    //                 .column(i)
+    //                 .search( this.value )
+    //                 .draw();
+    //         }
+    //     } );
+    // });
+
     var datatableObject = $(tableId).DataTable({
         pageLength: 25,
         processing: true,
@@ -72,6 +87,19 @@ $(document).ready(function () {
         allowClear: true,
         ajax: {
             url: "{{ route('ppc.aircraft-type.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
+    $('.affected_item_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Part Number',
+        minimumInputLength: 3,
+        minimumResultsForSearch: 10,
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.item.select2') }}",
             dataType: 'json',
         },
         dropdownParent: $('#inputModal')
@@ -203,7 +231,7 @@ $(document).ready(function () {
         $('#mpd_number').val(data.mpd_number);
         $('#title').val(data.title);
 
-        $('#compliance').append('<option value="' + data.compliance + '" selected>' + data.compliance + '</option>');
+        $('#compliance').val(data.compliance).trigger('change');
 
         $('#threshold_flight_hour').val(data.threshold_flight_hour);
         $('#threshold_flight_cycle').val(data.threshold_flight_cycle);
@@ -234,9 +262,9 @@ $(document).ready(function () {
         $('#reference').val(data.reference);
         $('#file_attachment').val(data.file_attachment);
 
-        $('#scheduled_priority').append('<option value="' + data.interval_control_method + '" selected>' + data.scheduled_priority + '</option>');
+        $('#scheduled_priority').val(data.scheduled_priority).trigger('change');
 
-        $('#recurrence').append('<option value="' + data.recurrence + '" selected>' + data.recurrence + '</option>');
+        $('#recurrence').val(data.recurrence).trigger('change');
 
         if (data.taskcard_group != null) {
             $('#taskcard_group_id').append('<option value="' + data.taskcard_group_id + '" selected>' + data.taskcard_group.name + '</option>');
@@ -255,6 +283,14 @@ $(document).ready(function () {
             $.each(data.aircraft_types, function(index, value) {
                 var option = new Option(data.aircraft_types[index].name, data.aircraft_types[index].id, true, true);
                 $("#aircraft_type_id").append(option);
+            });
+        }
+
+        $("#affected_item_id").val('').trigger('change');
+        if (data.affected_items != null) {
+            $.each(data.affected_items, function(index, value) {
+                var option = new Option(data.affected_items[index].code + ' | ' + data.affected_items[index].name, data.affected_items[index].id, true, true);
+                $("#affected_item_id").append(option);
             });
         }
 
@@ -318,6 +354,7 @@ $(document).ready(function () {
         $('#taskcard_type_id').val(null).trigger("change");
         $('#taskcard_workarea_id').val(null).trigger("change");
         $('#aircraft_type_id').empty().trigger("change");
+        $('#affected_item_id').empty().trigger("change");
         $('#taskcard_access_id').empty().trigger("change");
         $('#taskcard_zone_id').empty().trigger("change");
         $('#taskcard_document_library_id').empty().trigger("change");

@@ -72,6 +72,17 @@
                                                         you can choose multiple value
                                                     </span>
                                                 </div>
+
+                                                <div class="col">
+                                                    <label>Affected Item/Component Part Number</label>
+                                                    <select class="affected_item_id form-control @error('affected_item_id') is-invalid @enderror" name="affected_item_id[]" id="affected_item_id" multiple="multiple">
+                                                    </select>
+                                                    <div class="invalid-feedback-affected_item_id text-danger font-italic"></div>
+                                                    <span class="text-info font-italic">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        you can choose multiple value
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div class="row m-b">                
                                                 <div class="col-lg-12">
@@ -122,7 +133,7 @@
                                                                     <div class="form-group" id="threshold_date">
                                                                     <div class="input-group date">
                                                                         <span class="input-group-addon">Exact Date</span>
-                                                                        <input type="text" class="form-control @error('threshold_date') is-invalid @enderror" name="threshold_date" id="threshold_date">
+                                                                        <input type="text" class="threshold_date form-control @error('threshold_date') is-invalid @enderror" name="threshold_date" id="threshold_date" readonly="true">
                                                                         <div class="invalid-feedback-threshold_date text-danger font-italic"></div>
                                                                     </div>
                                                                     </div>
@@ -169,7 +180,7 @@
                                                                     <div class="form-group" id="repeat_date">
                                                                     <div class="input-group date">
                                                                         <span class="input-group-addon">Exact Date</span>
-                                                                        <input type="text" class="form-control @error('repeat_date') is-invalid @enderror" name="repeat_date" id="repeat_date">
+                                                                        <input type="text" class="repeat_date form-control @error('repeat_date') is-invalid @enderror" name="repeat_date" id="repeat_date" readonly="true">
                                                                         <div class="invalid-feedback-repeat_date text-danger font-italic"></div>
                                                                     </div>
                                                                     </div>
@@ -209,7 +220,7 @@
                                                     <label>Issued Date</label>
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">Issued Date</span>
-                                                        <input type="text" class="form-control @error('issued_date') is-invalid @enderror" name="issued_date" id="issued_date">
+                                                        <input type="text" class="issued_date form-control @error('issued_date') is-invalid @enderror" name="issued_date" id="issued_date" readonly="true">
                                                         <div class="invalid-feedback-issued_date text-danger font-italic"></div>
                                                     </div>
                                                     </div>
@@ -359,6 +370,7 @@
 <script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 <script>
     var mem_threshold = $('#threshold_date .input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -367,6 +379,7 @@
     });
 
     var mem_repeat = $('#repeat_date .input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -375,6 +388,7 @@
     });
 
     var mem_issued = $('#issued_date .input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,

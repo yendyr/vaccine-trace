@@ -1,0 +1,13 @@
+{
+    "name": "FlightOperations",
+    "alias": "flightoperations",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\FlightOperations\\Providers\\FlightOperationsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -13,6 +13,7 @@
             processing: true,
             serverSide: false,
             searchDelay: 1500,
+            order: [ 2, "asc" ],
             ajax: {
                 url: "{{ route('supplychain.unit.index') }}",
             },

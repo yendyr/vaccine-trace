@@ -35,28 +35,28 @@
                 <h2 class="m-t-none m-b-none">
                     <strong>{{ $Taskcard->title ?? 'Task Card Title' }}</strong>
                 </h2>
-                <h2 class="text-info m-t-none"><strong>{{ $Taskcard->mpd_number ?? '' }}</strong></h2>
-                <div>Task Card Group: <strong class="text-info">{{ $Taskcard->taskcard_group->name ?? '' }}</strong></div>
-                <div>Task Card Type: <strong class="text-info">{{ $Taskcard->taskcard_type->name ?? '' }}</strong></div>
-                <div>Task Card Compliance: <strong class="text-info">{{ $Taskcard->compliance ?? '' }}</strong></div>
+                <h2 class="text-success m-t-none"><strong>{{ $Taskcard->mpd_number ?? '' }}</strong></h2>
+                <div>Task Card Group: <strong class="text-success">{{ $Taskcard->taskcard_group->name ?? '' }}</strong></div>
+                <div>Task Card Type: <strong class="text-success">{{ $Taskcard->taskcard_type->name ?? '' }}</strong></div>
+                <div>Task Card Compliance: <strong class="text-success">{{ $Taskcard->compliance ?? '' }}</strong></div>
             </div>
         </div>
         <div class="col-md-3">
-            <div>MPD Number: <strong class="text-info">{{ $Taskcard->mpd_number ?? '' }}</strong></div>
-            <div>Local Task Card Number: <strong class="text-info">{{ $Taskcard->company_number ?? '-' }}</strong></div>
-            <div>ATA: <strong class="text-info">{{ $Taskcard->ata ?? '-' }}</strong></div>
-            <div>Version: <strong class="text-info">{{ $Taskcard->version ?? '-' }}</strong></div>
-            <div>Revision: <strong class="text-info">{{ $Taskcard->revision ?? '-' }}</strong></div>
-            <div>Effectivity: <strong class="text-info">{{ $Taskcard->effectivity ?? '-' }}</strong></div>
+            <div>MPD Number: <strong class="text-success">{{ $Taskcard->mpd_number ?? '' }}</strong></div>
+            <div>Local Task Card Number: <strong class="text-success">{{ $Taskcard->company_number ?? '-' }}</strong></div>
+            <div>ATA: <strong class="text-success">{{ $Taskcard->ata ?? '-' }}</strong></div>
+            <div>Version: <strong class="text-success">{{ $Taskcard->version ?? '-' }}</strong></div>
+            <div>Revision: <strong class="text-success">{{ $Taskcard->revision ?? '-' }}</strong></div>
+            <div>Effectivity: <strong class="text-success">{{ $Taskcard->effectivity ?? '-' }}</strong></div>
             
         </div>
         <div class="col-md-4">
-            <div>Issued Date: <strong class="text-info">{{ $Taskcard->issued_date ?? '-' }}</strong></div>
-            <div>Work Area: <strong class="text-info">{{ $Taskcard->taskcard_workarea->name ?? '-' }}</strong></div>
-            <div>Source: <strong class="text-info">{{ $Taskcard->source ?? '-' }}</strong></div>
-            <div>Reference: <strong class="text-info">{{ $Taskcard->reference ?? '-' }}</strong></div>
-            <div>Scheduled Priority: <strong class="text-info">{{ $Taskcard->scheduled_priority ?? '-' }}</strong></div>
-            <div>Recurrence: <strong class="text-info">{{ $Taskcard->recurrence ?? '-' }}</strong></div>
+            <div>Issued Date: <strong class="text-success">{{ Carbon\Carbon::parse($Taskcard->issued_date)->format('Y-F-d') ?? '-' }}</strong></div>
+            <div>Work Area: <strong class="text-success">{{ $Taskcard->taskcard_workarea->name ?? '-' }}</strong></div>
+            <div>Source: <strong class="text-success">{{ $Taskcard->source ?? '-' }}</strong></div>
+            <div>Reference: <strong class="text-success">{{ $Taskcard->reference ?? '-' }}</strong></div>
+            <div>Scheduled Priority: <strong class="text-success">{{ $Taskcard->scheduled_priority ?? '-' }}</strong></div>
+            <div>Recurrence: <strong class="text-success">{{ $Taskcard->recurrence ?? '-' }}</strong></div>
             <div>Status: <strong>
                 @if($Taskcard->status == 1)
                     <label class="label label-success">
@@ -75,27 +75,30 @@
     <div class="row m-b">
         <div class="col-lg-4">
             Aircraft Type Applicability:
-            @include('ppc::pages.taskcard.aircraft-type-detail.item')
+            @include('ppc::pages.taskcard.aircraft-type-detail.content')
+
+            Affected Item/Component Part Number:
+            @include('ppc::pages.taskcard.affected-item-detail.content')
         </div>
         <div class="col-lg-8">
             <div class="row">
                 <div class="col-lg-5">
                     Access:
-                    @include('ppc::pages.taskcard.access-detail.item')                
+                    @include('ppc::pages.taskcard.access-detail.content')                
                 </div>
                 <div class="col-lg-7">
                     Zone:
-                    @include('ppc::pages.taskcard.zone-detail.item')                
+                    @include('ppc::pages.taskcard.zone-detail.content')                
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-5">
                     Document Library:
-                    @include('ppc::pages.taskcard.document-library-detail.item')
+                    @include('ppc::pages.taskcard.document-library-detail.content')
                 </div>
                 <div class="col-lg-7">
                     Affected Manual:
-                    @include('ppc::pages.taskcard.affected-manual-detail.item')
+                    @include('ppc::pages.taskcard.affected-manual-detail.content')
                 </div>
             </div>
         </div>
@@ -126,7 +129,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                @include('ppc::pages.taskcard.control-parameter.item')
+                                @include('ppc::pages.taskcard.control-parameter.content')
                             </div>
                         </div>
                     </div>

@@ -85,6 +85,13 @@ use Modules\PPC\Entities\AircraftConfigurationTemplate;
 use Modules\PPC\Policies\AircraftConfigurationTemplateDetailPolicy;
 use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 
+use Modules\PPC\Policies\AircraftConfigurationPolicy;
+use Modules\PPC\Entities\AircraftConfiguration;
+
+// use Modules\PPC\Policies\AircraftConfigurationDetailPolicy;
+// use Modules\PPC\Entities\AircraftConfigurationDetail;
+// use Modules\PPC\Entities\AircraftConfigurationDetail;
+
 use Modules\QualityAssurance\Policies\SkillPolicy;
 use Modules\QualityAssurance\Entities\Skill;
 
@@ -136,6 +143,18 @@ use Modules\Accounting\Entities\ChartOfAccountClass;
 use Modules\Accounting\Policies\ChartOfAccountPolicy;
 use Modules\Accounting\Entities\ChartOfAccount;
 
+use Modules\FlightOperations\Policies\AfmLogPolicy;
+use Modules\FlightOperations\Entities\AfmLog;
+
+use Modules\FlightOperations\Policies\AfmlDetailCrewPolicy;
+use Modules\FlightOperations\Entities\AfmlDetailCrew;
+
+use Modules\FlightOperations\Policies\AfmlDetailJournalPolicy;
+use Modules\FlightOperations\Entities\AfmlDetailJournal;
+
+use Modules\FlightOperations\Policies\AfmlDetailManifestPolicy;
+use Modules\FlightOperations\Entities\AfmlDetailManifest;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -178,6 +197,8 @@ class AuthServiceProvider extends ServiceProvider
         AircraftType::class => AircraftTypePolicy::class,
         AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
+        AircraftConfiguration::class => AircraftConfigurationPolicy::class,
+        // AircraftConfigurationDetail::class => AircraftConfigurationDetailPolicy::class,
         
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
@@ -199,6 +220,11 @@ class AuthServiceProvider extends ServiceProvider
 
         ChartOfAccountClass::class => ChartOfAccountClassPolicy::class,
         ChartOfAccount::class => ChartOfAccountPolicy::class,
+
+        AfmLog::class => AfmLogPolicy::class,
+        AfmlDetailCrew::class => AfmlDetailCrewPolicy::class,
+        AfmlDetailJournal::class => AfmlDetailJournalPolicy::class,
+        AfmlDetailManifest::class => AfmlDetailManifestPolicy::class,
     ];
 
     /**

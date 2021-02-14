@@ -87,6 +87,16 @@ class Taskcard extends Model
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAircraftType::class, 'taskcard_id');
     }
 
+    public function affected_items()
+    {
+        return $this->belongsToMany(\Modules\SupplyChain\Entities\Item::class, 'taskcard_detail_affected_items','taskcard_id','affected_item_id');
+    }
+
+    public function affected_item_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAffectedItem::class, 'taskcard_id');
+    }
+
     public function accesses()
     {
         return $this->belongsToMany(\Modules\PPC\Entities\TaskcardAccess::class, 'taskcard_detail_accesses');
@@ -147,6 +157,7 @@ class Taskcard extends Model
 
         static::deleting(function($Taskcard) {
              $Taskcard->aircraft_type_details()->delete();
+             $Taskcard->affected_item_details()->delete();
              $Taskcard->access_details()->delete();
              $Taskcard->zone_details()->delete();
              $Taskcard->document_library_details()->delete();
