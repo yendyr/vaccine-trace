@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="requestModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" tabindex="-1" id="inputModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form method="post" id="requestForm">
+            <form method="post" id="inputForm" action="">
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-sm-5">

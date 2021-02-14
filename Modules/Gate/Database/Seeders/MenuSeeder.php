@@ -18,7 +18,7 @@ class MenuSeeder extends Seeder
 
         $this->call([
             ModuleMenu\GateMenuSeeder::class,
-            // ModuleMenu\HumanResourcesMenuSeeder::class,
+             ModuleMenu\HumanResourcesMenuSeeder::class,
             ModuleMenu\GeneralSettingMenuSeeder::class,
             ModuleMenu\AccountingMenuSeeder::class,
             ModuleMenu\QualityAssuranceMenuSeeder::class,

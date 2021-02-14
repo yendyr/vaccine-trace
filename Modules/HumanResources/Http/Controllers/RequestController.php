@@ -130,7 +130,7 @@ class RequestController extends Controller
             $validationArray = $this->getValidationArray($request);
             $validation = $request->validate($validationArray);
 
-            if ($request->empidWhour == "0"){ //get all emp
+            if ($request->empidRequest == "0"){ //get all emp
                 $successCount = 0;
                 $emps = Employee::select('empid')->where('status', 1)->get();
                 foreach ($emps as $emp) {
@@ -149,7 +149,7 @@ class RequestController extends Controller
                     $response = ['success' => 'new Working hour added successfully.'];
                 }
             }else{
-                $wgdata = Employee::where('empid', $request->empidWhour)->first();
+                $wgdata = Employee::where('empid', $request->empidRequest)->first();
                 $wgShiftrolling = WorkingGroup::select('shiftrolling')->where('workgroup', $wgdata->workgrp)->first();
                 $splits = str_split($wgShiftrolling->shiftrolling);
                 $wgCount = count($splits);
@@ -166,7 +166,7 @@ class RequestController extends Controller
         //process create hanya bisa dilakukan jika wgdetail data sudah dicreate smua pada tiap day & shiftno
         if (($wgCount * 7) == $wgdetailCount){
             $workdate = $request->datestart;    //get workdate
-            $employeeId = ( $manyEmployees ? $manyEmployees : $request->empidWhour);
+            $employeeId = ( $manyEmployees ? $manyEmployees : $request->empidRequest);
             while (strtotime($workdate) <= strtotime($request->datefinish) ){
                 $daycode = date_format(date_create($workdate),"N");
                 if($daycode == 7){
