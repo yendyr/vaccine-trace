@@ -1,21 +1,16 @@
-@push('header-scripts')
-    <style>
-        .select2-container.select2-container--default.select2-container--open {
-            z-index: 9999999 !important;
-        }
-        .select2{
-            width: 100% !important;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" />
-@endpush
-
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
 @push('footer-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function () {
-            var table = $('#holiday-table').DataTable({
+            var actionUrl = '/hr/holiday';
+            var tableId = '#holiday-table';
+            var inputFormId = '#inputForm';
+            var sundayFormId = '#sundayForm';
+
+            var holidayTable = $('#holiday-table').DataTable({
                 processing: true,
                 serverSide: false,
                 searchDelay: 1500,
@@ -24,7 +19,7 @@
                 },
                 selected: true,
                 ajax: {
-                    url: "/hr/holiday",
+                    url: actionUrl,
                     type: "GET",
                     dataType: "json",
                     data: function (d) {
@@ -48,17 +43,17 @@
             });
 
             $('#searchyear').on('change', function () {
-                table.draw();
+                holidayTable.draw();
             });
 
-            $('.select2_holidaycode').select2({
+            $(inputFormId).find('.select2_holidaycode').select2({
                 theme: 'bootstrap4',
                 placeholder: 'choose code',
                 ajax: {
                     url: "{{route('hr.holiday.select2.code')}}",
                     dataType: 'json',
                 },
-                dropdownParent: $('#holidayModal')
+                dropdownParent: $('#inputModal')
             });
 
             $("#fsundayyear, #fholidayyear, #searchyear").datepicker({
@@ -67,25 +62,13 @@
                 minViewMode: "years"
             });
 
-            $('#create-holiday').click(function () {
-                $('#saveBtn').val("create-workgroup");
-                $('#holidayForm').trigger("reset");
-                $("#holidayModal").find('#modalTitle').html("Add new Holiday data");
-                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $(".select2_holidaycode").val(null).trigger('change');
-                $('#fholidayyear').attr('disabled', false);
-                $('#fholidaycode').attr('disabled', false);
-                $('#fholidaydate').attr('disabled', false);
-                $('#fholidaydate').val(null);
-
-                $('#holidayModal').modal('show');
-                $("input[value='patch']").remove();
-                $('#holidayForm').attr('action', '/hr/holiday');
+            $('#create').click(function () {
+                showCreateModal ('Create New Holiday', inputFormId, actionUrl);
             });
 
-            $('#holiday-table').on('click', '.editBtn', function () {
-                $('#holidayForm').trigger("reset");
-                $('#holidayModal').find('#modalTitle').html("Update Holiday data");
+            holidayTable.on('click', '.editBtn', function () {
+                $(inputFormId).trigger("reset");
+                $('#inputModal').find('#modalTitle').html("Update Holiday data");
                 let tr = $(this).closest('tr');
                 let data = $('#holiday-table').DataTable().row(tr).data();
 
@@ -93,7 +76,7 @@
                     type: 'hidden',
                     name: '_method',
                     value: 'patch'
-                }).prependTo('#holidayForm');
+                }).prependTo('#inputForm');
 
                 $('#fholidayyear').val(data.holidayyear);
                 $('#fholidayyear').attr('disabled', true);
@@ -117,104 +100,30 @@
                 }
 
                 $('#saveBtn').val("edit-workgroup");
-                $('#holidayForm').attr('action', '/hr/holiday/' + data.id);
+                $(inputFormId).attr('action', '/hr/holiday/' + data.id);
 
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#holidayModal').modal('show');
+                $('#inputModal').modal('show');
             });
 
-            $('#holidayForm').on('submit', function (event) {
-                event.preventDefault();
-                let url_action = $(this).attr('action');
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: url_action,
-                    method: "POST",
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    beforeSend:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'start' );
-                        $('[class^="invalid-feedback-"]').html('');
-                        $("#holidayForm").find('#saveBtn').prop('disabled', true);
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            $("#ibox-holiday").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-holiday").find('#form_result').html(data.success);
-                        }
-                        $('#holidayModal').modal('hide');
-                        table.ajax.reload();
-                    },
-                    error:function(data){
-                        let errors = data.responseJSON.errors;
-                        if (errors) {
-                            $.each(errors, function (index, value) {
-                                if (value[0] == "The holidaycode has already been taken."){
-                                    value[0] = 'This holiday with choosen date & year has already been taken';
-                                }
-                                if (value[0] == "The selected holidayyear is invalid."){
-                                    value[0] = 'This year must be same with year at Date';
-                                }
-                                $('div.invalid-feedback-'+index).html(value);
-                            })
-                        }
-                    },
-                    complete:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'stop' );
-                        $("#holidayForm").find('#saveBtn').prop('disabled', false);
-                    }
-                });
+            $(inputFormId).on('submit', function (event) {
+                submitButtonProcess (tableId, inputFormId);
             });
 
-            $('#sundayForm').on('submit', function (event) {
-                event.preventDefault();
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: '/hr/holiday/sundays',
-                    method: "POST",
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    beforeSend:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'start' );
-                        $('[class^="invalid-feedback-"]').html('');
-                        $("#sundayForm").find('#saveBtn').prop('disabled', true);
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            $("#ibox-holiday").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-holiday").find('#form_result').html(data.success);
-                        }
-                        $('#sundayModal').modal('hide');
-                        table.ajax.reload();
-                    },
-                    error:function(data){
-                        let errors = data.responseJSON.errors;
-                        if (errors) {
-                            $.each(errors, function (index, value) {
-                                $('div.invalid-feedback-'+index).html(value);
-                            })
-                        }
-                    },
-                    complete:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'stop' );
-                        $('#sundayForm').trigger("reset");
-                        $("#sundayForm").find('#saveBtn').prop('disabled', false);
-                    }
-                });
+            $('#generate-sunday').click(function () {
+                $('#modalTitle').html('Generate Sunday');
+                $('#sundayForm').attr('action', '/hr/holiday/sundays');
+                $('#saveBtn').val("create");
+                $('#sundayForm').trigger("reset");
+                $('select').not('[name$="_length"]').val(null).trigger('change');
+                $('#sundayModal').modal('show');
+                $("input[value='patch']").remove();
+            });
+            $(sundayFormId).on('submit', function (event) {
+                submitButtonProcessDynamic (tableId, sundayFormId, '#sundayModal');
             });
 
+            deleteButtonProcess (holidayTable, tableId, actionUrl);
         });
 
     </script>
