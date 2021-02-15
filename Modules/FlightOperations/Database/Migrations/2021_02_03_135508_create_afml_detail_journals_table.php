@@ -17,7 +17,7 @@ class CreateAfmlDetailJournalsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('afm_logs_id');
+            $table->string('afm_log_id');
             $table->string('route_from');
             $table->string('route_to');
             $table->time('block_off')->nullable();

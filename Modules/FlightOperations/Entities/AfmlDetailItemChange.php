@@ -16,7 +16,7 @@ class AfmlDetailItemChange extends Model
     protected $fillable = [
         'uuid',
 
-        'afm_logs_id',
+        'afm_log_id',
         'afml_detail_rectifications_id',
         'item_id_off',
         'item_id_on',
@@ -41,7 +41,7 @@ class AfmlDetailItemChange extends Model
 
     public function afm_log()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_log_id');
     }
 
     public function afml_detail_rectification()

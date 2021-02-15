@@ -7,10 +7,8 @@ use Modules\FlightOperations\Entities\AfmlDetailCrew;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -26,14 +24,14 @@ class AfmlDetailCrewController extends Controller
 
     public function index(Request $request)
     {
-        $afm_logs_id = $request->id;
+        $afm_log_id = $request->id;
         
-        $data = AfmlDetailCrew::where('afm_logs_id', $afm_logs_id)
+        $data = AfmlDetailCrew::where('afm_log_id', $afm_log_id)
                             ->with(['employee:id,fullname',
                                     'in_flight_role:id,role_name,role_name_alias'])
                             ->get();
                                                 
-        $AfmLog = AfmLog::where('id', $afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             return Datatables::of($data)
@@ -99,7 +97,7 @@ class AfmlDetailCrewController extends Controller
 
     public function store(Request $request)
     {
-        $AfmLog = AfmLog::where('id', $request->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $request->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
@@ -117,7 +115,7 @@ class AfmlDetailCrewController extends Controller
             AfmlDetailCrew::create([
                 'uuid' =>  Str::uuid(),
     
-                'afm_logs_id' => $request->afm_logs_id,
+                'afm_log_id' => $request->afm_log_id,
                 'employee_id' => $request->employee_id,
                 'role_id' => $request->role_id,
                 'description' => $request->description,
@@ -139,7 +137,7 @@ class AfmlDetailCrewController extends Controller
         $currentRow = AfmlDetailCrew::where('id', $AfmlDetailCrew->id)
                                                 ->first();
 
-        $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $currentRow->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
@@ -156,7 +154,7 @@ class AfmlDetailCrewController extends Controller
             
             $currentRow
                 ->update([
-                    'afm_logs_id' => $request->afm_logs_id,
+                    'afm_log_id' => $request->afm_log_id,
                     'employee_id' => $request->employee_id,
                     'role_id' => $request->role_id,
                     'description' => $request->description,
@@ -175,7 +173,7 @@ class AfmlDetailCrewController extends Controller
     public function destroy(AfmlDetailCrew $AfmlDetailCrew)
     {
         $currentRow = AfmlDetailCrew::where('id', $AfmlDetailCrew->id)->first();
-        $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $currentRow->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $currentRow

@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputFormManifest">
-                <input type="hidden" id="afm_logs_id" name="afm_logs_id" value="{{ $afmlog->id ?? '' }}">
+                <input type="hidden" id="afm_log_id" name="afm_log_id" value="{{ $afmlog->id ?? '' }}">
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">

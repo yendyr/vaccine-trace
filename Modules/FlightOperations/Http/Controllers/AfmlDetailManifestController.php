@@ -7,13 +7,10 @@ use Modules\FlightOperations\Entities\AfmlDetailManifest;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
-use Carbon\Carbon;
 
 class AfmlDetailManifestController extends Controller
 {
@@ -27,13 +24,13 @@ class AfmlDetailManifestController extends Controller
 
     public function index(Request $request)
     {
-        $afm_logs_id = $request->id;
+        $afm_log_id = $request->id;
         
-        $data = AfmlDetailManifest::where('afm_logs_id', $afm_logs_id)
+        $data = AfmlDetailManifest::where('afm_log_id', $afm_log_id)
                             ->with(['cargo_weight_unit:id,name'])
                             ->get();
                                                 
-        $AfmLog = AfmLog::where('id', $afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             return Datatables::of($data)
@@ -100,7 +97,7 @@ class AfmlDetailManifestController extends Controller
 
     public function store(Request $request)
     {
-        $AfmLog = AfmLog::where('id', $request->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $request->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
@@ -117,7 +114,7 @@ class AfmlDetailManifestController extends Controller
             AfmlDetailManifest::create([
                 'uuid' =>  Str::uuid(),
     
-                'afm_logs_id' => $request->afm_logs_id,
+                'afm_log_id' => $request->afm_log_id,
                 'person' => $request->person,
                 'pax' => $request->pax,
                 'cargo_weight' => $request->cargo_weight,
@@ -143,7 +140,7 @@ class AfmlDetailManifestController extends Controller
         $currentRow = AfmlDetailManifest::where('id', $AfmlDetailManifest->id)
                                                 ->first();
 
-        $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $currentRow->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
@@ -159,7 +156,7 @@ class AfmlDetailManifestController extends Controller
             
             $currentRow
                 ->update([
-                    'afm_logs_id' => $request->afm_logs_id,
+                    'afm_log_id' => $request->afm_log_id,
                     'person' => $request->person,
                     'pax' => $request->pax,
                     'cargo_weight' => $request->cargo_weight,
@@ -182,7 +179,7 @@ class AfmlDetailManifestController extends Controller
     public function destroy(AfmlDetailManifest $AfmlDetailManifest)
     {
         $currentRow = AfmlDetailManifest::where('id', $AfmlDetailManifest->id)->first();
-        $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $currentRow->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $currentRow

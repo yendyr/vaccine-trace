@@ -17,7 +17,7 @@ class CreateAfmlDetailDiscrepanciesTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('afm_logs_id');
+            $table->string('afm_log_id');
             $table->string('title');
             $table->string('description')->nullable();
 

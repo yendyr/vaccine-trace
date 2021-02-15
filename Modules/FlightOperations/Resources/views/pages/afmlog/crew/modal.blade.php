@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputForm">
-                <input type="hidden" id="afm_logs_id" name="afm_logs_id" value="{{ $afmlog->id ?? '' }}">
+                <input type="hidden" id="afm_log_id" name="afm_log_id" value="{{ $afmlog->id ?? '' }}">
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Crew Name</label>

@@ -115,7 +115,6 @@ class AircraftConfiguration extends Model
         static::deleting(function($AircraftConfiguration) {
             $AircraftConfiguration->warehouse->item_stocks()->delete();             
             $AircraftConfiguration->warehouse()->delete();             
-            // $AircraftConfiguration->configuration_details()->delete();             
             $AircraftConfiguration->approvals()->delete();             
         });
     }
