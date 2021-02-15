@@ -255,5 +255,25 @@ class PPCMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => $menuPpcAircraft->id
         ]);
+
+        Menu::create([
+            'menu_link' => 'ppc/maintenance-program',
+            'menu_text' => 'Maintenance Program',
+            'menu_route' => 'ppc.maintenance-program.index',
+            'menu_icon' => 'fa-rub',
+            'menu_class' => 'Modules\PPC\Entities\MaintenanceProgram',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/maintenance-program', 'ppc/maintenance-program/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }

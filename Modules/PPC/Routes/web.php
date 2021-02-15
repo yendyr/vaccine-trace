@@ -81,5 +81,7 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::get('/detail-tree', 'AircraftConfigurationDetailController@tree');
+
+        Route::resource('/maintenance-program', 'MaintenanceProgramController');
     });
 }); 
