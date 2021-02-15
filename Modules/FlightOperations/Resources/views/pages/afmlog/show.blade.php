@@ -3,7 +3,7 @@
 @section('content')
     <div class="row m-b m-t">
         <div class="col-md-2 d-flex align-items-start">
-            <img src="{{ URL::asset('assets/afml.png') }}" style="width: 50%; height: auto;">
+            <img src="{{ URL::asset('assets/afml.png') }}" style="width: 60%; height: auto;">
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Transaction Date:</p>         
