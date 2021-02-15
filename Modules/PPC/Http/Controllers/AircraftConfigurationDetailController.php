@@ -266,11 +266,16 @@ class AircraftConfigurationDetailController extends Controller
     
             $initial_start_date = $request->initial_start_date;
             
-            if ($request->parent_coding == $currentRow->coding) {
-                $parent_coding = null;
+            if (Self::isValidParent($currentRow, $request->parent_coding)) {
+                if ($request->parent_coding == $currentRow->coding) {
+                    $parent_coding = null;
+                }
+                else {
+                    $parent_coding = null;
+                }
             }
             else {
-                $parent_coding = $request->parent_coding;
+                return response()->json(['error' => "The Choosen Parent is Already in Child of this Item"]);
             }
     
             DB::beginTransaction();
@@ -303,7 +308,7 @@ class AircraftConfigurationDetailController extends Controller
         }
     }
 
-    public function updateChilds($currentRow, $status)
+    public static function updateChilds($currentRow, $status)
     {
         foreach($currentRow->all_childs as $childRow) {
             $childRow
@@ -315,6 +320,22 @@ class AircraftConfigurationDetailController extends Controller
                 Self::updateChilds($childRow, $status);
             }
         }
+    }
+
+    public static function isValidParent($currentRow, $parent_coding)
+    {
+        $isValid = true;
+        foreach($currentRow->all_childs as $childRow) {
+            if ($parent_coding == $childRow->coding) {
+                $isValid = false;
+                return $isValid;
+                break;
+            }
+            else if (sizeof($childRow->all_childs) > 0) {
+                Self::isValidParent($childRow, $parent_coding);
+            }
+        }
+        return $isValid;
     }
 
     public function destroy(ItemStock $ConfigurationDetail)
