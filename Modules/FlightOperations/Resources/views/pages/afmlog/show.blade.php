@@ -113,12 +113,16 @@
                     </div>
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
-                            @include('flightoperations::pages.afmlog.discrepancy.content')
+                            <div class="row m-b">
+                                @include('flightoperations::pages.afmlog.discrepancy.content')
+                            </div>
                         </div>
                     </div>
                     <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
-                            @include('flightoperations::pages.afmlog.rectification.content')
+                            <div class="row m-b">
+                                @include('flightoperations::pages.afmlog.rectification.content')
+                            </div>
                         </div>
                     </div>
                 </div>

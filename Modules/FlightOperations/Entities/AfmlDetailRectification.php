@@ -18,8 +18,10 @@ class AfmlDetailRectification extends Model
 
         'afm_log_id',
         'afml_detail_discrepancy_id',
+        'code',
         'title',
         'description',
+        'performed_by',
 
         'status',
         'created_by',
@@ -36,6 +38,11 @@ class AfmlDetailRectification extends Model
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'performed_by');
     }
 
     public function afm_log()

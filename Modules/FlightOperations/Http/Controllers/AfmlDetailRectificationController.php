@@ -28,7 +28,8 @@ class AfmlDetailRectificationController extends Controller
         $afm_log_id = $request->id;
         
         $data = AfmlDetailRectification::where('afm_log_id', $afm_log_id)
-                                        ->with(['afml_detail_discrepancy'])
+                                        ->with(['afml_detail_discrepancy',
+                                                'employee:id,fullname'])
                                         ->get();
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
@@ -103,8 +104,8 @@ class AfmlDetailRectificationController extends Controller
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
-                'title' => 'required',
-                'description' => 'required',
+                'rectification_title' => 'required',
+                'rectification_description' => 'required',
             ]);
     
             // if ($request->status) {
@@ -120,8 +121,9 @@ class AfmlDetailRectificationController extends Controller
     
                 'afm_log_id' => $request->afm_log_id,
                 'afml_detail_discrepancy_id' => $request->afml_detail_discrepancy_id,
-                'title' => $request->title,
-                'description' => $request->description,
+                'title' => $request->rectification_title,
+                'description' => $request->rectification_description,
+                'performed_by' => $request->performed_by,
 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -148,8 +150,8 @@ class AfmlDetailRectificationController extends Controller
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
-                'title' => 'required',
-                'description' => 'required',
+                'rectification_title' => 'required',
+                'rectification_description' => 'required',
             ]);
     
             // if ($request->status) {
@@ -161,10 +163,10 @@ class AfmlDetailRectificationController extends Controller
             
             $currentRow
                 ->update([
-                    'afm_log_id' => $request->afm_log_id,
                     'afml_detail_discrepancy_id' => $request->afml_detail_discrepancy_id,
-                    'title' => $request->title,
-                    'description' => $request->description,
+                    'title' => $request->rectification_title,
+                    'description' => $request->rectification_description,
+                    'performed_by' => $request->performed_by,
     
                     'status' => 1,
                     'updated_by' => Auth::user()->id,

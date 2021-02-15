@@ -22,8 +22,8 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label>Description</label>
-                            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
-                            <div class="invalid-feedback-description text-danger font-italic"></div>
+                            <input type="text" class="form-control @error('discrepancy_description') is-invalid @enderror" name="discrepancy_description" id="discrepancy_description">
+                            <div class="invalid-feedback-discrepancy_description text-danger font-italic"></div>
                         </div>
                     </div>
                     

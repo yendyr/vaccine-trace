@@ -26,7 +26,7 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'code', defaultContent: '-' },
-            { data: 'afml_detail_discrepancy_id', defaultContent: '-' },
+            { data: 'afml_detail_discrepancy.code', defaultContent: '-' },
             { data: 'title', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'employee.fullname', defaultContent: '-' },
@@ -48,6 +48,13 @@ $(document).ready(function () {
         ajax: {
             url: "{{ route('flightoperations.afml.discrepancy.select2') }}",
             dataType: 'json',
+            data: function (params) {
+                var getHeaderId = { 
+                    term: params.term,
+                    afm_log_id: $('#afm_log_id').val(),
+                }
+                return getHeaderId;
+            }
         },
         dropdownParent: $(inputModalId)
     });
@@ -93,11 +100,11 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo(inputFormId);
 
-        $('#title').val(data.title);
-        $('#description').val(data.description);
+        $('#rectification_title').val(data.title);
+        $('#rectification_description').val(data.description);
 
         if (data.afml_detail_discrepancy != null) {
-            $('#afml_detail_discrepancy_id').append('<option value="' + data.afml_detail_discrepancy_id + '" selected>' + data.afml_detail_discrepancy.code + ' | ' + data.afml_detail_discrepancy.title + '</option>');
+            $('#afml_detail_discrepancy_id').append('<option value="' + data.afml_detail_discrepancy_id + '" selected>' + data.afml_detail_discrepancy.code + ' | ' + data.afml_detail_discrepancy.title + ' | ' + data.afml_detail_discrepancy.description + '</option>');
         }
 
         if (data.employee != null) {

@@ -154,7 +154,6 @@ class AfmlDetailCrewController extends Controller
             
             $currentRow
                 ->update([
-                    'afm_log_id' => $request->afm_log_id,
                     'employee_id' => $request->employee_id,
                     'role_id' => $request->role_id,
                     'description' => $request->description,

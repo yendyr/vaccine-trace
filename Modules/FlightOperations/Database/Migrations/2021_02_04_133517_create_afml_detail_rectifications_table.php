@@ -19,6 +19,7 @@ class CreateAfmlDetailRectificationsTable extends Migration
 
             $table->string('afm_log_id');
             $table->string('afml_detail_discrepancy_id')->nullable();
+            $table->string('code')->nullable();
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('performed_by')->nullable();

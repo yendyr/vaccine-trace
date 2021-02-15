@@ -69,7 +69,7 @@ $(document).ready(function () {
         }).prependTo(inputFormId);
 
         $('#title').val(data.title);
-        $('#description').val(data.description);
+        $('#discrepancy_description').val(data.description);
 
         $(saveButtonId).val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation

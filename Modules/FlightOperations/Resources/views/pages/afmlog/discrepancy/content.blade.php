@@ -24,7 +24,7 @@
         <th>Code</th>
         <th>Title</th>
         <th>Description</th>
-        <th>Progress Status</th>
+        <th>Related Rectification Performed</th>
         <th>Created By</th>
         <th>Created At</th>
         <th>Action</th>

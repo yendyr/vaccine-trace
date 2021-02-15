@@ -156,7 +156,6 @@ class AfmlDetailManifestController extends Controller
             
             $currentRow
                 ->update([
-                    'afm_log_id' => $request->afm_log_id,
                     'person' => $request->person,
                     'pax' => $request->pax,
                     'cargo_weight' => $request->cargo_weight,

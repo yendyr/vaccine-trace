@@ -22,15 +22,15 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label>Title</label>
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title">
-                            <div class="invalid-feedback-title text-danger font-italic"></div>
+                            <input type="text" class="form-control @error('rectification_title') is-invalid @enderror" name="rectification_title" id="rectification_title">
+                            <div class="invalid-feedback-rectification_title text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label>Description</label>
-                            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
-                            <div class="invalid-feedback-description text-danger font-italic"></div>
+                            <input type="text" class="form-control @error('rectification_description') is-invalid @enderror" name="rectification_description" id="rectification_description">
+                            <div class="invalid-feedback-rectification_description text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">

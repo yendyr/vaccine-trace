@@ -158,6 +158,9 @@ use Modules\FlightOperations\Entities\AfmlDetailManifest;
 use Modules\FlightOperations\Policies\AfmlDetailDiscrepancyPolicy;
 use Modules\FlightOperations\Entities\AfmlDetailDiscrepancy;
 
+use Modules\FlightOperations\Policies\AfmlDetailRectificationPolicy;
+use Modules\FlightOperations\Entities\AfmlDetailRectification;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -229,6 +232,7 @@ class AuthServiceProvider extends ServiceProvider
         AfmlDetailJournal::class => AfmlDetailJournalPolicy::class,
         AfmlDetailManifest::class => AfmlDetailManifestPolicy::class,
         AfmlDetailDiscrepancy::class => AfmlDetailDiscrepancyPolicy::class,
+        AfmlDetailRectification::class => AfmlDetailRectificationPolicy::class,
     ];
 
     /**

@@ -117,7 +117,7 @@ class AfmlDetailDiscrepancyController extends Controller
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
                 'title' => 'required',
-                'description' => 'required',
+                'discrepancy_description' => 'required',
             ]);
     
             // if ($request->status) {
@@ -133,7 +133,7 @@ class AfmlDetailDiscrepancyController extends Controller
     
                 'afm_log_id' => $request->afm_log_id,
                 'title' => $request->title,
-                'description' => $request->description,
+                'description' => $request->discrepancy_description,
                 'progress_status' => 0,
 
                 'owned_by' => $request->user()->company_id,
@@ -162,7 +162,7 @@ class AfmlDetailDiscrepancyController extends Controller
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
                 'title' => 'required',
-                'description' => 'required',
+                'discrepancy_description' => 'required',
             ]);
     
             // if ($request->status) {
@@ -174,9 +174,8 @@ class AfmlDetailDiscrepancyController extends Controller
             
             $currentRow
                 ->update([
-                    'afm_log_id' => $request->afm_log_id,
                     'title' => $request->title,
-                    'description' => $request->description,
+                    'description' => $request->discrepancy_description,
     
                     'status' => 1,
                     'updated_by' => Auth::user()->id,
@@ -213,20 +212,20 @@ class AfmlDetailDiscrepancyController extends Controller
         $search = $request->term;
         $afm_log_id = $request->afm_log_id;
 
-        $query = AfmLog::where('id', $afm_log_id)
+        $query = AfmlDetailDiscrepancy::where('afm_log_id', $afm_log_id)
                         ->where('status', 1);
 
         if($search != ''){
             $query = $query->where('title', 'like', '%' .$search. '%')
                         ->orWhere('description', 'like', '%' .$search. '%');
         }
-        $AfmLog = $query->get();
+        $AfmlDetailDiscrepancies = $query->get();
 
         $response = [];
-        foreach($AfmLog->discrepancy_details as $discrepancy_detail){
+        foreach($AfmlDetailDiscrepancies as $AfmlDetailDiscrepancy){
             $response['results'][] = [
-                "id" => $discrepancy_detail->id,
-                "text" => $discrepancy_detail->code . ' | ' . $discrepancy_detail->title
+                "id" => $AfmlDetailDiscrepancy->id,
+                "text" => $AfmlDetailDiscrepancy->code . ' | ' . $AfmlDetailDiscrepancy->title . ' | ' . $AfmlDetailDiscrepancy->description
             ];
         }
         return response()->json($response);
