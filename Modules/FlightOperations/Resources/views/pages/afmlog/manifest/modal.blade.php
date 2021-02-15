@@ -27,7 +27,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label>Cargo Weight</label>
-                            <input type="text" class="form-control @error('cargo_weight') is-invalid @enderror" name="cargo_weight" id="cargo_weight">
+                            <input type="number" class="form-control @error('cargo_weight') is-invalid @enderror" name="cargo_weight" id="cargo_weight" min="0">
                             <div class="invalid-feedback-cargo_weight text-danger font-italic"></div>
                         </div>
 
@@ -83,14 +83,3 @@
         </div>
     </div>
 </div>
-
-@push('header-scripts')
-<style>
-    .select2-container.select2-container--default.select2-container--open {
-        z-index: 9999999 !important;
-    }
-    .select2 {
-        width: 100% !important;
-    }
-</style>
-@endpush

@@ -84,47 +84,47 @@ class AfmLog extends Model
 
     public function crew_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailCrew::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailCrew::class, 'afm_log_id');
     }
 
     public function item_record_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemRecord::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemRecord::class, 'afm_log_id');
     }
 
     public function dmi_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDmi::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDmi::class, 'afm_log_id');
     }
 
     public function manifest_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManifest::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailManifest::class, 'afm_log_id');
     }
 
     public function journal_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailJournal::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailJournal::class, 'afm_log_id');
     }
 
     public function discrepancy_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'afm_log_id');
     }
 
     public function rectification_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailRectification::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailRectification::class, 'afm_log_id');
     }
 
     public function item_change_details()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemChange::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailItemChange::class, 'afm_log_id');
     }
 
     public function approvals()
     {
-        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlApproval::class, 'afm_logs_id');
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlApproval::class, 'afm_log_id');
     }
 
     public static function boot() {
