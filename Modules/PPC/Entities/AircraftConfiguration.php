@@ -74,10 +74,10 @@ class AircraftConfiguration extends Model
         return $this->hasOne(\Modules\SupplyChain\Entities\Warehouse::class, 'aircraft_configuration_id');
     }
 
-    public function configuration_details()
-    {
-        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'aircraft_configuration_id');
-    }
+    // public function configuration_details()
+    // {
+    //     return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'aircraft_configuration_id');
+    // }
 
     public function approvals()
     {
@@ -113,8 +113,9 @@ class AircraftConfiguration extends Model
         parent::boot();
 
         static::deleting(function($AircraftConfiguration) {
+            $AircraftConfiguration->warehouse->item_stocks()->delete();             
             $AircraftConfiguration->warehouse()->delete();             
-            $AircraftConfiguration->configuration_details()->delete();             
+            // $AircraftConfiguration->configuration_details()->delete();             
             $AircraftConfiguration->approvals()->delete();             
         });
     }
