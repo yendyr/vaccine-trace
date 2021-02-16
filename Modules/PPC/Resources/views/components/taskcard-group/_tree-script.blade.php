@@ -12,7 +12,7 @@ $(document).ready(function () {
             },
             "data": {
                 type: "GET",
-                url: "/ppc/aircraft-configuration/detail-tree/?id=" + $('#aircraft_configuration_id').val(),
+                url: "/ppc/taskcard-group/detail-tree",
                 success: function (data) {
                     data.d;
                     $(data).each(function () {

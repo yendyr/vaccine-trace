@@ -26,7 +26,8 @@ class ChartOfAccountController extends Controller
     {
         if ($request->ajax()) {
             $data = ChartOfAccount::with(['chart_of_account_class:id,name,position'])
-                                        ->with(['chart_of_account:id,name']);
+                                    ->with(['chart_of_account:id,name']);
+
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -66,16 +67,32 @@ class ChartOfAccountController extends Controller
                 ->make(true);
         }
 
-        $parentGroup = ChartOfAccount::where('parent_id', null)
-                                    ->where('status', 1)                
-                                    ->get();
-
-        return view('accounting::pages.chart-of-account.index', compact('parentGroup'));
+        return view('accounting::pages.chart-of-account.index');
     }
 
-    public function create()
+    public function tree(Request $request)
     {
-        return view('accounting::pages.chart-of-account.create');
+        $datas = ChartOfAccount::with(['chart_of_account'])
+                                ->where('chart_of_accounts.status', 1)
+                                ->get();
+
+        $response = [];
+        foreach($datas as $data) {
+            if ($data->parent_id) {
+                $parent = $data->parent_id;
+            }
+            else {
+                $parent = '#';
+            }
+
+            $response[] = [
+                "id" => $data->id,
+                "parent" => $parent,
+                "text" => $data->name
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function store(Request $request)

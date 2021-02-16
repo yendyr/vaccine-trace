@@ -17,10 +17,12 @@ class ChartOfAccount extends Model
     protected $fillable = [
         'uuid',
         'code',
+
         'name',
         'description',
         'chart_of_account_class_id',
         'parent_id',
+
         'status',
         'created_by',
         'updated_by',
@@ -48,8 +50,8 @@ class ChartOfAccount extends Model
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id');
     }
 
-    public function subGroup()
+    public function all_childs()
     {
-        return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id');
+        return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id', 'id')->with('all_childs');
     }
 }

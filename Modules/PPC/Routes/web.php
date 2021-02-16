@@ -17,6 +17,8 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/taskcard-type/select2', 'TaskcardTypeController@select2')->name('select2');
         });
 
+        Route::get('/taskcard-group/detail-tree', 'TaskcardGroupController@tree')->name('taskcard-group.detail-tree');
+
         Route::resource('/taskcard-group', 'TaskcardGroupController');
         Route::name('taskcard-group.')->group(function() {
             Route::get('ppc/taskcard-group/select2/parent', 'TaskcardGroupController@select2Parent')->name('select2.parent');
@@ -57,6 +59,8 @@ Route::name('ppc.')->group(function () {
 
         Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
 
+        Route::get('/aircraft-configuration-template/detail-tree', 'AircraftConfigurationTemplateDetailController@tree')->name('aircraft-configuration-template.detail-tree');
+
         Route::resource('/aircraft-configuration-template', 'AircraftConfigurationTemplateController');
         Route::name('aircraft-configuration-template.')->group(function() {
             Route::get('ppc/aircraft-configuration-template/select2', 'AircraftConfigurationTemplateController@select2')->name('select2');
@@ -67,7 +71,7 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/configuration-template-detail/select2', 'AircraftConfigurationTemplateDetailController@select2Parent')->name('select2');
         });
 
-        Route::get('/template-detail-tree', 'AircraftConfigurationTemplateDetailController@tree'); 
+        Route::get('/aircraft-configuration/detail-tree', 'AircraftConfigurationDetailController@tree')->name('aircraft-configuration.detail-tree');
 
         Route::resource('/aircraft-configuration', 'AircraftConfigurationController');
         Route::name('aircraft-configuration.')->group(function() {
@@ -80,8 +84,6 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/configuration-detail/select2', 'AircraftConfigurationDetailController@select2Parent')->name('select2');
         });
 
-        Route::get('/detail-tree', 'AircraftConfigurationDetailController@tree');
-
-        Route::resource('/maintenance-program', 'MaintenanceProgramController');
+        // Route::resource('/maintenance-program', 'MaintenanceProgramController');
     });
 }); 

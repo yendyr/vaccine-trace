@@ -6,7 +6,6 @@ use Modules\PPC\Entities\TaskcardGroup;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -26,6 +25,7 @@ class TaskcardGroupController extends Controller
     {
         if ($request->ajax()) {
             $data = TaskcardGroup::with(['taskcard_group:id,name']);
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -65,16 +65,32 @@ class TaskcardGroupController extends Controller
                 ->make(true);
         }
 
-        $parentGroup = TaskcardGroup::where('parent_id', null)
-                                    ->where('status', 1)                
-                                    ->get();
-
-        return view('ppc::pages.taskcard-group.index', compact('parentGroup'));
+        return view('ppc::pages.taskcard-group.index');
     }
 
-    public function create()
+    public function tree(Request $request)
     {
-        return view('ppc::pages.taskcard-group.create');
+        $datas = TaskcardGroup::with(['taskcard_group'])
+                                ->where('taskcard_groups.status', 1)
+                                ->get();
+
+        $response = [];
+        foreach($datas as $data) {
+            if ($data->parent_id) {
+                $parent = $data->parent_id;
+            }
+            else {
+                $parent = '#';
+            }
+
+            $response[] = [
+                "id" => $data->id,
+                "parent" => $parent,
+                "text" => $data->name
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function store(Request $request)
