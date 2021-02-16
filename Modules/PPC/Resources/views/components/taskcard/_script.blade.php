@@ -36,7 +36,7 @@ $(document).ready(function () {
                     "render": function ( data, type, row, meta ) {
                     return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
             { data: 'title', name: 'Title' },
-            { data: 'taskcard_group.name', name: 'Group' },
+            { data: 'group_structure', name: 'Group' },
             { data: 'taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },

@@ -39,7 +39,7 @@ class TaskcardGroup extends Model
 
     public function taskcard_group()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id')->with('taskcard_group');
     }
 
     public function subGroup()

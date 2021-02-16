@@ -3,6 +3,7 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\Taskcard;
+use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\TaskcardDetailAircraftType;
 use Modules\PPC\Entities\TaskcardDetailAffectedItem;
 use Modules\PPC\Entities\TaskcardDetailAccess;
@@ -35,7 +36,7 @@ class TaskcardController extends Controller
     {
         if ($request->ajax()) {
             $data = Taskcard::with([
-                    'taskcard_group:id,name',
+                    'taskcard_group:id,name,parent_id',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',
@@ -46,10 +47,32 @@ class TaskcardController extends Controller
                     'affected_manuals:id,name',
                     ]);
             return Datatables::of($data)
+                ->addColumn('group_structure', function($row) {
+                    if ($row->taskcard_group_id) {
+                        $currentRow = TaskcardGroup::where('id', $row->taskcard_group_id)->first();
+                        $group_structure = '';
+
+                        while (true) {
+                            if ($currentRow) {
+                                $group_structure = $currentRow->name . ' -> ' . $group_structure;
+                                $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)->first();
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        $group_structure = Str::beforeLast($group_structure, '->');
+                        return $group_structure;
+                    } 
+                    else {
+                        return '-';
+                    }
+                })
                 ->addColumn('status', function($row){
-                    if ($row->status == 1){
+                    if ($row->status == 1) {
                         return '<label class="label label-success">Active</label>';
-                    } else{
+                    } 
+                    else {
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
@@ -64,6 +87,8 @@ class TaskcardController extends Controller
                     foreach ($row->aircraft_types as $aircraft_type) {
                         $aircraft_type_name .= $aircraft_type->name . ', ';
                     }
+
+                    $aircraft_type_name = Str::beforeLast($aircraft_type_name, ',');
                     return $aircraft_type_name;
                 })
                 ->addColumn('skills', function($row){
@@ -86,6 +111,7 @@ class TaskcardController extends Controller
                         $skill_name .= $skill . ', ';
                     }
                     
+                    $skill_name = Str::beforeLast($skill_name, ',');
                     return $skill_name;
                 })
                 ->addColumn('creator_name', function($row){
