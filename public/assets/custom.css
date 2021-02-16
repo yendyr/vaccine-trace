@@ -277,3 +277,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .animate-md {
     animation-duration: 1.5s;
 }
+
+.nav .label, .ibox .label {
+    font-size: 12px;
+}

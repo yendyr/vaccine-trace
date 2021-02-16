@@ -53,7 +53,13 @@ class AfmlDetailDiscrepancyController extends Controller
                     return '<p class="text-info">No Related Rectification Performed</p>';
                 } 
                 else {
-                    return '<label class="label label-success">' . $row->rectification_details()->first()->code . '</label>';
+                    $rectification_code = null;
+
+                    foreach ($row->rectification_details as $rectification_detail) {
+                        $rectification_code .= '<label class="label label-success m-r-xs">' . $rectification_detail->code . '</label>';
+                    }
+
+                    return $rectification_code;
                 }
             })
             ->addColumn('creator_name', function($row){
