@@ -6,9 +6,9 @@ use Modules\Accounting\Entities\ChartOfAccount;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -134,16 +134,6 @@ class ChartOfAccountController extends Controller
     
     }
 
-    public function show(ChartOfAccount $ChartOfAccount)
-    {
-        return view('accounting::pages.chart-of-account.show');
-    }
-
-    public function edit(ChartOfAccount $ChartOfAccount)
-    {
-        return view('accounting::pages.chart-of-account.edit', compact('ChartOfAccount'));
-    }
-
     public function update(Request $request, ChartOfAccount $ChartOfAccount)
     {
         $request->validate([
@@ -151,8 +141,18 @@ class ChartOfAccountController extends Controller
             'name' => ['required', 'max:30'],
         ]);
 
+        $currentRow = ChartOfAccount::where('id', $ChartOfAccount->id)
+                                    ->with('all_childs')
+                                    ->first();
+
         if ($request->status) {
-            $status = 1;
+            $status = 1; 
+            
+            if ($currentRow->parent_id != null) {
+                if ($currentRow->chart_of_account->status == 0) {
+                    return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
+                }
+            }
         } 
         else {
             $status = 0;
@@ -172,8 +172,8 @@ class ChartOfAccountController extends Controller
             $chart_of_account_class_id = $request->chart_of_account_class_id;
         }
 
-        $currentRow = ChartOfAccount::where('id', $ChartOfAccount->id)->first();
-        if ( $currentRow->code == $request->code) {
+        DB::beginTransaction();
+        if ($currentRow->code == $request->code) {
             $currentRow
                 ->update([
                     'name' => $request->name,
@@ -196,8 +196,41 @@ class ChartOfAccountController extends Controller
                     'updated_by' => Auth::user()->id,
             ]);
         }
+        if (sizeof($currentRow->all_childs) > 0) {
+            Self::updateChilds($currentRow, $status);
+        }
+        DB::commit();
         return response()->json(['success' => 'Chart of Account Data has been Updated']);
-    
+    }
+
+    public static function updateChilds($currentRow, $status)
+    {
+        foreach($currentRow->all_childs as $childRow) {
+            $childRow
+                ->update([
+                    'status' => $status,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::updateChilds($childRow, $status);
+            }
+        }
+    }
+
+    public static function isValidParent($currentRow, $parent_id)
+    {
+        $isValid = true;
+        foreach($currentRow->all_childs as $childRow) {
+            if ($parent_id == $childRow->id) {
+                $isValid = false;
+                return $isValid;
+                break;
+            }
+            else if (sizeof($childRow->all_childs) > 0) {
+                Self::isValidParent($childRow, $parent_id);
+            }
+        }
+        return $isValid;
     }
 
     public function destroy(ChartOfAccount $ChartOfAccount)
