@@ -545,4 +545,37 @@ class TaskcardController extends Controller
         }
     }
 
+    public function list_tree(Request $request)
+    {
+        // $maintenance_program_id = $request->id;
+        // $MaintenanceProgram = MaintenanceProgram::where('id', $maintenance_program_id)->first();
+        
+        // $maintenance_program_details = MaintenanceProgramDetail::where('id', $maintenance_program_id)
+        //                         ->with(['item:id,code,name',
+        //                                 'item_group:id,item_id,alias_name,coding,parent_coding'])
+        //                         ->where('item_stocks.status', 1)
+        //                         ->orderBy('created_at','asc')
+        //                         ->get();
+
+        $data_taskcards = Taskcard::with(['taskcard_group:id,name,parent_id',
+                                'taskcard_type:id,name',
+                                'taskcard_workarea:id,name',
+                                'aircraft_types:id,name',
+                                'affected_items:id,code,name',
+                                'accesses:id,name',
+                                'zones:id,name',
+                                'document_libraries:id,name',
+                                'affected_manuals:id,name',
+                            ])->get();
+
+        $response = [];
+        foreach($data_taskcards as $data) {
+            $response = [
+                "id" => $data->id,
+                "taskcard" => $data->title,
+            ];
+        }
+
+        return response(json_encode(array($response)));
+    }
 }

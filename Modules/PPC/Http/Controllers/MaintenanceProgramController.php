@@ -3,7 +3,9 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\MaintenanceProgram;
+use Modules\PPC\Entities\MaintenanceProgramDetail;
 use Modules\PPC\Entities\MaintenanceProgramApproval;
+use Modules\PPC\Entities\Taskcard;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
