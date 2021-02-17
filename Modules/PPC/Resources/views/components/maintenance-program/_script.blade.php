@@ -79,7 +79,8 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo('#inputForm');
 
-        $('#name').val(data.description);
+        $('#code').val(data.code);
+        $('#name').val(data.name);
         $('#description').val(data.description);
 
         $(".aircraft_type_id").val(null).trigger('change');

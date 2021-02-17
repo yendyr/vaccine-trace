@@ -71,22 +71,27 @@ $(document).ready(function () {
 
     var master_taskcards = [];
 
-    $.get("/ppc/taskcard/list-tree", function (data) {
-        master_taskcards = data;
+    $.ajax({
+        url: "/ppc/taskcard/list-tree",
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+            master_taskcards = data;
+        }
     });
 
     var duallistbox = {
         // "groupDataArray": groupDataArray1,
         // "groupItemName": "groupName",
         // "groupArrayName": "groupData",
-        dataArray: master_taskcards,
-        itemName: "taskcard",
-        valueName: "id",
-        tabNameText: "Available Master Task Card",
-        rightTabNameText: "Selected Task Card",
-        searchPlaceholderText: "Search",
-        callable: function (items) {
-            // console.dir(items)
+        'dataArray': master_taskcards,
+        'itemName': "taskcard",
+        'valueName': "id",
+        'tabNameText': "Available Master Task Card",
+        'rightTabNameText': "Selected Task Card",
+        'searchPlaceholderText': "Search",
+        'callable': function (items) {
+            console.dir(items)
         }
     };
 

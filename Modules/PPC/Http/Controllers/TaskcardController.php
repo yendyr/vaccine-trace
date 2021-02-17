@@ -572,10 +572,10 @@ class TaskcardController extends Controller
         foreach($data_taskcards as $data) {
             $response = [
                 "id" => $data->id,
-                "taskcard" => $data->title,
+                "taskcard" => $data->mpd_number . ' | ' . $data->taskcard_type->name . ' | ' . $data->title,
             ];
         }
 
-        return response()->json($response);
+        return response()->json(array($response));
     }
 }
