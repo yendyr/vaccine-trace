@@ -59,6 +59,8 @@ Route::name('ppc.')->group(function () {
 
         Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
 
+        Route::resource('/maintenance-program', 'MaintenanceProgramController');
+
         Route::get('/aircraft-configuration-template/detail-tree', 'AircraftConfigurationTemplateDetailController@tree')->name('aircraft-configuration-template.detail-tree');
 
         Route::resource('/aircraft-configuration-template', 'AircraftConfigurationTemplateController');
@@ -83,7 +85,5 @@ Route::name('ppc.')->group(function () {
         Route::name('configuration-detail.')->group(function() {
             Route::get('ppc/configuration-detail/select2', 'AircraftConfigurationDetailController@select2Parent')->name('select2');
         });
-
-        // Route::resource('/maintenance-program', 'MaintenanceProgramController');
     });
 }); 

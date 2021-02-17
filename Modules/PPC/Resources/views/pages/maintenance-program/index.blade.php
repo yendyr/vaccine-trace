@@ -1,20 +1,20 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Aircraft Configuration Datalist'])
+    @component('components.delete-modal', ['name' => 'Maintenance Program Datalist'])
     @endcomponent
 
-    @component('components.approve-modal', ['name' => 'Aircraft Configuration Datalist'])
+    @component('components.approve-modal', ['name' => 'Maintenance Program Datalist'])
     @endcomponent
 
-    @include('ppc::pages.aircraft-configuration.modal')
+    @include('ppc::pages.maintenance-program.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Aircraft Configuration Datalist',
-                    'tableId' => 'aircraft-configuration'])
+                    'title' => 'Maintenance Program Datalist',
+                    'tableId' => 'maintenance-program-table'])
 
         @slot('createButton')
-            @can('create', Modules\PPC\Entities\AircraftConfiguration::class)                
+            @can('create', Modules\PPC\Entities\MaintenanceProgram::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   
@@ -22,11 +22,9 @@
         @endslot    
 
         @slot('tableContent')
+            <th>Code</th>
             <th>Aircraft Type Name</th>
-            <th>Aircraft Serial Number</th>
-            <th>Aircraft Registration</th>
-            <th>Manufactured Date</th>
-            <th>Received Date</th>
+            <th>Name</th>
             <th>Remark</th>
             <th>Status</th>
             <th>Created By</th>
@@ -37,7 +35,7 @@
         @endslot
     @endcomponent
 
-    @include('ppc::components.aircraft-configuration._script')
+    @include('ppc::components.maintenance-program._script')
 
 @endsection
 

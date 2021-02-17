@@ -3,7 +3,6 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\MaintenanceProgram;
-use Modules\PPC\Entities\MaintenanceProgramDetail;
 use Modules\PPC\Entities\MaintenanceProgramApproval;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -29,11 +28,6 @@ class MaintenanceProgramController extends Controller
         if ($request->ajax()) {
             $data = MaintenanceProgram::with(['aircraft_type:id,name',
                                                 'approvals:id',
-                                                'max_takeoff_weight_unit:id,name',
-                                                'max_landing_weight_unit:id,name',
-                                                'max_zero_fuel_weight_unit:id,name',
-                                                'fuel_capacity_unit:id,name',
-                                                'basic_empty_weight_unit:id,name',
                                                 ]);
             
             return Datatables::of($data)
