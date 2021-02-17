@@ -576,6 +576,6 @@ class TaskcardController extends Controller
             ];
         }
 
-        return response(json_encode(array($response)));
+        return response()->json($response);
     }
 }
