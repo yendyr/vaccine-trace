@@ -1,103 +1,158 @@
 @push('footer-scripts')
-<script src="{{ URL::asset('theme/js/plugins/dualListbox/jquery.transfer.js') }}"></script>
+<script src="{{ URL::asset('theme/js/plugins/dualListbox/bootstrap-duallistbox.min.js') }}"></script>
 
 <script>
 $(document).ready(function () {
-    // $('#tree_view').jstree({
-    //     plugins : ['types'],
-    //     core: {
-    //         "themes": {
-    //             'name': 'proton',
-    //             "responsive": true
-    //         },
-    //         "data": {
-    //             type: "GET",
-    //             url: "/ppc/aircraft-configuration-template/detail-tree/?id=" + $('#aircraft_configuration_template_id').val(),
-    //             success: function (data) {
-    //                 data.d;
-    //                 $(data).each(function () {
-    //                     return { "id": this.id };
-    //                 });
-    //             }
-    //         },            
-    //     },
-    //     types: {
-    //         'default' : {
-    //             'icon' : 'fa fa-folder text-danger'
-    //         },
-    //     }
-    // });
+    // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
+    var actionUrl = '/ppc/maintenance-program-detail';
+    var saveButtonId = '#saveButtonDetail';
+    var inputFormId = '#inputFormDetail';
+    var editButtonClass = '.editButtonDetail';
+    // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
-    // var groupDataArray1 = [
-    //     {
-    //         "groupName": "China",
-    //         "groupData": [
-    //             {
-    //                 "taskcard": "Beijing",
-    //                 "id": 122
-    //             },
-    //             {
-    //                 "taskcard": "Shanghai",
-    //                 "id": 643
-    //             },
-    //             {
-    //                 "taskcard": "Qingdao",
-    //                 "id": 422
-    //             },
-    //             {
-    //                 "taskcard": "Tianjin",
-    //                 "id": 622
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         "groupName": "Japan",
-    //         "groupData": [
-    //             {
-    //                 "taskcard": "Tokyo",
-    //                 "id": 132
-    //             },
-    //             {
-    //                 "taskcard": "Osaka",
-    //                 "id": 112
-    //             },
-    //             {
-    //                 "taskcard": "Yokohama",
-    //                 "id": 191
-    //             }
-    //         ]
-    //     }
-    // ];
 
-    var master_taskcards = [];
 
-    $.ajax({
-        url: "/ppc/taskcard/list-tree",
-        async: false,
-        dataType: 'json',
-        success: function(data) {
-            master_taskcards = data;
-        }
+    $('.aircraft_type_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose A/C Type',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.aircraft-type.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $(inputModalId)
     });
 
-    var duallistbox = {
-        // "groupDataArray": groupDataArray1,
-        // "groupItemName": "groupName",
-        // "groupArrayName": "groupData",
-        'dataArray': master_taskcards,
-        'itemName': "taskcard",
-        'valueName': "id",
-        'tabNameText': "Available Master Task Card",
-        'rightTabNameText': "Selected Task Card",
-        'searchPlaceholderText': "Search",
-        'callable': function (items) {
-            console.dir(items)
-        }
-    };
+    $('.max_takeoff_weight_unit_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Unit',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.unit.select2.mass') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $(inputModalId)
+    });
 
-    $("#taskcard-list-box").transfer(duallistbox);
-    $("[id*=ListSearch]").addClass('form-control');
-    $("[id*=listSearch]").addClass('form-control');
+    $('.max_landing_weight_unit_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Unit',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.unit.select2.mass') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $(inputModalId)
+    });
+
+    $('.max_zero_fuel_weight_unit_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Unit',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.unit.select2.mass') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $(inputModalId)
+    });
+
+    $('.fuel_capacity_unit_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Unit',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.unit.select2.mass') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $(inputModalId)
+    });
+
+    $('.basic_empty_weight_unit_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Unit',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('supplychain.unit.select2.mass') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $(inputModalId)
+    });
+
+
+
+    
+
+
+
+    // ----------------- "EDIT" BUTTON SCRIPT ------------- //
+    $(editButtonClass).click(function (e) {
+        $(modalTitleId).html("Edit Aircraft Configuration");
+        
+        $('<input>').attr({
+            type: 'hidden',
+            name: '_method',
+            value: 'patch'
+        }).prependTo(inputFormId);
+
+        var id = $(this).data('id');
+        $(inputFormId).attr('action', actionUrl + '/' + id);
+
+        $(saveButtonId).val("edit");
+        $('[class^="invalid-feedback-"]').html('');  // clearing validation
+        $(inputModalId).modal('show');
+    });
+    // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
+
+
+
+
+
+
+
+    // ----------------- "SUBMIT FORM" BUTTON SCRIPT ------------- //
+    $(inputFormId).on('submit', function (event) {
+        event.preventDefault();
+        let url_action = $(inputFormId).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            method: "POST",
+            data: $(inputFormId).serialize(),
+            dataType: 'json',
+            beforeSend:function(){
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'start' );
+                $('[class^="invalid-feedback-"]').html('');
+                $(saveButtonId).prop('disabled', true);
+            },
+            error: function(data){
+                let errors = data.responseJSON.errors;
+                if (errors) {
+                    $.each(errors, function (index, value) {
+                        $('div.invalid-feedback-'+index).html(value);
+                    })
+                }
+            },
+            success: function (data) {
+                if (data.success) {
+                    generateToast ('success', data.success);                            
+                }
+                $(inputModalId).modal('hide');
+
+                setTimeout(location.reload.bind(location), 2000);
+            },
+            complete: function () {
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'stop' );
+                $(saveButtonId). prop('disabled', false);
+            }
+        }); 
+    });
+    // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 });
 </script>
 @endpush

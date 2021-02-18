@@ -50,8 +50,6 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/aircraft-type/select2', 'AircraftTypeController@select2')->name('select2');
         });
 
-        Route::get('/taskcard/list-tree', 'TaskcardController@list_tree')->name('taskcard.list-tree');
-
         Route::resource('/taskcard', 'TaskcardController');
         Route::name('taskcard.')->group(function() {
             Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');
@@ -62,6 +60,10 @@ Route::name('ppc.')->group(function () {
         Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
 
         Route::resource('/maintenance-program', 'MaintenanceProgramController');
+
+        Route::get('/maintenance-program-detail/list-tree', 'MaintenanceProgramDetailController@dual_list_box')->name('maintenance-program-detail.dual_list_box');
+
+        Route::resource('/maintenance-program-detail', 'MaintenanceProgramDetailController');
 
         Route::get('/aircraft-configuration-template/detail-tree', 'AircraftConfigurationTemplateDetailController@tree')->name('aircraft-configuration-template.detail-tree');
 
