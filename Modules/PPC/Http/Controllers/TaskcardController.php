@@ -428,7 +428,7 @@ class TaskcardController extends Controller
         }
 
         if ($request->affected_item_id) {
-            $Taskcard->affected_item_id()->forceDelete();
+            $Taskcard->affected_item_details()->forceDelete();
 
             foreach ($request->affected_item_id as $affected_item_id) {
                 $Taskcard->affected_item_details()
