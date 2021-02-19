@@ -22,12 +22,12 @@
                 <ul class="nav nav-tabs" id="myTab">
                     <li>
                         <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Task Card/Inspection List
+                            <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Task Card/Inspection List Reference (MPD)
                         </a>
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
-                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Tree View
+                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Current Maintenance Program
                         </a>
                     </li>
                 </ul>
@@ -43,7 +43,7 @@
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
-                                {{-- @include('ppc::pages.aircraft-configuration-template.tree-view.content') --}}
+                                @include('ppc::pages.maintenance-program.maintenance-program-detail.content')
                             </div>
                         </div>
                     </div>

@@ -82,6 +82,9 @@ use Modules\PPC\Entities\AircraftType;
 use Modules\PPC\Policies\MaintenanceProgramPolicy;
 use Modules\PPC\Entities\MaintenanceProgram;
 
+use Modules\PPC\Policies\MaintenanceProgramDetailPolicy;
+use Modules\PPC\Entities\MaintenanceProgramDetail;
+
 use Modules\PPC\Policies\AircraftConfigurationTemplatePolicy;
 use Modules\PPC\Entities\AircraftConfigurationTemplate;
 
@@ -205,6 +208,7 @@ class AuthServiceProvider extends ServiceProvider
         TaskcardDetailItem::class => TaskcardDetailItemPolicy::class,
         AircraftType::class => AircraftTypePolicy::class,
         MaintenanceProgram::class => MaintenanceProgramPolicy::class,
+        MaintenanceProgramDetail::class => MaintenanceProgramDetailPolicy::class,
         AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
         AircraftConfiguration::class => AircraftConfigurationPolicy::class,

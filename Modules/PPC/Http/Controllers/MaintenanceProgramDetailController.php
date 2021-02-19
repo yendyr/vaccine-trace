@@ -6,6 +6,9 @@ use Modules\PPC\Entities\MaintenanceProgram;
 use Modules\PPC\Entities\MaintenanceProgramDetail;
 use Modules\PPC\Entities\MaintenanceProgramApproval;
 use Modules\PPC\Entities\Taskcard;
+use Modules\PPC\Entities\TaskcardGroup;
+use Modules\PPC\Entities\TaskcardDetailInstruction;
+use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -25,102 +28,136 @@ class MaintenanceProgramDetailController extends Controller
         $this->middleware('auth');
     }
 
-    // public function index(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $data = MaintenanceProgram::with(['aircraft_type:id,name',
-    //                                             'approvals:id',
-    //                                             ]);
-            
-    //         return Datatables::of($data)
-    //             ->addColumn('status', function($row){
-    //                 if ($row->status == 1){
-    //                     return '<label class="label label-success">Active</label>';
-    //                 } else{
-    //                     return '<label class="label label-danger">Inactive</label>';
-    //                 }
-    //             })
-    //             ->addColumn('creator_name', function($row){
-    //                 return $row->creator->name ?? '-';
-    //             })
-    //             ->addColumn('updater_name', function($row){
-    //                 return $row->updater->name ?? '-';
-    //             })
-    //             ->addColumn('action', function($row){
-    //                 $noAuthorize = true;
-    //                 $approvable = false;
-    //                 $approveId = null;
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            if($request->maintenance_program_id) {
+                $data = MaintenanceProgramDetail::where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
+                                                ->with(['taskcard',
+                                                        'taskcard.taskcard_type',
+                                                        'maintenance_program',
+                                                    ]);
+                return Datatables::of($data)
+                ->addColumn('group_structure', function($row) {
+                    if ($row->taskcard->taskcard_group_id) {
+                        $currentRow = TaskcardGroup::where('id', $row->taskcard->taskcard_group_id)->first();
+                        $group_structure = '';
 
-    //                 if ($row->approvals()->count() > 0) {
-    //                     return '<p class="text-muted">Already Approved</p>';
-    //                 }
-    //                 else {
-    //                     if(Auth::user()->can('update', MaintenanceProgram::class)) {
-    //                         $updateable = 'button';
-    //                         $updateValue = $row->id;
-    //                         $noAuthorize = false;
-    //                     }
-    //                     if(Auth::user()->can('delete', MaintenanceProgram::class)) {
-    //                         $deleteable = true;
-    //                         $deleteId = $row->id;
-    //                         $noAuthorize = false;
-    //                     }
-    //                     if(Auth::user()->can('approval', MaintenanceProgram::class)) {
-    //                         $approvable = true;
-    //                         $approveId = $row->id;
-    //                         $noAuthorize = false;
-    //                     }
-                        
-    //                     if ($noAuthorize == false) {
-    //                         return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
-    //                     }
-    //                     else {
-    //                         return '<p class="text-muted">Not Authorized</p>';
-    //                     }
-    //                 }   
-    //             })
-    //             ->escapeColumns([])
-    //             ->make(true);
-    //     }
+                        while (true) {
+                            if ($currentRow) {
+                                $group_structure = $currentRow->name . ' -> ' . $group_structure;
+                                $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)->first();
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        $group_structure = Str::beforeLast($group_structure, '->');
+                        return $group_structure;
+                    } 
+                    else {
+                        return '-';
+                    }
+                })
+                ->addColumn('status', function($row){
+                    if ($row->status == 1) {
+                        return '<label class="label label-success">Active</label>';
+                    } 
+                    else {
+                        return '<label class="label label-danger">Inactive</label>';
+                    }
+                })
+                ->addColumn('instruction_count', function($row){
+                    return '<label class="label label-success">' . $row->taskcard->instruction_details()->count() . '</label>';
+                })
+                ->addColumn('manhours_total', function($row){
+                    return '<label class="label label-primary">' . $row->taskcard->instruction_details()->sum('manhours_estimation') . '</label>';
+                })
+                ->addColumn('skills', function($row){
+                    $skillsArray = array();
+                    $skill_name = '';
 
-    //     return view('ppc::pages.maintenance-program.index');
-    // }
+                    $TaskcardDetailInstructions = TaskcardDetailInstruction::where('taskcard_id', $row->taskcard_id)->get();
+                    
+                    foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
+                        $TaskcardDetailInstructionSkills = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id)->get();
+
+                        foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
+                            if (!in_array($TaskcardDetailInstructionSkill->skill->name, $skillsArray)) {
+                                $skillsArray[] = $TaskcardDetailInstructionSkill->skill->name;
+                            }
+                        }
+                    }
+
+                    foreach ($skillsArray as $skill) {
+                        $skill_name .= $skill . ', ';
+                    }
+                    
+                    $skill_name = Str::beforeLast($skill_name, ',');
+                    return $skill_name;
+                })
+                ->addColumn('creator_name', function($row){
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function($row){
+                    return $row->updater->name ?? '-';
+                })
+                ->addColumn('action', function($row) use ($request) {
+                    $noAuthorize = true;
+                    if(Auth::user()->can('update', MaintenanceProgram::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', MaintenanceProgram::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted">Not Authorized</p>';
+                    }
+                })
+                ->escapeColumns([])
+                ->make(true);
+            }
+        }
+    }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'aircraft_type_id' => ['required', 'max:30'],
-        ]);
+        // $request->validate([
+        //     'aircraft_type_id' => ['required', 'max:30'],
+        // ]);
 
-        if ($request->status) {
-            $status = 1;
-        } 
-        else {
-            $status = 0;
-        }
+        // if ($request->status) {
+        //     $status = 1;
+        // } 
+        // else {
+        //     $status = 0;
+        // }
 
         DB::beginTransaction();
-        $MaintenanceProgram = MaintenanceProgram::create([
+        MaintenanceProgramDetail::create([
             'uuid' =>  Str::uuid(),
 
             'code' => $request->code,
             'name' => $request->name,
             'description' => $request->description,
-            'aircraft_type_id' => $request->aircraft_type_id,
+            'maintenance_program_id' => $request->maintenance_program_id,
+            'taskcard_id' => $request->taskcard_id,
 
             'owned_by' => $request->user()->company_id,
-            'status' => $status,
+            'status' => 1,
             'created_by' => $request->user()->id,
         ]);
         DB::commit();
 
-        return response()->json(['success' => 'Maintenance Program Data has been Saved',
-                                'id' => $MaintenanceProgram->id]);
-    }
-
-    public function show(MaintenanceProgram $MaintenanceProgram)
-    {
-        return view('ppc::pages.maintenance-program.show', compact('MaintenanceProgram'));
+        return response()->json(['success' => 'Task Card has been Added to Maintenance Program']);
     }
 
     public function update(Request $request, MaintenanceProgram $MaintenanceProgram)
@@ -182,28 +219,6 @@ class MaintenanceProgramDetailController extends Controller
         return response()->json(['success' => 'Maintenance Program Data has been Deleted']);
     }
 
-    public function approve(Request $request, MaintenanceProgram $MaintenanceProgram)
-    {
-        $request->validate([
-            'approval_notes' => ['required', 'max:30'],
-        ]);
-
-        DB::beginTransaction();
-        MaintenanceProgramApproval::create([
-            'uuid' =>  Str::uuid(),
-
-            'maintenance_program_id' =>  $MaintenanceProgram->id,
-            'approval_notes' =>  $request->approval_notes,
-    
-            'owned_by' => $request->user()->company_id,
-            'status' => 1,
-            'created_by' => Auth::user()->id,
-        ]);
-        DB::commit();
-
-        return response()->json(['success' => 'Maintenance Program Data has been Approved']);
-    }
-
     public function select2(Request $request)
     {
         $search = $request->q;
@@ -224,39 +239,6 @@ class MaintenanceProgramDetailController extends Controller
                 "text" => $MaintenanceProgram->name
             ];
         }
-        return response()->json($response);
-    }
-
-    public function dual_list_box(Request $request)
-    {
-        // $maintenance_program_id = $request->id;
-        
-        // $maintenance_program_details = MaintenanceProgramDetail::where('id', $maintenance_program_id)
-        //                         ->with(['item:id,code,name',
-        //                                 'item_group:id,item_id,alias_name,coding,parent_coding'])
-        //                         ->where('item_stocks.status', 1)
-        //                         ->orderBy('created_at','asc')
-        //                         ->get();
-
-        $data_taskcards = Taskcard::with(['taskcard_group:id,name,parent_id',
-                                'taskcard_type:id,name',
-                                'taskcard_workarea:id,name',
-                                'aircraft_types:id,name',
-                                'affected_items:id,code,name',
-                                'accesses:id,name',
-                                'zones:id,name',
-                                'document_libraries:id,name',
-                                'affected_manuals:id,name',
-                            ])->get();
-
-        $response = [];
-        foreach($data_taskcards as $data) {
-            $response = [
-                "id" => $data->id,
-                "taskcard" => $data->mpd_number . ' | ' . $data->taskcard_type->name . ' | ' . $data->title,
-            ];
-        }
-
         return response()->json($response);
     }
 }

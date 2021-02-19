@@ -61,8 +61,6 @@ Route::name('ppc.')->group(function () {
 
         Route::resource('/maintenance-program', 'MaintenanceProgramController');
 
-        Route::get('/maintenance-program-detail/dual_list_box', 'MaintenanceProgramDetailController@dual_list_box')->name('maintenance-program-detail.dual_list_box');
-
         Route::resource('/maintenance-program-detail', 'MaintenanceProgramDetailController');
 
         Route::get('/aircraft-configuration-template/detail-tree', 'AircraftConfigurationTemplateDetailController@tree')->name('aircraft-configuration-template.detail-tree');

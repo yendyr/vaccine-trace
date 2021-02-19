@@ -10,8 +10,7 @@
 @endisset
 
 @isset($deleteable)
-    <button type="button" name="delete" class="{{ $deleteButtonClass ?? 'deleteBtn' }} btn btn-sm btn-outline btn-danger pr-2" data-toggle="tooltip" title="Delete"
-    value="{{ (isset($deleteId) ? $deleteId : '') }}">
+    <button type="button" name="delete" class="{{ $deleteButtonClass ?? 'deleteBtn' }} btn btn-sm btn-outline btn-danger pr-2" data-toggle="tooltip" title="Delete" value="{{ (isset($deleteId) ? $deleteId : '') }}">
         <i class="fa fa-trash"></i>
     </button>
 @endisset
@@ -22,10 +21,16 @@
 
 @isset($approvable)
 @if($approvable == true)
-    <button type="button" class="approveBtn btn btn-sm btn-outline btn-success pr-2" data-toggle="tooltip" title="Approve"
-            value="{{ $approveId }}"><i class="fa fa-check-circle"></i>
+    <button type="button" class="approveBtn btn btn-sm btn-outline btn-success pr-2" data-toggle="tooltip" title="Approve" value="{{ $approveId }}">
+        <i class="fa fa-check-circle"></i>
     </button>
 @endif
+@endisset
+
+@isset($usable)
+    <button type="button" class="useBtn btn btn-sm btn-outline btn-success pr-2" data-toggle="tooltip" title="Use" value="{{ $idToUse }}">
+            <i class="fa fa-check-square-o"></i>Use
+    </button>
 @endisset
 
 </div>

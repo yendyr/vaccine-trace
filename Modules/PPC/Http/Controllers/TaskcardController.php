@@ -160,10 +160,11 @@ class TaskcardController extends Controller
                             return '<p class="text-muted">Not Authorized</p>';
                         }
                     }
-                    else {
-                        return '<p class="text-muted">WIP</p>';
+                    else if($request->create_maintenance_program) {
+                        $usable = true;
+                        $idToUse = $row->id;
+                        return view('components.action-button', compact(['usable', 'idToUse']));
                     }
-                    
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -427,6 +428,8 @@ class TaskcardController extends Controller
         }
 
         if ($request->affected_item_id) {
+            $Taskcard->affected_item_id()->forceDelete();
+
             foreach ($request->affected_item_id as $affected_item_id) {
                 $Taskcard->affected_item_details()
                         ->save(new TaskcardDetailAffectedItem([
