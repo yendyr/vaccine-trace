@@ -139,32 +139,38 @@ class TaskcardController extends Controller
                 ->addColumn('updater_name', function($row){
                     return $row->updater->name ?? '-';
                 })
-                ->addColumn('action', function($row){
-                    $noAuthorize = true;
-                    if(Auth::user()->can('update', Taskcard::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', Taskcard::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
+                ->addColumn('action', function($row) use ($request) {
+                    if(!$request->aircraft_type_id) {
+                        $noAuthorize = true;
+                        if(Auth::user()->can('update', Taskcard::class)) {
+                            $updateable = 'button';
+                            $updateValue = $row->id;
+                            $noAuthorize = false;
+                        }
+                        if(Auth::user()->can('delete', Taskcard::class)) {
+                            $deleteable = true;
+                            $deleteId = $row->id;
+                            $noAuthorize = false;
+                        }
 
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                        if ($noAuthorize == false) {
+                            return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                        }
+                        else {
+                            return '<p class="text-muted">Not Authorized</p>';
+                        }
                     }
                     else {
-                        return '<p class="text-muted">Not Authorized</p>';
+                        return '<p class="text-muted">WIP</p>';
                     }
                     
                 })
                 ->escapeColumns([])
                 ->make(true);
         }
-
-        return view('ppc::pages.taskcard.index');
+        if(!$request->aircraft_type_id) {
+            return view('ppc::pages.taskcard.index');
+        }
     }
 
     public function store(Request $request)
