@@ -83,13 +83,21 @@
             }).prependTo(inputFormId);
 
             var id = $(this).data('id');
+            $.get(actionUrl + '/' + id, function (data) {
+                $('.id').val(id);
+
+                $(inputFormId).attr('action', actionUrl + '/' + id);
+            });
             
-            $(inputFormId).attr('action', actionUrl + '/' + id);
             $(saveButtonId).val("edit");
             $('[class^="invalid-feedback-"]').html('');  // clearing validation
             $(inputModalId).modal('show');
         });
         // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
+
+
+
+
 
 
 

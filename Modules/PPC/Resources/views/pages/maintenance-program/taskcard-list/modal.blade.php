@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"></h4>
@@ -15,14 +15,14 @@
 
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-lg-12 text-danger font-bold" id="taskcard_info">
+                        <div class="col-lg-12 text-success font-bold" id="taskcard_info">
 
                         </div>
                     </div>
                     
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Remark</label>
-                        <div class="col-sm-7">
+                        <label class="col-sm-3 d-flex align-items-center">Remark</label>
+                        <div class="col-sm-9">
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                             <div class="invalid-feedback-description text-danger font-italic"></div>
                         </div>
@@ -54,14 +54,3 @@
         </div>
     </div>
 </div>
-
-@push('header-scripts')
-<style>
-    .select2-container.select2-container--default.select2-container--open {
-        z-index: 9999999 !important;
-    }
-    .select2 {
-        width: 100% !important;
-    }
-</style>
-@endpush

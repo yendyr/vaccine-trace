@@ -56,8 +56,8 @@ $(document).ready(function () {
             { data: 'taskcard.taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },
-            { data: 'description', name: 'Remark' },
             { data: 'skills', name: 'Skill' },
+            { data: 'description', name: 'Remark' },
             { data: 'created_at', name: 'Created At' },
             { data: 'action', name: 'Action', orderable: false },
         ]
@@ -73,6 +73,9 @@ $(document).ready(function () {
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
     datatableObject2.on('click', '.editBtn', function () {
         $('#modalTitle').html("Edit Remark");
+        $(inputFormId).trigger("reset");
+
+        $("input[value='post']").remove();   
 
         rowId= $(this).val();
         let tr = $(this).closest('tr');
@@ -82,7 +85,7 @@ $(document).ready(function () {
         $('<input>').attr({
             type: 'hidden',
             name: '_method',
-            value: 'post'
+            value: 'patch'
         }).prependTo(inputFormId);
 
         // $('#code').val(data.code);
@@ -107,6 +110,8 @@ $(document).ready(function () {
     // ----------------- "USE" BUTTON SCRIPT ------------- //
     datatableObject.on('click', useButtonClass, function () {
         $('#modalTitle').html("Use Task Card");
+
+        $("input[value='patch']").remove();
         $(inputFormId).trigger("reset"); 
 
         rowId= $(this).val();
@@ -136,7 +141,7 @@ $(document).ready(function () {
 
 
 
-
+    // ----------------- "SUBMIT" BUTTON SCRIPT ------------- //
     $(inputFormId).on('submit', function (event) {
         event.preventDefault();
         let url_action = $(inputFormId).attr('action');
@@ -182,6 +187,11 @@ $(document).ready(function () {
             }
         }); 
     });
+    // ----------------- END "SUBMIT" BUTTON SCRIPT ------------- //
+
+
+
+    deleteButtonProcess (datatableObject2, tableId2, actionUrl);
 
 });
 </script>

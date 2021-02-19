@@ -1,11 +1,13 @@
 @extends('layouts.master')
 
 @section('content')
+    @include('ppc::pages.maintenance-program.taskcard-list.modal')
+    
     <div class="row m-b m-t">
         <div class="col-md-1">
             <img src="{{ URL::asset('assets/maintenance-program.png') }}" style="width: 100%; height: auto;">
         </div>
-        <div class="col-md-2 m-l-xl">            
+        <div class="col m-l-xl">            
             <h2 class="m-t-none font-bold">{{ $MaintenanceProgram->name ?? '' }}</h2>
             <p class="m-t-none m-b-none font-normal">{{ $MaintenanceProgram->code ?? '' }}</p>
             <p class="m-t-none">{{ $MaintenanceProgram->description ?? '' }}</p>

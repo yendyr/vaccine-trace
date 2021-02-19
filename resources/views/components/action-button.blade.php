@@ -28,7 +28,7 @@
 @endisset
 
 @isset($usable)
-    <button type="button" class="useBtn btn btn-sm btn-outline btn-success pr-2" data-toggle="tooltip" title="Use" value="{{ $idToUse }}">
+    <button type="button" class="useBtn btn btn-sm btn-outline btn-success text-nowrap pr-2" data-toggle="tooltip" title="Use" value="{{ $idToUse }}">
             <i class="fa fa-check-square-o"></i>Use
     </button>
 @endisset

@@ -24,7 +24,7 @@ class MaintenanceProgramDetailController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(MaintenanceProgram::class);
+        $this->authorizeResource(MaintenanceProgram::class, 'maintenance_program_detail');
         $this->middleware('auth');
     }
 
@@ -102,7 +102,7 @@ class MaintenanceProgramDetailController extends Controller
                 ->addColumn('updater_name', function($row){
                     return $row->updater->name ?? '-';
                 })
-                ->addColumn('action', function($row) use ($request) {
+                ->addColumn('action', function($row) {
                     $noAuthorize = true;
                     if(Auth::user()->can('update', MaintenanceProgram::class)) {
                         $updateable = 'button';
@@ -167,46 +167,32 @@ class MaintenanceProgramDetailController extends Controller
         }
     }
 
-    public function update(Request $request, MaintenanceProgram $MaintenanceProgram)
+    public function update(Request $request, MaintenanceProgramDetail $MaintenanceProgramDetail)
     {
-        $currentRow = MaintenanceProgram::where('id', $MaintenanceProgram->id)->first();
+        $currentRow = MaintenanceProgram::where('id', $MaintenanceProgramDetail->maintenance_program_id)->first();
+
         if ($currentRow->approvals()->count() == 0) {
-            $request->validate([
-                'aircraft_type_id' => ['required', 'max:30'],
+            // $request->validate([
+            //     'aircraft_type_id' => ['required', 'max:30'],
+            // ]);
+    
+            // if ($request->status) {
+            //     $status = 1;
+            // } 
+            // else {
+            //     $status = 0;
+            // }
+
+            $detailRow = MaintenanceProgramDetail::where('id', $MaintenanceProgramDetail->id)
+                                                ->first();    
+            $detailRow
+                ->update([
+                    'description' => $request->description,
+
+                    'status' => 1,
+                    'updated_by' => Auth::user()->id,
             ]);
-    
-            if ($request->status) {
-                $status = 1;
-            } 
-            else {
-                $status = 0;
-            }
-    
-            if ($currentRow->code == $request->code) {
-                $currentRow
-                    ->update([
-                        'name' => $request->name,
-                        'description' => $request->description,
-                        'aircraft_type_id' => $request->aircraft_type_id,
-    
-                        'status' => $status,
-                        'updated_by' => Auth::user()->id,
-                ]);
-            }
-            else {
-                $currentRow
-                    ->update([
-                        'code' => $request->code,
-                        'name' => $request->name,
-                        'description' => $request->description,
-                        'aircraft_type_id' => $request->aircraft_type_id,
-                        
-                        'status' => $status,
-                        'updated_by' => Auth::user()->id,
-                ]);
-            }
-            return response()->json(['success' => 'Maintenance Program Data has been Updated',
-                                    'id' => $MaintenanceProgram->id]);
+            return response()->json(['success' => 'Remark has been Updated']);
         }
         else {
             return response()->json(['error' => "This Maintenance Program and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
@@ -214,38 +200,38 @@ class MaintenanceProgramDetailController extends Controller
         
     }
 
-    public function destroy(MaintenanceProgram $MaintenanceProgram)
+    public function destroy(MaintenanceProgramDetail $MaintenanceProgramDetail)
     {
-        $currentRow = MaintenanceProgram::where('id', $MaintenanceProgram->id)->first();
+        $currentRow = MaintenanceProgramDetail::where('id', $MaintenanceProgramDetail->id)->first();
         $currentRow
             ->update([
                 'deleted_by' => Auth::user()->id,
             ]);
 
-        MaintenanceProgram::destroy($MaintenanceProgram->id);
-        return response()->json(['success' => 'Maintenance Program Data has been Deleted']);
+        MaintenanceProgramDetail::destroy($MaintenanceProgramDetail->id);
+        return response()->json(['success' => "Task Card's Maintenance Program Data has been Deleted"]);
     }
 
-    public function select2(Request $request)
-    {
-        $search = $request->q;
+    // public function select2(Request $request)
+    // {
+    //     $search = $request->q;
 
-        $query = MaintenanceProgram::with('aircraft_type')
-                    // ->whereHas('approvals')
-                    ->where('status', 1);
+    //     $query = MaintenanceProgram::with('aircraft_type')
+    //                 // ->whereHas('approvals')
+    //                 ->where('status', 1);
 
-        if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
-        }
-        $MaintenancePrograms = $query->get();
+    //     if($search != ''){
+    //         $query = $query->where('name', 'like', '%' .$search. '%');
+    //     }
+    //     $MaintenancePrograms = $query->get();
 
-        $response = [];
-        foreach($MaintenancePrograms as $MaintenanceProgram){
-            $response['results'][] = [
-                "id" => $MaintenanceProgram->id,
-                "text" => $MaintenanceProgram->name
-            ];
-        }
-        return response()->json($response);
-    }
+    //     $response = [];
+    //     foreach($MaintenancePrograms as $MaintenanceProgram){
+    //         $response['results'][] = [
+    //             "id" => $MaintenanceProgram->id,
+    //             "text" => $MaintenanceProgram->name
+    //         ];
+    //     }
+    //     return response()->json($response);
+    // }
 }
