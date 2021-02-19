@@ -152,7 +152,7 @@ class TaskcardController extends Controller
     {
         $request->validate([
             'mpd_number' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
+            'title' => ['required', 'max:100'],
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
             'compliance' => ['required'],
@@ -315,7 +315,7 @@ class TaskcardController extends Controller
     {
         $request->validate([
             'mpd_number' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
+            'title' => ['required', 'max:100'],
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
             'compliance' => ['required'],

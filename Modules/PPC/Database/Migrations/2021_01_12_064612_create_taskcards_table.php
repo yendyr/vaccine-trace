@@ -16,22 +16,23 @@ class CreateTaskcardsTable extends Migration
         Schema::create('taskcards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
+
             $table->string('mpd_number');
             $table->string('title');
             $table->string('taskcard_group_id');
             $table->string('taskcard_type_id');
-            $table->string('compliance')->nullable();
+            $table->string('compliance')->default('Optional');
             $table->string('threshold_flight_hour')->nullable();
             $table->string('threshold_flight_cycle')->nullable();
             $table->string('threshold_daily')->nullable();
-            $table->string('threshold_daily_unit')->nullable();
+            $table->string('threshold_daily_unit')->default('Year');
             $table->date('threshold_date')->nullable();
             $table->string('repeat_flight_hour')->nullable();
             $table->string('repeat_flight_cycle')->nullable();
             $table->string('repeat_daily')->nullable();
-            $table->string('repeat_daily_unit')->nullable();
+            $table->string('repeat_daily_unit')->default('Year');
             $table->date('repeat_date')->nullable();
-            $table->string('interval_control_method');
+            $table->string('interval_control_method')->default('Which One Comes First');
 
             $table->string('company_number')->nullable();
             $table->string('ata')->nullable();
@@ -43,8 +44,8 @@ class CreateTaskcardsTable extends Migration
             $table->string('source')->nullable();
             $table->string('reference')->nullable();
             $table->string('file_attachment')->nullable();
-            $table->string('scheduled_priority')->nullable();
-            $table->string('recurrence')->nullable();
+            $table->string('scheduled_priority')->default('As Scheduled');
+            $table->string('recurrence')->default('As Required');
             
             $table->rememberToken();
             $table->integer('status')->nullable();
