@@ -72,7 +72,6 @@ $(document).ready(function () {
     $(createNewButtonId).click(function () {            
         showCreateModalDynamic (inputModalId, modalTitleId, 'Create New Task/Instruction', saveButtonId, inputFormId, actionUrl);
         clearForm();
-        $('.instruction').summernote();
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
@@ -93,8 +92,6 @@ $(document).ready(function () {
 
         var id = $(this).data('id');
         $.get(actionUrl + '/' + id, function (data) {
-            $('.instruction').summernote();
-            
             $('.id').val(id);
             $('#sequence').val(data.sequence);
             $('#manhours_estimation').val(data.manhours_estimation);
