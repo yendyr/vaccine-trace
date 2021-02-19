@@ -71,23 +71,32 @@ $(document).ready(function () {
 
 
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
-    $(useButtonClass).click(function (e) {
-        $(useModalTitleId).html("Edit Aircraft Configuration");
-        
+    datatableObject2.on('click', '.editBtn', function () {
+        $('#modalTitle').html("Edit Remark");
+
+        rowId= $(this).val();
+        let tr = $(this).closest('tr');
+        let data = datatableObject2.row(tr).data();
+        $(inputFormId).attr('action', actionUrl + '/' + data.id);
+
         $('<input>').attr({
             type: 'hidden',
             name: '_method',
-            value: 'patch'
+            value: 'post'
         }).prependTo(inputFormId);
 
-        var id = $(this).data('id');
-        $(inputFormId).attr('action', actionUrl + '/' + id);
+        // $('#code').val(data.code);
+        // $('#name').val(data.name);
+        $('#taskcard_info').html(data.taskcard.mpd_number + ' | ' + data.taskcard.title + ' | ' + data.group_structure + ' | ' + data.taskcard.taskcard_type.name);
+        $('#description').val(data.description);
 
-        $(saveButtonId).val("edit");
-        $('[class^="invalid-feedback-"]').html('');  // clearing validation
-        $(inputModalId).modal('show');
+        $('#saveBtn').val("edit");
+        $(saveButtonModalTextId).html("Save Changes");
+        $('#inputModal').modal('show');
     });
     // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
+
+
 
 
 
@@ -141,26 +150,30 @@ $(document).ready(function () {
             method: "POST",
             data: $(inputFormId).serialize(),
             dataType: 'json',
-            beforeSend:function(){
+            beforeSend: function() {
                 let l = $( '.ladda-button-submit' ).ladda();
                 l.ladda( 'start' );
                 $('[class^="invalid-feedback-"]').html('');
                 $('#saveBtn').prop('disabled', true);
             },
-            error: function(data){
-                let errors = data.responseJSON.errors;
-                if (errors) {
-                    $.each(errors, function (index, value) {
-                        $('div.invalid-feedback-'+index).html(value);
-                    })
+            error: function(data) {
+                if (data.error) {
+                    generateToast ('error', data.error);
                 }
             },
             success: function (data) {
-                if (data.success) {
-                    generateToast ('success', data.success);                            
-                }
                 $('#inputModal').modal('hide');
-                // $(targetTableId).DataTable().ajax.reload();
+                if (data.success) {
+                    generateToast ('success', data.success);  
+                    $(tableId2).DataTable().ajax.reload();                          
+                }
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });   
+                }
             },
             complete: function () {
                 let l = $( '.ladda-button-submit' ).ladda();
@@ -169,6 +182,7 @@ $(document).ready(function () {
             }
         }); 
     });
+
 });
 </script>
 @endpush

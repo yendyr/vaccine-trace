@@ -141,23 +141,30 @@ class MaintenanceProgramDetailController extends Controller
         //     $status = 0;
         // }
 
-        DB::beginTransaction();
-        MaintenanceProgramDetail::create([
-            'uuid' =>  Str::uuid(),
-
-            'code' => $request->code,
-            'name' => $request->name,
-            'description' => $request->description,
-            'maintenance_program_id' => $request->maintenance_program_id,
-            'taskcard_id' => $request->taskcard_id,
-
-            'owned_by' => $request->user()->company_id,
-            'status' => 1,
-            'created_by' => $request->user()->id,
-        ]);
-        DB::commit();
-
-        return response()->json(['success' => 'Task Card has been Added to Maintenance Program']);
+        $existRow = MaintenanceProgramDetail::where('maintenance_program_id', $request->maintenance_program_id)
+                                            ->where('taskcard_id', $request->taskcard_id)
+                                            ->exists();
+        if($existRow == false) {
+            DB::beginTransaction();
+            MaintenanceProgramDetail::create([
+                'uuid' =>  Str::uuid(),
+    
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'maintenance_program_id' => $request->maintenance_program_id,
+                'taskcard_id' => $request->taskcard_id,
+    
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
+                'created_by' => $request->user()->id,
+            ]);
+            DB::commit();
+            return response()->json(['success' => 'Task Card has been Added to Maintenance Program']);
+        }
+        else {
+            return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
+        }
     }
 
     public function update(Request $request, MaintenanceProgram $MaintenanceProgram)
