@@ -4,4 +4,8 @@
     <label class="label label-warning">{{ $zone->name }}</label>
 @endforeach
 </p>
+@else        
+<p class="m-b-xs">    
+    <label class="text-success">-</label>
+</p>
 @endif
