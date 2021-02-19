@@ -250,7 +250,9 @@ $(document).ready(function () {
 
         $('#repeat_date').val(data.repeat_date);
 
-        $('#interval_control_method').append('<option value="' + data.interval_control_method + '" selected>' + data.interval_control_method + '</option>');
+        // $('#interval_control_method').append('<option value="' + data.interval_control_method + '" selected>' + data.interval_control_method + '</option>');
+
+        $('#interval_control_method').val(data.interval_control_method).trigger('change');
 
         $('#company_number').val(data.company_number);
         $('#ata').val(data.ata);

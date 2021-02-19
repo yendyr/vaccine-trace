@@ -1,5 +1,5 @@
 @push('footer-scripts')
-<script src="{{ URL::asset('theme/js/plugins/dualListbox/bootstrap-duallistbox.min.js') }}"></script>
+<script src="{{ URL::asset('theme/js/plugins/dualListbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
 
 <script>
 $(document).ready(function () {
@@ -12,72 +12,19 @@ $(document).ready(function () {
 
 
 
+
+
     $('.aircraft_type_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose A/C Type',
         allowClear: true,
         ajax: {
-            url: "{{ route('ppc.aircraft-type.select2') }}",
+            url: "/ppc/maintenance-program-detail/dual_list_box",
             dataType: 'json',
         },
-        dropdownParent: $(inputModalId)
     });
 
-    $('.max_takeoff_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $(inputModalId)
-    });
-
-    $('.max_landing_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $(inputModalId)
-    });
-
-    $('.max_zero_fuel_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $(inputModalId)
-    });
-
-    $('.fuel_capacity_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $(inputModalId)
-    });
-
-    $('.basic_empty_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $(inputModalId)
-    });
-
+    
 
 
     

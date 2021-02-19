@@ -61,7 +61,7 @@ Route::name('ppc.')->group(function () {
 
         Route::resource('/maintenance-program', 'MaintenanceProgramController');
 
-        Route::get('/maintenance-program-detail/list-tree', 'MaintenanceProgramDetailController@dual_list_box')->name('maintenance-program-detail.dual_list_box');
+        Route::get('/maintenance-program-detail/dual_list_box', 'MaintenanceProgramDetailController@dual_list_box')->name('maintenance-program-detail.dual_list_box');
 
         Route::resource('/maintenance-program-detail', 'MaintenanceProgramDetailController');
 

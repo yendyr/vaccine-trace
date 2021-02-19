@@ -229,7 +229,7 @@ class MaintenanceProgramDetailController extends Controller
 
     public function dual_list_box(Request $request)
     {
-        $maintenance_program_id = $request->id;
+        // $maintenance_program_id = $request->id;
         
         // $maintenance_program_details = MaintenanceProgramDetail::where('id', $maintenance_program_id)
         //                         ->with(['item:id,code,name',
@@ -257,6 +257,6 @@ class MaintenanceProgramDetailController extends Controller
             ];
         }
 
-        return response()->json(array($response));
+        return response()->json($response);
     }
 }
