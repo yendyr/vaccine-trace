@@ -22,6 +22,7 @@ $(document).ready(function () {
         searchDelay: 1500,
         ajax: {
             url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}" + "&create_maintenance_program=true",
+            // url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}" + "&maintenance_program_id=" + "{{ $MaintenanceProgram->id }}" + "&create_maintenance_program=true",
         },
         columns: [
             { data: 'mpd_number', 

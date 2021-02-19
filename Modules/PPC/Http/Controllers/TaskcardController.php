@@ -35,8 +35,28 @@ class TaskcardController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if($request->aircraft_type_id) {
-                $data = Taskcard::whereHas('aircraft_types', function($aircraft_types) use ($request) {
+            if($request->aircraft_type_id != null && $request->maintenance_program_id != null) {
+                $data = Taskcard::whereHas('aircraft_types',
+                            function($aircraft_types) use ($request) {
+                                $aircraft_types->where('aircraft_types.id', $request->aircraft_type_id);
+                            })
+                            ->leftJoin('maintenance_program_details', 'taskcards.id', '=', 'maintenance_program_details.taskcard_id')
+                            ->where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
+                            ->with([
+                                'taskcard_group:id,name,parent_id',
+                                'taskcard_type:id,name',
+                                'taskcard_workarea:id,name',
+                                'aircraft_types:id,name',
+                                'affected_items:id,code,name',
+                                'accesses:id,name',
+                                'zones:id,name',
+                                'document_libraries:id,name',
+                                'affected_manuals:id,name',
+                            ]);
+            }
+            else if($request->aircraft_type_id) {
+                $data = Taskcard::whereHas('aircraft_types',
+                            function($aircraft_types) use ($request) {
                                 $aircraft_types->where('aircraft_types.id', $request->aircraft_type_id);
                             })
                             ->with([
