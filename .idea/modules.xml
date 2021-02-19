@@ -2,11 +2,17 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../Simple REST API transaction with Laravel/.idea/Antrian-Sehat.iml" filepath="$PROJECT_DIR$/../Simple REST API transaction with Laravel/.idea/Antrian-Sehat.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../EWSN_Cloud/.idea/EWSN_Cloud.iml" filepath="$PROJECT_DIR$/../EWSN_Cloud/.idea/EWSN_Cloud.iml" />
       <module fileurl="file://$PROJECT_DIR$/../MeMFIS/.idea/MeMFIS.iml" filepath="$PROJECT_DIR$/../MeMFIS/.idea/MeMFIS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Trial/TryProject/.idea/TryProject.iml" filepath="$PROJECT_DIR$/../Trial/TryProject/.idea/TryProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Projek Virtual Lab PENS/backend-vlab/.idea/backend-vlab.iml" filepath="$PROJECT_DIR$/../Projek Virtual Lab PENS/backend-vlab/.idea/backend-vlab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Syalog Pilarmedia/bcs-logistics-solog/.idea/bcs-logistics.iml" filepath="$PROJECT_DIR$/../Syalog Pilarmedia/bcs-logistics-solog/.idea/bcs-logistics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jurnal1000/.idea/jurnal1000.iml" filepath="$PROJECT_DIR$/../jurnal1000/.idea/jurnal1000.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Syalog Pilarmedia/byrent-backend/.idea/laravel-starter.iml" filepath="$PROJECT_DIR$/../Syalog Pilarmedia/byrent-backend/.idea/laravel-starter.iml" />
       <module fileurl="file://$PROJECT_DIR$/../project-covid19/.idea/project-covid19.iml" filepath="$PROJECT_DIR$/../project-covid19/.idea/project-covid19.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/smartaircraft.iml" filepath="$PROJECT_DIR$/.idea/smartaircraft.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SyalogPilarmedia/syalog-b-api/.idea/syalog-b-api.iml" filepath="$PROJECT_DIR$/../SyalogPilarmedia/syalog-b-api/.idea/syalog-b-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SyalogPilarmedia/syalog-b-web/.idea/syalog-b-web.iml" filepath="$PROJECT_DIR$/../SyalogPilarmedia/syalog-b-web/.idea/syalog-b-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Syalog Pilarmedia/vehicles-rent-backend/.idea/vehicles-rent-backend.iml" filepath="$PROJECT_DIR$/../Syalog Pilarmedia/vehicles-rent-backend/.idea/vehicles-rent-backend.iml" />
     </modules>
   </component>
 </project>

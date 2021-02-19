@@ -104,11 +104,19 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="project-covid19" />
     <orderEntry type="module" module-name="MeMFIS" />
-    <orderEntry type="module" module-name="Antrian-Sehat" />
-    <orderEntry type="module" module-name="Antrian-Sehat" />
-    <orderEntry type="module" module-name="Antrian-Sehat" />
-    <orderEntry type="module" module-name="Antrian-Sehat" />
-    <orderEntry type="module" module-name="Antrian-Sehat" />
-    <orderEntry type="module" module-name="EWSN_Cloud" />
+    <orderEntry type="module" module-name="TryProject" />
+    <orderEntry type="module" module-name="inventory_shoes" />
+    <orderEntry type="module" module-name="TryProject" />
+    <orderEntry type="module" module-name="vehicles-rent-backend" />
+    <orderEntry type="module" module-name="laravel-starter" />
+    <orderEntry type="module" module-name="backend-vlab" />
+    <orderEntry type="module" module-name="bcs-logistics" />
+    <orderEntry type="module" module-name="laravel-starter" />
+    <orderEntry type="module" module-name="bcs-logistics" />
+    <orderEntry type="module" module-name="jurnal1000" />
+    <orderEntry type="module" module-name="syalog-b-api" />
+    <orderEntry type="module" module-name="syalog-b-web" />
+    <orderEntry type="module" module-name="syalog-b-api" />
+    <orderEntry type="module" module-name="syalog-b-web" />
   </component>
 </module>

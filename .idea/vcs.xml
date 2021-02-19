@@ -2,10 +2,19 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../EWSN_Cloud" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../MeMFIS" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../Simple REST API transaction with Laravel" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Projek Virtual Lab PENS/backend-vlab" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Syalog Pilarmedia/bcs-logistics" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Syalog Pilarmedia/bcs-logistics-solog" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Syalog Pilarmedia/byrent-backend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Syalog Pilarmedia/laravel-starter" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Syalog Pilarmedia/syalog-b-api" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Syalog Pilarmedia/syalog-b-web" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Syalog Pilarmedia/vehicles-rent-backend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../SyalogPilarmedia/syalog-b-api" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../SyalogPilarmedia/syalog-b-web" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../WPPL 2021/Antrian-Sehat" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../jurnal1000" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../project-covid19" vcs="Git" />
   </component>
 </project>
