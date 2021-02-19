@@ -205,7 +205,15 @@ $(document).ready(function () {
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {
         clearForm();
+
         showCreateModal ('Create New Task Card', inputFormId, actionUrl);
+
+        $('#compliance').val('Optional').trigger('change');
+        $('#threshold_daily_unit').val('Year').trigger('change');
+        $('#repeat_daily_unit').val('Year').trigger('change');
+        $('#interval_control_method').val('Which One Comes First').trigger('change');
+        $('#scheduled_priority').val('As Scheduled').trigger('change');
+        $('#recurrence').val('As Required').trigger('change');
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
@@ -238,7 +246,9 @@ $(document).ready(function () {
         $('#threshold_daily').val(data.threshold_daily);
         $('#threshold_daily_unit').val(data.threshold_daily_unit);
 
-        $('#threshold_daily_unit').append('<option value="' + data.threshold_daily_unit + '" selected>' + data.threshold_daily_unit + '</option>');
+        // $('#threshold_daily_unit').append('<option value="' + data.threshold_daily_unit + '" selected>' + data.threshold_daily_unit + '</option>');
+
+        $('#threshold_daily_unit').val(data.threshold_daily_unit).trigger('change');
 
         $('#threshold_date').val(data.threshold_date);
 
@@ -246,7 +256,9 @@ $(document).ready(function () {
         $('#repeat_flight_cycle').val(data.repeat_flight_cycle);
         $('#repeat_daily').val(data.repeat_daily);
 
-        $('#repeat_daily_unit').append('<option value="' + data.repeat_daily_unit + '" selected>' + data.repeat_daily_unit + '</option>');
+        // $('#repeat_daily_unit').append('<option value="' + data.repeat_daily_unit + '" selected>' + data.repeat_daily_unit + '</option>');
+
+        $('#repeat_daily_unit').val(data.repeat_daily_unit).trigger('change');
 
         $('#repeat_date').val(data.repeat_date);
 
