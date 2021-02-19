@@ -441,6 +441,9 @@ class TaskcardController extends Controller
                         ]));
             }
         }
+        else if ($request->affected_item_id == null) {
+            $Taskcard->affected_item_details()->forceDelete();
+        }
 
         if ($request->taskcard_access_id) {
             $Taskcard->access_details()->forceDelete();
@@ -455,6 +458,9 @@ class TaskcardController extends Controller
                             'created_by' => $request->user()->id,
                         ]));
             }
+        }
+        else if ($request->taskcard_access_id == null) {
+            $Taskcard->access_details()->forceDelete();
         }
 
         if ($request->taskcard_zone_id) {
@@ -471,6 +477,9 @@ class TaskcardController extends Controller
                         ]));
             }
         }
+        else if ($request->taskcard_zone_id == null) {
+            $Taskcard->zone_details()->forceDelete();
+        }
 
         if ($request->taskcard_document_library_id) {
             $Taskcard->document_library_details()->forceDelete();
@@ -486,6 +495,9 @@ class TaskcardController extends Controller
                         ]));
             }
         }
+        else if ($request->taskcard_document_library_id == null) {
+            $Taskcard->document_library_details()->forceDelete();
+        }
 
         if ($request->taskcard_affected_manual_id) {
             $Taskcard->affected_manual_details()->forceDelete();
@@ -500,6 +512,9 @@ class TaskcardController extends Controller
                             'created_by' => $request->user()->id,
                         ]));
             }
+        }
+        else if ($request->taskcard_affected_manual_id == null) {
+            $Taskcard->affected_manual_details()->forceDelete();
         }
 
         DB::commit();
