@@ -35,7 +35,24 @@ class TaskcardController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Taskcard::with([
+            if($request->aircraft_type_id) {
+                $data = Taskcard::whereHas('aircraft_types', function($aircraft_types) use ($request) {
+                                $aircraft_types->where('aircraft_types.id', $request->aircraft_type_id);
+                            })
+                            ->with([
+                                'taskcard_group:id,name,parent_id',
+                                'taskcard_type:id,name',
+                                'taskcard_workarea:id,name',
+                                'aircraft_types:id,name',
+                                'affected_items:id,code,name',
+                                'accesses:id,name',
+                                'zones:id,name',
+                                'document_libraries:id,name',
+                                'affected_manuals:id,name',
+                            ]);
+            }
+            else {
+                $data = Taskcard::with([
                     'taskcard_group:id,name,parent_id',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
@@ -46,6 +63,8 @@ class TaskcardController extends Controller
                     'document_libraries:id,name',
                     'affected_manuals:id,name',
                     ]);
+            }
+            
             return Datatables::of($data)
                 ->addColumn('group_structure', function($row) {
                     if ($row->taskcard_group_id) {

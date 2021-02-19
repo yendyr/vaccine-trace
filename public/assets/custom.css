@@ -281,3 +281,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .nav .label, .ibox .label {
     font-size: 12px;
 }
+
+.note-editor.note-frame .note-editing-area {
+    padding-top: 30px;
+}

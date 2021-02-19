@@ -1,15 +1,39 @@
 @push('footer-scripts')
-<script src="{{ URL::asset('theme/js/plugins/dualListbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
-
 <script>
 $(document).ready(function () {
     // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
     var actionUrl = '/ppc/maintenance-program-detail';
+    var tableId = '#taskcard-table';
     var saveButtonId = '#saveButtonDetail';
     var inputFormId = '#inputFormDetail';
     var editButtonClass = '.editButtonDetail';
     // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
+
+
+    var datatableObject = $(tableId).DataTable({
+        pageLength: 25,
+        processing: true,
+        serverSide: false,
+        searchDelay: 1500,
+        ajax: {
+            url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}",
+        },
+        columns: [
+            { data: 'mpd_number', 
+                    "render": function ( data, type, row, meta ) {
+                    return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
+            { data: 'title', name: 'Title' },
+            { data: 'group_structure', name: 'Group' },
+            { data: 'taskcard_type.name', name: 'Task Type' },
+            { data: 'instruction_count', name: 'Instruction/Task Total' },
+            { data: 'manhours_total', name: 'Manhours Total' },
+            { data: 'aircraft_type_name', name: 'Aircraft Type' },
+            { data: 'skills', name: 'Skill' },
+            { data: 'created_at', name: 'Created At' },
+            { data: 'action', name: 'Action', orderable: false },
+        ]
+    });
 
 
 
