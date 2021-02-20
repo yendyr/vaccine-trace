@@ -99,20 +99,54 @@ class MaintenanceProgramController extends Controller
             $status = 0;
         }
 
-        DB::beginTransaction();
-        $MaintenanceProgram = MaintenanceProgram::create([
-            'uuid' =>  Str::uuid(),
+        if ($request->duplicated_from) {
+            $detail_source = MaintenanceProgram::where('id', $request->duplicated_from)
+                                                ->with('maintenance_details')
+                                                ->first();
 
-            'code' => $request->code,
-            'name' => $request->name,
-            'description' => $request->description,
-            'aircraft_type_id' => $request->aircraft_type_id,
+            DB::beginTransaction();
+            $MaintenanceProgram = MaintenanceProgram::create([
+                'uuid' =>  Str::uuid(),
 
-            'owned_by' => $request->user()->company_id,
-            'status' => $status,
-            'created_by' => $request->user()->id,
-        ]);
-        DB::commit();
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'aircraft_type_id' => $request->aircraft_type_id,
+
+                'owned_by' => $request->user()->company_id,
+                'status' => $status,
+                'created_by' => $request->user()->id,
+            ]);
+            foreach ($detail_source->maintenance_details as $maintenance_detail) {
+                $newDetail = MaintenanceProgramDetail::create([
+                    'uuid' =>  Str::uuid(),
+
+                    'maintenance_program_id' => $MaintenanceProgram->id,
+                    'taskcard_id' => $maintenance_detail->taskcard_id,
+        
+                    'owned_by' => $request->user()->company_id,
+                    'status' => $maintenance_detail->status,
+                    'created_by' => $request->user()->id,
+                ]);
+            }
+            DB::commit();
+        }
+        else {
+            DB::beginTransaction();
+            $MaintenanceProgram = MaintenanceProgram::create([
+                'uuid' =>  Str::uuid(),
+
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'aircraft_type_id' => $request->aircraft_type_id,
+
+                'owned_by' => $request->user()->company_id,
+                'status' => $status,
+                'created_by' => $request->user()->id,
+            ]);
+            DB::commit();
+        }
 
         return response()->json(['success' => 'Maintenance Program Data has been Saved',
                                 'id' => $MaintenanceProgram->id]);
@@ -206,9 +240,10 @@ class MaintenanceProgramController extends Controller
 
     public function select2(Request $request)
     {
-        $search = $request->q;
+        $search = $request->term;
+        $aircraft_type_id = $request->aircraft_type_id;
 
-        $query = MaintenanceProgram::with('aircraft_type')
+        $query = MaintenanceProgram::where('aircraft_type_id', $aircraft_type_id)
                     // ->whereHas('approvals')
                     ->where('status', 1);
 
@@ -221,7 +256,7 @@ class MaintenanceProgramController extends Controller
         foreach($MaintenancePrograms as $MaintenanceProgram){
             $response['results'][] = [
                 "id" => $MaintenanceProgram->id,
-                "text" => $MaintenanceProgram->name
+                "text" => $MaintenanceProgram->code . ' | ' .  $MaintenanceProgram->name
             ];
         }
         return response()->json($response);

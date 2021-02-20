@@ -60,6 +60,9 @@ Route::name('ppc.')->group(function () {
         Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
 
         Route::resource('/maintenance-program', 'MaintenanceProgramController');
+        Route::name('maintenance-program.')->group(function() {
+            Route::get('ppc/maintenance-program/select2', 'MaintenanceProgramController@select2')->name('select2');
+        });
 
         Route::resource('/maintenance-program-detail', 'MaintenanceProgramDetailController');
 

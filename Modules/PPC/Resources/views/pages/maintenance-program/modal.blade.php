@@ -33,10 +33,18 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
+                        <label class="col-sm-5 d-flex align-items-center">Remark</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                             <div class="invalid-feedback-description text-danger font-italic"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" id="duplicated_from">
+                        <label class="col-sm-5 d-flex align-items-center">Copy from Existing Maintenance Program</label>
+                        <div class="col-sm-7">
+                            <select class="duplicated_from form-control @error('duplicated_from') is-invalid @enderror" name="duplicated_from" id="duplicated_from"></select>
+                            <div class="invalid-feedback-duplicated_from text-danger font-italic"></div>
                         </div>
                     </div>
 

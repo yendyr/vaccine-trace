@@ -49,6 +49,24 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
+    $('.duplicated_from').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Source Maintenance Program',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.maintenance-program.select2') }}",
+            dataType: 'json',
+            data: function (params) {
+                var getHeaderId = { 
+                    term: params.term,
+                    aircraft_type_id: $('#aircraft_type_id').val(),
+                }
+                return getHeaderId;
+            }
+        },
+        dropdownParent: $('#inputModal')
+    });
+
     
 
 
@@ -56,6 +74,7 @@ $(document).ready(function () {
 
 
     $('#create').click(function () {
+        $('#duplicated_from').show();
         showCreateModal ('Create New Maintenance Program', inputFormId, actionUrl);
     });
 
