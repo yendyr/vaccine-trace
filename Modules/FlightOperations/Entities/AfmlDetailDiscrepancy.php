@@ -16,9 +16,11 @@ class AfmlDetailDiscrepancy extends Model
     protected $fillable = [
         'uuid',
 
-        'afm_logs_id',
+        'code',
+        'afm_log_id',
         'title',
         'description',
+        'progress_status',
 
         'status',
         'created_by',
@@ -39,6 +41,19 @@ class AfmlDetailDiscrepancy extends Model
 
     public function afm_log()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_log_id');
+    }
+
+    public function rectification_details()
+    {
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmlDetailRectification::class, 'afml_detail_discrepancy_id');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($AFML) {
+             $AFML->rectification_details()->delete();
+        });
     }
 }

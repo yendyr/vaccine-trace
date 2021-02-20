@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
@@ -152,9 +151,9 @@ class AfmLogController extends Controller
         $currentRow = AfmLog::where('id', $AfmLog->id)->first();
         if ($currentRow->approvals()->count() == 0) {
             $request->validate([
-                'page_number' => ['required', 'max:30', 'unique:aircraft_flight_maintenance_logs,aircraft_configuration_id'],
+                'page_number' => ['required', 'max:30', 'unique:afm_logs,aircraft_configuration_id'],
                 'transaction_date' => ['required', 'max:30'],
-                'aircraft_configuration_id' => ['required', 'max:30', 'unique:aircraft_flight_maintenance_logs,page_number'],
+                'aircraft_configuration_id' => ['required', 'max:30', 'unique:afm_logs,page_number'],
             ]);
     
             $status = 1;

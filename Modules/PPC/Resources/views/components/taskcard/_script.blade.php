@@ -8,21 +8,6 @@ $(document).ready(function () {
     var tableId = '#taskcard-table';
     var inputFormId = '#inputForm';
 
-    // $('#taskcard-table thead tr').clone(true).appendTo( '#taskcard-table thead' );
-    // $('#taskcard-table thead tr:eq(1) th').each( function (i) {
-    //     var title = $(this).text();
-    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
- 
-    //     $( 'input', this ).on( 'keyup change', function () {
-    //         if ( table.column(i).search() !== this.value ) {
-    //             table
-    //                 .column(i)
-    //                 .search( this.value )
-    //                 .draw();
-    //         }
-    //     } );
-    // });
-
     var datatableObject = $(tableId).DataTable({
         pageLength: 25,
         processing: true,
@@ -36,7 +21,7 @@ $(document).ready(function () {
                     "render": function ( data, type, row, meta ) {
                     return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
             { data: 'title', name: 'Title' },
-            { data: 'taskcard_group.name', name: 'Group' },
+            { data: 'group_structure', name: 'Group' },
             { data: 'taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },
@@ -205,7 +190,15 @@ $(document).ready(function () {
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {
         clearForm();
+
         showCreateModal ('Create New Task Card', inputFormId, actionUrl);
+
+        $('#compliance').val('Optional').trigger('change');
+        $('#threshold_daily_unit').val('Year').trigger('change');
+        $('#repeat_daily_unit').val('Year').trigger('change');
+        $('#interval_control_method').val('Which One Comes First').trigger('change');
+        $('#scheduled_priority').val('As Scheduled').trigger('change');
+        $('#recurrence').val('As Required').trigger('change');
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
@@ -238,7 +231,9 @@ $(document).ready(function () {
         $('#threshold_daily').val(data.threshold_daily);
         $('#threshold_daily_unit').val(data.threshold_daily_unit);
 
-        $('#threshold_daily_unit').append('<option value="' + data.threshold_daily_unit + '" selected>' + data.threshold_daily_unit + '</option>');
+        // $('#threshold_daily_unit').append('<option value="' + data.threshold_daily_unit + '" selected>' + data.threshold_daily_unit + '</option>');
+
+        $('#threshold_daily_unit').val(data.threshold_daily_unit).trigger('change');
 
         $('#threshold_date').val(data.threshold_date);
 
@@ -246,11 +241,15 @@ $(document).ready(function () {
         $('#repeat_flight_cycle').val(data.repeat_flight_cycle);
         $('#repeat_daily').val(data.repeat_daily);
 
-        $('#repeat_daily_unit').append('<option value="' + data.repeat_daily_unit + '" selected>' + data.repeat_daily_unit + '</option>');
+        // $('#repeat_daily_unit').append('<option value="' + data.repeat_daily_unit + '" selected>' + data.repeat_daily_unit + '</option>');
+
+        $('#repeat_daily_unit').val(data.repeat_daily_unit).trigger('change');
 
         $('#repeat_date').val(data.repeat_date);
 
-        $('#interval_control_method').append('<option value="' + data.interval_control_method + '" selected>' + data.interval_control_method + '</option>');
+        // $('#interval_control_method').append('<option value="' + data.interval_control_method + '" selected>' + data.interval_control_method + '</option>');
+
+        $('#interval_control_method').val(data.interval_control_method).trigger('change');
 
         $('#company_number').val(data.company_number);
         $('#ata').val(data.ata);

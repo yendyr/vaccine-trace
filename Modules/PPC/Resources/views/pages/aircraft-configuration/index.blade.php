@@ -27,7 +27,7 @@
             <th>Aircraft Registration</th>
             <th>Manufactured Date</th>
             <th>Received Date</th>
-            <th>Description/Remark</th>
+            <th>Remark</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>

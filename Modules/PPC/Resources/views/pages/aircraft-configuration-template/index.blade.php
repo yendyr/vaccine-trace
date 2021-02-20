@@ -22,7 +22,7 @@
             <th>Code</th>
             <th>Template Name</th>
             <th>Aircraft Type Name</th>
-            <th>Description/Remark</th>
+            <th>Remark</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>

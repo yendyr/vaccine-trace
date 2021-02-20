@@ -5,7 +5,6 @@ namespace Modules\PPC\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Taskcard extends Model
 {
@@ -15,6 +14,7 @@ class Taskcard extends Model
 
     protected $fillable = [
         'uuid',
+        
         'mpd_number',
         'title',
         'taskcard_group_id',

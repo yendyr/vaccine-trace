@@ -76,7 +76,7 @@ class TaskcardZoneController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => ['required', 'max:30', 'unique:taskcard_zone,code'],
+            'code' => ['required', 'max:30', 'unique:taskcard_zones,code'],
             'name' => ['required', 'max:30'],
         ]);
 

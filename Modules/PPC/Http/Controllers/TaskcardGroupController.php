@@ -6,9 +6,9 @@ use Modules\PPC\Entities\TaskcardGroup;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -26,6 +26,7 @@ class TaskcardGroupController extends Controller
     {
         if ($request->ajax()) {
             $data = TaskcardGroup::with(['taskcard_group:id,name']);
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -65,16 +66,32 @@ class TaskcardGroupController extends Controller
                 ->make(true);
         }
 
-        $parentGroup = TaskcardGroup::where('parent_id', null)
-                                    ->where('status', 1)                
-                                    ->get();
-
-        return view('ppc::pages.taskcard-group.index', compact('parentGroup'));
+        return view('ppc::pages.taskcard-group.index');
     }
 
-    public function create()
+    public function tree(Request $request)
     {
-        return view('ppc::pages.taskcard-group.create');
+        $datas = TaskcardGroup::with(['taskcard_group'])
+                                ->where('taskcard_groups.status', 1)
+                                ->get();
+
+        $response = [];
+        foreach($datas as $data) {
+            if ($data->parent_id) {
+                $parent = $data->parent_id;
+            }
+            else {
+                $parent = '#';
+            }
+
+            $response[] = [
+                "id" => $data->id,
+                "parent" => $parent,
+                "text" => $data->name
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function store(Request $request)
@@ -105,16 +122,6 @@ class TaskcardGroupController extends Controller
     
     }
 
-    public function show(TaskcardGroup $TaskcardGroup)
-    {
-        return view('ppc::pages.taskcard-group.show');
-    }
-
-    public function edit(TaskcardGroup $TaskcardGroup)
-    {
-        return view('ppc::pages.taskcard-group.edit', compact('TaskcardGroup'));
-    }
-
     public function update(Request $request, TaskcardGroup $TaskcardGroup)
     {
         $request->validate([
@@ -122,8 +129,18 @@ class TaskcardGroupController extends Controller
             'name' => ['required', 'max:30'],
         ]);
 
+        $currentRow = TaskcardGroup::where('id', $TaskcardGroup->id)
+                                    ->with('all_childs')
+                                    ->first();
+
         if ($request->status) {
-            $status = 1;
+            $status = 1; 
+            
+            if ($currentRow->parent_id != null) {
+                if ($currentRow->taskcard_group->status == 0) {
+                    return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
+                }
+            }
         } 
         else {
             $status = 0;
@@ -133,8 +150,8 @@ class TaskcardGroupController extends Controller
             $request->select2_parent_name = null;
         }
 
-        $currentRow = TaskcardGroup::where('id', $TaskcardGroup->id)->first();
-        if ( $currentRow->code == $request->code) {
+        DB::beginTransaction();
+        if ($currentRow->code == $request->code) {
             $currentRow
                 ->update([
                     'name' => $request->name,
@@ -155,8 +172,41 @@ class TaskcardGroupController extends Controller
                     'updated_by' => Auth::user()->id,
             ]);
         }
+        if (sizeof($currentRow->all_childs) > 0) {
+            Self::updateChilds($currentRow, $status);
+        }
+        DB::commit();
         return response()->json(['success' => 'Task Card Group Data has been Updated']);
-    
+    }
+
+    public static function updateChilds($currentRow, $status)
+    {
+        foreach($currentRow->all_childs as $childRow) {
+            $childRow
+                ->update([
+                    'status' => $status,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::updateChilds($childRow, $status);
+            }
+        }
+    }
+
+    public static function isValidParent($currentRow, $parent_id)
+    {
+        $isValid = true;
+        foreach($currentRow->all_childs as $childRow) {
+            if ($parent_id == $childRow->id) {
+                $isValid = false;
+                return $isValid;
+                break;
+            }
+            else if (sizeof($childRow->all_childs) > 0) {
+                Self::isValidParent($childRow, $parent_id);
+            }
+        }
+        return $isValid;
     }
 
     public function destroy(TaskcardGroup $TaskcardGroup)

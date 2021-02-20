@@ -22,7 +22,7 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: actionUrl + "/?id=" + $('#afm_logs_id').val(),
+            url: actionUrl + "/?id=" + $('#afm_log_id').val(),
         },
         columns: [
             { data: 'person', defaultContent: '-' },

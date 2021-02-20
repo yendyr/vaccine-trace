@@ -25,5 +25,12 @@ Route::name('flightoperations.')->group(function () {
         Route::resource('/afml-detail-journal', 'AfmlDetailJournalController');
 
         Route::resource('/afml-detail-manifest', 'AfmlDetailManifestController');
+
+        Route::resource('/afml-detail-discrepancy', 'AfmlDetailDiscrepancyController');
+        Route::name('afml.')->group(function() {
+            Route::get('flightoperations/afml-detail-discrepancy/select2', 'AfmlDetailDiscrepancyController@select2')->name('discrepancy.select2');
+        });
+
+        Route::resource('/afml-detail-rectification', 'AfmlDetailRectificationController');
     });
 });

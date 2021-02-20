@@ -79,6 +79,12 @@ use Modules\PPC\Entities\TaskcardDetailItem;
 use Modules\PPC\Policies\AircraftTypePolicy;
 use Modules\PPC\Entities\AircraftType;
 
+use Modules\PPC\Policies\MaintenanceProgramPolicy;
+use Modules\PPC\Entities\MaintenanceProgram;
+
+use Modules\PPC\Policies\MaintenanceProgramDetailPolicy;
+use Modules\PPC\Entities\MaintenanceProgramDetail;
+
 use Modules\PPC\Policies\AircraftConfigurationTemplatePolicy;
 use Modules\PPC\Entities\AircraftConfigurationTemplate;
 
@@ -155,6 +161,12 @@ use Modules\FlightOperations\Entities\AfmlDetailJournal;
 use Modules\FlightOperations\Policies\AfmlDetailManifestPolicy;
 use Modules\FlightOperations\Entities\AfmlDetailManifest;
 
+use Modules\FlightOperations\Policies\AfmlDetailDiscrepancyPolicy;
+use Modules\FlightOperations\Entities\AfmlDetailDiscrepancy;
+
+use Modules\FlightOperations\Policies\AfmlDetailRectificationPolicy;
+use Modules\FlightOperations\Entities\AfmlDetailRectification;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -195,6 +207,8 @@ class AuthServiceProvider extends ServiceProvider
         TaskcardDetailInstruction::class => TaskcardDetailInstructionPolicy::class,
         TaskcardDetailItem::class => TaskcardDetailItemPolicy::class,
         AircraftType::class => AircraftTypePolicy::class,
+        MaintenanceProgram::class => MaintenanceProgramPolicy::class,
+        MaintenanceProgramDetail::class => MaintenanceProgramDetailPolicy::class,
         AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
         AircraftConfiguration::class => AircraftConfigurationPolicy::class,
@@ -225,6 +239,8 @@ class AuthServiceProvider extends ServiceProvider
         AfmlDetailCrew::class => AfmlDetailCrewPolicy::class,
         AfmlDetailJournal::class => AfmlDetailJournalPolicy::class,
         AfmlDetailManifest::class => AfmlDetailManifestPolicy::class,
+        AfmlDetailDiscrepancy::class => AfmlDetailDiscrepancyPolicy::class,
+        AfmlDetailRectification::class => AfmlDetailRectificationPolicy::class,
     ];
 
     /**

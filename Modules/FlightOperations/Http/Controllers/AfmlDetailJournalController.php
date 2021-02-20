@@ -7,10 +7,8 @@ use Modules\FlightOperations\Entities\AfmlDetailJournal;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
@@ -27,14 +25,14 @@ class AfmlDetailJournalController extends Controller
 
     public function index(Request $request)
     {
-        $afm_logs_id = $request->id;
+        $afm_log_id = $request->id;
         
-        $data = AfmlDetailJournal::where('afm_logs_id', $afm_logs_id)
+        $data = AfmlDetailJournal::where('afm_log_id', $afm_log_id)
                             ->with(['from_airport:id,iata_code,name',
                                     'to_airport:id,iata_code,name'])
                             ->get();
                                                 
-        $AfmLog = AfmLog::where('id', $afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             return Datatables::of($data)
@@ -101,7 +99,7 @@ class AfmlDetailJournalController extends Controller
 
     public function store(Request $request)
     {
-        $AfmLog = AfmLog::where('id', $request->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $request->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
@@ -131,7 +129,7 @@ class AfmlDetailJournalController extends Controller
             AfmlDetailJournal::create([
                 'uuid' =>  Str::uuid(),
     
-                'afm_logs_id' => $request->afm_logs_id,
+                'afm_log_id' => $request->afm_log_id,
                 'route_from' => $request->route_from,
                 'route_to' => $request->route_to,
                 'block_off' => $request->block_off,
@@ -163,7 +161,7 @@ class AfmlDetailJournalController extends Controller
         $currentRow = AfmlDetailJournal::where('id', $AfmlDetailJournal->id)
                                                 ->first();
 
-        $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $currentRow->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $request->validate([
@@ -220,7 +218,7 @@ class AfmlDetailJournalController extends Controller
     public function destroy(AfmlDetailJournal $AfmlDetailJournal)
     {
         $currentRow = AfmlDetailJournal::where('id', $AfmlDetailJournal->id)->first();
-        $AfmLog = AfmLog::where('id', $currentRow->afm_logs_id)->first();
+        $AfmLog = AfmLog::where('id', $currentRow->afm_log_id)->first();
 
         if ($AfmLog->approvals()->count() == 0) {
             $currentRow

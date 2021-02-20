@@ -3,6 +3,7 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\Taskcard;
+use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\TaskcardDetailAircraftType;
 use Modules\PPC\Entities\TaskcardDetailAffectedItem;
 use Modules\PPC\Entities\TaskcardDetailAccess;
@@ -34,8 +35,45 @@ class TaskcardController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Taskcard::with([
-                    'taskcard_group:id,name',
+            if($request->aircraft_type_id != null && $request->maintenance_program_id != null) {
+                $data = Taskcard::whereHas('aircraft_types',
+                            function($aircraft_types) use ($request) {
+                                $aircraft_types->where('aircraft_types.id', $request->aircraft_type_id);
+                            })
+                            ->leftJoin('maintenance_program_details', 'taskcards.id', '=', 'maintenance_program_details.taskcard_id')
+                            ->where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
+                            ->with([
+                                'taskcard_group:id,name,parent_id',
+                                'taskcard_type:id,name',
+                                'taskcard_workarea:id,name',
+                                'aircraft_types:id,name',
+                                'affected_items:id,code,name',
+                                'accesses:id,name',
+                                'zones:id,name',
+                                'document_libraries:id,name',
+                                'affected_manuals:id,name',
+                            ]);
+            }
+            else if($request->aircraft_type_id) {
+                $data = Taskcard::whereHas('aircraft_types',
+                            function($aircraft_types) use ($request) {
+                                $aircraft_types->where('aircraft_types.id', $request->aircraft_type_id);
+                            })
+                            ->with([
+                                'taskcard_group:id,name,parent_id',
+                                'taskcard_type:id,name',
+                                'taskcard_workarea:id,name',
+                                'aircraft_types:id,name',
+                                'affected_items:id,code,name',
+                                'accesses:id,name',
+                                'zones:id,name',
+                                'document_libraries:id,name',
+                                'affected_manuals:id,name',
+                            ]);
+            }
+            else {
+                $data = Taskcard::with([
+                    'taskcard_group:id,name,parent_id',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',
@@ -45,11 +83,35 @@ class TaskcardController extends Controller
                     'document_libraries:id,name',
                     'affected_manuals:id,name',
                     ]);
+            }
+            
             return Datatables::of($data)
+                ->addColumn('group_structure', function($row) {
+                    if ($row->taskcard_group_id) {
+                        $currentRow = TaskcardGroup::where('id', $row->taskcard_group_id)->first();
+                        $group_structure = '';
+
+                        while (true) {
+                            if ($currentRow) {
+                                $group_structure = $currentRow->name . ' -> ' . $group_structure;
+                                $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)->first();
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        $group_structure = Str::beforeLast($group_structure, '->');
+                        return $group_structure;
+                    } 
+                    else {
+                        return '-';
+                    }
+                })
                 ->addColumn('status', function($row){
-                    if ($row->status == 1){
+                    if ($row->status == 1) {
                         return '<label class="label label-success">Active</label>';
-                    } else{
+                    } 
+                    else {
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
@@ -64,6 +126,8 @@ class TaskcardController extends Controller
                     foreach ($row->aircraft_types as $aircraft_type) {
                         $aircraft_type_name .= $aircraft_type->name . ', ';
                     }
+
+                    $aircraft_type_name = Str::beforeLast($aircraft_type_name, ',');
                     return $aircraft_type_name;
                 })
                 ->addColumn('skills', function($row){
@@ -86,6 +150,7 @@ class TaskcardController extends Controller
                         $skill_name .= $skill . ', ';
                     }
                     
+                    $skill_name = Str::beforeLast($skill_name, ',');
                     return $skill_name;
                 })
                 ->addColumn('creator_name', function($row){
@@ -94,39 +159,46 @@ class TaskcardController extends Controller
                 ->addColumn('updater_name', function($row){
                     return $row->updater->name ?? '-';
                 })
-                ->addColumn('action', function($row){
-                    $noAuthorize = true;
-                    if(Auth::user()->can('update', Taskcard::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', Taskcard::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
+                ->addColumn('action', function($row) use ($request) {
+                    if(!$request->aircraft_type_id) {
+                        $noAuthorize = true;
+                        if(Auth::user()->can('update', Taskcard::class)) {
+                            $updateable = 'button';
+                            $updateValue = $row->id;
+                            $noAuthorize = false;
+                        }
+                        if(Auth::user()->can('delete', Taskcard::class)) {
+                            $deleteable = true;
+                            $deleteId = $row->id;
+                            $noAuthorize = false;
+                        }
 
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                        if ($noAuthorize == false) {
+                            return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                        }
+                        else {
+                            return '<p class="text-muted">Not Authorized</p>';
+                        }
                     }
-                    else {
-                        return '<p class="text-muted">Not Authorized</p>';
+                    else if($request->create_maintenance_program) {
+                        $usable = true;
+                        $idToUse = $row->id;
+                        return view('components.action-button', compact(['usable', 'idToUse']));
                     }
-                    
                 })
                 ->escapeColumns([])
                 ->make(true);
         }
-
-        return view('ppc::pages.taskcard.index');
+        if(!$request->aircraft_type_id) {
+            return view('ppc::pages.taskcard.index');
+        }
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'mpd_number' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
+            'title' => ['required', 'max:100'],
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
             'compliance' => ['required'],
@@ -289,7 +361,7 @@ class TaskcardController extends Controller
     {
         $request->validate([
             'mpd_number' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
+            'title' => ['required', 'max:100'],
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
             'compliance' => ['required'],
@@ -376,6 +448,8 @@ class TaskcardController extends Controller
         }
 
         if ($request->affected_item_id) {
+            $Taskcard->affected_item_details()->forceDelete();
+
             foreach ($request->affected_item_id as $affected_item_id) {
                 $Taskcard->affected_item_details()
                         ->save(new TaskcardDetailAffectedItem([
@@ -386,6 +460,9 @@ class TaskcardController extends Controller
                             'created_by' => $request->user()->id,
                         ]));
             }
+        }
+        else if ($request->affected_item_id == null) {
+            $Taskcard->affected_item_details()->forceDelete();
         }
 
         if ($request->taskcard_access_id) {
@@ -402,6 +479,9 @@ class TaskcardController extends Controller
                         ]));
             }
         }
+        else if ($request->taskcard_access_id == null) {
+            $Taskcard->access_details()->forceDelete();
+        }
 
         if ($request->taskcard_zone_id) {
             $Taskcard->zone_details()->forceDelete();
@@ -416,6 +496,9 @@ class TaskcardController extends Controller
                             'created_by' => $request->user()->id,
                         ]));
             }
+        }
+        else if ($request->taskcard_zone_id == null) {
+            $Taskcard->zone_details()->forceDelete();
         }
 
         if ($request->taskcard_document_library_id) {
@@ -432,6 +515,9 @@ class TaskcardController extends Controller
                         ]));
             }
         }
+        else if ($request->taskcard_document_library_id == null) {
+            $Taskcard->document_library_details()->forceDelete();
+        }
 
         if ($request->taskcard_affected_manual_id) {
             $Taskcard->affected_manual_details()->forceDelete();
@@ -446,6 +532,9 @@ class TaskcardController extends Controller
                             'created_by' => $request->user()->id,
                         ]));
             }
+        }
+        else if ($request->taskcard_affected_manual_id == null) {
+            $Taskcard->affected_manual_details()->forceDelete();
         }
 
         DB::commit();
@@ -518,5 +607,4 @@ class TaskcardController extends Controller
             return response()->json(['success' => $successText]);
         }
     }
-
 }

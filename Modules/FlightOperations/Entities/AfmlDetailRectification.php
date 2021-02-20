@@ -16,10 +16,12 @@ class AfmlDetailRectification extends Model
     protected $fillable = [
         'uuid',
 
-        'afm_logs_id',
-        'afml_detail_discrepancies_id',
+        'afm_log_id',
+        'afml_detail_discrepancy_id',
+        'code',
         'title',
         'description',
+        'performed_by',
 
         'status',
         'created_by',
@@ -38,13 +40,18 @@ class AfmlDetailRectification extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
+    public function employee()
+    {
+        return $this->belongsTo(\Modules\HumanResources\Entities\Employee::class, 'performed_by');
+    }
+
     public function afm_log()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_log_id');
     }
 
     public function afml_detail_discrepancy()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'afml_detail_discrepancies_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmlDetailDiscrepancy::class, 'afml_detail_discrepancy_id');
     }
 }

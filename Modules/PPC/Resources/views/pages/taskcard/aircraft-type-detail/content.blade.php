@@ -4,4 +4,6 @@
     <label class="label label-success">{{ $aircraft_type->name }}</label>
 @endforeach
 </p>
+@else        
+    <label class="label label-info">-</label>
 @endif

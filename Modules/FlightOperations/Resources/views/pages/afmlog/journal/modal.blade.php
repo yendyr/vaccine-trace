@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputFormJournal">
-                <input type="hidden" id="afm_logs_id" name="afm_logs_id" value="{{ $afmlog->id ?? '' }}">
+                <input type="hidden" id="afm_log_id" name="afm_log_id" value="{{ $afmlog->id ?? '' }}">
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-6">
@@ -124,14 +124,6 @@
 
 @push('header-scripts')
 <link href="{{ URL::asset('theme/css/plugins/clockpicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
-<style>
-    .select2-container.select2-container--default.select2-container--open {
-        z-index: 9999999 !important;
-    }
-    .select2 {
-        width: 100% !important;
-    }
-</style>
 @endpush
 
 @push('footer-scripts')

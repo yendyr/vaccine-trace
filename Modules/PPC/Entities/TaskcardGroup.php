@@ -5,7 +5,6 @@ namespace Modules\PPC\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class TaskcardGroup extends Model
 {
@@ -16,9 +15,11 @@ class TaskcardGroup extends Model
     protected $fillable = [
         'uuid',
         'code',
+
         'name',
         'description',
         'parent_id',
+
         'status',
         'created_by',
         'updated_by',
@@ -38,12 +39,16 @@ class TaskcardGroup extends Model
 
     public function taskcard_group()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id')->with('taskcard_group');
     }
 
     public function subGroup()
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
+    }
 
+    public function all_childs()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id', 'id')->with('all_childs');
     }
 }

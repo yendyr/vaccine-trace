@@ -5,7 +5,6 @@ namespace Modules\PPC\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AircraftConfiguration extends Model
 {
@@ -74,10 +73,10 @@ class AircraftConfiguration extends Model
         return $this->hasOne(\Modules\SupplyChain\Entities\Warehouse::class, 'aircraft_configuration_id');
     }
 
-    public function configuration_details()
-    {
-        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'aircraft_configuration_id');
-    }
+    // public function configuration_details()
+    // {
+    //     return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'aircraft_configuration_id');
+    // }
 
     public function approvals()
     {
@@ -113,8 +112,8 @@ class AircraftConfiguration extends Model
         parent::boot();
 
         static::deleting(function($AircraftConfiguration) {
+            $AircraftConfiguration->warehouse->item_stocks()->delete();             
             $AircraftConfiguration->warehouse()->delete();             
-            $AircraftConfiguration->configuration_details()->delete();             
             $AircraftConfiguration->approvals()->delete();             
         });
     }

@@ -40,8 +40,21 @@ class Warehouse extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
+    public function item_stocks()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'warehouse_id');
+    }
+
     public function aircraft_configuration()
     {
         return $this->belongsTo(\Modules\PPC\Entities\AircraftConfiguration::class, 'aircraft_configuration_id');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($Warehouse) {
+            $Warehouse->item_stocks()->delete();           
+        });
     }
 }

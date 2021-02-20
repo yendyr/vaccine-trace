@@ -56,12 +56,12 @@
                     <div class="row m-b">
                         <div class="col">
                             <label>Manhours Estimation</label>
-                            <input type="number" min="0.1" step="0.1" class="form-control @error('manhours_estimation') is-invalid @enderror" name="manhours_estimation" id="manhours_estimation">
+                            <input type="number" min="0.01" step="0.01" class="form-control @error('manhours_estimation') is-invalid @enderror" name="manhours_estimation" id="manhours_estimation">
                             <div class="invalid-feedback-manhours_estimation text-danger font-italic"></div>
                         </div>
                             <div class="col">
                             <label>Performance Factor</label>
-                            <input type="number" min="1" step="0.1" class="form-control @error('performance_factor') is-invalid @enderror" name="performance_factor" id="performance_factor">
+                            <input type="number" min="1" step="0.05" class="form-control @error('performance_factor') is-invalid @enderror" name="performance_factor" id="performance_factor">
                             <div class="invalid-feedback-performance_factor text-danger font-italic"></div>
                         </div>
                         <div class="col">
@@ -111,6 +111,6 @@
     <script>
         $(document).ready(function(){
             $('.instruction').summernote();
-       });
+        });
     </script>
 @endpush

@@ -3,7 +3,7 @@
 @section('content')
     <div class="row m-b m-t">
         <div class="col-md-2 d-flex align-items-start">
-            <img src="{{ URL::asset('assets/afml.png') }}" style="width: 50%; height: auto;">
+            <img src="{{ URL::asset('assets/afml.png') }}" style="width: 60%; height: auto;">
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Transaction Date:</p>         
@@ -113,7 +113,16 @@
                     </div>
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
-                            {{-- @include('ppc::pages.aircraft-configuration.approval-status.content') --}}
+                            <div class="row m-b">
+                                @include('flightoperations::pages.afmlog.discrepancy.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-4" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('flightoperations::pages.afmlog.rectification.content')
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -123,6 +132,15 @@
 @endsection
 
 @push('header-scripts')
+    <style>
+        .select2-container.select2-container--default.select2-container--open {
+            z-index: 9999999 !important;
+        }
+        .select2 {
+            width: 100% !important;
+        }
+    </style>
+
     @include('layouts.includes._header-datatable-script')
 @endpush
 

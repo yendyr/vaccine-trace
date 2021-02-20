@@ -17,7 +17,7 @@ class CreateAfmlDetailItemRecordsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('afm_logs_id');
+            $table->string('afm_log_id');
             $table->string('item_id')->nullable(); // refer to id in aircraft configuration detail
             
             $table->double('carried_forward_flight_hour');

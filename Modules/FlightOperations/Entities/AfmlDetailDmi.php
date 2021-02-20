@@ -16,7 +16,7 @@ class AfmlDetailDmi extends Model
     protected $fillable = [
         'uuid',
 
-        'afm_logs_id',
+        'afm_log_id',
         'item_id',
         'description',
 
@@ -44,6 +44,6 @@ class AfmlDetailDmi extends Model
 
     public function afm_log()
     {
-        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_logs_id');
+        return $this->belongsTo(\Modules\FlightOperations\Entities\AfmLog::class, 'afm_log_id');
     }
 }

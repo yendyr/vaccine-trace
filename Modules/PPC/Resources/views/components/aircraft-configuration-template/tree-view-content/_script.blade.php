@@ -12,7 +12,7 @@ $(document).ready(function () {
             },
             "data": {
                 type: "GET",
-                url: "/ppc/template-detail-tree/?id=" + $('#aircraft_configuration_template_id').val(),
+                url: "/ppc/aircraft-configuration-template/detail-tree/?id=" + $('#aircraft_configuration_template_id').val(),
                 success: function (data) {
                     data.d;
                     $(data).each(function () {
