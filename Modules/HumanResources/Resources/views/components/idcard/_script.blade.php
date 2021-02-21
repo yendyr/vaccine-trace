@@ -87,7 +87,6 @@
             });
 
             $(inputFormId).on('submit', function (event) {
-                event.preventDefault();
                 submitButtonProcessDynamic (tableId, inputFormId, '#idcardModal');
             });
 

@@ -266,7 +266,7 @@ class FamilyController extends Controller
             'maritalstatusFamily' => ['required', 'string', 'size:1'],
             'edulvlFamily' => ['required', 'string', 'max:50'],
             'edumajor' => ['nullable', 'string', 'max:50'],
-            'jobFamily' => ['nullable', 'string', 'size:2'],
+            'jobFamily' => ['required', 'string', 'size:2'],
             'remark' => ['nullable', 'string', 'max:50'],
             'status' => ['required', 'min:0', 'max:1'],
         ];

@@ -10,7 +10,7 @@
 
         @slot('createButton')
             @can('create', \Modules\HumanResources\Entities\Address::class)
-                <button type="button" id="create-idcard" class="btn btn-block btn-primary">
+                <button type="button" id="create-address" class="btn btn-block btn-primary">
                     <strong><i class="fa fa-plus"></i></strong>
                 </button>
             @endcan

@@ -1,48 +1,43 @@
-@push('header-scripts')
-    <style>
-        .select2-container.select2-container--default.select2-container--open {
-            z-index: 9999999 !important;
-        }
-        .select2{
-            width: 100% !important;
-        }
-
-    </style>
-@endpush
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
 
 @push('footer-scripts')
     <script>
-        var tableFamily = $('#family-table').DataTable({
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            language: {
-                emptyTable: "No data existed",
-            },
-            ajax: {
-                url: "/hr/family",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'empid', name: 'empid' },
-                { data: 'famid', name: 'famid', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'relationship.content', name: 'relationship.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'fullname', name: 'fullname', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'pob', name: 'pob', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'dob', name: 'dob', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'gender.content', name: 'gender.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'maritalstatus.content', name: 'maritalstatus.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'edulvl.content', name: 'edulvl.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'edumajor', name: 'edumajor', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'job.content', name: 'job.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false },
-            ]
-        });
-
         $(document).ready(function () {
+            var actionUrl = '/hr/family';
+            var tableId = '#family-table';
+            var inputFormId = '#familyForm';
+
+            var tableFamily = $('#family-table').DataTable({
+                processing: true,
+                serverSide: false,
+                searchDelay: 1500,
+                language: {
+                    emptyTable: "No data existed",
+                },
+                ajax: {
+                    url: "/hr/family",
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'empid', name: 'empid' },
+                    { data: 'famid', name: 'famid', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'relationship.content', name: 'relationship.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'fullname', name: 'fullname', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'pob', name: 'pob', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'dob', name: 'dob', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'gender.content', name: 'gender.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'maritalstatus.content', name: 'maritalstatus.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'edulvl.content', name: 'edulvl.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'edumajor', name: 'edumajor', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'job.content', name: 'job.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false },
+                ]
+            });
+
             $('#familyForm').find('.select2_empidFamily').select2({
                 theme: 'bootstrap4',
                 placeholder: 'choose Emp ID',
@@ -91,27 +86,22 @@
 
             $('#create-family').click(function () {
                 $('#saveBtn').val("create-family");
-                $('#familyForm').trigger("reset");
-                $("#familyModal").find('#modalTitle').html("Add new Family data");
-                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-
-                $('#familyModal').modal('show');
                 $("input[value='patch']").remove();
-                $('#ffamid').attr('disabled', false);
                 $('#fempidFamily').val(null).trigger('change');
                 $('#fempidFamily').attr('disabled', false);
                 $('#fedulvlFamily').val(null).trigger('change');
                 $('#fmaritalstatusFamily').val(null).trigger('change');
                 $('#frelationship').val(null).trigger('change');
-                $('#familyForm').attr('action', '/hr/family');
+                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                showCreateModal ('Add New Family data', inputFormId, actionUrl, '#familyModal');
             });
 
-            $('#family-table').on('click', '.editBtn', function () {
+            tableFamily.on('click', '.editBtn', function () {
                 $('#familyForm').trigger("reset");
-                $('#familyModal').find('#modalTitle').html("Update Id Card data");
+                $('#familyModal').find('#modalTitle').html("Update Family data");
                 let tr = $(this).closest('tr');
                 let data = $('#family-table').DataTable().row(tr).data();
-                console.log(data);
+
                 $('<input>').attr({
                     type: 'hidden',
                     name: '_method',
@@ -152,47 +142,8 @@
                 $('#familyModal').modal('show');
             });
 
-            $('#familyForm').on('submit', function (event) {
-                event.preventDefault();
-                let url_action = $(this).attr('action');
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: url_action,
-                    method: "POST",
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    beforeSend:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'start' );
-                        $('[class^="invalid-feedback-"]').html('');
-                        $("#familyForm").find('#saveBtn').prop('disabled', true);
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            $("#ibox-family").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-family").find('#form_result').html(data.success);
-                        }
-                        $('#familyModal').modal('hide');
-                        tableFamily.ajax.reload();
-                    },
-                    error:function(data){
-                        let errors = data.responseJSON.errors;
-                        if (errors) {
-                            $.each(errors, function (index, value) {
-                                $('div.invalid-feedback-'+index).html(value);
-                            })
-                        }
-                    },
-                    complete:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'stop' );
-                        $("#familyForm").find('#saveBtn').prop('disabled', false);
-                    }
-                });
+            $(inputFormId).on('submit', function (event) {
+                submitButtonProcessDynamic (tableId, inputFormId, '#familyModal');
             });
         });
 
