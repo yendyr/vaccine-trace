@@ -61,7 +61,7 @@ class AircraftConfigurationTemplateController extends Controller
                     else {
                         return '<p class="text-muted">Not Authorized</p>';
                     }
-                    
+
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -80,7 +80,7 @@ class AircraftConfigurationTemplateController extends Controller
 
         if ($request->status) {
             $status = 1;
-        } 
+        }
         else {
             $status = 0;
         }
@@ -97,12 +97,12 @@ class AircraftConfigurationTemplateController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'aircraft_type_id' => $request->aircraft_type_id,
-    
+
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
                 'created_by' => $request->user()->id,
             ]);
-                
+
             foreach ($detail_source->template_details as $template_detail) {
                 $newDetail = AircraftConfigurationTemplateDetail::create([
                     'uuid' =>  Str::uuid(),
@@ -113,7 +113,7 @@ class AircraftConfigurationTemplateController extends Controller
                     'alias_name' => $template_detail->alias_name,
                     'description' => $template_detail->description,
                     'parent_coding' => $template_detail->parent_coding,
-        
+
                     'owned_by' => $request->user()->company_id,
                     'status' => $template_detail->status,
                     'created_by' => $request->user()->id,
@@ -139,12 +139,12 @@ class AircraftConfigurationTemplateController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'aircraft_type_id' => $request->aircraft_type_id,
-    
+
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
                 'created_by' => $request->user()->id,
             ]);
-    
+
             return response()->json(['success' => 'Aircraft Configuration Template Data has been Saved',
                                     'id' => $AircraftConfigurationTemplate->id]);
         }
@@ -169,7 +169,7 @@ class AircraftConfigurationTemplateController extends Controller
 
         if ($request->status) {
             $status = 1;
-        } 
+        }
         else {
             $status = 0;
         }

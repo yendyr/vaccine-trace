@@ -1,64 +1,10 @@
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
+
 @push('footer-scripts')
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 
     <script>
-        var tableEmp = $('#employee-table').DataTable({
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            language: {
-                emptyTable: "No data existed",
-            },
-            fixedColumns:   {
-                leftColumns: 0,
-                rightColumns: 1
-            },
-            columnDefs: [
-                {
-                    targets: [ 0 ],
-                    visible: false
-                }
-            ],
-            selected: true,
-            ajax: {
-                url: "/hr/employee",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'photo', name: 'photo'},
-                { data: 'empid', name: 'empid' },
-                { data: 'fullname', name: 'fullname', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'pob', name: 'pob' },
-                { data: 'dob', name: 'dob' },
-                { data: 'gender.content', name: 'gender.content', defaultContent: "<p class='text-muted'>none</p>"},
-                { data: 'religion', name: 'religion', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'phone.content', name: 'phone.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'email', name: 'email', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'bloodtype', name: 'bloodtype', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'maritalstatus.content', name: 'maritalstatus.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'empdate', name: 'empdate', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'cessdate', name: 'cessdate', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'probation.content', name: 'probation.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'cesscode.content', name: 'cesscode.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'recruitby.content', name: 'recruitby.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'emptype.content', name: 'emptype.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'workgrp', name: 'workgrp', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'site', name: 'site', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'accsgrp', name: 'accsgrp', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'achgrp', name: 'achgrp', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'orgcode.content', name: 'orgcode.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'orglvl.content', name: 'orglvl.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'title.content', name: 'title.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'jobtitle', name: 'jobtitle', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'jobgrp', name: 'jobgrp', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'costcode', name: 'costcode', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false },
-            ]
-        });
-
         function employeeSetOrgcode(data){
             $('#forglvl').val(null).trigger('change');
             $('.select2_orglvl').select2({
@@ -88,6 +34,60 @@
                 dropdownParent: $('#employeeModal')
             });
         }
+        $('.select2_workgroup').select2({
+            theme: 'bootstrap4',
+            placeholder: 'choose workgroup',
+            ajax: {
+                url: "{{route('hr.workgroup-detail.select2.workgroup')}}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#employeeModal')
+        });
+        $('.select2_orgcode').select2({
+            theme: 'bootstrap4',
+            placeholder: 'choose here',
+            ajax: {
+                url: "{{route('hr.employee.select2.orgcode')}}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#employeeModal')
+        });
+        $('.select2_recruitby').select2({
+            theme: 'bootstrap4',
+            placeholder: 'choose here',
+            ajax: {
+                url: "{{route('hr.employee.select2.recruitby')}}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#employeeModal')
+        });
+        $('.select2_religion').select2({
+            theme: 'bootstrap4',
+            placeholder: 'choose here',
+            ajax: {
+                url: "{{route('hr.employee.select2.religion')}}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#employeeModal')
+        });
+        $('.select2_maritalstatus').select2({
+            theme: 'bootstrap4',
+            placeholder: 'choose here',
+            ajax: {
+                url: "{{route('hr.employee.select2.maritalstatus')}}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#employeeModal')
+        });
+        $('.select2_bloodtype').select2({
+            theme: 'bootstrap4',
+            placeholder: 'choose here',
+            ajax: {
+                url: "{{route('hr.employee.select2.bloodtype')}}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#employeeModal')
+        });
 
         function employeeSetTitle(data){
             $('#fjobtitle').val(null).trigger('change');
@@ -109,6 +109,68 @@
         }
 
         $(document).ready(function () {
+            var actionUrl = '/hr/employee';
+            var tableId = '#employee-table';
+            var inputFormId = '#employeeForm';
+
+            var tableEmp = $(tableId).DataTable({
+                pageLength: 25,
+                processing: true,
+                serverSide: true,
+                searchDelay: 1500,
+                language: {
+                    emptyTable: "No data existed",
+                },
+                fixedColumns:   {
+                    leftColumns: 0,
+                    rightColumns: 1
+                },
+                columnDefs: [
+                    {
+                        targets: [ 0 ],
+                        visible: false
+                    }
+                ],
+                selected: true,
+                ajax: {
+                    url: '/hr/employee',
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'photo', name: 'photo'},
+                    { data: 'empid', name: 'empid' },
+                    { data: 'fullname', name: 'fullname', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'pob', name: 'pob', searchable:false },
+                    { data: 'dob', name: 'dob', searchable:false },
+                    { data: 'gender.content', name: 'gender.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>"},
+                    { data: 'religion', name: 'religion', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'phone.content', name: 'phone.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'email', name: 'email', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'bloodtype', name: 'bloodtype', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'maritalstatus.content', name: 'maritalstatus.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'empdate', name: 'empdate', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'cessdate', name: 'cessdate', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'probation.content', name: 'probation.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'cesscode.content', name: 'cesscode.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'recruitby.content', name: 'recruitby.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'emptype.content', name: 'emptype.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'workgrp', name: 'workgrp', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'site', name: 'site', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'accsgrp', name: 'accsgrp', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'achgrp', name: 'achgrp', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'orgcode.content', name: 'orgcode.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'orglvl.content', name: 'orglvl.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'title.content', name: 'title.content', searchable:false, defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'jobtitle', name: 'jobtitle', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'jobgrp', name: 'jobgrp', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'costcode', name: 'costcode', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false },
+                ]
+            });
+
             //filter for selected emp
             $('#employee-table tbody').on('click', 'tr', function () {
                 //make selected row effect
@@ -133,68 +195,10 @@
                 $(this).siblings('.custom-file-label').addClass("selected").html(fileName);
             });
 
-            $('.select2_workgroup').select2({
-                theme: 'bootstrap4',
-                placeholder: 'choose workgroup',
-                ajax: {
-                    url: "{{route('hr.workgroup-detail.select2.workgroup')}}",
-                    dataType: 'json',
-                },
-                dropdownParent: $('#employeeModal')
-            });
-            $('.select2_orgcode').select2({
-                theme: 'bootstrap4',
-                placeholder: 'choose here',
-                ajax: {
-                    url: "{{route('hr.employee.select2.orgcode')}}",
-                    dataType: 'json',
-                },
-                dropdownParent: $('#employeeModal')
-            });
-            $('.select2_recruitby').select2({
-                theme: 'bootstrap4',
-                placeholder: 'choose here',
-                ajax: {
-                    url: "{{route('hr.employee.select2.recruitby')}}",
-                    dataType: 'json',
-                },
-                dropdownParent: $('#employeeModal')
-            });
-            $('.select2_religion').select2({
-                theme: 'bootstrap4',
-                placeholder: 'choose here',
-                ajax: {
-                    url: "{{route('hr.employee.select2.religion')}}",
-                    dataType: 'json',
-                },
-                dropdownParent: $('#employeeModal')
-            });
-            $('.select2_maritalstatus').select2({
-                theme: 'bootstrap4',
-                placeholder: 'choose here',
-                ajax: {
-                    url: "{{route('hr.employee.select2.maritalstatus')}}",
-                    dataType: 'json',
-                },
-                dropdownParent: $('#employeeModal')
-            });
-            $('.select2_bloodtype').select2({
-                theme: 'bootstrap4',
-                placeholder: 'choose here',
-                ajax: {
-                    url: "{{route('hr.employee.select2.bloodtype')}}",
-                    dataType: 'json',
-                },
-                dropdownParent: $('#employeeModal')
-            });
-
             $('#create-employee').click(function () {
-                $('#saveBtn').val("create-workgroup");
-                $('#employeeForm').trigger("reset");
-                $("#employeeModal").find('#modalTitle').html("Add new Employee data");
-                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-
+                clearForm(inputFormId);
                 $("input[value='patch']").remove();
+                $("#employeeForm").find('#fempid').removeAttr('readonly');
                 $('#frecruitby').val(null).trigger('change');
                 $('#fworkgrp').val(null).trigger('change');
                 $('#forgcode').val(null).trigger('change');
@@ -204,16 +208,16 @@
                 $('#fmaritalstatus').val(null).trigger('change');
                 $('#fphoto').siblings('.custom-file-label').removeClass("selected").html('choose photo');
                 $("#employeeForm").find('#fempid').attr('readonly', false);
-
-                $('#employeeModal').modal('show');
-                $('#employeeForm').attr('action', '/hr/employee');
+                $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
+                showCreateModal ('Add New Employee', inputFormId, actionUrl, '#employeeModal');
             });
 
-            $('#employee-table').on('click', '.editBtn', function () {
+            tableEmp.on('click', '.editBtn', function () {
                 $('#employeeForm').trigger("reset");
                 $('#employeeModal').find('#modalTitle').html("Update Employee data");
                 let tr = $(this).closest('tr');
                 let data = $('#employee-table').DataTable().row(tr).data();
+
                 $('<input>').attr({
                     type: 'hidden',
                     name: '_method',
@@ -234,22 +238,28 @@
                 $('#fpob').val(data.pob);
                 $('#fdob').val(data.dob);
                 $('#fgender').find('option').removeAttr('selected');
-                $('#fgender').find('option[value="' + data.gender.value + '"]').attr('selected', '');
+                if (data.gender != null)
+                    $('#fgender').find('option[value="' + data.gendervalue + '"]').attr('selected', '');
                 $('#freligion').append('<option value="' + data.religion + '" selected>' + data.religion + '</option>');
-                $('#fmobile01').val(data.phone.mobile01);
-                $('#fmobile02').val(data.phone.mobile02);
+                $('#fmobile01').val(data.phone?.mobile01);
+                $('#fmobile02').val(data.phone?.mobile02);
                 $('#femail').val(data.email);
                 $('#fbloodtype').append('<option value="' + data.bloodtype + '" selected>' + data.bloodtype + '</option>');
-                $('#fmaritalstatus').append('<option value="' + data.maritalstatus.value + '" selected>' + data.maritalstatus.content + '</option>');
+                if (data.maritalstatus != null)
+                    $('#fmaritalstatus').append('<option value="' + data.maritalstatus.value + '" selected>' + data.maritalstatus.content + '</option>');
                 $('#fempdate').val(data.empdate);
                 $('#fcessdate').val(data.cessdate);
                 $('#fprobation').find('option').removeAttr('selected');
-                $('#fprobation').find('option[value="' + data.probation.value + '"]').attr('selected', '');
+                if (data.probation != null)
+                    $('#fprobation').find('option[value="' + data.probation.value + '"]').attr('selected', '');
                 $('#fcesscode').find('option').removeAttr('selected');
-                $('#fcesscode').find('option[value="' + data.cesscode.value + '"]').attr('selected', '');
-                $('#frecruitby').append('<option value="' + data.recruitby.value + '" selected>' + data.recruitby.content + '</option>');
+                if (data.cesscode != null)
+                    $('#fcesscode').find('option[value="' + data.cesscode.value + '"]').attr('selected', '');
+                if (data.recruitby != null)
+                    $('#frecruitby').append('<option value="' + data.recruitby.value + '" selected>' + data.recruitby.content + '</option>');
                 $('#femptype').find('option').removeAttr('selected');
-                $('#femptype').find('option[value="' + data.emptype.value + '"]').attr('selected', '');
+                if (data.emptype != null)
+                    $('#femptype').find('option[value="' + data.emptype.value + '"]').attr('selected', '');
                 $('#fworkgrp').append('<option value="' + data.workgrp + '" selected>' + data.workgrp + '</option>');
                 $('#fsite').val(data.site);
                 $('#faccsgrp').val(data.accsgrp);
@@ -257,9 +267,12 @@
                 $('#fjobgrp').val(data.jobgrp);
                 $('#fcostcode').val(data.costcode);
                 $('#faccsgrp').val(data.accsgrp);
-                $('#forgcode').append('<option value="' + data.orgcode.value + '" selected>' + data.orgcode.value + ' - ' + data.orgcode.content + '</option>');
-                $('#forglvl').append('<option value="' + data.orglvl.value + '" selected>' + data.orglvl.content + '</option>');
-                $('#ftitle').append('<option value="' + data.title.value + '" selected>' + data.title.content + '</option>');
+                if (data.orgcode != null)
+                    $('#forgcode').append('<option value="' + data.orgcode.value + '" selected>' + data.orgcode.value + ' - ' + data.orgcode.content + '</option>');
+                if (data.orglvl != null)
+                    $('#forglvl').append('<option value="' + data.orglvl.value + '" selected>' + data.orglvl.content + '</option>');
+                if (data.title != null)
+                    $('#ftitle').append('<option value="' + data.title.value + '" selected>' + data.title.content + '</option>');
                 $('#fjobtitle').append('<option value="' + data.jobtitle + '" selected>' + data.jobtitle + '</option>');
                 $('#fremark').val(data.remark);
                 $("#employeeForm").find('#fstatus').find('option').removeAttr('selected');
@@ -276,52 +289,12 @@
                 $('#employeeModal').modal('show');
             });
 
-            $('#employeeForm').on('submit', function (event) {
+            $(inputFormId).on('submit', function (event) {
                 event.preventDefault();
-                let url_action = $(this).attr('action');
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: url_action,
-                    method: "POST",
-                    data: new FormData(this),
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    dataType: 'json',
-                    beforeSend:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'start' );
-                        $('[class^="invalid-feedback-"]').html('');
-                        $("#employeeForm").find('#saveBtn').prop('disabled', true);
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            $("#ibox-employee").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-employee").find('#form_result').html(data.success);
-                        }
-                        $('#employeeModal').modal('hide');
-                        tableEmp.ajax.reload();
-                    },
-                    error:function(data){
-                        let errors = data.responseJSON.errors;
-                        if (errors) {
-                            $.each(errors, function (index, value) {
-                                $('div.invalid-feedback-'+index).html(value);
-                            })
-                        }
-                    },
-                    complete:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'stop' );
-                        $("#employeeForm").find('#saveBtn').prop('disabled', false);
-                    }
-                });
+                submitButtonProcessDynamic (tableId, inputFormId, '#employeeModal');
             });
-        });
 
+            // deleteButtonProcess (datatableObject, tableId, actionUrl);
+        });
     </script>
 @endpush

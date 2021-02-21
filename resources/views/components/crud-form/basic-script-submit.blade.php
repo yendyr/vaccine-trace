@@ -1,6 +1,6 @@
 @push('footer-scripts')
 <script>
-    function showCreateModal (modalTitle, inputFormId, actionUrl) {
+    function showCreateModal (modalTitle, inputFormId, actionUrl, inputModalId = null) {
         this.modalTitle = modalTitle;
         this.inputFormId = inputFormId;
         this.actionUrl = actionUrl;
@@ -10,7 +10,11 @@
         $('#saveBtn').val("create");
         $(inputFormId).trigger("reset");
         $('select').not('[name$="_length"]').val(null).trigger('change');
-        $('#inputModal').modal('show');                
+        console.log(inputModalId)
+        if (inputModalId == null)
+            $('#inputModal').modal('show');
+        else
+            $(inputModalId).modal('show');
         $("input[value='patch']").remove();
     }
 
@@ -28,7 +32,7 @@
         $(inputFormId).trigger("reset");
         $('select').not('[name$="_length"]').val(null).trigger('change');
         $('[class^="invalid-feedback-"]').html('');
-        $(inputModalId).modal('show');                
+        $(inputModalId).modal('show');
         $("input[value='patch']").remove();
     }
 
@@ -64,14 +68,14 @@
             },
             success: function (data) {
                 if (data.success) {
-                    generateToast ('success', data.success);                            
+                    generateToast ('success', data.success);
                 }
                 else if (data.error) {
                     swal.fire({
                         titleText: "Action Failed",
                         text: data.error,
                         icon: "error",
-                    });                          
+                    });
                 }
 
                 $('#inputModal').modal('hide');
@@ -118,7 +122,7 @@
             },
             success: function (data) {
                 if (data.success) {
-                    generateToast ('success', data.success);                            
+                    generateToast ('success', data.success);
                 }
                 $(inputModalId).modal('hide');
                 $(targetTableId).DataTable().ajax.reload();
@@ -171,7 +175,7 @@
                         titleText: "Action Failed",
                         text: data.error,
                         icon: "error",
-                    });                          
+                    });
                 }
                 },
                 complete: function(data) {

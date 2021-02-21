@@ -26,7 +26,6 @@ class AircraftConfigurationTemplateDetailController extends Controller
     public function index(Request $request)
     {
         $aircraft_configuration_template_id = $request->id;
-        
         $data = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
                                                 ->with(['item:id,code,name',
                                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
@@ -50,7 +49,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 else {
                     return '-';
                 }
-                
+
             })
             ->addColumn('creator_name', function($row){
                 return $row->creator->name ?? '-';
@@ -77,17 +76,17 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 else {
                     return '<p class="text-muted">Not Authorized</p>';
                 }
-                
+
             })
             ->escapeColumns([])
             ->make(true);
-        
+
     }
 
     public function tree(Request $request)
     {
         $aircraft_configuration_template_id = $request->id;
-        
+
         $datas = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
                                                 ->with(['item:id,code,name',
                                                         'item_group:id,item_id,alias_name'])
@@ -121,7 +120,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
 
         if ($request->status) {
             $status = 1;
-        } 
+        }
         else {
             $status = 0;
         }
@@ -164,14 +163,14 @@ class AircraftConfigurationTemplateDetailController extends Controller
                                                     ->first();
 
         if ($request->status) {
-            $status = 1; 
-            
+            $status = 1;
+
             if ($currentRow->parent_coding != null) {
                 if ($currentRow->item_group->status == 0) {
                     return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
                 }
             }
-        } 
+        }
         else {
             $status = 0;
         }
@@ -203,7 +202,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
             Self::updateChilds($currentRow, $status);
         }
         DB::commit();
-        
+
         return response()->json(['success' => 'Item/Component Data has been Updated']);
     }
 

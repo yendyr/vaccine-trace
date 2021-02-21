@@ -34,16 +34,19 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Employee::latest()->get();
+            $data = Employee::query();
             return DataTables::of($data)
                 ->addColumn('gender', function($row){
-                    if ($row->gender == 'L'){
-                        $gender['content'] = 'Laki - laki';
-                    } elseif ($row->gender == 'P'){
-                        $gender['content'] = 'Perempuan';
-                    }
-                    $gender['value'] = $row->gender;
-                    return $gender;
+                    if (isset($row->gender)){
+                        if ($row->gender == 'L'){
+                            $gender['content'] = 'Laki - laki';
+                        } elseif ($row->gender == 'P'){
+                            $gender['content'] = 'Perempuan';
+                        }
+                        $gender['value'] = $row->gender;
+                        return $gender;
+                    }else
+                        return null;
                 })
                 ->addColumn('phone', function($row){
                     if (isset($row->mobile01)){
@@ -74,41 +77,59 @@ class EmployeeController extends Controller
                 })
                 ->addColumn('cesscode', function($row){
                     $cesscodes = ['Resign', 'Retire'];
-                    $indexCode = sprintf("%01d", $row->cesscode);
-                    $cesscode['value'] = $row->cesscode;
-                    $cesscode['content'] = ($row->cesscode . ' - ' . $cesscodes[($indexCode-1)]);
-                    return $cesscode;
+                    if (isset($row->cesscode)){
+                        $indexCode = sprintf("%01d", $row->cesscode);
+                        $cesscode['value'] = $row->cesscode;
+                        $cesscode['content'] = ($row->cesscode . ' - ' . $cesscodes[($indexCode-1)]);
+                        return $cesscode;
+                    }else
+                        return null;
                 })
                 ->addColumn('recruitby', function($row){
-                    $recruitby['value'] = $row->recruitby;
-                    $content = HrLookup::where('lkey', 'recruitby')->where('maingrp', $row->recruitby)
-                        ->where('status', 1)->first();
-                    $recruitby['content'] = $content->remark;
-                    return $recruitby;
+                    if (isset($row->recruitby)){
+                        $recruitby['value'] = $row->recruitby;
+                        $content = HrLookup::where('lkey', 'recruitby')->where('maingrp', $row->recruitby)
+                            ->where('status', 1)->first();
+                        $recruitby['content'] = $content->remark;
+                        return $recruitby;
+                    }else
+                        return null;
                 })
                 ->addColumn('emptype', function($row){
                     $emptypes = ['Permanent', 'Temporary'];
-                    $indexType = sprintf("%01d", $row->emptype);
-                    $emptype['value'] = $row->emptype;
-                    $emptype['content'] = ($row->emptype . ' - ' . $emptypes[($indexType-1)]);
-                    return $emptype;
+                    if (isset($row->emptype)){
+                        $indexType = sprintf("%01d", $row->emptype);
+                        $emptype['value'] = $row->emptype;
+                        $emptype['content'] = ($row->emptype . ' - ' . $emptypes[($indexType-1)]);
+                        return $emptype;
+                    }else
+                        return null;
                 })
                 ->addColumn('orgcode', function($row){
-                    $orgidentity['value'] = $row->orgcode;
-                    $orgidentity['content'] = OrganizationStructure::select('orgname')->where('orgcode', $row->orgcode)->first()->orgname;
-                    return $orgidentity;
+                    if(isset($row->orgcode)){
+                        $orgidentity['value'] = $row->orgcode;
+                        $orgidentity['content'] = OrganizationStructure::select('orgname')->where('orgcode', $row->orgcode)->first()->orgname;
+                        return $orgidentity;
+                    }else
+                        return null;
                 })
                 ->addColumn('orglvl', function($row){
                     $levels = ['Direksi', 'General', 'Divisi', 'Bagian', 'Seksi', 'Regu', 'Group'];
-                    $level['value'] = $row->orglvl;
-                    $level['content'] = $levels[($row->orglvl-1)];
-                    return $level;
+                    if (isset($row->orglvl)){
+                        $level['value'] = $row->orglvl;
+                        $level['content'] = $levels[($row->orglvl-1)];
+                        return $level;
+                    }else
+                        return null;
                 })
                 ->addColumn('title', function($row){
                     $titles = ['Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'];
-                    $title['value'] = $row->title;
-                    $title['content'] = $titles[($row->title-1)];
-                    return $title;
+                    if (isset($row->title)){
+                        $title['value'] = $row->title;
+                        $title['content'] = $titles[($row->title-1)];
+                        return $title;
+                    }else
+                        return null;
                 })
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
