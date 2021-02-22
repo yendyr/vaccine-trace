@@ -18,6 +18,8 @@ class CreateAircraftConfigurationsTable extends Migration
             $table->uuid('uuid')->unique();
 
             $table->string('aircraft_type_id');
+            $table->string('maintenance_program_id');
+            
             $table->string('registration_number');
             $table->string('serial_number')->nullable();
             $table->date('manufactured_date')->nullable();
