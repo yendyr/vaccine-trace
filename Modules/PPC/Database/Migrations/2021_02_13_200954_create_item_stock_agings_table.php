@@ -22,6 +22,7 @@ class CreateItemStockAgingsTable extends Migration
             $table->string('transaction_reference_class');
 
             $table->double('flight_hour')->nullable()->default(0);
+            $table->double('block_hour')->nullable()->default(0);
             $table->integer('flight_cycle')->nullable()->default(0);
             $table->integer('flight_event')->nullable()->default(0);
 

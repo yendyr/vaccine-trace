@@ -179,6 +179,7 @@ $(document).ready(function () {
         $('#basic_empty_weight').val(data.basic_empty_weight);
 
         $('#initial_flight_hour').val(data.initial_flight_hour);
+        $('#initial_block_hour').val(data.initial_block_hour);
         $('#initial_flight_cycle').val(data.initial_flight_cycle);
         $('#initial_flight_event').val(data.initial_flight_event);
         $('.initial_start_date').val(data.initial_start_date.split(' ')[0]);

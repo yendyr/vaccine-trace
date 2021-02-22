@@ -211,6 +211,7 @@ class AircraftConfigurationDetailController extends Controller
                 'parent_coding' => $request->parent_coding,
     
                 'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_block_hour' => $request->initial_block_hour,
                 'initial_flight_cycle' => $request->initial_flight_cycle,
                 'initial_flight_event' => $request->initial_flight_event,
                 'initial_start_date' => $initial_start_date,
@@ -289,6 +290,7 @@ class AircraftConfigurationDetailController extends Controller
                     'parent_coding' => $parent_coding,
     
                     'initial_flight_hour' => $request->initial_flight_hour,
+                    'initial_block_hour' => $request->initial_block_hour,
                     'initial_flight_cycle' => $request->initial_flight_cycle,
                     'initial_flight_event' => $request->initial_flight_event,
                     'initial_start_date' => $initial_start_date,

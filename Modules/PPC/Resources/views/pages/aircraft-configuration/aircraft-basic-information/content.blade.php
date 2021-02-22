@@ -10,6 +10,10 @@
                     <h2 class="m-t-none"><strong>{{ $AircraftConfiguration->initial_flight_hour ?? '-' }} FH</strong></h2>
                 </div>
                 <div class="col-md-2">
+                    <p class="m-b-none">Initial Block Hour:</p>
+                    <h2 class="m-t-none"><strong>{{ $AircraftConfiguration->initial_block_hour ?? '-' }} FH</strong></h2>
+                </div>
+                <div class="col-md-2">
                     <p class="m-b-none">Initial Flight Cycle:</p>
                     <h2 class="m-t-none"><strong>{{ $AircraftConfiguration->initial_flight_cycle ?? '-' }} FC</strong></h2>
                 </div>
@@ -17,7 +21,7 @@
                     <p class="m-b-none">Initial Flight Event:</p>
                     <h2 class="m-t-none"><strong>{{ $AircraftConfiguration->initial_flight_event ?? '-' }} Event(s)</strong></h2>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3">
                     <p class="m-b-none">Initial Start Operation Date:</p>
                     <h2 class="m-t-none"><strong>{{ Carbon\Carbon::parse($AircraftConfiguration->initial_start_date)->format('Y-F-d') ?? '-' }} </strong></h2>
                 </div>

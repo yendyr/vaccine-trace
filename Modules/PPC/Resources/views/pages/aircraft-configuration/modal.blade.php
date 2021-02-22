@@ -161,6 +161,10 @@
                                             <input type="number" min="0" class="form-control @error('initial_flight_hour') is-invalid @enderror" name="initial_flight_hour" id="initial_flight_hour">
                                         </div>
                                         <div class="col">
+                                            <label>Initial Block Hour:</label>
+                                            <input type="number" min="0" class="form-control @error('initial_block_hour') is-invalid @enderror" name="initial_block_hour" id="initial_block_hour">
+                                        </div>
+                                        <div class="col">
                                             <label>Initial Flight Cycle:</label>
                                             <input type="number" min="0" class="form-control @error('initial_flight_cycle') is-invalid @enderror" name="initial_flight_cycle" id="initial_flight_cycle">
                                         </div>

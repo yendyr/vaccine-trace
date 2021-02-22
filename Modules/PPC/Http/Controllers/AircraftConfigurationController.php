@@ -149,6 +149,7 @@ class AircraftConfigurationController extends Controller
                 'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
 
                 'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_block_hour' => $request->initial_block_hour,
                 'initial_flight_cycle' => $request->initial_flight_cycle,
                 'initial_flight_event' => $request->initial_flight_event,
                 'initial_start_date' => $initial_start_date,
@@ -253,6 +254,7 @@ class AircraftConfigurationController extends Controller
                 'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
 
                 'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_block_hour' => $request->initial_block_hour,
                 'initial_flight_cycle' => $request->initial_flight_cycle,
                 'initial_flight_event' => $request->initial_flight_event,
                 'initial_start_date' => $request->initial_start_date,
@@ -335,6 +337,7 @@ class AircraftConfigurationController extends Controller
                         'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
 
                         'initial_flight_hour' => $request->initial_flight_hour,
+                        'initial_block_hour' => $request->initial_block_hour,
                         'initial_flight_cycle' => $request->initial_flight_cycle,
                         'initial_flight_event' => $request->initial_flight_event,
                         'initial_start_date' => $initial_start_date,
@@ -368,6 +371,7 @@ class AircraftConfigurationController extends Controller
                         'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
 
                         'initial_flight_hour' => $request->initial_flight_hour,
+                        'initial_block_hour' => $request->initial_block_hour,
                         'initial_flight_cycle' => $request->initial_flight_cycle,
                         'initial_flight_event' => $request->initial_flight_event,
                         'initial_start_date' => $request->initial_start_date,

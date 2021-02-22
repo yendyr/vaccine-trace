@@ -28,6 +28,7 @@
         <th>Parent Item/Group PN</th>
         <th>Parent Item/Group Name & Alias</th>
         <th>Initial FH</th>
+        <th>Initial Block Hour</th>
         <th>Initial FC</th>
         <th>Initial Start Date</th>
         <th>Status</th>

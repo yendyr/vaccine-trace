@@ -26,6 +26,7 @@ $(document).ready(function () {
             { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
             { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
             { data: 'initial_flight_hour', name: 'Initial FH' },
+            { data: 'initial_block_hour',  defaultContent: '-' },
             { data: 'initial_flight_cycle', name: 'Initial FC' },
             { data: 'initial_start_date', name: 'Initial Start Date' },
             { data: 'status', name: 'Status' },
@@ -107,6 +108,7 @@ $(document).ready(function () {
         $('#serial_number').val(data.serial_number);
         $('#description').val(data.description);
         $('#initial_flight_hour').val(data.initial_flight_hour);
+        $('#initial_block_hour').val(data.initial_block_hour);
         $('#initial_flight_cycle').val(data.initial_flight_cycle);
         $('#initial_flight_event').val(data.initial_flight_event);
         $('.initial_start_date').val(data.initial_start_date);

@@ -37,6 +37,7 @@ class CreateItemStocksTable extends Migration
 
             $table->date('expired_date')->nullable();
             $table->double('initial_flight_hour')->nullable()->default(0);
+            $table->double('initial_block_hour')->nullable()->default(0);
             $table->integer('initial_flight_cycle')->nullable()->default(0);
             $table->integer('initial_flight_event')->nullable()->default(0);
             $table->date('initial_start_date')->nullable();
