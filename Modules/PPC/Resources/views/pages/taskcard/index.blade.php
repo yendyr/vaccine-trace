@@ -27,6 +27,8 @@
             <th>Manhours Total</th>
             <th>Aircraft Type</th>
             <th>Skill</th>
+            <th>Threshold</th>
+            <th>Repeat</th>
             <th>Created By</th>
             <th>Created At</th>
             {{-- <th>Last Updated By</th>

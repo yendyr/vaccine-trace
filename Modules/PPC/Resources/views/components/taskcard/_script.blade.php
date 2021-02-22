@@ -27,6 +27,8 @@ $(document).ready(function () {
             { data: 'manhours_total', name: 'Manhours Total' },
             { data: 'aircraft_type_name', name: 'Aircraft Type' },
             { data: 'skills', name: 'Skill' },
+            { data: 'threshold_interval', name: 'Threshold' },
+            { data: 'repeat_interval', name: 'Repeat' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
             { data: 'action', name: 'Action', orderable: false },

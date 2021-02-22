@@ -153,6 +153,56 @@ class TaskcardController extends Controller
                     $skill_name = Str::beforeLast($skill_name, ',');
                     return $skill_name;
                 })
+                ->addColumn('threshold_interval', function($row){
+                    $threshold_interval = '';
+                    if ($row->threshold_flight_hour) {
+                        $threshold_interval .= $row->threshold_flight_hour . ' FH / ';
+                    }
+                    else {
+                        $threshold_interval .= '- FH / ';
+                    }
+
+                    if ($row->threshold_flight_cycle) {
+                        $threshold_interval .= $row->threshold_flight_cycle . ' FC / ';
+                    }
+                    else {
+                        $threshold_interval .= '- FC / ';
+                    }
+
+                    if ($row->threshold_daily) {
+                        $threshold_interval .= $row->threshold_daily . ' ' . $row->threshold_daily_unit . '(s)';
+                    }
+                    else {
+                        $threshold_interval .= '- Day';
+                    }
+
+                    return $threshold_interval;
+                })
+                ->addColumn('repeat_interval', function($row){
+                    $repeat_interval = '';
+                    if ($row->repeat_flight_hour) {
+                        $repeat_interval .= $row->repeat_flight_hour . ' FH / ';
+                    }
+                    else {
+                        $repeat_interval .= '- FH / ';
+                    }
+
+                    if ($row->repeat_flight_cycle) {
+                        $repeat_interval .= $row->repeat_flight_cycle . ' FC / ';
+                    }
+                    else {
+                        $repeat_interval .= '- FC / ';
+                    }
+
+                    if ($row->repeat_daily) {
+                        $repeat_interval .= $row->repeat_daily . ' ' . $row->repeat_daily_unit . '(s)';
+                    }
+                    else {
+                        $repeat_interval .= '- Day';
+                    }
+
+                    return $repeat_interval;
+                })
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';
                 })

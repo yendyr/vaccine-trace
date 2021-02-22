@@ -14,6 +14,8 @@
             <th>Instruction/Task Total</th>
             <th>Manhours Total</th>
             <th>Skill</th>
+            <th>Threshold</th>
+            <th>Repeat</th>
             <th>Remark</th>
             <th>Created At</th>
             <th>Action</th>

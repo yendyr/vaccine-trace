@@ -20,11 +20,13 @@ class Taskcard extends Model
         'taskcard_group_id',
         'taskcard_type_id',
         'compliance',
+
         'threshold_flight_hour',
         'threshold_flight_cycle',
         'threshold_daily',
         'threshold_daily_unit',
         'threshold_date',
+        
         'repeat_flight_hour',
         'repeat_flight_cycle',
         'repeat_daily',
