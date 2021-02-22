@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-3">
             <p  class="m-t-none m-b-none">Aircraft Manufacturer:</p>
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->manufacturer->name ?? '' }}</h2>
+            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->aircraft_type->manufacturer->name ?? '' }}</h2>
         </div>
     </div>
 

@@ -47,6 +47,11 @@ class MaintenanceProgram extends Model
         return $this->hasMany(\Modules\PPC\Entities\MaintenanceProgramDetail::class, 'maintenance_program_id');
     }
 
+    public function aircraft_configurations()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\AircraftConfiguration::class, 'maintenance_program_id');
+    }
+
     public function approvals()
     {
         return $this->hasMany(\Modules\PPC\Entities\MaintenanceProgramApproval::class, 'maintenance_program_id');

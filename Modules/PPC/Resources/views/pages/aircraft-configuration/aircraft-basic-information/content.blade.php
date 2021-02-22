@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div class="col-md-4 m-t-md fadeIn" style="animation-duration: 1.5s">
+<div class="col-md-3 m-t-md fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-primary h-100">
         <div class="panel-heading">
             <i class="fa fa-life-ring"></i> &nbsp;General
@@ -61,7 +61,7 @@
                     <p class="m-b-none">Received Date:</p>
                     <p><strong>{{ $AircraftConfiguration->received_date ?? '-' }}</strong></p>
                 </div>
-                <div class="col-md-2 p-r-xl">
+                <div class="col-md-2 p-0">
                     <i class="text-success fa fa-info-circle fa-3x fw"></i>
                 </div>
             </div>
@@ -69,7 +69,7 @@
     </div>
 </div>
 
-<div class="col-md-4 m-t-md fadeIn" style="animation-duration: 1.5s">
+<div class="col-md-3 m-t-md fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-primary h-100">
         <div class="panel-heading">
             <i class="fa fa-inbox"></i> &nbsp;Operation Weight and Balance
@@ -86,7 +86,7 @@
                     <p class="m-b-none">Maximum Zero Fuel Weight (ZFW):</p>
                     <p><strong>{{ $AircraftConfiguration->max_zero_fuel_weight ?? '-' }} {{ $AircraftConfiguration->max_zero_fuel_weight_unit->name ?? '-' }}(s)</strong></p>
                 </div>
-                <div class="col-md-2 p-r-xl">
+                <div class="col-md-2 p-0">
                     <i class="text-success fa fa-inbox fa-3x fw"></i>
                 </div>
             </div>
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-<div class="col-md-4 m-t-md fadeIn" style="animation-duration: 1.5s">
+<div class="col-md-3 m-t-md fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-primary h-100">
         <div class="panel-heading">
             <i class="fa fa-signal"></i> &nbsp;Capacity
@@ -108,8 +108,33 @@
                     <p class="m-b-none">Basic Empty Weight (BEW):</p>
                     <p><strong>{{ $AircraftConfiguration->basic_empty_weight ?? '-' }} {{ $AircraftConfiguration->basic_empty_weight_unit->name ?? '-' }}(s)</strong></p>
                 </div>
-                <div class="col-md-2 p-r-xl">
+                <div class="col-md-2 p-0">
                     <i class="text-success fa fa-signal fa-3x fw"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3 m-t-md fadeIn" style="animation-duration: 1.5s">
+    <div class="panel panel-primary h-100">
+        <div class="panel-heading">
+            <i class="fa fa-rub"></i> &nbsp;Maintenance Program
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <p class="m-b-none">Code:</p>
+                    <p><strong>{{ $AircraftConfiguration->maintenance_program->code ?? '-' }}</strong></p>
+                    
+                    <p class="m-b-none">Name:</p>
+                    <p><strong>{{ $AircraftConfiguration->maintenance_program->name ?? '-' }}</strong></p>
+
+                    <p class="m-b-none">Task Card Total:</p>
+                    <p><strong>{{ $AircraftConfiguration->maintenance_program->maintenance_details->count() ?? '-' }} Task(s)</strong></p>
+                </div>
+                <div class="col-md-2 p-0">
+                    <i class="text-success fa fa-rub fa-3x fw"></i>
                 </div>
             </div>
         </div>

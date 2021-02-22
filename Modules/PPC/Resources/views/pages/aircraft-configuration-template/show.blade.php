@@ -5,14 +5,18 @@
         <div class="col-md-1">
             <img src="{{ URL::asset('assets/crank.png') }}" style="width: 100%; height: auto;">
         </div>
-        <div class="col-md-6 p-l-md">            
+        <div class="col-md-4 p-l-md">            
             <h2 class="m-t-none font-bold">{{ $AircraftConfigurationTemplate->name ?? '' }}</h2>
             <p class="m-t-none m-b-none font-normal">{{ $AircraftConfigurationTemplate->code ?? '' }}</p>
             <p class="m-t-none">{{ $AircraftConfigurationTemplate->description ?? '' }}</p>
         </div>
-        <div class="col-md-5">
+        <div class="col">
             <p  class="m-t-none m-b-none">Aircraft Type:</p>
             <h2 class="m-t-none font-bold">{{ $AircraftConfigurationTemplate->aircraft_type->name ?? '' }}</h2>
+        </div>
+        <div class="col">
+            <p  class="m-t-none m-b-none">Aircraft Manufacturer:</p>
+            <h2 class="m-t-none font-bold">{{ $AircraftConfigurationTemplate->aircraft_type->manufacturer->name ?? '' }}</h2>
         </div>
     </div>
 

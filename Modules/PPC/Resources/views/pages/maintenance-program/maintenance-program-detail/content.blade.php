@@ -3,7 +3,7 @@
     @endcomponent
 
     @component('components.crud-form.index',[
-                    'title' => 'Selected Maintenance Program Task Card',
+                    'title' => "Selected Maintenance Program's Task Card",
                     'tableId' => 'maintenance-program-table'])
 
         @slot('tableContent')

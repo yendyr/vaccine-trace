@@ -18,6 +18,8 @@ class CreateAircraftConfigurationTemplatesTable extends Migration
             $table->uuid('uuid')->unique();
 
             $table->string('aircraft_type_id');
+            $table->string('maintenance_program_id');
+
             $table->string('code');
             $table->string('name');
             $table->string('description')->nullable();

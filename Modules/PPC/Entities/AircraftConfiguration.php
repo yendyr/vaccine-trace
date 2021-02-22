@@ -16,6 +16,8 @@ class AircraftConfiguration extends Model
         'uuid',
 
         'aircraft_type_id',
+        'maintenance_program_id',
+
         'registration_number',
         'serial_number',
         'manufactured_date',
@@ -61,6 +63,11 @@ class AircraftConfiguration extends Model
     public function aircraft_type()
     {
         return $this->belongsTo(\Modules\PPC\Entities\AircraftType::class, 'aircraft_type_id');
+    }
+
+    public function maintenance_program()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\MaintenanceProgram::class, 'maintenance_program_id');
     }
 
     public function manufacturer()

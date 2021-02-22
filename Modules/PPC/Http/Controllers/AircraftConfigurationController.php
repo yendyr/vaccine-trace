@@ -33,6 +33,7 @@ class AircraftConfigurationController extends Controller
     {
         if ($request->ajax()) {
             $data = AircraftConfiguration::with(['aircraft_type:id,name',
+                                                'maintenance_program:id,code,name',
                                                 'approvals:id',
                                                 'max_takeoff_weight_unit:id,name',
                                                 'max_landing_weight_unit:id,name',
@@ -101,6 +102,7 @@ class AircraftConfigurationController extends Controller
             'registration_number' => ['required', 'max:30'],
             'serial_number' => ['required', 'max:30'],
             'aircraft_type_id' => ['required', 'max:30'],
+            'maintenance_program_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -132,6 +134,7 @@ class AircraftConfigurationController extends Controller
                 'received_date' => $received_date,
                 'description' => $request->description,
                 'aircraft_type_id' => $request->aircraft_type_id,
+                'maintenance_program_id' => $request->maintenance_program_id,
 
                 'max_takeoff_weight' => $request->max_takeoff_weight,
                 'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
@@ -235,6 +238,7 @@ class AircraftConfigurationController extends Controller
                 'received_date' => $received_date,
                 'description' => $request->description,
                 'aircraft_type_id' => $request->aircraft_type_id,
+                'maintenance_program_id' => $request->maintenance_program_id,
 
                 'max_takeoff_weight' => $request->max_takeoff_weight,
                 'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
@@ -282,11 +286,6 @@ class AircraftConfigurationController extends Controller
         return view('ppc::pages.aircraft-configuration.show', compact('AircraftConfiguration'));
     }
 
-    public function edit(AircraftConfiguration $AircraftConfiguration)
-    {
-        return view('ppc::pages.aircraft-configuration.edit', compact('AircraftConfiguration'));
-    }
-
     public function update(Request $request, AircraftConfiguration $AircraftConfiguration)
     {
         $currentRow = AircraftConfiguration::where('id', $AircraftConfiguration->id)->first();
@@ -295,6 +294,7 @@ class AircraftConfigurationController extends Controller
                 'registration_number' => ['required', 'max:30'],
                 'serial_number' => ['required', 'max:30'],
                 'aircraft_type_id' => ['required', 'max:30'],
+                'maintenance_program_id' => ['required', 'max:30'],
             ]);
     
             if ($request->status) {
@@ -320,6 +320,7 @@ class AircraftConfigurationController extends Controller
                         'received_date' => $received_date,
                         'description' => $request->description,
                         'aircraft_type_id' => $request->aircraft_type_id,
+                        'maintenance_program_id' => $request->maintenance_program_id,
     
                         'max_takeoff_weight' => $request->max_takeoff_weight,
                         'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
@@ -352,6 +353,7 @@ class AircraftConfigurationController extends Controller
                         'received_date' => $received_date,
                         'description' => $request->description,
                         'aircraft_type_id' => $request->aircraft_type_id,
+                        'maintenance_program_id' => $request->maintenance_program_id,
     
                         'max_takeoff_weight' => $request->max_takeoff_weight,
                         'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
@@ -439,7 +441,6 @@ class AircraftConfigurationController extends Controller
                 "text" => $AircraftConfiguration->registration_number . ' | ' . $AircraftConfiguration->serial_number . ' | ' . $AircraftConfiguration->aircraft_type->name
             ];
         }
-
         return response()->json($response);
     }
 }

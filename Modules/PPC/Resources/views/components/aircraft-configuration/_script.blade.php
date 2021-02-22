@@ -51,6 +51,24 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
+    $('.maintenance_program_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Maintenance Program',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.maintenance-program.select2') }}",
+            dataType: 'json',
+            data: function (params) {
+                var getHeaderId = { 
+                    term: params.term,
+                    aircraft_type_id: $('#aircraft_type_id').val(),
+                }
+                return getHeaderId;
+            }
+        },
+        dropdownParent: $('#inputModal')
+    });
+
     $('.duplicated_from').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Source Template',
@@ -168,6 +186,11 @@ $(document).ready(function () {
         $(".aircraft_type_id").val(null).trigger('change');
         if (data.aircraft_type != null) {
             $('#aircraft_type_id').append('<option value="' + data.aircraft_type_id + '" selected>' + data.aircraft_type.name + '</option>');
+        }
+
+        $(".maintenance_program_id").val(null).trigger('change');
+        if (data.maintenance_program != null) {
+            $('#maintenance_program_id').append('<option value="' + data.maintenance_program_id + '" selected>' + data.maintenance_program.code + ' | ' + data.maintenance_program.name + '</option>');
         }
 
         $(".max_takeoff_weight_unit_id").val(null).trigger('change');
