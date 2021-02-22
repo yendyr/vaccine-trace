@@ -16,6 +16,16 @@ class CreateItemStockAgingsTable extends Migration
         Schema::create('item_stock_agings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
+
+            $table->string('item_stock_id');
+            $table->string('transaction_reference_id');
+            $table->string('transaction_reference_class');
+
+            $table->double('flight_hour')->nullable()->default(0);
+            $table->integer('flight_cycle')->nullable()->default(0);
+            $table->integer('flight_event')->nullable()->default(0);
+
+            $table->string('description')->nullable();
             
             $table->rememberToken();
             $table->integer('status')->nullable();
