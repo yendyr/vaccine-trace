@@ -44,6 +44,11 @@
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
+                            <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Maintenance Program
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-check-circle fa-2x text-warning"></i>&nbsp;Approval Status
                         </a>
                     </li>
@@ -76,6 +81,13 @@
                         </div>
                     </div>
                     <div id="tab-3" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('ppc::pages.aircraft-configuration.maintenance-program.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             @include('ppc::pages.aircraft-configuration.approval-status.content')
                         </div>
