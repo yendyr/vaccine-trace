@@ -129,13 +129,25 @@
             <div class="row">
                 <div class="col-md-10">
                     <p class="m-b-none">Code:</p>
-                    <p><strong>{{ $AircraftConfiguration->maintenance_program->code ?? '-' }}</strong></p>
+                    <p><strong>
+                        @if($AircraftConfiguration->maintenance_program)
+                        {{ $AircraftConfiguration->maintenance_program->code ?? '-' }}
+                        @endif
+                    </strong></p>
                     
                     <p class="m-b-none">Name:</p>
-                    <p><strong>{{ $AircraftConfiguration->maintenance_program->name ?? '-' }}</strong></p>
+                    <p><strong>
+                        @if($AircraftConfiguration->maintenance_program)
+                        {{ $AircraftConfiguration->maintenance_program->name ?? '-' }}
+                        @if($AircraftConfiguration->maintenance_program)
+                    </strong></p>
 
                     <p class="m-b-none">Task Card Total:</p>
-                    <p><strong>{{ $AircraftConfiguration->maintenance_program->maintenance_details->count() ?? '-' }} Task(s)</strong></p>
+                    <p><strong>
+                        @if($AircraftConfiguration->maintenance_program)
+                        {{ $AircraftConfiguration->maintenance_program->maintenance_details->count() ?? '-' }} Task(s)
+                        @if($AircraftConfiguration->maintenance_program)
+                    </strong></p>
                 </div>
                 <div class="col-md-2 p-0">
                     <i class="text-success fa fa-rub fa-3x fw"></i>
