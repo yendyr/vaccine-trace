@@ -7,13 +7,11 @@ use Modules\SupplyChain\Entities\ItemStock;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Carbon;
 
 class AircraftConfigurationDetailController extends Controller
 {
@@ -130,7 +128,7 @@ class AircraftConfigurationDetailController extends Controller
                 return $row->updater->name ?? '-';
             })
             ->addColumn('action', function($row) {
-                return '<p class="text-muted">Already Approved</p>';
+                return '<p class="text-muted font-italic">Already Approved</p>';
             })
             ->escapeColumns([])
             ->make(true);

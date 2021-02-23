@@ -88,7 +88,7 @@ class AfmlDetailManifestController extends Controller
                 return $row->updater->name ?? '-';
             })
             ->addColumn('action', function($row) {
-                return '<p class="text-muted">Already Approved</p>';
+                return '<p class="text-muted font-italic">Already Approved</p>';
             })
             ->escapeColumns([])
             ->make(true);
