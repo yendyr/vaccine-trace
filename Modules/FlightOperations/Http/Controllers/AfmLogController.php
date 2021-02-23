@@ -234,27 +234,26 @@ class AfmLogController extends Controller
         DB::commit();
     }
 
-    public function approve(Request $request, AfmLog $AfmLog)
+    public function approve(Request $request, AfmLog $afmlog)
     {
         $request->validate([
             'approval_notes' => ['required', 'max:30'],
         ]);
 
-        $AircraftConfiguration = AircraftConfiguration::where('id', $AfmLog->aircraft_configuration_id)
+        $AircraftConfiguration = AircraftConfiguration::where('id', $afmlog->aircraft_configuration_id)
                                                     ->where('status', 1)
                                                     ->first();
-
         $ItemLists = ItemStock::where('warehouse_id', $AircraftConfiguration->warehouse->id)
                                 ->where('status', 1)
                                 ->get();
 
-        Self::calculateTotalAging($AfmLog);
+        Self::calculateTotalAging($afmlog);
 
         DB::beginTransaction();
         AfmlApproval::create([
             'uuid' =>  Str::uuid(),
 
-            'afm_log_id' =>  $AfmLog->id,
+            'afm_log_id' =>  $afmlog->id,
             'approval_notes' =>  $request->approval_notes,
     
             'owned_by' => $request->user()->company_id,
@@ -262,20 +261,20 @@ class AfmLogController extends Controller
             'created_by' => Auth::user()->id,
         ]);
 
-        $AfmLog->item_stock_aging_details()->forceDelete();
+        $afmlog->item_stock_aging_details()->forceDelete();
 
         foreach($ItemLists as $item) {
             ItemStockAging::create([
                 'uuid' =>  Str::uuid(),
 
                 'item_stock_id' => $item->id,
-                'transaction_reference_id' => $AfmLog->id,
+                'transaction_reference_id' => $afmlog->id,
                 'transaction_reference_class' => 'Modules\FlightOperations\Entities\AfmLog',
 
-                'flight_hour' => $AfmLog->total_flight_hour,
-                'block_hour' => $AfmLog->total_block_hour,
-                'flight_cycle' => $AfmLog->total_flight_cycle,
-                'flight_event' => $AfmLog->total_flight_event,
+                'flight_hour' => $afmlog->total_flight_hour,
+                'block_hour' => $afmlog->total_block_hour,
+                'flight_cycle' => $afmlog->total_flight_cycle,
+                'flight_event' => $afmlog->total_flight_event,
         
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,

@@ -46,7 +46,7 @@ class ItemStockAging extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\ItemStock::class, 'item_stock_id');
     }
 
-    public function transaction_reference()
+    public function afm_log_reference()
     {
         return $this->belongsTo(\Modules\FlightOperation\Entities\AfmLog::class, 'transaction_reference_id');
     }
