@@ -7,8 +7,7 @@ use Modules\PPC\Entities\ItemStockAging;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class ItemStockAgingController extends Controller
@@ -24,41 +23,38 @@ class ItemStockAgingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ItemStockAging::all();
-            return Datatables::of($data)
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
-                        return '<label class="label label-success">Active</label>';
-                    } else{
-                        return '<label class="label label-danger">Inactive</label>';
-                    }
-                })
-                ->addColumn('creator_name', function($row){
-                    return $row->creator->name ?? '-';
-                })
-                ->addColumn('updater_name', function($row){
-                    return $row->updater->name ?? '-';
-                })
-                ->addColumn('action', function($row){
-                    $noAuthorize = true;
-                    if(Auth::user()->can('update', ItemStockAging::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', ItemStockAging::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
+            $data = ItemStockAging::with(['item_stock.item',
+                                        'item_stock.warehouse'])
+                                    ->select('item_stock_id', DB::raw('sum(flight_hour) as fh'), DB::raw('sum(block_hour) as bh'), DB::raw('sum(flight_cycle) as fc'), DB::raw('sum(flight_event) as fe'))
+                                    ->groupBy('item_stock_id')
+                                    ->get();
 
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
-                    }
+            return Datatables::of($data)
+                ->addColumn('current_position', function($row){
+                    if ($row->item_stock->warehouse->is_aircraft == 1) {
+                        return $row->item_stock->warehouse->aircraft_configuration->registration_number . ' | ' . $row->item_stock->warehouse->aircraft_configuration->serial_number;
+                    } 
                     else {
-                        return '<p class="text-muted">Not Authorized</p>';
+                        return $row->item_stock->warehouse->name;
                     }
-                    
+                })
+                ->addColumn('initial_status', function($row) {
+                    return $row->item_stock->initial_flight_hour . ' FH / ' . $row->item_stock->initial_block_hour . ' BH / ' . $row->item_stock->initial_flight_cycle . ' FC / ' . $row->item_stock->initial_flight_event . ' Evt(s)';
+                })
+                ->addColumn('in_period_aging', function($row) {
+                    return number_format($row->fh, 2, '.', '') . ' FH / ' . 
+                    number_format($row->bh, 2, '.', '') . ' BH / ' . 
+                    $row->fc . ' FC / ' . 
+                    $row->fe . ' Evt(s)';
+                })
+                ->addColumn('current_status', function($row) {
+                    return '<strong>' . number_format(($row->item_stock->initial_flight_hour + $row->fh), 2, '.', '') . '</strong> FH / ' . 
+                    '<strong>' . number_format(($row->item_stock->initial_block_hour + $row->bh), 2, '.', '') . '</strong> BH / ' . 
+                    '<strong>' . ($row->item_stock->initial_flight_cycle + $row->fc) . '</strong> FC / ' . 
+                    '<strong>' . ($row->item_stock->initial_flight_event + $row->fe) . '</strong> Evt(s)';
+                })
+                ->addColumn('expired_date', function($row) {
+                    return $row->item_stock->expired_date;
                 })
                 ->escapeColumns([])
                 ->make(true);
