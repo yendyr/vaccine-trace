@@ -143,7 +143,7 @@ class AfmlDetailJournalController extends Controller
                 'sub_total_cycle' => 1,
                 'sub_total_event' => $request->sub_total_event,
 
-                'description' => $request->description,
+                'description' => $request->journal_description,
 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -205,7 +205,7 @@ class AfmlDetailJournalController extends Controller
                     'sub_total_cycle' => 1,
                     'sub_total_event' => $request->sub_total_event,
 
-                    'description' => $request->description,
+                    'description' => $request->journal_description,
     
                     'status' => 1,
                     'updated_by' => Auth::user()->id,

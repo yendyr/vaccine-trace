@@ -121,7 +121,7 @@ class AfmlDetailManifestController extends Controller
                 'cargo_weight_unit_id' => $request->cargo_weight_unit_id,
                 'pcm_number' => $request->pcm_number,
                 'cm_number' => $request->cm_number,
-                'description' => $request->description,
+                'description' => $request->manifest_description,
 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -162,7 +162,7 @@ class AfmlDetailManifestController extends Controller
                     'cargo_weight_unit_id' => $request->cargo_weight_unit_id,
                     'pcm_number' => $request->pcm_number,
                     'cm_number' => $request->cm_number,
-                    'description' => $request->description,
+                    'description' => $request->manifest_description,
     
                     'status' => 1,
                     'updated_by' => Auth::user()->id,

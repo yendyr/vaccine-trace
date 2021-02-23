@@ -118,7 +118,7 @@ class AfmlDetailCrewController extends Controller
                 'afm_log_id' => $request->afm_log_id,
                 'employee_id' => $request->employee_id,
                 'role_id' => $request->role_id,
-                'description' => $request->description,
+                'description' => $request->crew_description,
 
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
@@ -156,7 +156,7 @@ class AfmlDetailCrewController extends Controller
                 ->update([
                     'employee_id' => $request->employee_id,
                     'role_id' => $request->role_id,
-                    'description' => $request->description,
+                    'description' => $request->crew_description,
     
                     'status' => $status,
                     'updated_by' => Auth::user()->id,

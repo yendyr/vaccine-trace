@@ -52,8 +52,8 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label>Remark</label>
-                            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
-                            <div class="invalid-feedback-description text-danger font-italic"></div>
+                            <input type="text" class="form-control @error('manifest_description') is-invalid @enderror" name="manifest_description" id="manifest_description">
+                            <div class="invalid-feedback-manifest_description text-danger font-italic"></div>
                         </div>
                     </div>
 

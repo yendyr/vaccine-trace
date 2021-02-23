@@ -83,7 +83,7 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo('#inputForm');
 
-        $('#description').val(data.description);
+        $('#crew_description').val(data.description);
 
         if (data.employee != null) {
             $('#employee_id').append('<option value="' + data.employee_id + '" selected>' + data.employee.fullname + '</option>');

@@ -92,7 +92,7 @@ $(document).ready(function () {
         $('#cargo_weight').val(data.cargo_weight);
         $('#pcm_number').val(data.pcm_number);
         $('#cm_number').val(data.cm_number);
-        $('#description').val(data.description);
+        $('#manifest_description').val(data.description);
 
         if (data.cargo_weight_unit != null) {
             $('#cargo_weight_unit_id').append('<option value="' + data.cargo_weight_unit_id + '" selected>' + data.cargo_weight_unit.name + '</option>');

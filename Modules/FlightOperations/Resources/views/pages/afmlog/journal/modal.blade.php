@@ -90,8 +90,8 @@
 
                         <div class="col-md-6">
                             <label>Remark</label>
-                            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
-                            <div class="invalid-feedback-description text-danger font-italic"></div>
+                            <input type="text" class="form-control @error('journal_description') is-invalid @enderror" name="journal_description" id="journal_description">
+                            <div class="invalid-feedback-journal_description text-danger font-italic"></div>
                         </div>
                     </div>
 

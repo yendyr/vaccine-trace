@@ -130,7 +130,7 @@ $(document).ready(function () {
         $('#landing').val(data.landing);
         $('#block_on').val(data.block_on);
         $('#sub_total_event').val(data.sub_total_event);
-        $('#description').val(data.description);
+        $('#journal_description').val(data.description);
 
         if (data.route_from != null) {
             $('#route_from').append('<option value="' + data.route_from + '" selected>' + data.from_airport.iata_code + ' | ' + data.from_airport.name + '</option>');
