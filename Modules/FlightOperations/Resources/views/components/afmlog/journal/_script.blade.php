@@ -153,6 +153,7 @@ $(document).ready(function () {
     // ----------------- "SUBMIT" BUTTON  SCRIPT ------------- //
     $(inputFormId).on('submit', function (event) {
         submitButtonProcessDynamic (tableId, inputFormId, inputModalId); 
+        setTimeout(location.reload.bind(location), 2000);
     });
     // ----------------- END "SUBMIT" BUTTON  SCRIPT ------------- //
 
@@ -192,6 +193,7 @@ $(document).ready(function () {
                 if (data.success){
                     generateToast ('success', data.success);
                 }
+                setTimeout(location.reload.bind(location), 2000);
             },
             complete: function(data) {
                 $(deleteModalButtonId).text('Delete');

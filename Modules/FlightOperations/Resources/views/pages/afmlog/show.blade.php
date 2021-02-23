@@ -36,6 +36,19 @@
             <p  class="m-t-none m-b-none">Aircraft Manufacturer:</p>
             <p class="m-t-none font-bold text-success">{{ $afmlog->aircraft_configuration->aircraft_type->manufacturer->name ?? '-' }}</p>
         </div>
+        <div class="col">
+            <p  class="m-t-none m-b-none">Current Day Total Flight Hour:</p>
+            <p class="m-t-none m-b-xs font-bold text-success">{{ number_format($afmlog->total_flight_hour, 2, '.', '') ?? '0' }} FH</p>
+
+            <p  class="m-t-none m-b-none">Current Day Total Block Hour:</p>
+            <p class="m-t-none font-bold text-success">{{ number_format($afmlog->total_block_hour, 2, '.', '') ?? '-' }} BH</p>
+
+            <p  class="m-t-none m-b-none">Current Day Total Cycle:</p>
+            <p class="m-t-none font-bold text-success">{{ $afmlog->total_flight_cycle ?? '-' }} Cycle(s)</p>
+
+            <p  class="m-t-none m-b-none">Current Day Total Event:</p>
+            <p class="m-t-none font-bold text-success">{{ $afmlog->total_flight_event ?? '-' }} Event(s)</p>
+        </div>
     </div>
 
     <div class="row">
