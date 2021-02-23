@@ -24,6 +24,10 @@
             <th>Aircraft Register</th>
             <th>Transaction Date</th>
             <th>AFML Page Number</th>
+            <th>Total Flight Hour</th>
+            <th>Total Block Hour</th>
+            <th>Total Flight Cycle</th>
+            <th>Total Event</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>

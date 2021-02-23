@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
@@ -148,6 +149,8 @@ class AfmlDetailJournalController extends Controller
                 'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
+
+            Self::calculateTotalAging($AfmLog);
     
             return response()->json(['success' => 'Journal Data has been Added']);
         }
@@ -207,12 +210,35 @@ class AfmlDetailJournalController extends Controller
                     'status' => 1,
                     'updated_by' => Auth::user()->id,
             ]);
+
+            Self::calculateTotalAging($AfmLog);
             
             return response()->json(['success' => 'Journal Data has been Updated']);
         }
         else {
             return response()->json(['error' => "This AFML and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
+    }
+
+    public static function calculateTotalAging(AfmLog $AfmLog)
+    {
+        $AfmlDetailJournal = AfmlDetailJournal::where('afm_log_id', $AfmLog->id)
+                            ->select(DB::raw("SUM(TIME_TO_SEC(sub_total_flight_hour)), SUM(TIME_TO_SEC(sub_total_block_hour)), SUM(sub_total_cycle), SUM(sub_total_event)"))
+                            ->get();
+        
+        $total_fh = $AfmlDetailJournal[0]['SUM(TIME_TO_SEC(sub_total_flight_hour))'] / 3600; 
+        $total_bh = $AfmlDetailJournal[0]['SUM(TIME_TO_SEC(sub_total_block_hour))'] / 3600;
+        $total_cycle = $AfmlDetailJournal[0]['SUM(sub_total_cycle)'];
+        $total_event = $AfmlDetailJournal[0]['SUM(sub_total_event)'];
+
+        DB::beginTransaction();
+        $AfmLog->update([
+            'total_flight_hour' => $total_fh,
+            'total_block_hour' => $total_bh,
+            'total_flight_cycle' => $total_cycle,
+            'total_flight_event' => $total_event,
+        ]);
+        DB::commit();
     }
 
     public function destroy(AfmlDetailJournal $AfmlDetailJournal)

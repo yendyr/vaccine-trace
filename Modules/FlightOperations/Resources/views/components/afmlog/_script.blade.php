@@ -37,6 +37,14 @@ $(document).ready(function () {
                             'render': function ( data, type, row, meta ) {
                                 return '<a href="afmlog/' + row.id + '">' + row.page_number + '</a>';
                             }},
+            { data: 'total_flight_hour', 'render': function ( data, type, row, meta ) {
+                                return row.total_flight_hour.toFixed(2);
+                            }},
+            { data: 'total_block_hour', 'render': function ( data, type, row, meta ) {
+                                return row.total_block_hour.toFixed(2);
+                            }},
+            { data: 'total_flight_cycle' },
+            { data: 'total_flight_event' },
             { data: 'status', name: 'Status' },
             { data: 'creator_name' },
             { data: 'created_at' },
