@@ -10,6 +10,7 @@
             <th>Part Number</th>
             <th>Serial Number</th>
             <th>Item Name</th>
+            <th>Alias Name</th>
             <th>Operational Start Date</th>
             <th>Initial Status</th>
             <th>In-Period Aging</th>

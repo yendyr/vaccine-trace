@@ -21,6 +21,7 @@ $(document).ready(function () {
             { data: 'item_stock.item.code' },
             { data: 'item_stock.serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'item_stock.item.name' },
+            { data: 'item_stock.alias_name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'item_stock.initial_start_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'initial_status' },
             { data: 'in_period_aging' },
