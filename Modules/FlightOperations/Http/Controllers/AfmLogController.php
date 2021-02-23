@@ -3,6 +3,11 @@
 namespace Modules\FlightOperations\Http\Controllers;
 
 use Modules\FlightOperations\Entities\AfmLog;
+use Modules\FlightOperations\Entities\AfmlDetailJournal;
+use Modules\FlightOperations\Entities\AfmlApproval;
+use Modules\PPC\Entities\AircraftConfiguration;
+use Modules\SupplyChain\Entities\ItemStock;
+use Modules\PPC\Entities\ItemStockAging;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -206,6 +211,80 @@ class AfmLogController extends Controller
 
         AfmLog::destroy($AfmLog->id);
         return response()->json(['success' => 'Aircraft Flight & Maintenance Log Data has been Deleted']);
+    }
+
+    public static function calculateTotalAging(AfmLog $AfmLog)
+    {
+        $AfmlDetailJournal = AfmlDetailJournal::where('afm_log_id', $AfmLog->id)
+                            ->select(DB::raw("SUM(TIME_TO_SEC(sub_total_flight_hour)), SUM(TIME_TO_SEC(sub_total_block_hour)), SUM(sub_total_cycle), SUM(sub_total_event)"))
+                            ->get();
+        
+        $total_fh = $AfmlDetailJournal[0]['SUM(TIME_TO_SEC(sub_total_flight_hour))'] / 3600; 
+        $total_bh = $AfmlDetailJournal[0]['SUM(TIME_TO_SEC(sub_total_block_hour))'] / 3600;
+        $total_cycle = $AfmlDetailJournal[0]['SUM(sub_total_cycle)'];
+        $total_event = $AfmlDetailJournal[0]['SUM(sub_total_event)'];
+
+        DB::beginTransaction();
+        $AfmLog->update([
+            'total_flight_hour' => $total_fh,
+            'total_block_hour' => $total_bh,
+            'total_flight_cycle' => $total_cycle,
+            'total_flight_event' => $total_event,
+        ]);
+        DB::commit();
+    }
+
+    public function approve(Request $request, AfmLog $AfmLog)
+    {
+        $request->validate([
+            'approval_notes' => ['required', 'max:30'],
+        ]);
+
+        $AircraftConfiguration = AircraftConfiguration::where('id', $AfmLog->aircraft_configuration_id)
+                                                    ->where('status', 1)
+                                                    ->first();
+
+        $ItemLists = ItemStock::where('warehouse_id', $AircraftConfiguration->warehouse->id)
+                                ->where('status', 1)
+                                ->get();
+
+        Self::calculateTotalAging($AfmLog);
+
+        DB::beginTransaction();
+        AfmlApproval::create([
+            'uuid' =>  Str::uuid(),
+
+            'afm_log_id' =>  $AfmLog->id,
+            'approval_notes' =>  $request->approval_notes,
+    
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        $AfmLog->item_stock_aging_details()->forceDelete();
+
+        foreach($ItemLists as $item) {
+            ItemStockAging::create([
+                'uuid' =>  Str::uuid(),
+
+                'item_stock_id' => $item->id,
+                'transaction_reference_id' => $AfmLog->id,
+                'transaction_reference_class' => 'Modules\FlightOperations\Entities\AfmLog',
+
+                'flight_hour' => $AfmLog->total_flight_hour,
+                'block_hour' => $AfmLog->total_block_hour,
+                'flight_cycle' => $AfmLog->total_flight_cycle,
+                'flight_event' => $AfmLog->total_flight_event,
+        
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
+                'created_by' => Auth::user()->id,
+            ]);
+        }
+        DB::commit();
+
+        return response()->json(['success' => 'Aircraft Flight & Maintenance Log Data has been Approved']);
     }
 
     // public function select2(Request $request)

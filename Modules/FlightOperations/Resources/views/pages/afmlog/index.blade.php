@@ -4,6 +4,9 @@
     @component('components.delete-modal', ['name' => 'Aircraft Flight & Maintenance Log Datalist'])
     @endcomponent
 
+    @component('components.approve-modal', ['name' => 'Aircraft Flight & Maintenance Log Datalist'])
+    @endcomponent
+
     @include('flightoperations::pages.afmlog.modal')
 
     @component('components.crud-form.index',[

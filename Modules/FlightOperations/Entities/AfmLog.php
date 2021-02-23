@@ -127,6 +127,11 @@ class AfmLog extends Model
         return $this->hasMany(\Modules\FlightOperations\Entities\AfmlApproval::class, 'afm_log_id');
     }
 
+    public function item_stock_aging_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\ItemStockAging::class, 'transaction_reference_id');
+    }
+
     public static function boot() {
         parent::boot();
 
@@ -140,6 +145,7 @@ class AfmLog extends Model
              $AFML->rectification_details()->delete();
              $AFML->item_change_details()->delete();
              $AFML->approvals()->delete();
+             $AFML->item_stock_aging_details()->delete();
         });
     }
 }

@@ -85,7 +85,7 @@
                             <i class="fa fa-unsorted text-warning"></i>&nbsp;Item Change
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-6" style="min-height: 50px;"> 
                             <i class="fa fa-exclamation-circle text-warning"></i>&nbsp;MEL
                         </a>
@@ -99,7 +99,7 @@
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-8" style="min-height: 50px;"> 
                             <i class="fa fa-history text-warning"></i>&nbsp;Pre/Post Check
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <div class="tab-content">
