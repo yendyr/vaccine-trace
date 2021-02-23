@@ -285,3 +285,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .note-editor.note-frame .note-editing-area {
     padding-top: 30px;
 }
+
+.text-muted {
+    color: #ccc!important;
+}

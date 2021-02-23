@@ -62,7 +62,7 @@ class AircraftConfigurationController extends Controller
                     $approveId = null;
 
                     if ($row->approvals()->count() > 0) {
-                        return '<p class="text-muted">Already Approved</p>';
+                        return '<p class="text-muted font-italic">Already Approved</p>';
                     }
                     else {
                         if(Auth::user()->can('update', AircraftConfiguration::class)) {
