@@ -430,7 +430,7 @@ class AircraftConfigurationController extends Controller
         $query = AircraftConfiguration::with('aircraft_type')
                     ->orderby('registration_number','asc')
                     ->select('id','registration_number','serial_number','aircraft_type_id')
-                    // ->whereHas('approvals')
+                    ->whereHas('approvals')
                     ->where('status', 1);
 
         if($search != ''){

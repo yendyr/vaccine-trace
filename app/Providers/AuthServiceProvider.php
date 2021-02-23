@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 use Modules\Gate\Entities\Menu;
 use Modules\Gate\Entities\Role;
@@ -93,6 +91,9 @@ use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 
 use Modules\PPC\Policies\AircraftConfigurationPolicy;
 use Modules\PPC\Entities\AircraftConfiguration;
+
+use Modules\PPC\Policies\ItemStockAgingPolicy;
+use Modules\PPC\Entities\ItemStockAging;
 
 // use Modules\PPC\Policies\AircraftConfigurationDetailPolicy;
 // use Modules\PPC\Entities\AircraftConfigurationDetail;
@@ -212,6 +213,7 @@ class AuthServiceProvider extends ServiceProvider
         AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
         AircraftConfiguration::class => AircraftConfigurationPolicy::class,
+        ItemStockAging::class => ItemStockAgingPolicy::class,
         // AircraftConfigurationDetail::class => AircraftConfigurationDetailPolicy::class,
         
         Skill::class => SkillPolicy::class,
