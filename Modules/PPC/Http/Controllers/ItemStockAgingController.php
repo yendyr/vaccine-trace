@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Carbon;
 
 class ItemStockAgingController extends Controller
 {
@@ -52,6 +53,17 @@ class ItemStockAgingController extends Controller
                     '<strong>' . number_format(($row->item_stock->initial_block_hour + $row->bh), 2, '.', '') . '</strong> BH / ' . 
                     '<strong>' . ($row->item_stock->initial_flight_cycle + $row->fc) . '</strong> FC / ' . 
                     '<strong>' . ($row->item_stock->initial_flight_event + $row->fe) . '</strong> Evt(s)';
+                })
+                ->addColumn('day_since_start', function($row) {
+                    $now = Carbon::now();
+                    if($row->item_stock->initial_start_date) {
+                        $start = Carbon::parse($row->item_stock->initial_start_date);
+                    }
+                    else if($row->item_stock->warehouse->aircraft_configuration->initial_start_date) {
+                        $start = Carbon::parse($row->item_stock->warehouse->aircraft_configuration->initial_start_date);
+                    }
+                    $diff = $now->diffInMonths($start);
+                    return $diff . ' Month(s)';
                 })
                 ->addColumn('expired_date', function($row) {
                     return $row->item_stock->expired_date;

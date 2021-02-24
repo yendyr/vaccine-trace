@@ -15,6 +15,7 @@
             <th>Initial Status</th>
             <th>In-Period Aging</th>
             <th>Current Status</th>
+            <th>Month Since Start</th>
             <th>Expired Date</th>
             {{-- <th>Action</th> --}}
         @endslot
