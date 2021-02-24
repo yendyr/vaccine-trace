@@ -281,7 +281,7 @@ class PPCMenuSeeder extends Seeder
             'menu_text' => 'Aircraft Aging Report',
             'menu_route' => 'ppc.aircraft-aging-report.index',
             'menu_icon' => 'fa-refresh',
-            'menu_class' => null,
+            'menu_class' => 'Modules\PPC\Entities\ItemStockAging',
             'menu_id' => null,
             'menu_actives' => json_encode(['ppc/aircraft-aging-report', 'ppc/aircraft-aging-report/*']),
             'group' => 'PPC',
