@@ -16,21 +16,21 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Aircraft Type</label>
                                 <div class="col-sm-7">
-                                    <select class="aircraft_type_id form-control @error('aircraft_type_id') is-invalid @enderror" name="aircraft_type_id" id="aircraft_type_id"></select>
+                                    <select class="aircraft_type_id form-control @error('aircraft_type_id') is-invalid @enderror" name="aircraft_type_id" id="aircraft_type_id" required></select>
                                     <div class="invalid-feedback-aircraft_type_id text-danger font-italic"></div>
                                 </div>
                             </div>           
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Serial Number</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number">
+                                    <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number" required>
                                     <div class="invalid-feedback-serial_number text-danger font-italic"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Registration</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('registration_number') is-invalid @enderror" name="registration_number" id="registration_number">
+                                    <input type="text" class="form-control @error('registration_number') is-invalid @enderror" name="registration_number" id="registration_number" required>
                                     <div class="invalid-feedback-registration_number text-danger font-italic"></div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Maintenance Program</label>
                                 <div class="col-sm-7">
-                                    <select class="maintenance_program_id form-control @error('maintenance_program_id') is-invalid @enderror" name="maintenance_program_id" id="maintenance_program_id"></select>
+                                    <select class="maintenance_program_id form-control @error('maintenance_program_id') is-invalid @enderror" name="maintenance_program_id" id="maintenance_program_id" required></select>
                                     <div class="invalid-feedback-maintenance_program_id text-danger font-italic"></div>
                                 </div>
                             </div>

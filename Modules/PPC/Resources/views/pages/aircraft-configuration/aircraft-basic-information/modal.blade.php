@@ -69,7 +69,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Maintenance Program</label>
                                 <div class="col-sm-7">
-                                    <select class="maintenance_program_id form-control @error('maintenance_program_id') is-invalid @enderror" name="maintenance_program_id" id="maintenance_program_id">
+                                    <select class="maintenance_program_id form-control @error('maintenance_program_id') is-invalid @enderror" name="maintenance_program_id" id="maintenance_program_id" required>
                                         @if($AircraftConfiguration->maintenance_program_id)
                                         <option value="{{ $AircraftConfiguration->maintenance_program_id }}">
                                             {{ $AircraftConfiguration->maintenance_program->code }} | 
