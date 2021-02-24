@@ -1,5 +1,5 @@
-@include('components.toast.script-generate')
-@include('components.crud-form.basic-script-submit')
+{{-- @include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit') --}}
 
 @push('footer-scripts')
 <script>

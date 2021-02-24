@@ -1,11 +1,11 @@
-@include('components.toast.script-generate')
-@include('components.crud-form.basic-script-submit')
+{{-- @include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit') --}}
 
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = '/ppc/item-aging-report';
-    var tableId = '#item-aging-report-table';
+    var actionUrl = '/ppc/aircraft-aging-report';
+    var tableId = '#aircraft-aging-report-table';
     var inputFormId = '#inputForm';
 
     var datatableObject = $(tableId).DataTable({
@@ -14,7 +14,7 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "{{ route('ppc.item-aging-report.index') }}",
+            url: "{{ route('ppc.aircraft-aging-report.index') }}",
         },
         columns: [
             { data: 'current_position' },
