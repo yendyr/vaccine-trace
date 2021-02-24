@@ -33,25 +33,25 @@ class ItemStockAgingController extends Controller
             return Datatables::of($data)
                 ->addColumn('current_position', function($row){
                     if ($row->item_stock->warehouse->is_aircraft == 1) {
-                        return $row->item_stock->warehouse->aircraft_configuration->registration_number . ' | ' . $row->item_stock->warehouse->aircraft_configuration->serial_number;
+                        return '<strong>Aircraft:</strong><br>' . $row->item_stock->warehouse->aircraft_configuration->registration_number . '<br>' . $row->item_stock->warehouse->aircraft_configuration->serial_number;
                     } 
                     else {
                         return $row->item_stock->warehouse->name;
                     }
                 })
                 ->addColumn('initial_status', function($row) {
-                    return $row->item_stock->initial_flight_hour . ' FH / ' . $row->item_stock->initial_block_hour . ' BH / ' . $row->item_stock->initial_flight_cycle . ' FC / ' . $row->item_stock->initial_flight_event . ' Evt(s)';
+                    return $row->item_stock->initial_flight_hour . ' FH<br>' . $row->item_stock->initial_block_hour . ' BH<br>' . $row->item_stock->initial_flight_cycle . ' FC<br>' . $row->item_stock->initial_flight_event . ' Evt(s)';
                 })
                 ->addColumn('in_period_aging', function($row) {
-                    return number_format($row->fh, 2, '.', '') . ' FH / ' . 
-                    number_format($row->bh, 2, '.', '') . ' BH / ' . 
-                    $row->fc . ' FC / ' . 
+                    return number_format($row->fh, 2, '.', '') . ' FH<br>' . 
+                    number_format($row->bh, 2, '.', '') . ' BH<br>' . 
+                    $row->fc . ' FC<br>' . 
                     $row->fe . ' Evt(s)';
                 })
                 ->addColumn('current_status', function($row) {
-                    return '<strong>' . number_format(($row->item_stock->initial_flight_hour + $row->fh), 2, '.', '') . '</strong> FH / ' . 
-                    '<strong>' . number_format(($row->item_stock->initial_block_hour + $row->bh), 2, '.', '') . '</strong> BH / ' . 
-                    '<strong>' . ($row->item_stock->initial_flight_cycle + $row->fc) . '</strong> FC / ' . 
+                    return '<strong>' . number_format(($row->item_stock->initial_flight_hour + $row->fh), 2, '.', '') . '</strong> FH<br>' . 
+                    '<strong>' . number_format(($row->item_stock->initial_block_hour + $row->bh), 2, '.', '') . '</strong> BH<br>' . 
+                    '<strong>' . ($row->item_stock->initial_flight_cycle + $row->fc) . '</strong> FC<br>' . 
                     '<strong>' . ($row->item_stock->initial_flight_event + $row->fe) . '</strong> Evt(s)';
                 })
                 ->addColumn('day_since_start', function($row) {
