@@ -2,6 +2,7 @@
 
 namespace Modules\PPC\Http\Controllers;
 
+use Modules\FlightOperations\Entities\AfmLog;
 use Modules\PPC\Entities\ItemStockAging;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -24,11 +25,11 @@ class AircraftAgingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ItemStockAging::with(['item_stock.item',
-                                        'item_stock.warehouse'])
-                                    ->select('item_stock_id', DB::raw('sum(flight_hour) as fh'), DB::raw('sum(block_hour) as bh'), DB::raw('sum(flight_cycle) as fc'), DB::raw('sum(flight_event) as fe'))
-                                    ->groupBy('item_stock_id')
-                                    ->get();
+            $data = AfmLog::with(['aircraft_configuration',
+                                'item_stock.warehouse'])
+                                ->select('item_stock_id', DB::raw('sum(flight_hour) as fh'), DB::raw('sum(block_hour) as bh'), DB::raw('sum(flight_cycle) as fc'), DB::raw('sum(flight_event) as fe'))
+                                ->groupBy('item_stock_id')
+                                ->get();
 
             return Datatables::of($data)
                 ->addColumn('current_position', function($row){
