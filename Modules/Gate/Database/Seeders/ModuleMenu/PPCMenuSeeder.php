@@ -277,6 +277,26 @@ class PPCMenuSeeder extends Seeder
         ]);
 
         Menu::create([
+            'menu_link' => 'ppc/aircraft-aging-report',
+            'menu_text' => 'Aircraft Aging Report',
+            'menu_route' => 'ppc.aircraft-aging-report.index',
+            'menu_icon' => 'fa-refresh',
+            'menu_class' => null,
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/aircraft-aging-report', 'ppc/aircraft-aging-report/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        Menu::create([
             'menu_link' => 'ppc/item-aging-report',
             'menu_text' => 'Item/Component Aging Report',
             'menu_route' => 'ppc.item-aging-report.index',

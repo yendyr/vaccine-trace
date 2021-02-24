@@ -91,6 +91,8 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/configuration-detail/select2', 'AircraftConfigurationDetailController@select2Parent')->name('select2');
         });
 
-        Route::resource('/item-aging-report', 'ItemStockAgingController');   
+        Route::resource('/item-aging-report', 'ItemStockAgingController');
+
+        Route::resource('/aircraft-aging-report', 'AircraftAgingController');   
     });
 }); 

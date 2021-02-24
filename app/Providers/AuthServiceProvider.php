@@ -95,6 +95,8 @@ use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Policies\ItemStockAgingPolicy;
 use Modules\PPC\Entities\ItemStockAging;
 
+use Modules\PPC\Policies\AircraftAgingPolicy;
+
 // use Modules\PPC\Policies\AircraftConfigurationDetailPolicy;
 // use Modules\PPC\Entities\AircraftConfigurationDetail;
 // use Modules\PPC\Entities\AircraftConfigurationDetail;
@@ -214,7 +216,7 @@ class AuthServiceProvider extends ServiceProvider
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
         AircraftConfiguration::class => AircraftConfigurationPolicy::class,
         ItemStockAging::class => ItemStockAgingPolicy::class,
-        // AircraftConfigurationDetail::class => AircraftConfigurationDetailPolicy::class,
+        ItemStockAging::class => AircraftAgingPolicy::class,
         
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
