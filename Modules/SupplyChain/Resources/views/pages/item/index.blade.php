@@ -19,11 +19,11 @@
         @endslot    
 
         @slot('tableContent')
-            <th>Code</th>
+            <th>Code/Part Number</th>
             <th>Item Name</th>
             <th>Model</th>
             <th>Type</th>
-            <th>Description/Remark</th>
+            <th>Remark</th>
             <th>Category</th>
             <th>Unit</th>
             <th>Manufacturer</th>
