@@ -81,10 +81,10 @@ class AircraftConfiguration extends Model
         return $this->hasOne(\Modules\SupplyChain\Entities\Warehouse::class, 'aircraft_configuration_id');
     }
 
-    // public function configuration_details()
-    // {
-    //     return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationDetail::class, 'aircraft_configuration_id');
-    // }
+    public function afm_logs()
+    {
+        return $this->hasMany(\Modules\FlightOperations\Entities\AfmLog::class, 'aircraft_configuration_id');
+    }
 
     public function approvals()
     {
