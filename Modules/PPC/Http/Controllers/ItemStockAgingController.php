@@ -58,11 +58,19 @@ class ItemStockAgingController extends Controller
                     $now = Carbon::now();
                     if($row->item_stock->initial_start_date) {
                         $start = Carbon::parse($row->item_stock->initial_start_date);
+
+                        $diff = $now->diffInMonths($start);
                     }
-                    else if($row->item_stock->warehouse->aircraft_configuration->initial_start_date) {
-                        $start = Carbon::parse($row->item_stock->warehouse->aircraft_configuration->initial_start_date);
+                    else if($row->item_stock->warehouse->aircraft_configuration) {
+                        if($row->item_stock->warehouse->aircraft_configuration->initial_start_date) {
+                            $start = Carbon::parse($row->item_stock->warehouse->aircraft_configuration->initial_start_date);
+
+                            $diff = $now->diffInMonths($start);
+                        }
                     }
-                    $diff = $now->diffInMonths($start);
+                    else {
+                        $diff = 0;
+                    }
                     return '<strong>' . $diff . '</strong> Month(s)';
                 })
                 ->addColumn('expired_date', function($row) {
