@@ -17,6 +17,14 @@ class CreateStockMutationsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
+            $table->string('warehouse_origin')->nullable();
+            $table->string('warehouse_destination')->nullable();
+
+            $table->string('transaction_reference_id')->nullable();
+            $table->string('transaction_reference_class')->nullable();
+
+            $table->string('item_stock_id')->nullable();
+
             $table->rememberToken();
             $table->integer('status')->nullable()->default(1);
             $table->integer('owned_by')->nullable()->unsigned();
