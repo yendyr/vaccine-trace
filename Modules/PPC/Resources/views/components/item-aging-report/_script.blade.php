@@ -26,7 +26,7 @@ $(document).ready(function () {
             { data: 'initial_status' },
             { data: 'in_period_aging' },
             { data: 'current_status' },
-            { data: 'day_since_start' },
+            { data: 'month_since_start' },
             { data: 'expired_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
         ]
     });

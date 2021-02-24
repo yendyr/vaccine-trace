@@ -17,17 +17,17 @@ $(document).ready(function () {
             url: "{{ route('ppc.aircraft-aging-report.index') }}",
         },
         columns: [
-            { data: 'current_position' },
-            { data: 'item_stock.item.code' },
-            { data: 'item_stock.serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item_stock.item.name' },
-            { data: 'item_stock.alias_name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item_stock.initial_start_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'aircraft_configuration.aircraft_type.manufacturer.name' },
+            { data: 'aircraft_configuration.aircraft_type.name' },
+            { data: 'aircraft_configuration.registration_number' },
+            { data: 'aircraft_configuration.serial_number' },
+            { data: 'aircraft_configuration.description' },
+            { data: 'initial_start_date' },
             { data: 'initial_status' },
             { data: 'in_period_aging' },
             { data: 'current_status' },
-            { data: 'day_since_start' },
-            { data: 'expired_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'month_since_start' },
+            // { data: 'expired_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
         ]
     });
 });

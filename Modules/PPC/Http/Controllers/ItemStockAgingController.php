@@ -54,7 +54,7 @@ class ItemStockAgingController extends Controller
                     '<strong>' . ($row->item_stock->initial_flight_cycle + $row->fc) . '</strong> FC<br>' . 
                     '<strong>' . ($row->item_stock->initial_flight_event + $row->fe) . '</strong> Evt(s)';
                 })
-                ->addColumn('day_since_start', function($row) {
+                ->addColumn('month_since_start', function($row) {
                     $now = Carbon::now();
                     if($row->item_stock->initial_start_date) {
                         $start = Carbon::parse($row->item_stock->initial_start_date);
