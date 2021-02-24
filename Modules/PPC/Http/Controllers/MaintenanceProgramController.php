@@ -52,7 +52,7 @@ class MaintenanceProgramController extends Controller
                     $approveId = null;
 
                     if ($row->approvals()->count() > 0) {
-                        return '<p class="text-muted">Already Approved</p>';
+                        return '<p class="text-muted font-italic">Already Approved</p>';
                     }
                     else {
                         if(Auth::user()->can('update', MaintenanceProgram::class)) {
@@ -75,7 +75,7 @@ class MaintenanceProgramController extends Controller
                             return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
                         }
                         else {
-                            return '<p class="text-muted">Not Authorized</p>';
+                            return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
                     }   
                 })

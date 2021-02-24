@@ -86,7 +86,7 @@ class AircraftConfigurationController extends Controller
                             return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
                         }
                         else {
-                            return '<p class="text-muted">Not Authorized</p>';
+                            return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
                     }   
                 })

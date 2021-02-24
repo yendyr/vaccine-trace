@@ -52,7 +52,7 @@ class MenuController extends Controller
                         return view('components.action-button', compact(['updateable', 'updateValue']));
                     }
 
-                    return '<p class="text-muted">no action authorized</p>';
+                    return '<p class="text-muted font-italic">no action authorized</p>';
                 })
                 ->escapeColumns([])
                 ->make(true);

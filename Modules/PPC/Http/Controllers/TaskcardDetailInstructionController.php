@@ -25,16 +25,6 @@ class TaskcardDetailInstructionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
-    {
-        
-    }
-
-    public function create()
-    {
-        
-    }
-
     public function store(Request $request)
     {
         $request->validate([

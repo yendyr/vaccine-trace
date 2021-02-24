@@ -65,11 +65,11 @@ class WarehouseController extends Controller
                             return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
                         }
                         else {
-                            return '<p class="text-muted">Not Authorized</p>';
+                            return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
                     }
                     else {
-                        return "<p class='text-muted'>Can't Modify Aircraft Here</p>";
+                        return "<p class='text-muted font-italic'>Can't Modify Aircraft Here</p>";
                     }
                     
                 })

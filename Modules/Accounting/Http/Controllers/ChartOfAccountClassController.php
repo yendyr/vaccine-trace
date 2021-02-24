@@ -57,7 +57,7 @@ class ChartOfAccountClassController extends Controller
                         return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
                     }
                     else {
-                        return '<p class="text-muted">Not Authorized</p>';
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
                     }
                     
                 })
@@ -66,11 +66,6 @@ class ChartOfAccountClassController extends Controller
         }
 
         return view('accounting::pages.chart-of-account-class.index');
-    }
-
-    public function create()
-    {
-        return view('accounting::pages.chart-of-account-class.create');
     }
 
     public function store(Request $request)

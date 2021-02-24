@@ -169,7 +169,7 @@ class MaintenanceProgramDetailController extends Controller
                         return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
                     }
                     else {
-                        return '<p class="text-muted">Not Authorized</p>';
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
                     }
                 })
                 ->escapeColumns([])

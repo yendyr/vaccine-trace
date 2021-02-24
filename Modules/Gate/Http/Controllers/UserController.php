@@ -53,7 +53,7 @@ class UserController extends Controller
                         $updateValue = $row->id;
                         return view('components.action-button', compact(['updateable', 'updateValue']));
                     }
-                    return '<p class="text-muted">no action authorized</p>';
+                    return '<p class="text-muted font-italic">Not Authorized</p>';
                 })
                 ->addColumn('password', function($row){
                     return $row->password;
