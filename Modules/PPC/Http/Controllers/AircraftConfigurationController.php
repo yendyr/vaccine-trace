@@ -17,6 +17,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\PPC\Entities\MaintenanceProgram;
 use Yajra\DataTables\Facades\DataTables;
 
 class AircraftConfigurationController extends Controller
@@ -298,90 +299,97 @@ class AircraftConfigurationController extends Controller
                 'aircraft_type_id' => ['required', 'max:30'],
                 'maintenance_program_id' => ['required', 'max:30'],
             ]);
-    
-            if ($request->status) {
-                $status = 1;
-            } 
-            else {
-                $status = 0;
-            }
-    
-            $manufactured_date = $request->manufactured_date;
-    
-            $received_date = $request->received_date;
 
-            $initial_start_date = $request->initial_start_date;
-    
-            if ( $currentRow->code == $request->code) {
-                $currentRow
-                    ->update([
-                        'name' => $request->name,
-                        'registration_number' => $request->registration_number,
-                        'serial_number' => $request->serial_number,
-                        'manufactured_date' => $manufactured_date,
-                        'received_date' => $received_date,
-                        'description' => $request->description,
-                        'aircraft_type_id' => $request->aircraft_type_id,
-                        'maintenance_program_id' => $request->maintenance_program_id,
-    
-                        'max_takeoff_weight' => $request->max_takeoff_weight,
-                        'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
-                        'max_landing_weight' => $request->max_landing_weight,
-                        'max_landing_weight_unit_id' => $request->max_landing_weight_unit_id,
-                        'max_zero_fuel_weight' => $request->max_zero_fuel_weight,
-                        'max_zero_fuel_weight_unit_id' => $request->max_zero_fuel_weight_unit_id,
-    
-                        'fuel_capacity' => $request->fuel_capacity,
-                        'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
-                        'basic_empty_weight' => $request->basic_empty_weight,
-                        'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
+            $maintenanceProgramCheck = MaintenanceProgram::where('id', $request->maintenance_program_id)->first();
 
-                        'initial_flight_hour' => $request->initial_flight_hour,
-                        'initial_block_hour' => $request->initial_block_hour,
-                        'initial_flight_cycle' => $request->initial_flight_cycle,
-                        'initial_flight_event' => $request->initial_flight_event,
-                        'initial_start_date' => $initial_start_date,
-    
-                        'status' => $status,
-                        'updated_by' => Auth::user()->id,
-                ]);
+            if($maintenanceProgramCheck->aircraft_type_id != $request->aircraft_type_id) {
+                return response()->json(['error' => "Choosen Maintenance Program doesn't Match with this Aircraft Type"]);
             }
             else {
-                $currentRow
-                    ->update([
-                        'code' => $request->code,
-                        'registration_number' => $request->registration_number,
-                        'serial_number' => $request->serial_number,
-                        'manufactured_date' => $manufactured_date,
-                        'received_date' => $received_date,
-                        'description' => $request->description,
-                        'aircraft_type_id' => $request->aircraft_type_id,
-                        'maintenance_program_id' => $request->maintenance_program_id,
+                if ($request->status) {
+                    $status = 1;
+                } 
+                else {
+                    $status = 0;
+                }
+        
+                $manufactured_date = $request->manufactured_date;
+        
+                $received_date = $request->received_date;
     
-                        'max_takeoff_weight' => $request->max_takeoff_weight,
-                        'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
-                        'max_landing_weight' => $request->max_landing_weight,
-                        'max_landing_weight_unit_id' => $request->max_landing_weight_unit_id,
-                        'max_zero_fuel_weight' => $request->max_zero_fuel_weight,
-                        'max_zero_fuel_weight_unit_id' => $request->max_zero_fuel_weight_unit_id,
+                $initial_start_date = $request->initial_start_date;
+        
+                if ( $currentRow->code == $request->code) {
+                    $currentRow
+                        ->update([
+                            'name' => $request->name,
+                            'registration_number' => $request->registration_number,
+                            'serial_number' => $request->serial_number,
+                            'manufactured_date' => $manufactured_date,
+                            'received_date' => $received_date,
+                            'description' => $request->description,
+                            'aircraft_type_id' => $request->aircraft_type_id,
+                            'maintenance_program_id' => $request->maintenance_program_id,
+        
+                            'max_takeoff_weight' => $request->max_takeoff_weight,
+                            'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
+                            'max_landing_weight' => $request->max_landing_weight,
+                            'max_landing_weight_unit_id' => $request->max_landing_weight_unit_id,
+                            'max_zero_fuel_weight' => $request->max_zero_fuel_weight,
+                            'max_zero_fuel_weight_unit_id' => $request->max_zero_fuel_weight_unit_id,
+        
+                            'fuel_capacity' => $request->fuel_capacity,
+                            'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
+                            'basic_empty_weight' => $request->basic_empty_weight,
+                            'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
     
-                        'fuel_capacity' => $request->fuel_capacity,
-                        'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
-                        'basic_empty_weight' => $request->basic_empty_weight,
-                        'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
-
-                        'initial_flight_hour' => $request->initial_flight_hour,
-                        'initial_block_hour' => $request->initial_block_hour,
-                        'initial_flight_cycle' => $request->initial_flight_cycle,
-                        'initial_flight_event' => $request->initial_flight_event,
-                        'initial_start_date' => $request->initial_start_date,
-                        
-                        'status' => $status,
-                        'updated_by' => Auth::user()->id,
-                ]);
+                            'initial_flight_hour' => $request->initial_flight_hour,
+                            'initial_block_hour' => $request->initial_block_hour,
+                            'initial_flight_cycle' => $request->initial_flight_cycle,
+                            'initial_flight_event' => $request->initial_flight_event,
+                            'initial_start_date' => $initial_start_date,
+        
+                            'status' => $status,
+                            'updated_by' => Auth::user()->id,
+                    ]);
+                }
+                else {
+                    $currentRow
+                        ->update([
+                            'code' => $request->code,
+                            'registration_number' => $request->registration_number,
+                            'serial_number' => $request->serial_number,
+                            'manufactured_date' => $manufactured_date,
+                            'received_date' => $received_date,
+                            'description' => $request->description,
+                            'aircraft_type_id' => $request->aircraft_type_id,
+                            'maintenance_program_id' => $request->maintenance_program_id,
+        
+                            'max_takeoff_weight' => $request->max_takeoff_weight,
+                            'max_takeoff_weight_unit_id' => $request->max_takeoff_weight_unit_id,
+                            'max_landing_weight' => $request->max_landing_weight,
+                            'max_landing_weight_unit_id' => $request->max_landing_weight_unit_id,
+                            'max_zero_fuel_weight' => $request->max_zero_fuel_weight,
+                            'max_zero_fuel_weight_unit_id' => $request->max_zero_fuel_weight_unit_id,
+        
+                            'fuel_capacity' => $request->fuel_capacity,
+                            'fuel_capacity_unit_id' => $request->fuel_capacity_unit_id,
+                            'basic_empty_weight' => $request->basic_empty_weight,
+                            'basic_empty_weight_unit_id' => $request->basic_empty_weight_unit_id,
+    
+                            'initial_flight_hour' => $request->initial_flight_hour,
+                            'initial_block_hour' => $request->initial_block_hour,
+                            'initial_flight_cycle' => $request->initial_flight_cycle,
+                            'initial_flight_event' => $request->initial_flight_event,
+                            'initial_start_date' => $request->initial_start_date,
+                            
+                            'status' => $status,
+                            'updated_by' => Auth::user()->id,
+                    ]);
+                }
+                return response()->json(['success' => 'Aircraft Configuration Data has been Updated',
+                                        'id' => $AircraftConfiguration->id]);
             }
-            return response()->json(['success' => 'Aircraft Configuration Data has been Updated',
-                                    'id' => $AircraftConfiguration->id]);
         }
         else {
             return response()->json(['error' => "This Aircraft Configuration and It's Properties Already Approved, You Can't Modify this Data Anymore"]);

@@ -16,35 +16,35 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Code</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code">                            
+                                    <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code" maxlength="10">                            
                                     <div class="invalid-feedback-code text-danger font-italic"></div>                            
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Name</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" maxlength="50">
                                     <div class="invalid-feedback-name text-danger font-italic"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">GST Number</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('gst_number') is-invalid @enderror" name="gst_number" id="gst_number">
+                                    <input type="text" class="form-control @error('gst_number') is-invalid @enderror" name="gst_number" id="gst_number" maxlength="50">
                                     <div class="invalid-feedback-gst_number text-danger font-italic"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">NPWP Number</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('npwp_number') is-invalid @enderror" name="npwp_number" id="npwp_number">
+                                    <input type="text" class="form-control @error('npwp_number') is-invalid @enderror" name="npwp_number" id="npwp_number" maxlength="50">
                                     <div class="invalid-feedback-npwp_number text-danger font-italic"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
+                                    <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" maxlength="50">
                                     <div class="invalid-feedback-description text-danger font-italic"></div>
                                 </div>
                             </div>

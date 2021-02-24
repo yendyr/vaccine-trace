@@ -99,6 +99,7 @@ class CompanyController extends Controller
         $request->validate([
             'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
+            'description' => ['max:100'],
         ]);
 
         if ($request->status) {
@@ -148,17 +149,13 @@ class CompanyController extends Controller
         return view('generalsetting::pages.company.show', compact('Company'));
     }
 
-    public function edit(Company $Company)
-    {
-        return view('generalsetting::pages.company.edit', compact('Company'));
-    }
-
     public function update(Request $request, Company $Company)
     {
         if ($request->updateAccounting != '1') {
             $request->validate([
                 'code' => ['required', 'max:30'],
                 'name' => ['required', 'max:30'],
+                'description' => ['max:100'],
             ]);
 
             if ($request->status) {

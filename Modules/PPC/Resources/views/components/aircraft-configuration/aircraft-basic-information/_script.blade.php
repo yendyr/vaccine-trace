@@ -26,6 +26,24 @@ $(document).ready(function () {
         dropdownParent: $(inputModalId)
     });
 
+    $('.maintenance_program_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Maintenance Program',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.maintenance-program.select2') }}",
+            dataType: 'json',
+            data: function (params) {
+                var getHeaderId = { 
+                    term: params.term,
+                    aircraft_type_id: $('#aircraft_type_id').val(),
+                }
+                return getHeaderId;
+            }
+        },
+        dropdownParent: $(inputModalId)
+    });
+
     $('.max_takeoff_weight_unit_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Unit',
@@ -133,20 +151,23 @@ $(document).ready(function () {
                 $(saveButtonId).prop('disabled', true);
             },
             error: function(data){
-                let errors = data.responseJSON.errors;
-                if (errors) {
-                    $.each(errors, function (index, value) {
-                        $('div.invalid-feedback-'+index).html(value);
-                    })
+                if (data.error) {
+                    generateToast ('error', data.error);
                 }
             },
             success: function (data) {
                 if (data.success) {
-                    generateToast ('success', data.success);                            
+                    generateToast ('success', data.success);  
+                    setTimeout(location.reload.bind(location), 2000);                          
+                }
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });
                 }
                 $(inputModalId).modal('hide');
-
-                setTimeout(location.reload.bind(location), 2000);
             },
             complete: function () {
                 let l = $( '.ladda-button-submit' ).ladda();

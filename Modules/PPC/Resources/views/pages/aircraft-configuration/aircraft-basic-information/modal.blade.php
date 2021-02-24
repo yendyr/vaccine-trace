@@ -59,10 +59,25 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
+                                <label class="col-sm-5 d-flex align-items-center">Remark</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="aircraft_description" value="{{ $AircraftConfiguration->description }}">
                                     <div class="invalid-feedback-description text-danger font-italic"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Maintenance Program</label>
+                                <div class="col-sm-7">
+                                    <select class="maintenance_program_id form-control @error('maintenance_program_id') is-invalid @enderror" name="maintenance_program_id" id="maintenance_program_id">
+                                        @if($AircraftConfiguration->maintenance_program_id)
+                                        <option value="{{ $AircraftConfiguration->maintenance_program_id }}">
+                                            {{ $AircraftConfiguration->maintenance_program->code }} | 
+                                            {{ $AircraftConfiguration->maintenance_program->name }}
+                                        </option>
+                                        @endif
+                                    </select>
+                                    <div class="invalid-feedback-maintenance_program_id text-danger font-italic"></div>
                                 </div>
                             </div>
                         </div>
