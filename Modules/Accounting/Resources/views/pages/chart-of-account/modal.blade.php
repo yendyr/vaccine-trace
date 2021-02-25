@@ -35,13 +35,13 @@
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Class</label>
                         <div class="col-sm-7">
-                            <select class="chart_of_account_class_id form-control @error('chart_of_account_class_id') is-invalid @enderror" id="chart_of_account_class_id" name="chart_of_account_class_id"></select>
+                            <select class="chart_of_account_class_id form-control @error('chart_of_account_class_id') is-invalid @enderror" id="chart_of_account_class_id" name="chart_of_account_class_id" required></select>
                             <div class="invalid-feedback-chart_of_account_class_id text-danger font-italic"></div>
                             <div class="info-chart_of_account_class_id text-info font-italic"></div>
                         </div>
                     </div>              
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
+                        <label class="col-sm-5 d-flex align-items-center">Remark</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                             <div class="invalid-feedback-description text-danger font-italic"></div>

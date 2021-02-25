@@ -190,7 +190,7 @@ class ChartOfAccountController extends Controller
                     'code' => $request->code,
                     'name' => $request->name,
                     'description' => $request->description,
-                    'parent_id' => $request->select2_parent_name,
+                    'parent_id' => $request->parent_id,
                     'chart_of_account_class_id' => $chart_of_account_class_id,
                     'status' => $status,
                     'updated_by' => Auth::user()->id,

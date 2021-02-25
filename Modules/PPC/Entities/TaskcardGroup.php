@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class TaskcardGroup extends Model
 {
-    use softDeletes;
+    use SoftDeletes;
     protected $dates = ['deleted_at'];
     use Notifiable;
 
@@ -39,7 +39,7 @@ class TaskcardGroup extends Model
 
     public function taskcard_group()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id')->with('taskcard_group');
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id');
     }
 
     public function subGroup()
@@ -50,5 +50,10 @@ class TaskcardGroup extends Model
     public function all_childs()
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardGroup::class, 'parent_id', 'id')->with('all_childs');
+    }
+
+    public function taskcards()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\Taskcard::class, 'taskcard_group_id');
     }
 }

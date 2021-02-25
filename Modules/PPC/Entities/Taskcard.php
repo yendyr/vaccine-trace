@@ -66,7 +66,7 @@ class Taskcard extends Model
 
     public function taskcard_group()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'taskcard_group_id');
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardGroup::class, 'taskcard_group_id')->withTrashed();
     }
 
     public function taskcard_type()

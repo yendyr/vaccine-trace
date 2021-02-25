@@ -88,7 +88,7 @@ class TaskcardController extends Controller
             return Datatables::of($data)
                 ->addColumn('group_structure', function($row) {
                     if ($row->taskcard_group_id) {
-                        $currentRow = TaskcardGroup::where('id', $row->taskcard_group_id)->first();
+                        $currentRow = TaskcardGroup::where('id', $row->taskcard_group_id)->withTrashed()->first();
                         $group_structure = '';
 
                         while (true) {

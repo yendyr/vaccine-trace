@@ -43,6 +43,7 @@
             dropdownParent: $('#inputModal')
         });
 
+        $(".chart_of_account_class_id").prop("disabled", false);
         $('.parent_id').on('select2:select', function (e) {
             if($('.parent_id').val() == null) {
                 $(".chart_of_account_class_id").prop("disabled", false);
