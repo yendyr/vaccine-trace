@@ -235,14 +235,20 @@ class ChartOfAccountController extends Controller
 
     public function destroy(ChartOfAccount $ChartOfAccount)
     {
-        $currentRow = ChartOfAccount::where('id', $ChartOfAccount->id)->first();
-        $currentRow
-                ->update([
-                    'deleted_by' => Auth::user()->id,
-                ]);
-
-        ChartOfAccount::destroy($ChartOfAccount->id);
-        return response()->json(['success' => 'Chart of Account Data has been Deleted']);
+        $currentRow = ChartOfAccount::where('id', $ChartOfAccount->id)
+                                    ->with('all_childs')
+                                    ->first();
+        if (sizeof($currentRow->all_childs) > 0) {
+            return response()->json(['error' => "This COA Group has Child(s) Item, You Can't Directly Delete this COA Group"]);
+        }
+        else {
+            $currentRow
+                    ->update([
+                        'deleted_by' => Auth::user()->id,
+                    ]);
+            ChartOfAccount::destroy($ChartOfAccount->id);
+            return response()->json(['success' => 'Chart of Account Data has been Deleted']);
+        }
     }
 
     public function select2Parent(Request $request)

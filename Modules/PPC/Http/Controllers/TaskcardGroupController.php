@@ -211,14 +211,21 @@ class TaskcardGroupController extends Controller
 
     public function destroy(TaskcardGroup $TaskcardGroup)
     {
-        $currentRow = TaskcardGroup::where('id', $TaskcardGroup->id)->first();
-        $currentRow
-                ->update([
-                    'deleted_by' => Auth::user()->id,
-                ]);
+        $currentRow = TaskcardGroup::where('id', $TaskcardGroup->id)
+                                    ->with('all_childs')
+                                    ->first();
 
-        TaskcardGroup::destroy($TaskcardGroup->id);
-        return response()->json(['success' => 'Task Card Group Data has been Deleted']);
+        if (sizeof($currentRow->all_childs) > 0) {
+            return response()->json(['error' => "This Task Card Group has Child(s) Item, You Can't Directly Delete this Task Card Group"]);
+        }
+        else {
+            $currentRow
+            ->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            TaskcardGroup::destroy($TaskcardGroup->id);
+            return response()->json(['success' => 'Task Card Group Data has been Deleted']);
+        }
     }
 
     public function select2Parent(Request $request)
