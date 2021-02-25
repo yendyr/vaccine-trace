@@ -31,10 +31,10 @@ class AfmLogController extends Controller
     {
         if ($request->ajax()) {
             $data = AfmLog::with(['aircraft_configuration',
-                                                    'pre_flight_check_nearest_airport',
-                                                    'pre_flight_check_person',
-                                                    'post_flight_check_nearest_airport',
-                                                    'pre_flight_check_person']);
+                                'pre_flight_check_nearest_airport',
+                                'pre_flight_check_person',
+                                'post_flight_check_nearest_airport',
+                                'pre_flight_check_person']);
 
             return Datatables::of($data)
                 ->addColumn('aircraft_type_name', function($row) {

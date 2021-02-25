@@ -373,37 +373,25 @@ class AircraftConfigurationDetailController extends Controller
 
         $warehouse_id = $AircraftConfiguration->warehouse->id;
 
-        // $query = DB::table('item_stocks')
-        //             ->leftJoin('items', 'item_stocks.item_id', '=', 'items.id')
-        //             ->where('item_stocks.warehouse_id', $warehouse_id)
-        //             ->where('item_stocks.status', '1')
-        //             ->whereNull('item_stocks.deleted_at')
-        //             ->select('item_stocks.id', 'item_stocks.coding', 'item_stocks.alias_name', 'items.code', 'items.name');
-
-        if($search != ''){
-            $query = ItemStock::with(['item' => function($q) use ($search) {
-                        $q->where('items.code', 'like', '%' .$search. '%')
-                        ->orWhere('items.name', 'like', '%' .$search. '%');
-                    }])
-            ->where('warehouse_id', $warehouse_id)
-            ->where('status', 1);;
+        if($search != '') {
+            $AircraftConfigurationDetails = ItemStock::with(['item' => function($q) use ($search) {
+                                            $q->where('items.code', 'like', '%' .$search. '%')
+                                            ->orWhere('items.name', 'like', '%' .$search. '%');
+                                        }])
+                                        ->whereHas('item', function($q) use ($search) {
+                                            $q->where('items.code', 'like', '%' .$search. '%')
+                                            ->orWhere('items.name', 'like', '%' .$search. '%');
+                                        })
+                                        ->where('warehouse_id', $warehouse_id)
+                                        ->where('status', 1)
+                                        ->get();
         }
-        $AircraftConfigurationDetails = $query->get();
 
         $response = [];
         foreach($AircraftConfigurationDetails as $AircraftConfigurationDetail){
-            if($AircraftConfigurationDetail->item) {
-                $item_code = $AircraftConfigurationDetail->item->code;
-                $item_name = $AircraftConfigurationDetail->item->name;
-            }
-            else {
-                $item_code = ' ';
-                $item_name = ' ';
-            }
-
             $response['results'][] = [
                 "id" => $AircraftConfigurationDetail->coding,
-                "text" => $item_code . ' | ' . $item_name . ' | ' . $AircraftConfigurationDetail->alias_name
+                "text" => $AircraftConfigurationDetail->item->code . ' | ' . $AircraftConfigurationDetail->item->name . ' | ' . $AircraftConfigurationDetail->alias_name
             ];
         }
         return response()->json($response);

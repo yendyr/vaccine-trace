@@ -80,6 +80,11 @@ class Item extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\ItemCategory::class, 'category_id');
     }
 
+    public function item_stocks()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'item_id');
+    }
+
     public function manufacturer()
     {
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'manufacturer_id');

@@ -261,29 +261,24 @@ class AircraftConfigurationTemplateDetailController extends Controller
         $aircraft_configuration_template_id = $request->aircraft_configuration_template_id;
 
         if($search != ''){
-            $query = AircraftConfigurationTemplateDetail::with(['item' => function($q) use ($search) {
+            $AircraftConfigurationTemplateDetails = AircraftConfigurationTemplateDetail::with(['item' => function($q) use ($search) {
                         $q->where('items.code', 'like', '%' .$search. '%')
                         ->orWhere('items.name', 'like', '%' .$search. '%');
                     }])
+            ->whereHas('item', function($q) use ($search) {
+                $q->where('items.code', 'like', '%' .$search. '%')
+                ->orWhere('items.name', 'like', '%' .$search. '%');
+            })
             ->where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
-            ->where('status', 1);
+            ->where('status', 1)
+            ->get();
         }
-        $AircraftConfigurationTemplateDetails = $query->get();
         
         $response = [];
         foreach($AircraftConfigurationTemplateDetails as $AircraftConfigurationTemplateDetail){
-            if($AircraftConfigurationTemplateDetail->item) {
-                $item_code = $AircraftConfigurationTemplateDetail->item->code;
-                $item_name = $AircraftConfigurationTemplateDetail->item->name;
-            }
-            else {
-                $item_code = ' ';
-                $item_name = ' ';
-            }
-
             $response['results'][] = [
                 "id" => $AircraftConfigurationTemplateDetail->coding,
-                "text" => $item_code . ' | ' . $item_name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
+                "text" => $AircraftConfigurationTemplateDetail->item->code . ' | ' . $AircraftConfigurationTemplateDetail->item->name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
             ];
         }
         return response()->json($response);
