@@ -238,14 +238,21 @@ class AircraftConfigurationTemplateDetailController extends Controller
 
     public function destroy(AircraftConfigurationTemplateDetail $ConfigurationTemplateDetail)
     {
-        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)->first();
-        $currentRow
-                ->update([
-                    'deleted_by' => Auth::user()->id,
-                ]);
+        $currentRow = AircraftConfigurationTemplateDetail::where('id', $ConfigurationTemplateDetail->id)
+                                                ->with('all_childs')
+                                                ->first();
 
-        AircraftConfigurationTemplateDetail::destroy($ConfigurationTemplateDetail->id);
-        return response()->json(['success' => 'Item/Component Data has been Deleted']);
+        if (sizeof($currentRow->all_childs) > 0) {
+            return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
+        }
+        else {
+            $currentRow
+            ->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            AircraftConfigurationTemplateDetail::destroy($ConfigurationTemplateDetail->id);
+            return response()->json(['success' => 'Item/Component Data has been Deleted']);
+        }
     }
 
     public function select2Parent(Request $request)
@@ -253,27 +260,32 @@ class AircraftConfigurationTemplateDetailController extends Controller
         $search = $request->term;
         $aircraft_configuration_template_id = $request->aircraft_configuration_template_id;
 
-        $query = DB::table('aircraft_configuration_template_details')
-                    ->leftJoin('items', 'aircraft_configuration_template_details.item_id', '=', 'items.id')
-                    ->where('aircraft_configuration_template_details.aircraft_configuration_template_id', $aircraft_configuration_template_id)
-                    ->where('aircraft_configuration_template_details.status', '1')
-                    ->select('aircraft_configuration_template_details.id', 'aircraft_configuration_template_details.coding', 'aircraft_configuration_template_details.alias_name', 'items.code', 'items.name');
-
         if($search != ''){
-            $query = $query->where('items.name', 'like', '%' .$search. '%')
-                            ->orWhere('items.code', 'like', '%' .$search. '%');
+            $query = AircraftConfigurationTemplateDetail::with(['item' => function($q) use ($search) {
+                        $q->where('items.code', 'like', '%' .$search. '%')
+                        ->orWhere('items.name', 'like', '%' .$search. '%');
+                    }])
+            ->where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
+            ->where('status', 1);
         }
         $AircraftConfigurationTemplateDetails = $query->get();
-
+        
         $response = [];
         foreach($AircraftConfigurationTemplateDetails as $AircraftConfigurationTemplateDetail){
+            if($AircraftConfigurationTemplateDetail->item) {
+                $item_code = $AircraftConfigurationTemplateDetail->item->code;
+                $item_name = $AircraftConfigurationTemplateDetail->item->name;
+            }
+            else {
+                $item_code = ' ';
+                $item_name = ' ';
+            }
+
             $response['results'][] = [
                 "id" => $AircraftConfigurationTemplateDetail->coding,
-                "text" => $AircraftConfigurationTemplateDetail->code . ' | ' . $AircraftConfigurationTemplateDetail->name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
+                "text" => $item_code . ' | ' . $item_name . ' | ' . $AircraftConfigurationTemplateDetail->alias_name
             ];
         }
-
         return response()->json($response);
     }
-
 }

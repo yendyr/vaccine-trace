@@ -84,4 +84,9 @@ class Item extends Model
     {
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'manufacturer_id');
     }
+
+    public function configuration_template_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\AircraftConfigurationTemplateDetail::class, 'item_id');
+    }
 }

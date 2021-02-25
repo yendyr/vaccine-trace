@@ -340,17 +340,24 @@ class AircraftConfigurationDetailController extends Controller
 
     public function destroy(ItemStock $ConfigurationDetail)
     {
-        $currentRow = ItemStock::where('id', $ConfigurationDetail->id)->first();
-        $AircraftConfiguration = AircraftConfiguration::where('id', $currentRow->aircraft_configuration_id)->first();
+        $currentRow = ItemStock::where('id', $ConfigurationDetail->id)
+                                ->with(['all_childs'])
+                                ->first();
+
+        $AircraftConfiguration = AircraftConfiguration::where('id', $currentRow->warehouse->aircraft_configuration->id)->first();
 
         if ($AircraftConfiguration->approvals()->count() == 0) {
-            $currentRow
-                    ->update([
-                        'deleted_by' => Auth::user()->id,
-                    ]);
-
-            ItemStock::destroy($ConfigurationDetail->id);
-            return response()->json(['success' => 'Item/Component Data has been Deleted']);
+            if (sizeof($currentRow->all_childs) > 0) {
+                return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
+            }
+            else {
+                $currentRow
+                ->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+                ItemStock::destroy($ConfigurationDetail->id);
+                return response()->json(['success' => 'Item/Component Data has been Deleted']);
+            }
         }
         else {
             return response()->json(['error' => "This Aircraft Configuration and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
@@ -366,23 +373,37 @@ class AircraftConfigurationDetailController extends Controller
 
         $warehouse_id = $AircraftConfiguration->warehouse->id;
 
-        $query = DB::table('item_stocks')
-                    ->leftJoin('items', 'item_stocks.item_id', '=', 'items.id')
-                    ->where('item_stocks.warehouse_id', $warehouse_id)
-                    ->where('item_stocks.status', '1')
-                    ->select('item_stocks.id', 'item_stocks.coding', 'item_stocks.alias_name', 'items.code', 'items.name');
+        // $query = DB::table('item_stocks')
+        //             ->leftJoin('items', 'item_stocks.item_id', '=', 'items.id')
+        //             ->where('item_stocks.warehouse_id', $warehouse_id)
+        //             ->where('item_stocks.status', '1')
+        //             ->whereNull('item_stocks.deleted_at')
+        //             ->select('item_stocks.id', 'item_stocks.coding', 'item_stocks.alias_name', 'items.code', 'items.name');
 
         if($search != ''){
-            $query = $query->where('items.name', 'like', '%' .$search. '%')
-                        ->orWhere('items.code', 'like', '%' .$search. '%');
+            $query = ItemStock::with(['item' => function($q) use ($search) {
+                        $q->where('items.code', 'like', '%' .$search. '%')
+                        ->orWhere('items.name', 'like', '%' .$search. '%');
+                    }])
+            ->where('warehouse_id', $warehouse_id)
+            ->where('status', 1);;
         }
         $AircraftConfigurationDetails = $query->get();
 
         $response = [];
         foreach($AircraftConfigurationDetails as $AircraftConfigurationDetail){
+            if($AircraftConfigurationDetail->item) {
+                $item_code = $AircraftConfigurationDetail->item->code;
+                $item_name = $AircraftConfigurationDetail->item->name;
+            }
+            else {
+                $item_code = ' ';
+                $item_name = ' ';
+            }
+
             $response['results'][] = [
                 "id" => $AircraftConfigurationDetail->coding,
-                "text" => $AircraftConfigurationDetail->code . ' | ' . $AircraftConfigurationDetail->name . ' | ' . $AircraftConfigurationDetail->alias_name
+                "text" => $item_code . ' | ' . $item_name . ' | ' . $AircraftConfigurationDetail->alias_name
             ];
         }
         return response()->json($response);
