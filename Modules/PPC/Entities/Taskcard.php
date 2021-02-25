@@ -71,12 +71,12 @@ class Taskcard extends Model
 
     public function taskcard_type()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardType::class, 'taskcard_type_id');
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardType::class, 'taskcard_type_id')->withTrashed();
     }
 
     public function taskcard_workarea()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardWorkarea::class, 'taskcard_workarea_id');
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardWorkarea::class, 'taskcard_workarea_id')->withTrashed();
     }
 
     public function aircraft_types()
