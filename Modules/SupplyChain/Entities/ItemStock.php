@@ -64,6 +64,11 @@ class ItemStock extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'item_id');
     }
 
+    public function item_stock_initial_aging()
+    {
+        return $this->hasOne(\Modules\PPC\Entities\ItemStockInitialAging::class, 'item_stock_id');
+    }
+
     public function item_group()
     {
         return $this->belongsTo(\Modules\SupplyChain\Entities\ItemStock::class, 'parent_coding', 'coding');
@@ -72,5 +77,14 @@ class ItemStock extends Model
     public function all_childs()
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'parent_coding', 'coding')->with('all_childs');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($ItemStock) {
+             $ItemStock->outbond_mutation_details()->delete();
+             $ItemStock->item_stock_initial_aging()->delete();
+        });
     }
 }

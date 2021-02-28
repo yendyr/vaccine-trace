@@ -3,6 +3,7 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\AircraftConfiguration;
+use Modules\PPC\Entities\ItemStockInitialAging;
 use Modules\SupplyChain\Entities\ItemStock;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -31,6 +32,7 @@ class AircraftConfigurationDetailController extends Controller
         
         $data = ItemStock::where('warehouse_id', $warehouse_id)
                         ->with(['item:id,code,name',
+                                'item_stock_initial_aging',
                                 'item_group:id,item_id,alias_name,coding,parent_coding'])
                         ->orderBy('created_at','desc')
                         ->get();
@@ -208,12 +210,6 @@ class AircraftConfigurationDetailController extends Controller
                 'description' => $request->description,
                 'parent_coding' => $request->parent_coding,
     
-                'initial_flight_hour' => $request->initial_flight_hour,
-                'initial_block_hour' => $request->initial_block_hour,
-                'initial_flight_cycle' => $request->initial_flight_cycle,
-                'initial_flight_event' => $request->initial_flight_event,
-                'initial_start_date' => $initial_start_date,
-    
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
                 'created_by' => $request->user()->id,
@@ -221,6 +217,20 @@ class AircraftConfigurationDetailController extends Controller
             $AircraftConfigurationDetail->update([
                 'coding' => $AircraftConfigurationDetail->warehouse_id . '-' . $AircraftConfigurationDetail->id,
             ]);
+            $AircraftConfigurationDetail->item_stock_initial_aging()
+                ->save(new ItemStockInitialAging([
+                    'uuid' => Str::uuid(),
+
+                    'initial_flight_hour' => $request->initial_flight_hour,
+                    'initial_block_hour' => $request->initial_block_hour,
+                    'initial_flight_cycle' => $request->initial_flight_cycle,
+                    'initial_flight_event' => $request->initial_flight_event,
+                    'initial_start_date' => $initial_start_date,
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]));
             DB::commit();
     
             return response()->json(['success' => 'Item/Component Data has been Added']);
@@ -287,18 +297,25 @@ class AircraftConfigurationDetailController extends Controller
                     'description' => $request->description,
                     'parent_coding' => $parent_coding,
     
-                    'initial_flight_hour' => $request->initial_flight_hour,
-                    'initial_block_hour' => $request->initial_block_hour,
-                    'initial_flight_cycle' => $request->initial_flight_cycle,
-                    'initial_flight_event' => $request->initial_flight_event,
-                    'initial_start_date' => $initial_start_date,
-    
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($currentRow->all_childs) > 0) {
                 Self::updateChilds($currentRow, $status);
             }
+            $currentRow->item_stock_initial_aging()
+                ->update([
+                    'uuid' => Str::uuid(),
+
+                    'initial_flight_hour' => $request->initial_flight_hour,
+                    'initial_block_hour' => $request->initial_block_hour,
+                    'initial_flight_cycle' => $request->initial_flight_cycle,
+                    'initial_flight_event' => $request->initial_flight_event,
+                    'initial_start_date' => $initial_start_date,
+                    
+                    'status' => 1,
+                    'updated_by' => $request->user()->id,
+                ]);
             DB::commit();
             
             return response()->json(['success' => 'Item/Component Data has been Updated']);

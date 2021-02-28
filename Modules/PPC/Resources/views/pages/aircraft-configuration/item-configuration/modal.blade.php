@@ -55,22 +55,44 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Parent Item Code/Name</label>
                                 <div class="col-sm-7">
                                     <select class="parent_coding form-control @error('parent_coding') is-invalid @enderror" name="parent_coding" id="parent_coding"></select>
                                     <div class="invalid-feedback-parent_coding text-danger font-italic"></div>
                                 </div>
-                            </div>  
-                            
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Active</label>
+                                <div class="col-sm-7">     
+                                    <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                        <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
+                                        <div class="state p-primary">
+                                            <i class="icon fa fa-check"></i>
+                                            <label></label>
+                                        </div>
+                                        <div class="invalid-feedback-status text-danger font-italic"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Initial Flight Hour Aging</label>
                                 <div class="col-sm-7">
                                     <input type="number" min="0" class="form-control @error('initial_flight_hour') is-invalid @enderror" name="initial_flight_hour" id="initial_flight_hour">
                                     <div class="invalid-feedback-initial_flight_hour text-danger font-italic"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Initial Block Hour Aging</label>
+                                <div class="col-sm-7">
+                                    <input type="number" min="0" class="form-control @error('initial_block_hour') is-invalid @enderror" name="initial_block_hour" id="initial_block_hour">
+                                    <div class="invalid-feedback-initial_block_hour text-danger font-italic"></div>
                                 </div>
                             </div>
 
@@ -95,20 +117,6 @@
                                     <span class="input-group-addon">Initial Start Date</span>
                                     <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" readonly>
                                     <div class="invalid-feedback-initial_start_date text-danger font-italic"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Active</label>
-                                <div class="col-sm-7">     
-                                    <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
-                                        <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
-                                        <div class="state p-primary">
-                                            <i class="icon fa fa-check"></i>
-                                            <label></label>
-                                        </div>
-                                        <div class="invalid-feedback-status text-danger font-italic"></div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

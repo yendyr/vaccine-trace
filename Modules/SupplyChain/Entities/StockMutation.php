@@ -60,4 +60,13 @@ class StockMutation extends Model
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\OutbondMutationDetail::class, 'stock_mutation_id');
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($StockMutation) {
+            $StockMutation->item_stocks()->delete();
+            $StockMutation->outbond_mutation_details()->delete();
+        });
+    }
 }

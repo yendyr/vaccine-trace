@@ -7,6 +7,7 @@ use Modules\PPC\Entities\AircraftConfigurationDetail;
 use Modules\PPC\Entities\AircraftConfigurationApproval;
 use Modules\PPC\Entities\AircraftConfigurationTemplate;
 use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
+use Modules\PPC\Entities\ItemStockInitialAging;
 use Modules\SupplyChain\Entities\Warehouse;
 use Modules\SupplyChain\Entities\ItemStock;
 
@@ -197,32 +198,15 @@ class AircraftConfigurationController extends Controller
                         'parent_coding' => $newDetail->warehouse_id . '-' . Str::after($newDetail->parent_coding, '-')
                     ]);
                 }
+                $newDetail->item_stock_initial_aging()
+                ->save(new ItemStockInitialAging([
+                    'uuid' => Str::uuid(),
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]));
             }
-            // foreach ($detail_source->template_details as $template_detail) {
-            //     $newDetail = AircraftConfigurationDetail::create([
-            //         'uuid' =>  Str::uuid(),
-
-            //         'coding' => $template_detail->coding,
-            //         'aircraft_configuration_id' => $AircraftConfiguration->id,
-            //         'item_id' => $template_detail->item_id,
-            //         'alias_name' => $template_detail->alias_name,
-            //         'description' => $template_detail->description,
-            //         'highlight' => $template_detail->highlight,
-            //         'parent_coding' => $template_detail->parent_coding,
-        
-            //         'owned_by' => $request->user()->company_id,
-            //         'status' => $template_detail->status,
-            //         'created_by' => $request->user()->id,
-            //     ]);
-            //     $newDetail->update([
-            //         'coding' => $newDetail->aircraft_configuration_id . '-' . Str::after($newDetail->coding, '-')
-            //     ]);
-            //     if ($newDetail->parent_coding) {
-            //         $newDetail->update([
-            //             'parent_coding' => $newDetail->aircraft_configuration_id . '-' . Str::after($newDetail->parent_coding, '-')
-            //         ]);
-            //     }
-            // }
             DB::commit();
 
             return response()->json(['success' => 'Aircraft Configuration Data has been Saved',

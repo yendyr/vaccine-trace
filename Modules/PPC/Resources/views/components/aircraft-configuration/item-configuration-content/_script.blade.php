@@ -25,10 +25,11 @@ $(document).ready(function () {
             { data: 'highlighted', name: 'Highlight Item' },
             { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
             { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
-            { data: 'initial_flight_hour', name: 'Initial FH' },
-            { data: 'initial_block_hour',  defaultContent: '-' },
-            { data: 'initial_flight_cycle', name: 'Initial FC' },
-            { data: 'initial_start_date', name: 'Initial Start Date' },
+            { data: 'item_stock_initial_aging.initial_flight_hour', defaultContent: '-' },
+            { data: 'item_stock_initial_aging.initial_block_hour', defaultContent: '-' },
+            { data: 'item_stock_initial_aging.initial_flight_cycle', defaultContent: '-' },
+            { data: 'item_stock_initial_aging.initial_flight_event', defaultContent: '-' },
+            { data: 'item_stock_initial_aging.initial_start_date', defaultContent: '-' },
             { data: 'status', name: 'Status' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
@@ -107,11 +108,11 @@ $(document).ready(function () {
         $('#alias_name').val(data.alias_name);
         $('#serial_number').val(data.serial_number);
         $('#description').val(data.description);
-        $('#initial_flight_hour').val(data.initial_flight_hour);
-        $('#initial_block_hour').val(data.initial_block_hour);
-        $('#initial_flight_cycle').val(data.initial_flight_cycle);
-        $('#initial_flight_event').val(data.initial_flight_event);
-        $('.initial_start_date').val(data.initial_start_date);
+        $('#initial_flight_hour').val(data.item_stock_initial_aging.initial_flight_hour);
+        $('#initial_block_hour').val(data.item_stock_initial_aging.initial_block_hour);
+        $('#initial_flight_cycle').val(data.item_stock_initial_aging.initial_flight_cycle);
+        $('#initial_flight_event').val(data.item_stock_initial_aging.initial_flight_event);
+        $('.initial_start_date').val(data.item_stock_initial_aging.initial_start_date);
 
         if (data.item != null) {
             $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.code + ' | ' + data.item.name + '</option>');

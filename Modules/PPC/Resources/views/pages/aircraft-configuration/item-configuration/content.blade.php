@@ -30,6 +30,7 @@
         <th>Initial FH</th>
         <th>Initial Block Hour</th>
         <th>Initial FC</th>
+        <th>Initial Flight Event</th>
         <th>Initial Start Date</th>
         <th>Status</th>
         <th>Created By</th>
