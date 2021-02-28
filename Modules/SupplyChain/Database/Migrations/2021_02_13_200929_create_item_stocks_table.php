@@ -22,8 +22,7 @@ class CreateItemStocksTable extends Migration
             $table->string('warehouse_id')->nullable();
             $table->string('detailed_item_location')->nullable();
 
-            $table->string('stock_mutation_in')->nullable();
-            $table->string('stock_mutation_out')->nullable();
+            $table->string('inbound_mutation_id')->nullable();
 
             $table->string('coding')->nullable();
 

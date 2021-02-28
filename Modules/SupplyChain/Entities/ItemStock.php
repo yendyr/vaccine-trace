@@ -19,6 +19,7 @@ class ItemStock extends Model
 
         'coding',
         'warehouse_id',
+        'inbound_mutation_id',
         'item_id',
         'serial_number',
         'alias_name',
@@ -52,6 +53,16 @@ class ItemStock extends Model
     public function warehouse()
     {
         return $this->belongsTo(\Modules\SupplyChain\Entities\Warehouse::class, 'warehouse_id');
+    }
+
+    public function inbound_mutation()
+    {
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'inbound_mutation_id');
+    }
+
+    public function outbond_mutation_details()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\OutbondMutationDetail::class, 'item_stock_id');
     }
 
     public function item()

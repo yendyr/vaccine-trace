@@ -23,7 +23,7 @@ class CreateStockMutationsTable extends Migration
             $table->string('transaction_reference_id')->nullable();
             $table->string('transaction_reference_class')->nullable();
 
-            $table->string('item_stock_id')->nullable();
+            $table->string('description')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable()->default(1);
