@@ -26,12 +26,6 @@ class ItemStock extends Model
         'description',
         'highlight',
         'parent_coding',
-
-        'initial_flight_hour',
-        'initial_block_hour',
-        'initial_flight_cycle',
-        'initial_flight_event',
-        'initial_start_date',
         
         'status',
         'created_by',
