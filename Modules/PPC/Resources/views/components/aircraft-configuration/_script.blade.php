@@ -182,7 +182,10 @@ $(document).ready(function () {
         $('#initial_block_hour').val(data.initial_block_hour);
         $('#initial_flight_cycle').val(data.initial_flight_cycle);
         $('#initial_flight_event').val(data.initial_flight_event);
-        $('.initial_start_date').val(data.initial_start_date.split(' ')[0]);
+
+        if(data.initial_start_date != null) {
+            $('.initial_start_date').val(data.initial_start_date.split(' ')[0]);
+        }
 
         $(".aircraft_type_id").val(null).trigger('change');
         if (data.aircraft_type != null) {

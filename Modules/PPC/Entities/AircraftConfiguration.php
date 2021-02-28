@@ -120,6 +120,9 @@ class AircraftConfiguration extends Model
         parent::boot();
 
         static::deleting(function($AircraftConfiguration) {
+            foreach($AircraftConfiguration->warehouse->item_stocks as $item_stock) {
+                $item_stock->item_stock_initial_aging()->delete();
+            }           
             $AircraftConfiguration->warehouse->item_stocks()->delete();             
             $AircraftConfiguration->warehouse()->delete();             
             $AircraftConfiguration->approvals()->delete();             
