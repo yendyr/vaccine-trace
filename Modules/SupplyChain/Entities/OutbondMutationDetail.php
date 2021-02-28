@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class StockMutation extends Model
+class OutbondMutationDetail extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -17,10 +17,8 @@ class StockMutation extends Model
     protected $fillable = [
         'uuid',
 
-        'warehouse_origin',
-        'warehouse_destination',
-        'transaction_reference_id',
-        'transaction_reference_class',
+        'stock_mutation_id',
+        'item_stock_id',
 
         'description',
         
@@ -41,23 +39,13 @@ class StockMutation extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function origin()
+    public function stock_mutation()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\Warehouse::class, 'warehouse_origin');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'stock_mutation_id');
     }
 
-    public function destination()
+    public function item_stock()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\Warehouse::class, 'warehouse_destination');
-    }
-
-    public function item_stocks()
-    {
-        return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'inbound_mutation_id');
-    }
-
-    public function outbond_mutation_details()
-    {
-        return $this->hasMany(\Modules\SupplyChain\Entities\OutbondMutationDetail::class, 'stock_mutation_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemStock::class, 'item_stock_id');
     }
 }
