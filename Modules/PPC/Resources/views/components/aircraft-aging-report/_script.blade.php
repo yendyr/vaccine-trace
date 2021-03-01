@@ -21,13 +21,12 @@ $(document).ready(function () {
             { data: 'aircraft_configuration.aircraft_type.name' },
             { data: 'aircraft_configuration.registration_number' },
             { data: 'aircraft_configuration.serial_number' },
-            { data: 'aircraft_configuration.description' },
-            { data: 'initial_start_date' },
+            { data: 'aircraft_configuration.description', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'initial_start_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'initial_status' },
             { data: 'in_period_aging' },
             { data: 'current_status' },
             { data: 'month_since_start' },
-            // { data: 'expired_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
         ]
     });
 });
