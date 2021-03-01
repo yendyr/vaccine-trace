@@ -57,23 +57,23 @@ class ItemStockAgingController extends Controller
                 })
                 ->addColumn('month_since_start', function($row) {
                     $now = Carbon::now();
-                    $diff = null;
                     if($row->item_stock_initial_aging->initial_start_date) {
                         $start = Carbon::parse($row->item_stock_initial_aging->initial_start_date);
 
                         $diff = $now->diffInMonths($start);
+                        return '<strong>' . $diff . '</strong> Month(s)';
                     }
                     else if($row->warehouse->aircraft_configuration) {
                         if($row->warehouse->aircraft_configuration->initial_start_date) {
                             $start = Carbon::parse($row->warehouse->aircraft_configuration->initial_start_date);
 
                             $diff = $now->diffInMonths($start);
+                            return '<strong>' . $diff . '</strong> Month(s)';
                         }
                     }
                     else {
-                        $diff = 0;
+                        return null;
                     }
-                    return '<strong>' . $diff . '</strong> Month(s)';
                 })
                 ->addColumn('expired_date', function($row) {
                     return $row->item_stock_initial_aging->expired_date;
