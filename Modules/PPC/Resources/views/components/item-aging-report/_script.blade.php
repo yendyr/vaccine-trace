@@ -1,6 +1,3 @@
-{{-- @include('components.toast.script-generate')
-@include('components.crud-form.basic-script-submit') --}}
-
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
@@ -18,11 +15,11 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'current_position' },
-            { data: 'item_stock.item.code' },
-            { data: 'item_stock.serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item_stock.item.name' },
-            { data: 'item_stock.alias_name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item_stock.initial_start_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'item.code' },
+            { data: 'serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'item.name' },
+            { data: 'alias_name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'item_stock_initial_aging.initial_start_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'initial_status' },
             { data: 'in_period_aging' },
             { data: 'current_status' },

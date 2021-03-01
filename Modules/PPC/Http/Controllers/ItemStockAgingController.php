@@ -2,6 +2,7 @@
 
 namespace Modules\PPC\Http\Controllers;
 
+use Modules\SupplyChain\Entities\ItemStock;
 use Modules\PPC\Entities\ItemStockAging;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -24,46 +25,47 @@ class ItemStockAgingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ItemStockAging::with(['item_stock.item',
-                                        'item_stock.warehouse'])
-                                    ->select('item_stock_id', DB::raw('sum(flight_hour) as fh'), DB::raw('sum(block_hour) as bh'), DB::raw('sum(flight_cycle) as fc'), DB::raw('sum(flight_event) as fe'))
-                                    ->groupBy('item_stock_id')
+            $data = ItemStock::with(['item:id,code,name',
+                                    'warehouse',
+                                    'item_stock_initial_aging',
+                                    'item_stock_agings'])
                                     ->get();
 
             return Datatables::of($data)
                 ->addColumn('current_position', function($row){
-                    if ($row->item_stock->warehouse->is_aircraft == 1) {
-                        return '<strong>Aircraft:</strong><br>' . $row->item_stock->warehouse->aircraft_configuration->registration_number . '<br>' . $row->item_stock->warehouse->aircraft_configuration->serial_number;
+                    if ($row->warehouse->is_aircraft == 1) {
+                        return '<strong>Aircraft:</strong><br>' . $row->warehouse->aircraft_configuration->registration_number . '<br>' . $row->warehouse->aircraft_configuration->serial_number;
                     } 
                     else {
-                        return $row->item_stock->warehouse->name;
+                        return $row->warehouse->name;
                     }
                 })
                 ->addColumn('initial_status', function($row) {
-                    return $row->item_stock->initial_flight_hour . ' FH<br>' . $row->item_stock->initial_block_hour . ' BH<br>' . $row->item_stock->initial_flight_cycle . ' FC<br>' . $row->item_stock->initial_flight_event . ' Evt(s)';
+                    return $row->item_stock_initial_aging->initial_flight_hour . ' FH<br>' . $row->item_stock_initial_aging->initial_block_hour . ' BH<br>' . $row->item_stock_initial_aging->initial_flight_cycle . ' FC<br>' . $row->item_stock_initial_aging->initial_flight_event . ' Evt(s)';
                 })
                 ->addColumn('in_period_aging', function($row) {
-                    return number_format($row->fh, 2, '.', '') . ' FH<br>' . 
-                    number_format($row->bh, 2, '.', '') . ' BH<br>' . 
-                    $row->fc . ' FC<br>' . 
-                    $row->fe . ' Evt(s)';
+                    return number_format($row->item_stock_agings->sum('flight_hour'), 2, '.', '') . ' FH<br>' . 
+                    number_format($row->item_stock_agings->sum('block_hour'), 2, '.', '') . ' BH<br>' . 
+                    $row->item_stock_agings->sum('flight_cycle') . ' FC<br>' . 
+                    $row->item_stock_agings->sum('flight_event') . ' Evt(s)';
                 })
                 ->addColumn('current_status', function($row) {
-                    return '<strong>' . number_format(($row->item_stock->initial_flight_hour + $row->fh), 2, '.', '') . '</strong> FH<br>' . 
-                    '<strong>' . number_format(($row->item_stock->initial_block_hour + $row->bh), 2, '.', '') . '</strong> BH<br>' . 
-                    '<strong>' . ($row->item_stock->initial_flight_cycle + $row->fc) . '</strong> FC<br>' . 
-                    '<strong>' . ($row->item_stock->initial_flight_event + $row->fe) . '</strong> Evt(s)';
+                    return '<strong>' . number_format(($row->item_stock_initial_aging->initial_flight_hour + $row->item_stock_agings->sum('flight_hour')), 2, '.', '') . '</strong> FH<br>' . 
+                    '<strong>' . number_format(($row->item_stock_initial_aging->initial_block_hour + $row->item_stock_agings->sum('block_hour')), 2, '.', '') . '</strong> BH<br>' . 
+                    '<strong>' . ($row->item_stock_initial_aging->initial_flight_cycle + $row->item_stock_agings->sum('flight_cycle')) . '</strong> FC<br>' . 
+                    '<strong>' . ($row->item_stock_initial_aging->initial_flight_event + $row->item_stock_agings->sum('flight_event')) . '</strong> Evt(s)';
                 })
                 ->addColumn('month_since_start', function($row) {
                     $now = Carbon::now();
-                    if($row->item_stock->initial_start_date) {
-                        $start = Carbon::parse($row->item_stock->initial_start_date);
+                    $diff = null;
+                    if($row->item_stock_initial_aging->initial_start_date) {
+                        $start = Carbon::parse($row->item_stock_initial_aging->initial_start_date);
 
                         $diff = $now->diffInMonths($start);
                     }
-                    else if($row->item_stock->warehouse->aircraft_configuration) {
-                        if($row->item_stock->warehouse->aircraft_configuration->initial_start_date) {
-                            $start = Carbon::parse($row->item_stock->warehouse->aircraft_configuration->initial_start_date);
+                    else if($row->warehouse->aircraft_configuration) {
+                        if($row->warehouse->aircraft_configuration->initial_start_date) {
+                            $start = Carbon::parse($row->warehouse->aircraft_configuration->initial_start_date);
 
                             $diff = $now->diffInMonths($start);
                         }
@@ -74,7 +76,7 @@ class ItemStockAgingController extends Controller
                     return '<strong>' . $diff . '</strong> Month(s)';
                 })
                 ->addColumn('expired_date', function($row) {
-                    return $row->item_stock->expired_date;
+                    return $row->item_stock_initial_aging->expired_date;
                 })
                 ->escapeColumns([])
                 ->make(true);

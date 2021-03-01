@@ -180,7 +180,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
                 $parent_coding = null;
             }
             else {
-                $parent_coding = null;
+                $parent_coding = $request->parent_coding;
             }
         }
         else {

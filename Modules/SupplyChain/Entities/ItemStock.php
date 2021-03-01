@@ -69,6 +69,11 @@ class ItemStock extends Model
         return $this->hasOne(\Modules\PPC\Entities\ItemStockInitialAging::class, 'item_stock_id');
     }
 
+    public function item_stock_agings()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\ItemStockAging::class, 'item_stock_id');
+    }
+
     public function item_group()
     {
         return $this->belongsTo(\Modules\SupplyChain\Entities\ItemStock::class, 'parent_coding', 'coding');
