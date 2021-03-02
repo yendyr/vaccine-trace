@@ -38,9 +38,10 @@ class StockMonitoringController extends Controller
                 })
                 ->addColumn('parent', function($row){
                     if ($row->item_group) {
-                        return $row->item_group->item->code . ' | ' . 
-                        $row->item_group->item->name . ' | ' .
-                        $row->item_group->alias_name . ' | ';
+                        return 'P/N: ' . $row->item_group->item->code . '<br>' . 
+                        'S/N: ' . $row->item_group->serial_number . '<br>' .
+                        'Name: ' . $row->item_group->item->name . '<br>' .
+                        'Alias: ' . $row->item_group->alias_name . '<br>';
                     } 
                     else {
                         return "<span class='text-muted font-italic'>Not Set</span>";

@@ -6,7 +6,7 @@
                     'tableId' => 'stock-monitoring-table'])
 
         @slot('tableContent')
-            <th>Warehouse</th>
+            <th>Warehouse / Location</th>
             <th>Detailed Location</th>
             <th>Item Part Number</th>
             <th>Item Name</th>
