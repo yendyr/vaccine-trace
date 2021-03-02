@@ -97,5 +97,25 @@ class SupplyChainMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        Menu::create([
+            'menu_link' => 'supplychain/stock-monitoring',
+            'menu_text' => 'Stock Monitoring',
+            'menu_route' => 'supplychain.stock-monitoring.index',
+            'menu_icon' => 'fa-hdd-o',
+            'menu_class' => 'Modules\SupplyChain\Entities\ItemStock',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['supplychain/stock-monitoring', 'supplychain/stock-monitoring/*']),
+            'group' => 'Supply Chain',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }
