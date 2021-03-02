@@ -14,8 +14,8 @@ $(document).ready(function () {
             url: "{{ route('supplychain.stock-monitoring.index') }}",
         },
         columns: [
-            { data: 'warehouse.name' },
-            { data: 'detailed_item_location' },
+            { data: 'warehouse' },
+            { data: 'detailed_item_location', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'item.code' },
             { data: 'item.name' },
             { data: 'serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
