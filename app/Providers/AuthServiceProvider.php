@@ -146,6 +146,9 @@ use Modules\SupplyChain\Entities\ItemCategory;
 use Modules\SupplyChain\Policies\ItemPolicy;
 use Modules\SupplyChain\Entities\Item;
 
+use Modules\SupplyChain\Policies\ItemStockPolicy;
+use Modules\SupplyChain\Entities\ItemStock;
+
 use Modules\Accounting\Policies\ChartOfAccountClassPolicy;
 use Modules\Accounting\Entities\ChartOfAccountClass;
 
@@ -235,6 +238,7 @@ class AuthServiceProvider extends ServiceProvider
         Unit::class => UnitPolicy::class,
         ItemCategory::class => ItemCategoryPolicy::class,
         Item::class => ItemPolicy::class,
+        ItemStock::class => ItemStockPolicy::class,
 
         ChartOfAccountClass::class => ChartOfAccountClassPolicy::class,
         ChartOfAccount::class => ChartOfAccountPolicy::class,

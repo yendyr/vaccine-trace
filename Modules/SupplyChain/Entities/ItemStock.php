@@ -19,6 +19,7 @@ class ItemStock extends Model
 
         'coding',
         'warehouse_id',
+        'detailed_item_location',
         'inbound_mutation_id',
         'item_id',
         'serial_number',
@@ -26,6 +27,10 @@ class ItemStock extends Model
         'description',
         'highlight',
         'parent_coding',
+
+        'quantity',
+        'used_quantity',
+        'loaned_quantity',
         
         'status',
         'created_by',

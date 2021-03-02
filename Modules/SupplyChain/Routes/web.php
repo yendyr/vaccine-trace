@@ -37,5 +37,7 @@ Route::name('supplychain.')->group(function () {
         Route::name('item.')->group(function() {
             Route::get('supplychain/item/select2', 'ItemController@select2')->name('select2');
         });
+
+        Route::resource('/stock-monitoring', 'StockMonitoringController');
     });
 });
