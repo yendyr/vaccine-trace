@@ -158,19 +158,19 @@
                                     <div class="row">
                                         <div class="col">
                                             <label>Initial Flight Hour:</label>
-                                            <input type="number" min="0" class="form-control @error('initial_flight_hour') is-invalid @enderror" name="initial_flight_hour" id="initial_flight_hour">
+                                            <input type="number" min="0" value="0" class="form-control @error('initial_flight_hour') is-invalid @enderror" name="initial_flight_hour" id="initial_flight_hour">
                                         </div>
                                         <div class="col">
                                             <label>Initial Block Hour:</label>
-                                            <input type="number" min="0" class="form-control @error('initial_block_hour') is-invalid @enderror" name="initial_block_hour" id="initial_block_hour">
+                                            <input type="number" min="0" value="0" class="form-control @error('initial_block_hour') is-invalid @enderror" name="initial_block_hour" id="initial_block_hour">
                                         </div>
                                         <div class="col">
                                             <label>Initial Flight Cycle:</label>
-                                            <input type="number" min="0" class="form-control @error('initial_flight_cycle') is-invalid @enderror" name="initial_flight_cycle" id="initial_flight_cycle">
+                                            <input type="number" min="0" value="0" class="form-control @error('initial_flight_cycle') is-invalid @enderror" name="initial_flight_cycle" id="initial_flight_cycle">
                                         </div>
                                         <div class="col">
                                             <label>Initial Flight Event:</label>
-                                            <input type="number" min="0" class="form-control @error('initial_flight_event') is-invalid @enderror" name="initial_flight_event" id="initial_flight_event">
+                                            <input type="number" min="0" value="0" class="form-control @error('initial_flight_event') is-invalid @enderror" name="initial_flight_event" id="initial_flight_event">
                                         </div>
                                         
                                         <div class="col-md-4">
