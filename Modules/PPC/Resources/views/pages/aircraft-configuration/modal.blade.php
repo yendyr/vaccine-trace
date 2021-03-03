@@ -178,8 +178,9 @@
                                             <label>Initial Operation Date:</label>
                                             <div class="input-group date">
                                                 <span class="input-group-addon">Date</span>
-                                                <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" readonly="true" required>
+                                                <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" readonly="true">
                                             </div>
+                                            <div class="invalid-feedback-initial_start_date text-danger font-italic"></div>
                                             </div>
                                         </div>
                                     </div>
