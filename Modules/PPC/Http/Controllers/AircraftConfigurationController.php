@@ -105,6 +105,7 @@ class AircraftConfigurationController extends Controller
             'serial_number' => ['required', 'max:30'],
             'aircraft_type_id' => ['required', 'max:30'],
             'maintenance_program_id' => ['required', 'max:30'],
+            'initial_start_date' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -282,6 +283,7 @@ class AircraftConfigurationController extends Controller
                 'serial_number' => ['required', 'max:30'],
                 'aircraft_type_id' => ['required', 'max:30'],
                 'maintenance_program_id' => ['required', 'max:30'],
+                'initial_start_date' => ['required', 'max:30'],
             ]);
 
             $maintenanceProgramCheck = MaintenanceProgram::where('id', $request->maintenance_program_id)->first();
