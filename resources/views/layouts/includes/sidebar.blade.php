@@ -13,20 +13,23 @@
 
                     <input onchange="getPict(this)" style="display: none;" id="file-input" type="file" name="upload_img"/>
                 </div>
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
-                    <span class="block m-t-xs font-bold">{{ Auth::user()->username }}</span>
-                    <span><small>{{ Auth::user()->name }}</small><b class="caret"></b></span>
-                </a>
-                <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="changePassword()">Change Password</a></li>
-                    {{-- <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li> --}}
-                    <li class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">Logout</a><form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form></li>
-                </ul>
+
+                <span class="block m-t-xs font-bold text-white">{{ Auth::user()->username }}</span>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span><small>{{ Auth::user()->name }}</small>&nbsp;<b class="caret"></b></span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="changePassword()">Change Password</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">Logout</a><form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form></li>
+                    </ul>
+                </div>
+                
             </div>
             <div class="logo-element">
                 <img class="absolute2" src="{{URL::asset('theme/img/yems/asset-1.png')}}" alt="">
