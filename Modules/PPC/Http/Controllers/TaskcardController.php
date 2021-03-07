@@ -275,6 +275,34 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
+        if ($request->threshold_daily_unit) {
+            $threshold_daily_unit = $request->threshold_daily_unit;
+        } 
+        else {
+            $threshold_daily_unit = 'Year';
+        }
+
+        if ($request->repeat_daily_unit) {
+            $repeat_daily_unit = $request->repeat_daily_unit;
+        } 
+        else {
+            $repeat_daily_unit = 'Year';
+        }
+
+        if ($request->scheduled_priority) {
+            $scheduled_priority = $request->scheduled_priority;
+        } 
+        else {
+            $scheduled_priority = 'As Scheduled';
+        }
+
+        if ($request->recurrence) {
+            $recurrence = $request->recurrence;
+        } 
+        else {
+            $recurrence = 'As Required';
+        }
+
         $threshold_date = $request->threshold_date;
         
         $repeat_date = $request->repeat_date;
@@ -292,12 +320,12 @@ class TaskcardController extends Controller
             'threshold_flight_hour' => $request->threshold_flight_hour,
             'threshold_flight_cycle' => $request->threshold_flight_cycle,
             'threshold_daily' => $request->threshold_daily,
-            'threshold_daily_unit' => $request->threshold_daily_unit,
+            'threshold_daily_unit' => $threshold_daily_unit,
             'threshold_date' => $threshold_date,
             'repeat_flight_hour' => $request->repeat_flight_hour,
             'repeat_flight_cycle' => $request->repeat_flight_cycle,
             'repeat_daily' => $request->repeat_daily,
-            'repeat_daily_unit' => $request->repeat_daily_unit,
+            'repeat_daily_unit' => $repeat_daily_unit,
             'repeat_date' => $repeat_date,
             'interval_control_method' => $request->interval_control_method,
 
@@ -311,8 +339,8 @@ class TaskcardController extends Controller
             'source' => $request->source,
             'reference' => $request->reference,
             'file_attachment' => $request->file_attachment,
-            'scheduled_priority' => $request->scheduled_priority,
-            'recurrence' => $request->recurrence,
+            'scheduled_priority' => $scheduled_priority,
+            'recurrence' => $recurrence,
 
             'owned_by' => $request->user()->company_id,
             'status' => 1,
@@ -438,6 +466,34 @@ class TaskcardController extends Controller
             $status = 0;
         }
 
+        if ($request->threshold_daily_unit) {
+            $threshold_daily_unit = $request->threshold_daily_unit;
+        } 
+        else {
+            $threshold_daily_unit = 'Year';
+        }
+
+        if ($request->repeat_daily_unit) {
+            $repeat_daily_unit = $request->repeat_daily_unit;
+        } 
+        else {
+            $repeat_daily_unit = 'Year';
+        }
+
+        if ($request->scheduled_priority) {
+            $scheduled_priority = $request->scheduled_priority;
+        } 
+        else {
+            $scheduled_priority = 'As Scheduled';
+        }
+
+        if ($request->recurrence) {
+            $recurrence = $request->recurrence;
+        } 
+        else {
+            $recurrence = 'As Required';
+        }
+
         $threshold_date = $request->threshold_date;
         
         $repeat_date = $request->repeat_date;
@@ -456,12 +512,12 @@ class TaskcardController extends Controller
                 'threshold_flight_hour' => $request->threshold_flight_hour,
                 'threshold_flight_cycle' => $request->threshold_flight_cycle,
                 'threshold_daily' => $request->threshold_daily,
-                'threshold_daily_unit' => $request->threshold_daily_unit,
+                'threshold_daily_unit' => $threshold_daily_unit,
                 'threshold_date' => $threshold_date,
                 'repeat_flight_hour' => $request->repeat_flight_hour,
                 'repeat_flight_cycle' => $request->repeat_flight_cycle,
                 'repeat_daily' => $request->repeat_daily,
-                'repeat_daily_unit' => $request->repeat_daily_unit,
+                'repeat_daily_unit' => $repeat_daily_unit,
                 'repeat_date' => $repeat_date,
                 'interval_control_method' => $request->interval_control_method,
 
@@ -475,8 +531,8 @@ class TaskcardController extends Controller
                 'source' => $request->source,
                 'reference' => $request->reference,
                 'file_attachment' => $request->file_attachment,
-                'scheduled_priority' => $request->scheduled_priority,
-                'recurrence' => $request->recurrence,
+                'scheduled_priority' => $scheduled_priority,
+                'recurrence' => $recurrence,
 
                 'status' => 1,
                 'updated_by' => $request->user()->id,

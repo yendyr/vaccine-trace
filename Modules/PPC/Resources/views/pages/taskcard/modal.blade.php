@@ -126,7 +126,7 @@
                                                                                 <option value="Year">Year</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="invalid-feedback-threshold_daily text-danger font-italic"></div>
+                                                                        <div class="invalid-feedback-threshold_daily_unit text-danger font-italic"></div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">
@@ -173,7 +173,7 @@
                                                                                 <option value="Year">Year</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="invalid-feedback-repeat_daily text-danger font-italic"></div>
+                                                                        <div class="invalid-feedback-repeat_daily_unit text-danger font-italic"></div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">
