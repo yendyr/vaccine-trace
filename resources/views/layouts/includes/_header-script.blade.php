@@ -1,5 +1,6 @@
 <link rel="icon" type="image/png" href="{{URL::asset('/ico.png')}}">
 
+<!-- Main Bootstrap Engine -->
 <link href="{{URL::asset('theme/css/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
 
@@ -18,7 +19,6 @@
 <link href="{{URL::asset('theme/css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 
 <!-- Pretty Checkbox -->
-{{-- <link href="{{URL::asset('theme/css/plugins/switchery/switchery.css')}}" rel="stylesheet"> --}}
 <link href="{{URL::asset('theme/css/plugins/pretty-checkbox/pretty-checkbox.min.css')}}" rel="stylesheet">
 
 <!-- Inspinia Theming -->

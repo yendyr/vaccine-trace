@@ -1,9 +1,7 @@
-<!-- Mainly scripts -->
-<script src="{{URL::asset('theme/js/jquery-3.5.2.min.js')}}"></script>
+<!-- jQuery -->
+<script src="{{URL::asset('theme/js/jquery.min.js')}}"></script>
 
-<!-- jQuery UI -->
-<script src="{{URL::asset('theme/js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-
+<!-- Main Bootstrap Engine -->
 <script src="{{URL::asset('theme/js/popper.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/bootstrap.min.js')}}"></script>
 
@@ -13,6 +11,9 @@
 <!-- Custom and plugin javascript -->
 <script src="{{URL::asset('theme/js/inspinia.js')}}"></script>
 <script src="{{URL::asset('theme/js/plugins/pace/pace.min.js')}}"></script>
+
+<!-- jQuery UI -->
+<script src="{{URL::asset('theme/js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 
 <!-- Sweet Alert -->
 <script src="{{URL::asset('theme/js/plugins/sweetalert/sweetalert.min.js')}}"></script>
