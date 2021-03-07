@@ -38,6 +38,6 @@ class CreateStockMutationApprovalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock_mutations');
+        Schema::dropIfExists('stock_mutation_approvals');
     }
 }

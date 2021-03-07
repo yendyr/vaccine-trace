@@ -8,10 +8,10 @@
 </div>
 <ul class="nav navbar-top-links navbar-right">
     <li>
-        <span class="m-r-sm text-muted welcome-message">Welcome to SmartAircraft.ID</span>
+        <span class="m-r-sm welcome-message">Welcome to SmartAircraft.ID</span>
     </li>
     <li>
-        <span class="m-r-sm text-muted welcome-message">
+        <span class="m-r-sm welcome-message">
             <img src={{URL::asset('/Logo-Web.png')}} height="40px">
         </span>
     </li>
