@@ -1,11 +1,5 @@
 @extends('layouts.master')
 
-@push('header-scripts')
-    <style>
-
-    </style>
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-lg-12">

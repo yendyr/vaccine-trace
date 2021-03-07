@@ -1,39 +1,10 @@
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
+
 @push('footer-scripts')
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 
     <script>
-        var tableWg = $('#workgroup-table').DataTable({
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            language: {
-                emptyTable: "No data existed",
-            },
-            fixedColumns:   {
-                leftColumns: 0,
-                rightColumns: 1
-            },
-            selected: true,
-            ajax: {
-                url: "/hr/workgroup",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'workgroup', name: 'workgroup' },
-                { data: 'workname', name: 'workname', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'shiftstatus.content', name: 'shiftstatus.content' },
-                { data: 'shiftrolling', name: 'shiftrolling', defaultContent: "<p class='text-muted'>none</p>"},
-                { data: 'rangerolling.content', name: 'rangerolling', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'roundtime.content', name: 'roundtime', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'workfinger.content', name: 'workfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'restfinger.content', name: 'restfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false },
-            ]
-        });
-
         function workgroupSetShift(data){
             if (data.value == 'N'){
                 $('#fshiftrolling').val(1);
@@ -49,6 +20,41 @@
         }
 
         $(document).ready(function () {
+            var actionUrl = '/hr/workgroup';
+            var tableId = '#workgroup-table';
+            var inputFormId = '#workgroupForm';
+            var tableWg = $('#workgroup-table').DataTable({
+                processing: true,
+                serverSide: false,
+                searchDelay: 1000,
+                language: {
+                    emptyTable: "No data existed",
+                },
+                fixedColumns:   {
+                    leftColumns: 0,
+                    rightColumns: 1
+                },
+                selected: true,
+                ajax: {
+                    url: "/hr/workgroup",
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'workgroup', name: 'workgroup' },
+                    { data: 'workname', name: 'workname', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'shiftstatus.content', name: 'shiftstatus.content' },
+                    { data: 'shiftrolling', name: 'shiftrolling', defaultContent: "<p class='text-muted'>none</p>"},
+                    { data: 'rangerolling.content', name: 'rangerolling', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'roundtime.content', name: 'roundtime', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'workfinger.content', name: 'workfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'restfinger.content', name: 'restfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false },
+                ]
+            });
+
             //filter for workgroup detail
             $('#workgroup-table tbody').on('click', 'tr', function () {
                 //make selected row effect
@@ -72,13 +78,11 @@
                 $('#workgroupForm').trigger("reset");
                 $("#workgroupModal").find('#modalTitle').html("Add new Working Group data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $('#fshiftrolling').attr('readonly', false);
-                $('#frangerolling').attr('readonly', false);
-                $('#fworkgroup').attr('disabled', false);
+                $('#workgroupForm').find('#fshiftrolling').attr('readonly', false);
+                $('#workgroupForm').find('#frangerolling').attr('readonly', false);
+                $('#workgroupForm').find('#fworkgroup').attr('disabled', false);
 
-                $('#workgroupModal').modal('show');
-                $("input[value='patch']").remove();
-                $('#workgroupForm').attr('action', '/hr/workgroup');
+                showCreateModal ('Add New Workgroup', inputFormId, actionUrl, '#workgroupModal');
             });
 
             $('#workgroup-table').on('click', '.editBtn', function () {
@@ -86,7 +90,7 @@
                 $('#workgroupModal').find('#modalTitle').html("Update Working Group data");
                 let tr = $(this).closest('tr');
                 let data = $('#workgroup-table').DataTable().row(tr).data();
-                console.log(data);
+
                 $('<input>').attr({
                     type: 'hidden',
                     name: '_method',
@@ -138,48 +142,10 @@
                 $('#workgroupModal').modal('show');
             });
 
-            $('#workgroupForm').on('submit', function (event) {
-                event.preventDefault();
-                let url_action = $(this).attr('action');
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: url_action,
-                    method: "POST",
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    beforeSend:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'start' );
-                        $('[class^="invalid-feedback-"]').html('');
-                        $("#workgroupForm").find('#saveBtn').prop('disabled', true);
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            $("#ibox-workgroup").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-workgroup").find('#form_result').html(data.success);
-                        }
-                        $('#workgroupModal').modal('hide');
-                        tableWg.ajax.reload();
-                    },
-                    error:function(data){
-                        let errors = data.responseJSON.errors;
-                        if (errors) {
-                            $.each(errors, function (index, value) {
-                                $('div.invalid-feedback-'+index).html(value);
-                            })
-                        }
-                    },
-                    complete:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'stop' );
-                        $("#workgroupForm").find('#saveBtn').prop('disabled', false);
-                    }
-                });
+            $(inputFormId).on('submit', function (event) {
+                submitButtonProcessDynamic (tableId, inputFormId, '#workgroupModal');
             });
+
         });
 
     </script>

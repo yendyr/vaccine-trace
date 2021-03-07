@@ -1,35 +1,9 @@
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
+
 @push('footer-scripts')
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
     <script>
-        $('#workgroup-detail-table').DataTable({
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            language: {
-                emptyTable: "No data existed for selected workgroup",
-            },
-            height: 180,
-            ajax: {
-                url: "/hr/workgroup-detail",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'workgroup.value', name: 'workgroup.value' },
-                { data: 'daycode.day', name: 'daycode.day' },
-                { data: 'shiftno', name: 'shiftno' },
-                { data: 'whtimestart', name: 'whtimestart', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'whtimefinish', name: 'whtimefinish', defaultContent: "<p class='text-muted'>none</p>"},
-                { data: 'rstimestart', name: 'rstimestart', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'rstimefinish', name: 'rstimefinish', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'stdhours.content', name: 'stdhours', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'minhours.content', name: 'minhours', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'worktype.content', name: 'worktype', },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false },
-            ]
-        });
-
         function workgroupDetailGetShift(workgroup){   //getShift when workgroup changed
             let wgcode = workgroup.value;
 
@@ -49,6 +23,39 @@
         }
 
         $(document).ready(function () {
+            var actionUrl = '/hr/workgroup-detail';
+            var tableDetailId = '#workgroup-detail-table';
+            var inputFormDetailId = '#workgroupDetailForm';
+
+            $('#workgroup-detail-table').DataTable({
+                processing: true,
+                serverSide: false,
+                searchDelay: 1000,
+                language: {
+                    emptyTable: "No data existed for selected workgroup",
+                },
+                height: 180,
+                ajax: {
+                    url: "/hr/workgroup-detail",
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'workgroup.value', name: 'workgroup.value' },
+                    { data: 'daycode.day', name: 'daycode.day' },
+                    { data: 'shiftno', name: 'shiftno' },
+                    { data: 'whtimestart', name: 'whtimestart', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'whtimefinish', name: 'whtimefinish', defaultContent: "<p class='text-muted'>none</p>"},
+                    { data: 'rstimestart', name: 'rstimestart', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'rstimefinish', name: 'rstimefinish', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'stdhours.content', name: 'stdhours', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'minhours.content', name: 'minhours', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'worktype.content', name: 'worktype', },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false },
+                ]
+            });
+
             $('.select2_wgcode').select2({
                 theme: 'bootstrap4',
                 placeholder: 'choose workgroup',
@@ -69,10 +76,7 @@
                 $("#fshiftno").attr("disabled", false);
                 $(".select2_wgcode").val(null).trigger('change');
                 $(".select2_shiftno").val(null).trigger('change');
-
-                $('#workgroupDetailModal').modal('show');
-                $("input[value='patch']").remove();
-                $('#workgroupDetailForm').attr('action', '/hr/workgroup-detail');
+                showCreateModal ('Add New Workgroup Detail', inputFormDetailId, actionUrl, '#workgroupDetailModal');
             });
 
             $('#workgroup-detail-table').on('click', '.editBtn', function () {
@@ -129,6 +133,10 @@
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
                 $('#workgroupDetailModal').modal('show');
             });
+
+            // $(inputDetailFormId).on('submit', function (event) {
+            //     submitButtonProcessDynamic (tableDetailId, inputFormDetailId, '#workgroupDetailModal');
+            // });
 
             $('#workgroupDetailForm').on('submit', function (event) {
                 event.preventDefault();

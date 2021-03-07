@@ -1,5 +1,4 @@
 @extends('layouts.master')
-
 @push('header-scripts')
     <style>
         .select2-container.select2-container--default.select2-container--open {
@@ -20,131 +19,54 @@
         }
     </style>
 @endpush
-
-@section('page-heading')
-        @can('create', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
-            <button type="button" id="create-wg-detail" class="btn btn-primary btn-lg" style="margin-left: 10px;"><i class="fa fa-plus-square"></i> Add New Work Group Detail</button>
-        @endcan
-        @can('create', \Modules\HumanResources\Entities\WorkingGroup::class)
-            <button type="button" id="create-wg" class="btn btn-info btn-lg"><i class="fa fa-plus-square"></i> Add New Work Group</button>
-        @endcan
-@endsection
-
 @section('content')
-
-    @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
-        @component('components.delete-modal', ['name' => 'Working Group data'])
-        @endcomponent
-        @include('humanresources::components.workgroup.modal')
-    @endcan
-    @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
-        @component('components.delete-modal', ['name' => 'Working Group Detail data'])
-        @endcomponent
-        @include('humanresources::components.workgroup-detail.modal')
-    @endcan
-
     <div class="row">
         <div class="col-lg-12">
             <div class="tabs-container">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li><a class="nav-link active" data-toggle="tab" href="#workgroup">Working Group</a></li>
-                    @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
-                        <li><a class="nav-link" data-toggle="tab" href="#workgroup-detail">Working Group Detail</a></li>
-                    @endcan
+                <ul class="nav nav-tabs" id="myTab">
+                    <li>
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-header">
+                            <i class="fa fa-briefcase fa-2x text-warning"></i>&nbsp;Workgroup
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-detail">
+                            <i class="fa fa-plus fa-2x text-warning"></i>&nbsp;Detail Workgroup
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" id="workgroup" class="tab-pane active">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h4 class="text-center">Working Group Datalist</h4>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-footer" id="ibox-workgroup">
-                                <div class="table-responsive">
-                                    <table id="workgroup-table" class="table table-hover text-center display nowrap" width="100%">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>Work Group</th>
-                                            <th>Work Name</th>
-                                            <th>Shift Status</th>
-                                            <th>Shift Rolling</th>
-                                            <th>Range Rolling</th>
-                                            <th>Round Time</th>
-                                            <th>Work Finger</th>
-                                            <th>Rest Finger</th>
-                                            <th>Remark</th>
-                                            <th>Status</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                        <tfoot>
-                                        <tr></tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('humanresources::pages.workgroup.content')
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="workgroup-detail" class="tab-pane">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h4 class="text-center">Working Group Detail Datalist</h4>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-footer" id="ibox-workgroup-detail">
-                                <div class="table-responsive">
-                                    <table id="workgroup-detail-table" class="table table-hover text-center display nowrap" width="100%">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>WorkGroup</th>
-                                            <th>Day Code</th>
-                                            <th>Shift No.</th>
-                                            <th>Workhour Start</th>
-                                            <th>Workhour Finish</th>
-                                            <th>Rest Time Start</th>
-                                            <th>Rest Time Finish</th>
-                                            <th>Standard Hours</th>
-                                            <th>Minimum Hours</th>
-                                            <th>Working Type</th>
-                                            <th>Status</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                        <tfoot>
-                                        <tr></tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('humanresources::pages.workgroup.detail-content')
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    @can('viewAny', \Modules\HumanResources\Entities\WorkingGroup::class)
-        @include('humanresources::components.workgroup._script')
-
-        @can('viewAny', \Modules\HumanResources\Entities\WorkingGroupDetail::class)
-            @include('humanresources::components.workgroup-detail._script')
-        @endcan
-    @endcan
-
 @endsection
+
+@push('footer-scripts')
+    <script>
+        $(document).ready(function(){
+            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if(activeTab){
+                $('#myTab a[href="' + activeTab + '"]').tab('show');
+            }
+        });
+    </script>
+@endpush

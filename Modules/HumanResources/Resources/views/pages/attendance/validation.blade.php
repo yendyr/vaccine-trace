@@ -23,7 +23,7 @@
 
 @section('content')
     @can('viewAny', \Modules\HumanResources\Entities\Attendance::class)
-        @include('humanresources::components.attendance.modal')
+        @include('humanresources::pages.attendance.modal')
         @component('components.delete-modal', ['name' => 'Attendance data'])
         @endcomponent
     @endcan

@@ -1,3 +1,6 @@
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
+
 @push('header-scripts')
     <style>
         .select2-container.select2-container--default.select2-container--open {
@@ -12,78 +15,82 @@
 
 @push('footer-scripts')
     <script>
-        var tableAttd = $('#attendance-table').DataTable({
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            language: {
-                emptyTable: "No data existed for Attendance",
-            },
-            height: 180,
-            ajax: {
-                url: "/hr/attendance",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'empid', name: 'empid' },
-                { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action' },
-            ]
-        });
-        var tableAttdValidate = $('#validation-in-table').DataTable({
-            processing: true,
-            serverSide: false,
-            scrollX: true,
-            language: {
-                emptyTable: "No data existed for Attendance",
-            },
-            height: 180,
-            ajax: {
-                url: "/hr/attendance/datatable?param=in",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'empid', name: 'empid' },
-                { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-            ]
-        });
-        var tableAttdValidate = $('#validation-out-table').DataTable({
-            processing: true,
-            serverSide: false,
-            scrollX: true,
-            language: {
-                emptyTable: "No data existed for Attendance",
-            },
-            height: 180,
-            ajax: {
-                url: "/hr/attendance/datatable?param=out",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'empid', name: 'empid' },
-                { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-            ]
-        });
-
         $(document).ready(function () {
+            var actionUrl = '/hr/attendance';
+            var tableId = '#attendance-table';
+            var inputFormId = '#attendanceForm';
+
+            var tableAttd = $('#attendance-table').DataTable({
+                processing: true,
+                serverSide: false,
+                searchDelay: 1500,
+                language: {
+                    emptyTable: "No data existed for Attendance",
+                },
+                height: 180,
+                ajax: {
+                    url: "/hr/attendance",
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'empid', name: 'empid' },
+                    { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action' },
+                ]
+            });
+            var tableAttdValidate = $('#validation-in-table').DataTable({
+                processing: true,
+                serverSide: false,
+                scrollX: true,
+                language: {
+                    emptyTable: "No data existed for Attendance",
+                },
+                height: 180,
+                ajax: {
+                    url: "/hr/attendance/datatable?param=in",
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'empid', name: 'empid' },
+                    { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                ]
+            });
+            var tableAttdValidate = $('#validation-out-table').DataTable({
+                processing: true,
+                serverSide: false,
+                scrollX: true,
+                language: {
+                    emptyTable: "No data existed for Attendance",
+                },
+                height: 180,
+                ajax: {
+                    url: "/hr/attendance/datatable?param=out",
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'empid', name: 'empid' },
+                    { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                ]
+            });
+
             $('.select2_attdtype').select2({
                 theme: 'bootstrap4',
                 placeholder: 'choose Attendance type',
@@ -168,9 +175,7 @@
                 $('#fempidAttendance').attr('disabled', false);
                 $('#fattdtype').val(null).trigger('change');
                 $('#fattdtype').attr('disabled', false);
-                $("input[value='patch']").remove();
-                $('#attendanceModal').modal('show');
-                $('#attendanceForm').attr('action', '/hr/attendance');
+                showCreateModal ('Add New Attendance', inputFormId, actionUrl, '#attendanceModal');
             });
 
             $('#attendance-table').on('click', '.editBtn', function () {
@@ -263,43 +268,7 @@
                 $('#deleteModal').modal('show');
                 $('#delete-form').attr('action', "/hr/attendance/"+ data.id);
             });
-            $('#delete-form').on('submit', function (e) {
-                e.preventDefault();
-                let url_action = $(this).attr('action');
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: url_action,
-                    type: "DELETE", //bisa method
-                    beforeSend:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'start' );
-                        $("#delete-form").find('#delete-button').prop('disabled', true);
-                    },
-                    error: function(data){
-                        if (data.error) {
-                            $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-danger fade show font-weight-bold');
-                            $("#ibox-attendance").find('#form_result').html(data.error);
-                        }
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            $("#ibox-attendance").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-attendance").find('#form_result').html(data.success);
-                        }
-                        $('#deleteModal').modal('hide');
-                        $('#attendance-table').DataTable().ajax.reload();
-                    },
-                    complete: function(data) {
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'stop' );
-                        $("#delete-form").find('#delete-button').prop('disabled', false);
-                    }
-                });
-            });
+            deleteButtonProcess (tableAttd, tableId, actionUrl);
 
         });
     </script>
