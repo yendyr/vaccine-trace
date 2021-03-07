@@ -17,7 +17,7 @@
                 <span class="block m-t-xs font-bold text-white">{{ Auth::user()->username }}</span>
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span><small>{{ Auth::user()->name }}</small><b class="caret"></b></span>
+                        <span><small>{{ Auth::user()->name }}</small>&nbsp;<b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs" aria-labelledby="dropdownMenuLink">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
