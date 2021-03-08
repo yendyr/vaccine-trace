@@ -51,6 +51,11 @@ class StockMutation extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\Warehouse::class, 'warehouse_destination');
     }
 
+    public function stock_mutation_details()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'stock_mutation_id');
+    }
+
     public function item_stocks()
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'inbound_mutation_id');
@@ -70,6 +75,7 @@ class StockMutation extends Model
         parent::boot();
 
         static::deleting(function($StockMutation) {
+            $StockMutation->stock_mutation_details()->delete();
             $StockMutation->item_stocks()->delete();
             $StockMutation->outbond_mutation_details()->delete();
             $StockMutation->approvals()->delete(); 
