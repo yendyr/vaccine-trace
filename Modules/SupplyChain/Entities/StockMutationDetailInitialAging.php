@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PPC\Entities;
+namespace Modules\SupplyChain\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
