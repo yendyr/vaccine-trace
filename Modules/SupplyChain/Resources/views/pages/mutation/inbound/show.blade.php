@@ -3,23 +3,23 @@
 @section('content')
     <div class="row m-b m-t">
         <div class="col-md-2 d-flex align-items-start">
-            <img src="{{ URL::asset('assets/aircraft-component.png') }}" style="width: 80%; height: auto;">
+            <i class="fa fa-cloud-download fa-fw fa-5x text-info"></i>
         </div>
-        <div class="col-md-2">   
-            <p  class="m-t-none m-b-none">Aircraft Registration:</p>         
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->registration_number ?? '' }}</h2>
+        <div class="col">   
+            <p  class="m-t-none m-b-none">Transaction Code:</p>         
+            <h3 class="m-t-none font-bold">{{ $MutationInbound->code ?? '' }}</h3>
         </div>
-        <div class="col-md-2">
-            <p  class="m-t-none m-b-none">Aircraft Serial Number:</p>
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->serial_number ?? '' }}</h2>
+        <div class="col">
+            <p  class="m-t-none m-b-none">Transaction Date:</p>
+            <h3 class="m-t-none font-bold">{{ Carbon\Carbon::parse($MutationInbound->transaction_date)->format('Y-F-d') ?? '-' }}</h3>
         </div>
-        <div class="col-md-3">
-            <p  class="m-t-none m-b-none">Aircraft Type:</p>
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->aircraft_type->name ?? '' }}</h2>
+        <div class="col">
+            <p  class="m-t-none m-b-none">Warehouse Destination:</p>
+            <h3 class="m-t-none font-bold">{{ $MutationInbound->destination->code ?? '' }} | {{ $MutationInbound->destination->name ?? '' }}</h3>
         </div>
-        <div class="col-md-3">
-            <p  class="m-t-none m-b-none">Aircraft Manufacturer:</p>
-            <h2 class="m-t-none font-bold">{{ $AircraftConfiguration->aircraft_type->manufacturer->name ?? '' }}</h2>
+        <div class="col">
+            <p  class="m-t-none m-b-none">Remark:</p>
+            <h3 class="m-t-none font-bold">{{ $MutationInbound->description ?? '' }}</h3>
         </div>
     </div>
 
@@ -28,13 +28,8 @@
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
                     <li>
-                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-0" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-info-circle fa-2x text-warning"></i>&nbsp;Basic Aircraft Information
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Item/Component Configuration
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
+                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Item/Component Inbound
                         </a>
                     </li>
                     <li>
@@ -44,27 +39,15 @@
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
-                            <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Maintenance Program
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-check-circle fa-2x text-warning"></i>&nbsp;Approval Status
                         </a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div id="tab-0" class="tab-pane active">
+                    <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.aircraft-basic-information.content')
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-1" class="tab-pane">
-                        <div class="panel-body" style="min-height: 500px;">
-                            <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.item-configuration.content')
+                                {{-- @include('ppc::pages.aircraft-configuration.item-configuration.content') --}}
                             </div>
                         </div>
                     </div>
@@ -76,20 +59,13 @@
                                 </div>
                             </div>
                             <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.tree-view.content')
+                                {{-- @include('ppc::pages.aircraft-configuration.tree-view.content') --}}
                             </div>
                         </div>
                     </div>
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
-                            <div class="row m-b">
-                                @include('ppc::pages.aircraft-configuration.maintenance-program.content')
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-4" class="tab-pane">
-                        <div class="panel-body" style="min-height: 500px;">
-                            @include('ppc::pages.aircraft-configuration.approval-status.content')
+                            @include('supplychain::pages.mutation.inbound.approval-status.content')
                         </div>
                     </div>
                 </div>

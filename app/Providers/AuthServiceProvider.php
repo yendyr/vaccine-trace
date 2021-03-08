@@ -97,10 +97,6 @@ use Modules\PPC\Entities\ItemStockAging;
 
 use Modules\PPC\Policies\AircraftAgingPolicy;
 
-// use Modules\PPC\Policies\AircraftConfigurationDetailPolicy;
-// use Modules\PPC\Entities\AircraftConfigurationDetail;
-// use Modules\PPC\Entities\AircraftConfigurationDetail;
-
 use Modules\QualityAssurance\Policies\SkillPolicy;
 use Modules\QualityAssurance\Entities\Skill;
 
@@ -244,8 +240,8 @@ class AuthServiceProvider extends ServiceProvider
         ItemCategory::class => ItemCategoryPolicy::class,
         Item::class => ItemPolicy::class,
         StockMutation::class => StockMutationInboundPolicy::class,
-        StockMutation::class => StockMutationOutboundPolicy::class,
-        StockMutation::class => StockMutationTransferPolicy::class,
+        // StockMutation::class => StockMutationOutboundPolicy::class,
+        // StockMutation::class => StockMutationTransferPolicy::class,
         ItemStock::class => ItemStockPolicy::class,
 
         ChartOfAccountClass::class => ChartOfAccountClassPolicy::class,
