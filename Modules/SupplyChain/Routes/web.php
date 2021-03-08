@@ -38,6 +38,10 @@ Route::name('supplychain.')->group(function () {
             Route::get('supplychain/item/select2', 'ItemController@select2')->name('select2');
         });
 
+        Route::resource('/mutation-inbound', 'StockMutationInboundController');
+        Route::resource('/mutation-outbound', 'StockMutationOutboundController');
+        Route::resource('/mutation-transfer', 'StockMutationTransferController');
+
         Route::resource('/stock-monitoring', 'StockMonitoringController');
     });
 });
