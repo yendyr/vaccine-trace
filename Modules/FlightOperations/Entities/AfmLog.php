@@ -5,7 +5,6 @@ namespace Modules\FlightOperations\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AfmLog extends Model
 {
@@ -135,17 +134,17 @@ class AfmLog extends Model
     public static function boot() {
         parent::boot();
 
-        static::deleting(function($AFML) {
-             $AFML->crew_details()->delete();
-             $AFML->item_record_details()->delete();
-             $AFML->dmi_details()->delete();
-             $AFML->manifest_details()->delete();
-             $AFML->journal_details()->delete();
-             $AFML->discrepancy_details()->delete();
-             $AFML->rectification_details()->delete();
-             $AFML->item_change_details()->delete();
-             $AFML->approvals()->delete();
-             $AFML->item_stock_aging_details()->delete();
+        static::deleting(function($AfmLog) {
+             $AfmLog->crew_details()->delete();
+             $AfmLog->item_record_details()->delete();
+             $AfmLog->dmi_details()->delete();
+             $AfmLog->manifest_details()->delete();
+             $AfmLog->journal_details()->delete();
+             $AfmLog->discrepancy_details()->delete();
+             $AfmLog->rectification_details()->delete();
+             $AfmLog->item_change_details()->delete();
+             $AfmLog->approvals()->delete();
+             $AfmLog->item_stock_aging_details()->delete();
         });
     }
 }
