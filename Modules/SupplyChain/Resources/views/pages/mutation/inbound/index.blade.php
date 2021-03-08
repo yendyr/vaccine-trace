@@ -22,13 +22,10 @@
         @endslot    
 
         @slot('tableContent')
-            <th>Aircraft Type Name</th>
-            <th>Aircraft Serial Number</th>
-            <th>Aircraft Registration</th>
-            <th>Manufactured Date</th>
-            <th>Received Date</th>
+            <th>Transaction Date</th>
+            <th>Warehouse Destination</th>
             <th>Remark</th>
-            <th>Status</th>
+            <th>Transaction Reference</th>
             <th>Created By</th>
             <th>Created At</th>
             <th>Last Updated By</th>

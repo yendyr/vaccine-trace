@@ -17,16 +17,14 @@ $(document).ready(function () {
             url: "{{ route('supplychain.mutation-inbound.index') }}",
         },
         columns: [
-            { data: 'aircraft_type.name', "render": function ( data, type, row, meta ) {
-                            return '<a href="aircraft-configuration/' + row.id + '">' + row.aircraft_type.name + '</a>'; } },
-            { data: 'serial_number', "render": function ( data, type, row, meta ) {
-                            return '<a href="aircraft-configuration/' + row.id + '">' + row.serial_number + '</a>'; } },
-            { data: 'registration_number', "render": function ( data, type, row, meta ) {
-                            return '<a href="aircraft-configuration/' + row.id + '">' + row.registration_number + '</a>'; } },
-            { data: 'manufactured_date', name: 'Manufactured Date' },
-            { data: 'received_date', name: 'Received Date' },
-            { data: 'description', name: 'Description/Remark' },
-            { data: 'status', name: 'Status' },
+            { data: 'code', "render": function ( data, type, row, meta ) {
+                            return '<a href="mutation-inbound/' + row.id + '">' + row.code + '</a>'; } },
+            { data: 'transaction_date', "render": function ( data, type, row, meta ) {
+                            return '<a href="mutation-inbound/' + row.id + '">' + row.transaction_date + '</a>'; } },
+            { data: 'destination.name', "render": function ( data, type, row, meta ) {
+                            return '<a href="mutation-inbound/' + row.id + '">' + row.destination.code + ' | ' + row.destination.name + '</a>'; } },
+            { data: 'description' },
+            { data: 'reference' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
             { data: 'updater_name', name: 'Last Updated By' },
@@ -40,100 +38,18 @@ $(document).ready(function () {
 
 
 
-    $('.aircraft_type_id').select2({
+    $('.warehouse_destination').select2({
         theme: 'bootstrap4',
-        placeholder: 'Choose A/C Type',
+        placeholder: 'Choose Warehouse Destination',
         allowClear: true,
         ajax: {
-            url: "{{ route('ppc.aircraft-type.select2') }}",
+            url: "{{ route('supplychain.warehouse.select2') }}",
             dataType: 'json',
         },
         dropdownParent: $('#inputModal')
     });
 
-    $('.maintenance_program_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Maintenance Program',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('ppc.maintenance-program.select2') }}",
-            dataType: 'json',
-            data: function (params) {
-                var getHeaderId = { 
-                    term: params.term,
-                    aircraft_type_id: $('#aircraft_type_id').val(),
-                }
-                return getHeaderId;
-            }
-        },
-        dropdownParent: $('#inputModal')
-    });
-
-    $('.duplicated_from').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Source Template',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('ppc.aircraft-configuration-template.select2') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $('#inputModal')
-    });
-
-    $('.max_takeoff_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $('#inputModal')
-    });
-
-    $('.max_landing_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $('#inputModal')
-    });
-
-    $('.max_zero_fuel_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $('#inputModal')
-    });
-
-    $('.fuel_capacity_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $('#inputModal')
-    });
-
-    $('.basic_empty_weight_unit_id').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Choose Unit',
-        allowClear: true,
-        ajax: {
-            url: "{{ route('supplychain.unit.select2.mass') }}",
-            dataType: 'json',
-        },
-        dropdownParent: $('#inputModal')
-    });
+    
 
 
 
@@ -142,8 +58,7 @@ $(document).ready(function () {
 
 
     $('#create').click(function () {
-        $('#duplicated_from').show();
-        showCreateModal ('Create New Aircraft Configuration', inputFormId, actionUrl);
+        showCreateModal ('Create New Mutation Inbound', inputFormId, actionUrl);
     });
 
 
@@ -152,8 +67,7 @@ $(document).ready(function () {
 
 
     datatableObject.on('click', '.editBtn', function () {
-        $('#modalTitle').html("Edit Aircraft Configuration");
-        $('#duplicated_from').hide();
+        $('#modalTitle').html("Edit Mutation Inbound");
         $(inputFormId).trigger("reset");                
         rowId= $(this).val();
         let tr = $(this).closest('tr');
@@ -166,67 +80,14 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo('#inputForm');
 
+        $('#code').val(data.code);
+        $('#transaction_date').val(data.transaction_date);
         $('#description').val(data.description);
         $('#registration_number').val(data.registration_number);
-        $('#serial_number').val(data.serial_number);
-        $('.manufactured_date').val(data.manufactured_date);
-        $('.received_date').val(data.received_date);
-
-        $('#max_takeoff_weight').val(data.max_takeoff_weight);
-        $('#max_landing_weight').val(data.max_landing_weight);
-        $('#max_zero_fuel_weight').val(data.max_zero_fuel_weight);
-        $('#fuel_capacity').val(data.fuel_capacity);
-        $('#basic_empty_weight').val(data.basic_empty_weight);
-
-        $('#initial_flight_hour').val(data.initial_flight_hour);
-        $('#initial_block_hour').val(data.initial_block_hour);
-        $('#initial_flight_cycle').val(data.initial_flight_cycle);
-        $('#initial_flight_event').val(data.initial_flight_event);
-
-        if(data.initial_start_date != null) {
-            $('.initial_start_date').val(data.initial_start_date.split(' ')[0]);
-        }
-
-        $(".aircraft_type_id").val(null).trigger('change');
-        if (data.aircraft_type != null) {
-            $('#aircraft_type_id').append('<option value="' + data.aircraft_type_id + '" selected>' + data.aircraft_type.name + '</option>');
-        }
-
-        $(".maintenance_program_id").val(null).trigger('change');
-        if (data.maintenance_program != null) {
-            $('#maintenance_program_id').append('<option value="' + data.maintenance_program_id + '" selected>' + data.maintenance_program.code + ' | ' + data.maintenance_program.name + '</option>');
-        }
-
-        $(".max_takeoff_weight_unit_id").val(null).trigger('change');
-        if (data.max_takeoff_weight_unit != null) {
-            $('#max_takeoff_weight_unit_id').append('<option value="' + data.max_takeoff_weight_unit_id + '" selected>' + data.max_takeoff_weight_unit.name + '</option>');
-        }
-
-        $(".max_landing_weight_unit_id").val(null).trigger('change');
-        if (data.max_landing_weight_unit != null) {
-            $('#max_landing_weight_unit_id').append('<option value="' + data.max_landing_weight_unit_id + '" selected>' + data.max_landing_weight_unit.name + '</option>');
-        }
-
-        $(".max_zero_fuel_weight_unit_id").val(null).trigger('change');
-        if (data.max_zero_fuel_weight_unit != null) {
-            $('#max_zero_fuel_weight_unit_id').append('<option value="' + data.max_zero_fuel_weight_unit_id + '" selected>' + data.max_zero_fuel_weight_unit.name + '</option>');
-        }
-
-        $(".fuel_capacity_unit_id").val(null).trigger('change');
-        if (data.fuel_capacity_unit != null) {
-            $('#fuel_capacity_unit_id').append('<option value="' + data.fuel_capacity_unit_id + '" selected>' + data.fuel_capacity_unit.name + '</option>');
-        }
-
-        $(".basic_empty_weight_unit_id").val(null).trigger('change');
-        if (data.basic_empty_weight_unit != null) {
-            $('#basic_empty_weight_unit_id').append('<option value="' + data.basic_empty_weight_unit_id + '" selected>' + data.basic_empty_weight_unit.name + '</option>');
-        }
-               
-        if (data.status == '<label class="label label-success">Active</label>') {
-            $('#status').prop('checked', true);
-        }
-        else {
-            $('#status').prop('checked', false);
+        
+        $(".warehouse_destination").val(null).trigger('change');
+        if (data.warehouse_destination != null) {
+            $('#warehouse_destination').append('<option value="' + data.warehouse_destination + '" selected>' + data.destination.code + ' | ' + data.destination.name + '</option>');
         }
 
         $('#saveBtn').val("edit");
@@ -275,7 +136,7 @@ $(document).ready(function () {
                 $(targetTableId).DataTable().ajax.reload();
 
                 setTimeout(function () {
-                    window.location.href = "aircraft-configuration/" + data.id;
+                    window.location.href = "mutation-inbound/" + data.id;
                 }, 2000);
             },
             complete: function () {
