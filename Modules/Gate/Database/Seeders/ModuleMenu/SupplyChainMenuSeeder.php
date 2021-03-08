@@ -138,13 +138,13 @@ class SupplyChainMenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'menu_link' => 'supplychain/mutation-outbond',
+            'menu_link' => 'supplychain/mutation-outbound',
             'menu_text' => 'Outbond',
-            'menu_route' => 'supplychain.mutation-outbond.index',
+            'menu_route' => 'supplychain.mutation-outbound.index',
             'menu_icon' => 'fa-cloud-upload',
             'menu_class' => 'Modules\SupplyChain\Entities\StockMutation',
             'menu_id' => null,
-            'menu_actives' => json_encode(['supplychain/mutation-outbond', 'supplychain/mutation-outbond/*']),
+            'menu_actives' => json_encode(['supplychain/mutation-outbound', 'supplychain/mutation-outbound/*']),
             'group' => 'Supply Chain',
             'add' => 1,
             'update' => 1,

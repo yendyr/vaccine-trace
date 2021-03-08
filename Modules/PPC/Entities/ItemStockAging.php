@@ -16,8 +16,11 @@ class ItemStockAging extends Model
         'uuid',
 
         'item_stock_id',
+
         'transaction_reference_id',
         'transaction_reference_class',
+        'transaction_reference_text',
+        'transaction_reference_url',
 
         'flight_hour',
         'block_hour',

@@ -1,20 +1,20 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Aircraft Configuration Datalist'])
+    @component('components.delete-modal', ['name' => 'Inventory/Stock Inbound Datalist'])
     @endcomponent
 
-    @component('components.approve-modal', ['name' => 'Aircraft Configuration Datalist'])
+    @component('components.approve-modal', ['name' => 'Inventory/Stock Inbound Datalist'])
     @endcomponent
 
-    @include('ppc::pages.aircraft-configuration.modal')
+    @include('supplychain::pages.mutation.inbound.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Aircraft Configuration Datalist',
-                    'tableId' => 'aircraft-configuration'])
+                    'title' => 'Inventory/Stock Inbound Datalist',
+                    'tableId' => 'mutation-inbound-table'])
 
         @slot('createButton')
-            @can('create', Modules\PPC\Entities\AircraftConfiguration::class)                
+            @can('create', Modules\SupplyChain\Entities\StockMutation::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   
@@ -37,7 +37,7 @@
         @endslot
     @endcomponent
 
-    @include('ppc::components.aircraft-configuration._script')
+    @include('supplychain::components.mutation.inbound._script')
 
 @endsection
 

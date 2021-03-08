@@ -15,10 +15,14 @@ class StockMutation extends Model
     protected $fillable = [
         'uuid',
 
+        'transaction_date',
         'warehouse_origin',
         'warehouse_destination',
+        
         'transaction_reference_id',
         'transaction_reference_class',
+        'transaction_reference_text',
+        'transaction_reference_url',
 
         'description',
         
