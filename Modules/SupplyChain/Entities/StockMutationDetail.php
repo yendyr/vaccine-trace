@@ -16,7 +16,7 @@ class StockMutationDetail extends Model
         'uuid',
 
         'stock_mutation_id',
-        
+
         'coding',
         'detailed_item_location',
         'item_id',
@@ -57,9 +57,9 @@ class StockMutationDetail extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'item_id');
     }
 
-    public function item_stock_initial_aging()
+    public function mutation_detail_initial_aging()
     {
-        return $this->hasOne(\Modules\PPC\Entities\ItemStockInitialAging::class, 'item_stock_id');
+        return $this->hasOne(\Modules\SupplyChain\Entities\StockMutationDetailInitialAging::class, 'stock_mutation_detail_id');
     }
 
     public function item_group()
@@ -73,11 +73,10 @@ class StockMutationDetail extends Model
     }
 
     public static function boot() {
-        // parent::boot();
+        parent::boot();
 
-        // static::deleting(function($StockMutationDetail) {
-        //      $StockMutationDetail->outbond_mutation_details()->delete();
-        //      $StockMutationDetail->item_stock_initial_aging()->delete();
-        // });
+        static::deleting(function($StockMutationDetail) {
+             $StockMutationDetail->mutation_detail_initial_aging()->delete();
+        });
     }
 }
