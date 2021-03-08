@@ -83,7 +83,6 @@ $(document).ready(function () {
         $('#code').val(data.code);
         $('#transaction_date').val(data.transaction_date);
         $('#description').val(data.description);
-        $('#registration_number').val(data.registration_number);
         
         $(".warehouse_destination").val(null).trigger('change');
         if (data.warehouse_destination != null) {

@@ -177,8 +177,9 @@ class WarehouseController extends Controller
         $search = $request->q;
 
         $query = Warehouse::orderby('name','asc')
-                    ->select('id','name')
-                    ->where('status', 1);
+                    ->select('id','code','name')
+                    ->where('status', 1)
+                    ->where('is_aircraft', 0);
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
@@ -188,8 +189,8 @@ class WarehouseController extends Controller
         $response = [];
         foreach($Warehouses as $Warehouse){
             $response['results'][] = [
-                "id"=>$Warehouse->id,
-                "text"=>$Warehouse->name
+                "id" => $Warehouse->id,
+                "text" => $Warehouse->code . ' | ' . $Warehouse->name
             ];
         }
 

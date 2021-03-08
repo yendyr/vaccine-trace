@@ -22,6 +22,7 @@
         @endslot    
 
         @slot('tableContent')
+            <th>Transaction Code</th>
             <th>Transaction Date</th>
             <th>Warehouse Destination</th>
             <th>Remark</th>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -17,8 +18,8 @@ class CreateStockMutationsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('code');
-            $table->datetime('transaction_date')->nullable();
+            $table->string('code')->nullable();
+            $table->date('transaction_date')->nullable();
             $table->string('warehouse_origin')->nullable();
             $table->string('warehouse_destination')->nullable();
 
@@ -38,6 +39,8 @@ class CreateStockMutationsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        DB::update("ALTER TABLE stock_mutations AUTO_INCREMENT = 100000;");
     }
 
     /**

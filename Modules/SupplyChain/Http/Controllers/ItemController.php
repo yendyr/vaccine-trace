@@ -80,11 +80,6 @@ class ItemController extends Controller
         return view('accounting::pages.item.index');
     }
 
-    public function create()
-    {
-        return view('supplychain::pages.item.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([
