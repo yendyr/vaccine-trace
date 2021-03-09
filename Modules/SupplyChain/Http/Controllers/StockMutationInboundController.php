@@ -108,8 +108,7 @@ class StockMutationInboundController extends Controller
 
         $code = 'INBND-' . 
         $transaction_date->year . '-' .
-        $transaction_date->month . '-' .
-        $StockMutation->id;
+        str_pad($StockMutation->id, 5, '0', STR_PAD_LEFT);
 
         $StockMutation->update([
             'code' => $code
@@ -123,5 +122,33 @@ class StockMutationInboundController extends Controller
     public function show(StockMutation $MutationInbound)
     {
         return view('supplychain::pages.mutation.inbound.show', compact('MutationInbound'));
+    }
+
+    public function update(Request $request, StockMutation $MutationInbound)
+    {
+        $currentRow = StockMutation::where('id', $MutationInbound->id)->first();
+        if ($currentRow->approvals()->count() == 0) {
+            $request->validate([
+                'transaction_date' => ['required', 'max:30'],
+                'warehouse_destination' => ['required', 'max:30'],
+                'description' => ['required'],
+            ]);
+
+            $transaction_date = Carbon::parse($request->transaction_date);
+        
+            $currentRow->update([
+                'transaction_date' => $transaction_date,
+                'warehouse_destination' => $request->warehouse_destination,
+                'description' => $request->description,
+
+                'updated_by' => Auth::user()->id,
+            ]);
+            
+            return response()->json(['success' => 'Stock Mutation Inbound Data has been Updated',
+                                        'id' => $MutationInbound->id]);
+        }
+        else {
+            return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
     }
 }

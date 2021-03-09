@@ -81,7 +81,7 @@ $(document).ready(function () {
         }).prependTo('#inputForm');
 
         $('#code').val(data.code);
-        $('#transaction_date').val(data.transaction_date);
+        $('.transaction_date').val(data.transaction_date);
         $('#description').val(data.description);
         
         $(".warehouse_destination").val(null).trigger('change');

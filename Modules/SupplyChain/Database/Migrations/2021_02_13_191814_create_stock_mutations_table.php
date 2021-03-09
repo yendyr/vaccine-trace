@@ -39,8 +39,6 @@ class CreateStockMutationsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-
-        DB::update("ALTER TABLE stock_mutations AUTO_INCREMENT = 100000;");
     }
 
     /**
