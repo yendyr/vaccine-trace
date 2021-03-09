@@ -184,26 +184,49 @@ class StockMutationInboundController extends Controller
             'status' => 1,
             'created_by' => Auth::user()->id,
         ]);
-        $MutationInbound->item_stocks()->forceDelete();
-        foreach($MutationInbound->stock_mutation_details as $stock_mutation_detail) {
-            $MutationInbound->item_stocks()
-                ->save(new ItemStock([
-                    'uuid' => Str::uuid(),
 
-                    'item_id' => $stock_mutation_detail->item_id,
-                    'quantity' => $stock_mutation_detail->quantity,
-                    'serial_number' => $stock_mutation_detail->serial_number,
-                    'alias_name' => $stock_mutation_detail->alias_name,
-                    'highlight' => $stock_mutation_detail->highlight,
-                    'description' => $stock_mutation_detail->description,
-                    'parent_coding' => $stock_mutation_detail->parent_coding,
-                    
-                    'owned_by' => $request->user()->company_id,
-                    'status' => 1,
-                    'created_by' => $request->user()->id,
-                ]));
+        foreach ($MutationInbound->item_stocks as $item_stock) {
+            $item_stock->item_stock_initial_aging()->forceDelete();
         }
+        $MutationInbound->item_stocks()->forceDelete();
 
+        foreach($MutationInbound->stock_mutation_details as $stock_mutation_detail) {
+            $ItemStock = new ItemStock([
+                'uuid' => Str::uuid(),
+
+                'warehouse_id' => $MutationInbound->warehouse_destination,
+                'coding' => $stock_mutation_detail->coding,
+                'item_id' => $stock_mutation_detail->item_id,
+                'quantity' => $stock_mutation_detail->quantity,
+                'serial_number' => $stock_mutation_detail->serial_number,
+                'alias_name' => $stock_mutation_detail->alias_name,
+                'highlight' => $stock_mutation_detail->highlight,
+                'description' => $stock_mutation_detail->description,
+                'parent_coding' => $stock_mutation_detail->parent_coding,
+                
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
+                'created_by' => $request->user()->id,
+            ]);
+
+            $Item_Stock = $MutationInbound->item_stocks()->save($ItemStock);
+
+            $ItemStockInitialAging = new ItemStockInitialAging([
+                'uuid' => Str::uuid(),
+
+                'initial_flight_hour' => $stock_mutation_detail->mutation_detail_initial_aging->initial_flight_hour,
+                'initial_block_hour' => $stock_mutation_detail->mutation_detail_initial_aging->initial_block_hour,
+                'initial_flight_cycle' => $stock_mutation_detail->mutation_detail_initial_aging->initial_flight_cycle,
+                'initial_flight_event' => $stock_mutation_detail->mutation_detail_initial_aging->initial_flight_event,
+                'initial_start_date' => $stock_mutation_detail->mutation_detail_initial_aging->initial_start_date,
+                
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
+                'created_by' => $request->user()->id,
+            ]);
+
+            $Item_Stock->item_stock_initial_aging()->save($ItemStockInitialAging);
+        }
         DB::commit();
 
         return response()->json(['success' => 'Stock Mutation Inbound Data has been Approved']);

@@ -41,6 +41,7 @@ Route::name('supplychain.')->group(function () {
         Route::get('/mutation-inbound/detail-tree', 'StockMutationInboundDetailController@tree')->name('mutation-inbound.detail-tree');
 
         Route::resource('/mutation-inbound', 'StockMutationInboundController');
+        Route::post('/mutation-inbound/{mutation_inbound}/approve', 'StockMutationInboundController@approve');
 
         Route::resource('/mutation-inbound-detail', 'StockMutationInboundDetailController');        
         Route::name('mutation-inbound-detail.')->group(function() {
