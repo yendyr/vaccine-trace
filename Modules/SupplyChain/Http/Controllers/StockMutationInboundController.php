@@ -4,6 +4,8 @@ namespace Modules\SupplyChain\Http\Controllers;
 
 use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\StockMutationApproval;
+use Modules\SupplyChain\Entities\ItemStock;
+use Modules\PPC\Entities\ItemStockInitialAging;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -182,6 +184,26 @@ class StockMutationInboundController extends Controller
             'status' => 1,
             'created_by' => Auth::user()->id,
         ]);
+        $MutationInbound->item_stocks()->forceDelete();
+        foreach($MutationInbound->stock_mutation_details as $stock_mutation_detail) {
+            $MutationInbound->item_stocks()
+                ->save(new ItemStock([
+                    'uuid' => Str::uuid(),
+
+                    'item_id' => $stock_mutation_detail->item_id,
+                    'quantity' => $stock_mutation_detail->quantity,
+                    'serial_number' => $stock_mutation_detail->serial_number,
+                    'alias_name' => $stock_mutation_detail->alias_name,
+                    'highlight' => $stock_mutation_detail->highlight,
+                    'description' => $stock_mutation_detail->description,
+                    'parent_coding' => $stock_mutation_detail->parent_coding,
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]));
+        }
+
         DB::commit();
 
         return response()->json(['success' => 'Stock Mutation Inbound Data has been Approved']);
