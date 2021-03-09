@@ -47,7 +47,7 @@
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                {{-- @include('ppc::pages.aircraft-configuration.item-configuration.content') --}}
+                                @include('supplychain::pages.mutation.inbound.item-configuration.content')
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="row m-b">
-                                {{-- @include('ppc::pages.aircraft-configuration.tree-view.content') --}}
+                                @include('supplychain::pages.mutation.inbound.tree-view.content')
                             </div>
                         </div>
                     </div>

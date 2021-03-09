@@ -3,6 +3,7 @@
 namespace Modules\SupplyChain\Http\Controllers;
 
 use Modules\SupplyChain\Entities\StockMutation;
+use Modules\SupplyChain\Entities\StockMutationApproval;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -150,5 +151,39 @@ class StockMutationInboundController extends Controller
         else {
             return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
+    }
+
+    public function destroy(StockMutation $MutationInbound)
+    {
+        $currentRow = StockMutation::where('id', $MutationInbound->id)->first();
+        $currentRow
+            ->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+
+        StockMutation::destroy($MutationInbound->id);
+        return response()->json(['success' => 'Stock Mutation Inbound Data has been Deleted']);
+    }
+
+    public function approve(Request $request, StockMutation $MutationInbound)
+    {
+        $request->validate([
+            'approval_notes' => ['required', 'max:30'],
+        ]);
+
+        DB::beginTransaction();
+        StockMutationApproval::create([
+            'uuid' =>  Str::uuid(),
+
+            'stock_mutation_id' =>  $MutationInbound->id,
+            'approval_notes' =>  $request->approval_notes,
+    
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => Auth::user()->id,
+        ]);
+        DB::commit();
+
+        return response()->json(['success' => 'Stock Mutation Inbound Data has been Approved']);
     }
 }

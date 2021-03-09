@@ -38,7 +38,15 @@ Route::name('supplychain.')->group(function () {
             Route::get('supplychain/item/select2', 'ItemController@select2')->name('select2');
         });
 
+        Route::get('/mutation-inbound/detail-tree', 'StockMutationInboundDetailController@tree')->name('mutation-inbound.detail-tree');
+
         Route::resource('/mutation-inbound', 'StockMutationInboundController');
+
+        Route::resource('/mutation-inbound-detail', 'StockMutationInboundDetailController');        
+        Route::name('mutation-inbound-detail.')->group(function() {
+            Route::get('supplychain/mutation-inbound-detail/select2', 'StockMutationInboundDetailController@select2Parent')->name('select2');
+        });
+
         Route::resource('/mutation-outbound', 'StockMutationOutboundController');
         Route::resource('/mutation-transfer', 'StockMutationTransferController');
 

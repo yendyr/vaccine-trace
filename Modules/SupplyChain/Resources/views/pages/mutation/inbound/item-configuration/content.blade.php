@@ -2,15 +2,15 @@
     @component('components.delete-modal', ['name' => 'Item/Component Datalist'])
     @endcomponent
 
-    @include('ppc::pages.aircraft-configuration.item-configuration.modal')
+    @include('supplychain::pages.mutation.inbound.item-configuration.modal')
     
     @component('components.crud-form.index',[
         'title' => 'Item/Component Datalist',
-        'tableId' => 'configuration-detail'])
+        'tableId' => 'mutation-inbound-detail-table'])
 
-    @if($AircraftConfiguration->approvals()->count() == 0)
+    @if($StockMutation->approvals()->count() == 0)
         @slot('createButton')
-            @can('create', Modules\PPC\Entities\AircraftConfiguration::class)                
+            @can('create', Modules\SupplyChain\Entities\StockMutation::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Add Item
                 </button>   
@@ -40,7 +40,7 @@
     @endcomponent
 </div>
 
-@include('ppc::components.aircraft-configuration.item-configuration-content._script')
+@include('supplychain::components.mutation.inbound.item-configuration._script')
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')
