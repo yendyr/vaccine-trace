@@ -122,7 +122,7 @@ $(document).ready(function () {
             $('.parent_coding').append('<option value="' + data.parent_coding + '" selected>' + data.parent_item_code + ' | ' + data.parent_item_name + '</option>');
         }   
 
-        if (data.highlight == '<label class="label label-success">Yes</label>') {
+        if (data.highlighted == '<label class="label label-primary">Yes</label>') {
             $('#highlight').prop('checked', true);
         }
         else {

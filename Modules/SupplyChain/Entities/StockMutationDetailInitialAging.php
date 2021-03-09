@@ -43,6 +43,6 @@ class StockMutationDetailInitialAging extends Model
 
     public function stock_mutation_detail()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemStock::class, 'stock_mutation_detail_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'stock_mutation_detail_id');
     }
 }

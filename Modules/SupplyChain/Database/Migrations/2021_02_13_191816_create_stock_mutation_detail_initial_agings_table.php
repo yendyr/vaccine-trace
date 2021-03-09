@@ -13,11 +13,11 @@ class CreateStockMutationDetailInitialAgingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock_mutation_detail_inital_agings', function (Blueprint $table) {
+        Schema::create('stock_mutation_detail_initial_agings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('mutation_detail_id');
+            $table->string('stock_mutation_detail_id');
 
             $table->date('expired_date')->nullable();
             $table->double('initial_flight_hour')->nullable()->default(0);

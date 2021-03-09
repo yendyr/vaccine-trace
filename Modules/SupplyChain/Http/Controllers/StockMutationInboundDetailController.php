@@ -30,7 +30,7 @@ class StockMutationInboundDetailController extends Controller
         $StockMutation = StockMutation::where('id', $stock_mutation_id)->first();
         
         $data = StockMutationDetail::where('stock_mutation_id', $stock_mutation_id)
-                                ->with(['item:id,code,name',
+                                ->with(['item.unit',
                                         'mutation_detail_initial_aging',
                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
                                 ->orderBy('created_at','desc')
@@ -188,6 +188,7 @@ class StockMutationInboundDetailController extends Controller
             $StockMutationDetail = StockMutationDetail::create([
                 'uuid' =>  Str::uuid(),
     
+                'stock_mutation_id' => $request->stock_mutation_id,
                 'item_id' => $request->item_id,
                 'serial_number' => $request->serial_number,
                 'alias_name' => $request->alias_name,
@@ -225,9 +226,9 @@ class StockMutationInboundDetailController extends Controller
         }
     }
 
-    public function update(Request $request, StockMutationDetail $StockMutationDetail)
+    public function update(Request $request, StockMutationDetail $MutationInboundDetail)
     {
-        $currentRow = StockMutationDetail::where('id', $StockMutationDetail->id)
+        $currentRow = StockMutationDetail::where('id', $MutationInboundDetail->id)
                                         ->with('all_childs')
                                         ->first();
 
@@ -338,9 +339,9 @@ class StockMutationInboundDetailController extends Controller
         return $isValid;
     }
 
-    public function destroy(StockMutationDetail $StockMutationDetail)
+    public function destroy(StockMutationDetail $MutationInboundDetail)
     {
-        $currentRow = StockMutationDetail::where('id', $StockMutationDetail->id)
+        $currentRow = StockMutationDetail::where('id', $MutationInboundDetail->id)
                                         ->with(['all_childs'])
                                         ->first();
 
@@ -355,7 +356,7 @@ class StockMutationInboundDetailController extends Controller
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
-                StockMutationDetail::destroy($StockMutationDetail->id);
+                StockMutationDetail::destroy($MutationInboundDetail->id);
                 return response()->json(['success' => 'Item/Component Data has been Deleted']);
             }
         }
@@ -369,10 +370,8 @@ class StockMutationInboundDetailController extends Controller
         $search = $request->term;
         $stock_mutation_id = $request->stock_mutation_id;
 
-        $StockMutation = StockMutation::where('id', $stock_mutation_id)->first();
-
         if($search != '') {
-            $StockMutationDetails = StockMutation::with(['item' => function($q) use ($search) {
+            $StockMutationDetails = StockMutationDetail::with(['item' => function($q) use ($search) {
                                             $q->where('items.code', 'like', '%' .$search. '%')
                                             ->orWhere('items.name', 'like', '%' .$search. '%');
                                         }])
@@ -380,7 +379,7 @@ class StockMutationInboundDetailController extends Controller
                                             $q->where('items.code', 'like', '%' .$search. '%')
                                             ->orWhere('items.name', 'like', '%' .$search. '%');
                                         })
-                                        // ->where('status', 1)
+                                        ->where('stock_mutation_id', $stock_mutation_id)
                                         ->get();
         }
 

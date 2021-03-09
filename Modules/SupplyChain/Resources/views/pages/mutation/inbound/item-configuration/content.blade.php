@@ -8,7 +8,7 @@
         'title' => 'Item/Component Datalist',
         'tableId' => 'mutation-inbound-detail-table'])
 
-    @if($StockMutation->approvals()->count() == 0)
+    @if($MutationInbound->approvals()->count() == 0)
         @slot('createButton')
             @can('create', Modules\SupplyChain\Entities\StockMutation::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
@@ -22,6 +22,8 @@
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Serial Number</th>
+        <th>Qty</th>
+        <th>UoM</th>
         <th>Alias Name</th>
         <th>Remark</th>
         <th>Highlighted Item</th>
@@ -32,7 +34,7 @@
         <th>Initial FC</th>
         <th>Initial Flight Event</th>
         <th>Initial Start Date</th>
-        <th>Status</th>
+        {{-- <th>Status</th> --}}
         <th>Created By</th>
         <th>Created At</th>
         <th>Action</th>

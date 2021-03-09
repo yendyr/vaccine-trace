@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputForm">
-                <input type="hidden" id="aircraft_configuration_id" name="aircraft_configuration_id" value="{{ $AircraftConfiguration->id ?? '' }}">
+                <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationInbound->id ?? '' }}">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Active</label>
                                 <div class="col-sm-7">     
                                     <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
@@ -76,7 +76,7 @@
                                         <div class="invalid-feedback-status text-danger font-italic"></div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="col-md-6">
@@ -113,8 +113,9 @@
                             </div>
                             
                             <div class="form-group row" id="initial_start_date">
-                                <div class="col-md-12 input-group date">
-                                    <span class="input-group-addon">Initial Start Date</span>
+                                <label class="col-sm-5 d-flex align-items-center">Initial Start Date</label>
+                                <div class="col-md-7 input-group date">
+                                    <span class="input-group-addon">Date</span>
                                     <input type="text" class="initial_start_date form-control @error('initial_start_date') is-invalid @enderror" name="initial_start_date" id="initial_start_date" readonly>
                                     <div class="invalid-feedback-initial_start_date text-danger font-italic"></div>
                                 </div>
