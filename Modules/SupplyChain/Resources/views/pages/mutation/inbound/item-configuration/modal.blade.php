@@ -21,6 +21,15 @@
                                     <div class="invalid-feedback-item_id text-danger font-italic"></div>
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Quantity</label>
+                                <div class="col-sm-7">
+                                    <input type="number" min="1" class="form-control @error('quantity') is-invalid @enderror" name="quantity" id="quantity">
+                                    <div class="invalid-feedback-quantity text-danger font-italic"></div>
+                                </div>
+                            </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Serial Number</label>
                                 <div class="col-sm-7">

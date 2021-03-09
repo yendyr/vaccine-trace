@@ -174,6 +174,15 @@ class StockMutationInboundDetailController extends Controller
             $request->validate([
                 'item_id' => ['required'],
             ]);
+
+            if($request->quantity > 1) {
+                $quantity = $request->quantity;
+                $serial_number = null;
+            }
+            else {
+                $quantity = 1;
+                $serial_number = $request->serial_number;
+            }
     
             if ($request->highlight) {
                 $highlight = 1;
@@ -190,7 +199,8 @@ class StockMutationInboundDetailController extends Controller
     
                 'stock_mutation_id' => $request->stock_mutation_id,
                 'item_id' => $request->item_id,
-                'serial_number' => $request->serial_number,
+                'quantity' => $quantity,
+                'serial_number' => $serial_number,
                 'alias_name' => $request->alias_name,
                 'highlight' => $highlight,
                 'description' => $request->description,
@@ -238,6 +248,15 @@ class StockMutationInboundDetailController extends Controller
             $request->validate([
                 'item_id' => ['required'],
             ]);
+
+            if($request->quantity > 1) {
+                $quantity = $request->quantity;
+                $serial_number = null;
+            }
+            else {
+                $quantity = 1;
+                $serial_number = $request->serial_number;
+            }
     
             // if ($request->status) {
             //     $status = 1; 
@@ -278,7 +297,8 @@ class StockMutationInboundDetailController extends Controller
                 ->update([
                     'item_id' => $request->item_id,
                     'alias_name' => $request->alias_name,
-                    'serial_number' => $request->serial_number,
+                    'quantity' => $quantity,
+                    'serial_number' => $serial_number,
                     'highlight' => $highlight,
                     'description' => $request->description,
                     'parent_coding' => $parent_coding,

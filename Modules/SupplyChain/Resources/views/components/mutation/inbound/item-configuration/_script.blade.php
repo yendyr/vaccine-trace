@@ -108,6 +108,7 @@ $(document).ready(function () {
         }).prependTo('#inputForm');
 
         $('#alias_name').val(data.alias_name);
+        $('#quantity').val(data.quantity);
         $('#serial_number').val(data.serial_number);
         $('#description').val(data.description);
         $('#initial_flight_hour').val(data.mutation_detail_initial_aging.initial_flight_hour);
@@ -129,6 +130,14 @@ $(document).ready(function () {
         }
         else {
             $('#highlight').prop('checked', false);
+        }
+
+        if($('#quantity').val() > 1) {
+            $('#serial_number').val(null);
+            $('#serial_number').prop('disabled', true);
+        }
+        else {
+            $('#serial_number').prop('disabled', false);
         }
 
         // if (data.status == '<label class="label label-success">Active</label>') {
@@ -203,6 +212,21 @@ $(document).ready(function () {
         });
     });
     // ----------------- END "APPROVE" BUTTON SCRIPT ------------- //
+
+
+
+
+
+
+    $("#quantity").on('change', function () {
+        if($('#quantity').val() > 1) {
+            $('#serial_number').val(null);
+            $('#serial_number').prop('disabled', true);
+        }
+        else {
+            $('#serial_number').prop('disabled', false);
+        }            
+    });
 });
 </script>
 @endpush
