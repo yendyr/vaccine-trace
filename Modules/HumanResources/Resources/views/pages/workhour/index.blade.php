@@ -21,187 +21,66 @@
     </style>
 @endpush
 
-@section('page-heading')
-        @can('create', \Modules\HumanResources\Entities\WorkingHour::class)
-            <div id="form_result" role="alert"></div>
-            @if (request()->is('hr/working-hour/calculate'))
-                <button type="button" id="calculate-whour" class="btn btn-primary btn-lg">
-                    <i class="fa fa-plus-square"></i> Calculate</button>
-            @elseif(request()->is('hr/working-hour'))
-                <button type="button" id="create-whour" class="btn btn-info btn-lg">
-                    <i class="fa fa-plus-square"></i> Generate</button>                                        
-            @endif
-        @endcan
-@endsection
-
 @section('content')
-
-    @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
-        @component('components.delete-modal', ['name' => 'Working Hour data'])
-        @endcomponent
-        @include('humanresources::components.workhour.modal')
-    @endcan
-
     <div class="row">
         <div class="col-lg-12">
             <div class="tabs-container">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs" id="myTab">
                     <li>
-                        <a class="nav-link active" data-toggle="tab" href="#whour">Working Hour</a>
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-header">
+                            <i class="text-warning"></i>&nbsp;Working Hour
+                        </a>
                     </li>
-                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
-                        <li>
-                            <a class="nav-link" data-toggle="tab" href="#whour-detail">Working Hour Detail</a>
-                        </li>
-                    @endcan
-                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
-                        <li>
-                            <a class="nav-link" data-toggle="tab" href="#whour-attendance">Working Hour Attendance</a>
-                        </li>
-                    @endcan
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-detail">
+                            <i class="text-warning"></i>&nbsp;Workhour Detail
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-attendance">
+                            <i class="text-warning"></i>&nbsp;Workhour Attendance
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" id="whour" class="tab-pane fade show active">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h4 class="text-center">Working Hour Datalist</h4>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-footer" id="ibox-whour">
-                                <div class="table-responsive">
-                                    <table id="whour-table" class="table table-hover text-center display nowrap" width="100%">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>Employee ID</th>
-                                            <th>Work date</th>
-                                            <th>Shift No.</th>
-                                            <th>Workhour Start</th>
-                                            <th>Workdate Start</th>
-                                            <th>Workhour Finish</th>
-                                            <th>Workdate Finish</th>
-                                            <th>Rest Time Start</th>
-                                            <th>Rest Date Start</th>
-                                            <th>Rest Time Finish</th>
-                                            <th>Rest Date Finish</th>
-                                            <th>Standard Hours</th>
-                                            <th>Minimum Hours</th>
-                                            <th>Work Type</th>
-                                            <th>Work Status</th>
-                                            <th>Processedon</th>
-                                            <th>Leave hours</th>
-                                            <th>Attendance hours</th>
-                                            <th>Over hours</th>
-                                            <th>Attendance status</th>
-                                            <th>Status</th>
-                                            {{-- <th>Action</th>--}}
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('humanresources::pages.workhour.content')
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="whour-detail" class="tab-pane fade">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h4 class="text-center">Working Hour Detail data</h4>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-footer" id="ibox-whour-detail">
-                                <div id="form_result" role="alert"></div>
-                                <div class="table-responsive">
-                                    <table id="whour-detail-table" class="table table-hover text-center display nowrap" width="100%">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>Employee ID</th>
-                                            <th>Work date</th>
-                                            <th>Attendance type</th>
-                                            <th>Date Start</th>
-                                            <th>Time Start</th>
-                                            <th>Date Finish</th>
-                                            <th>Time finish</th>
-                                            <th>Processedon</th>
-                                            <th>Main Attendance</th>
-                                            <th>Calc Date Start</th>
-                                            <th>Calc Time Start</th>
-                                            <th>Calc Date Finish</th>
-                                            <th>Calc Time Finish</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('humanresources::pages.workhour.detail-content')
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" id="whour-attendance" class="tab-pane fade">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h4 class="text-center">Working Hour Attendance data</h4>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-footer" id="ibox-whour-attendance">
-                                <div id="form_result" role="alert"></div>
-                                <div class="table-responsive">
-                                    <table id="whour-attendance-table" class="table table-hover text-center display nowrap" width="100%">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>Employee ID</th>
-                                            <th>Work date</th>
-                                            <th>Attendance type</th>
-                                            <th>Time Start</th>
-                                            <th>Date Start</th>
-                                            <th>Time finish</th>
-                                            <th>Date Finish</th>
-                                            <th>Validatedon</th>
-                                            <th>Processedon</th>
-                                            <th>Round Date Start</th>
-                                            <th>Round Time Start</th>
-                                            <th>Round Date Finish</th>
-                                            <th>Round Time Finish</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div id="tab-3" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('humanresources::pages.workhour.attendance-content')
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
-        @include('humanresources::components.workhour._script')
-        @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
-            @include('humanresources::components.workhour-detail._script')
-        @endcan
-        @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
-            @include('humanresources::components.workhour-attendance._script')
-        @endcan
-    @endcan
-
 @endsection
+
+@push('footer-scripts')
+    <script>
+        $(document).ready(function(){
+            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if(activeTab){
+                $('#myTab a[href="' + activeTab + '"]').tab('show');
+            }
+        });
+    </script>
+@endpush
