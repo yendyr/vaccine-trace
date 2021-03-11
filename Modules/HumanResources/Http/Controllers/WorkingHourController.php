@@ -161,7 +161,13 @@ class WorkingHourController extends Controller
                 $emps = Employee::select('empid')->where('status', 1)->get();
                 foreach ($emps as $emp) {
                     $wgdata = Employee::where('empid', $emp->empid)->first();
+                    if ($wgdata == null)
+                      return response()->json(['error' => 'Error Employee data not existed']);
+
                     $wgShiftrolling = WorkingGroup::select('shiftrolling')->where('workgroup', $wgdata->workgrp)->first();
+                    if ($wgShiftrolling == null)
+                      return response()->json(['error' => 'Error Working Group of the employee data not existed']);
+
                     $splits = str_split($wgShiftrolling->shiftrolling);
                     $wgCount = count($splits);
                     $wgdetailCount = WorkingGroupDetail::where('workgroup', $wgdata->workgrp)->count();
@@ -176,7 +182,13 @@ class WorkingHourController extends Controller
                 }
             }else{
                 $wgdata = Employee::where('empid', $request->empidWhour)->first();
+                if ($wgdata == null)
+                  return response()->json(['error' => 'Error Employee data not existed']);
+
                 $wgShiftrolling = WorkingGroup::select('shiftrolling')->where('workgroup', $wgdata->workgrp)->first();
+                if ($wgShiftrolling == null)
+                  return response()->json(['error' => 'Error Working Group of the employee data not existed']);
+
                 $splits = str_split($wgShiftrolling->shiftrolling);
                 $wgCount = count($splits);
                 $wgdetailCount = WorkingGroupDetail::where('workgroup', $wgdata->workgrp)->count();
