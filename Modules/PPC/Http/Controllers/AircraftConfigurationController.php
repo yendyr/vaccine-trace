@@ -380,7 +380,6 @@ class AircraftConfigurationController extends Controller
         else {
             return response()->json(['error' => "This Aircraft Configuration and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
-        
     }
 
     public function destroy(AircraftConfiguration $AircraftConfiguration)

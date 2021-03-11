@@ -4,9 +4,7 @@ namespace Modules\SupplyChain\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class StockMutation extends Model
 {
@@ -17,10 +15,15 @@ class StockMutation extends Model
     protected $fillable = [
         'uuid',
 
+        'code',
+        'transaction_date',
         'warehouse_origin',
         'warehouse_destination',
+
         'transaction_reference_id',
         'transaction_reference_class',
+        'transaction_reference_text',
+        'transaction_reference_url',
 
         'description',
         
@@ -51,6 +54,11 @@ class StockMutation extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\Warehouse::class, 'warehouse_destination');
     }
 
+    public function stock_mutation_details()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'stock_mutation_id');
+    }
+
     public function item_stocks()
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'inbound_mutation_id');
@@ -70,6 +78,8 @@ class StockMutation extends Model
         parent::boot();
 
         static::deleting(function($StockMutation) {
+            $StockMutation->stock_mutation_details->mutation_detail_initial_aging()->delete();
+            $StockMutation->stock_mutation_details()->delete();
             $StockMutation->item_stocks()->delete();
             $StockMutation->outbond_mutation_details()->delete();
             $StockMutation->approvals()->delete(); 

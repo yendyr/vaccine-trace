@@ -80,12 +80,12 @@
                             <i class="fa fa-wrench text-warning"></i>&nbsp;Rectification
                         </a>
                     </li>
-                    <li role="presentation">
+                    {{-- <li role="presentation">
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-5" style="min-height: 50px;" role="tab"> 
                             <i class="fa fa-unsorted text-warning"></i>&nbsp;Item Change
                         </a>
                     </li>
-                    {{-- <li>
+                    <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-6" style="min-height: 50px;"> 
                             <i class="fa fa-exclamation-circle text-warning"></i>&nbsp;MEL
                         </a>
@@ -100,6 +100,11 @@
                             <i class="fa fa-history text-warning"></i>&nbsp;Pre/Post Check
                         </a>
                     </li> --}}
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-9" style="min-height: 50px;"> 
+                            <i class="fa fa-history text-warning"></i>&nbsp;Approval Status
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -131,10 +136,17 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-4" class="tab-pane">
+                    {{-- <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
                                 @include('flightoperations::pages.afmlog.rectification.content')
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div id="tab-9" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                @include('flightoperations::pages.afmlog.approval-status.content')
                             </div>
                         </div>
                     </div>

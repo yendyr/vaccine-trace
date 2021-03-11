@@ -2,32 +2,32 @@
 
 namespace Modules\SupplyChain\Http\Controllers;
 
-use Modules\SupplyChain\Entities\ItemStock;
+use Modules\SupplyChain\Entities\StockMutation;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Yajra\DataTables\Facades\DataTables;
 
-class StockMonitoringController extends Controller
+class StockMutationOutboundController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(ItemStock::class);
+        $this->authorizeResource(StockMutation::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ItemStock::with(['item:id,code,name',
+            $data = StockMutation::with(['item:id,code,name',
                                     'item_group:id,item_id,alias_name,coding,parent_coding',
                                     'warehouse'])
-                                // ->whereHas('warehouse.aircraft_configuration', function ($q) {
-                                //     $q->whereHas('approvals');
-                                // })
+                                ->whereHas('warehouse.aircraft_configuration', function ($q) {
+                                    $q->whereHas('approvals');
+                                })
                                 ->get();
 
             return Datatables::of($data)
@@ -53,6 +53,6 @@ class StockMonitoringController extends Controller
                 ->escapeColumns([])
                 ->make(true);
         }
-        return view('supplychain::pages.stock-monitoring.index');
+        return view('supplychain::pages.mutation.outbound.index');
     }
 }

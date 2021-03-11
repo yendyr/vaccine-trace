@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStockMutationsTable extends Migration
+class CreateStockMutationDetailInitialAgingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,24 +13,23 @@ class CreateStockMutationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock_mutations', function (Blueprint $table) {
+        Schema::create('stock_mutation_detail_initial_agings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('code')->nullable();
-            $table->date('transaction_date')->nullable();
-            $table->string('warehouse_origin')->nullable();
-            $table->string('warehouse_destination')->nullable();
+            $table->string('stock_mutation_detail_id');
 
-            $table->string('transaction_reference_id')->nullable();
-            $table->string('transaction_reference_class')->nullable();
-            $table->string('transaction_reference_text')->nullable();
-            $table->string('transaction_reference_url')->nullable();
+            $table->date('expired_date')->nullable();
+            $table->double('initial_flight_hour')->nullable()->default(0);
+            $table->double('initial_block_hour')->nullable()->default(0);
+            $table->integer('initial_flight_cycle')->nullable()->default(0);
+            $table->integer('initial_flight_event')->nullable()->default(0);
+            $table->date('initial_start_date')->nullable();
 
             $table->string('description')->nullable();
-
+            
             $table->rememberToken();
-            $table->integer('status')->nullable()->default(1);
+            $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();
@@ -48,6 +46,6 @@ class CreateStockMutationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock_mutations');
+        Schema::dropIfExists('stock_mutation_detail_inital_agings');
     }
 }

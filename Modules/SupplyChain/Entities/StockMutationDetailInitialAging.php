@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\PPC\Entities;
+namespace Modules\SupplyChain\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class ItemStockAging extends Model
+class StockMutationDetailInitialAging extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -15,17 +15,14 @@ class ItemStockAging extends Model
     protected $fillable = [
         'uuid',
 
-        'item_stock_id',
+        'stock_mutation_detail_id',
 
-        'transaction_reference_id',
-        'transaction_reference_class',
-        'transaction_reference_text',
-        'transaction_reference_url',
-
-        'flight_hour',
-        'block_hour',
-        'flight_cycle',
-        'flight_event',
+        'initial_flight_hour',
+        'initial_block_hour',
+        'initial_flight_cycle',
+        'initial_flight_event',
+        'initial_start_date',
+        'description',
         
         'status',
         'created_by',
@@ -44,13 +41,8 @@ class ItemStockAging extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function item_stock()
+    public function stock_mutation_detail()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemStock::class, 'item_stock_id');
-    }
-
-    public function afm_log_reference()
-    {
-        return $this->belongsTo(\Modules\FlightOperation\Entities\AfmLog::class, 'transaction_reference_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'stock_mutation_detail_id');
     }
 }

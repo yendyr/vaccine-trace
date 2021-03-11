@@ -18,8 +18,11 @@ class CreateItemStockAgingsTable extends Migration
             $table->uuid('uuid')->unique();
 
             $table->string('item_stock_id');
+
             $table->string('transaction_reference_id');
             $table->string('transaction_reference_class');
+            $table->string('transaction_reference_text');
+            $table->string('transaction_reference_url');
 
             $table->double('flight_hour')->nullable()->default(0);
             $table->double('block_hour')->nullable()->default(0);

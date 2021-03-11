@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class ItemStock extends Model
+class StockMutationDetail extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -15,10 +15,10 @@ class ItemStock extends Model
     protected $fillable = [
         'uuid',
 
+        'stock_mutation_id',
+
         'coding',
-        'warehouse_id',
         'detailed_item_location',
-        'inbound_mutation_id',
         'item_id',
         'serial_number',
         'alias_name',
@@ -47,19 +47,9 @@ class ItemStock extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function warehouse()
+    public function stock_mutation()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\Warehouse::class, 'warehouse_id');
-    }
-
-    public function inbound_mutation()
-    {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'inbound_mutation_id');
-    }
-
-    public function outbond_mutation_details()
-    {
-        return $this->hasMany(\Modules\SupplyChain\Entities\OutbondMutationDetail::class, 'item_stock_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'stock_mutation_id');
     }
 
     public function item()
@@ -67,32 +57,26 @@ class ItemStock extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'item_id');
     }
 
-    public function item_stock_initial_aging()
+    public function mutation_detail_initial_aging()
     {
-        return $this->hasOne(\Modules\PPC\Entities\ItemStockInitialAging::class, 'item_stock_id');
-    }
-
-    public function item_stock_agings()
-    {
-        return $this->hasMany(\Modules\PPC\Entities\ItemStockAging::class, 'item_stock_id');
+        return $this->hasOne(\Modules\SupplyChain\Entities\StockMutationDetailInitialAging::class, 'stock_mutation_detail_id');
     }
 
     public function item_group()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemStock::class, 'parent_coding', 'coding');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'parent_coding', 'coding');
     }
 
     public function all_childs()
     {
-        return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'parent_coding', 'coding')->with('all_childs');
+        return $this->hasMany(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
 
     public static function boot() {
         parent::boot();
 
-        static::deleting(function($ItemStock) {
-             $ItemStock->outbond_mutation_details()->delete();
-             $ItemStock->item_stock_initial_aging()->delete();
+        static::deleting(function($StockMutationDetail) {
+             $StockMutationDetail->mutation_detail_initial_aging()->delete();
         });
     }
 }

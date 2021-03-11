@@ -98,6 +98,85 @@ class SupplyChainMenuSeeder extends Seeder
             'parent_id' => null
         ]);
 
+        $menuMutation = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Inventory/Stock Mutation',
+            'menu_route' => null,
+            'menu_icon' => 'fa-exchange',
+            'menu_class' => null,
+            'menu_id' => null,
+            'group' => 'Supply Chain',
+            'add' => 0,
+            'update' => 0,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 0,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        Menu::create([
+            'menu_link' => 'supplychain/mutation-inbound',
+            'menu_text' => 'Inbound',
+            'menu_route' => 'supplychain.mutation-inbound.index',
+            'menu_icon' => 'fa-cloud-download',
+            'menu_class' => 'Modules\SupplyChain\Entities\StockMutation',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['supplychain/mutation-inbound', 'supplychain/mutation-inbound/*']),
+            'group' => 'Supply Chain',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuMutation->id
+        ]);
+
+        Menu::create([
+            'menu_link' => 'supplychain/mutation-outbound',
+            'menu_text' => 'Outbond',
+            'menu_route' => 'supplychain.mutation-outbound.index',
+            'menu_icon' => 'fa-cloud-upload',
+            'menu_class' => 'Modules\SupplyChain\Entities\StockMutation',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['supplychain/mutation-outbound', 'supplychain/mutation-outbound/*']),
+            'group' => 'Supply Chain',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuMutation->id
+        ]);
+
+        Menu::create([
+            'menu_link' => 'supplychain/mutation-transfer',
+            'menu_text' => 'Transfer/Internal Movement',
+            'menu_route' => 'supplychain.mutation-transfer.index',
+            'menu_icon' => 'fa-random',
+            'menu_class' => 'Modules\SupplyChain\Entities\StockMutation',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['supplychain/mutation-transfer', 'supplychain/mutation-transfer/*']),
+            'group' => 'Supply Chain',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuMutation->id
+        ]);
+
         Menu::create([
             'menu_link' => 'supplychain/stock-monitoring',
             'menu_text' => 'Stock Monitoring',

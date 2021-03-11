@@ -4,8 +4,8 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = '/ppc/configuration-detail';
-    var tableId = '#configuration-detail';
+    var actionUrl = '/supplychain/mutation-inbound-detail';
+    var tableId = '#mutation-inbound-detail-table';
     var inputFormId = '#inputForm';
 
     var datatableObject = $(tableId).DataTable({
@@ -14,23 +14,25 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/ppc/configuration-detail/?id=" + $('#aircraft_configuration_id').val(),
+            url: "/supplychain/mutation-inbound-detail/?id=" + $('#stock_mutation_id').val(),
         },
         columns: [
-            { data: 'item.code', name: 'Item Code/PN' },
-            { data: 'item.name', name: 'Item Name' },
-            { data: 'serial_number', name: 'Serial Number' },
-            { data: 'alias_name', name: 'Alias Name' },
-            { data: 'description', name: 'Description/Remark' },
-            { data: 'highlighted', name: 'Highlight Item' },
+            { data: 'item.code' },
+            { data: 'item.name' },
+            { data: 'serial_number', defaultContent: '-' },
+            { data: 'quantity' },
+            { data: 'item.unit.name' },
+            { data: 'alias_name', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'highlighted', defaultContent: '-' },
             { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
             { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
-            { data: 'item_stock_initial_aging.initial_flight_hour', defaultContent: '-' },
-            { data: 'item_stock_initial_aging.initial_block_hour', defaultContent: '-' },
-            { data: 'item_stock_initial_aging.initial_flight_cycle', defaultContent: '-' },
-            { data: 'item_stock_initial_aging.initial_flight_event', defaultContent: '-' },
-            { data: 'item_stock_initial_aging.initial_start_date', defaultContent: '-' },
-            { data: 'status', name: 'Status' },
+            { data: 'mutation_detail_initial_aging.initial_flight_hour', defaultContent: '-' },
+            { data: 'mutation_detail_initial_aging.initial_block_hour', defaultContent: '-' },
+            { data: 'mutation_detail_initial_aging.initial_flight_cycle', defaultContent: '-' },
+            { data: 'mutation_detail_initial_aging.initial_flight_event', defaultContent: '-' },
+            { data: 'mutation_detail_initial_aging.initial_start_date', defaultContent: '-' },
+            // { data: 'status', name: 'Status' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
             { data: 'action', name: 'Action', orderable: false },
@@ -60,12 +62,12 @@ $(document).ready(function () {
         minimumResultsForSearch: 10,
         allowClear: true,
         ajax: {
-            url: "{{ route('ppc.configuration-detail.select2') }}",
+            url: "{{ route('supplychain.mutation-inbound-detail.select2') }}",
             dataType: 'json',
             data: function (params) {
                 var getHeaderId = { 
                     term: params.term,
-                    aircraft_configuration_id: $('#aircraft_configuration_id').val(),
+                    stock_mutation_id: $('#stock_mutation_id').val(),
                 }
                 return getHeaderId;
             }
@@ -106,13 +108,14 @@ $(document).ready(function () {
         }).prependTo('#inputForm');
 
         $('#alias_name').val(data.alias_name);
+        $('#quantity').val(data.quantity);
         $('#serial_number').val(data.serial_number);
         $('#description').val(data.description);
-        $('#initial_flight_hour').val(data.item_stock_initial_aging.initial_flight_hour);
-        $('#initial_block_hour').val(data.item_stock_initial_aging.initial_block_hour);
-        $('#initial_flight_cycle').val(data.item_stock_initial_aging.initial_flight_cycle);
-        $('#initial_flight_event').val(data.item_stock_initial_aging.initial_flight_event);
-        $('.initial_start_date').val(data.item_stock_initial_aging.initial_start_date);
+        $('#initial_flight_hour').val(data.mutation_detail_initial_aging.initial_flight_hour);
+        $('#initial_block_hour').val(data.mutation_detail_initial_aging.initial_block_hour);
+        $('#initial_flight_cycle').val(data.mutation_detail_initial_aging.initial_flight_cycle);
+        $('#initial_flight_event').val(data.mutation_detail_initial_aging.initial_flight_event);
+        $('.initial_start_date').val(data.mutation_detail_initial_aging.initial_start_date);
 
         if (data.item != null) {
             $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.code + ' | ' + data.item.name + '</option>');
@@ -129,12 +132,20 @@ $(document).ready(function () {
             $('#highlight').prop('checked', false);
         }
 
-        if (data.status == '<label class="label label-success">Active</label>') {
-            $('#status').prop('checked', true);
+        if($('#quantity').val() > 1) {
+            $('#serial_number').val(null);
+            $('#serial_number').prop('disabled', true);
         }
         else {
-            $('#status').prop('checked', false);
+            $('#serial_number').prop('disabled', false);
         }
+
+        // if (data.status == '<label class="label label-success">Active</label>') {
+        //     $('#status').prop('checked', true);
+        // }
+        // else {
+        //     $('#status').prop('checked', false);
+        // }
 
         $('#saveBtn').val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation
@@ -156,51 +167,16 @@ $(document).ready(function () {
 
 
 
-    // ----------------- "APPROVE" BUTTON SCRIPT ------------- //
-    $('.approveBtn').on('click', function () {
-        rowId = $(this).val();
-        $('#approve-form').trigger("reset");
-        $('#approveModal').modal('show');
-        $('#approve-form').attr('action', '/ppc/aircraft-configuration/' + rowId + '/approve');
+    
+    $("#quantity").on('change', function () {
+        if($('#quantity').val() > 1) {
+            $('#serial_number').val(null);
+            $('#serial_number').prop('disabled', true);
+        }
+        else {
+            $('#serial_number').prop('disabled', false);
+        }            
     });
-
-    $('#approve-form').on('submit', function (e) {
-        e.preventDefault();
-        let url_action = $(this).attr('action');
-        $.ajax({
-            headers: {
-                "X-CSRF-TOKEN": $(
-                    'meta[name="csrf-token"]'
-                ).attr("content")
-            },
-            url: url_action,
-            type: "POST",
-            data: $('#approve-form').serialize(),
-            dataType: 'json',
-            beforeSend:function(){
-                $('#approve-button').text('Approving...');
-                $('#approve-button').prop('disabled', true);
-            },
-            error: function(data){
-                if (data.error) {
-                    generateToast ('error', data.error);
-                }
-            },
-            success:function(data){
-                if (data.success){
-                    generateToast ('success', data.success);
-                }
-                setTimeout(location.reload.bind(location), 2000);
-            },
-            complete: function(data) {
-                $('#approve-button').text('Approve');
-                $('#approveModal').modal('hide');
-                $('#approve-button').prop('disabled', false);
-                $(targetTableId).DataTable().ajax.reload();
-            }
-        });
-    });
-    // ----------------- END "APPROVE" BUTTON SCRIPT ------------- //
 });
 </script>
 @endpush

@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStockMutationsTable extends Migration
+class CreateStockMutationDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,21 +13,27 @@ class CreateStockMutationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock_mutations', function (Blueprint $table) {
+        Schema::create('stock_mutation_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('code')->nullable();
-            $table->date('transaction_date')->nullable();
-            $table->string('warehouse_origin')->nullable();
-            $table->string('warehouse_destination')->nullable();
+            $table->string('stock_mutation_id');
 
-            $table->string('transaction_reference_id')->nullable();
-            $table->string('transaction_reference_class')->nullable();
-            $table->string('transaction_reference_text')->nullable();
-            $table->string('transaction_reference_url')->nullable();
+            $table->string('item_id');
+            $table->string('serial_number')->nullable();
+            $table->string('detailed_item_location')->nullable();
 
+            $table->string('coding')->nullable();
+
+            $table->integer('price_exclude_tax')->default(0);
+            $table->integer('quantity')->default(1);
+            $table->integer('used_quantity')->default(0);
+            $table->integer('loaned_quantity')->default(0);
+
+            $table->string('alias_name')->nullable();
             $table->string('description')->nullable();
+            $table->integer('highlight')->default(0)->nullable();
+            $table->string('parent_coding')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable()->default(1);
@@ -48,6 +53,6 @@ class CreateStockMutationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock_mutations');
+        Schema::dropIfExists('stock_mutation_details');
     }
 }

@@ -270,6 +270,8 @@ class AfmLogController extends Controller
                 'item_stock_id' => $item->id,
                 'transaction_reference_id' => $afmlog->id,
                 'transaction_reference_class' => 'Modules\FlightOperations\Entities\AfmLog',
+                'transaction_reference_text' => 'Aircraft Flight & Maintenance Log',
+                'transaction_reference_url' => 'flightoperations/afmlog',
 
                 'flight_hour' => $afmlog->total_flight_hour,
                 'block_hour' => $afmlog->total_block_hour,
