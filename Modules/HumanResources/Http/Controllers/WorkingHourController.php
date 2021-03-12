@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Modules\HumanResources\Entities\Employee;
 use Modules\HumanResources\Entities\Holiday;
 use Modules\HumanResources\Entities\WorkingGroup;
@@ -162,11 +163,11 @@ class WorkingHourController extends Controller
                 foreach ($emps as $emp) {
                     $wgdata = Employee::where('empid', $emp->empid)->first();
                     if ($wgdata == null)
-                      return response()->json(['error' => 'Error Employee data not existed']);
+                      throw ValidationException::withMessages(['empidWhour' => ['Employee data not existed']]);
 
                     $wgShiftrolling = WorkingGroup::select('shiftrolling')->where('workgroup', $wgdata->workgrp)->first();
                     if ($wgShiftrolling == null)
-                      return response()->json(['error' => 'Error Working Group of the employee data not existed']);
+                      throw ValidationException::withMessages(['empidWhour' => ['Working Group of the employee data not existed']]);
 
                     $splits = str_split($wgShiftrolling->shiftrolling);
                     $wgCount = count($splits);
@@ -183,11 +184,11 @@ class WorkingHourController extends Controller
             }else{
                 $wgdata = Employee::where('empid', $request->empidWhour)->first();
                 if ($wgdata == null)
-                  return response()->json(['error' => 'Error Employee data not existed']);
+                  throw ValidationException::withMessages(['empidWhour' => ['Employee data not existed']]);
 
                 $wgShiftrolling = WorkingGroup::select('shiftrolling')->where('workgroup', $wgdata->workgrp)->first();
                 if ($wgShiftrolling == null)
-                  return response()->json(['error' => 'Error Working Group of the employee data not existed']);
+                  throw ValidationException::withMessages(['empidWhour' => ['Working Group of the employee data not existed']]);
 
                 $splits = str_split($wgShiftrolling->shiftrolling);
                 $wgCount = count($splits);
