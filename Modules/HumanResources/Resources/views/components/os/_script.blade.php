@@ -1,3 +1,6 @@
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
+
 @push('footer-scripts')
     <script>
         var treeGridObj;    //var for TreeGRidObj
@@ -117,6 +120,9 @@
 
         $(document).ready(function () {
             reloadOs();
+            var actionUrl = '/hr/org-structure';
+            var tableId = '#os-table';
+            var inputFormId = '#osForm';
 
             $('.select2_orgparent').select2({
                 theme: 'bootstrap4',
@@ -146,52 +152,12 @@
                 $('#forglevel').attr('disabled', false);
                 $("#osForm").find('#forgcode').attr('disabled', false);
 
-                $('#osModal').modal('show');
-                $('#osForm').attr('action', '/hr/org-structure');
-                $("input[value='patch']").remove();
+                showCreateModal ('Add New Organization Structure data', inputFormId, actionUrl, '#osModal');
             });
 
-            $('#osForm').on('submit', function (event) {
-                event.preventDefault();
-                let url_action = $(this).attr('action');
-                $.ajax({
-                    headers: {
-                        "X-CSRF-TOKEN": $(
-                            'meta[name="csrf-token"]'
-                        ).attr("content")
-                    },
-                    url: url_action,
-                    method: "POST",
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    beforeSend:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'start' );
-                        $('[class^="invalid-feedback-"]').html('');
-                        $("#osForm").find('#saveBtn').prop('disabled', true);
-                    },
-                    success:function(data){
-                        if (data.success) {
-                            $("#ibox-os").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-os").find('#form_result').html(data.success);
-                        }
-                        $('#osModal').modal('hide');
-                        reloadOs();
-                    },
-                    error:function(data){
-                        let errors = data.responseJSON.errors;
-                        if (errors) {
-                            $.each(errors, function (index, value) {
-                                $('div.invalid-feedback-'+index).html(value);
-                            })
-                        }
-                    },
-                    complete:function(){
-                        let l = $( '.ladda-button-submit' ).ladda();
-                        l.ladda( 'stop' );
-                        $("#osForm").find('#saveBtn').prop('disabled', false);
-                    }
-                });
+            $(inputFormId).on('submit', function (event) {
+                submitButtonProcessDynamic (tableId, inputFormId, '#osModal');
+                reloadOs();
             });
         });
 

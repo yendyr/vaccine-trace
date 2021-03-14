@@ -1,40 +1,45 @@
+@include('components.toast.script-generate')
+@include('components.crud-form.basic-script-submit')
+
 @push('footer-scripts')
     <script>
-
-        $('#ost-table').DataTable({
-            retrieve: true,
-            processing: true,
-            serverSide: false,
-            searchDelay: 1500,
-            language: {
-                emptyTable: "Nothing Organization Structure Title data get",
-            },
-            ajax: {
-                url: "/hr/org-structure-title",
-                type: "GET",
-                dataType: "json",
-            },
-            columns: [
-                { data: 'titlecode.title', name: 'titlecode.title' },
-                { data: 'jobtitle', name: 'jobtitle' },
-                { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false },
-                { data: 'orgcode', name: 'orgcode', visible: false },
-            ]
-        });
-        $('#TreeGrid').on('click', function () {
-            let selectedrecords = treeGridObj.getSelectedRecords();
-            let orgCode = selectedrecords[0].orgcode;
-            let orgstructure = {orgcode: orgCode};
-            let urlAjax = "/hr/org-structure-title?orgcode=" + orgstructure.orgcode;
-            if ( $.fn.DataTable.isDataTable('#ost-table') ) {
-                $('#ost-table').DataTable().ajax.url(urlAjax).load();
-            }
-        });
-
         $(document).ready(function () {
+            var actionUrl = '/hr/org-structure-title';
+            var tableId = '#ost-table';
+            var inputFormId = '#ostForm';
+
+            var tableOst = $('#ost-table').DataTable({
+                retrieve: true,
+                processing: true,
+                serverSide: false,
+                searchDelay: 1500,
+                language: {
+                    emptyTable: "Nothing Organization Structure Title data get",
+                },
+                ajax: {
+                    url: actionUrl,
+                    type: "GET",
+                    dataType: "json",
+                },
+                columns: [
+                    { data: 'titlecode.title', name: 'titlecode.title' },
+                    { data: 'jobtitle', name: 'jobtitle' },
+                    { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false },
+                    { data: 'orgcode', name: 'orgcode', visible: false },
+                ]
+            });
+            $('#TreeGrid').on('click', function () {
+                let selectedrecords = treeGridObj.getSelectedRecords();
+                let orgCode = selectedrecords[0].orgcode;
+                let orgstructure = {orgcode: orgCode};
+                let urlAjax = "/hr/org-structure-title?orgcode=" + orgstructure.orgcode;
+                if ( $.fn.DataTable.isDataTable('#ost-table') ) {
+                    $('#ost-table').DataTable().ajax.url(urlAjax).load();
+                }
+            });
 
             $('.select2_orgcode').select2({
                 theme: 'bootstrap4',
@@ -74,20 +79,18 @@
             });
 
             $('#createOST').click(function () {
-                $('#saveBtn').val("create-os");
+                $('#saveBtn').val("create-ost");
                 $('#ostForm').trigger("reset");
                 $("#ostModal").find('#modalTitle').html("Add New Organization Structure title data");
                 $('[class^="invalid-feedback-"]').html('');  //delete html all alert with pre-string invalid-feedback
-                $(".select2_orgcode").val(null).trigger('change');
-                $(".select2_titlecode").val(null).trigger('change');
-                $(".select2_rptorg").select2("val", "none");
-                $(".select2_rpttitle").select2("val", "none");
-                $('#forgcode').attr('disabled', false);
-                $('#fjobtitle').attr('readonly', false);
+                $('#ostForm').find(".select2_orgcode").val(null).trigger('change');
+                $('#ostForm').find(".select2_titlecode").val(null).trigger('change');
+                $('#ostForm').find(".select2_rptorg").select2("val", "none");
+                $('#ostForm').find(".select2_rpttitle").select2("val", "none");
+                $('#ostForm').find('#forgcode').attr('disabled', false);
+                $('#ostForm').find('#fjobtitle').attr('readonly', false);
 
-                $('#ostModal').modal('show');
-                $("input[value='patch']").remove();
-                $('#ostForm').attr('action', '/hr/org-structure-title');
+                showCreateModal ('Add New Organization Structure title data', inputFormId, actionUrl, '#ostModal');
             });
 
             $('#ost-table').on('click', '.editBtn', function () {
@@ -103,8 +106,8 @@
                 }).prependTo('#ostForm');
 
                 $(".select2_orgcode").val(null).trigger('change');
-                $('#forgcode').attr('disabled', true);
-                $('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');
+                $('#ostForm').find('#forgcode').attr('disabled', true);
+                $('#ostForm').find('#forgcode').append('<option value="' + data.orgcode.code + '" selected>' + data.orgcode.code + ' - ' + data.orgcode.name + '</option>');
 
                 $('#ftitlecode').append('<option value="' + data.titlecode.value + '" selected>' + data.titlecode.title + '</option>');
 
@@ -160,11 +163,17 @@
                     },
                     success:function(data){
                         if (data.success) {
-                            $("#ibox-ost").find('#form_result').attr('class', 'alert alert-success fade show font-weight-bold');
-                            $("#ibox-ost").find('#form_result').html(data.success);
+                            $('.notif').removeAttr('class').attr('class', 'notif');
+                            $('#notifTitle').html("Success");
+                            $('#notifMessage').html(data.success);
+                            $('.notif').addClass('toast');
+                            $('.notif').addClass('toast-success');
+                            $('.notif').addClass('animated');
+                            $('.notif').addClass('slideInRight');
+                            $('.notif').toast('show');
                         }
                         $('#ostModal').modal('hide');
-                        $('#ost-table').DataTable().ajax.reload();
+                        $(tableId).DataTable().ajax.reload();
                     },
                     error:function(data){
                         let errors = data.responseJSON.errors;
