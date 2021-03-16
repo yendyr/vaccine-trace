@@ -34,8 +34,7 @@ class AircraftConfigurationDetailController extends Controller
                         ->with(['item:id,code,name',
                                 'item_stock_initial_aging',
                                 'item_group:id,item_id,alias_name,coding,parent_coding'])
-                        ->orderBy('created_at','desc')
-                        ->get();
+                        ->orderBy('created_at','desc');
                                                 
         if ($AircraftConfiguration->approvals()->count() == 0) {
             return Datatables::of($data)

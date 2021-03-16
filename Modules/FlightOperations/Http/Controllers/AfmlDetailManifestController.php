@@ -27,8 +27,7 @@ class AfmlDetailManifestController extends Controller
         $afm_log_id = $request->id;
         
         $data = AfmlDetailManifest::where('afm_log_id', $afm_log_id)
-                            ->with(['cargo_weight_unit:id,name'])
-                            ->get();
+                            ->with(['cargo_weight_unit:id,name']);
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 

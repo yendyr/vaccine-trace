@@ -29,8 +29,7 @@ class AfmlDetailRectificationController extends Controller
         
         $data = AfmlDetailRectification::where('afm_log_id', $afm_log_id)
                                         ->with(['afml_detail_discrepancy',
-                                                'employee:id,fullname'])
-                                        ->get();
+                                                'employee:id,fullname']);
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 

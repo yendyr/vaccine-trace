@@ -8,7 +8,6 @@ use Modules\PPC\Entities\ItemStockAging;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
 
@@ -28,8 +27,7 @@ class ItemStockAgingController extends Controller
             $data = ItemStock::with(['item:id,code,name',
                                     'warehouse',
                                     'item_stock_initial_aging',
-                                    'item_stock_agings'])
-                                    ->get();
+                                    'item_stock_agings']);
 
             return Datatables::of($data)
                 ->addColumn('current_position', function($row){

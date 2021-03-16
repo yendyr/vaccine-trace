@@ -5,7 +5,6 @@ namespace Modules\PPC\Http\Controllers;
 use Modules\PPC\Entities\MaintenanceProgram;
 use Modules\PPC\Entities\MaintenanceProgramDetail;
 use Modules\PPC\Entities\MaintenanceProgramApproval;
-use Modules\PPC\Entities\Taskcard;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -90,6 +89,9 @@ class MaintenanceProgramController extends Controller
     {
         $request->validate([
             'aircraft_type_id' => ['required', 'max:30'],
+            'code' => ['required', 'max:30'],
+            'name' => ['required', 'max:30'],
+            'description' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -163,6 +165,9 @@ class MaintenanceProgramController extends Controller
         if ($currentRow->approvals()->count() == 0) {
             $request->validate([
                 'aircraft_type_id' => ['required', 'max:30'],
+                'code' => ['required', 'max:30'],
+                'name' => ['required', 'max:30'],
+                'description' => ['required', 'max:30'],
             ]);
     
             if ($request->status) {

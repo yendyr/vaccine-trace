@@ -26,6 +26,7 @@ class UnitClassController extends Controller
     {
         if ($request->ajax()) {
             $data = UnitClass::all();
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

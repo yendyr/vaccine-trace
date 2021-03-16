@@ -4,8 +4,6 @@ namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\MaintenanceProgram;
 use Modules\PPC\Entities\MaintenanceProgramDetail;
-use Modules\PPC\Entities\MaintenanceProgramApproval;
-use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\TaskcardDetailInstruction;
 use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
@@ -180,17 +178,6 @@ class MaintenanceProgramDetailController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'aircraft_type_id' => ['required', 'max:30'],
-        // ]);
-
-        // if ($request->status) {
-        //     $status = 1;
-        // } 
-        // else {
-        //     $status = 0;
-        // }
-
         $existRow = MaintenanceProgramDetail::where('maintenance_program_id', $request->maintenance_program_id)
                                             ->where('taskcard_id', $request->taskcard_id)
                                             ->exists();

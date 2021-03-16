@@ -27,8 +27,7 @@ class StockMutationOutboundController extends Controller
                                     'warehouse'])
                                 ->whereHas('warehouse.aircraft_configuration', function ($q) {
                                     $q->whereHas('approvals');
-                                })
-                                ->get();
+                                });
 
             return Datatables::of($data)
                 ->addColumn('warehouse', function($row){

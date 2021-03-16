@@ -6,7 +6,6 @@ use Modules\QualityAssurance\Entities\TaskReleaseLevel;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -26,6 +25,7 @@ class TaskReleaseLevelController extends Controller
     {
         if ($request->ajax()) {
             $data = TaskReleaseLevel::with(['engineering_level:id,name']);
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

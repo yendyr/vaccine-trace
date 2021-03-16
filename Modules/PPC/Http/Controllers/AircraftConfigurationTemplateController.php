@@ -7,7 +7,6 @@ use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +27,7 @@ class AircraftConfigurationTemplateController extends Controller
     {
         if ($request->ajax()) {
             $data = AircraftConfigurationTemplate::with(['aircraft_type:id,name']);
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

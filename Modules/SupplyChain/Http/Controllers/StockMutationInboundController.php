@@ -29,8 +29,7 @@ class StockMutationInboundController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = StockMutation::with(['destination','approvals'])
-                                    ->get();
+            $data = StockMutation::with(['destination','approvals']);
 
             return Datatables::of($data)
                 ->addColumn('reference', function($row){

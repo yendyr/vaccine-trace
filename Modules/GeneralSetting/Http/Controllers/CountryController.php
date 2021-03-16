@@ -6,10 +6,8 @@ use Modules\GeneralSetting\Entities\Country;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class CountryController extends Controller
@@ -26,6 +24,7 @@ class CountryController extends Controller
     {
         if ($request->ajax()) {
             $data = Country::all();
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
