@@ -6,7 +6,6 @@ use Modules\PPC\Entities\AircraftType;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -26,6 +25,7 @@ class AircraftTypeController extends Controller
     {
         if ($request->ajax()) {
             $data = AircraftType::with(['manufacturer:id,name']);
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

@@ -27,8 +27,7 @@ class AfmlDetailDiscrepancyController extends Controller
     {
         $afm_log_id = $request->id;
         
-        $data = AfmlDetailDiscrepancy::where('afm_log_id', $afm_log_id)
-                            ->get();
+        $data = AfmlDetailDiscrepancy::where('afm_log_id', $afm_log_id);
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 

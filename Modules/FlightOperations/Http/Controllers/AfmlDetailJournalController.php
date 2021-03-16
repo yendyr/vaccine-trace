@@ -30,8 +30,7 @@ class AfmlDetailJournalController extends Controller
         
         $data = AfmlDetailJournal::where('afm_log_id', $afm_log_id)
                             ->with(['from_airport:id,iata_code,name',
-                                    'to_airport:id,iata_code,name'])
-                            ->get();
+                                    'to_airport:id,iata_code,name']);
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 

@@ -26,6 +26,7 @@ class CompanyController extends Controller
     {
         if ($request->ajax()) {
             $data = Company::all();
+            
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){

@@ -25,10 +25,12 @@ class StockMonitoringController extends Controller
             $data = ItemStock::with(['item:id,code,name',
                                     'item_group:id,item_id,alias_name,coding,parent_coding',
                                     'warehouse'])
-                                // ->whereHas('warehouse.aircraft_configuration', function ($q) {
-                                //     $q->whereHas('approvals');
-                                // })
-                                ->get();
+                                ->whereHas('warehouse', function ($warehouse) {
+                                    $warehouse->whereHas('aircraft_configuration', function ($aircraft_configuration) {
+                                        $aircraft_configuration->has('approvals');
+                                    })
+                                    ->orWhere('aircraft_configuration_id', null);
+                                });
 
             return Datatables::of($data)
                 ->addColumn('warehouse', function($row){

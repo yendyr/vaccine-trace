@@ -28,8 +28,7 @@ class AfmlDetailCrewController extends Controller
         
         $data = AfmlDetailCrew::where('afm_log_id', $afm_log_id)
                             ->with(['employee:id,fullname',
-                                    'in_flight_role:id,role_name,role_name_alias'])
-                            ->get();
+                                    'in_flight_role:id,role_name,role_name_alias']);
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
 

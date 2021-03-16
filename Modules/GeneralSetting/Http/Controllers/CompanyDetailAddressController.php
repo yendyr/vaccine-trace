@@ -6,11 +6,9 @@ use Modules\GeneralSetting\Entities\CompanyDetailAddress;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Yajra\DataTables\Facades\DataTables;
 
 class CompanyDetailAddressController extends Controller
 {
@@ -20,16 +18,6 @@ class CompanyDetailAddressController extends Controller
     {
         $this->authorizeResource(CompanyDetailAddress::class);
         $this->middleware('auth');
-    }
-
-    public function index(Request $request)
-    {
-        
-    }
-
-    public function create()
-    {
-        
     }
 
     public function store(Request $request)

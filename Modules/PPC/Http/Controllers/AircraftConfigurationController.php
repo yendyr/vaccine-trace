@@ -3,17 +3,13 @@
 namespace Modules\PPC\Http\Controllers;
 
 use Modules\PPC\Entities\AircraftConfiguration;
-use Modules\PPC\Entities\AircraftConfigurationDetail;
 use Modules\PPC\Entities\AircraftConfigurationApproval;
 use Modules\PPC\Entities\AircraftConfigurationTemplate;
-use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 use Modules\PPC\Entities\ItemStockInitialAging;
-use Modules\SupplyChain\Entities\Warehouse;
 use Modules\SupplyChain\Entities\ItemStock;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

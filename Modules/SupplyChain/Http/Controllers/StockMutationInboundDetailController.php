@@ -33,8 +33,7 @@ class StockMutationInboundDetailController extends Controller
                                 ->with(['item.unit',
                                         'mutation_detail_initial_aging',
                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
-                                ->orderBy('created_at','desc')
-                                ->get();
+                                ->orderBy('created_at','desc');
                                                 
         if ($StockMutation->approvals()->count() == 0) {
             return Datatables::of($data)
@@ -134,9 +133,6 @@ class StockMutationInboundDetailController extends Controller
             ->escapeColumns([])
             ->make(true);
         }
-
-        
-        
     }
 
     public function tree(Request $request)

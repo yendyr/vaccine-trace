@@ -6,13 +6,10 @@ use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardDetailItem;
 use Modules\SupplyChain\Entities\Item;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -34,6 +31,7 @@ class TaskcardDetailItemController extends Controller
                                             'unit:id,name',
                                             'category:id,name',
                                         ]);
+                                        
             return Datatables::of($data)  
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';

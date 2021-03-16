@@ -25,8 +25,7 @@ class AircraftAgingController extends Controller
         if ($request->ajax()) {
             $data = AircraftConfiguration::with(['aircraft_type.manufacturer',
                                                 'afm_logs'])
-                                        ->whereHas('approvals')
-                                        ->get();
+                                        ->has('approvals');
 
             return Datatables::of($data)
                 ->addColumn('initial_start_date', function($row){

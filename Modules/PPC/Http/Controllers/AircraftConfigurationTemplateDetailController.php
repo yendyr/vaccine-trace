@@ -6,7 +6,6 @@ use Modules\PPC\Entities\AircraftConfigurationTemplateDetail;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +28,8 @@ class AircraftConfigurationTemplateDetailController extends Controller
         $data = AircraftConfigurationTemplateDetail::where('aircraft_configuration_template_id', $aircraft_configuration_template_id)
                                                 ->with(['item:id,code,name',
                                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
-                                                ->orderBy('created_at','asc')
-                                                ->get();
+                                                ->orderBy('created_at','asc');
+                                                
         return Datatables::of($data)
             ->addColumn('status', function($row){
                 if ($row->status == 1){
