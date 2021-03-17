@@ -51,6 +51,15 @@
                                     <div class="invalid-feedback-description text-danger font-italic"></div>
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Detailed Item Location</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control @error('detailed_item_location') is-invalid @enderror" name="detailed_item_location" id="detailed_item_location">
+                                    <div class="invalid-feedback-detailed_item_location text-danger font-italic"></div>
+                                </div>
+                            </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Highlight this Item</label>
                                 <div class="col-sm-7">     
@@ -129,6 +138,16 @@
                                     <div class="invalid-feedback-initial_start_date text-danger font-italic"></div>
                                 </div>
                             </div>
+
+                            <div class="form-group row" id="expired_date">
+                                <label class="col-sm-5 d-flex align-items-center">Expired Date</label>
+                                <div class="col-md-7 input-group date">
+                                    <span class="input-group-addon">Date</span>
+                                    <input type="text" class="expired_date form-control @error('expired_date') is-invalid @enderror" name="expired_date" id="expired_date" readonly>
+                                    <div class="invalid-feedback-expired_date text-danger font-italic"></div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     
@@ -162,6 +181,14 @@
 <script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 <script>
     var mem_initial_start_date = $('#initial_start_date .input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+    var mem_expired_date = $('#expired_date .input-group.date').datepicker({
         format: 'yyyy-mm-dd',
         todayBtn: "linked",
         keyboardNavigation: false,

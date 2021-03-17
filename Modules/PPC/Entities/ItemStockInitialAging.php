@@ -22,6 +22,7 @@ class ItemStockInitialAging extends Model
         'initial_flight_cycle',
         'initial_flight_event',
         'initial_start_date',
+        'expired_date',
         'description',
         
         'status',

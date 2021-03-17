@@ -134,9 +134,6 @@ class AircraftConfigurationDetailController extends Controller
             ->escapeColumns([])
             ->make(true);
         }
-
-        
-        
     }
 
     public function tree(Request $request)
@@ -196,6 +193,7 @@ class AircraftConfigurationDetailController extends Controller
             }
     
             $initial_start_date = $request->initial_start_date;
+            $expired_date = $request->expired_date;
     
             DB::beginTransaction();
             $AircraftConfigurationDetail = ItemStock::create([
@@ -225,6 +223,7 @@ class AircraftConfigurationDetailController extends Controller
                     'initial_flight_cycle' => $request->initial_flight_cycle,
                     'initial_flight_event' => $request->initial_flight_event,
                     'initial_start_date' => $initial_start_date,
+                    'expired_date' => $expired_date,
                     
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
@@ -273,6 +272,7 @@ class AircraftConfigurationDetailController extends Controller
             }
     
             $initial_start_date = $request->initial_start_date;
+            $expired_date = $request->expired_date;
             
             if (Self::isValidParent($currentRow, $request->parent_coding)) {
                 if ($request->parent_coding == $currentRow->coding) {
@@ -311,6 +311,7 @@ class AircraftConfigurationDetailController extends Controller
                     'initial_flight_cycle' => $request->initial_flight_cycle,
                     'initial_flight_event' => $request->initial_flight_event,
                     'initial_start_date' => $initial_start_date,
+                    'expired_date' => $expired_date,
                     
                     'status' => 1,
                     'updated_by' => $request->user()->id,

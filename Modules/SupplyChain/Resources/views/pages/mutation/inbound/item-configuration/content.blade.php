@@ -26,6 +26,7 @@
         <th>UoM</th>
         <th>Alias Name</th>
         <th>Remark</th>
+        <th>Detailed Location</th>
         <th>Highlighted Item</th>
         <th>Parent Item/Group PN</th>
         <th>Parent Item/Group Name & Alias</th>
@@ -34,6 +35,7 @@
         <th>Initial FC</th>
         <th>Initial Flight Event</th>
         <th>Initial Start Date</th>
+        <th>Expired Date</th>
         {{-- <th>Status</th> --}}
         <th>Created By</th>
         <th>Created At</th>

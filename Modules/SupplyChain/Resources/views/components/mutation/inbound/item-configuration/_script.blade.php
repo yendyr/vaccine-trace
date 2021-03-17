@@ -24,6 +24,7 @@ $(document).ready(function () {
             { data: 'item.unit.name' },
             { data: 'alias_name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
+            { data: 'detailed_item_location', defaultContent: '-' },
             { data: 'highlighted', defaultContent: '-' },
             { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
             { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
@@ -32,6 +33,7 @@ $(document).ready(function () {
             { data: 'mutation_detail_initial_aging.initial_flight_cycle', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_flight_event', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_start_date', defaultContent: '-' },
+            { data: 'mutation_detail_initial_aging.expired_date', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
@@ -116,6 +118,7 @@ $(document).ready(function () {
         $('#initial_flight_cycle').val(data.mutation_detail_initial_aging.initial_flight_cycle);
         $('#initial_flight_event').val(data.mutation_detail_initial_aging.initial_flight_event);
         $('.initial_start_date').val(data.mutation_detail_initial_aging.initial_start_date);
+        $('.expired_date').val(data.mutation_detail_initial_aging.expired_date);
 
         if (data.item != null) {
             $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.code + ' | ' + data.item.name + '</option>');

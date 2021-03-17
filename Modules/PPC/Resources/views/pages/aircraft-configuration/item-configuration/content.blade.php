@@ -32,6 +32,7 @@
         <th>Initial FC</th>
         <th>Initial Flight Event</th>
         <th>Initial Start Date</th>
+        <th>Expired Date</th>
         <th>Status</th>
         <th>Created By</th>
         <th>Created At</th>

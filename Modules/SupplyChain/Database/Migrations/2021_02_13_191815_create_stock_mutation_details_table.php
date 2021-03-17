@@ -29,6 +29,7 @@ class CreateStockMutationDetailsTable extends Migration
             $table->integer('quantity')->default(1);
             $table->integer('used_quantity')->default(0);
             $table->integer('loaned_quantity')->default(0);
+            $table->integer('reserved_quantity')->default(0);
 
             $table->string('alias_name')->nullable();
             $table->string('description')->nullable();

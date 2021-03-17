@@ -30,6 +30,7 @@ $(document).ready(function () {
             { data: 'item_stock_initial_aging.initial_flight_cycle', defaultContent: '-' },
             { data: 'item_stock_initial_aging.initial_flight_event', defaultContent: '-' },
             { data: 'item_stock_initial_aging.initial_start_date', defaultContent: '-' },
+            { data: 'item_stock_initial_aging.expired_date', defaultContent: '-' },
             { data: 'status', name: 'Status' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
@@ -113,6 +114,7 @@ $(document).ready(function () {
         $('#initial_flight_cycle').val(data.item_stock_initial_aging.initial_flight_cycle);
         $('#initial_flight_event').val(data.item_stock_initial_aging.initial_flight_event);
         $('.initial_start_date').val(data.item_stock_initial_aging.initial_start_date);
+        $('.expired_date').val(data.item_stock_initial_aging.expired_date);
 
         if (data.item != null) {
             $('#item_id').append('<option value="' + data.item_id + '" selected>' + data.item.code + ' | ' + data.item.name + '</option>');

@@ -188,6 +188,7 @@ class StockMutationInboundDetailController extends Controller
             }
     
             $initial_start_date = $request->initial_start_date;
+            $expired_date = $request->expired_date;
     
             DB::beginTransaction();
             $StockMutationDetail = StockMutationDetail::create([
@@ -200,6 +201,7 @@ class StockMutationInboundDetailController extends Controller
                 'alias_name' => $request->alias_name,
                 'highlight' => $highlight,
                 'description' => $request->description,
+                'detailed_item_location' => $request->detailed_item_location,
                 'parent_coding' => $request->parent_coding,
     
                 'owned_by' => $request->user()->company_id,
@@ -218,6 +220,7 @@ class StockMutationInboundDetailController extends Controller
                     'initial_flight_cycle' => $request->initial_flight_cycle,
                     'initial_flight_event' => $request->initial_flight_event,
                     'initial_start_date' => $initial_start_date,
+                    'expired_date' => $expired_date,
                     
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
@@ -275,6 +278,7 @@ class StockMutationInboundDetailController extends Controller
             }
     
             $initial_start_date = $request->initial_start_date;
+            $expired_date = $request->expired_date;
             
             if (Self::isValidParent($currentRow, $request->parent_coding)) {
                 if ($request->parent_coding == $currentRow->coding) {
@@ -297,6 +301,7 @@ class StockMutationInboundDetailController extends Controller
                     'serial_number' => $serial_number,
                     'highlight' => $highlight,
                     'description' => $request->description,
+                    'detailed_item_location' => $request->detailed_item_location,
                     'parent_coding' => $parent_coding,
     
                     'updated_by' => Auth::user()->id,
@@ -313,6 +318,7 @@ class StockMutationInboundDetailController extends Controller
                     'initial_flight_cycle' => $request->initial_flight_cycle,
                     'initial_flight_event' => $request->initial_flight_event,
                     'initial_start_date' => $initial_start_date,
+                    'expired_date' => $expired_date,
                     
                     'updated_by' => $request->user()->id,
                 ]);
