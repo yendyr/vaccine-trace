@@ -58,9 +58,9 @@ class ItemStock extends Model
         return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'inbound_mutation_id');
     }
 
-    public function outbond_mutation_details()
+    public function outbound_mutation_details()
     {
-        return $this->hasMany(\Modules\SupplyChain\Entities\OutbondMutationDetail::class, 'item_stock_id');
+        return $this->hasMany(\Modules\SupplyChain\Entities\OutboundMutationDetail::class, 'item_stock_id');
     }
 
     public function item()
@@ -92,7 +92,7 @@ class ItemStock extends Model
         parent::boot();
 
         static::deleting(function($ItemStock) {
-             $ItemStock->outbond_mutation_details()->delete();
+             $ItemStock->outbound_mutation_details()->delete();
              $ItemStock->item_stock_initial_aging()->delete();
         });
     }

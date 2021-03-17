@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOutbondMutationDetailsTable extends Migration
+class CreateOutboundMutationDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOutbondMutationDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('outbond_mutation_details', function (Blueprint $table) {
+        Schema::create('outbound_mutation_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
@@ -40,6 +40,6 @@ class CreateOutbondMutationDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('outbond_mutation_details');
+        Schema::dropIfExists('outbound_mutation_details');
     }
 }

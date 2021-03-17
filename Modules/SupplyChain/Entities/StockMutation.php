@@ -64,9 +64,9 @@ class StockMutation extends Model
         return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'inbound_mutation_id');
     }
 
-    public function outbond_mutation_details()
+    public function outbound_mutation_details()
     {
-        return $this->hasMany(\Modules\SupplyChain\Entities\OutbondMutationDetail::class, 'stock_mutation_id');
+        return $this->hasMany(\Modules\SupplyChain\Entities\OutboundMutationDetail::class, 'stock_mutation_id');
     }
 
     public function approvals()
@@ -81,7 +81,7 @@ class StockMutation extends Model
             $StockMutation->stock_mutation_details->mutation_detail_initial_aging()->delete();
             $StockMutation->stock_mutation_details()->delete();
             $StockMutation->item_stocks()->delete();
-            $StockMutation->outbond_mutation_details()->delete();
+            $StockMutation->outbound_mutation_details()->delete();
             $StockMutation->approvals()->delete(); 
         });
     }
