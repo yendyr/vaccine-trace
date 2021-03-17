@@ -3,6 +3,7 @@
 namespace Modules\SupplyChain\Http\Controllers;
 
 use Modules\SupplyChain\Entities\ItemStock;
+use app\Helpers\SupplyChain\ItemStockChecker;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -22,17 +23,7 @@ class StockMonitoringController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ItemStock::with(['item:id,code,name',
-                                    'item_group:id,item_id,alias_name,coding,parent_coding',
-                                    'warehouse'])
-                                ->whereHas('warehouse', function ($warehouse) {
-                                    $warehouse->whereHas('aircraft_configuration', function ($aircraft_configuration) {
-                                        $aircraft_configuration->has('approvals');
-                                    })
-                                    ->orWhere('aircraft_configuration_id', null);
-                                });
-
-            return Datatables::of($data)
+            return Datatables::of(ItemStockChecker::all_status())
                 ->addColumn('warehouse', function($row){
                     if ($row->warehouse->is_aircraft == 1) {
                         return '<strong>Aircraft:</strong><br>' . $row->warehouse->aircraft_configuration->registration_number . '<br>' . $row->warehouse->aircraft_configuration->serial_number;

@@ -12,7 +12,7 @@
             <th>Item Name</th>
             <th>Serial Number</th>
             <th>Alias Name</th>
-            <th>Qty</th>
+            <th>Inbound Qty</th>
             <th>Used Qty</th>
             <th>Loaned Qty</th>
             <th>Reserved Qty</th>
