@@ -10,6 +10,7 @@ class ItemStock extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
+    protected $appends = ['available_quantity'];
     use Notifiable;
 
     protected $fillable = [
@@ -86,6 +87,11 @@ class ItemStock extends Model
     public function all_childs()
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'parent_coding', 'coding')->with('all_childs');
+    }
+
+    public function getAvailableQuantityAttribute()
+    {
+        return '<strong>' . ($this->quantity - ($this->loaned_quantity + $this->used_quantity + $this->reserved_quantity)) . '</strong>';
     }
 
     public static function boot() {

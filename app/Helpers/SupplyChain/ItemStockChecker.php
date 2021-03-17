@@ -8,9 +8,9 @@ class ItemStockChecker
 {
     public static function all_status()
     {
-        $data = ItemStock::with(['item:id,code,name',
-                                    'item_group:id,item_id,alias_name,coding,parent_coding',
-                                    'warehouse'])
+        $data = ItemStock::with(['item.unit',
+                                'item_group:id,item_id,alias_name,coding,parent_coding',
+                                'warehouse'])
                                 ->whereHas('warehouse', function ($warehouse) {
                                     $warehouse->whereHas('aircraft_configuration', function ($aircraft_configuration) {
                                         $aircraft_configuration->has('approvals');

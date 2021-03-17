@@ -24,6 +24,8 @@ $(document).ready(function () {
             { data: 'used_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'loaned_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'reserved_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'available_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'item.unit.name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'description', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'parent', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
         ]
