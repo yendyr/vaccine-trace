@@ -15,6 +15,7 @@
             <th>Qty</th>
             <th>Used Qty</th>
             <th>Loaned Qty</th>
+            <th>Reserved Qty</th>
             <th>Remark</th>
             <th>Parent Item/Group Name</th>
         @endslot

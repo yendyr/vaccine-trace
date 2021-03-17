@@ -29,6 +29,7 @@ class ItemStock extends Model
         'quantity',
         'used_quantity',
         'loaned_quantity',
+        'reserved_quantity',
         
         'status',
         'created_by',
