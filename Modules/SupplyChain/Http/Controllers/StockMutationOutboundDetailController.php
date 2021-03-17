@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class StockMutationInboundDetailController extends Controller
+class StockMutationOutboundDetailController extends Controller
 {
     use AuthorizesRequests;
 
@@ -29,9 +29,9 @@ class StockMutationInboundDetailController extends Controller
         $StockMutation = StockMutation::where('id', $stock_mutation_id)->first();
         
         $data = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
-                                ->with(['item.unit',
-                                        'mutation_detail_initial_aging',
-                                        'item_group:id,item_id,alias_name,coding,parent_coding'])
+                                ->with(['item_stock.item.unit',
+                                        'item_stock.item_stock_initial_aging',
+                                        'item_stock.item_group:id,item_id,alias_name,coding,parent_coding'])
                                 ->orderBy('created_at','desc');
                                                 
         if ($StockMutation->approvals()->count() == 0) {
@@ -44,23 +44,23 @@ class StockMutationInboundDetailController extends Controller
                 }
             })
             ->addColumn('highlighted', function($row){
-                if ($row->highlight == 1){
+                if ($row->item_stock->highlight == 1) {
                     return '<label class="label label-primary">Yes</label>';
-                } else{
+                } 
+                else {
                     return '<label class="label label-danger">No</label>';
                 }
             })
             ->addColumn('parent_item_code', function($row){
-                return $row->item_group->item->code ?? '-';
+                return $row->item_stock->item_group->item->code ?? '-';
             })
             ->addColumn('parent_item_name', function($row){
-                if ($row->item_group) {
-                    return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
+                if ($row->item_stock->item_group) {
+                    return $row->item_stock->item_group->item->name . ' | ' . $row->item_stock->item_group->alias_name;
                 }
                 else {
                     return '-';
                 }
-                
             })
             ->addColumn('creator_name', function($row){
                 return $row->creator->name ?? '-';
@@ -102,23 +102,23 @@ class StockMutationInboundDetailController extends Controller
                 }
             })
             ->addColumn('highlighted', function($row){
-                if ($row->highlight == 1){
+                if ($row->item_stock->highlight == 1) {
                     return '<label class="label label-primary">Yes</label>';
-                } else{
+                } 
+                else {
                     return '<label class="label label-danger">No</label>';
                 }
             })
             ->addColumn('parent_item_code', function($row){
-                return $row->item_group->item->code ?? '-';
+                return $row->item_stock->item_group->item->code ?? '-';
             })
             ->addColumn('parent_item_name', function($row){
-                if ($row->item_group) {
-                    return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
+                if ($row->item_stock->item_group) {
+                    return $row->item_stock->item_group->item->name . ' | ' . $row->item_stock->item_group->alias_name;
                 }
                 else {
                     return '-';
                 }
-                
             })
             ->addColumn('creator_name', function($row){
                 return $row->creator->name ?? '-';
@@ -137,25 +137,26 @@ class StockMutationInboundDetailController extends Controller
     public function tree(Request $request)
     {
         $stock_mutation_id = $request->id;
-        $datas = StockMutationDetail::where('stock_mutation_id', $stock_mutation_id)
-                                ->with(['item:id,code,name',
-                                        'item_group:id,item_id,alias_name,coding,parent_coding'])
+        $datas = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
+                                ->with(['item_stock.item.unit',
+                                        'item_stock.item_stock_initial_aging',
+                                        'item_stock.item_group:id,item_id,alias_name,coding,parent_coding'])
                                 ->orderBy('created_at','desc')
                                 ->get();
 
         $response = [];
         foreach($datas as $data) {
-            if ($data->parent_coding) {
-                $parent = $data->parent_coding;
+            if ($data->item_stock->parent_coding) {
+                $parent = $data->item_stock->parent_coding;
             }
             else {
                 $parent = '#';
             }
 
             $response[] = [
-                "id" => $data->coding,
+                "id" => $data->item_stock->coding,
                 "parent" => $parent,
-                "text" => 'P/N: <strong>' . $data->item->code . '</strong> | Item Name: <strong>' . $data->item->name . '</strong> | Alias Name: <strong>' . $data->alias_name . '</strong>'
+                "text" => 'P/N: <strong>' . $data->item_stock->item->code . '</strong> | Item Name: <strong>' . $data->item_stock->item->name . '</strong> | Alias Name: <strong>' . $data->item_stock->alias_name . '</strong>'
             ];
         }
         return response()->json($response);

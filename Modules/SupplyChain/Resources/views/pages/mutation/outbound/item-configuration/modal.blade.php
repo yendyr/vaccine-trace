@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputForm">
-                <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationInbound->id ?? '' }}">
+                <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationOutbound->id ?? '' }}">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
