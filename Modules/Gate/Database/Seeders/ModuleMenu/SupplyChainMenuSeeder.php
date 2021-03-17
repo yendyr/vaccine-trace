@@ -139,7 +139,7 @@ class SupplyChainMenuSeeder extends Seeder
 
         Menu::create([
             'menu_link' => 'supplychain/mutation-outbound',
-            'menu_text' => 'Outbond',
+            'menu_text' => 'Outbound',
             'menu_route' => 'supplychain.mutation-outbound.index',
             'menu_icon' => 'fa-cloud-upload',
             'menu_class' => 'Modules\SupplyChain\Entities\StockMutation',
