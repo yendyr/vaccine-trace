@@ -29,7 +29,8 @@ class StockMutationOutboundController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = StockMutation::with(['origin','approvals']);
+            $data = StockMutation::with(['origin','approvals'])
+                                    ->whereNull('warehouse_destination');
 
             return Datatables::of($data)
                 ->addColumn('reference', function($row){
