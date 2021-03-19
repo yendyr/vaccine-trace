@@ -171,6 +171,7 @@ class StockMutationInboundDetailController extends Controller
                 'item_id' => ['required'],
             ]);
 
+            // -------------------------- TO DO
             if($request->quantity > 1) {
                 $quantity = $request->quantity;
                 $serial_number = null;
@@ -179,7 +180,8 @@ class StockMutationInboundDetailController extends Controller
                 $quantity = 1;
                 $serial_number = $request->serial_number;
             }
-    
+            // -------------------------- TO DO
+            
             if ($request->highlight) {
                 $highlight = 1;
             } 
