@@ -7,6 +7,8 @@ $(document).ready(function () {
     var actionUrl = '/supplychain/mutation-outbound-detail';
     var tableId = '#available-item-table';
     var inputFormId = '#inputForm';
+    var useButtonClass = '.useBtn';
+    var saveButtonModalTextId = '#saveButtonModalText';
 
     var datatableObject = $(tableId).DataTable({
         pageLength: 25,
@@ -14,10 +16,10 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/supplychain/stock-monitoring/?warehouse_id=" + "{{ $MutationOutbound->warehouse_origin }}",
+            url: "/supplychain/stock-monitoring/?warehouse_id=" + "{{ $MutationOutbound->warehouse_origin }}" + "&with_use_button=true",
         },
         columns: [
-            { data: 'warehouse' },
+            // { data: 'warehouse' },
             { data: 'detailed_item_location', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'item.code' },
             { data: 'item.name' },
@@ -31,11 +33,52 @@ $(document).ready(function () {
             { data: 'item.unit.name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'description', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'parent', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'action' },
         ]
     });
 
 
     
+
+    // ----------------- "USE" BUTTON SCRIPT ------------- //
+    datatableObject.on('click', useButtonClass, function () {
+        $('#modalTitle').html("Use this Item");
+
+        $("input[value='patch']").remove();
+        $(inputFormId).trigger("reset"); 
+
+        rowId= $(this).val();
+        let tr = $(this).closest('tr');
+        let data = datatableObject.row(tr).data();
+        $(inputFormId).attr('action', actionUrl);
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: '_method',
+            value: 'post'
+        }).prependTo(inputFormId);
+
+        // $('#taskcard_info').html(data.mpd_number + ' | ' + data.title + ' | ' + data.group_structure + ' | ' + data.taskcard_type.name);
+        $('#item').val(data.item.code + ' | ' + data.item.name);
+        $('#available_quantity').val(data.available_quantity);
+        $('#unit').val(data.item.unit.name);
+        $('#serial_number').val(data.serial_number);
+        $('#alias_name').val(data.alias_name);
+        $('#description').val(data.description);
+        $('#detailed_item_location').val(data.detailed_item_location);
+        $('#parent').val(data.parent);
+        // $('#item_stock_id').val(data.id);
+
+        $('#saveBtn').val("use");
+        $(saveButtonModalTextId).html("Use this Item");
+        $('#inputModal').modal('show');
+    });
+    // ----------------- END "USE" BUTTON SCRIPT ------------- //
+
+
+
+
+
 
     // $('.item_id').select2({
     //     theme: 'bootstrap4',

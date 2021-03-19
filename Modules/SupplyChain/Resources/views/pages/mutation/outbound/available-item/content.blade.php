@@ -1,11 +1,11 @@
 <div class="col fadeIn" style="animation-duration: 1.5s">
-    @component('components.delete-modal', ['name' => 'Available Item in Warehouse'])
-    @endcomponent
+    {{-- @component('components.delete-modal', ['name' => 'Available Item in {{ $MutationOutbound->origin->name }}' ])
+    @endcomponent --}}
 
     @include('supplychain::pages.mutation.outbound.available-item.modal')
     
     @component('components.crud-form.index',[
-        'title' => 'Available Item in Warehouse',
+        'title' => 'Available Item in this Warehouse',
         'tableId' => 'available-item-table'])
 
     {{-- @if($MutationOutbound->approvals()->count() == 0)
@@ -19,7 +19,7 @@
     @endif --}}
 
     @slot('tableContent')
-        <th>Warehouse / Location</th>
+        {{-- <th>Warehouse / Location</th> --}}
         <th>Detailed Location</th>
         <th>Item Part Number</th>
         <th>Item Name</th>
@@ -33,6 +33,7 @@
         <th>UoM</th>
         <th>Remark</th>
         <th>Parent Item/Group Name</th>
+        <th>Action</th>
     @endslot
     @endcomponent
 </div>

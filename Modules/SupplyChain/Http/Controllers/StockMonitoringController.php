@@ -22,9 +22,10 @@ class StockMonitoringController extends Controller
     public function index(Request $request)
     {
         $warehouse_id = $request->warehouse_id;
+        $with_use_button = $request->with_use_button;
 
         if ($request->ajax()) {
-            return ItemStockChecker::usable_items($warehouse_id);
+            return ItemStockChecker::usable_items($warehouse_id, $with_use_button);
         }
 
         if (!$warehouse_id) {
