@@ -37,13 +37,6 @@ class StockMutationOutboundDetailController extends Controller
                                                 
         if ($StockMutation->approvals()->count() == 0) {
             return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
             ->addColumn('parent_item_code', function($row){
                 return $row->item_stock->item_group->item->code ?? '-';
             })
@@ -62,24 +55,29 @@ class StockMutationOutboundDetailController extends Controller
                 return $row->updater->name ?? '-';
             })
             ->addColumn('action', function($row) {
-                $noAuthorize = true;
-
-                if(Auth::user()->can('update', StockMutation::class)) {
-                    $updateable = 'button';
-                    $updateValue = $row->id;
-                    $noAuthorize = false;
-                }
-                if(Auth::user()->can('delete', StockMutation::class)) {
-                    $deleteable = true;
-                    $deleteId = $row->id;
-                    $noAuthorize = false;
-                }
-
-                if ($noAuthorize == false) {
-                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                if ($row->item_stock->parent_coding) {
+                    return "<span class='text-muted font-italic'>this Item has Parent</span>";
                 }
                 else {
-                    return '<p class="text-muted font-italic">Not Authorized</p>';
+                    $noAuthorize = true;
+
+                    if(Auth::user()->can('update', StockMutation::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', StockMutation::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
+                    }
                 }
             })
             ->escapeColumns([])
@@ -87,13 +85,6 @@ class StockMutationOutboundDetailController extends Controller
         }
         else {
             return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
             ->addColumn('parent_item_code', function($row){
                 return $row->item_stock->item_group->item->code ?? '-';
             })
@@ -184,7 +175,7 @@ class StockMutationOutboundDetailController extends Controller
             ]);
             DB::commit();
     
-            return response()->json(['success' => 'Item/Component Data has been Added']);
+            return response()->json(['success' => 'Outbound Item/Component Data has been Added']);
         }
         else {
             return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
@@ -349,7 +340,7 @@ class StockMutationOutboundDetailController extends Controller
             ]);
             DB::commit();
 
-            return response()->json(['success' => 'Item/Component Data has been Deleted']);
+            return response()->json(['success' => 'Outbound Item/Component Data has been Deleted']);
         }
         else {
             return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
