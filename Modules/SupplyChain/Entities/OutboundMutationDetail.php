@@ -18,6 +18,7 @@ class OutboundMutationDetail extends Model
         'stock_mutation_id',
         'item_stock_id',
 
+        'outbound_quantity',
         'description',
         
         'status',

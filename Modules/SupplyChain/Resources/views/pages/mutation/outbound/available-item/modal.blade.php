@@ -10,9 +10,6 @@
             </div>
 
             <form method="post" id="inputForm">
-                <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationOutbound->id ?? '' }}">
-                <input type="hidden" id="item_stock_id" name="item_stock_id">
-
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -135,7 +132,37 @@
 
                         </div>
                     </div>
-                    
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationOutbound->id ?? '' }}">
+                            <input type="hidden" id="item_stock_id" name="item_stock_id">
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Outbound Quantity</label>
+                                <div class="col">
+                                    <input type="number" min="1" class="form-control" name="outbound_quantity" id="outbound_quantity" required>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="outbound_unit" id="outbound_unit" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Outbound Remark</label>
+                                <div class="col-sm-7">
+                                    <input type="text" min="1" class="form-control" name="outbound_remark" id="outbound_remark" required>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

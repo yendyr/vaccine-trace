@@ -58,16 +58,18 @@ $(document).ready(function () {
             value: 'post'
         }).prependTo(inputFormId);
 
-        // $('#taskcard_info').html(data.mpd_number + ' | ' + data.title + ' | ' + data.group_structure + ' | ' + data.taskcard_type.name);
         $('#item').val(data.item.code + ' | ' + data.item.name);
         $('#available_quantity').val(data.available_quantity);
         $('#unit').val(data.item.unit.name);
+
+        $('#outbound_quantity').attr('max', data.available_quantity);
+        $('#outbound_unit').val(data.item.unit.name);
+
         $('#serial_number').val(data.serial_number);
         $('#alias_name').val(data.alias_name);
         $('#description').val(data.description);
         $('#detailed_item_location').val(data.detailed_item_location);
         $('#parent').val(data.parent);
-        // $('#item_stock_id').val(data.id);
 
         $('#saveBtn').val("use");
         $(saveButtonModalTextId).html("Use this Item");

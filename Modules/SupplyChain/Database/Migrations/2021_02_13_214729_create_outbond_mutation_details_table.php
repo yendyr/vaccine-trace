@@ -20,6 +20,7 @@ class CreateOutboundMutationDetailsTable extends Migration
             $table->string('stock_mutation_id')->nullable();
             $table->string('item_stock_id')->nullable();
 
+            $table->integer('outbound_quantity');
             $table->string('description')->nullable();
 
             $table->rememberToken();
