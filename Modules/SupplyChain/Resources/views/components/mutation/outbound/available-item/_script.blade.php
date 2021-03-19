@@ -246,9 +246,55 @@ $(document).ready(function () {
 
 
 
-    // deleteButtonProcess (datatableObject, tableId, actionUrl);
+    // ----------------- "DELETE" BUTTON SCRIPT ------------- //
+    datatableObject2.on('click', '.deleteBtn', function () {
+            rowId = $(this).val();
+            $('#deleteModal').modal('show');
+            $('#delete-form').attr('action', actionUrl + '/' + rowId);
+        });
 
-
+        $('#delete-form').on('submit', function (e) {
+            e.preventDefault();
+            let url_action = $(this).attr('action');
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $(
+                        'meta[name="csrf-token"]'
+                    ).attr("content")
+                },
+                url: url_action,
+                type: "DELETE",
+                beforeSend:function(){
+                    $('#delete-button').text('Deleting...');
+                    $('#delete-button').prop('disabled', true);
+                },
+                error: function(data){
+                    if (data.error) {
+                        generateToast ('error', data.error);
+                    }
+                },
+                success:function(data){
+                    if (data.success){
+                        generateToast ('success', data.success);
+                    }
+                    else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });
+                }
+                },
+                complete: function(data) {
+                    $('#delete-button').text('Delete');
+                    $('#deleteModal').modal('hide');
+                    $('#delete-button').prop('disabled', false);
+                    $(tableId).DataTable().ajax.reload();
+                    $(tableId2).DataTable().ajax.reload();
+                }
+            });
+        });
+    // ----------------- END "DELETE" BUTTON SCRIPT ------------- //
 });
 </script>
 @endpush

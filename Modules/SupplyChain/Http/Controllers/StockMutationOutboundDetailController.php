@@ -159,27 +159,30 @@ class StockMutationOutboundDetailController extends Controller
             ]);
 
             $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
-
-            if(($request->outbound_quantity > 1) && ($request->outbound_quantity <= $item_stock->available_quantity)) {
+            
+            if(($request->outbound_quantity > 0) && ($request->outbound_quantity <= $item_stock->available_quantity)) {
                 $outbound_quantity = $request->outbound_quantity;
             }
             else {
                 return response()->json(['error' => "Outbound Quantity Must be Greater than 0 and Less than Current Available Stock"]);
             }
     
-            // DB::beginTransaction();
-            // OutboundMutationDetail::create([
-            //     'uuid' =>  Str::uuid(),
+            DB::beginTransaction();
+            OutboundMutationDetail::create([
+                'uuid' =>  Str::uuid(),
     
-            //     'stock_mutation_id' => $request->stock_mutation_id,
-            //     'item_stock_id' => $request->item_stock_id,
-            //     'outbound_quantity' => $outbound_quantity,
+                'stock_mutation_id' => $request->stock_mutation_id,
+                'item_stock_id' => $request->item_stock_id,
+                'outbound_quantity' => $outbound_quantity,
     
-            //     'owned_by' => $request->user()->company_id,
-            //     'status' => 1,
-            //     'created_by' => $request->user()->id,
-            // ]);
-            // DB::commit();
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
+                'created_by' => $request->user()->id,
+            ]);
+            $item_stock->update([
+                'reserved_quantity' => $item_stock->reserved_quantity + $outbound_quantity,
+            ]);
+            DB::commit();
     
             return response()->json(['success' => 'Item/Component Data has been Added']);
         }
@@ -314,59 +317,72 @@ class StockMutationOutboundDetailController extends Controller
         return $isValid;
     }
 
-    public function destroy(StockMutationDetail $MutationInboundDetail)
+    public function destroy(OutboundMutationDetail $MutationOutboundDetail)
     {
-        $currentRow = StockMutationDetail::where('id', $MutationInboundDetail->id)
-                                        ->with(['all_childs'])
+        $currentRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
+                                        ->with(['item_stock.all_childs'])
                                         ->first();
 
         $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-            if (sizeof($currentRow->all_childs) > 0) {
-                return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
-            }
-            else {
-                $currentRow
-                ->update([
-                    'deleted_by' => Auth::user()->id,
-                ]);
-                StockMutationDetail::destroy($MutationInboundDetail->id);
-                return response()->json(['success' => 'Item/Component Data has been Deleted']);
-            }
+        //     if (sizeof($currentRow->all_childs) > 0) {
+        //         return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
+        //     }
+        //     else {
+        //         $currentRow
+        //         ->update([
+        //             'deleted_by' => Auth::user()->id,
+        //         ]);
+        //         StockMutationDetail::destroy($MutationInboundDetail->id);
+        //         return response()->json(['success' => 'Item/Component Data has been Deleted']);
+        //     }
+            $item_stock = ItemStock::where('id', $currentRow->item_stock_id)->first();
+
+            DB::beginTransaction();
+            $currentRow->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            OutboundMutationDetail::destroy($MutationOutboundDetail->id);
+            $item_stock->update([
+                'reserved_quantity' => $item_stock->reserved_quantity - $currentRow->outbound_quantity,
+            ]);
+            DB::commit();
+
+            return response()->json(['success' => 'Item/Component Data has been Deleted']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
     public function select2Parent(Request $request)
     {
-        $search = $request->term;
-        $stock_mutation_id = $request->stock_mutation_id;
+        // $search = $request->term;
+        // $stock_mutation_id = $request->stock_mutation_id;
 
-        if($search != '') {
-            $StockMutationDetails = StockMutationDetail::with(['item' => function($q) use ($search) {
-                                            $q->where('items.code', 'like', '%' .$search. '%')
-                                            ->orWhere('items.name', 'like', '%' .$search. '%');
-                                        }])
-                                        ->whereHas('item', function($q) use ($search) {
-                                            $q->where('items.code', 'like', '%' .$search. '%')
-                                            ->orWhere('items.name', 'like', '%' .$search. '%');
-                                        })
-                                        ->where('stock_mutation_id', $stock_mutation_id)
-                                        ->get();
-        }
+        // if($search != '') {
+        //     $StockMutationDetails = StockMutationDetail::with(['item' => function($q) use ($search) {
+        //                                     $q->where('items.code', 'like', '%' .$search. '%')
+        //                                     ->orWhere('items.name', 'like', '%' .$search. '%');
+        //                                 }])
+        //                                 ->whereHas('item', function($q) use ($search) {
+        //                                     $q->where('items.code', 'like', '%' .$search. '%')
+        //                                     ->orWhere('items.name', 'like', '%' .$search. '%');
+        //                                 })
+        //                                 ->where('stock_mutation_id', $stock_mutation_id)
+        //                                 ->get();
+        // }
 
-        $response = [];
-        foreach($StockMutationDetails as $StockMutationDetail){
-            $response['results'][] = [
-                "id" => $StockMutationDetail->coding,
-                "text" => $StockMutationDetail->item->code . ' | ' . 
-                $StockMutationDetail->item->name . ' | ' . 
-                $StockMutationDetail->alias_name
-            ];
-        }
-        return response()->json($response);
+        // $response = [];
+        // foreach($StockMutationDetails as $StockMutationDetail){
+        //     $response['results'][] = [
+        //         "id" => $StockMutationDetail->coding,
+        //         "text" => $StockMutationDetail->item->code . ' | ' . 
+        //         $StockMutationDetail->item->name . ' | ' . 
+        //         $StockMutationDetail->alias_name
+        //     ];
+        // }
+        // return response()->json($response);
     }
 }
