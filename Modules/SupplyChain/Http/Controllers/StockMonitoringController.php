@@ -22,9 +22,7 @@ class StockMonitoringController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return ItemStockChecker::all_status()
-                ->escapeColumns([])
-                ->make(true);
+            return ItemStockChecker::all_status();
         }
         return view('supplychain::pages.stock-monitoring.index');
     }

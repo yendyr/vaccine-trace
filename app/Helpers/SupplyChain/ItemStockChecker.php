@@ -38,6 +38,8 @@ class ItemStockChecker
                     else {
                         return "<span class='text-muted font-italic'>Not Set</span>";
                     }
-                });
+                })
+                ->escapeColumns([])
+                ->make(true);
     }
 }
