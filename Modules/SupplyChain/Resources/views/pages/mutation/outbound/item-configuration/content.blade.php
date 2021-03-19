@@ -45,10 +45,3 @@
 </div>
 
 @include('supplychain::components.mutation.outbound.item-configuration._script')
-
-@push('header-scripts')
-    @include('layouts.includes._header-datatable-script')
-@endpush
-@push('footer-scripts')
-    @include('layouts.includes._footer-datatable-script')
-@endpush

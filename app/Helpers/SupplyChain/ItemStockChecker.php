@@ -7,9 +7,9 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ItemStockChecker
 {
-    public static function all_status()
+    public static function usable_items($warehouse_id)
     {
-        $data = ItemStock::with(['item.unit',
+        $result = ItemStock::with(['item.unit',
                                 'item_group:id,item_id,alias_name,coding,parent_coding',
                                 'warehouse'])
                                 ->whereHas('warehouse', function ($warehouse) {
@@ -17,9 +17,17 @@ class ItemStockChecker
                                         $aircraft_configuration->has('approvals');
                                     })
                                     ->orWhere('aircraft_configuration_id', null);
-                                });
+                                })
+                                ->whereRaw('item_stocks.quantity > item_stocks.used_quantity');
+        if ($warehouse_id) {
+            $result = $result->where('warehouse_id', $warehouse_id);
+        }
                                 
-        return Datatables::of($data)
+        return Self::with_general_custom_column($result);
+    }
+
+    public static function with_general_custom_column($table) {
+        return Datatables::of($table)
                 ->addColumn('warehouse', function($row){
                     if ($row->warehouse->is_aircraft == 1) {
                         return '<strong>Aircraft:</strong><br>' . $row->warehouse->aircraft_configuration->registration_number . '<br>' . $row->warehouse->aircraft_configuration->serial_number;

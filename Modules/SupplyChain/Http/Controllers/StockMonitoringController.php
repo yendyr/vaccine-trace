@@ -21,9 +21,14 @@ class StockMonitoringController extends Controller
 
     public function index(Request $request)
     {
+        $warehouse_id = $request->warehouse_id;
+
         if ($request->ajax()) {
-            return ItemStockChecker::all_status();
+            return ItemStockChecker::usable_items($warehouse_id);
         }
-        return view('supplychain::pages.stock-monitoring.index');
+
+        if (!$warehouse_id) {
+            return view('supplychain::pages.stock-monitoring.index');
+        }
     }
 }

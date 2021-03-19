@@ -10,7 +10,7 @@ class ItemStock extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
-    protected $appends = ['available_quantity'];
+    protected $appends = ['available_quantity','is_fully_used'];
     use Notifiable;
 
     protected $fillable = [
@@ -91,7 +91,19 @@ class ItemStock extends Model
 
     public function getAvailableQuantityAttribute()
     {
-        return '<strong>' . ($this->quantity - ($this->loaned_quantity + $this->used_quantity + $this->reserved_quantity)) . '</strong>';
+        return '<strong>' . 
+        ($this->quantity - ($this->loaned_quantity + $this->used_quantity + $this->reserved_quantity)) . 
+        '</strong>';
+    }
+
+    public function getIsFullyUsedAttribute()
+    {
+        if ($this->quantity > $this->used_quantity) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public static function boot() {

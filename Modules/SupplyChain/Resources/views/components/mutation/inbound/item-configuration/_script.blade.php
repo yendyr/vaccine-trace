@@ -14,7 +14,7 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/supplychain/mutation-inbound-detail/?id=" + $('#stock_mutation_id').val(),
+            url: "/supplychain/mutation-inbound-detail/?id=" + "{{ $MutationInbound->id }}",
         },
         columns: [
             { data: 'item.code' },
@@ -69,7 +69,7 @@ $(document).ready(function () {
             data: function (params) {
                 var getHeaderId = { 
                     term: params.term,
-                    stock_mutation_id: $('#stock_mutation_id').val(),
+                    stock_mutation_id: "{{ $MutationInbound->id }}",
                 }
                 return getHeaderId;
             }
