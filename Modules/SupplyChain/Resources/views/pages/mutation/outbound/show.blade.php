@@ -34,7 +34,7 @@
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Item/Component Outbound
+                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Selected Item/Component Outbound
                         </a>
                     </li>
                     <li>

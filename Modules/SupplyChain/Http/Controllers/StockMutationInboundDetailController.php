@@ -37,13 +37,13 @@ class StockMutationInboundDetailController extends Controller
                                                 
         if ($StockMutation->approvals()->count() == 0) {
             return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
-                    return '<label class="label label-success">Active</label>';
-                } else{
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
+            // ->addColumn('status', function($row){
+            //     if ($row->status == 1){
+            //         return '<label class="label label-success">Active</label>';
+            //     } else{
+            //         return '<label class="label label-danger">Inactive</label>';
+            //     }
+            // })
             ->addColumn('highlighted', function($row){
                 if ($row->highlight == 1){
                     return '<label class="label label-primary">Yes</label>';
@@ -95,13 +95,13 @@ class StockMutationInboundDetailController extends Controller
         }
         else {
             return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
-                    return '<label class="label label-success">Active</label>';
-                } else{
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
+            // ->addColumn('status', function($row){
+            //     if ($row->status == 1){
+            //         return '<label class="label label-success">Active</label>';
+            //     } else{
+            //         return '<label class="label label-danger">Inactive</label>';
+            //     }
+            // })
             ->addColumn('highlighted', function($row){
                 if ($row->highlight == 1){
                     return '<label class="label label-primary">Yes</label>';

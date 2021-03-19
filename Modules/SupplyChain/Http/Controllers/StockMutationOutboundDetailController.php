@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\SupplyChain\Entities\ItemStock;
 use Yajra\DataTables\Facades\DataTables;
 
 class StockMutationOutboundDetailController extends Controller
@@ -36,21 +37,13 @@ class StockMutationOutboundDetailController extends Controller
                                                 
         if ($StockMutation->approvals()->count() == 0) {
             return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
-                    return '<label class="label label-success">Active</label>';
-                } else{
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
-            ->addColumn('highlighted', function($row){
-                if ($row->item_stock->highlight == 1) {
-                    return '<label class="label label-primary">Yes</label>';
-                } 
-                else {
-                    return '<label class="label label-danger">No</label>';
-                }
-            })
+            // ->addColumn('status', function($row){
+            //     if ($row->status == 1){
+            //         return '<label class="label label-success">Active</label>';
+            //     } else{
+            //         return '<label class="label label-danger">Inactive</label>';
+            //     }
+            // })
             ->addColumn('parent_item_code', function($row){
                 return $row->item_stock->item_group->item->code ?? '-';
             })
@@ -94,21 +87,13 @@ class StockMutationOutboundDetailController extends Controller
         }
         else {
             return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
-                    return '<label class="label label-success">Active</label>';
-                } else{
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
-            ->addColumn('highlighted', function($row){
-                if ($row->item_stock->highlight == 1) {
-                    return '<label class="label label-primary">Yes</label>';
-                } 
-                else {
-                    return '<label class="label label-danger">No</label>';
-                }
-            })
+            // ->addColumn('status', function($row){
+            //     if ($row->status == 1){
+            //         return '<label class="label label-success">Active</label>';
+            //     } else{
+            //         return '<label class="label label-danger">Inactive</label>';
+            //     }
+            // })
             ->addColumn('parent_item_code', function($row){
                 return $row->item_stock->item_group->item->code ?? '-';
             })
@@ -168,70 +153,38 @@ class StockMutationOutboundDetailController extends Controller
 
         if ($StockMutation->approvals()->count() == 0) {
             $request->validate([
-                'item_id' => ['required'],
+                'stock_mutation_id' => ['required'],
+                'item_stock_id' => ['required'],
+                'outbound_quantity' => ['required'],
             ]);
 
-            if($request->quantity > 1) {
-                $quantity = $request->quantity;
-                $serial_number = null;
-            }
-            else {
-                $quantity = 1;
-                $serial_number = $request->serial_number;
-            }
-    
-            if ($request->highlight) {
-                $highlight = 1;
-            } 
-            else {
-                $highlight = 0;
-            }
-    
-            $initial_start_date = $request->initial_start_date;
-            $expired_date = $request->expired_date;
-    
-            DB::beginTransaction();
-            $StockMutationDetail = StockMutationDetail::create([
-                'uuid' =>  Str::uuid(),
-    
-                'stock_mutation_id' => $request->stock_mutation_id,
-                'item_id' => $request->item_id,
-                'quantity' => $quantity,
-                'serial_number' => $serial_number,
-                'alias_name' => $request->alias_name,
-                'highlight' => $highlight,
-                'description' => $request->description,
-                'detailed_item_location' => $request->detailed_item_location,
-                'parent_coding' => $request->parent_coding,
-    
-                'owned_by' => $request->user()->company_id,
-                'status' => 1,
-                'created_by' => $request->user()->id,
-            ]);
-            $StockMutationDetail->update([
-                'coding' => $StockMutation->warehouse_destination . '-' . $StockMutationDetail->id,
-            ]);
-            $StockMutationDetail->mutation_detail_initial_aging()
-                ->save(new StockMutationDetailInitialAging([
-                    'uuid' => Str::uuid(),
+            $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
 
-                    'initial_flight_hour' => $request->initial_flight_hour,
-                    'initial_block_hour' => $request->initial_block_hour,
-                    'initial_flight_cycle' => $request->initial_flight_cycle,
-                    'initial_flight_event' => $request->initial_flight_event,
-                    'initial_start_date' => $initial_start_date,
-                    'expired_date' => $expired_date,
-                    
-                    'owned_by' => $request->user()->company_id,
-                    'status' => 1,
-                    'created_by' => $request->user()->id,
-                ]));
-            DB::commit();
+            if(($request->outbound_quantity > 1) && ($request->outbound_quantity <= $item_stock->available_quantity)) {
+                $outbound_quantity = $request->outbound_quantity;
+            }
+            else {
+                return response()->json(['error' => "Outbound Quantity Must be Greater than 0 and Less than Current Available Stock"]);
+            }
+    
+            // DB::beginTransaction();
+            // OutboundMutationDetail::create([
+            //     'uuid' =>  Str::uuid(),
+    
+            //     'stock_mutation_id' => $request->stock_mutation_id,
+            //     'item_stock_id' => $request->item_stock_id,
+            //     'outbound_quantity' => $outbound_quantity,
+    
+            //     'owned_by' => $request->user()->company_id,
+            //     'status' => 1,
+            //     'created_by' => $request->user()->id,
+            // ]);
+            // DB::commit();
     
             return response()->json(['success' => 'Item/Component Data has been Added']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 

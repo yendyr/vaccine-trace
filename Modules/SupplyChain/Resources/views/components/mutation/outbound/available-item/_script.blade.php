@@ -6,6 +6,7 @@
 $(document).ready(function () {
     var actionUrl = '/supplychain/mutation-outbound-detail';
     var tableId = '#available-item-table';
+    var tableId2 = '#mutation-outbound-detail-table';
     var inputFormId = '#inputForm';
     var useButtonClass = '.useBtn';
     var saveButtonModalTextId = '#saveButtonModalText';
@@ -37,6 +38,32 @@ $(document).ready(function () {
         ]
     });
 
+    var datatableObject2 = $(tableId2).DataTable({
+        pageLength: 25,
+        processing: true,
+        serverSide: false,
+        searchDelay: 1500,
+        ajax: {
+            url: "/supplychain/mutation-outbound-detail/?id=" + "{{ $MutationOutbound->id }}",
+        },
+        columns: [
+            { data: 'item_stock.detailed_item_location', defaultContent: '-' },
+            { data: 'item_stock.item.code' },
+            { data: 'item_stock.item.name' },
+            { data: 'item_stock.serial_number', defaultContent: '-' },
+            { data: 'outbound_quantity' },
+            { data: 'item_stock.item.unit.name' },
+            { data: 'item_stock.alias_name', defaultContent: '-' },
+            { data: 'item_stock.description', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
+            { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
+            { data: 'creator_name', name: 'Created By' },
+            { data: 'created_at', name: 'Created At' },
+            { data: 'action', name: 'Action', orderable: false },
+        ]
+    });
+
 
     
 
@@ -59,6 +86,7 @@ $(document).ready(function () {
         }).prependTo(inputFormId);
 
         $('#item').val(data.item.code + ' | ' + data.item.name);
+        $('#item_stock_id').val(data.id);
         $('#available_quantity').val(data.available_quantity);
         $('#unit').val(data.item.unit.name);
 
@@ -82,38 +110,7 @@ $(document).ready(function () {
 
 
 
-    // $('.item_id').select2({
-    //     theme: 'bootstrap4',
-    //     placeholder: 'Choose Item',
-    //     minimumInputLength: 3,
-    //     minimumResultsForSearch: 10,
-    //     allowClear: true,
-    //     ajax: {
-    //         url: "{{ route('supplychain.item.select2') }}",
-    //         dataType: 'json',
-    //     },
-    //     dropdownParent: $('#inputModal')
-    // });
-        
-    // $('.parent_coding').select2({
-    //     theme: 'bootstrap4',
-    //     placeholder: 'Choose Parent Item',
-    //     minimumInputLength: 2,
-    //     minimumResultsForSearch: 10,
-    //     allowClear: true,
-    //     ajax: {
-    //         url: "{{ route('supplychain.mutation-outbound-detail.select2') }}",
-    //         dataType: 'json',
-    //         data: function (params) {
-    //             var getHeaderId = { 
-    //                 term: params.term,
-    //                 stock_mutation_id: $('#stock_mutation_id').val(),
-    //             }
-    //             return getHeaderId;
-    //         }
-    //     },
-    //     dropdownParent: $('#inputModal')
-    // });
+    
 
 
 
@@ -197,9 +194,54 @@ $(document).ready(function () {
 
 
 
-    // $(inputFormId).on('submit', function (event) {
-    //     submitButtonProcess (tableId, inputFormId); 
-    // });
+    // ----------------- "SUBMIT" BUTTON SCRIPT ------------- //
+    $(inputFormId).on('submit', function (event) {
+        event.preventDefault();
+        let url_action = $(inputFormId).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            method: "POST",
+            data: $(inputFormId).serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'start' );
+                $('[class^="invalid-feedback-"]').html('');
+                $('#saveBtn').prop('disabled', true);
+            },
+            error: function(data) {
+                if (data.error) {
+                    generateToast ('error', data.error);
+                }
+            },
+            success: function (data) {
+                $('#inputModal').modal('hide');
+                if (data.success) {
+                    generateToast ('success', data.success);  
+                    $(tableId).DataTable().ajax.reload();                          
+                    $(tableId2).DataTable().ajax.reload();                          
+                }
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });   
+                }
+            },
+            complete: function () {
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'stop' );
+                $('#saveBtn'). prop('disabled', false);
+            }
+        }); 
+    });
+    // ----------------- END "SUBMIT" BUTTON SCRIPT ------------- //
 
 
 
@@ -207,17 +249,6 @@ $(document).ready(function () {
     // deleteButtonProcess (datatableObject, tableId, actionUrl);
 
 
-
-    
-    // $("#quantity").on('change', function () {
-    //     if($('#quantity').val() > 1) {
-    //         $('#serial_number').val(null);
-    //         $('#serial_number').prop('disabled', true);
-    //     }
-    //     else {
-    //         $('#serial_number').prop('disabled', false);
-    //     }            
-    // });
 });
 </script>
 @endpush

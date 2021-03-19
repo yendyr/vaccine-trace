@@ -8,7 +8,7 @@
         'title' => 'Item/Component Datalist',
         'tableId' => 'mutation-outbound-detail-table'])
 
-    @if($MutationOutbound->approvals()->count() == 0)
+    {{-- @if($MutationOutbound->approvals()->count() == 0)
         @slot('createButton')
             @can('create', Modules\SupplyChain\Entities\StockMutation::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
@@ -16,27 +16,20 @@
                 </button>   
             @endcan
         @endslot    
-    @endif
+    @endif --}}
 
     @slot('tableContent')
+        <th>Detailed Location</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Serial Number</th>
-        <th>Qty</th>
+        <th>Outbound Qty</th>
         <th>UoM</th>
         <th>Alias Name</th>
-        <th>Remark</th>
-        <th>Detailed Location</th>
-        <th>Highlighted Item</th>
+        <th>Item Remark</th>
+        <th>Outbound Remark</th>
         <th>Parent Item/Group PN</th>
         <th>Parent Item/Group Name & Alias</th>
-        <th>Initial FH</th>
-        <th>Initial Block Hour</th>
-        <th>Initial FC</th>
-        <th>Initial Flight Event</th>
-        <th>Initial Start Date</th>
-        <th>Expired Date</th>
-        {{-- <th>Status</th> --}}
         <th>Created By</th>
         <th>Created At</th>
         <th>Action</th>
