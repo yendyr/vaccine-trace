@@ -105,10 +105,11 @@
 
             $(".select2_orgparent").select2("val", "none");
             if (dataRow[rowIndex]['orgparent'] == null){
-                $('#forgparent').append('<option value="' + 0 + '" selected>none</option>');
+                $('#osForm').find('#forgparent').append('<option value="' + 0 + '" selected>none</option>');
             } else{
-                $('#forgparent').append('<option value="' + dataRow[rowIndex]['orgparent'] + '" selected>' + dataRow[rowIndex]['orgparent'] + '</option>')
+                $('#osForm').find('#forgparent').append('<option value="' + dataRow[rowIndex]['orgparent'] + '" selected>' + dataRow[rowIndex]['orgparent'] + ' - ' + dataRow[rowIndex]['parentItem']['orgname'] + '</option>')
             }
+
 
             $("#osForm").find('#fstatus').find('option').removeAttr('selected');
             $("#osForm").find('#fstatus').find('option[value="' + dataRow[rowIndex]['status'] + '"]').attr('selected', '');

@@ -155,16 +155,18 @@ class OrganizationStructureController extends Controller
             unset($validationArray['orgcode']);
             $validation = $request->validate($validationArray);
 
+            $orgParent = $request->orgparent === 0 ? null : $request->orgparent;
             $orgs = OrganizationStructure::where('id', $org_structure->id)
                 ->update([
 //                    'orglevel' => $request->orglevel,
 //                    'orgcode' => $request->orgcode,
-                    'orgparent' => (($request->orgparent == 0) ? null : $request->orgparent),
+                    'orgparent' => $orgParent,
                     'orgname' => $request->orgname,
                     'owned_by' => (isset($request->user()->company_id) ? $request->user()->company_id : 0),
                     'updated_by' => $request->user()->id,
                     'status' => $request->status,
                 ]);
+
             if ($orgs){
                 return response()->json(['success' => 'an Organization Structure updated successfully.']);
             }

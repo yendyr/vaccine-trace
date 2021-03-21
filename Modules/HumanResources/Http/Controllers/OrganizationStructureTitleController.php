@@ -268,7 +268,7 @@ class OrganizationStructureTitleController extends Controller
 //                    'orgcode' => $request->orgcode,
                     'titlecode' => $request->titlecode,
                     'jobtitle' => $request->jobtitle,
-                    'rptorg' => ($request->rptorg == 0 ? null : $request->rptorg),
+                    'rptorg' => ($request->rptorg === 0 ? null : $request->rptorg),
                     'rpttitle' => ($request->rpttitle == 0 ? null : $request->rpttitle),
                     'owned_by' => $request->user()->company_id,
                     'updated_by' => $request->user()->id,

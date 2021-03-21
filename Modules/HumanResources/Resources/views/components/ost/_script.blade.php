@@ -116,9 +116,9 @@
 
                 $(".select2_rptorg").select2("val", "none");
                 if (data.rptorg == null){
-                    $('#frptorg').append('<option value="' + 0 + '" selected>none</option>');
+                    $('#ostForm').find('#frptorg').append('<option value="' + 0 + '" selected>none</option>');
                 } else{
-                    $('#frptorg').append('<option value="' + data.rptorg.code + '" selected>' + data.rptorg.code + ' - ' + data.rptorg.name + '</option>');
+                    $('#ostForm').find('#frptorg').append('<option value="' + data.rptorg.code + '" selected>' + data.rptorg.code + ' - ' + data.rptorg.name + '</option>');
                 }
 
                 $(".select2_rpttitle").select2("val", "none");
@@ -130,9 +130,9 @@
 
                 $('#fstatus').find('option').removeAttr('selected');
                 if (data.status == '<p class="text-success">Active</p>'){
-                    $('#fstatus').find('option[value="1"]').attr('selected', '');
+                    $('#ostForm').find('#fstatus').find('option[value="1"]').attr('selected', '');
                 }else{
-                    $('#fstatus').find('option[value="0"]').attr('selected', '');
+                    $('#ostForm').find('#fstatus').find('option[value="0"]').attr('selected', '');
                 }
 
                 $('#saveBtn').val("edit-ost");
