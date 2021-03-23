@@ -59,7 +59,10 @@ $(document).ready(function () {
             { data: 'item_stock.item.code' },
             { data: 'item_stock.item.name' },
             { data: 'item_stock.serial_number', defaultContent: '-' },
-            { data: 'outbound_quantity' },
+            { data: 'outbound_quantity',
+                "render": function ( data, type, row, meta ) {
+                    return "<span class='label label-primary'>" + row.outbound_quantity + '</span>';
+                }},
             { data: 'item_stock.item.unit.name' },
             { data: 'item_stock.alias_name', defaultContent: '-' },
             { data: 'item_stock.description', defaultContent: '-' },

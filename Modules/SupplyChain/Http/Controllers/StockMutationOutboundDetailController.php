@@ -294,7 +294,7 @@ class StockMutationOutboundDetailController extends Controller
                 'deleted_by' => Auth::user()->id,
             ]);
             OutboundMutationDetail::destroy($childRow->id);
-            dd($item_stock);
+            dd($childRow); // childRow malah item_stock?
             $item_stock->update([
                 'reserved_quantity' => 0,
             ]);
