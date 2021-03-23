@@ -28,6 +28,11 @@ class StockMutationInboundDetailController extends Controller
     {
         $stock_mutation_id = $request->id;
         $StockMutation = StockMutation::where('id', $stock_mutation_id)->first();
+
+        $approved = false;
+        if ($StockMutation->approvals()->count() > 0) {
+            $approved = true;
+        }
         
         $data = StockMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item.unit',
@@ -36,40 +41,34 @@ class StockMutationInboundDetailController extends Controller
                                         'item_group.item'])
                                 ->orderBy('created_at','desc');
                                                 
-        if ($StockMutation->approvals()->count() == 0) {
-            return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
-            ->addColumn('highlighted', function($row){
-                if ($row->highlight == 1){
-                    return '<label class="label label-primary">Yes</label>';
-                } else{
-                    return '<label class="label label-danger">No</label>';
-                }
-            })
-            ->addColumn('parent', function($row){
-                if ($row->item_group) {
-                    return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
-                    'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
-                    'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
-                    'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
-                } 
-                else {
-                    return "<span class='text-muted font-italic'>Not Set</span>";
-                }
-            })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+        
+        return Datatables::of($data)
+        ->addColumn('highlighted', function($row){
+            if ($row->highlight == 1){
+                return '<label class="label label-primary">Yes</label>';
+            } else{
+                return '<label class="label label-danger">No</label>';
+            }
+        })
+        ->addColumn('parent', function($row){
+            if ($row->item_group) {
+                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
+                'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
+                'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
+            } 
+            else {
+                return "<span class='text-muted font-italic'>Not Set</span>";
+            }
+        })
+        ->addColumn('creator_name', function($row){
+            return $row->creator->name ?? '-';
+        })
+        ->addColumn('updater_name', function($row){
+            return $row->updater->name ?? '-';
+        })
+        ->addColumn('action', function($row) use ($approved) {
+            if ($approved == false) {
                 $noAuthorize = true;
 
                 if(Auth::user()->can('update', StockMutation::class)) {
@@ -89,50 +88,13 @@ class StockMutationInboundDetailController extends Controller
                 else {
                     return '<p class="text-muted font-italic">Not Authorized</p>';
                 }
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
-        else {
-            return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
-            ->addColumn('highlighted', function($row){
-                if ($row->highlight == 1){
-                    return '<label class="label label-primary">Yes</label>';
-                } else{
-                    return '<label class="label label-danger">No</label>';
-                }
-            })
-            ->addColumn('parent_item_code', function($row){
-                return $row->item_group->item->code ?? '-';
-            })
-            ->addColumn('parent_item_name', function($row){
-                if ($row->item_group) {
-                    return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
-                }
-                else {
-                    return '-';
-                }
-                
-            })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+            }
+            else {
                 return '<p class="text-muted font-italic">Already Approved</p>';
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
+            }
+        })
+        ->escapeColumns([])
+        ->make(true);
     }
 
     public function tree(Request $request)
@@ -171,7 +133,6 @@ class StockMutationInboundDetailController extends Controller
                 'item_id' => ['required'],
             ]);
 
-            // -------------------------- TO DO
             if($request->quantity > 1) {
                 $quantity = $request->quantity;
                 $serial_number = null;
@@ -180,7 +141,6 @@ class StockMutationInboundDetailController extends Controller
                 $quantity = 1;
                 $serial_number = $request->serial_number;
             }
-            // -------------------------- TO DO
             
             if ($request->highlight) {
                 $highlight = 1;
