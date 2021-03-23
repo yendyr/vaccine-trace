@@ -404,6 +404,7 @@ class StockMutationInboundDetailController extends Controller
                                             ->orWhere('items.name', 'like', '%' .$search. '%');
                                         })
                                         ->where('stock_mutation_id', $stock_mutation_id)
+                                        ->where('quantity', '1')
                                         ->get();
         }
 
