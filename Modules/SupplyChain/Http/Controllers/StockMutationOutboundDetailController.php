@@ -147,6 +147,7 @@ class StockMutationOutboundDetailController extends Controller
                 'stock_mutation_id' => $request->stock_mutation_id,
                 'item_stock_id' => $request->item_stock_id,
                 'outbound_quantity' => $outbound_quantity,
+                'description' => $request->outbound_remark,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -310,7 +311,8 @@ class StockMutationOutboundDetailController extends Controller
                                         ->with(['item_stock.all_childs'])
                                         ->first();
 
-        $StockMutation = StockMutation::where('id', $mutationOutboundDetailRow->stock_mutation_id)->first();
+        $StockMutation = StockMutation::where('id', $mutationOutboundDetailRow->stock_mutation_id)
+                                    ->first();
 
         if ($StockMutation->approvals()->count() == 0) {
             $item_stock = ItemStock::where('id', $mutationOutboundDetailRow->item_stock_id)->first();

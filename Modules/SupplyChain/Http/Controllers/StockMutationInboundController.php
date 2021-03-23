@@ -202,6 +202,7 @@ class StockMutationInboundController extends Controller
                 'alias_name' => $stock_mutation_detail->alias_name,
                 'highlight' => $stock_mutation_detail->highlight,
                 'description' => $stock_mutation_detail->description,
+                'detailed_item_location' => $stock_mutation_detail->detailed_item_location,
                 'parent_coding' => $stock_mutation_detail->parent_coding,
                 
                 'owned_by' => $request->user()->company_id,
