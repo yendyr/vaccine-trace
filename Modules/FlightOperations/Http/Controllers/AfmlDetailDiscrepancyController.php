@@ -30,44 +30,34 @@ class AfmlDetailDiscrepancyController extends Controller
         $data = AfmlDetailDiscrepancy::where('afm_log_id', $afm_log_id);
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
+        $approved = false;
+        if ($AfmLog->approvals()->count() > 0) {
+            $approved = true;
+        }
+        
+        return Datatables::of($data)
+        ->addColumn('rectification_code', function($row) {
+            if ($row->rectification_details()->count() == 0) {
+                return '<p class="text-info">No Related Rectification Performed</p>';
+            } 
+            else {
+                $rectification_code = null;
 
-        if ($AfmLog->approvals()->count() == 0) {
-            return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
-            // ->addColumn('progress_status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-danger">Open</label>';
-            //     } else{
-            //         return '<label class="label label-success">Closed</label>';
-            //     }
-            // })
-            ->addColumn('rectification_code', function($row) {
-                if ($row->rectification_details()->count() == 0) {
-                    return '<p class="text-info">No Related Rectification Performed</p>';
-                } 
-                else {
-                    $rectification_code = null;
-
-                    foreach ($row->rectification_details as $rectification_detail) {
-                        $rectification_code .= '<label class="label label-success m-r-xs">' . $rectification_detail->code . '</label>';
-                    }
-
-                    return $rectification_code;
+                foreach ($row->rectification_details as $rectification_detail) {
+                    $rectification_code .= '<label class="label label-success m-r-xs">' . $rectification_detail->code . '</label>';
                 }
-            })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+
+                return $rectification_code;
+            }
+        })
+        ->addColumn('creator_name', function($row){
+            return $row->creator->name ?? '-';
+        })
+        ->addColumn('updater_name', function($row){
+            return $row->updater->name ?? '-';
+        })
+        ->addColumn('action', function($row) use ($approved) {
+            if ($approved == false) {
                 $noAuthorize = true;
 
                 if(Auth::user()->can('update', AfmlDetailDiscrepancy::class)) {
@@ -81,38 +71,20 @@ class AfmlDetailDiscrepancyController extends Controller
                     $deleteId = $row->id;
                     $noAuthorize = false;
                 }
-
+    
                 if ($noAuthorize == false) {
                     return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteButtonClass', 'deleteId']));
                 }
                 else {
                     return '<p class="text-muted">Not Authorized</p>';
                 }
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
-        else {
-            return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+            }
+            else {
                 return '<p class="text-muted font-italic">Already Approved</p>';
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
+            }
+        })
+        ->escapeColumns([])
+        ->make(true);
     }
 
     public function store(Request $request)

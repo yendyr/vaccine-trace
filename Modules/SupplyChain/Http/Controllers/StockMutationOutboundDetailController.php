@@ -28,6 +28,11 @@ class StockMutationOutboundDetailController extends Controller
     {
         $stock_mutation_id = $request->id;
         $StockMutation = StockMutation::where('id', $stock_mutation_id)->first();
+
+        $approved = false;
+        if ($StockMutation->approvals()->count() > 0) {
+            $approved = true;
+        }
         
         $data = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item_stock.item.unit',
@@ -35,79 +40,56 @@ class StockMutationOutboundDetailController extends Controller
                                         'item_stock.item_group:id,item_id,serial_number,alias_name,coding,parent_coding'])
                                 ->orderBy('created_at','desc');
                                                 
-        if ($StockMutation->approvals()->count() == 0) {
-            return Datatables::of($data)
-            ->addColumn('parent', function($row){
-                if ($row->item_stock->item_group) {
-                    return 'P/N: <strong>' . $row->item_stock->item_group->item->code . '</strong><br>' . 
-                    'S/N: <strong>' . $row->item_stock->item_group->serial_number . '</strong><br>' .
-                    'Name: <strong>' . $row->item_stock->item_group->item->name . '</strong><br>' .
-                    'Alias: <strong>' . $row->item_stock->item_group->alias_name . '</strong><br>';
-                } 
-                else {
-                    return "<span class='text-muted font-italic'>Not Set</span>";
-                }
-            })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
-                if ($row->item_stock->parent_coding) {
-                    return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
-                }
-                else {
-                    $noAuthorize = true;
+        
+        return Datatables::of($data)
+        ->addColumn('parent', function($row){
+            if ($row->item_stock->item_group) {
+                return 'P/N: <strong>' . $row->item_stock->item_group->item->code . '</strong><br>' . 
+                'S/N: <strong>' . $row->item_stock->item_group->serial_number . '</strong><br>' .
+                'Name: <strong>' . $row->item_stock->item_group->item->name . '</strong><br>' .
+                'Alias: <strong>' . $row->item_stock->item_group->alias_name . '</strong><br>';
+            } 
+            else {
+                return "<span class='text-muted font-italic'>Not Set</span>";
+            }
+        })
+        ->addColumn('creator_name', function($row){
+            return $row->creator->name ?? '-';
+        })
+        ->addColumn('updater_name', function($row){
+            return $row->updater->name ?? '-';
+        })
+        ->addColumn('action', function($row) use ($approved) {
+            if ($row->item_stock->parent_coding) {
+                return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
+            }
+            else if ($approved == false) {
+                $noAuthorize = true;
 
-                    if(Auth::user()->can('update', StockMutation::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', StockMutation::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
+                if(Auth::user()->can('update', StockMutation::class)) {
+                    $updateable = 'button';
+                    $updateValue = $row->id;
+                    $noAuthorize = false;
+                }
+                if(Auth::user()->can('delete', StockMutation::class)) {
+                    $deleteable = true;
+                    $deleteId = $row->id;
+                    $noAuthorize = false;
+                }
 
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
-                    }
-                    else {
-                        return '<p class="text-muted font-italic">Not Authorized</p>';
-                    }
+                if ($noAuthorize == false) {
+                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
                 }
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
-        else {
-            return Datatables::of($data)
-            ->addColumn('parent', function($row){
-                if ($row->item_stock->item_group) {
-                    return 'P/N: <strong>' . $row->item_stock->item_group->item->code . '</strong><br>' . 
-                    'S/N: <strong>' . $row->item_stock->item_group->serial_number . '</strong><br>' .
-                    'Name: <strong>' . $row->item_stock->item_group->item->name . '</strong><br>' .
-                    'Alias: <strong>' . $row->item_stock->item_group->alias_name . '</strong><br>';
-                } 
                 else {
-                    return "<span class='text-muted font-italic'>Not Set</span>";
+                    return '<p class="text-muted font-italic">Not Authorized</p>';
                 }
-            })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+            }
+            else if ($approved == true) {
                 return '<p class="text-muted font-italic">Already Approved</p>';
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
+            }
+        })
+        ->escapeColumns([])
+        ->make(true);
     }
 
     public function tree(Request $request)

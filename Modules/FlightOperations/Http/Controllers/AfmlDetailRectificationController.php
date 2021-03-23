@@ -32,24 +32,20 @@ class AfmlDetailRectificationController extends Controller
                                                 'employee:id,fullname']);
                                                 
         $AfmLog = AfmLog::where('id', $afm_log_id)->first();
-
-        if ($AfmLog->approvals()->count() == 0) {
-            return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
-            
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+        $approved = false;
+        if ($AfmLog->approvals()->count() > 0) {
+            $approved = true;
+        }
+        
+        return Datatables::of($data)
+        ->addColumn('creator_name', function($row){
+            return $row->creator->name ?? '-';
+        })
+        ->addColumn('updater_name', function($row){
+            return $row->updater->name ?? '-';
+        })
+        ->addColumn('action', function($row) use ($approved) {
+            if ($approved == false) {
                 $noAuthorize = true;
 
                 if(Auth::user()->can('update', AfmlDetailRectification::class)) {
@@ -70,31 +66,13 @@ class AfmlDetailRectificationController extends Controller
                 else {
                     return '<p class="text-muted">Not Authorized</p>';
                 }
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
-        else {
-            return Datatables::of($data)
-            // ->addColumn('status', function($row){
-            //     if ($row->status == 1){
-            //         return '<label class="label label-success">Active</label>';
-            //     } else{
-            //         return '<label class="label label-danger">Inactive</label>';
-            //     }
-            // })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+            }
+            else {
                 return '<p class="text-muted font-italic">Already Approved</p>';
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
+            }
+        })
+        ->escapeColumns([])
+        ->make(true);
     }
 
     public function store(Request $request)

@@ -27,7 +27,13 @@ class AircraftConfigurationDetailController extends Controller
     public function index(Request $request)
     {
         $aircraft_configuration_id = $request->id;
+
         $AircraftConfiguration = AircraftConfiguration::where('id', $aircraft_configuration_id)->first();
+        $approved = false;
+        if ($AircraftConfiguration->approvals()->count() > 0) {
+            $approved = true;
+        }
+
         $warehouse_id = $AircraftConfiguration->warehouse->id;
         
         $data = ItemStock::where('warehouse_id', $warehouse_id)
@@ -36,41 +42,41 @@ class AircraftConfigurationDetailController extends Controller
                                 'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
                                 'item_group.item'])
                         ->orderBy('created_at','desc');
-                                                
-        if ($AircraftConfiguration->approvals()->count() == 0) {
-            return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
-                    return '<label class="label label-success">Active</label>';
-                } else{
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
-            ->addColumn('highlighted', function($row){
-                if ($row->highlight == 1){
-                    return '<label class="label label-primary">Yes</label>';
-                } else{
-                    return '<label class="label label-danger">No</label>';
-                }
-            })
-            ->addColumn('parent', function($row){
-                if ($row->item_group) {
-                    return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
-                    'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
-                    'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
-                    'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
-                } 
-                else {
-                    return "<span class='text-muted font-italic'>Not Set</span>";
-                }
-            })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+        
+        return Datatables::of($data)
+        ->addColumn('status', function($row){
+            if ($row->status == 1){
+                return '<label class="label label-success">Active</label>';
+            } else{
+                return '<label class="label label-danger">Inactive</label>';
+            }
+        })
+        ->addColumn('highlighted', function($row){
+            if ($row->highlight == 1){
+                return '<label class="label label-primary">Yes</label>';
+            } else{
+                return '<label class="label label-danger">No</label>';
+            }
+        })
+        ->addColumn('parent', function($row){
+            if ($row->item_group) {
+                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
+                'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
+                'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
+            } 
+            else {
+                return "<span class='text-muted font-italic'>Not Set</span>";
+            }
+        })
+        ->addColumn('creator_name', function($row){
+            return $row->creator->name ?? '-';
+        })
+        ->addColumn('updater_name', function($row){
+            return $row->updater->name ?? '-';
+        })
+        ->addColumn('action', function($row) use ($approved) {
+            if ($approved == false) {
                 $noAuthorize = true;
 
                 if(Auth::user()->can('update', AircraftConfiguration::class)) {
@@ -90,50 +96,13 @@ class AircraftConfigurationDetailController extends Controller
                 else {
                     return '<p class="text-muted font-italic">Not Authorized</p>';
                 }
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
-        else {
-            return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
-                    return '<label class="label label-success">Active</label>';
-                } else{
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
-            ->addColumn('highlighted', function($row){
-                if ($row->highlight == 1){
-                    return '<label class="label label-primary">Yes</label>';
-                } else{
-                    return '<label class="label label-danger">No</label>';
-                }
-            })
-            ->addColumn('parent_item_code', function($row){
-                return $row->item_group->item->code ?? '-';
-            })
-            ->addColumn('parent_item_name', function($row){
-                if ($row->item_group) {
-                    return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
-                }
-                else {
-                    return '-';
-                }
-                
-            })
-            ->addColumn('creator_name', function($row){
-                return $row->creator->name ?? '-';
-            })
-            ->addColumn('updater_name', function($row){
-                return $row->updater->name ?? '-';
-            })
-            ->addColumn('action', function($row) {
+            }
+            else {
                 return '<p class="text-muted font-italic">Already Approved</p>';
-            })
-            ->escapeColumns([])
-            ->make(true);
-        }
+            }
+        })
+        ->escapeColumns([])
+        ->make(true);
     }
 
     public function tree(Request $request)
