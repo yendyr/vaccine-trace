@@ -287,20 +287,24 @@ class StockMutationOutboundDetailController extends Controller
         }
     }
 
-    public static function unpickChilds($mutationOutboundDetailRow)
+    public static function unpickChilds($itemStockRow, $stock_mutation_id)
     {
-        foreach($mutationOutboundDetailRow->item_stock->all_childs as $childRow) {
-            $item_stock = ItemStock::where('id', $childRow->item_stock_id)->first();
+        foreach($itemStockRow->all_childs as $childRow) {
             $childRow->update([
-                'deleted_by' => Auth::user()->id,
-            ]);
-            OutboundMutationDetail::destroy($childRow->id);
-            dd($childRow); // childRow malah item_stock?
-            $item_stock->update([
                 'reserved_quantity' => 0,
             ]);
+
+            $outboundDetailRow = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
+                                    ->where('item_stock_id', $childRow->id)
+                                    ->first();
+            // dd($outboundDetailRow);
+            $outboundDetailRow->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            OutboundMutationDetail::destroy($outboundDetailRow->id);
+            
             if (sizeof($childRow->all_childs) > 0) {
-                Self::unpickChilds($childRow);
+                Self::unpickChilds($childRow, $stock_mutation_id);
             }
         }
     }
@@ -318,8 +322,8 @@ class StockMutationOutboundDetailController extends Controller
             $item_stock = ItemStock::where('id', $mutationOutboundDetailRow->item_stock_id)->first();
 
             DB::beginTransaction();
-            if (sizeof($mutationOutboundDetailRow->item_stock->all_childs) > 0) {
-                Self::unpickChilds($mutationOutboundDetailRow);
+            if (sizeof($item_stock->all_childs) > 0) {
+                Self::unpickChilds($item_stock, $mutationOutboundDetailRow->stock_mutation_id);
             }
             $mutationOutboundDetailRow->update([
                 'deleted_by' => Auth::user()->id,
