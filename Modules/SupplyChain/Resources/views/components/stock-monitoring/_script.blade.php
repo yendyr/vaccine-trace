@@ -26,7 +26,12 @@ $(document).ready(function () {
             { data: 'reserved_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'available_quantity',
                 "render": function ( data, type, row, meta ) {
-                    return "<span class='label label-success'>" + row.available_quantity + '</span>'; 
+                    if (row.available_quantity > 0) {
+                        return "<span class='label label-success'>" + row.available_quantity + '</span>';
+                    }
+                    else {
+                        return "<span class='label label-danger'>" + row.available_quantity + '</span>';
+                    } 
                 }},
             { data: 'item.unit.name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'description', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },

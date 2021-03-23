@@ -38,11 +38,11 @@ class StockMutationOutboundDetailController extends Controller
         if ($StockMutation->approvals()->count() == 0) {
             return Datatables::of($data)
             ->addColumn('parent', function($row){
-                if ($row->item_group) {
-                    return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
-                    'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
-                    'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
-                    'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
+                if ($row->item_stock->item_group) {
+                    return 'P/N: <strong>' . $row->item_stock->item_group->item->code . '</strong><br>' . 
+                    'S/N: <strong>' . $row->item_stock->serial_number . '</strong><br>' .
+                    'Name: <strong>' . $row->item_stock->item_group->item->name . '</strong><br>' .
+                    'Alias: <strong>' . $row->item_stock->alias_name . '</strong><br>';
                 } 
                 else {
                     return "<span class='text-muted font-italic'>Not Set</span>";
@@ -56,7 +56,7 @@ class StockMutationOutboundDetailController extends Controller
             })
             ->addColumn('action', function($row) {
                 if ($row->item_stock->parent_coding) {
-                    return "<span class='text-muted font-italic'>this Item has Parent</span>";
+                    return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
                 }
                 else {
                     $noAuthorize = true;

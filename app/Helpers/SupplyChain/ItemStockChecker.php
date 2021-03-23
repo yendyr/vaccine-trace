@@ -78,13 +78,16 @@ class ItemStockChecker
                     }
                 })
                 ->addColumn('action', function($row){
-                    if ($row->parent_coding) {
-                        return "<span class='text-muted font-italic'>this Item has Parent</span>";
-                    }
-                    else {
+                    if ($row->available_quantity > 0) {
                         $usable = true;
                         $idToUse = $row->id;
                         return view('components.action-button', compact(['usable', 'idToUse']));
+                    }
+                    else if ($row->available_quantity == 0) {
+                        return "<span class='text-danger font-italic'>Not Available</span>";
+                    }
+                    else if ($row->parent_coding) {
+                        return "<span class='text-muted font-italic'>this Item has Parent</span>";
                     }
                 })
                 ->escapeColumns([])
