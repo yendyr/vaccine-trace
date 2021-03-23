@@ -21,8 +21,7 @@ $(document).ready(function () {
             { data: 'item.name', name: 'Item Name' },
             { data: 'alias_name', name: 'Alias Name' },
             { data: 'description', name: 'Description/Remark' },
-            { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
-            { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
+            { data: 'parent', defaultContent: '-' },
             { data: 'status', name: 'Status' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
@@ -104,7 +103,11 @@ $(document).ready(function () {
         }
 
         if (data.item_group != null) {
-            $('.parent_coding').append('<option value="' + data.parent_coding + '" selected>' + data.parent_item_code + ' | ' + data.parent_item_name + '</option>');
+            var alias_name = '-';
+            if(data.item_group.alias_name) {
+                alias_name = data.item_group.alias_name;
+            }
+            $('.parent_coding').append('<option value="' + data.parent_coding + '" selected>' + data.item_group.item.code + ' | ' + data.item_group.item.name + ' | ' + alias_name + '</option>');
         }   
 
         if (data.status == '<label class="label label-success">Active</label>') {

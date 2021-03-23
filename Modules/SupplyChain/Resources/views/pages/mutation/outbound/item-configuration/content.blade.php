@@ -2,7 +2,7 @@
     @component('components.delete-modal', ['name' => 'Outbound Item/Component Datalist'])
     @endcomponent
 
-    @include('supplychain::pages.mutation.outbound.item-configuration.modal')
+    {{-- @include('supplychain::pages.mutation.outbound.item-configuration.modal') --}}
     
     @component('components.crud-form.index',[
         'title' => 'Outbound Item/Component Datalist',
@@ -18,8 +18,7 @@
         <th>Alias Name</th>
         <th>Item Remark</th>
         <th>Outbound Remark</th>
-        <th>Parent Item/Group PN</th>
-        <th>Parent Item/Group Name & Alias</th>
+        <th>Parent Item</th>
         <th>Created By</th>
         <th>Created At</th>
         <th>Action</th>

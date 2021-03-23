@@ -74,14 +74,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Parent Item Code/Name</label>
-                                <div class="col-sm-7">
-                                    <select class="parent_coding form-control @error('parent_coding') is-invalid @enderror" name="parent_coding" id="parent_coding"></select>
-                                    <div class="invalid-feedback-parent_coding text-danger font-italic"></div>
-                                </div>
-                            </div>
-
                             {{-- <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Active</label>
                                 <div class="col-sm-7">     
@@ -150,7 +142,18 @@
 
                         </div>
                     </div>
-                    
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-2 d-flex align-items-center">Parent Item</label>
+                                <div class="col-sm-10">
+                                    <select class="parent_coding form-control @error('parent_coding') is-invalid @enderror" name="parent_coding" id="parent_coding"></select>
+                                    <div class="invalid-feedback-parent_coding text-danger font-italic"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

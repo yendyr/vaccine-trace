@@ -10,7 +10,7 @@ class ItemStockChecker
     public static function usable_items($warehouse_id, $with_use_button)
     {
         $result = ItemStock::with(['item.unit',
-                                'item_group:id,item_id,alias_name,coding,parent_coding',
+                                'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
                                 'warehouse'])
                                 ->whereHas('warehouse', function ($warehouse) {
                                     $warehouse->whereHas('aircraft_configuration', function ($aircraft_configuration) {

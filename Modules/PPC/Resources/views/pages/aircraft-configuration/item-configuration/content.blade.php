@@ -25,8 +25,7 @@
         <th>Alias Name</th>
         <th>Remark</th>
         <th>Highlighted Item</th>
-        <th>Parent Item/Group PN</th>
-        <th>Parent Item/Group Name & Alias</th>
+        <th>Parent Item</th>
         <th>Initial FH</th>
         <th>Initial Block Hour</th>
         <th>Initial FC</th>

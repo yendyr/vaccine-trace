@@ -26,8 +26,7 @@ $(document).ready(function () {
             { data: 'description', defaultContent: '-' },
             { data: 'detailed_item_location', defaultContent: '-' },
             { data: 'highlighted', defaultContent: '-' },
-            { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
-            { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
+            { data: 'parent', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_flight_hour', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_block_hour', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_flight_cycle', defaultContent: '-' },
@@ -125,7 +124,17 @@ $(document).ready(function () {
         }
 
         if (data.item_group != null) {
-            $('.parent_coding').append('<option value="' + data.parent_coding + '" selected>' + data.parent_item_code + ' | ' + data.parent_item_name + '</option>');
+            var alias_name = '-';
+            var serial_number = '-';
+
+            if(data.item_group.alias_name) {
+                alias_name = data.item_group.alias_name;
+            }
+            if(data.item_group.serial_number) {
+                serial_number = data.item_group.serial_number;
+            }
+
+            $('.parent_coding').append('<option value="' + data.parent_coding + '" selected>' + data.item_group.item.code + ' | ' + serial_number + ' | ' + data.item_group.item.name + ' | ' + alias_name + '</option>');
         }   
 
         if (data.highlighted == '<label class="label label-primary">Yes</label>') {

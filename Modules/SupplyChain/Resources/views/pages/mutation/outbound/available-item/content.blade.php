@@ -20,7 +20,7 @@
         <th>Available Qty</th>
         <th>UoM</th>
         <th>Remark</th>
-        <th>Parent Item/Group Name</th>
+        <th>Parent Item</th>
         <th>Action</th>
     @endslot
     @endcomponent

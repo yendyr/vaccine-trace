@@ -33,7 +33,8 @@ class AircraftConfigurationDetailController extends Controller
         $data = ItemStock::where('warehouse_id', $warehouse_id)
                         ->with(['item:id,code,name',
                                 'item_stock_initial_aging',
-                                'item_group:id,item_id,alias_name,coding,parent_coding'])
+                                'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
+                                'item_group.item'])
                         ->orderBy('created_at','desc');
                                                 
         if ($AircraftConfiguration->approvals()->count() == 0) {
@@ -52,17 +53,16 @@ class AircraftConfigurationDetailController extends Controller
                     return '<label class="label label-danger">No</label>';
                 }
             })
-            ->addColumn('parent_item_code', function($row){
-                return $row->item_group->item->code ?? '-';
-            })
-            ->addColumn('parent_item_name', function($row){
+            ->addColumn('parent', function($row){
                 if ($row->item_group) {
-                    return $row->item_group->item->name . ' | ' . $row->item_group->alias_name;
-                }
+                    return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                    'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
+                    'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
+                    'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
+                } 
                 else {
-                    return '-';
+                    return "<span class='text-muted font-italic'>Not Set</span>";
                 }
-                
             })
             ->addColumn('creator_name', function($row){
                 return $row->creator->name ?? '-';
@@ -400,6 +400,7 @@ class AircraftConfigurationDetailController extends Controller
                                             ->orWhere('items.name', 'like', '%' .$search. '%');
                                         })
                                         ->where('warehouse_id', $warehouse_id)
+                                        ->where('quantity', 1)
                                         ->where('status', 1)
                                         ->get();
         }
@@ -408,7 +409,9 @@ class AircraftConfigurationDetailController extends Controller
         foreach($AircraftConfigurationDetails as $AircraftConfigurationDetail){
             $response['results'][] = [
                 "id" => $AircraftConfigurationDetail->coding,
-                "text" => $AircraftConfigurationDetail->item->code . ' | ' . $AircraftConfigurationDetail->item->name . ' | ' . $AircraftConfigurationDetail->alias_name
+                "text" => $AircraftConfigurationDetail->item->code . ' | ' .
+                $AircraftConfigurationDetail->serial_number . ' | ' . 
+                $AircraftConfigurationDetail->item->name . ' | ' . $AircraftConfigurationDetail->alias_name
             ];
         }
         return response()->json($response);
