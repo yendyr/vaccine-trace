@@ -43,10 +43,10 @@ class ItemStockChecker
                 })
                 ->addColumn('parent', function($row){
                     if ($row->item_group) {
-                        return 'P/N: ' . $row->item_group->item->code . '<br>' . 
-                        'S/N: ' . $row->item_group->serial_number . '<br>' .
-                        'Name: ' . $row->item_group->item->name . '<br>' .
-                        'Alias: ' . $row->item_group->alias_name . '<br>';
+                        return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                        'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
+                        'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
+                        'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
                     } 
                     else {
                         return "<span class='text-muted font-italic'>Not Set</span>";
@@ -68,14 +68,13 @@ class ItemStockChecker
                 // })
                 ->addColumn('parent', function($row){
                     if ($row->item_group) {
-                        return 'P/N: ' . $row->item_group->item->code . '<br>' . 
-                        'S/N: ' . $row->item_group->serial_number . '<br>' .
-                        'Name: ' . $row->item_group->item->name . '<br>' .
-                        'Alias: ' . $row->item_group->alias_name . '<br>';
+                        return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                        'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
+                        'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
+                        'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
                     } 
                     else {
-                        return "";
-                        // return "<span class='text-muted font-italic'>Not Set</span>";
+                        return "<span class='text-muted font-italic'>Not Set</span>";
                     }
                 })
                 ->addColumn('action', function($row){

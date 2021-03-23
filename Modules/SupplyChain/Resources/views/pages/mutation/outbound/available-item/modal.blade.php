@@ -36,14 +36,6 @@
                                     <input type="text" class="form-control" name="serial_number" id="serial_number" readonly>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Alias Name</label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" name="alias_name" id="alias_name" readonly>
-                                </div>
-                            </div>
-                            
-
                             {{-- <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Active</label>
                                 <div class="col-sm-7">     
@@ -75,11 +67,18 @@
                             </div>
 
                             <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Alias Name</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="alias_name" id="alias_name" readonly>
+                                </div>
+                            </div>
+
+                            {{-- <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Parent Item Code/Name</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="parent form-control" name="parent" id="parent" readonly>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{-- <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Initial Flight Hour Aging</label>
                                 <div class="col-sm-7">

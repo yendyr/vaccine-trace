@@ -59,8 +59,7 @@ $(document).ready(function () {
             { data: 'item_stock.alias_name', defaultContent: '-' },
             { data: 'item_stock.description', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
-            { data: 'parent_item_code', name: 'Parent Item/Group PN', defaultContent: '-' },
-            { data: 'parent_item_name', name: 'Parent Item/Group Name & Alias', defaultContent: '-' },
+            { data: 'parent', defaultContent: '-' },
             { data: 'creator_name', name: 'Created By' },
             { data: 'created_at', name: 'Created At' },
             { data: 'action', name: 'Action', orderable: false },
@@ -100,7 +99,11 @@ $(document).ready(function () {
         $('#alias_name').val(data.alias_name);
         $('#description').val(data.description);
         $('#detailed_item_location').val(data.detailed_item_location);
-        $('#parent').val(data.parent);
+        // $('#parent').val(data.parent);
+
+        if(data.available_quantity == 1 && data.serial_number != null) {
+            $('#outbound_quantity').val(1);
+        }
 
         $('#saveBtn').val("use");
         $(saveButtonModalTextId).html("Use this Item");
