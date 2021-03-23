@@ -22,10 +22,8 @@
 
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Available Quantity</label>
-                                <div class="col">
+                                <div class="col input-group">
                                     <input type="text" class="form-control" name="available_quantity" id="available_quantity" readonly>
-                                </div>
-                                <div class="col">
                                     <input type="text" class="form-control" name="unit" id="unit" readonly>
                                 </div>
                             </div>
@@ -145,10 +143,8 @@
 
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Outbound Quantity</label>
-                                <div class="col">
+                                <div class="col input-group">
                                     <input type="number" min="1" class="form-control" name="outbound_quantity" id="outbound_quantity" required>
-                                </div>
-                                <div class="col">
                                     <input type="text" class="form-control" name="outbound_unit" id="outbound_unit" readonly>
                                 </div>
                             </div>
