@@ -32,7 +32,7 @@ class StockMutationOutboundDetailController extends Controller
         $data = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item_stock.item.unit',
                                         'item_stock.item_stock_initial_aging',
-                                        'item_stock.item_group:id,item_id,alias_name,coding,parent_coding'])
+                                        'item_stock.item_group:id,item_id,serial_number,alias_name,coding,parent_coding'])
                                 ->orderBy('created_at','desc');
                                                 
         if ($StockMutation->approvals()->count() == 0) {
@@ -40,9 +40,9 @@ class StockMutationOutboundDetailController extends Controller
             ->addColumn('parent', function($row){
                 if ($row->item_stock->item_group) {
                     return 'P/N: <strong>' . $row->item_stock->item_group->item->code . '</strong><br>' . 
-                    'S/N: <strong>' . $row->item_stock->serial_number . '</strong><br>' .
+                    'S/N: <strong>' . $row->item_stock->item_group->serial_number . '</strong><br>' .
                     'Name: <strong>' . $row->item_stock->item_group->item->name . '</strong><br>' .
-                    'Alias: <strong>' . $row->item_stock->alias_name . '</strong><br>';
+                    'Alias: <strong>' . $row->item_stock->item_group->alias_name . '</strong><br>';
                 } 
                 else {
                     return "<span class='text-muted font-italic'>Not Set</span>";
@@ -85,15 +85,15 @@ class StockMutationOutboundDetailController extends Controller
         }
         else {
             return Datatables::of($data)
-            ->addColumn('parent_item_code', function($row){
-                return $row->item_stock->item_group->item->code ?? '-';
-            })
-            ->addColumn('parent_item_name', function($row){
+            ->addColumn('parent', function($row){
                 if ($row->item_stock->item_group) {
-                    return $row->item_stock->item_group->item->name . ' | ' . $row->item_stock->item_group->alias_name;
-                }
+                    return 'P/N: <strong>' . $row->item_stock->item_group->item->code . '</strong><br>' . 
+                    'S/N: <strong>' . $row->item_stock->item_group->serial_number . '</strong><br>' .
+                    'Name: <strong>' . $row->item_stock->item_group->item->name . '</strong><br>' .
+                    'Alias: <strong>' . $row->item_stock->item_group->alias_name . '</strong><br>';
+                } 
                 else {
-                    return '-';
+                    return "<span class='text-muted font-italic'>Not Set</span>";
                 }
             })
             ->addColumn('creator_name', function($row){
@@ -281,9 +281,9 @@ class StockMutationOutboundDetailController extends Controller
     //     }
     // }
 
-    public static function pickChilds($currentRow, $stock_mutation_id)
+    public static function pickChilds($itemStockRow, $stock_mutation_id)
     {
-        foreach($currentRow->all_childs as $childRow) {
+        foreach($itemStockRow->all_childs as $childRow) {
             OutboundMutationDetail::create([
                 'uuid' =>  Str::uuid(),
     
@@ -304,51 +304,45 @@ class StockMutationOutboundDetailController extends Controller
         }
     }
 
-    public static function isValidParent($currentRow, $parent_coding)
+    public static function unpickChilds($mutationOutboundDetailRow)
     {
-        $isValid = true;
-        foreach($currentRow->all_childs as $childRow) {
-            if ($parent_coding == $childRow->coding) {
-                $isValid = false;
-                return $isValid;
-                break;
-            }
-            else if (sizeof($childRow->all_childs) > 0) {
-                Self::isValidParent($childRow, $parent_coding);
+        foreach($mutationOutboundDetailRow->item_stock->all_childs as $childRow) {
+            $item_stock = ItemStock::where('id', $childRow->item_stock_id)->first();
+            $childRow->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            OutboundMutationDetail::destroy($childRow->id);
+            dd($item_stock);
+            $item_stock->update([
+                'reserved_quantity' => 0,
+            ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::unpickChilds($childRow);
             }
         }
-        return $isValid;
     }
 
     public function destroy(OutboundMutationDetail $MutationOutboundDetail)
     {
-        $currentRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
+        $mutationOutboundDetailRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
                                         ->with(['item_stock.all_childs'])
                                         ->first();
 
-        $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
+        $StockMutation = StockMutation::where('id', $mutationOutboundDetailRow->stock_mutation_id)->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-        //     if (sizeof($currentRow->all_childs) > 0) {
-        //         return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
-        //     }
-        //     else {
-        //         $currentRow
-        //         ->update([
-        //             'deleted_by' => Auth::user()->id,
-        //         ]);
-        //         StockMutationDetail::destroy($MutationInboundDetail->id);
-        //         return response()->json(['success' => 'Item/Component Data has been Deleted']);
-        //     }
-            $item_stock = ItemStock::where('id', $currentRow->item_stock_id)->first();
+            $item_stock = ItemStock::where('id', $mutationOutboundDetailRow->item_stock_id)->first();
 
             DB::beginTransaction();
-            $currentRow->update([
+            if (sizeof($mutationOutboundDetailRow->item_stock->all_childs) > 0) {
+                Self::unpickChilds($mutationOutboundDetailRow);
+            }
+            $mutationOutboundDetailRow->update([
                 'deleted_by' => Auth::user()->id,
             ]);
             OutboundMutationDetail::destroy($MutationOutboundDetail->id);
             $item_stock->update([
-                'reserved_quantity' => $item_stock->reserved_quantity - $currentRow->outbound_quantity,
+                'reserved_quantity' => $item_stock->reserved_quantity - $mutationOutboundDetailRow->outbound_quantity,
             ]);
             DB::commit();
 
@@ -357,35 +351,5 @@ class StockMutationOutboundDetailController extends Controller
         else {
             return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
-    }
-
-    public function select2Parent(Request $request)
-    {
-        // $search = $request->term;
-        // $stock_mutation_id = $request->stock_mutation_id;
-
-        // if($search != '') {
-        //     $StockMutationDetails = StockMutationDetail::with(['item' => function($q) use ($search) {
-        //                                     $q->where('items.code', 'like', '%' .$search. '%')
-        //                                     ->orWhere('items.name', 'like', '%' .$search. '%');
-        //                                 }])
-        //                                 ->whereHas('item', function($q) use ($search) {
-        //                                     $q->where('items.code', 'like', '%' .$search. '%')
-        //                                     ->orWhere('items.name', 'like', '%' .$search. '%');
-        //                                 })
-        //                                 ->where('stock_mutation_id', $stock_mutation_id)
-        //                                 ->get();
-        // }
-
-        // $response = [];
-        // foreach($StockMutationDetails as $StockMutationDetail){
-        //     $response['results'][] = [
-        //         "id" => $StockMutationDetail->coding,
-        //         "text" => $StockMutationDetail->item->code . ' | ' . 
-        //         $StockMutationDetail->item->name . ' | ' . 
-        //         $StockMutationDetail->alias_name
-        //     ];
-        // }
-        // return response()->json($response);
     }
 }

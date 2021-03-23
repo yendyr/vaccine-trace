@@ -78,7 +78,7 @@ class ItemStockChecker
                     }
                 })
                 ->addColumn('action', function($row){
-                    if ($row->available_quantity > 0) {
+                    if ($row->available_quantity > 0 && $row->parent_coding == null) {
                         $usable = true;
                         $idToUse = $row->id;
                         return view('components.action-button', compact(['usable', 'idToUse']));
