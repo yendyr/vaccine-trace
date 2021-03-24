@@ -42,7 +42,8 @@
             "Modules\\": "Modules/"
         },
         "files": [
-            "app/Helpers/SupplyChain/ItemStockChecker.php"
+            "app/Helpers/SupplyChain/ItemStockChecker.php",
+            "app/Helpers/SupplyChain/ItemStockMutation.php"
         ],
         "classmap": [
             "database/seeds",

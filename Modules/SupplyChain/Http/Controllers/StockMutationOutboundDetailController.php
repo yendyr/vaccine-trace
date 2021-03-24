@@ -4,6 +4,9 @@ namespace Modules\SupplyChain\Http\Controllers;
 
 use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\OutboundMutationDetail;
+use Modules\SupplyChain\Entities\ItemStock;
+
+use app\Helpers\SupplyChain\ItemStockMutation;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -11,7 +14,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Modules\SupplyChain\Entities\ItemStock;
+
 use Yajra\DataTables\Facades\DataTables;
 
 class StockMutationOutboundDetailController extends Controller
@@ -156,7 +159,7 @@ class StockMutationOutboundDetailController extends Controller
                 'reserved_quantity' => $item_stock->reserved_quantity + $outbound_quantity,
             ]);
             if (sizeof($item_stock->all_childs) > 0) {
-                Self::pickChilds($item_stock, $request->stock_mutation_id);
+                ItemStockMutation::pickChilds($item_stock, $request->stock_mutation_id);
             }
             DB::commit();
     
@@ -211,51 +214,6 @@ class StockMutationOutboundDetailController extends Controller
         }
     }
 
-    public static function pickChilds($itemStockRow, $stock_mutation_id)
-    {
-        foreach($itemStockRow->all_childs as $childRow) {
-            OutboundMutationDetail::create([
-                'uuid' =>  Str::uuid(),
-    
-                'stock_mutation_id' => $stock_mutation_id,
-                'item_stock_id' => $childRow->id,
-                'outbound_quantity' => $childRow->quantity,
-    
-                'owned_by' => Auth::user()->company_id,
-                'status' => 1,
-                'created_by' => Auth::user()->id,
-            ]);
-            $childRow->update([
-                'reserved_quantity' => $childRow->quantity,
-            ]);
-            if (sizeof($childRow->all_childs) > 0) {
-                Self::pickChilds($childRow, $stock_mutation_id);
-            }
-        }
-    }
-
-    public static function unpickChilds($itemStockRow, $stock_mutation_id)
-    {
-        foreach($itemStockRow->all_childs as $childRow) {
-            $childRow->update([
-                'reserved_quantity' => 0,
-            ]);
-
-            $outboundDetailRow = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
-                                    ->where('item_stock_id', $childRow->id)
-                                    ->first();
-            // dd($outboundDetailRow);
-            $outboundDetailRow->update([
-                'deleted_by' => Auth::user()->id,
-            ]);
-            OutboundMutationDetail::destroy($outboundDetailRow->id);
-            
-            if (sizeof($childRow->all_childs) > 0) {
-                Self::unpickChilds($childRow, $stock_mutation_id);
-            }
-        }
-    }
-
     public function destroy(OutboundMutationDetail $MutationOutboundDetail)
     {
         $mutationOutboundDetailRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
@@ -270,7 +228,7 @@ class StockMutationOutboundDetailController extends Controller
 
             DB::beginTransaction();
             if (sizeof($item_stock->all_childs) > 0) {
-                Self::unpickChilds($item_stock, $mutationOutboundDetailRow->stock_mutation_id);
+                ItemStockMutation::unpickChilds($item_stock, $mutationOutboundDetailRow->stock_mutation_id);
             }
             $mutationOutboundDetailRow->update([
                 'deleted_by' => Auth::user()->id,
