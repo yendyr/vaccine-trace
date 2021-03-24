@@ -39,7 +39,6 @@ class StockMutationOutboundDetailController extends Controller
                                         'item_stock.item_stock_initial_aging',
                                         'item_stock.item_group:id,item_id,serial_number,alias_name,coding,parent_coding'])
                                 ->orderBy('created_at','desc');
-                                                
         
         return Datatables::of($data)
         ->addColumn('parent', function($row){
@@ -168,101 +167,48 @@ class StockMutationOutboundDetailController extends Controller
         }
     }
 
-    // public function update(Request $request, StockMutationDetail $MutationInboundDetail)
-    // {
-    //     $currentRow = StockMutationDetail::where('id', $MutationInboundDetail->id)
-    //                                     ->with('all_childs')
-    //                                     ->first();
+    public function update(Request $request, OutboundMutationDetail $MutationOutboundDetail)
+    {
+        $currentRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
+                                        ->with('all_childs')
+                                        ->first();
 
-    //     $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
+        $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
 
-    //     if ($StockMutation->approvals()->count() == 0) {
-    //         $request->validate([
-    //             'item_id' => ['required'],
-    //         ]);
+        if ($StockMutation->approvals()->count() == 0) {
+            $request->validate([
+                'stock_mutation_id' => ['required'],
+                'item_stock_id' => ['required'],
+                'outbound_quantity' => ['required'],
+            ]);
 
-    //         if($request->quantity > 1) {
-    //             $quantity = $request->quantity;
-    //             $serial_number = null;
-    //         }
-    //         else {
-    //             $quantity = 1;
-    //             $serial_number = $request->serial_number;
-    //         }
-    
-    //         // if ($request->status) {
-    //         //     $status = 1; 
-                
-    //         //     if ($currentRow->parent_coding != null) {
-    //         //         if ($currentRow->item_group->status == 0) {
-    //         //             return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
-    //         //         }
-    //         //     }
-    //         // } 
-    //         // else {
-    //         //     $status = 0;
-    //         // }
-    
-    //         if ($request->highlight) {
-    //             $highlight = 1;
-    //         } 
-    //         else {
-    //             $highlight = 0;
-    //         }
-    
-    //         $initial_start_date = $request->initial_start_date;
-    //         $expired_date = $request->expired_date;
+            $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
             
-    //         if (Self::isValidParent($currentRow, $request->parent_coding)) {
-    //             if ($request->parent_coding == $currentRow->coding) {
-    //                 $parent_coding = null;
-    //             }
-    //             else {
-    //                 $parent_coding = $request->parent_coding;
-    //             }
-    //         }
-    //         else {
-    //             return response()->json(['error' => "The Choosen Parent is Already in Child of this Item"]);
-    //         }
+            if(($request->outbound_quantity > 0) && ($request->outbound_quantity <= $item_stock->available_quantity)) {
+                $outbound_quantity = $request->outbound_quantity;
+            }
+            else {
+                return response()->json(['error' => "Outbound Quantity Must be Greater than 0 and Less than Current Available Stock"]);
+            }
     
-    //         DB::beginTransaction();
-    //         $currentRow
-    //             ->update([
-    //                 'item_id' => $request->item_id,
-    //                 'alias_name' => $request->alias_name,
-    //                 'quantity' => $quantity,
-    //                 'serial_number' => $serial_number,
-    //                 'highlight' => $highlight,
-    //                 'description' => $request->description,
-    //                 'detailed_item_location' => $request->detailed_item_location,
-    //                 'parent_coding' => $parent_coding,
-    
-    //                 'updated_by' => Auth::user()->id,
-    //         ]);
-    //         // if (sizeof($currentRow->all_childs) > 0) {
-    //         //     Self::updateChilds($currentRow, $status);
-    //         // }
-    //         $currentRow->mutation_detail_initial_aging()
-    //             ->update([
-    //                 'uuid' => Str::uuid(),
+            DB::beginTransaction();
+            $currentRow->update([
+                'outbound_quantity' => $outbound_quantity,
+                'description' => $request->outbound_remark,
 
-    //                 'initial_flight_hour' => $request->initial_flight_hour,
-    //                 'initial_block_hour' => $request->initial_block_hour,
-    //                 'initial_flight_cycle' => $request->initial_flight_cycle,
-    //                 'initial_flight_event' => $request->initial_flight_event,
-    //                 'initial_start_date' => $initial_start_date,
-    //                 'expired_date' => $expired_date,
-                    
-    //                 'updated_by' => $request->user()->id,
-    //             ]);
-    //         DB::commit();
+                'updated_by' => Auth::user()->id,
+            ]);
+            $item_stock->update([
+                'reserved_quantity' => $item_stock->reserved_quantity + $outbound_quantity, // TO DO
+            ]);
+            DB::commit();
             
-    //         return response()->json(['success' => 'Item/Component Data has been Updated']);
-    //     }
-    //     else {
-    //         return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
-    //     }
-    // }
+            return response()->json(['success' => 'Item/Component Data has been Updated']);
+        }
+        else {
+            return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
+    }
 
     public static function pickChilds($itemStockRow, $stock_mutation_id)
     {

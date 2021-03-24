@@ -148,10 +148,12 @@ $(document).ready(function () {
 
         $('#item').val(data.item_stock.item.code + ' | ' + data.item_stock.item.name);
         $('#item_stock_id').val(data.item_stock_id);
-        $('#available_quantity').val(data.item_stock.available_quantity);
+
+        var showAvailableQty = data.item_stock.available_quantity + data.outbound_quantity;
+        $('#available_quantity').val(showAvailableQty);
         $('#unit').val(data.item_stock.item.unit.name);
 
-        $('#outbound_quantity').attr('max', data.item_stock.available_quantity);
+        $('#outbound_quantity').attr('max', showAvailableQty);
         $('#outbound_unit').val(data.item_stock.item.unit.name);
 
         $('#serial_number').val(data.item_stock.serial_number);
@@ -160,9 +162,14 @@ $(document).ready(function () {
         $('#detailed_item_location').val(data.item_stock.detailed_item_location);
         // $('#parent').val(data.parent);
 
-        if(data.item_stock.available_quantity == 1 && data.item_stock.serial_number != null) {
+        if(showAvailableQty == 1 && data.item_stock.serial_number != null) {
             $('#outbound_quantity').val(1);
         }
+        else {
+            $('#outbound_quantity').val(data.outbound_quantity);
+        }
+
+        $('#outbound_remark').val(data.description);
 
         $('#saveBtn').val("use");
         $(saveButtonModalTextId).html("Edit this Item");
