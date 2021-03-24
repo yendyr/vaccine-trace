@@ -170,7 +170,6 @@ class StockMutationOutboundDetailController extends Controller
     public function update(Request $request, OutboundMutationDetail $MutationOutboundDetail)
     {
         $currentRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
-                                        ->with('all_childs')
                                         ->first();
 
         $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
@@ -183,8 +182,8 @@ class StockMutationOutboundDetailController extends Controller
             ]);
 
             $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
-            
-            if(($request->outbound_quantity > 0) && ($request->outbound_quantity < ($request->available_quantity + 1))) {
+        
+            if(($request->outbound_quantity > 0) && ($request->outbound_quantity <= $request->available_quantity)) {
                 $outbound_quantity = $request->outbound_quantity;
             }
             else {

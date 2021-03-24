@@ -132,18 +132,18 @@ $(document).ready(function () {
     datatableObject2.on('click', '.editBtn', function () {
         $('#modalTitle').html("Edit this Item");
 
-        $("input[value='patch']").remove();
+        $("input[value='post']").remove();
         $(inputFormId).trigger("reset"); 
 
         rowId= $(this).val();
         let tr = $(this).closest('tr');
         let data = datatableObject2.row(tr).data();
-        $(inputFormId).attr('action', actionUrl);
+        $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
         $('<input>').attr({
             type: 'hidden',
             name: '_method',
-            value: 'post'
+            value: 'patch'
         }).prependTo(inputFormId);
 
         $('#item').val(data.item_stock.item.code + ' | ' + data.item_stock.item.name);
