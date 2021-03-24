@@ -5,7 +5,6 @@ namespace Modules\PPC\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class TaskcardDetailInstruction extends Model
 {
@@ -16,8 +15,9 @@ class TaskcardDetailInstruction extends Model
     protected $fillable = [
         'uuid',
 
-        'sequence',
         'taskcard_id',
+
+        'sequence',
         'instruction_code',
         'taskcard_workarea_id',
         'manhours_estimation',

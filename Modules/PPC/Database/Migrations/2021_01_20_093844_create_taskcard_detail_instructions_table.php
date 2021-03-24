@@ -19,8 +19,8 @@ class CreateTaskcardDetailInstructionsTable extends Migration
 
             $table->string('taskcard_id');
             $table->tinyInteger('sequence')->nullable();
-            $table->string('taskcard_workarea_id')->nullable();
             $table->string('instruction_code')->nullable();
+            $table->string('taskcard_workarea_id')->nullable();
             $table->double('manhours_estimation')->default(0);
             $table->double('performance_factor');
             $table->string('engineering_level_id'); // set minimum authorized engineering level to execute this taskcard
