@@ -216,14 +216,14 @@ class StockMutationOutboundDetailController extends Controller
 
     public function destroy(OutboundMutationDetail $MutationOutboundDetail)
     {
-        $mutationOutboundDetailRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
-                                        ->with(['item_stock.all_childs'])
-                                        ->first();
-
-        $StockMutation = StockMutation::where('id', $mutationOutboundDetailRow->stock_mutation_id)
+        $StockMutation = StockMutation::where('id', $MutationOutboundDetail->stock_mutation_id)
                                     ->first();
 
         if ($StockMutation->approvals()->count() == 0) {
+            $mutationOutboundDetailRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
+                                        ->with(['item_stock.all_childs'])
+                                        ->first();
+
             $item_stock = ItemStock::where('id', $mutationOutboundDetailRow->item_stock_id)->first();
 
             DB::beginTransaction();
