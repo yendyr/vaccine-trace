@@ -18,6 +18,7 @@ class TaskcardDetailInstruction extends Model
 
         'sequence',
         'taskcard_id',
+        'instruction_code',
         'taskcard_workarea_id',
         'manhours_estimation',
         'performance_factor',

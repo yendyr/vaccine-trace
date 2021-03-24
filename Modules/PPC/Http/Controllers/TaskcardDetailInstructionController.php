@@ -46,6 +46,7 @@ class TaskcardDetailInstructionController extends Controller
             'uuid' => Str::uuid(),
             'sequence' => $request->sequence,
             'taskcard_workarea_id' => $request->taskcard_workarea_id,
+            'instruction_code' => $request->instruction_code,
             'manhours_estimation' => $request->manhours_estimation,
             'performance_factor' => $request->performance_factor,
             'engineering_level_id' => $request->engineering_level_id,
@@ -87,11 +88,6 @@ class TaskcardDetailInstructionController extends Controller
         return response()->json($TaskcardDetailInstruction);
     }
 
-    public function edit(TaskcardDetailInstruction $TaskcardDetailInstruction)
-    {
-        
-    }
-
     public function update(Request $request, TaskcardDetailInstruction $TaskcardDetailInstruction)
     {
         $request->validate([
@@ -115,6 +111,7 @@ class TaskcardDetailInstructionController extends Controller
         $currentRow->update([
             'sequence' => $request->sequence,
             'taskcard_workarea_id' => $request->taskcard_workarea_id,
+            'instruction_code' => $request->instruction_code,
             'manhours_estimation' => $request->manhours_estimation,
             'performance_factor' => $request->performance_factor,
             'engineering_level_id' => $request->engineering_level_id,
@@ -154,19 +151,10 @@ class TaskcardDetailInstructionController extends Controller
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
-                    
-        // $currentDetailInstructionSkill = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id);
-        // $currentDetailInstructionSkill
-        //         ->update([
-        //             'deleted_by' => Auth::user()->id,
-        //         ]);
-
-        // $currentDetailInstruction->skill_details()->delete();
 
         TaskcardDetailInstruction::destroy($TaskcardDetailInstruction->id);
         DB::commit();
 
         return response()->json(['success' => 'Instruction has been Deleted']);
     }
-
 }

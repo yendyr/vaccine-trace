@@ -94,6 +94,7 @@ $(document).ready(function () {
         $.get(actionUrl + '/' + id, function (data) {
             $('.id').val(id);
             $('#sequence').val(data.sequence);
+            $('#instruction_code').val(data.instruction_code);
             $('#manhours_estimation').val(data.manhours_estimation);
             $('#performance_factor').val(data.performance_factor);
             $('#manpower_quantity').val(data.manpower_quantity);
@@ -120,13 +121,6 @@ $(document).ready(function () {
                     $("#skill_id").append(option);
                 });
             }
-                            
-            // if (data.status == '1') {
-            //     $('.status').prop('checked', true);
-            // }
-            // else {
-            //     $('.status').prop('checked', false);
-            // }
 
             $(inputFormId).attr('action', actionUrl + '/' + id);
         });
@@ -239,6 +233,7 @@ $(document).ready(function () {
     function clearForm()
     {
         $('#sequence').val('');
+        $('#instruction_code').val('');
         $('#manhours_estimation').val('');
         $('#performance_factor').val('');
         $('#manpower_quantity').val('');

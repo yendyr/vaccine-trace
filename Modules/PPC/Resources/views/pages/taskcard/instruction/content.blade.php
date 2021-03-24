@@ -3,7 +3,14 @@
 <div class="col-md-12 fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-success">
         <div class="panel-heading">
-            Instruction Sequence: <label class="label label-danger m-b-none">{{ $instruction_detail->sequence ?? '-' }}</label>
+            <div class="row">
+                <div class="col-md-3">
+                    Instruction Sequence: <label class="label label-danger m-b-none">{{ $instruction_detail->sequence ?? '-' }}</label>
+                </div>
+                <div class="col">
+                    Task Code: <label class="label label-danger m-b-none">{{ $instruction_detail->instruction_code ?? '-' }}</label>
+                </div>
+            </div>
         </div>
         <div class="panel-body" style="margin: 0px; width: 100%;">
             <div class="row">
