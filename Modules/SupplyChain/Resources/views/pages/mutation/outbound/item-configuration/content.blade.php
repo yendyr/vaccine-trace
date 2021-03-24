@@ -1,8 +1,6 @@
 <div class="col fadeIn" style="animation-duration: 1.5s">
     @component('components.delete-modal', ['name' => 'Outbound Item/Component Datalist'])
     @endcomponent
-
-    {{-- @include('supplychain::pages.mutation.outbound.item-configuration.modal') --}}
     
     @component('components.crud-form.index',[
         'title' => 'Outbound Item/Component Datalist',

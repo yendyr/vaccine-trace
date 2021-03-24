@@ -1,7 +1,5 @@
 <div class="col fadeIn" style="animation-duration: 1.5s">
     
-    @include('supplychain::pages.mutation.outbound.available-item.modal')
-    
     @component('components.crud-form.index',[
         'title' => 'Available Item in this Warehouse',
         'tableId' => 'available-item-table'])
