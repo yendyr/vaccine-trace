@@ -78,7 +78,9 @@ class StockMutation extends Model
         parent::boot();
 
         static::deleting(function($StockMutation) {
-            $StockMutation->stock_mutation_details->mutation_detail_initial_aging()->delete();
+            foreach ($StockMutation->stock_mutation_details as $stock_mutation_detail) {
+                $stock_mutation_detail->mutation_detail_initial_aging()->delete();
+            }
             $StockMutation->stock_mutation_details()->delete();
             $StockMutation->item_stocks()->delete();
             $StockMutation->outbound_mutation_details()->delete();

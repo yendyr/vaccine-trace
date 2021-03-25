@@ -3,6 +3,7 @@
 namespace app\Helpers\SupplyChain;
 
 use Modules\SupplyChain\Entities\ItemStock;
+use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\OutboundMutationDetail;
 
 use Illuminate\Support\Str;
@@ -74,6 +75,31 @@ class ItemStockMutation
         $item_stock->update([
             'reserved_quantity' => $item_stock->reserved_quantity - $mutationOutboundDetailRow->outbound_quantity,
         ]);
+        DB::commit();
+    }
+
+    public static function deleteOutbound($stockMutationRow)
+    {
+        $currentRow = StockMutation::where('id', $stockMutationRow->id)->first();
+
+        DB::beginTransaction();
+        foreach($currentRow->outbound_mutation_details as $outbound_mutation_detail) {
+            $item_stock = ItemStock::where('id', $outbound_mutation_detail->item_stock_id)->first();
+
+            $outbound_mutation_detail->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            OutboundMutationDetail::destroy($outbound_mutation_detail->id);
+            $item_stock->update([
+                'reserved_quantity' => $item_stock->reserved_quantity - $outbound_mutation_detail->outbound_quantity,
+            ]);
+        }
+
+        $currentRow->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
+
+        StockMutation::destroy($stockMutationRow->id);
         DB::commit();
     }
 }

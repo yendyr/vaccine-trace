@@ -113,10 +113,21 @@ class StockMutationOutboundDetailController extends Controller
                 $parent = '#';
             }
 
+            if ($data->item_stock->alias_name) {
+                $alias = $data->item_stock->alias_name;
+            }
+            else {
+                $alias = '-';
+            }
+
             $response[] = [
                 "id" => $data->item_stock->coding,
                 "parent" => $parent,
-                "text" => 'P/N: <strong>' . $data->item_stock->item->code . '</strong> | Item Name: <strong>' . $data->item_stock->item->name . '</strong> | Alias Name: <strong>' . $data->item_stock->alias_name . '</strong>'
+                "text" => 'P/N: <strong>' . $data->item_stock->item->code . 
+                '</strong> | Item Name: <strong>' . $data->item_stock->item->name . 
+                '</strong> | Alias Name: <strong>' . $alias . 
+                '</strong> | Outbound Qty: <strong>' . $data->outbound_quantity . ' ' .
+                $data->item_stock->item->unit->name
             ];
         }
         return response()->json($response);
