@@ -13,12 +13,14 @@ $(document).ready(function () {
         var title = $(this).text();
         $(this).html('<input type="text" placeholder="Search" class="form-control" />');
  
-        $('input', this).on('keyup change', function () {
-            if (datatableObject.column(i).search() !== this.value) {
-                datatableObject
-                    .column(i)
-                    .search( this.value )
-                    .draw();
+        $('input', this).on('keypress', function (e) {
+            if(e.which == 13) {
+                if (datatableObject.column(i).search() !== this.value) {
+                    datatableObject
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
             }
         });
     });
