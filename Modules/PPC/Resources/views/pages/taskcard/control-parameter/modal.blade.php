@@ -145,15 +145,7 @@
 </div>
 
 @push('header-scripts')
-<link href="{{ URL::asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
-<style>
-    .select2-container.select2-container--default.select2-container--open {
-        z-index: 9999999 !important;
-    }
-    .select2 {
-        width: 100% !important;
-    }
-</style>
+    <link href="{{ URL::asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 @endpush
 
 @push('footer-scripts')

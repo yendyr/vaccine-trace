@@ -160,6 +160,17 @@
 @include('ppc::components.taskcard.instruction._item_script')
 @include('ppc::components.taskcard._file_upload_script')
 
+@push('header-scripts')
+<style>
+    .select2-container.select2-container--default.select2-container--open {
+        z-index: 9999999 !important;
+    }
+    .select2 {
+        width: 100% !important;
+    }
+</style>
+@endpush
+
 @push('footer-scripts')
     <script>
         $(document).ready(function(){

@@ -72,6 +72,7 @@ $(document).ready(function () {
 
             $(saveButtonId).val("edit");
             $('[class^="invalid-feedback-"]').html('');
+            $(inputFormId).attr('action', actionUrl + '/' + id);
             $(inputModalId).modal('show');
         });
     });

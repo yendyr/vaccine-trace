@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="inputModalItem" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitleItem"></h4>
@@ -36,7 +36,7 @@
                         </div>
                     </div>       --}}
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
+                        <label class="col-sm-5 d-flex align-items-center">Remark</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                             <div class="invalid-feedback-description text-danger font-italic"></div>
@@ -54,14 +54,3 @@
         </div>
     </div>
 </div>
-
-@push('header-scripts')
-<style>
-    .select2-container.select2-container--default.select2-container--open {
-        z-index: 9999999 !important;
-    }
-    .select2 {
-        width: 100% !important;
-    }
-</style>
-@endpush
