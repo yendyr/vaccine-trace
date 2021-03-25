@@ -60,7 +60,5 @@
             <i class="fa fa-plus-circle"></i>&nbsp;Add
         </button>   
         @endcan 
-
-        @include('ppc::pages.taskcard.instruction.item-modal')
     </div>
 </div>

@@ -11,7 +11,7 @@
 
             <form method="post" id="inputFormInterval">
                 <input type="hidden" id="updateInterval" name="updateInterval" class="updateInterval" value="1">
-                <input type="hidden" id="id" name="id" class="id" value="{{ $Taskcard->id }}">
+                <input type="hidden" name="id" class="id" value="{{ $Taskcard->id }}">
                 <div class="modal-body">
                     <div class="row m-b">                
                         <div class="col-lg-12">
@@ -62,7 +62,7 @@
                                             <div class="form-group" id="threshold_date">
                                             <div class="input-group date">
                                                 <span class="input-group-addon">Exact Date</span>
-                                                <input type="text" class="form-control @error('threshold_date') is-invalid @enderror" name="threshold_date" id="threshold_date" value="{{ $Taskcard->threshold_date ?? '' }}">
+                                                <input type="text" class="form-control @error('threshold_date') is-invalid @enderror" name="threshold_date" id="threshold_date" value="{{ $Taskcard->threshold_date ?? '' }}" readonly>
                                                 <div class="invalid-feedback-threshold_date text-danger font-italic"></div>
                                             </div>
                                             </div>
@@ -109,7 +109,7 @@
                                             <div class="form-group" id="repeat_date">
                                             <div class="input-group date">
                                                 <span class="input-group-addon">Exact Date</span>
-                                                <input type="text" class="form-control @error('repeat_date') is-invalid @enderror" name="repeat_date" id="repeat_date" value="{{ $Taskcard->repeat_date ?? '' }}">
+                                                <input type="text" class="form-control @error('repeat_date') is-invalid @enderror" name="repeat_date" id="repeat_date" value="{{ $Taskcard->repeat_date ?? '' }}" readonly>
                                                 <div class="invalid-feedback-repeat_date text-danger font-italic"></div>
                                             </div>
                                             </div>

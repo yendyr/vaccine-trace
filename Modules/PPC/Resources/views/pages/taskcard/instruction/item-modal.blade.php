@@ -10,7 +10,7 @@
             </div>
 
             <form method="post" id="inputFormItem">
-                <input type="hidden" id="taskcard_id" name="taskcard_id" value="{{ $Taskcard->id }}">
+                <input type="hidden" name="taskcard_id" value="{{ $Taskcard->id }}">
                 <input type="hidden" id="taskcard_detail_instruction_id" name="taskcard_detail_instruction_id" value="">
 
                 <div class="modal-body">

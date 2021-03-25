@@ -5,7 +5,7 @@
 <script>
     $(document).ready(function () {
         // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
-        var actionUrl = '/ppc/taskcard';
+        var actionUrl = '/ppc/taskcard/update-control-parameter';
         var inputModalId = '#inputModalInterval';
         var modalTitleId = '#modalTitleInterval';
         var saveButtonId = '#saveButtonInterval';
@@ -51,6 +51,12 @@
                 type: 'hidden',
                 name: '_method',
                 value: 'patch'
+            }).prependTo(inputFormId);
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'updateControlParameterOnly',
+                value: 'true'
             }).prependTo(inputFormId);
 
             var id = $(this).data('id');
@@ -103,8 +109,7 @@
                     l.ladda( 'stop' );
                     $(saveButtonId). prop('disabled', false);
                 }
-            }); 
-
+            });
             setTimeout(location.reload.bind(location), 2000);
         });
         // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //

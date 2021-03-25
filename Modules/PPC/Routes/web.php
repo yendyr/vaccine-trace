@@ -50,6 +50,9 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/aircraft-type/select2', 'AircraftTypeController@select2')->name('select2');
         });
 
+        Route::name('taskcard.')->group(function() {
+            Route::patch('/taskcard/update-control-parameter/{taskcard}', 'TaskcardController@updateControlParameter')->name('updateControlParameter');
+        });
         Route::resource('/taskcard', 'TaskcardController');
         Route::name('taskcard.')->group(function() {
             Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');

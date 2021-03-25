@@ -1,4 +1,7 @@
 @if (sizeOf($Taskcard->instruction_details) > 0)
+
+@include('ppc::pages.taskcard.instruction.item-modal')
+
 @foreach ($Taskcard->instruction_details->sortBy('sequence') as $instruction_detail)
 <div class="col-md-12 fadeIn" style="animation-duration: 1.5s">
     <div class="panel panel-success">

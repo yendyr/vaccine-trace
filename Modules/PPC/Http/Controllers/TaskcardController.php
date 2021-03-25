@@ -646,7 +646,58 @@ class TaskcardController extends Controller
         DB::commit();
 
         return response()->json(['success' => 'Task Card Data has been Updated']);
-    
+    }
+
+    public function updateControlParameter(Request $request, Taskcard $Taskcard)
+    {
+        $request->validate([
+            'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
+            'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
+            'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
+            'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
+
+            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_daily,repeat_date'],
+            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_daily,repeat_date'],
+            'repeat_daily' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
+            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
+        ]);
+
+        if ($request->threshold_daily_unit) {
+            $threshold_daily_unit = $request->threshold_daily_unit;
+        } 
+        else {
+            $threshold_daily_unit = 'Year';
+        }
+
+        if ($request->repeat_daily_unit) {
+            $repeat_daily_unit = $request->repeat_daily_unit;
+        } 
+        else {
+            $repeat_daily_unit = 'Year';
+        }
+
+        $threshold_date = $request->threshold_date;
+        $repeat_date = $request->repeat_date;
+
+        $currentRow = Taskcard::where('id', $Taskcard->id)->first();
+        $currentRow
+            ->update([
+                'threshold_flight_hour' => $request->threshold_flight_hour,
+                'threshold_flight_cycle' => $request->threshold_flight_cycle,
+                'threshold_daily' => $request->threshold_daily,
+                'threshold_daily_unit' => $threshold_daily_unit,
+                'threshold_date' => $threshold_date,
+                'repeat_flight_hour' => $request->repeat_flight_hour,
+                'repeat_flight_cycle' => $request->repeat_flight_cycle,
+                'repeat_daily' => $request->repeat_daily,
+                'repeat_daily_unit' => $repeat_daily_unit,
+                'repeat_date' => $repeat_date,
+                'interval_control_method' => $request->interval_control_method,
+
+                'updated_by' => $request->user()->id,
+        ]);
+
+        return response()->json(['success' => 'Task Card Control Parameter has been Updated']);
     }
 
     public function destroy(Taskcard $Taskcard)

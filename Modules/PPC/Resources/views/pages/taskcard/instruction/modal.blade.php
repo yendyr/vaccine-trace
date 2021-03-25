@@ -11,7 +11,7 @@
 
             <form method="post" id="inputFormInstruction">
                 <input type="hidden" id="updateInstruction" name="updateInstruction" class="updateInstruction" value="1">
-                <input type="hidden" id="taskcard_id" name="taskcard_id" class="taskcard_id" value="{{ $Taskcard->id }}">
+                <input type="hidden" name="taskcard_id" class="taskcard_id" value="{{ $Taskcard->id }}">
                 <input type="hidden" id="id" name="id" class="id">
                 <div class="modal-body">
 
