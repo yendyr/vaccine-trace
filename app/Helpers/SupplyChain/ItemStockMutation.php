@@ -2,10 +2,12 @@
 
 namespace app\Helpers\SupplyChain;
 
+use Modules\SupplyChain\Entities\ItemStock;
 use Modules\SupplyChain\Entities\OutboundMutationDetail;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ItemStockMutation
 {
@@ -51,5 +53,27 @@ class ItemStockMutation
                 Self::unpickChilds($childRow, $stock_mutation_id);
             }
         }
+    }
+
+    public static function deleteOutboundDetailRow($outboundDetailRow)
+    {
+        $mutationOutboundDetailRow = OutboundMutationDetail::where('id', $outboundDetailRow->id)
+                                                    ->with(['item_stock.all_childs'])
+                                                    ->first();
+
+        $item_stock = ItemStock::where('id', $mutationOutboundDetailRow->item_stock_id)->first();
+
+        DB::beginTransaction();
+        if (sizeof($item_stock->all_childs) > 0) {
+            Self::unpickChilds($item_stock, $mutationOutboundDetailRow->stock_mutation_id);
+        }
+        $mutationOutboundDetailRow->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
+        OutboundMutationDetail::destroy($outboundDetailRow->id);
+        $item_stock->update([
+            'reserved_quantity' => $item_stock->reserved_quantity - $mutationOutboundDetailRow->outbound_quantity,
+        ]);
+        DB::commit();
     }
 }

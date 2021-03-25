@@ -220,25 +220,7 @@ class StockMutationOutboundDetailController extends Controller
                                     ->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-            $mutationOutboundDetailRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
-                                        ->with(['item_stock.all_childs'])
-                                        ->first();
-
-            $item_stock = ItemStock::where('id', $mutationOutboundDetailRow->item_stock_id)->first();
-
-            DB::beginTransaction();
-            if (sizeof($item_stock->all_childs) > 0) {
-                ItemStockMutation::unpickChilds($item_stock, $mutationOutboundDetailRow->stock_mutation_id);
-            }
-            $mutationOutboundDetailRow->update([
-                'deleted_by' => Auth::user()->id,
-            ]);
-            OutboundMutationDetail::destroy($MutationOutboundDetail->id);
-            $item_stock->update([
-                'reserved_quantity' => $item_stock->reserved_quantity - $mutationOutboundDetailRow->outbound_quantity,
-            ]);
-            DB::commit();
-
+            ItemStockMutation::deleteOutboundDetailRow($MutationOutboundDetail);
             return response()->json(['success' => 'Outbound Item/Component Data has been Deleted']);
         }
         else {
