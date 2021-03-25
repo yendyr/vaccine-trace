@@ -83,7 +83,6 @@ class StockMutation extends Model
             }
             $StockMutation->stock_mutation_details()->delete();
             $StockMutation->item_stocks()->delete();
-            $StockMutation->outbound_mutation_details()->delete();
             $StockMutation->approvals()->delete(); 
         });
     }
