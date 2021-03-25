@@ -4,6 +4,7 @@ namespace app\Helpers\SupplyChain;
 
 use Modules\SupplyChain\Entities\ItemStock;
 use Modules\SupplyChain\Entities\StockMutation;
+use Modules\SupplyChain\Entities\StockMutationApproval;
 use Modules\SupplyChain\Entities\OutboundMutationDetail;
 
 use Illuminate\Support\Str;
@@ -100,6 +101,31 @@ class ItemStockMutation
         ]);
 
         StockMutation::destroy($stockMutationRow->id);
+        DB::commit();
+    }
+
+    public static function approveOutbound($request, $stockMutationRow)
+    {
+        DB::beginTransaction();
+        StockMutationApproval::create([
+            'uuid' =>  Str::uuid(),
+
+            'stock_mutation_id' =>  $stockMutationRow->id,
+            'approval_notes' =>  $request->approval_notes,
+    
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        foreach($stockMutationRow->outbound_mutation_details as $outbound_mutation_detail) {
+            $item_stock = ItemStock::where('id', $outbound_mutation_detail->item_stock_id)->first();
+
+            $item_stock->update([
+                'used_quantity' => $item_stock->used_quantity + $outbound_mutation_detail->outbound_quantity,
+                'reserved_quantity' => $item_stock->reserved_quantity - $outbound_mutation_detail->outbound_quantity,
+            ]);
+        }
         DB::commit();
     }
 }

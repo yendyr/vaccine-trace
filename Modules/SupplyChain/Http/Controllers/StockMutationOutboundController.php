@@ -167,24 +167,8 @@ class StockMutationOutboundController extends Controller
         $request->validate([
             'approval_notes' => ['required', 'max:30'],
         ]);
-
-        DB::beginTransaction();
-        StockMutationApproval::create([
-            'uuid' =>  Str::uuid(),
-
-            'stock_mutation_id' =>  $MutationOutbound->id,
-            'approval_notes' =>  $request->approval_notes,
-    
-            'owned_by' => $request->user()->company_id,
-            'status' => 1,
-            'created_by' => Auth::user()->id,
-        ]);
-
-        foreach($MutationOutbound->outbound_mutation_details as $outbound_mutation_detail) {
-            
-        }
-        DB::commit();
-
+        
+        ItemStockMutation::approveOutbound($request, $MutationOutbound);
         return response()->json(['success' => 'Stock Mutation Outbound Data has been Approved']);
     }
 }
