@@ -25,6 +25,8 @@ Route::name('ppc.')->group(function () {
             Route::get('ppc/taskcard-group/select2/child', 'TaskcardGroupController@select2Child')->name('select2.child');
         });
 
+        Route::resource('/taskcard-interval-group', 'TaskcardIntervalGroupController');
+
         Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
         Route::name('taskcard-workarea.')->group(function() {
             Route::get('ppc/taskcard-workarea/select2', 'TaskcardWorkareaController@select2')->name('select2');

@@ -41,6 +41,56 @@ class TaskcardIntervalGroupController extends Controller
                 ->addColumn('updater_name', function($row){
                     return $row->updater->name ?? '-';
                 })
+                ->addColumn('threshold_interval', function($row){
+                    $threshold_interval = '';
+                    if ($row->threshold_flight_hour) {
+                        $threshold_interval .= $row->threshold_flight_hour . ' FH / ';
+                    }
+                    else {
+                        $threshold_interval .= '- FH / ';
+                    }
+
+                    if ($row->threshold_flight_cycle) {
+                        $threshold_interval .= $row->threshold_flight_cycle . ' FC / ';
+                    }
+                    else {
+                        $threshold_interval .= '- FC / ';
+                    }
+
+                    if ($row->threshold_daily) {
+                        $threshold_interval .= $row->threshold_daily . ' ' . $row->threshold_daily_unit . '(s)';
+                    }
+                    else {
+                        $threshold_interval .= '- Day';
+                    }
+
+                    return $threshold_interval;
+                })
+                ->addColumn('repeat_interval', function($row){
+                    $repeat_interval = '';
+                    if ($row->repeat_flight_hour) {
+                        $repeat_interval .= $row->repeat_flight_hour . ' FH / ';
+                    }
+                    else {
+                        $repeat_interval .= '- FH / ';
+                    }
+
+                    if ($row->repeat_flight_cycle) {
+                        $repeat_interval .= $row->repeat_flight_cycle . ' FC / ';
+                    }
+                    else {
+                        $repeat_interval .= '- FC / ';
+                    }
+
+                    if ($row->repeat_daily) {
+                        $repeat_interval .= $row->repeat_daily . ' ' . $row->repeat_daily_unit . '(s)';
+                    }
+                    else {
+                        $repeat_interval .= '- Day';
+                    }
+
+                    return $repeat_interval;
+                })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
                     if(Auth::user()->can('update', TaskcardIntervalGroup::class)) {
@@ -65,7 +115,6 @@ class TaskcardIntervalGroupController extends Controller
                 ->escapeColumns([])
                 ->make(true);
         }
-
         return view('ppc::pages.taskcard-interval-group.index');
     }
     
@@ -82,6 +131,23 @@ class TaskcardIntervalGroupController extends Controller
         else {
             $status = 0;
         }
+
+        if ($request->threshold_daily_unit) {
+            $threshold_daily_unit = $request->threshold_daily_unit;
+        } 
+        else {
+            $threshold_daily_unit = 'Year';
+        }
+
+        if ($request->repeat_daily_unit) {
+            $repeat_daily_unit = $request->repeat_daily_unit;
+        } 
+        else {
+            $repeat_daily_unit = 'Year';
+        }
+
+        $threshold_date = $request->threshold_date;
+        $repeat_date = $request->repeat_date;
 
         TaskcardIntervalGroup::create([
             'uuid' =>  Str::uuid(),
@@ -126,6 +192,23 @@ class TaskcardIntervalGroupController extends Controller
         else {
             $status = 0;
         }
+
+        if ($request->threshold_daily_unit) {
+            $threshold_daily_unit = $request->threshold_daily_unit;
+        } 
+        else {
+            $threshold_daily_unit = 'Year';
+        }
+
+        if ($request->repeat_daily_unit) {
+            $repeat_daily_unit = $request->repeat_daily_unit;
+        } 
+        else {
+            $repeat_daily_unit = 'Year';
+        }
+
+        $threshold_date = $request->threshold_date;
+        $repeat_date = $request->repeat_date;
 
         DB::beginTransaction();
         if ($currentRow->code == $request->code) {

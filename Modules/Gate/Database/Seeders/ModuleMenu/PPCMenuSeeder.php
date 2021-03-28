@@ -58,6 +58,26 @@ class PPCMenuSeeder extends Seeder
         ]);
 
         Menu::create([
+            'menu_link' => 'ppc/taskcard-interval-group',
+            'menu_text' => 'Master Task Card Interval Group',
+            'menu_route' => 'ppc.taskcard-interval-group.index',
+            'menu_icon' => 'fa-refresh',
+            'menu_class' => 'Modules\PPC\Entities\TaskcardIntervalGroup',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/taskcard-interval-group', 'ppc/taskcard-interval-group/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuPpcTaskcard->id
+        ]);
+
+        Menu::create([
             'menu_link' => 'ppc/taskcard-type',
             'menu_text' => 'Master Task Card Type',
             'menu_route' => 'ppc.taskcard-type.index',
