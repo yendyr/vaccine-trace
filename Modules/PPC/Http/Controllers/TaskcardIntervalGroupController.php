@@ -268,4 +268,25 @@ class TaskcardIntervalGroupController extends Controller
         TaskcardIntervalGroup::destroy($TaskcardIntervalGroup->id);
         return response()->json(['success' => 'Task Card Interval Group Data has been Deleted']);
     }
+
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+        $query = TaskcardIntervalGroup::orderby('name','asc')
+                                    ->select('id','name')
+                                    ->where('status', 1);
+        if($search != ''){
+            $query = $query->where('name', 'like', '%' .$search. '%');
+        }
+        $TaskcardIntervalGroups = $query->get();
+
+        $response = [];
+        foreach($TaskcardIntervalGroups as $TaskcardIntervalGroup){
+            $response['results'][] = [
+                "id" => $TaskcardIntervalGroup->id,
+                "text" => $TaskcardIntervalGroup->name
+            ];
+        }
+        return response()->json($response);
+    }
 }

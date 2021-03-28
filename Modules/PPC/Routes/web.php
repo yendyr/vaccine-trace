@@ -26,6 +26,9 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/taskcard-interval-group', 'TaskcardIntervalGroupController');
+        Route::name('taskcard-interval-group.')->group(function() {
+            Route::get('ppc/taskcard-interval-group/select2', 'TaskcardIntervalGroupController@select2')->name('select2');
+        });
 
         Route::resource('/taskcard-workarea', 'TaskcardWorkareaController');
         Route::name('taskcard-workarea.')->group(function() {

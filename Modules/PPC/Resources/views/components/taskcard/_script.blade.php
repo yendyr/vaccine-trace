@@ -134,6 +134,17 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
+    $('.taskcard_interval_group_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Group',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.taskcard-interval-group.select2') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
+
     $('.taskcard_workarea_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Work Area',
