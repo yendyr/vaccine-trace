@@ -198,7 +198,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <label>Custom Interval Group</label>
-                                                    <select class="taskcard_interval_group_id form-control @error('taskcard_interval_group_id') is-invalid @enderror" id="taskcard_group_id" name="taskcard_group_id"></select>
+                                                    <select class="taskcard_interval_group_id form-control @error('taskcard_interval_group_id') is-invalid @enderror" id="taskcard_interval_group_id" name="taskcard_interval_group_id"></select>
                                                     <div class="invalid-feedback-taskcard_interval_group_id text-danger font-italic"></div>
                                                     <span class="text-info font-italic">
                                                         <i class="fa fa-info-circle"></i>

@@ -44,6 +44,7 @@ class TaskcardController extends Controller
                             ->where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
                             ->with([
                                 'taskcard_group:id,name,parent_id',
+                                'taskcard_interval_group',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
@@ -61,6 +62,7 @@ class TaskcardController extends Controller
                             })
                             ->with([
                                 'taskcard_group:id,name,parent_id',
+                                'taskcard_interval_group',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
@@ -74,6 +76,7 @@ class TaskcardController extends Controller
             else {
                 $data = Taskcard::with([
                     'taskcard_group:id,name,parent_id',
+                    'taskcard_interval_group',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',

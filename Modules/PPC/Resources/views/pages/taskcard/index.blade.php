@@ -22,6 +22,7 @@
             <th>MPD Number</th>
             <th>Title</th>
             <th>Group</th>
+            <th>Interval Group</th>
             <th>Type</th>
             <th>Instruction/Task Total</th>
             <th>Manhours Total</th>

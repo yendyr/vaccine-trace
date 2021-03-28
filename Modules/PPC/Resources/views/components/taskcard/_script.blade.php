@@ -40,6 +40,7 @@ $(document).ready(function () {
                     return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
             { data: 'title', name: 'Title' },
             { data: 'group_structure', name: 'Group' },
+            { data: 'taskcard_interval_group.name', defaultContent: '-' },
             { data: 'taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },
@@ -370,6 +371,7 @@ $(document).ready(function () {
     function clearForm()
     {
         $('#taskcard_group_id').val(null).trigger("change");
+        $('#taskcard_interval_group_id').val(null).trigger("change");
         $('#taskcard_type_id').val(null).trigger("change");
         $('#taskcard_workarea_id').val(null).trigger("change");
         $('#aircraft_type_id').empty().trigger("change");
