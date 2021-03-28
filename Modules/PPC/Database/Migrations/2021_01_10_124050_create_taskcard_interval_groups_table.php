@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskcardsTable extends Migration
+class CreateTaskcardIntervalGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateTaskcardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('taskcards', function (Blueprint $table) {
+        Schema::create('taskcard_interval_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('mpd_number');
-            $table->string('title');
-            $table->string('taskcard_group_id');
-            $table->string('taskcard_type_id');
-            $table->string('compliance')->default('Optional');
-
+            $table->string('code')->unique();
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            
             $table->string('threshold_flight_hour')->nullable();
             $table->string('threshold_flight_cycle')->nullable();
             $table->string('threshold_daily')->nullable();
@@ -34,21 +32,7 @@ class CreateTaskcardsTable extends Migration
             $table->string('repeat_daily_unit')->default('Year');
             $table->date('repeat_date')->nullable();
             $table->string('interval_control_method')->default('Which One Comes First');
-            $table->string('taskcard_interval_group_id')->nullable();
 
-            $table->string('company_number')->nullable();
-            $table->string('ata')->nullable();
-            $table->date('issued_date')->nullable();
-            $table->string('version')->nullable();
-            $table->string('revision')->nullable();
-            $table->string('effectivity')->nullable();
-            $table->string('taskcard_workarea_id')->nullable();
-            $table->string('source')->nullable();
-            $table->string('reference')->nullable();
-            $table->string('file_attachment')->nullable();
-            $table->string('scheduled_priority')->default('As Scheduled');
-            $table->string('recurrence')->default('As Required');
-            
             $table->rememberToken();
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
@@ -67,6 +51,6 @@ class CreateTaskcardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taskcards');
+        Schema::dropIfExists('taskcard_interval_groups');
     }
 }

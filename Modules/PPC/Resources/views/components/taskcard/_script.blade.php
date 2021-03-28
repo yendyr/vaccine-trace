@@ -249,25 +249,14 @@ $(document).ready(function () {
         $('#threshold_flight_hour').val(data.threshold_flight_hour);
         $('#threshold_flight_cycle').val(data.threshold_flight_cycle);
         $('#threshold_daily').val(data.threshold_daily);
-        $('#threshold_daily_unit').val(data.threshold_daily_unit);
-
-        // $('#threshold_daily_unit').append('<option value="' + data.threshold_daily_unit + '" selected>' + data.threshold_daily_unit + '</option>');
-
         $('#threshold_daily_unit').val(data.threshold_daily_unit).trigger('change');
-
         $('#threshold_date').val(data.threshold_date);
 
         $('#repeat_flight_hour').val(data.repeat_flight_hour);
         $('#repeat_flight_cycle').val(data.repeat_flight_cycle);
         $('#repeat_daily').val(data.repeat_daily);
-
-        // $('#repeat_daily_unit').append('<option value="' + data.repeat_daily_unit + '" selected>' + data.repeat_daily_unit + '</option>');
-
         $('#repeat_daily_unit').val(data.repeat_daily_unit).trigger('change');
-
         $('#repeat_date').val(data.repeat_date);
-
-        // $('#interval_control_method').append('<option value="' + data.interval_control_method + '" selected>' + data.interval_control_method + '</option>');
 
         $('#interval_control_method').val(data.interval_control_method).trigger('change');
 

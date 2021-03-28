@@ -317,6 +317,7 @@ class TaskcardController extends Controller
             'taskcard_group_id' => $request->taskcard_group_id,
             'taskcard_type_id' => $request->taskcard_type_id,
             'compliance' => $request->compliance,
+
             'threshold_flight_hour' => $request->threshold_flight_hour,
             'threshold_flight_cycle' => $request->threshold_flight_cycle,
             'threshold_daily' => $request->threshold_daily,
@@ -328,6 +329,7 @@ class TaskcardController extends Controller
             'repeat_daily_unit' => $repeat_daily_unit,
             'repeat_date' => $repeat_date,
             'interval_control_method' => $request->interval_control_method,
+            'taskcard_interval_group_id' => $request->taskcard_interval_group_id,
 
             'company_number' => $request->company_number,
             'ata' => $request->ata,
@@ -509,6 +511,7 @@ class TaskcardController extends Controller
                 'taskcard_group_id' => $request->taskcard_group_id,
                 'taskcard_type_id' => $request->taskcard_type_id,
                 'compliance' => $request->compliance,
+
                 'threshold_flight_hour' => $request->threshold_flight_hour,
                 'threshold_flight_cycle' => $request->threshold_flight_cycle,
                 'threshold_daily' => $request->threshold_daily,
@@ -520,6 +523,7 @@ class TaskcardController extends Controller
                 'repeat_daily_unit' => $repeat_daily_unit,
                 'repeat_date' => $repeat_date,
                 'interval_control_method' => $request->interval_control_method,
+                'taskcard_interval_group_id' => $request->taskcard_interval_group_id,
 
                 'company_number' => $request->company_number,
                 'ata' => $request->ata,

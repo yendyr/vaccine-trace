@@ -34,6 +34,8 @@ class Taskcard extends Model
         'repeat_date',
         'interval_control_method',
 
+        'taskcard_interval_group_id',
+
         'company_number',
         'ata',
         'issued_date',
@@ -92,6 +94,11 @@ class Taskcard extends Model
     public function affected_items()
     {
         return $this->belongsToMany(\Modules\SupplyChain\Entities\Item::class, 'taskcard_detail_affected_items','taskcard_id','affected_item_id');
+    }
+
+    public function taskcard_interval_group()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardIntervalGroup::class, 'taskcard_interval_group_id')->withTrashed();
     }
 
     public function affected_item_details()
