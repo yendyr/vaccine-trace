@@ -27,7 +27,7 @@
                     </div>    
                               
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
+                        <label class="col-sm-5 d-flex align-items-center">Remark</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                             <div class="invalid-feedback-description text-danger font-italic"></div>

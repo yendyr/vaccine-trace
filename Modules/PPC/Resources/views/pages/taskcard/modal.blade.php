@@ -198,8 +198,8 @@
                                                 </div>
                                                 <div class="col">
                                                     <label>Custom Interval Group</label>
-                                                    <select class="taskcard_interval_group_id form-control @error('taskcard_interval_group_id') is-invalid @enderror" id="taskcard_interval_group_id" name="taskcard_interval_group_id"></select>
-                                                    <div class="invalid-feedback-taskcard_interval_group_id text-danger font-italic"></div>
+                                                    <select class="interval_group_id form-control @error('interval_group_id') is-invalid @enderror" id="interval_group_id" name="interval_group_id[]" multiple="multiple"></select>
+                                                    <div class="invalid-feedback-interval_group_id text-danger font-italic"></div>
                                                     <span class="text-info font-italic">
                                                         <i class="fa fa-info-circle"></i>
                                                         interval group will override individual interval

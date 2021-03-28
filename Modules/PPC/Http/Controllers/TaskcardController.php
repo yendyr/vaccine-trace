@@ -6,6 +6,7 @@ use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\TaskcardDetailAircraftType;
 use Modules\PPC\Entities\TaskcardDetailAffectedItem;
+use Modules\PPC\Entities\TaskcardDetailIntervalGroup;
 use Modules\PPC\Entities\TaskcardDetailAccess;
 use Modules\PPC\Entities\TaskcardDetailZone;
 use Modules\PPC\Entities\TaskcardDetailDocumentLibrary;
@@ -44,7 +45,7 @@ class TaskcardController extends Controller
                             ->where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
                             ->with([
                                 'taskcard_group:id,name,parent_id',
-                                'taskcard_interval_group',
+                                'interval_groups:id,code,name',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
@@ -62,7 +63,7 @@ class TaskcardController extends Controller
                             })
                             ->with([
                                 'taskcard_group:id,name,parent_id',
-                                'taskcard_interval_group',
+                                'interval_groups:id,code,name',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
@@ -76,7 +77,7 @@ class TaskcardController extends Controller
             else {
                 $data = Taskcard::with([
                     'taskcard_group:id,name,parent_id',
-                    'taskcard_interval_group',
+                    'interval_groups:id,code,name',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',
@@ -117,6 +118,15 @@ class TaskcardController extends Controller
                     else {
                         return '<label class="label label-danger">Inactive</label>';
                     }
+                })
+                ->addColumn('interval_group', function($row){
+                    $interval_group_name = null;
+                    foreach ($row->interval_groups as $interval_group) {
+                        $interval_group_name .= $interval_group->name . ', ';
+                    }
+
+                    $interval_group_name = Str::beforeLast($interval_group_name, ',');
+                    return $interval_group_name;
                 })
                 ->addColumn('instruction_count', function($row){
                     return '<label class="label label-success">' . $row->instruction_details()->count() . '</label>';
@@ -307,9 +317,7 @@ class TaskcardController extends Controller
         }
 
         $threshold_date = $request->threshold_date;
-        
         $repeat_date = $request->repeat_date;
-        
         $issued_date = $request->issued_date;
         
         DB::beginTransaction();
@@ -332,7 +340,6 @@ class TaskcardController extends Controller
             'repeat_daily_unit' => $repeat_daily_unit,
             'repeat_date' => $repeat_date,
             'interval_control_method' => $request->interval_control_method,
-            'taskcard_interval_group_id' => $request->taskcard_interval_group_id,
 
             'company_number' => $request->company_number,
             'ata' => $request->ata,
@@ -355,78 +362,91 @@ class TaskcardController extends Controller
         if ($request->aircraft_type_id) {
             foreach ($request->aircraft_type_id as $aircraft_type_id) {
                 $Taskcard->aircraft_type_details()
-                        ->save(new TaskcardDetailAircraftType([
-                            'uuid' => Str::uuid(),
-                            'aircraft_type_id' => $aircraft_type_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAircraftType([
+                        'uuid' => Str::uuid(),
+                        'aircraft_type_id' => $aircraft_type_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
 
         if ($request->affected_item_id) {
             foreach ($request->affected_item_id as $affected_item_id) {
                 $Taskcard->affected_item_details()
-                        ->save(new TaskcardDetailAffectedItem([
-                            'uuid' => Str::uuid(),
-                            'affected_item_id' => $affected_item_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAffectedItem([
+                        'uuid' => Str::uuid(),
+                        'affected_item_id' => $affected_item_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
+            }
+        }
+
+        if ($request->interval_group_id) {
+            foreach ($request->interval_group_id as $interval_group_id) {
+                $Taskcard->interval_group_details()
+                    ->save(new TaskcardDetailIntervalGroup([
+                        'uuid' => Str::uuid(),
+                        'interval_group_id' => $interval_group_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
 
         if ($request->taskcard_access_id) {
             foreach ($request->taskcard_access_id as $taskcard_access_id) {
                 $Taskcard->access_details()
-                        ->save(new TaskcardDetailAccess([
-                            'uuid' => Str::uuid(),
-                            'taskcard_access_id' => $taskcard_access_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAccess([
+                        'uuid' => Str::uuid(),
+                        'taskcard_access_id' => $taskcard_access_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
 
         if ($request->taskcard_zone_id) {
             foreach ($request->taskcard_zone_id as $taskcard_zone_id) {
                 $Taskcard->zone_details()
-                        ->save(new TaskcardDetailZone([
-                            'uuid' => Str::uuid(),
-                            'taskcard_zone_id' => $taskcard_zone_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailZone([
+                        'uuid' => Str::uuid(),
+                        'taskcard_zone_id' => $taskcard_zone_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
 
         if ($request->taskcard_document_library_id) {
             foreach ($request->taskcard_document_library_id as $taskcard_document_library_id) {
                 $Taskcard->document_library_details()
-                        ->save(new TaskcardDetailDocumentLibrary([
-                            'uuid' => Str::uuid(),
-                            'taskcard_document_library_id' => $taskcard_document_library_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailDocumentLibrary([
+                        'uuid' => Str::uuid(),
+                        'taskcard_document_library_id' => $taskcard_document_library_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
 
         if ($request->taskcard_affected_manual_id) {
             foreach ($request->taskcard_affected_manual_id as $taskcard_affected_manual_id) {
                 $Taskcard->affected_manual_details()
-                        ->save(new TaskcardDetailAffectedManual([
-                            'uuid' => Str::uuid(),
-                            'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAffectedManual([
+                        'uuid' => Str::uuid(),
+                        'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
         DB::commit();
@@ -526,7 +546,6 @@ class TaskcardController extends Controller
                 'repeat_daily_unit' => $repeat_daily_unit,
                 'repeat_date' => $repeat_date,
                 'interval_control_method' => $request->interval_control_method,
-                'taskcard_interval_group_id' => $request->taskcard_interval_group_id,
 
                 'company_number' => $request->company_number,
                 'ata' => $request->ata,
@@ -547,49 +566,63 @@ class TaskcardController extends Controller
 
         if ($request->aircraft_type_id) {
             $Taskcard->aircraft_type_details()->forceDelete();
-
             foreach ($request->aircraft_type_id as $aircraft_type_id) {
                 $Taskcard->aircraft_type_details()
-                        ->save(new TaskcardDetailAircraftType([
-                            'uuid' => Str::uuid(),
-                            'aircraft_type_id' => $aircraft_type_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAircraftType([
+                        'uuid' => Str::uuid(),
+                        'aircraft_type_id' => $aircraft_type_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
 
         if ($request->affected_item_id) {
             $Taskcard->affected_item_details()->forceDelete();
-
             foreach ($request->affected_item_id as $affected_item_id) {
                 $Taskcard->affected_item_details()
-                        ->save(new TaskcardDetailAffectedItem([
-                            'uuid' => Str::uuid(),
-                            'affected_item_id' => $affected_item_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAffectedItem([
+                        'uuid' => Str::uuid(),
+                        'affected_item_id' => $affected_item_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
         else if ($request->affected_item_id == null) {
             $Taskcard->affected_item_details()->forceDelete();
         }
 
+        if ($request->interval_group_id) {
+            $Taskcard->interval_group_details()->forceDelete();
+            foreach ($request->interval_group_id as $interval_group_id) {
+                $Taskcard->interval_group_details()
+                    ->save(new TaskcardDetailIntervalGroup([
+                        'uuid' => Str::uuid(),
+                        'interval_group_id' => $interval_group_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
+            }
+        }
+        else if ($request->interval_group_id == null) {
+            $Taskcard->interval_group_details()->forceDelete();
+        }
+
         if ($request->taskcard_access_id) {
             $Taskcard->access_details()->forceDelete();
-
             foreach ($request->taskcard_access_id as $taskcard_access_id) {
                 $Taskcard->access_details()
-                        ->save(new TaskcardDetailAccess([
-                            'uuid' => Str::uuid(),
-                            'taskcard_access_id' => $taskcard_access_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAccess([
+                        'uuid' => Str::uuid(),
+                        'taskcard_access_id' => $taskcard_access_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
         else if ($request->taskcard_access_id == null) {
@@ -598,16 +631,15 @@ class TaskcardController extends Controller
 
         if ($request->taskcard_zone_id) {
             $Taskcard->zone_details()->forceDelete();
-
             foreach ($request->taskcard_zone_id as $taskcard_zone_id) {
                 $Taskcard->zone_details()
-                        ->save(new TaskcardDetailZone([
-                            'uuid' => Str::uuid(),
-                            'taskcard_zone_id' => $taskcard_zone_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailZone([
+                        'uuid' => Str::uuid(),
+                        'taskcard_zone_id' => $taskcard_zone_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
         else if ($request->taskcard_zone_id == null) {
@@ -616,16 +648,15 @@ class TaskcardController extends Controller
 
         if ($request->taskcard_document_library_id) {
             $Taskcard->document_library_details()->forceDelete();
-
             foreach ($request->taskcard_document_library_id as $taskcard_document_library_id) {
                 $Taskcard->document_library_details()
-                        ->save(new TaskcardDetailDocumentLibrary([
-                            'uuid' => Str::uuid(),
-                            'taskcard_document_library_id' => $taskcard_document_library_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailDocumentLibrary([
+                        'uuid' => Str::uuid(),
+                        'taskcard_document_library_id' => $taskcard_document_library_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
         else if ($request->taskcard_document_library_id == null) {
@@ -634,16 +665,15 @@ class TaskcardController extends Controller
 
         if ($request->taskcard_affected_manual_id) {
             $Taskcard->affected_manual_details()->forceDelete();
-
             foreach ($request->taskcard_affected_manual_id as $taskcard_affected_manual_id) {
                 $Taskcard->affected_manual_details()
-                        ->save(new TaskcardDetailAffectedManual([
-                            'uuid' => Str::uuid(),
-                            'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]));
+                    ->save(new TaskcardDetailAffectedManual([
+                        'uuid' => Str::uuid(),
+                        'taskcard_affected_manual_id' => $taskcard_affected_manual_id,
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]));
             }
         }
         else if ($request->taskcard_affected_manual_id == null) {

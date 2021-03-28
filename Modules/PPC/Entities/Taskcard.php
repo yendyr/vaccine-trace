@@ -34,8 +34,6 @@ class Taskcard extends Model
         'repeat_date',
         'interval_control_method',
 
-        'taskcard_interval_group_id',
-
         'company_number',
         'ata',
         'issued_date',
@@ -95,15 +93,21 @@ class Taskcard extends Model
     {
         return $this->belongsToMany(\Modules\SupplyChain\Entities\Item::class, 'taskcard_detail_affected_items','taskcard_id','affected_item_id');
     }
-
-    public function taskcard_interval_group()
-    {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardIntervalGroup::class, 'taskcard_interval_group_id')->withTrashed();
-    }
+    
 
     public function affected_item_details()
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAffectedItem::class, 'taskcard_id');
+    }
+
+    public function interval_groups()
+    {
+        return $this->belongsToMany(\Modules\PPC\Entities\TaskcardIntervalGroup::class, 'taskcard_detail_interval_groups','taskcard_id','interval_group_id');
+    }
+
+    public function interval_group_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailIntervalGroup::class, 'taskcard_id');
     }
 
     public function accesses()
@@ -167,6 +171,7 @@ class Taskcard extends Model
         static::deleting(function($Taskcard) {
              $Taskcard->aircraft_type_details()->delete();
              $Taskcard->affected_item_details()->delete();
+             $Taskcard->interval_group_details()->delete();
              $Taskcard->access_details()->delete();
              $Taskcard->zone_details()->delete();
              $Taskcard->document_library_details()->delete();

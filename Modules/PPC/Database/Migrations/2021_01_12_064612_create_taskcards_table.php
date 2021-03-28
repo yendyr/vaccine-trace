@@ -34,8 +34,7 @@ class CreateTaskcardsTable extends Migration
             $table->string('repeat_daily_unit')->default('Year');
             $table->date('repeat_date')->nullable();
             $table->string('interval_control_method')->default('Which One Comes First');
-            $table->string('taskcard_interval_group_id')->nullable();
-
+            
             $table->string('company_number')->nullable();
             $table->string('ata')->nullable();
             $table->date('issued_date')->nullable();

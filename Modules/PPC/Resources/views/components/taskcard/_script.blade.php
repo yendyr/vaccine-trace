@@ -40,7 +40,7 @@ $(document).ready(function () {
                     return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
             { data: 'title', name: 'Title' },
             { data: 'group_structure', name: 'Group' },
-            { data: 'taskcard_interval_group.name', defaultContent: '-' },
+            { data: 'interval_group', defaultContent: '-' },
             { data: 'taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },
@@ -135,7 +135,7 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
-    $('.taskcard_interval_group_id').select2({
+    $('.interval_group_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Group',
         allowClear: true,
@@ -314,6 +314,14 @@ $(document).ready(function () {
             });
         }
 
+        $("#interval_group_id").val('').trigger('change');
+        if (data.interval_groups != null) {
+            $.each(data.interval_groups, function(index, value) {
+                var option = new Option(data.interval_groups[index].name, data.interval_groups[index].id, true, true);
+                $("#interval_group_id").append(option);
+            });
+        }
+
         $("#taskcard_access_id").val('').trigger('change');
         if (data.accesses != null) {
             $.each(data.accesses, function(index, value) {
@@ -371,11 +379,11 @@ $(document).ready(function () {
     function clearForm()
     {
         $('#taskcard_group_id').val(null).trigger("change");
-        $('#taskcard_interval_group_id').val(null).trigger("change");
         $('#taskcard_type_id').val(null).trigger("change");
         $('#taskcard_workarea_id').val(null).trigger("change");
         $('#aircraft_type_id').empty().trigger("change");
         $('#affected_item_id').empty().trigger("change");
+        $('#interval_group_id').empty().trigger("change");
         $('#taskcard_access_id').empty().trigger("change");
         $('#taskcard_zone_id').empty().trigger("change");
         $('#taskcard_document_library_id').empty().trigger("change");
