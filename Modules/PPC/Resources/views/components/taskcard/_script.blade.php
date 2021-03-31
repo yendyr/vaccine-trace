@@ -40,7 +40,7 @@ $(document).ready(function () {
                     return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
             { data: 'title', name: 'Title' },
             { data: 'group_structure', name: 'Group' },
-            { data: 'interval_group', defaultContent: '-' },
+            { data: 'tag', defaultContent: '-' },
             { data: 'taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },
@@ -135,12 +135,12 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
-    $('.interval_group_id').select2({
+    $('.tag_id').select2({
         theme: 'bootstrap4',
-        placeholder: 'Choose Group',
+        placeholder: 'Choose Tag',
         allowClear: true,
         ajax: {
-            url: "{{ route('ppc.taskcard-interval-group.select2') }}",
+            url: "{{ route('ppc.taskcard-tag.select2') }}",
             dataType: 'json',
         },
         dropdownParent: $('#inputModal')
@@ -314,13 +314,21 @@ $(document).ready(function () {
             });
         }
 
-        $("#interval_group_id").val('').trigger('change');
-        if (data.interval_groups != null) {
-            $.each(data.interval_groups, function(index, value) {
-                var option = new Option(data.interval_groups[index].name, data.interval_groups[index].id, true, true);
-                $("#interval_group_id").append(option);
+        $("#tag_id").val('').trigger('change');
+        if (data.tags != null) {
+            $.each(data.tags, function(index, value) {
+                var option = new Option(data.tags[index].name, data.tags[index].id, true, true);
+                $("#tag_id").append(option);
             });
         }
+
+        // $("#interval_group_id").val('').trigger('change');
+        // if (data.interval_groups != null) {
+        //     $.each(data.interval_groups, function(index, value) {
+        //         var option = new Option(data.interval_groups[index].name, data.interval_groups[index].id, true, true);
+        //         $("#interval_group_id").append(option);
+        //     });
+        // }
 
         $("#taskcard_access_id").val('').trigger('change');
         if (data.accesses != null) {

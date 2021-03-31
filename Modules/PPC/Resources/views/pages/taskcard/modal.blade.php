@@ -42,6 +42,15 @@
                                                     <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title">                            
                                                     <div class="invalid-feedback-title text-danger font-italic"></div>
                                                 </div>
+                                                <div class="col">
+                                                    <label>Task Card Tag</label>
+                                                    <select class="tag_id form-control @error('tag_id') is-invalid @enderror" id="tag_id" name="tag_id[]" multiple="multiple"></select>
+                                                    <div class="invalid-feedback-tag_id text-danger font-italic"></div>
+                                                    <span class="text-info font-italic">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        you can choose multiple value
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div class="row m-b">
                                                 <div class="col">
@@ -195,15 +204,6 @@
                                                         <option value="Which One Comes Last">Which One Comes Last</option>
                                                     </select>
                                                     <div class="invalid-feedback-interval_control_method text-danger font-italic"></div>
-                                                </div>
-                                                <div class="col">
-                                                    <label>Custom Interval Group</label>
-                                                    <select class="interval_group_id form-control @error('interval_group_id') is-invalid @enderror" id="interval_group_id" name="interval_group_id[]" multiple="multiple"></select>
-                                                    <div class="invalid-feedback-interval_group_id text-danger font-italic"></div>
-                                                    <span class="text-info font-italic">
-                                                        <i class="fa fa-info-circle"></i>
-                                                        interval group will override individual interval
-                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

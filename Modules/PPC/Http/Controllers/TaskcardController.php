@@ -119,14 +119,23 @@ class TaskcardController extends Controller
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
-                ->addColumn('interval_group', function($row){
-                    $interval_group_name = null;
-                    foreach ($row->interval_groups as $interval_group) {
-                        $interval_group_name .= $interval_group->name . ', ';
+                // ->addColumn('interval_group', function($row){
+                //     $interval_group_name = null;
+                //     foreach ($row->interval_groups as $interval_group) {
+                //         $interval_group_name .= $interval_group->name . ', ';
+                //     }
+
+                //     $interval_group_name = Str::beforeLast($interval_group_name, ',');
+                //     return $interval_group_name;
+                // })
+                ->addColumn('tag', function($row){
+                    $tag_name = null;
+                    foreach ($row->tags as $tag) {
+                        $tag_name .= $tag->name . ', ';
                     }
 
-                    $interval_group_name = Str::beforeLast($interval_group_name, ',');
-                    return $interval_group_name;
+                    $tag_name = Str::beforeLast($tag_name, ',');
+                    return $tag_name;
                 })
                 ->addColumn('instruction_count', function($row){
                     return '<label class="label label-success">' . $row->instruction_details()->count() . '</label>';
@@ -596,7 +605,7 @@ class TaskcardController extends Controller
         if ($request->tag_id) {
             $Taskcard->tag_details()->forceDelete();
             foreach ($request->tag_id as $tag_id) {
-                $Taskcard->interval_group_details()
+                $Taskcard->tag_details()
                     ->save(new TaskcardDetailTag([
                         'uuid' => Str::uuid(),
                         'tag_id' => $tag_id,
