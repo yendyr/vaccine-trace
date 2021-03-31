@@ -5,7 +5,7 @@
 <script>
 $(document).ready(function () {
     var actionUrl = '/ppc/taskcard-tag';
-    var tableId = '#taskcard-tag';
+    var tableId = '#taskcard-tag-table';
     var inputFormId = '#inputForm';
 
     var datatableObject = $(tableId).DataTable({

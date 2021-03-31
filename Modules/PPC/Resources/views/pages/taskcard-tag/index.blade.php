@@ -3,17 +3,17 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-        @component('components.delete-modal', ['name' => 'Task Card Interval Group Datalist'])
+        @component('components.delete-modal', ['name' => 'Task Card Tag Datalist'])
         @endcomponent
 
-        @include('ppc::pages.taskcard-interval-group.modal')
+        @include('ppc::pages.taskcard-tag.modal')
 
         @component('components.crud-form.index',[
-                        'title' => 'Task Card Interval Group Datalist',
-                        'tableId' => 'taskcard-interval-group-table'])
+                        'title' => 'Task Card Tag Datalist',
+                        'tableId' => 'taskcard-tag-table'])
 
             @slot('createButton')
-                @can('create', Modules\PPC\Entities\TaskcardIntervalGroup::class)                
+                @can('create', Modules\PPC\Entities\TaskcardTag::class)                
                     <button type="button" id="create" class="btn btn-primary btn-lg">
                         <i class="fa fa-plus-circle"></i>&nbsp;Create New
                     </button>   
@@ -36,7 +36,7 @@
             @endslot
         @endcomponent
 
-        @include('ppc::components.taskcard-interval-group._script')
+        @include('ppc::components.taskcard-tag._script')
     </div>
 </div>
 @endsection

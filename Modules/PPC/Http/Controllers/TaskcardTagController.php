@@ -115,7 +115,7 @@ class TaskcardTagController extends Controller
                 ->escapeColumns([])
                 ->make(true);
         }
-        return view('ppc::pages.taskcard-interval-group.index');
+        return view('ppc::pages.taskcard-tag.index');
     }
     
     public function store(Request $request)
