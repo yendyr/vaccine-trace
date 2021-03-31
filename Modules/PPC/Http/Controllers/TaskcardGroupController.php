@@ -254,7 +254,7 @@ class TaskcardGroupController extends Controller
     {
         $search = $request->q;
 
-        $selectHaveParent = TaskcardGroup::orderby('name','asc')
+        $selectHaveParent = TaskcardGroup::orderby('code','name','asc')
                             ->select('parent_id')
                             ->where('parent_id', '<>', null)
                             ->where('status', 1);

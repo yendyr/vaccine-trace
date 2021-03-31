@@ -272,7 +272,7 @@ class TaskcardIntervalGroupController extends Controller
     public function select2(Request $request)
     {
         $search = $request->q;
-        $query = TaskcardIntervalGroup::orderby('name','asc')
+        $query = TaskcardIntervalGroup::orderby('code','name','asc')
                                     ->select('id','name')
                                     ->where('status', 1);
         if($search != ''){
@@ -284,7 +284,7 @@ class TaskcardIntervalGroupController extends Controller
         foreach($TaskcardIntervalGroups as $TaskcardIntervalGroup){
             $response['results'][] = [
                 "id" => $TaskcardIntervalGroup->id,
-                "text" => $TaskcardIntervalGroup->name
+                "text" => $TaskcardIntervalGroup->code . ' | ' . $TaskcardIntervalGroup->name
             ];
         }
         return response()->json($response);
