@@ -272,7 +272,7 @@ class TaskcardIntervalGroupController extends Controller
     public function select2(Request $request)
     {
         $search = $request->q;
-        $query = TaskcardIntervalGroup::orderby('code','name','asc')
+        $query = TaskcardIntervalGroup::orderby('name','asc')
                                     ->select('code','id','name')
                                     ->where('status', 1);
         if($search != ''){
