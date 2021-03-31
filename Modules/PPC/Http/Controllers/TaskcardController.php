@@ -6,7 +6,7 @@ use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\TaskcardDetailAircraftType;
 use Modules\PPC\Entities\TaskcardDetailAffectedItem;
-use Modules\PPC\Entities\TaskcardDetailIntervalGroup;
+use Modules\PPC\Entities\TaskcardDetailTag;
 use Modules\PPC\Entities\TaskcardDetailAccess;
 use Modules\PPC\Entities\TaskcardDetailZone;
 use Modules\PPC\Entities\TaskcardDetailDocumentLibrary;
@@ -45,7 +45,7 @@ class TaskcardController extends Controller
                             ->where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
                             ->with([
                                 'taskcard_group:id,name,parent_id',
-                                'interval_groups:id,code,name',
+                                'tags:id,code,name',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
@@ -63,7 +63,7 @@ class TaskcardController extends Controller
                             })
                             ->with([
                                 'taskcard_group:id,name,parent_id',
-                                'interval_groups:id,code,name',
+                                'tags:id,code,name',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
@@ -77,7 +77,7 @@ class TaskcardController extends Controller
             else {
                 $data = Taskcard::with([
                     'taskcard_group:id,name,parent_id',
-                    'interval_groups:id,code,name',
+                    'tags:id,code,name',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',
@@ -385,12 +385,12 @@ class TaskcardController extends Controller
             }
         }
 
-        if ($request->interval_group_id) {
-            foreach ($request->interval_group_id as $interval_group_id) {
-                $Taskcard->interval_group_details()
-                    ->save(new TaskcardDetailIntervalGroup([
+        if ($request->tag_id) {
+            foreach ($request->tag_id as $tag_id) {
+                $Taskcard->tag_details()
+                    ->save(new TaskcardDetailTag([
                         'uuid' => Str::uuid(),
-                        'interval_group_id' => $interval_group_id,
+                        'tag_id' => $tag_id,
                         'owned_by' => $request->user()->company_id,
                         'status' => 1,
                         'created_by' => $request->user()->id,
@@ -520,9 +520,7 @@ class TaskcardController extends Controller
         }
 
         $threshold_date = $request->threshold_date;
-        
         $repeat_date = $request->repeat_date;
-        
         $issued_date = $request->issued_date;
 
         DB::beginTransaction();
@@ -595,13 +593,13 @@ class TaskcardController extends Controller
             $Taskcard->affected_item_details()->forceDelete();
         }
 
-        if ($request->interval_group_id) {
-            $Taskcard->interval_group_details()->forceDelete();
-            foreach ($request->interval_group_id as $interval_group_id) {
+        if ($request->tag_id) {
+            $Taskcard->tag_details()->forceDelete();
+            foreach ($request->tag_id as $tag_id) {
                 $Taskcard->interval_group_details()
-                    ->save(new TaskcardDetailIntervalGroup([
+                    ->save(new TaskcardDetailTag([
                         'uuid' => Str::uuid(),
-                        'interval_group_id' => $interval_group_id,
+                        'tag_id' => $tag_id,
                         'owned_by' => $request->user()->company_id,
                         'status' => 1,
                         'created_by' => $request->user()->id,

@@ -53,8 +53,8 @@ use Modules\PPC\Entities\TaskcardType;
 use Modules\PPC\Policies\TaskcardGroupPolicy;
 use Modules\PPC\Entities\TaskcardGroup;
 
-use Modules\PPC\Policies\TaskcardIntervalGroupPolicy;
-use Modules\PPC\Entities\TaskcardIntervalGroup;
+use Modules\PPC\Policies\TaskcardTagPolicy;
+use Modules\PPC\Entities\TaskcardTag;
 
 use Modules\PPC\Policies\TaskcardWorkareaPolicy;
 use Modules\PPC\Entities\TaskcardWorkarea;
@@ -209,7 +209,7 @@ class AuthServiceProvider extends ServiceProvider
 
         TaskcardType::class => TaskcardTypePolicy::class,
         TaskcardGroup::class => TaskcardGroupPolicy::class,
-        TaskcardIntervalGroup::class => TaskcardIntervalGroupPolicy::class,
+        TaskcardTag::class => TaskcardTagPolicy::class,
         TaskcardWorkarea::class => TaskcardWorkareaPolicy::class,
         TaskcardAccess::class => TaskcardAccessPolicy::class,
         TaskcardZone::class => TaskcardZonePolicy::class,

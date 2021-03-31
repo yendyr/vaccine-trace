@@ -23,10 +23,10 @@
             @slot('tableContent')
                 <th>Code</th>
                 <th>Name</th>
-                <th>Description/Remark</th>
-                <th>Threshold</th>
+                <th>Remark</th>
+                <!-- <th>Threshold</th>
                 <th>Repeat</th>
-                <th>Method</th>
+                <th>Method</th> -->
                 <th>Status</th>
                 <th>Created By</th>
                 <th>Created At</th>

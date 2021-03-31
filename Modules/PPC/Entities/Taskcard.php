@@ -100,14 +100,14 @@ class Taskcard extends Model
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailAffectedItem::class, 'taskcard_id');
     }
 
-    public function interval_groups()
+    public function tags()
     {
-        return $this->belongsToMany(\Modules\PPC\Entities\TaskcardIntervalGroup::class, 'taskcard_detail_interval_groups','taskcard_id','interval_group_id');
+        return $this->belongsToMany(\Modules\PPC\Entities\TaskcardTag::class, 'taskcard_detail_tags','taskcard_id','tag_id');
     }
 
-    public function interval_group_details()
+    public function tag_details()
     {
-        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailIntervalGroup::class, 'taskcard_id');
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailTag::class, 'taskcard_id');
     }
 
     public function accesses()
@@ -171,7 +171,7 @@ class Taskcard extends Model
         static::deleting(function($Taskcard) {
              $Taskcard->aircraft_type_details()->delete();
              $Taskcard->affected_item_details()->delete();
-             $Taskcard->interval_group_details()->delete();
+             $Taskcard->tag_details()->delete();
              $Taskcard->access_details()->delete();
              $Taskcard->zone_details()->delete();
              $Taskcard->document_library_details()->delete();

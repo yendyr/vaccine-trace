@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class TaskcardIntervalGroup extends Model
+class TaskcardTag extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
@@ -19,18 +19,18 @@ class TaskcardIntervalGroup extends Model
         'name',
         'description',
 
-        'threshold_flight_hour',
-        'threshold_flight_cycle',
-        'threshold_daily',
-        'threshold_daily_unit',
-        'threshold_date',
+        // 'threshold_flight_hour',
+        // 'threshold_flight_cycle',
+        // 'threshold_daily',
+        // 'threshold_daily_unit',
+        // 'threshold_date',
         
-        'repeat_flight_hour',
-        'repeat_flight_cycle',
-        'repeat_daily',
-        'repeat_daily_unit',
-        'repeat_date',
-        'interval_control_method',
+        // 'repeat_flight_hour',
+        // 'repeat_flight_cycle',
+        // 'repeat_daily',
+        // 'repeat_daily_unit',
+        // 'repeat_date',
+        // 'interval_control_method',
 
         'status',
         'created_by',
@@ -49,8 +49,8 @@ class TaskcardIntervalGroup extends Model
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function taskcards()
-    {
-        return $this->hasMany(\Modules\PPC\Entities\Taskcard::class, 'taskcard_interval_group_id');
-    }
+    // public function taskcards()
+    // {
+    //     return $this->hasMany(\Modules\PPC\Entities\Taskcard::class, 'taskcard_interval_group_id');
+    // }
 }

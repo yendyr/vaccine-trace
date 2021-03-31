@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskcardDetailIntervalGroupsTable extends Migration
+class CreateTaskcardDetailTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTaskcardDetailIntervalGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('taskcard_detail_interval_groups', function (Blueprint $table) {
+        Schema::create('taskcard_detail_tags', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
             $table->string('taskcard_id');
-            $table->string('interval_group_id');
+            $table->string('tag_id');
             $table->string('description')->nullable();
             $table->tinyInteger('sequence')->nullable();
 
@@ -40,6 +40,6 @@ class CreateTaskcardDetailIntervalGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taskcard_detail_interval_groups');
+        Schema::dropIfExists('taskcard_detail_tags');
     }
 }

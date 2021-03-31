@@ -6,7 +6,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 use Modules\Gate\Entities\RoleMenu;
 
-class TaskcardIntervalGroupPolicy
+class TaskcardTagPolicy
 {
     use HandlesAuthorization;
 
@@ -19,7 +19,7 @@ class TaskcardIntervalGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-interval-group')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard-tag')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -34,7 +34,7 @@ class TaskcardIntervalGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-interval-group')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard-tag')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -49,7 +49,7 @@ class TaskcardIntervalGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-interval-group')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard-tag')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -64,7 +64,7 @@ class TaskcardIntervalGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-interval-group')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard-tag')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -79,7 +79,7 @@ class TaskcardIntervalGroupPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'ppc/taskcard-interval-group')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/taskcard-tag')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 

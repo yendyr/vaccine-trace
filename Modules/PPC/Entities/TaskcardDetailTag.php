@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class TaskcardDetailIntervalGroup extends Model
+class TaskcardDetailTag extends Model
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -17,7 +17,7 @@ class TaskcardDetailIntervalGroup extends Model
         'uuid',
 
         'taskcard_id',
-        'interval_group_id',
+        'tag_id',
         'description',
         'sequence',
 
@@ -43,8 +43,8 @@ class TaskcardDetailIntervalGroup extends Model
         return $this->belongsTo(\Modules\PPC\Entities\Taskcard::class, 'taskcard_id');
     }
 
-    public function interval_group()
+    public function tag()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\TaskcardIntervalGroup::class, 'interval_group_id');
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardTag::class, 'tag_id');
     }
 }
