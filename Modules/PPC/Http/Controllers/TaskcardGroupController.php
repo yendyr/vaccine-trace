@@ -272,8 +272,8 @@ class TaskcardGroupController extends Controller
         $response = [];
         foreach($TaskcardGroups as $TaskcardGroup){
             $response['results'][] = [
-                "id"=>$TaskcardGroup->id,
-                "text"=>$TaskcardGroup->name
+                "id" => $TaskcardGroup->id,
+                "text" => $TaskcardGroup->code . ' | ' . $TaskcardGroup->name
             ];
         }
 
