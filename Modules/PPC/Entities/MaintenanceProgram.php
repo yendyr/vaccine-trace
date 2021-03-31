@@ -16,6 +16,7 @@ class MaintenanceProgram extends Model
         'uuid',
 
         'aircraft_type_id',
+        'interval_group_id',
         'code',
         'name',
         'description',

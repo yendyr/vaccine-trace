@@ -19,6 +19,7 @@ class CreateMaintenanceProgramDetailsTable extends Migration
 
             $table->string('maintenance_program_id');
             $table->string('taskcard_id');
+            $table->string('interval_group_id');
 
             $table->string('code')->nullable();
             $table->string('name')->nullable();
