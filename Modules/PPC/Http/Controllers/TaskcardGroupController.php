@@ -254,13 +254,13 @@ class TaskcardGroupController extends Controller
     {
         $search = $request->q;
 
-        $selectHaveParent = TaskcardGroup::orderby('code','name','asc')
+        $selectHaveParent = TaskcardGroup::orderby('name','asc')
                             ->select('parent_id')
                             ->where('parent_id', '<>', null)
                             ->where('status', 1);
 
         $query = TaskcardGroup::orderby('name','asc')
-                    ->select('id','name')
+                    ->select('code','id','name')
                     ->whereNotIn('id', $selectHaveParent)
                     ->where('status', 1);
 
