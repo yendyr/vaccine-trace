@@ -14,6 +14,22 @@ $(document).ready(function () {
     // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
 
+    $('#taskcard-table thead tr').clone(true).appendTo('#taskcard-table thead');
+    $('#taskcard-table thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+ 
+        $('input', this).on('keypress', function (e) {
+            if(e.which == 13) {
+                if (datatableObject.column(i).search() !== this.value) {
+                    datatableObject
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            }
+        });
+    });
 
     var datatableObject = $(tableId).DataTable({
         pageLength: 25,
@@ -22,7 +38,6 @@ $(document).ready(function () {
         searchDelay: 1500,
         ajax: {
             url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}" + "&create_maintenance_program=true",
-            // url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}" + "&maintenance_program_id=" + "{{ $MaintenanceProgram->id }}" + "&create_maintenance_program=true",
         },
         columns: [
             { data: 'mpd_number', 
@@ -30,6 +45,7 @@ $(document).ready(function () {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
             { data: 'title', name: 'Title' },
             { data: 'group_structure', name: 'Group' },
+            { data: 'tag', defaultContent: '-' },
             { data: 'taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },
