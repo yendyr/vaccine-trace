@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Employee extends SACModel
 {
     protected $fillable = [
         'uuid', 

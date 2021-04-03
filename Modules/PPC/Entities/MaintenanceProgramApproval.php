@@ -2,11 +2,12 @@
 
 namespace Modules\PPC\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class MaintenanceProgramApproval extends Model
+class MaintenanceProgramApproval extends SACModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

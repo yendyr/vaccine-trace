@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Education extends Model
+class Education extends SACModel
 {
     protected $fillable = [
         'uuid', 'empid', 'instname', 'startperiod', 'finishperiod', 'city', 'state', 'country',

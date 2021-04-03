@@ -2,11 +2,12 @@
 
 namespace Modules\SupplyChain\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class ItemStock extends Model
+class ItemStock extends SACModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

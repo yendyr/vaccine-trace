@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class LeaveQuota extends Model
+class LeaveQuota extends SACModel
 {
     protected $fillable = [
         'uuid', 'empid', 'quotayear', 'quotacode', 'quotastartdate', 'quotaexpdate', 'quotaallocdate',

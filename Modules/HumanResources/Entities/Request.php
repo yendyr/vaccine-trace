@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Request extends Model
+class Request extends SACModel
 {
     protected $fillable = [
         'uuid', 'txnperiod', 'reqcode', 'reqtype','docno', 'docdate',

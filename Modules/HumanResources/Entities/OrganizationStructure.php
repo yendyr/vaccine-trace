@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class OrganizationStructure extends Model
+class OrganizationStructure extends SACModel
 {
     protected $fillable = [
         'uuid', 'orglevel', 'orgparent', 'orgcode', 'orgname', 'owned_by', 'status'

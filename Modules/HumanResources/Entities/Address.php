@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class Address extends SACModel
 {
     protected $fillable = [
         'uuid', 'empid', 'famid', 'addrid', 'street', 'area', 'city', 'state', 'country',

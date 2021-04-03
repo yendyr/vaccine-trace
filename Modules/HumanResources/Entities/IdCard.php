@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class IdCard extends Model
+class IdCard extends SACModel
 {
     protected $fillable = [
         'uuid', 'empid', 'idcardtype', 'idcardno', 'idcarddate', 'idcardexpdate', 'owned_by', 'status'

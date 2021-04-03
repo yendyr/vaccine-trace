@@ -2,9 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
+use App\SACModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Family extends Model
+class Family extends SACModel
 {
     protected $fillable = [
         'uuid', 'empid', 'famid', 'relationship', 'fullname', 'pob', 'dob', 'gender',
