@@ -2,13 +2,13 @@
 
 namespace Modules\Gate\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
 
-class Menu extends SACModel
+class Menu extends MainModel
 {
     use Notifiable;
     

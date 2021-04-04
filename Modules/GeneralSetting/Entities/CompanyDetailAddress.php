@@ -2,13 +2,13 @@
 
 namespace Modules\GeneralSetting\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class CompanyDetailAddress extends SACModel
+class CompanyDetailAddress extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

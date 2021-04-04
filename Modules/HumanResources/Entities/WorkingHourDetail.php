@@ -2,10 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 
-class WorkingHourDetail extends SACModel
+class WorkingHourDetail extends MainModel
 {
     protected $fillable = [
         'uuid', 'empid', 'attdtype', 'workdate', 'timestart', 'datestart', 'timefinish','datefinish',

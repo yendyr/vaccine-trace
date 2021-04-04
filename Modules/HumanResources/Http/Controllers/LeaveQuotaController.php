@@ -167,7 +167,7 @@ class LeaveQuotaController extends Controller
             date_default_timezone_set('Asia/Jakarta'); //set timezone
 
             $dml = LeaveQuota::where('id', $leave_quotum->id)
-                ->update([
+                ->first()->update([
                 'uuid' => Str::uuid(),
 //                'empid' => $request->empidLquota,
                 'quotayear' => $request->quotayear,

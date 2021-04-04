@@ -2,12 +2,12 @@
 
 namespace Modules\Gate\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends SACModel
+class Role extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

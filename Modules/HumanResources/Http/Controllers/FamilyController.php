@@ -218,7 +218,7 @@ class FamilyController extends Controller
             $validation = $request->validate($validationArray);
 
             $dml = Family::where('id', $family->id)
-                ->update([
+                ->first()->update([
 //                'empid' => $request->empidFamily,
 //                'famid' => $request->famid,
                 'relationship' => $request->relationship,

@@ -2,12 +2,12 @@
 
 namespace Modules\PPC\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class TaskcardGroup extends SACModel
+class TaskcardGroup extends MainModel
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];

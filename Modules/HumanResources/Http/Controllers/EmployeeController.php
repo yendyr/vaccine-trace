@@ -485,7 +485,7 @@ class EmployeeController extends Controller
             }
 
             $dml = Employee::where('id', $employee->id)
-                ->update([
+                ->first()->update([
 //                'empid' => $request->empid,
                 'fullname' => $request->fullname,
                 'nickname' => $request->nickname,

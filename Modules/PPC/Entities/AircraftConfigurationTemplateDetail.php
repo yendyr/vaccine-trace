@@ -2,14 +2,14 @@
 
 namespace Modules\PPC\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AircraftConfigurationTemplateDetail extends SACModel
+class AircraftConfigurationTemplateDetail extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

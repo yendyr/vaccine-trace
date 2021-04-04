@@ -2,12 +2,12 @@
 
 namespace Modules\FlightOperations\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class AfmlApproval extends SACModel
+class AfmlApproval extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

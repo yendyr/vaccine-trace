@@ -278,7 +278,7 @@ class WorkingGroupDetailController extends Controller
             }
 
             $wgd = WorkingGroupDetail::where('id', $workgroup_detail->id)
-                ->update([
+                ->first()->update([
 //                'workgroup' => $request->workgroup,
 //                'daycode' => $request->daycode,
 //                'shiftno' => $request->shiftno,

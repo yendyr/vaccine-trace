@@ -264,7 +264,7 @@ class OrganizationStructureTitleController extends Controller
             $validation = $request->validate($validationArray);
 
             $dml = OrganizationStructureTitle::where('id', $org_structure_title->id)
-                ->update([
+                ->first()->update([
 //                    'orgcode' => $request->orgcode,
                     'titlecode' => $request->titlecode,
                     'jobtitle' => $request->jobtitle,

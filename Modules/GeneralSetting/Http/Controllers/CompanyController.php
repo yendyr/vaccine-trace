@@ -352,7 +352,7 @@ class CompanyController extends Controller
             }
 
             Company::where('id', $Company->id)
-                ->update([
+                ->first()->update([
                     'logo' => $filename,
                     'updated_by' => $request->user()->id
                 ]);

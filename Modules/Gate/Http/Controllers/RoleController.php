@@ -164,7 +164,7 @@ class RoleController extends Controller
             ]);
 
             Role::where('id', $role->id)
-                ->update([
+                ->first()->update([
                     'status' => $status,
                     'updated_by' => $request->user()->id,
             ]); 
@@ -175,7 +175,7 @@ class RoleController extends Controller
             ]);
 
             Role::where('id', $role->id)
-                ->update([
+                ->first()->update([
                     'role_name' => $request->role_name,
                     'status' => $status,
                     'updated_by' => $request->user()->id,
@@ -195,7 +195,7 @@ class RoleController extends Controller
         }
 
         Role::where('id', $role->id)
-            ->update([
+            ->first()->update([
                 'code' => $request->code,
                 'role_name_alias' => $request->role_name_alias,
                 'description' => $request->description,

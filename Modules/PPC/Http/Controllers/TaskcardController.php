@@ -798,7 +798,7 @@ class TaskcardController extends Controller
             }
 
             Taskcard::where('id', $Taskcard->id)
-                ->update([
+                ->first()->update([
                     'file_attachment' => $filename,
                     'updated_by' => $request->user()->id
                 ]);

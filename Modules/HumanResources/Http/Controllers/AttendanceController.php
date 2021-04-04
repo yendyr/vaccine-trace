@@ -178,7 +178,7 @@ class AttendanceController extends Controller
 
     private function updateStatus($data1, $data2, $request){
         Attendance::where('id', $data1->id)->orWhere('id', $data2->id)
-            ->update([
+            ->first()->update([
                 'status' => 2,
                 'owned_by' => $request->user()->company_id,
                 'updated_by' => $request->user()->id,
@@ -310,7 +310,7 @@ class AttendanceController extends Controller
 
             date_default_timezone_set('Asia/Jakarta');
             $dml = Attendance::where('id', $attendance->id)
-                ->update([
+                ->first()->update([
 //                'empid' => $request->empid,
                     'attdtype' => $request->attdtype,
                     'attddate' => $request->attddate,

@@ -246,7 +246,7 @@ class HolidayController extends Controller
             $validation = $request->validate($validationArray);
 
             $dml = Holiday::where('id', $holiday->id)
-                ->update([
+                ->first()->update([
                 'remark' => $request->remark,
                 'status' => $request->status,
                 'owned_by' => $request->user()->company_id,

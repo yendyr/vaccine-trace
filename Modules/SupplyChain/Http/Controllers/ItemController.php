@@ -198,7 +198,7 @@ class ItemController extends Controller
         }
 
         Item::where('id', $Item->id)
-            ->update([
+            ->first()->update([
                 'sales_coa_id' => $request->sales_coa_id,
                 'inventory_coa_id' => $request->inventory_coa_id,
                 'cost_coa_id' => $request->cost_coa_id,

@@ -144,7 +144,7 @@ class IdCardController extends Controller
             $validation = $request->validate($validationArray);
 
             $dml = IdCard::where('id', $id_card->id)
-                ->update([
+                ->first()->update([
 //                'empid' => $request->empid,
                 'idcardtype' => $request->idcardtype,
                 'idcardno' => $request->idcardno,

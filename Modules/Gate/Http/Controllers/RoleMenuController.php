@@ -330,7 +330,7 @@ class RoleMenuController extends Controller
         $menu = Menu::all()->find($request->menu);
 
         RoleMenu::where('id', $roleMenu->id)
-            ->update([
+            ->first()->update([
                 'role_id' => $request->role,
                 'menu_id' => $request->menu,
                 'menu_link' => $menu->menu_link,

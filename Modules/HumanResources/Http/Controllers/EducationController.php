@@ -162,7 +162,7 @@ class EducationController extends Controller
             $validation = $request->validate($validationArray);
 
             $dml = Education::where('id', $education->id)
-                ->update([
+                ->first()->update([
 //                'empid' => $request->empid,
                 'instname' => $request->instname,
                 'startperiod' => $request->startperiod,

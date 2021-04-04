@@ -2,10 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends SACModel
+class Attendance extends MainModel
 {
     protected $fillable = [
         'uuid', 'empid', 'attdtype', 'attddate', 'attdtime',

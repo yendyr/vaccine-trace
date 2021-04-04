@@ -166,7 +166,7 @@ class WorkingGroupController extends Controller
             $validation = $request->validate($validationArray);
 
             $dml = WorkingGroup::where('id', $workgroup->id)
-                ->update([
+                ->first()->update([
 //                'workgroup' => $request->workgroup,
                 'workname' => $request->workname,
                 'shiftstatus' => $request->shiftstatus,

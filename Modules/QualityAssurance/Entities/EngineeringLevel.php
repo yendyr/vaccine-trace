@@ -2,13 +2,13 @@
 
 namespace Modules\QualityAssurance\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class EngineeringLevel extends SACModel
+class EngineeringLevel extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];

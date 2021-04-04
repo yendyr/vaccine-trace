@@ -208,7 +208,7 @@ class UserController extends Controller
             }
 
             User::where('id', $user->id)
-                ->update([
+                ->first()->update([
                     'username' => $request->username,
                     'name' => $request->name,
                     'email' => $request->email,
@@ -240,7 +240,7 @@ class UserController extends Controller
             }
 
             User::where('id', $request->user()->id)
-                ->update([
+                ->first()->update([
                     'image' => $filename,
                     'updated_by' => $request->user()->id
                 ]);
@@ -277,7 +277,7 @@ class UserController extends Controller
         ]);
 
         User::where('id', $request->user()->id)
-            ->update([
+            ->first()->update([
                 'password' => Hash::make($request->new),
                 'updated_by' => $request->user()->id
             ]);

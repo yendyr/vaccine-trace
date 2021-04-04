@@ -2,10 +2,10 @@
 
 namespace Modules\HumanResources\Entities;
 
-use App\SACModel;
+use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 
-class OrganizationStructureTitle extends SACModel
+class OrganizationStructureTitle extends MainModel
 {
     protected $fillable = [
         'uuid', 'orgcode', 'titlecode', 'jobtitle', 'rptorg', 'rpttitle', 'status', 'created_by'

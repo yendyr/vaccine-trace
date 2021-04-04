@@ -187,7 +187,7 @@ class AddressController extends Controller
             $validation = $request->validate($validationArray);
 
             $dml = Address::where('id', $address->id)
-                ->update([
+                ->first()->update([
 //                'empid' => $request->empidAddress,
 //                'famid' => $request->famidAddress,
 //                'addrid' => $request->addrid,

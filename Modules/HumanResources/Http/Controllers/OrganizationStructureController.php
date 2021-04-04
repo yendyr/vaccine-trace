@@ -157,7 +157,7 @@ class OrganizationStructureController extends Controller
 
             $orgParent = $request->orgparent === 0 ? null : $request->orgparent;
             $orgs = OrganizationStructure::where('id', $org_structure->id)
-                ->update([
+                ->first()->update([
 //                    'orglevel' => $request->orglevel,
 //                    'orgcode' => $request->orgcode,
                     'orgparent' => $orgParent,
