@@ -44,7 +44,7 @@ class TaskcardController extends Controller
                             ->leftJoin('maintenance_program_details', 'taskcards.id', '=', 'maintenance_program_details.taskcard_id')
                             ->where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
                             ->with([
-                                'taskcard_group:id,name,parent_id',
+                                'taskcard_group:id,name',
                                 'tags:id,code,name',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
@@ -62,7 +62,7 @@ class TaskcardController extends Controller
                                 $aircraft_types->where('aircraft_types.id', $request->aircraft_type_id);
                             })
                             ->with([
-                                'taskcard_group:id,name,parent_id',
+                                'taskcard_group:id,name',
                                 'tags:id,code,name',
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
@@ -76,7 +76,7 @@ class TaskcardController extends Controller
             }
             else {
                 $data = Taskcard::with([
-                    'taskcard_group:id,name,parent_id',
+                    'taskcard_group:id,name',
                     'tags:id,code,name',
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
@@ -86,7 +86,7 @@ class TaskcardController extends Controller
                     'zones:id,name',
                     'document_libraries:id,name',
                     'affected_manuals:id,name',
-                    ]);
+                ]);
             }
             
             return Datatables::of($data)
