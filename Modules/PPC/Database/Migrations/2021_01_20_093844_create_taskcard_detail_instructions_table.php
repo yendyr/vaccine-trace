@@ -26,7 +26,7 @@ class CreateTaskcardDetailInstructionsTable extends Migration
             $table->string('engineering_level_id'); // set minimum authorized engineering level to execute this taskcard
             $table->tinyInteger('manpower_quantity');
             $table->string('task_release_level_id');
-            $table->string('instruction')->nullable();
+            $table->string('instruction', 2000)->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();
