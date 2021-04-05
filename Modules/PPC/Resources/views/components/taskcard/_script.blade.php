@@ -55,6 +55,9 @@ $(document).ready(function () {
         },
         pageLength: 50,
         processing: true,
+        language: {
+            processing: '<i class="fa fa-spinner fa-spin fa-5x fa-fw text-success"></i>'
+        },
         orderCellsTop: true,
         serverSide: false,
         searchDelay: 1500,
