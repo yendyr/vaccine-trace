@@ -60,6 +60,7 @@ $(document).ready(function () {
         },
         orderCellsTop: true,
         serverSide: false,
+        // deferRender: true,
         searchDelay: 1500,
         ajax: {
             url: "{{ route('ppc.taskcard.index') }}",
