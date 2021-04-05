@@ -16,19 +16,24 @@ $(document).ready(function () {
 
     $('#taskcard-table thead tr').clone(true).appendTo('#taskcard-table thead');
     $('#taskcard-table thead tr:eq(1) th').each( function (i) {
-        var title = $(this).text();
-        $(this).html('<input type="text" placeholder="Search" class="form-control" />');
- 
-        $('input', this).on('keypress', function (e) {
-            if(e.which == 13) {
-                if (datatableObject.column(i).search() !== this.value) {
-                    datatableObject
-                        .column(i)
-                        .search( this.value )
-                        .draw();
+        if ($(this).text() != 'Action') {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+    
+            $('input', this).on('keypress', function (e) {
+                if(e.which == 13) {
+                    if (datatableObject.column(i).search() !== this.value) {
+                        datatableObject
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            $(this).html('&nbsp;');
+        }
     });
 
     var groupColumn = 10;
@@ -100,19 +105,24 @@ $(document).ready(function () {
 
     $('#maintenance-program-table thead tr').clone(true).appendTo('#maintenance-program-table thead');
     $('#maintenance-program-table thead tr:eq(1) th').each( function (i) {
-        var title = $(this).text();
-        $(this).html('<input type="text" placeholder="Search" class="form-control" />');
- 
-        $('input', this).on('keypress', function (e) {
-            if(e.which == 13) {
-                if (datatableObject2.column(i).search() !== this.value) {
-                    datatableObject2
-                        .column(i)
-                        .search( this.value )
-                        .draw();
+        if ($(this).text() != 'Action') {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+    
+            $('input', this).on('keypress', function (e) {
+                if(e.which == 13) {
+                    if (datatableObject2.column(i).search() !== this.value) {
+                        datatableObject2
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            $(this).html('&nbsp;');
+        }
     });
 
     var groupColumn2 = 9;
