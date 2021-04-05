@@ -50,7 +50,7 @@
         }
         tr.group,
         tr.group:hover {
-            background-color: #ccc !important;
+            background-color: #aaa !important;
         }
     </style>
 @endpush
