@@ -33,6 +33,7 @@ class MaintenanceProgramDetailController extends Controller
                 $data = MaintenanceProgramDetail::where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
                                                 ->with(['taskcard',
                                                         'taskcard.taskcard_type',
+                                                        'taskcard.tags:id,code,name',
                                                         'maintenance_program',
                                                     ]);
                 return Datatables::of($data)
@@ -64,6 +65,15 @@ class MaintenanceProgramDetailController extends Controller
                     else {
                         return '<label class="label label-danger">Inactive</label>';
                     }
+                })
+                ->addColumn('tag', function($row){
+                    $tag_name = null;
+                    foreach ($row->taskcard->tags as $tag) {
+                        $tag_name .= $tag->name . ', ';
+                    }
+
+                    $tag_name = Str::beforeLast($tag_name, ',');
+                    return $tag_name;
                 })
                 ->addColumn('instruction_count', function($row){
                     return '<label class="label label-success">' . $row->taskcard->instruction_details()->count() . '</label>';

@@ -84,7 +84,7 @@ $(document).ready(function () {
         else {
             datatableObject.order( [ groupColumn, 'asc' ] ).draw();
         }
-    } );
+    });
 
     // $('div.toolbar').html("<div class='pretty p-icon p-round p-jelly' style='font-size: 11pt;'><input type='checkbox' class='form-control' id='groupByInterval' /><div class='state p-primary'><i class='icon fa fa-check'></i><label>Group by Interval/Repeat</label></div></div>");
 

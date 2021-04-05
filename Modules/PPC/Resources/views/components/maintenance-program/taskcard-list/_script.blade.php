@@ -31,8 +31,30 @@ $(document).ready(function () {
         });
     });
 
+    var groupColumn = 10;
+
     var datatableObject = $(tableId).DataTable({
-        pageLength: 25,
+        columnDefs: [{
+            visible: false, 
+            targets: groupColumn }
+        ],
+        order: [[ groupColumn, 'asc' ]],
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="text-align: left;"><td colspan="14">Repeat Interval: <b>' + group + '</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
+        pageLength: 100,
+        orderCellsTop: true,
         processing: true,
         serverSide: false,
         searchDelay: 1500,
@@ -58,8 +80,65 @@ $(document).ready(function () {
         ]
     });
 
+    $('#taskcard-table tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = datatableObject.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            datatableObject.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            datatableObject.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    });
+
+
+
+
+
+
+
+
+
+    $('#maintenance-program-table thead tr').clone(true).appendTo('#maintenance-program-table thead');
+    $('#maintenance-program-table thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+ 
+        $('input', this).on('keypress', function (e) {
+            if(e.which == 13) {
+                if (datatableObject2.column(i).search() !== this.value) {
+                    datatableObject2
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            }
+        });
+    });
+
+    var groupColumn2 = 9;
+
     var datatableObject2 = $(tableId2).DataTable({
-        pageLength: 25,
+        columnDefs: [{
+            visible: false, 
+            targets: groupColumn2 }
+        ],
+        order: [[ groupColumn2, 'asc' ]],
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(groupColumn2, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="text-align: left;"><td colspan="13">Repeat Interval: <b>' + group + '</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
+        pageLength: 100,
+        orderCellsTop: true,
         processing: true,
         serverSide: false,
         searchDelay: 1500,
@@ -72,6 +151,7 @@ $(document).ready(function () {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.taskcard.mpd_number + '</a>'; }},
             { data: 'taskcard.title', name: 'Title' },
             { data: 'group_structure', name: 'Group' },
+            { data: 'tag', defaultContent: '-' },
             { data: 'taskcard.taskcard_type.name', name: 'Task Type' },
             { data: 'instruction_count', name: 'Instruction/Task Total' },
             { data: 'manhours_total', name: 'Manhours Total' },
