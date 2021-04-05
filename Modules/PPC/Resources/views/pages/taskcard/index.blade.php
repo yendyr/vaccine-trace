@@ -48,6 +48,10 @@
         thead input {
             width: 100%;
         }
+        tr.group,
+        tr.group:hover {
+            background-color: #ccc !important;
+        }
     </style>
 @endpush
 @push('footer-scripts')

@@ -25,8 +25,30 @@ $(document).ready(function () {
         });
     });
 
+    var groupColumn = 10;
+
     var datatableObject = $(tableId).DataTable({
-        pageLength: 25,
+        // dom: "<'toolbar'>frtip",
+        columnDefs: [{
+            visible: false, 
+            targets: groupColumn }
+        ],
+        order: [[ groupColumn, 'asc' ]],
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="text-align: left;"><td colspan="14">Repeat: <b>' + group + '</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
+        pageLength: 100,
         processing: true,
         orderCellsTop: true,
         serverSide: false,
@@ -53,6 +75,27 @@ $(document).ready(function () {
             { data: 'action', name: 'Action', orderable: false },
         ]
     });
+
+    $('#taskcard-table tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = datatableObject.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            datatableObject.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            datatableObject.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    } );
+
+    // $('div.toolbar').html("<div class='pretty p-icon p-round p-jelly' style='font-size: 11pt;'><input type='checkbox' class='form-control' id='groupByInterval' /><div class='state p-primary'><i class='icon fa fa-check'></i><label>Group by Interval/Repeat</label></div></div>");
+
+    // $('#groupByInterval').change(function() {
+    //     if(this.checked) {
+    //         alert('Cek');
+    //     }
+    // });
+
+
+
 
 
     
