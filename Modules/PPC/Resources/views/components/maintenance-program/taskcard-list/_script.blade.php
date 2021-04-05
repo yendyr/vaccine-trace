@@ -58,7 +58,7 @@ $(document).ready(function () {
                 }
             });
         },
-        pageLength: 100,
+        pageLength: 50,
         orderCellsTop: true,
         processing: true,
         serverSide: false,
@@ -147,7 +147,7 @@ $(document).ready(function () {
                 }
             });
         },
-        pageLength: 100,
+        pageLength: 50,
         orderCellsTop: true,
         processing: true,
         serverSide: false,

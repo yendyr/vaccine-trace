@@ -53,7 +53,7 @@ $(document).ready(function () {
                 }
             });
         },
-        pageLength: 100,
+        pageLength: 50,
         processing: true,
         orderCellsTop: true,
         serverSide: false,
