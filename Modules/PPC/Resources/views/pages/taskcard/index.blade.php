@@ -30,7 +30,7 @@
             <th>Skill</th>
             <th>Threshold</th>
             <th>Repeat</th>
-            <th>Created By</th>
+            {{-- <th>Created By</th> --}}
             <th>Created At</th>
             {{-- <th>Last Updated By</th>
             <th>Last Updated At</th> --}}

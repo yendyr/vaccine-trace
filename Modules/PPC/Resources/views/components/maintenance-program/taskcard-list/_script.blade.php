@@ -74,8 +74,12 @@ $(document).ready(function () {
             { data: 'group_structure', name: 'Group' },
             { data: 'tag', defaultContent: '-' },
             { data: 'taskcard_type.name', name: 'Task Type' },
-            { data: 'instruction_count', name: 'Instruction/Task Total' },
-            { data: 'manhours_total', name: 'Manhours Total' },
+            { data: 'instruction_count',
+                    "render": function ( data, type, row, meta ) {
+                    return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
+            { data: 'manhours_total',
+                    "render": function ( data, type, row, meta ) {
+                    return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
             { data: 'aircraft_type_name', name: 'Aircraft Type' },
             { data: 'skills', name: 'Skill' },
             { data: 'threshold_interval', name: 'Threshold' },
@@ -163,8 +167,12 @@ $(document).ready(function () {
             { data: 'group_structure', name: 'Group' },
             { data: 'tag', defaultContent: '-' },
             { data: 'taskcard.taskcard_type.name', name: 'Task Type' },
-            { data: 'instruction_count', name: 'Instruction/Task Total' },
-            { data: 'manhours_total', name: 'Manhours Total' },
+            { data: 'instruction_count',
+                    "render": function ( data, type, row, meta ) {
+                    return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
+            { data: 'manhours_total',
+                    "render": function ( data, type, row, meta ) {
+                    return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
             { data: 'skills', name: 'Skill' },
             { data: 'threshold_interval', name: 'Threshold' },
             { data: 'repeat_interval', name: 'Repeat' },

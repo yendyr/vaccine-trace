@@ -111,14 +111,14 @@ class TaskcardController extends Controller
                         return '-';
                     }
                 })
-                ->addColumn('status', function($row){
-                    if ($row->status == 1) {
-                        return '<label class="label label-success">Active</label>';
-                    } 
-                    else {
-                        return '<label class="label label-danger">Inactive</label>';
-                    }
-                })
+                // ->addColumn('status', function($row){
+                //     if ($row->status == 1) {
+                //         return '<label class="label label-success">Active</label>';
+                //     } 
+                //     else {
+                //         return '<label class="label label-danger">Inactive</label>';
+                //     }
+                // })
                 // ->addColumn('interval_group', function($row){
                 //     $interval_group_name = null;
                 //     foreach ($row->interval_groups as $interval_group) {
@@ -138,10 +138,10 @@ class TaskcardController extends Controller
                     return $tag_name;
                 })
                 ->addColumn('instruction_count', function($row){
-                    return '<label class="label label-success">' . $row->instruction_details()->count() . '</label>';
+                    return $row->instruction_details()->count();
                 })
                 ->addColumn('manhours_total', function($row){
-                    return '<label class="label label-primary">' . $row->instruction_details()->sum('manhours_estimation') . '</label>';
+                    return $row->instruction_details()->sum('manhours_estimation');
                 })
                 ->addColumn('aircraft_type_name', function($row){
                     $aircraft_type_name = null;
@@ -225,12 +225,12 @@ class TaskcardController extends Controller
 
                     return $repeat_interval;
                 })
-                ->addColumn('creator_name', function($row){
-                    return $row->creator->name ?? '-';
-                })
-                ->addColumn('updater_name', function($row){
-                    return $row->updater->name ?? '-';
-                })
+                // ->addColumn('creator_name', function($row){
+                //     return $row->creator->name . ', ' . $row->created_at;
+                // })
+                // ->addColumn('updater_name', function($row){
+                //     return $row->updater->name ?? '-';
+                // })
                 ->addColumn('action', function($row) use ($request) {
                     if(!$request->aircraft_type_id) {
                         $noAuthorize = true;

@@ -76,10 +76,10 @@ class MaintenanceProgramDetailController extends Controller
                     return $tag_name;
                 })
                 ->addColumn('instruction_count', function($row){
-                    return '<label class="label label-success">' . $row->taskcard->instruction_details()->count() . '</label>';
+                    return $row->taskcard->instruction_details()->count();
                 })
                 ->addColumn('manhours_total', function($row){
-                    return '<label class="label label-primary">' . $row->taskcard->instruction_details()->sum('manhours_estimation') . '</label>';
+                    return $row->taskcard->instruction_details()->sum('manhours_estimation');
                 })
                 ->addColumn('skills', function($row){
                     $skillsArray = array();

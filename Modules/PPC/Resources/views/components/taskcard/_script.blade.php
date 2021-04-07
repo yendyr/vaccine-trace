@@ -76,13 +76,16 @@ $(document).ready(function () {
             { data: 'group_structure' },
             { data: 'tag', defaultContent: '-' },
             { data: 'taskcard_type.name' },
-            { data: 'instruction_count' },
-            { data: 'manhours_total' },
+            { data: 'instruction_count',
+                    "render": function ( data, type, row, meta ) {
+                    return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
+            { data: 'manhours_total',
+                    "render": function ( data, type, row, meta ) {
+                    return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
             { data: 'aircraft_type_name' },
             { data: 'skills' },
             { data: 'threshold_interval' },
             { data: 'repeat_interval' },
-            { data: 'creator_name' },
             { data: 'created_at' },
             { data: 'action', orderable: false },
         ]
