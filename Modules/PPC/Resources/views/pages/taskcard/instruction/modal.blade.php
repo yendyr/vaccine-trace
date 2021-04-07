@@ -100,11 +100,11 @@
 </div>
 
 @push('header-scripts')
-<link href="{{URL::asset('theme/css/plugins/summernote/summernote-bs4.css')}}" rel="stylesheet">
+<link href="{{URL::asset('theme/css/plugins/summernote/summernote-bs4.min.css')}}" rel="stylesheet">
 @endpush
 
 @push('footer-scripts')
-    <script src="{{URL::asset('theme/js/plugins/summernote/summernote-bs4.js')}}"></script>
+    <script src="{{URL::asset('theme/js/plugins/summernote/summernote-bs4.min.js')}}"></script>
     <script>
         $(document).ready(function(){
             $('.instruction').summernote();
