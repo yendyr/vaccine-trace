@@ -13,7 +13,15 @@
                     <div class="col">After Daily Basis:</div>
                     <div class="col m-b"><h3>{{ $Taskcard->threshold_daily ?? '-' }} {{ $Taskcard->threshold_daily_unit ?? '' }}(s)</h3></div>
                     <div class="col">After Exact Calendar Date:</div>
-                    <div class="col m-b"><h3>{{ Carbon\Carbon::parse($Taskcard->threshold_date)->format('Y-F-d') ?? '-' }}</h3></div>
+                    <div class="col m-b">
+                        <h3>
+                        @if($Taskcard->threshold_date)
+                        {{ Carbon\Carbon::parse($Taskcard->threshold_date)->format('Y-F-d') }}
+                        @else
+                        -
+                        @endif
+                        </h3>
+                    </div>
                 </div>
                 <div class="col-md-3 m-b">
                     <i class="text-danger fa fa-sign-in fa-5x"></i>
@@ -50,7 +58,15 @@
                     <div class="col">After Daily Basis:</div>
                     <div class="col m-b"><h3>{{ $Taskcard->repeat_daily ?? '-' }} {{ $Taskcard->repeat_daily_unit ?? '' }}(s)</h3></div>
                     <div class="col">After Exact Calendar Date:</div>
-                    <div class="col m-b"><h3>{{ Carbon\Carbon::parse($Taskcard->repeat_date)->format('Y-F-d') ?? '-' }}</h3></div>
+                    <div class="col m-b">
+                        <h3>
+                            @if($Taskcard->repeat_date)
+                            {{ Carbon\Carbon::parse($Taskcard->repeat_date)->format('Y-F-d') }}
+                            @else
+                            -
+                            @endif
+                        </h3>
+                    </div>
                 </div>
                 <div class="col-md-3 m-b">
                     <i class="text-danger fa fa-refresh fa-5x"></i>
