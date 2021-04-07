@@ -50,9 +50,9 @@
                                                 <input type="number" min="0" class="form-control @error('threshold_daily') is-invalid @enderror" name="threshold_daily" id="threshold_daily" value="{{ $Taskcard->threshold_daily ?? '' }}">
                                                 <div class="input-group-append">
                                                     <select class="threshold_daily_unit form-control @error('threshold_daily_unit') is-invalid @enderror" name="threshold_daily_unit" id="threshold_daily_unit">
-                                                        <option value="Day">Day</option>
-                                                        <option value="Month">Month</option>
-                                                        <option value="Year">Year</option>
+                                                        <option value="Day" @if ($Taskcard->threshold_daily_unit == 'Day') selected @endif>Day</option>
+                                                        <option value="Month" @if ($Taskcard->threshold_daily_unit == 'Month') selected @endif>Month</option>
+                                                        <option value="Year" @if ($Taskcard->threshold_daily_unit == 'Year') selected @endif>Year</option>
                                                     </select>
                                                 </div>
                                                 <div class="invalid-feedback-threshold_daily text-danger font-italic"></div>
