@@ -59,7 +59,7 @@ $(document).ready(function () {
             processing: '<i class="fa fa-spinner fa-spin fa-5x fa-fw text-success"></i>'
         },
         orderCellsTop: true,
-        serverSide: false,
+        serverSide: true,
         // deferRender: true,
         searchDelay: 1500,
         ajax: {
@@ -69,19 +69,19 @@ $(document).ready(function () {
             { data: 'mpd_number', 
                     "render": function ( data, type, row, meta ) {
                     return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
-            { data: 'title', name: 'Title' },
-            { data: 'group_structure', name: 'Group' },
+            { data: 'title' },
+            { data: 'group_structure' },
             { data: 'tag', defaultContent: '-' },
-            { data: 'taskcard_type.name', name: 'Task Type' },
-            { data: 'instruction_count', name: 'Instruction/Task Total' },
-            { data: 'manhours_total', name: 'Manhours Total' },
-            { data: 'aircraft_type_name', name: 'Aircraft Type' },
-            { data: 'skills', name: 'Skill' },
-            { data: 'threshold_interval', name: 'Threshold' },
-            { data: 'repeat_interval', name: 'Repeat' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'taskcard_type.name' },
+            { data: 'instruction_count' },
+            { data: 'manhours_total' },
+            { data: 'aircraft_type_name' },
+            { data: 'skills' },
+            { data: 'threshold_interval' },
+            { data: 'repeat_interval' },
+            { data: 'creator_name' },
+            { data: 'created_at' },
+            { data: 'action', orderable: false },
         ]
     });
 
