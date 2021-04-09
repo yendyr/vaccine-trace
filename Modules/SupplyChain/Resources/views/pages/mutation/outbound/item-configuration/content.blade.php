@@ -24,4 +24,6 @@
     @endcomponent
 </div>
 
-@include('supplychain::components.mutation.outbound.item-configuration._script')
+@if($MutationOutbound->approvals()->count() > 0)
+    @include('supplychain::components.mutation.outbound.item-configuration._script')
+@endif

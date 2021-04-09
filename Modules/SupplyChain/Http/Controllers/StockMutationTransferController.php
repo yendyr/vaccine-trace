@@ -30,7 +30,7 @@ class StockMutationTransferController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = StockMutation::with(['origin','approvals'])
+            $data = StockMutation::with(['origin','destination','approvals'])
                                     ->whereNotNull('warehouse_origin')
                                     ->whereNotNull('warehouse_destination');
 

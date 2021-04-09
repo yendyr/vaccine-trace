@@ -24,4 +24,6 @@
     @endcomponent
 </div>
 
-@include('supplychain::components.mutation.transfer.item-configuration._script')
+@if($MutationTransfer->approvals()->count() > 0)
+    @include('supplychain::components.mutation.transfer.item-configuration._script')
+@endif

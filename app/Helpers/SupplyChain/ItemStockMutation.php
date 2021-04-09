@@ -140,6 +140,54 @@ class ItemStockMutation
         DB::commit();
     }
 
+    public static function pickChildsForTransfer($itemStockRow, $stock_mutation_id)
+    {
+        foreach($itemStockRow->all_childs as $childRow) {
+            TransferMutationDetail::create([
+                'uuid' =>  Str::uuid(),
+    
+                'stock_mutation_id' => $stock_mutation_id,
+                'item_stock_id' => $childRow->id,
+                'transfer_quantity' => $childRow->quantity,
+    
+                'owned_by' => Auth::user()->company_id,
+                'status' => 1,
+                'created_by' => Auth::user()->id,
+            ]);
+            $childRow->update([
+                'reserved_quantity' => $childRow->quantity,
+
+                'updated_by' => Auth::user()->id,
+            ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::pickChildsForTransfer($childRow, $stock_mutation_id);
+            }
+        }
+    }
+
+    public static function unpickChildsForTransfer($itemStockRow, $stock_mutation_id)
+    {
+        foreach($itemStockRow->all_childs as $childRow) {
+            $childRow->update([
+                'reserved_quantity' => 0,
+
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            $transferDetailRow = TransferMutationDetail::where('stock_mutation_id', $stock_mutation_id)
+                                    ->where('item_stock_id', $childRow->id)
+                                    ->first();
+            $transferDetailRow->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            TransferMutationDetail::destroy($transferDetailRow->id);
+            
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::unpickChildsForTransfer($childRow, $stock_mutation_id);
+            }
+        }
+    }
+
     public static function deleteTransferDetailRow($transferDetailRow)
     {
         $mutationTransferDetailRow = TransferMutationDetail::where('id', $transferDetailRow->id)
