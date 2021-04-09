@@ -61,6 +61,9 @@ $(document).ready(function () {
         pageLength: 50,
         orderCellsTop: true,
         processing: true,
+        language: {
+            processing: '<i class="fa fa-spinner fa-spin fa-5x fa-fw text-success"></i>'
+        },
         serverSide: false,
         searchDelay: 1500,
         ajax: {
@@ -154,6 +157,9 @@ $(document).ready(function () {
         pageLength: 50,
         orderCellsTop: true,
         processing: true,
+        language: {
+            processing: '<i class="fa fa-spinner fa-spin fa-5x fa-fw text-success"></i>'
+        },
         serverSide: false,
         searchDelay: 1500,
         ajax: {
