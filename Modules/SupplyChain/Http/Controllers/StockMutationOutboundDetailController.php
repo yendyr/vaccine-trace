@@ -196,8 +196,10 @@ class StockMutationOutboundDetailController extends Controller
             ]);
 
             $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
+
+            $temporary_available_quantity = $item_stock->available_quantity + $currentRow->outbound_quantity;
         
-            if(($request->outbound_quantity > 0) && ($request->outbound_quantity <= $request->available_quantity)) {
+            if(($request->outbound_quantity > 0) && ($request->outbound_quantity <= $temporary_available_quantity)) {
                 $outbound_quantity = $request->outbound_quantity;
             }
             else {
@@ -215,6 +217,8 @@ class StockMutationOutboundDetailController extends Controller
             ]);
             $item_stock->update([
                 'reserved_quantity' => $item_stock->reserved_quantity + $outbound_quantity_gap,
+
+                'updated_by' => Auth::user()->id,
             ]);
             DB::commit();
             

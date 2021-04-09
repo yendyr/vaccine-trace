@@ -4,7 +4,7 @@
 @include('supplychain::pages.mutation.transfer.available-item.modal')
     <div class="row m-b m-t">
         <div class="col-md-2 d-flex align-items-start">
-            <i class="fa fa-cloud-upload fa-fw fa-5x text-info"></i>
+            <i class="fa fa-random fa-fw fa-5x text-info"></i>
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Transaction Code:</p>         

@@ -166,7 +166,7 @@ class StockMutationTransferDetailController extends Controller
                 'stock_mutation_id' => $request->stock_mutation_id,
                 'item_stock_id' => $request->item_stock_id,
                 'transfer_quantity' => $transfer_quantity,
-                'description' => $request->outbound_remark,
+                'description' => $request->transfer_remark,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -204,8 +204,10 @@ class StockMutationTransferDetailController extends Controller
             ]);
 
             $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
+
+            $temporary_available_quantity = $item_stock->available_quantity + $currentRow->transfer_quantity;
         
-            if(($request->transfer_quantity > 0) && ($request->transfer_quantity <= $item_stock->available_quantity)) {
+            if(($request->transfer_quantity > 0) && ($request->transfer_quantity <= $temporary_available_quantity)) {
                 // this IF means: transfer/move ALL item stock to other warehouse
                 if($request->transfer_quantity == $item_stock->quantity) {
                     $transfer_quantity = $request->transfer_quantity;
@@ -228,7 +230,7 @@ class StockMutationTransferDetailController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
             $item_stock->update([
-                'reserved_quantity' => $item_stock->reserved_quantity + $transfer_quantity,
+                'reserved_quantity' => $item_stock->reserved_quantity + $transfer_quantity_gap,
 
                 'updated_by' => Auth::user()->id,
             ]);

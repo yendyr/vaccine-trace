@@ -208,10 +208,11 @@ class ItemStockMutation
         foreach($stockMutationRow->transfer_mutation_details as $transfer_mutation_detail) {
             $item_stock = ItemStock::where('id', $transfer_mutation_detail->item_stock_id)->first();
 
-            // this IF means: transfer/move ALL item stock to other warehouse
+            // this IF means: transfer/move ALL/whole item stock to other warehouse
             if ($transfer_mutation_detail->transfer_quantity == $item_stock->quantity) {
                 $item_stock->update([
                     'warehouse_id' => $stockMutationRow->warehouse_destination,
+                    'reserved_quantity' => 0,
 
                     'updated_by' => Auth::user()->id,
                 ]);

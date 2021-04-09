@@ -173,7 +173,7 @@ class StockMutationTransferController extends Controller
             'approval_notes' => ['required', 'max:30'],
         ]);
         
-        ItemStockMutation::approveOutbound($request, $MutationTransfer);
+        ItemStockMutation::approveTransfer($request, $MutationTransfer);
         return response()->json(['success' => 'Stock Mutation Transfer Data has been Approved']);
     }
 }
