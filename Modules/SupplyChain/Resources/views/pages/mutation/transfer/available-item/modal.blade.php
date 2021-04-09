@@ -138,21 +138,21 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationOutbound->id ?? '' }}">
+                            <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationTransfer->id ?? '' }}">
                             <input type="hidden" id="item_stock_id" name="item_stock_id">
 
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Outbound Quantity</label>
+                                <label class="col-sm-5 d-flex align-items-center">Transfer Quantity</label>
                                 <div class="col input-group">
-                                    <input type="number" min="1" class="form-control" name="outbound_quantity" id="outbound_quantity" required>
-                                    <input type="text" class="form-control" name="outbound_unit" id="outbound_unit" readonly>
+                                    <input type="number" min="1" class="form-control" name="transfer_quantity" id="transfer_quantity" required>
+                                    <input type="text" class="form-control" name="transfer_unit" id="transfer_unit" readonly>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Outbound Remark</label>
+                                <label class="col-sm-5 d-flex align-items-center">Transfer Remark</label>
                                 <div class="col-sm-7">
-                                    <input type="text" min="1" class="form-control" name="outbound_remark" id="outbound_remark" required>
+                                    <input type="text" min="1" class="form-control" name="transfer_remark" id="transfer_remark" required>
                                 </div>
                             </div>
 
@@ -171,37 +171,3 @@
         </div>
     </div>
 </div>
-
-{{-- @push('header-scripts')
-<link href="{{ URL::asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
-<style>
-    .select2-container.select2-container--default.select2-container--open {
-        z-index: 9999999 !important;
-    }
-    .select2 {
-        width: 100% !important;
-    }
-</style>
-@endpush --}}
-
-{{-- @push('footer-scripts')
-<script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
-<script>
-    var mem_initial_start_date = $('#initial_start_date .input-group.date').datepicker({
-        format: 'yyyy-mm-dd',
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true
-    });
-    var mem_expired_date = $('#expired_date .input-group.date').datepicker({
-        format: 'yyyy-mm-dd',
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true
-    });
-</script>
-@endpush --}}

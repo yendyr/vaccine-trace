@@ -34,7 +34,15 @@
                             <select class="warehouse_origin form-control @error('warehouse_origin') is-invalid @enderror" name="warehouse_origin" id="warehouse_origin" required></select>
                             <div class="invalid-feedback-warehouse_origin text-danger font-italic"></div>
                         </div>
-                    </div>    
+                    </div>
+                    
+                    <div class="form-group row">
+                        <label class="col-sm-5 d-flex align-items-center">Warehouse Destination</label>
+                        <div class="col-sm-7">
+                            <select class="warehouse_destination form-control @error('warehouse_destination') is-invalid @enderror" name="warehouse_destination" id="warehouse_destination" required></select>
+                            <div class="invalid-feedback-warehouse_destination text-danger font-italic"></div>
+                        </div>
+                    </div>  
 
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Remark</label>

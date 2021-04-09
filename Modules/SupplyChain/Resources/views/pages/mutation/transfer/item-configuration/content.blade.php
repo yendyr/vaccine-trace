@@ -1,21 +1,21 @@
 <div class="col fadeIn" style="animation-duration: 1.5s">
-    @component('components.delete-modal', ['name' => 'Outbound Item/Component Datalist'])
+    @component('components.delete-modal', ['name' => 'Transfer Item/Component Datalist'])
     @endcomponent
     
     @component('components.crud-form.index',[
-        'title' => 'Outbound Item/Component Datalist',
-        'tableId' => 'mutation-outbound-detail-table'])
+        'title' => 'Transfer Item/Component Datalist',
+        'tableId' => 'mutation-transfer-detail-table'])
 
     @slot('tableContent')
         <th>Detailed Location</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Serial Number</th>
-        <th>Outbound Qty</th>
+        <th>Transfer Qty</th>
         <th>UoM</th>
         <th>Alias Name</th>
         <th>Item Remark</th>
-        <th>Outbound Remark</th>
+        <th>Transfer Remark</th>
         <th>Parent Item</th>
         <th>Created By</th>
         <th>Created At</th>
@@ -24,4 +24,4 @@
     @endcomponent
 </div>
 
-@include('supplychain::components.mutation.outbound.item-configuration._script')
+@include('supplychain::components.mutation.transfer.item-configuration._script')

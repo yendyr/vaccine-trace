@@ -4,7 +4,7 @@
     </div>
 </div>
 
-@include('supplychain::components.mutation.outbound.tree-view-content._script')
+@include('supplychain::components.mutation.transfer.tree-view-content._script')
 @push('header-scripts')
 <link href="{{ URL::asset('theme/css/plugins/jsTree/proton/style.min.css') }}" rel="stylesheet">
 @endpush

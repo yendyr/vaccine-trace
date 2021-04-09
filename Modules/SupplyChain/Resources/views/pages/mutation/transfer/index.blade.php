@@ -1,17 +1,17 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Inventory/Stock Outbound Datalist'])
+    @component('components.delete-modal', ['name' => 'Inventory/Stock Transfer Datalist'])
     @endcomponent
 
-    @component('components.approve-modal', ['name' => 'Inventory/Stock Outbound Datalist'])
+    @component('components.approve-modal', ['name' => 'Inventory/Stock Transfer Datalist'])
     @endcomponent
 
-    @include('supplychain::pages.mutation.outbound.modal')
+    @include('supplychain::pages.mutation.transfer.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Inventory/Stock Outbound Datalist',
-                    'tableId' => 'mutation-outbound-table'])
+                    'title' => 'Inventory/Stock Transfer Datalist',
+                    'tableId' => 'mutation-transfer-table'])
 
         @slot('createButton')
             @can('create', Modules\SupplyChain\Entities\StockMutation::class)                
@@ -25,6 +25,7 @@
             <th>Transaction Code</th>
             <th>Transaction Date</th>
             <th>Warehouse Origin</th>
+            <th>Warehouse Destination</th>
             <th>Remark</th>
             <th>Transaction Reference</th>
             <th>Created By</th>
@@ -35,7 +36,7 @@
         @endslot
     @endcomponent
 
-    @include('supplychain::components.mutation.outbound._script')
+    @include('supplychain::components.mutation.transfer._script')
 
 @endsection
 

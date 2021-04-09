@@ -54,7 +54,13 @@ Route::name('supplychain.')->group(function () {
             Route::get('supplychain/mutation-outbound-detail/select2', 'StockMutationOutboundDetailController@select2Parent')->name('select2');
         });
 
+        Route::get('/mutation-transfer/detail-tree', 'StockMutationTransferDetailController@tree')->name('mutation-transfer.detail-tree');
         Route::resource('/mutation-transfer', 'StockMutationTransferController');
+        Route::post('/mutation-transfer/{mutation_transfer}/approve', 'StockMutationTransferController@approve');
+        Route::resource('/mutation-transfer-detail', 'StockMutationTransferDetailController');        
+        Route::name('mutation-transfer-detail.')->group(function() {
+            Route::get('supplychain/mutation-transfer-detail/select2', 'StockMutationTransferDetailController@select2Parent')->name('select2');
+        });
 
         Route::resource('/stock-monitoring', 'StockMonitoringController');
     });

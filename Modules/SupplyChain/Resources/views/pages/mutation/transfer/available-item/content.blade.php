@@ -24,4 +24,4 @@
     @endcomponent
 </div>
 
-@include('supplychain::components.mutation.outbound.available-item._script')
+@include('supplychain::components.mutation.transfer.available-item._script')

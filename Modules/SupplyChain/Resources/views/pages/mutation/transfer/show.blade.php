@@ -1,26 +1,30 @@
 @extends('layouts.master')
 
 @section('content')
-@include('supplychain::pages.mutation.outbound.available-item.modal')
+@include('supplychain::pages.mutation.transfer.available-item.modal')
     <div class="row m-b m-t">
         <div class="col-md-2 d-flex align-items-start">
             <i class="fa fa-cloud-upload fa-fw fa-5x text-info"></i>
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Transaction Code:</p>         
-            <h3 class="m-t-none font-bold">{{ $MutationOutbound->code ?? '' }}</h3>
+            <h3 class="m-t-none font-bold">{{ $MutationTransfer->code ?? '' }}</h3>
         </div>
         <div class="col">
             <p  class="m-t-none m-b-none">Transaction Date:</p>
-            <h3 class="m-t-none font-bold">{{ Carbon\Carbon::parse($MutationOutbound->transaction_date)->format('Y-F-d') ?? '-' }}</h3>
+            <h3 class="m-t-none font-bold">{{ Carbon\Carbon::parse($MutationTransfer->transaction_date)->format('Y-F-d') ?? '-' }}</h3>
         </div>
         <div class="col">
             <p  class="m-t-none m-b-none">Warehouse Origin:</p>
-            <h3 class="m-t-none font-bold">{{ $MutationOutbound->origin->code ?? '' }} | {{ $MutationOutbound->origin->name ?? '' }}</h3>
+            <h3 class="m-t-none font-bold">{{ $MutationTransfer->origin->code ?? '' }} | {{ $MutationTransfer->origin->name ?? '' }}</h3>
+        </div>
+        <div class="col">
+            <p  class="m-t-none m-b-none">Warehouse Destination:</p>
+            <h3 class="m-t-none font-bold">{{ $MutationTransfer->destination->code ?? '' }} | {{ $MutationTransfer->destination->name ?? '' }}</h3>
         </div>
         <div class="col">
             <p  class="m-t-none m-b-none">Remark:</p>
-            <h3 class="m-t-none font-bold">{{ $MutationOutbound->description ?? '' }}</h3>
+            <h3 class="m-t-none font-bold">{{ $MutationTransfer->description ?? '' }}</h3>
         </div>
     </div>
 
@@ -35,7 +39,7 @@
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Selected Item/Component Outbound
+                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Selected Item/Component Transfer
                         </a>
                     </li>
                     <li>
@@ -53,14 +57,14 @@
                     <div id="tab-0" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                @include('supplychain::pages.mutation.outbound.available-item.content')
+                                @include('supplychain::pages.mutation.transfer.available-item.content')
                             </div>
                         </div>
                     </div>
                     <div id="tab-1" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                @include('supplychain::pages.mutation.outbound.item-configuration.content')
+                                @include('supplychain::pages.mutation.transfer.item-configuration.content')
                             </div>
                         </div>
                     </div>
@@ -72,13 +76,13 @@
                                 </div>
                             </div>
                             <div class="row m-b">
-                                @include('supplychain::pages.mutation.outbound.tree-view.content')
+                                @include('supplychain::pages.mutation.transfer.tree-view.content')
                             </div>
                         </div>
                     </div>
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
-                            @include('supplychain::pages.mutation.outbound.approval-status.content')
+                            @include('supplychain::pages.mutation.transfer.approval-status.content')
                         </div>
                     </div>
                 </div>
