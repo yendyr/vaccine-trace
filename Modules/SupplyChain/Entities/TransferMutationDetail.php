@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class TransferMutationDetail extends MainModel
+class OutboundMutationDetail extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -19,7 +19,7 @@ class TransferMutationDetail extends MainModel
         'stock_mutation_id',
         'item_stock_id',
 
-        'transfer_quantity',
+        'outbound_quantity',
         'description',
         
         'status',

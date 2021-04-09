@@ -70,6 +70,11 @@ class StockMutation extends MainModel
         return $this->hasMany(\Modules\SupplyChain\Entities\OutboundMutationDetail::class, 'stock_mutation_id');
     }
 
+    public function transfer_mutation_details()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\TransferMutationDetail::class, 'stock_mutation_id');
+    }
+
     public function approvals()
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\StockMutationApproval::class, 'stock_mutation_id');

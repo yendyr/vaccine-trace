@@ -6,6 +6,7 @@ use Modules\SupplyChain\Entities\ItemStock;
 use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\StockMutationApproval;
 use Modules\SupplyChain\Entities\OutboundMutationDetail;
+use Modules\SupplyChain\Entities\TransferMutationDetail;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class ItemStockMutation
 {
-    public static function pickChilds($itemStockRow, $stock_mutation_id)
+    public static function pickChildsForOutbound($itemStockRow, $stock_mutation_id)
     {
         foreach($itemStockRow->all_childs as $childRow) {
             OutboundMutationDetail::create([
@@ -29,18 +30,22 @@ class ItemStockMutation
             ]);
             $childRow->update([
                 'reserved_quantity' => $childRow->quantity,
+
+                'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($childRow->all_childs) > 0) {
-                Self::pickChilds($childRow, $stock_mutation_id);
+                Self::pickChildsForOutbound($childRow, $stock_mutation_id);
             }
         }
     }
 
-    public static function unpickChilds($itemStockRow, $stock_mutation_id)
+    public static function unpickChildsForOutbound($itemStockRow, $stock_mutation_id)
     {
         foreach($itemStockRow->all_childs as $childRow) {
             $childRow->update([
                 'reserved_quantity' => 0,
+
+                'updated_by' => Auth::user()->id,
             ]);
 
             $outboundDetailRow = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
@@ -52,7 +57,7 @@ class ItemStockMutation
             OutboundMutationDetail::destroy($outboundDetailRow->id);
             
             if (sizeof($childRow->all_childs) > 0) {
-                Self::unpickChilds($childRow, $stock_mutation_id);
+                Self::unpickChildsForOutbound($childRow, $stock_mutation_id);
             }
         }
     }
@@ -67,7 +72,7 @@ class ItemStockMutation
 
         DB::beginTransaction();
         if (sizeof($item_stock->all_childs) > 0) {
-            Self::unpickChilds($item_stock, $mutationOutboundDetailRow->stock_mutation_id);
+            Self::unpickChildsForOutbound($item_stock, $mutationOutboundDetailRow->stock_mutation_id);
         }
         $mutationOutboundDetailRow->update([
             'deleted_by' => Auth::user()->id,
@@ -75,6 +80,8 @@ class ItemStockMutation
         OutboundMutationDetail::destroy($outboundDetailRow->id);
         $item_stock->update([
             'reserved_quantity' => $item_stock->reserved_quantity - $mutationOutboundDetailRow->outbound_quantity,
+
+            'updated_by' => Auth::user()->id,
         ]);
         DB::commit();
     }
@@ -93,6 +100,8 @@ class ItemStockMutation
             OutboundMutationDetail::destroy($outbound_mutation_detail->id);
             $item_stock->update([
                 'reserved_quantity' => $item_stock->reserved_quantity - $outbound_mutation_detail->outbound_quantity,
+
+                'updated_by' => Auth::user()->id,
             ]);
         }
 
@@ -124,7 +133,89 @@ class ItemStockMutation
             $item_stock->update([
                 'used_quantity' => $item_stock->used_quantity + $outbound_mutation_detail->outbound_quantity,
                 'reserved_quantity' => $item_stock->reserved_quantity - $outbound_mutation_detail->outbound_quantity,
+
+                'updated_by' => Auth::user()->id,
             ]);
+        }
+        DB::commit();
+    }
+
+    public static function deleteTransferDetailRow($transferDetailRow)
+    {
+        $mutationTransferDetailRow = TransferMutationDetail::where('id', $transferDetailRow->id)
+                                                    ->with(['item_stock.all_childs'])
+                                                    ->first();
+
+        $item_stock = ItemStock::where('id', $mutationTransferDetailRow->item_stock_id)->first();
+
+        DB::beginTransaction();
+        if (sizeof($item_stock->all_childs) > 0) {
+            Self::unpickChildsForTransfer($item_stock, $mutationTransferDetailRow->stock_mutation_id);
+        }
+        $mutationTransferDetailRow->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
+        TransferMutationDetail::destroy($transferDetailRow->id);
+        $item_stock->update([
+            'reserved_quantity' => $item_stock->reserved_quantity - $mutationTransferDetailRow->transfer_quantity,
+
+            'updated_by' => Auth::user()->id,
+        ]);
+        DB::commit();
+    }
+
+    public static function deleteTransfer($stockMutationRow)
+    {
+        $currentRow = StockMutation::where('id', $stockMutationRow->id)->first();
+
+        DB::beginTransaction();
+        foreach($currentRow->transfer_mutation_details as $transfer_mutation_detail) {
+            $item_stock = ItemStock::where('id', $transfer_mutation_detail->item_stock_id)->first();
+
+            $transfer_mutation_detail->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            TransferMutationDetail::destroy($transfer_mutation_detail->id);
+            $item_stock->update([
+                'reserved_quantity' => $item_stock->reserved_quantity - $transfer_mutation_detail->transfer_quantity,
+
+                'updated_by' => Auth::user()->id,
+            ]);
+        }
+
+        $currentRow->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
+
+        StockMutation::destroy($stockMutationRow->id);
+        DB::commit();
+    }
+
+    public static function approveTransfer($request, $stockMutationRow)
+    {
+        DB::beginTransaction();
+        StockMutationApproval::create([
+            'uuid' =>  Str::uuid(),
+
+            'stock_mutation_id' =>  $stockMutationRow->id,
+            'approval_notes' =>  $request->approval_notes,
+    
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        foreach($stockMutationRow->transfer_mutation_details as $transfer_mutation_detail) {
+            $item_stock = ItemStock::where('id', $transfer_mutation_detail->item_stock_id)->first();
+
+            // this IF means: transfer/move ALL item stock to other warehouse
+            if ($transfer_mutation_detail->transfer_quantity == $item_stock->quantity) {
+                $item_stock->update([
+                    'warehouse_id' => $stockMutationRow->warehouse_destination,
+
+                    'updated_by' => Auth::user()->id,
+                ]);
+            }
         }
         DB::commit();
     }
