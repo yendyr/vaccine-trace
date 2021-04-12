@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTransferMutationDetailsTable extends Migration
+class CreateOutboundMutationDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTransferMutationDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transfer_mutation_details', function (Blueprint $table) {
+        Schema::create('outbound_mutation_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
