@@ -20,7 +20,7 @@ class CreateOutboundMutationDetailsTable extends Migration
             $table->string('stock_mutation_id')->nullable();
             $table->string('item_stock_id')->nullable();
 
-            $table->integer('transfer_quantity');
+            $table->integer('outbound_quantity');
             $table->string('description')->nullable();
 
             $table->rememberToken();
@@ -41,6 +41,6 @@ class CreateOutboundMutationDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transfer_mutation_details');
+        Schema::dropIfExists('outbound_mutation_details');
     }
 }
