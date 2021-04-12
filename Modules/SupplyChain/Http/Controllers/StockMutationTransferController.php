@@ -169,11 +169,16 @@ class StockMutationTransferController extends Controller
 
     public function approve(Request $request, StockMutation $MutationTransfer)
     {
-        $request->validate([
-            'approval_notes' => ['required', 'max:30'],
-        ]);
-        
-        ItemStockMutation::approveTransfer($request, $MutationTransfer);
-        return response()->json(['success' => 'Stock Mutation Transfer Data has been Approved']);
+        if ($MutationTransfer->transfer_mutation_details()->count() > 0) {
+            $request->validate([
+                'approval_notes' => ['required', 'max:30'],
+            ]);
+            
+            ItemStockMutation::approveTransfer($request, $MutationTransfer);
+            return response()->json(['success' => 'Stock Mutation Transfer Data has been Approved']);
+        }
+        else {
+            return response()->json(['error' => "This Stock Mutation Transfer doesn't Have Any Detail Data"]);
+        }
     }
 }

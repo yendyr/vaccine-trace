@@ -223,8 +223,15 @@
                     }
                 },
                 success:function(data){
-                    if (data.success){
+                    if (data.success) {
                         generateToast ('success', data.success);
+                    }
+                    else if (data.error) {
+                        swal.fire({
+                            titleText: "Action Failed",
+                            text: data.error,
+                            icon: "error",
+                        });
                     }
                 },
                 complete: function(data) {

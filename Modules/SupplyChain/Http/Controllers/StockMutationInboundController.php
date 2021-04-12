@@ -170,11 +170,16 @@ class StockMutationInboundController extends Controller
 
     public function approve(Request $request, StockMutation $MutationInbound)
     {
-        $request->validate([
-            'approval_notes' => ['required', 'max:30'],
-        ]);
-
-        ItemStockMutation::approveInbound($request, $MutationInbound);
-        return response()->json(['success' => 'Stock Mutation Inbound Data has been Approved']);
+        if ($MutationInbound->inbound_mutation_details()->count() > 0) {
+            $request->validate([
+                'approval_notes' => ['required', 'max:30'],
+            ]);
+    
+            ItemStockMutation::approveInbound($request, $MutationInbound);
+            return response()->json(['success' => 'Stock Mutation Inbound Data has been Approved']);
+        }
+        else {
+            return response()->json(['error' => "This Stock Mutation Inbound doesn't Have Any Detail Data"]);
+        }
     }
 }
