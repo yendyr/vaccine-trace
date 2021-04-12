@@ -3,8 +3,8 @@
 namespace Modules\SupplyChain\Http\Controllers;
 
 use Modules\SupplyChain\Entities\StockMutation;
-use Modules\SupplyChain\Entities\StockMutationDetail;
-use Modules\SupplyChain\Entities\StockMutationDetailInitialAging;
+use Modules\SupplyChain\Entities\InboundMutationDetail;
+use Modules\SupplyChain\Entities\InboundMutationDetailInitialAging;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class StockMutationInboundDetailController extends Controller
             $approved = true;
         }
         
-        $data = StockMutationDetail::where('stock_mutation_id', $stock_mutation_id)
+        $data = InboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item.unit',
                                         'mutation_detail_initial_aging',
                                         'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
@@ -100,7 +100,7 @@ class StockMutationInboundDetailController extends Controller
     public function tree(Request $request)
     {
         $stock_mutation_id = $request->id;
-        $datas = StockMutationDetail::where('stock_mutation_id', $stock_mutation_id)
+        $datas = InboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item:id,code,name',
                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
                                 ->orderBy('created_at','desc')
@@ -153,7 +153,7 @@ class StockMutationInboundDetailController extends Controller
             $expired_date = $request->expired_date;
     
             DB::beginTransaction();
-            $StockMutationDetail = StockMutationDetail::create([
+            $InboundMutationDetail = InboundMutationDetail::create([
                 'uuid' =>  Str::uuid(),
     
                 'stock_mutation_id' => $request->stock_mutation_id,
@@ -170,11 +170,11 @@ class StockMutationInboundDetailController extends Controller
                 'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
-            $StockMutationDetail->update([
-                'coding' => $StockMutation->warehouse_destination . '-' . $StockMutationDetail->id,
+            $InboundMutationDetail->update([
+                'coding' => $StockMutation->warehouse_destination . '-' . $InboundMutationDetail->id,
             ]);
-            $StockMutationDetail->mutation_detail_initial_aging()
-                ->save(new StockMutationDetailInitialAging([
+            $InboundMutationDetail->mutation_detail_initial_aging()
+                ->save(new InboundMutationDetailInitialAging([
                     'uuid' => Str::uuid(),
 
                     'initial_flight_hour' => $request->initial_flight_hour,
@@ -197,9 +197,9 @@ class StockMutationInboundDetailController extends Controller
         }
     }
 
-    public function update(Request $request, StockMutationDetail $MutationInboundDetail)
+    public function update(Request $request, InboundMutationDetail $MutationInboundDetail)
     {
-        $currentRow = StockMutationDetail::where('id', $MutationInboundDetail->id)
+        $currentRow = InboundMutationDetail::where('id', $MutationInboundDetail->id)
                                         ->with('all_childs')
                                         ->first();
 
@@ -323,9 +323,9 @@ class StockMutationInboundDetailController extends Controller
         return $isValid;
     }
 
-    public function destroy(StockMutationDetail $MutationInboundDetail)
+    public function destroy(InboundMutationDetail $MutationInboundDetail)
     {
-        $currentRow = StockMutationDetail::where('id', $MutationInboundDetail->id)
+        $currentRow = InboundMutationDetail::where('id', $MutationInboundDetail->id)
                                         ->with(['all_childs'])
                                         ->first();
 
@@ -340,7 +340,7 @@ class StockMutationInboundDetailController extends Controller
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
-                StockMutationDetail::destroy($MutationInboundDetail->id);
+                InboundMutationDetail::destroy($MutationInboundDetail->id);
                 return response()->json(['success' => 'Item/Component Data has been Deleted']);
             }
         }
@@ -355,7 +355,7 @@ class StockMutationInboundDetailController extends Controller
         $stock_mutation_id = $request->stock_mutation_id;
 
         if($search != '') {
-            $StockMutationDetails = StockMutationDetail::with(['item' => function($q) use ($search) {
+            $InboundMutationDetails = InboundMutationDetail::with(['item' => function($q) use ($search) {
                                             $q->where('items.code', 'like', '%' .$search. '%')
                                             ->orWhere('items.name', 'like', '%' .$search. '%');
                                         }])
@@ -369,13 +369,13 @@ class StockMutationInboundDetailController extends Controller
         }
 
         $response = [];
-        foreach($StockMutationDetails as $StockMutationDetail){
+        foreach($InboundMutationDetails as $InboundMutationDetail){
             $response['results'][] = [
-                "id" => $StockMutationDetail->coding,
-                "text" => $StockMutationDetail->item->code . ' | ' . 
-                $StockMutationDetail->serial_number . ' | ' .
-                $StockMutationDetail->item->name . ' | ' . 
-                $StockMutationDetail->alias_name
+                "id" => $InboundMutationDetail->coding,
+                "text" => $InboundMutationDetail->item->code . ' | ' . 
+                $InboundMutationDetail->serial_number . ' | ' .
+                $InboundMutationDetail->item->name . ' | ' . 
+                $InboundMutationDetail->alias_name
             ];
         }
         return response()->json($response);

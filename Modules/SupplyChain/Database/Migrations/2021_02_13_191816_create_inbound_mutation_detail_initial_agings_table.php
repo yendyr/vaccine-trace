@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStockMutationDetailInitialAgingsTable extends Migration
+class CreateInboundMutationDetailInitialAgingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateStockMutationDetailInitialAgingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock_mutation_detail_initial_agings', function (Blueprint $table) {
+        Schema::create('inbound_mutation_detail_initial_agings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('stock_mutation_detail_id');
+            $table->string('inbound_mutation_detail_id');
 
             $table->date('expired_date')->nullable();
             $table->double('initial_flight_hour')->nullable()->default(0);
@@ -46,6 +46,6 @@ class CreateStockMutationDetailInitialAgingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock_mutation_detail_inital_agings');
+        Schema::dropIfExists('inbound_mutation_detail_inital_agings');
     }
 }

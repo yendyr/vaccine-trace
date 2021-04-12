@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class StockMutationDetail extends MainModel
+class InboundMutationDetail extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -61,24 +61,24 @@ class StockMutationDetail extends MainModel
 
     public function mutation_detail_initial_aging()
     {
-        return $this->hasOne(\Modules\SupplyChain\Entities\StockMutationDetailInitialAging::class, 'stock_mutation_detail_id');
+        return $this->hasOne(\Modules\SupplyChain\Entities\InboundMutationDetailInitialAging::class, 'inbound_mutation_detail_id');
     }
 
     public function item_group()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'parent_coding', 'coding');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'parent_coding', 'coding');
     }
 
     public function all_childs()
     {
-        return $this->hasMany(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'parent_coding', 'coding')->with('all_childs');
+        return $this->hasMany(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
 
     public static function boot() {
         parent::boot();
 
-        static::deleting(function($StockMutationDetail) {
-             $StockMutationDetail->mutation_detail_initial_aging()->delete();
+        static::deleting(function($InboundMutationDetail) {
+             $InboundMutationDetail->mutation_detail_initial_aging()->delete();
         });
     }
 }

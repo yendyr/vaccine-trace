@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStockMutationDetailsTable extends Migration
+class CreateInboundMutationDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateStockMutationDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock_mutation_details', function (Blueprint $table) {
+        Schema::create('inbound_mutation_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
@@ -54,6 +54,6 @@ class CreateStockMutationDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock_mutation_details');
+        Schema::dropIfExists('inbound_mutation_details');
     }
 }

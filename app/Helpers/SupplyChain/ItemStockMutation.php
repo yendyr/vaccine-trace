@@ -34,20 +34,20 @@ class ItemStockMutation
         }
         $stockMutationRow->item_stocks()->forceDelete();
 
-        foreach($stockMutationRow->stock_mutation_details as $stock_mutation_detail) {
+        foreach($stockMutationRow->inbound_mutation_details as $inbound_mutation_detail) {
             $ItemStock = new ItemStock([
                 'uuid' => Str::uuid(),
 
                 'warehouse_id' => $stockMutationRow->warehouse_destination,
-                'coding' => $stock_mutation_detail->coding,
-                'item_id' => $stock_mutation_detail->item_id,
-                'quantity' => $stock_mutation_detail->quantity,
-                'serial_number' => $stock_mutation_detail->serial_number,
-                'alias_name' => $stock_mutation_detail->alias_name,
-                'highlight' => $stock_mutation_detail->highlight,
-                'description' => $stock_mutation_detail->description,
-                'detailed_item_location' => $stock_mutation_detail->detailed_item_location,
-                'parent_coding' => $stock_mutation_detail->parent_coding,
+                'coding' => $inbound_mutation_detail->coding,
+                'item_id' => $inbound_mutation_detail->item_id,
+                'quantity' => $inbound_mutation_detail->quantity,
+                'serial_number' => $inbound_mutation_detail->serial_number,
+                'alias_name' => $inbound_mutation_detail->alias_name,
+                'highlight' => $inbound_mutation_detail->highlight,
+                'description' => $inbound_mutation_detail->description,
+                'detailed_item_location' => $inbound_mutation_detail->detailed_item_location,
+                'parent_coding' => $inbound_mutation_detail->parent_coding,
                 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -59,11 +59,11 @@ class ItemStockMutation
             $ItemStockInitialAging = new ItemStockInitialAging([
                 'uuid' => Str::uuid(),
 
-                'initial_flight_hour' => $stock_mutation_detail->mutation_detail_initial_aging->initial_flight_hour,
-                'initial_block_hour' => $stock_mutation_detail->mutation_detail_initial_aging->initial_block_hour,
-                'initial_flight_cycle' => $stock_mutation_detail->mutation_detail_initial_aging->initial_flight_cycle,
-                'initial_flight_event' => $stock_mutation_detail->mutation_detail_initial_aging->initial_flight_event,
-                'initial_start_date' => $stock_mutation_detail->mutation_detail_initial_aging->initial_start_date,
+                'initial_flight_hour' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_hour,
+                'initial_block_hour' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_block_hour,
+                'initial_flight_cycle' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_cycle,
+                'initial_flight_event' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_event,
+                'initial_start_date' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_start_date,
                 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,

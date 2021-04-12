@@ -55,9 +55,9 @@ class StockMutation extends MainModel
         return $this->belongsTo(\Modules\SupplyChain\Entities\Warehouse::class, 'warehouse_destination');
     }
 
-    public function stock_mutation_details()
+    public function inbound_mutation_details()
     {
-        return $this->hasMany(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'stock_mutation_id');
+        return $this->hasMany(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'stock_mutation_id');
     }
 
     public function item_stocks()
@@ -84,8 +84,8 @@ class StockMutation extends MainModel
         parent::boot();
 
         static::deleting(function($StockMutation) {
-            foreach ($StockMutation->stock_mutation_details as $stock_mutation_detail) {
-                $stock_mutation_detail->mutation_detail_initial_aging()->delete();
+            foreach ($StockMutation->inbound_mutation_details as $inbound_mutation_detail) {
+                $inbound_mutation_detail->mutation_detail_initial_aging()->delete();
             }
             $StockMutation->stock_mutation_details()->delete();
             $StockMutation->item_stocks()->delete();

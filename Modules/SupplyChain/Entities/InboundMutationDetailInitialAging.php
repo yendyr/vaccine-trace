@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class StockMutationDetailInitialAging extends MainModel
+class InboundMutationDetailInitialAging extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -16,7 +16,7 @@ class StockMutationDetailInitialAging extends MainModel
     protected $fillable = [
         'uuid',
 
-        'stock_mutation_detail_id',
+        'inbound_mutation_detail_id',
 
         'initial_flight_hour',
         'initial_block_hour',
@@ -43,8 +43,8 @@ class StockMutationDetailInitialAging extends MainModel
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function stock_mutation_detail()
+    public function inbound_mutation_detail()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutationDetail::class, 'stock_mutation_detail_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'inbound_mutation_detail_id');
     }
 }
