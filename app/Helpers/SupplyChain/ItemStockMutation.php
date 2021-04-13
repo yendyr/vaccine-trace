@@ -350,7 +350,7 @@ class ItemStockMutation
                     'alias_name' => $item_stock->alias_name,
                     'highlight' => $item_stock->highlight,
                     'description' => $item_stock->description,
-                    'detailed_item_location' => $transfer_mutation_detail->detailed_item_location,
+                    'detailed_item_location' => $transfer_mutation_detail->transfer_detailed_item_location,
                     'parent_coding' => $item_stock->parent_coding,
                     
                     'owned_by' => $request->user()->company_id,

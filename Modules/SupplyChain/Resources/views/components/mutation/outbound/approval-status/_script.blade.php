@@ -49,7 +49,7 @@ $(document).ready(function () {
                 $('#approve-button').text('Approve');
                 $('#approveModal').modal('hide');
                 $('#approve-button').prop('disabled', false);
-                $(targetTableId).DataTable().ajax.reload();
+                // $(targetTableId).DataTable().ajax.reload();
             }
         });
     });
