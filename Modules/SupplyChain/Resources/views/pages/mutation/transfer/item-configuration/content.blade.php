@@ -15,6 +15,7 @@
         <th>UoM</th>
         <th>Alias Name</th>
         <th>Item Remark</th>
+        <th>Detailed Item Location Destination</th>
         <th>Transfer Remark</th>
         <th>Parent Item</th>
         <th>Created By</th>

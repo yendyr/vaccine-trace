@@ -210,6 +210,7 @@ class ItemStockMutation
                 'stock_mutation_id' => $stock_mutation_id,
                 'item_stock_id' => $childRow->id,
                 'transfer_quantity' => $childRow->quantity,
+                'transfer_detailed_item_location' => $childRow->transfer_detailed_item_location,
     
                 'owned_by' => Auth::user()->company_id,
                 'status' => 1,
@@ -265,6 +266,7 @@ class ItemStockMutation
             'deleted_by' => Auth::user()->id,
         ]);
         TransferMutationDetail::destroy($transferDetailRow->id);
+
         $item_stock->update([
             'reserved_quantity' => $item_stock->reserved_quantity - $mutationTransferDetailRow->transfer_quantity,
 
@@ -321,6 +323,7 @@ class ItemStockMutation
             if ($transfer_mutation_detail->transfer_quantity == $item_stock->quantity) {
                 $item_stock->update([
                     'warehouse_id' => $stockMutationRow->warehouse_destination,
+                    'detailed_item_location' => $transfer_mutation_detail->transfer_detailed_item_location,
                     'reserved_quantity' => 0,
 
                     'updated_by' => Auth::user()->id,
@@ -347,13 +350,29 @@ class ItemStockMutation
                     'alias_name' => $item_stock->alias_name,
                     'highlight' => $item_stock->highlight,
                     'description' => $item_stock->description,
-                    // 'detailed_item_location' => $inbound_mutation_detail->detailed_item_location,
+                    'detailed_item_location' => $transfer_mutation_detail->detailed_item_location,
                     'parent_coding' => $item_stock->parent_coding,
                     
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
                     'created_by' => $request->user()->id,
                 ]);
+
+                $SplitItemStockInitialAging = new ItemStockInitialAging([
+                    'uuid' => Str::uuid(),
+    
+                    'initial_flight_hour' => $item_stock->item_stock_initial_aging->initial_flight_hour,
+                    'initial_block_hour' => $item_stock->item_stock_initial_aging->initial_block_hour,
+                    'initial_flight_cycle' => $item_stock->item_stock_initial_aging->initial_flight_cycle,
+                    'initial_flight_event' => $item_stock->item_stock_initial_aging->initial_flight_event,
+                    'initial_start_date' => $item_stock->item_stock_initial_aging->initial_start_date,
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]);
+    
+                $SplitItemStock->item_stock_initial_aging()->save($SplitItemStockInitialAging);
             }
         }
         DB::commit();

@@ -117,6 +117,7 @@ $(document).ready(function () {
             { data: 'item_stock.item.unit.name' },
             { data: 'item_stock.alias_name', defaultContent: '-' },
             { data: 'item_stock.description', defaultContent: '-' },
+            { data: 'transfer_detailed_item_location', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },
             { data: 'creator_name', name: 'Created By' },
@@ -169,6 +170,7 @@ $(document).ready(function () {
             $('#transfer_quantity').val(data.transfer_quantity);
         }
 
+        $('#transfer_detailed_item_location').val(data.transfer_detailed_item_location);
         $('#transfer_remark').val(data.description);
 
         $('#saveBtn').val("use");

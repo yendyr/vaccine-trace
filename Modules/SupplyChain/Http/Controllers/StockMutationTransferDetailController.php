@@ -169,6 +169,7 @@ class StockMutationTransferDetailController extends Controller
                 'stock_mutation_id' => $request->stock_mutation_id,
                 'item_stock_id' => $request->item_stock_id,
                 'transfer_quantity' => $transfer_quantity,
+                'transfer_detailed_item_location' => $request->transfer_detailed_item_location,
                 'description' => $request->transfer_remark,
     
                 'owned_by' => $request->user()->company_id,
@@ -231,6 +232,7 @@ class StockMutationTransferDetailController extends Controller
             DB::beginTransaction();
             $currentRow->update([
                 'transfer_quantity' => $transfer_quantity,
+                'transfer_detailed_item_location' => $request->transfer_detailed_item_location,
                 'description' => $request->transfer_remark,
 
                 'updated_by' => Auth::user()->id,
