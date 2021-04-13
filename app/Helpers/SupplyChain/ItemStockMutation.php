@@ -326,6 +326,11 @@ class ItemStockMutation
                     'updated_by' => Auth::user()->id,
                 ]);
             }
+
+            // this ELSE means: transfer/move partial item stock to other warehouse
+            else {
+                
+            }
         }
         DB::commit();
     }

@@ -151,6 +151,8 @@ class StockMutationTransferDetailController extends Controller
                 if($request->transfer_quantity == $item_stock->quantity) {
                     $transfer_quantity = $request->transfer_quantity;
                 }
+
+                // this ELSE means: transfer/move partial item stock to other warehouse
                 else {
                     return response()->json(['error' => "WIP"]);
                 }
@@ -212,6 +214,8 @@ class StockMutationTransferDetailController extends Controller
                 if($request->transfer_quantity == $item_stock->quantity) {
                     $transfer_quantity = $request->transfer_quantity;
                 }
+
+                // this ELSE means: transfer/move partial item stock to other warehouse
                 else {
                     return response()->json(['error' => "WIP"]);
                 }
