@@ -164,11 +164,16 @@ class StockMutationOutboundController extends Controller
 
     public function approve(Request $request, StockMutation $MutationOutbound)
     {
-        $request->validate([
-            'approval_notes' => ['required', 'max:30'],
-        ]);
-        
-        ItemStockMutation::approveOutbound($request, $MutationOutbound);
-        return response()->json(['success' => 'Stock Mutation Outbound Data has been Approved']);
+        if ($MutationOutbound->outbound_mutation_details()->count() > 0) {
+            $request->validate([
+                'approval_notes' => ['required', 'max:30'],
+            ]);
+            
+            ItemStockMutation::approveOutbound($request, $MutationOutbound);
+            return response()->json(['success' => 'Stock Mutation Outbound Data has been Approved']);
+        }
+        else {
+            return response()->json(['error' => "This Stock Mutation Outbound doesn't Have Any Detail Data"]);
+        }
     }
 }

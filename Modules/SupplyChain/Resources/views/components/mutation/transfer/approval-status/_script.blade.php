@@ -33,10 +33,17 @@ $(document).ready(function () {
                 }
             },
             success:function(data){
-                if (data.success){
+                if (data.success) {
                     generateToast ('success', data.success);
+                    setTimeout(location.reload.bind(location), 2000);
                 }
-                setTimeout(location.reload.bind(location), 2000);
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });
+                }
             },
             complete: function(data) {
                 $('#approve-button').text('Approve');

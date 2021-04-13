@@ -211,8 +211,13 @@ class StockMutationInboundDetailController extends Controller
             ]);
 
             if($request->quantity > 1) {
-                $quantity = $request->quantity;
-                $serial_number = null;
+                if (sizeof($currentRow->all_childs) > 0) {
+                    return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Set Quantity Larger than 1"]);
+                }
+                else {
+                    $quantity = $request->quantity;
+                    $serial_number = null;
+                }
             }
             else {
                 $quantity = 1;

@@ -170,7 +170,7 @@ class StockMutationOutboundDetailController extends Controller
                 'reserved_quantity' => $item_stock->reserved_quantity + $outbound_quantity,
             ]);
             if (sizeof($item_stock->all_childs) > 0) {
-                ItemStockMutation::pickChilds($item_stock, $request->stock_mutation_id);
+                ItemStockMutation::pickChildsForOutbound($item_stock, $request->stock_mutation_id);
             }
             DB::commit();
     
