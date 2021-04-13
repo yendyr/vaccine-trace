@@ -20,6 +20,7 @@ class TransferMutationDetail extends MainModel
         'item_stock_id',
 
         'transfer_quantity',
+        'transfer_detailed_item_location',
         'description',
         
         'status',

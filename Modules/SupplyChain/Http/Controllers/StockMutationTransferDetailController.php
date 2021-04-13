@@ -154,7 +154,8 @@ class StockMutationTransferDetailController extends Controller
 
                 // this ELSE means: transfer/move partial item stock to other warehouse
                 else {
-                    return response()->json(['error' => "WIP"]);
+                    $transfer_quantity = $request->transfer_quantity;
+                    // return response()->json(['error' => "WIP"]);
                 }
             }
             else {
@@ -217,7 +218,8 @@ class StockMutationTransferDetailController extends Controller
 
                 // this ELSE means: transfer/move partial item stock to other warehouse
                 else {
-                    return response()->json(['error' => "WIP"]);
+                    $transfer_quantity = $request->transfer_quantity;
+                    // return response()->json(['error' => "WIP"]);
                 }
             }
             else {

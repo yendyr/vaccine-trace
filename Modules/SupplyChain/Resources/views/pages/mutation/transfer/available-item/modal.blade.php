@@ -150,6 +150,13 @@
                             </div>
 
                             <div class="form-group row">
+                                <label class="col-sm-5 d-flex align-items-center">Detailed Item Location Destination</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="transfer_detailed_item_location" id="transfer_detailed_item_location">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Transfer Remark</label>
                                 <div class="col-sm-7">
                                     <input type="text" min="1" class="form-control" name="transfer_remark" id="transfer_remark" required>

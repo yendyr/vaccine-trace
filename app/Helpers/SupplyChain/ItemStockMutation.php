@@ -329,7 +329,31 @@ class ItemStockMutation
 
             // this ELSE means: transfer/move partial item stock to other warehouse
             else {
-                
+                $item_stock->update([
+                    'quantity' => $item_stock->quantity - $transfer_mutation_detail->transfer_quantity,
+                    'reserved_quantity' => 0,
+
+                    'updated_by' => Auth::user()->id,
+                ]);
+
+                $SplitItemStock = ItemStock::create([
+                    'uuid' => Str::uuid(),
+    
+                    'warehouse_id' => $stockMutationRow->warehouse_destination,
+                    'inbound_mutation_id' => $stockMutationRow->id,
+                    'coding' => $item_stock->coding,
+                    'item_id' => $item_stock->item_id,
+                    'quantity' => $transfer_mutation_detail->transfer_quantity,
+                    'alias_name' => $item_stock->alias_name,
+                    'highlight' => $item_stock->highlight,
+                    'description' => $item_stock->description,
+                    // 'detailed_item_location' => $inbound_mutation_detail->detailed_item_location,
+                    'parent_coding' => $item_stock->parent_coding,
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]);
             }
         }
         DB::commit();

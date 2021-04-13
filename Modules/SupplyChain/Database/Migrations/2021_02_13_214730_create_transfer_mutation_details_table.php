@@ -21,6 +21,7 @@ class CreateTransferMutationDetailsTable extends Migration
             $table->string('item_stock_id')->nullable();
 
             $table->integer('transfer_quantity');
+            $table->string('transfer_detailed_item_location')->nullable();
             $table->string('description')->nullable();
 
             $table->rememberToken();
