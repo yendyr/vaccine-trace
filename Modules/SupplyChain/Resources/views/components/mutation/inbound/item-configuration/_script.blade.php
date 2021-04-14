@@ -13,6 +13,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: false,
         searchDelay: 1500,
+        order: [ 17, "asc" ],
         ajax: {
             url: "/supplychain/mutation-inbound-detail/?id=" + "{{ $MutationInbound->id }}",
         },

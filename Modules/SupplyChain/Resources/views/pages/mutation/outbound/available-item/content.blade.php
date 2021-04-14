@@ -19,6 +19,7 @@
         <th>UoM</th>
         <th>Remark</th>
         <th>Parent Item</th>
+        <th>Created At</th>
         <th>Action</th>
     @endslot
     @endcomponent

@@ -38,9 +38,7 @@ class StockMutationInboundDetailController extends Controller
                                 ->with(['item.unit',
                                         'mutation_detail_initial_aging',
                                         'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
-                                        'item_group.item'])
-                                ->orderBy('created_at','desc');
-                                                
+                                        'item_group.item']);
         
         return Datatables::of($data)
         ->addColumn('highlighted', function($row){
@@ -101,9 +99,8 @@ class StockMutationInboundDetailController extends Controller
     {
         $stock_mutation_id = $request->id;
         $datas = InboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
-                                ->with(['item:id,code,name',
+                                ->with(['item.unit',
                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
-                                ->orderBy('created_at','desc')
                                 ->get();
 
         $response = [];
@@ -118,7 +115,12 @@ class StockMutationInboundDetailController extends Controller
             $response[] = [
                 "id" => $data->coding,
                 "parent" => $parent,
-                "text" => 'P/N: <strong>' . $data->item->code . '</strong> | Item Name: <strong>' . $data->item->name . '</strong> | Alias Name: <strong>' . $data->alias_name . '</strong>'
+                "text" => 'P/N: <strong>' . $data->item->code . 
+                '</strong> | Item Name: <strong>' . $data->item->name . 
+                '</strong> | Serial Number: <strong>' . $data->serial_number . 
+                '</strong> | Alias Name: <strong>' . $data->alias_name .
+                '</strong> | Inbound Qty: <strong>' . $data->quantity . ' ' .
+                $data->item->unit->name . '</strong>'
             ];
         }
         return response()->json($response);
@@ -142,7 +144,9 @@ class StockMutationInboundDetailController extends Controller
                 $serial_number = $request->serial_number;
             }
 
+            $detailed_item_location = $request->detailed_item_location;
             $parent_coding = null;
+            
             if ($request->parent_coding) {
                 $parent_coding = $request->parent_coding;
                 $parentRow = InboundMutationDetail::where('coding', $parent_coding)->first();
@@ -230,19 +234,6 @@ class StockMutationInboundDetailController extends Controller
                 $quantity = 1;
                 $serial_number = $request->serial_number;
             }
-    
-            // if ($request->status) {
-            //     $status = 1; 
-                
-            //     if ($currentRow->parent_coding != null) {
-            //         if ($currentRow->item_group->status == 0) {
-            //             return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
-            //         }
-            //     }
-            // } 
-            // else {
-            //     $status = 0;
-            // }
 
             if ($request->highlight) {
                 $highlight = 1;
@@ -260,10 +251,7 @@ class StockMutationInboundDetailController extends Controller
                 if (Self::isValidParent($currentRow, $request->parent_coding)) {
                     if ($request->parent_coding != $currentRow->coding) {
                         $parent_coding = $request->parent_coding;
-    
-                        $parentRow = InboundMutationDetail::where('coding', $parent_coding)
-                                                            ->first();
-                                                            
+                        $parentRow = InboundMutationDetail::where('coding', $parent_coding)->first();
                         $detailed_item_location = $parentRow->detailed_item_location;
                     }
                 }

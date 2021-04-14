@@ -40,8 +40,7 @@ class StockMutationTransferDetailController extends Controller
         $data = TransferMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item_stock.item.unit',
                                         'item_stock.item_stock_initial_aging',
-                                        'item_stock.item_group:id,item_id,serial_number,alias_name,coding,parent_coding'])
-                                ->orderBy('created_at','desc');
+                                        'item_stock.item_group:id,item_id,serial_number,alias_name,coding,parent_coding']);
         
         return Datatables::of($data)
         ->addColumn('parent', function($row){
@@ -101,7 +100,6 @@ class StockMutationTransferDetailController extends Controller
                                 ->with(['item_stock.item.unit',
                                         'item_stock.item_stock_initial_aging',
                                         'item_stock.item_group:id,item_id,alias_name,coding,parent_coding'])
-                                ->orderBy('created_at','desc')
                                 ->get();
 
         $response = [];

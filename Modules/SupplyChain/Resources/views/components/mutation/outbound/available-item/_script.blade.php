@@ -16,6 +16,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: false,
         searchDelay: 1500,
+        order: [ 13, "desc" ],
         ajax: {
             url: "/supplychain/stock-monitoring/?warehouse_id=" + "{{ $MutationOutbound->warehouse_origin }}" + "&with_use_button=true",
         },
@@ -42,8 +43,9 @@ $(document).ready(function () {
             { data: 'item.unit.name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'description', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'parent', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'created_at', visible: false },
             { data: 'action' },
-        ]
+        ],
     });    
 
 
@@ -102,6 +104,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: false,
         searchDelay: 1500,
+        order: [ 11, "desc" ],
         ajax: {
             url: "/supplychain/mutation-outbound-detail/?id=" + "{{ $MutationOutbound->id }}",
         },

@@ -13,6 +13,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: false,
         searchDelay: 1500,
+        order: [ 6, "desc" ],
         ajax: {
             url: "{{ route('supplychain.mutation-inbound.index') }}",
         },

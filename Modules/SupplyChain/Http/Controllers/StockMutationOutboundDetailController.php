@@ -40,8 +40,7 @@ class StockMutationOutboundDetailController extends Controller
         $data = OutboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item_stock.item.unit',
                                         'item_stock.item_stock_initial_aging',
-                                        'item_stock.item_group:id,item_id,serial_number,alias_name,coding,parent_coding'])
-                                ->orderBy('created_at','desc');
+                                        'item_stock.item_group:id,item_id,serial_number,alias_name,coding,parent_coding']);
         
         return Datatables::of($data)
         ->addColumn('parent', function($row){
@@ -101,7 +100,6 @@ class StockMutationOutboundDetailController extends Controller
                                 ->with(['item_stock.item.unit',
                                         'item_stock.item_stock_initial_aging',
                                         'item_stock.item_group:id,item_id,alias_name,coding,parent_coding'])
-                                ->orderBy('created_at','desc')
                                 ->get();
 
         $response = [];
@@ -125,9 +123,10 @@ class StockMutationOutboundDetailController extends Controller
                 "parent" => $parent,
                 "text" => 'P/N: <strong>' . $data->item_stock->item->code . 
                 '</strong> | Item Name: <strong>' . $data->item_stock->item->name . 
+                '</strong> | Serial Number: <strong>' . $data->item_stock->serial_number .
                 '</strong> | Alias Name: <strong>' . $alias . 
                 '</strong> | Outbound Qty: <strong>' . $data->outbound_quantity . ' ' .
-                $data->item_stock->item->unit->name
+                $data->item_stock->item->unit->name . '</strong>'
             ];
         }
         return response()->json($response);
