@@ -185,15 +185,14 @@ class AircraftConfigurationTemplateDetailController extends Controller
         }
 
         DB::beginTransaction();
-        $currentRow
-            ->update([
-                'item_id' => $request->item_id,
-                'alias_name' => $request->alias_name,
-                'description' => $request->description,
-                'parent_coding' => $parent_coding,
+        $currentRow->update([
+            'item_id' => $request->item_id,
+            'alias_name' => $request->alias_name,
+            'description' => $request->description,
+            'parent_coding' => $parent_coding,
 
-                'status' => $status,
-                'updated_by' => Auth::user()->id,
+            'status' => $status,
+            'updated_by' => Auth::user()->id,
         ]);
         if (sizeof($currentRow->all_childs) > 0) {
             Self::updateChilds($currentRow, $status);
@@ -206,11 +205,10 @@ class AircraftConfigurationTemplateDetailController extends Controller
     public static function updateChilds($currentRow, $status)
     {
         foreach($currentRow->all_childs as $childRow) {
-            $childRow
-                ->update([
-                    'status' => $status,
-                    'updated_by' => Auth::user()->id,
-                ]);
+            $childRow->update([
+                'status' => $status,
+                'updated_by' => Auth::user()->id,
+            ]);
             if (sizeof($childRow->all_childs) > 0) {
                 Self::updateChilds($childRow, $status);
             }
@@ -243,8 +241,7 @@ class AircraftConfigurationTemplateDetailController extends Controller
             return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
         }
         else {
-            $currentRow
-            ->update([
+            $currentRow->update([
                 'deleted_by' => Auth::user()->id,
             ]);
             AircraftConfigurationTemplateDetail::destroy($ConfigurationTemplateDetail->id);

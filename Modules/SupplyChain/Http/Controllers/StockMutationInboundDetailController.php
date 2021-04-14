@@ -141,6 +141,13 @@ class StockMutationInboundDetailController extends Controller
                 $quantity = 1;
                 $serial_number = $request->serial_number;
             }
+
+            $parent_coding = null;
+            if ($request->parent_coding) {
+                $parent_coding = $request->parent_coding;
+                $parentRow = InboundMutationDetail::where('coding', $parent_coding)->first();
+                $detailed_item_location = $parentRow->detailed_item_location;
+            }
             
             if ($request->highlight) {
                 $highlight = 1;
@@ -163,8 +170,8 @@ class StockMutationInboundDetailController extends Controller
                 'alias_name' => $request->alias_name,
                 'highlight' => $highlight,
                 'description' => $request->description,
-                'detailed_item_location' => $request->detailed_item_location,
-                'parent_coding' => $request->parent_coding,
+                'detailed_item_location' => $detailed_item_location,
+                'parent_coding' => $parent_coding,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -236,7 +243,7 @@ class StockMutationInboundDetailController extends Controller
             // else {
             //     $status = 0;
             // }
-    
+
             if ($request->highlight) {
                 $highlight = 1;
             } 
@@ -244,51 +251,55 @@ class StockMutationInboundDetailController extends Controller
                 $highlight = 0;
             }
     
+            $parent_coding = null;
             $initial_start_date = $request->initial_start_date;
             $expired_date = $request->expired_date;
+            $detailed_item_location = $request->detailed_item_location;
             
-            if (Self::isValidParent($currentRow, $request->parent_coding)) {
-                if ($request->parent_coding == $currentRow->coding) {
-                    $parent_coding = null;
+            if ($request->parent_coding) {
+                if (Self::isValidParent($currentRow, $request->parent_coding)) {
+                    if ($request->parent_coding != $currentRow->coding) {
+                        $parent_coding = $request->parent_coding;
+    
+                        $parentRow = InboundMutationDetail::where('coding', $parent_coding)
+                                                            ->first();
+                                                            
+                        $detailed_item_location = $parentRow->detailed_item_location;
+                    }
                 }
                 else {
-                    $parent_coding = $request->parent_coding;
+                    return response()->json(['error' => "The Choosen Parent is Already in Child of this Item"]);
                 }
-            }
-            else {
-                return response()->json(['error' => "The Choosen Parent is Already in Child of this Item"]);
             }
     
             DB::beginTransaction();
-            $currentRow
-                ->update([
-                    'item_id' => $request->item_id,
-                    'alias_name' => $request->alias_name,
-                    'quantity' => $quantity,
-                    'serial_number' => $serial_number,
-                    'highlight' => $highlight,
-                    'description' => $request->description,
-                    'detailed_item_location' => $request->detailed_item_location,
-                    'parent_coding' => $parent_coding,
-    
-                    'updated_by' => Auth::user()->id,
-            ]);
-            // if (sizeof($currentRow->all_childs) > 0) {
-            //     Self::updateChilds($currentRow, $status);
-            // }
-            $currentRow->mutation_detail_initial_aging()
-                ->update([
-                    'uuid' => Str::uuid(),
+            $currentRow->update([
+                'item_id' => $request->item_id,
+                'alias_name' => $request->alias_name,
+                'quantity' => $quantity,
+                'serial_number' => $serial_number,
+                'highlight' => $highlight,
+                'description' => $request->description,
+                'detailed_item_location' => $detailed_item_location,
+                'parent_coding' => $parent_coding,
 
-                    'initial_flight_hour' => $request->initial_flight_hour,
-                    'initial_block_hour' => $request->initial_block_hour,
-                    'initial_flight_cycle' => $request->initial_flight_cycle,
-                    'initial_flight_event' => $request->initial_flight_event,
-                    'initial_start_date' => $initial_start_date,
-                    'expired_date' => $expired_date,
-                    
-                    'updated_by' => $request->user()->id,
-                ]);
+                'updated_by' => Auth::user()->id,
+            ]);
+            if (sizeof($currentRow->all_childs) > 0) {
+                Self::updateChilds($currentRow, $detailed_item_location);
+            }
+            $currentRow->mutation_detail_initial_aging()->update([
+                'uuid' => Str::uuid(),
+
+                'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_block_hour' => $request->initial_block_hour,
+                'initial_flight_cycle' => $request->initial_flight_cycle,
+                'initial_flight_event' => $request->initial_flight_event,
+                'initial_start_date' => $initial_start_date,
+                'expired_date' => $expired_date,
+                
+                'updated_by' => $request->user()->id,
+            ]);
             DB::commit();
             
             return response()->json(['success' => 'Item/Component Data has been Updated']);
@@ -298,19 +309,18 @@ class StockMutationInboundDetailController extends Controller
         }
     }
 
-    // public static function updateChilds($currentRow, $status)
-    // {
-    //     foreach($currentRow->all_childs as $childRow) {
-    //         $childRow
-    //             ->update([
-    //                 'status' => $status,
-    //                 'updated_by' => Auth::user()->id,
-    //             ]);
-    //         if (sizeof($childRow->all_childs) > 0) {
-    //             Self::updateChilds($childRow, $status);
-    //         }
-    //     }
-    // }
+    public static function updateChilds($currentRow, $detailed_item_location)
+    {
+        foreach($currentRow->all_childs as $childRow) {
+            $childRow->update([
+                'detailed_item_location' => $detailed_item_location,
+                'updated_by' => Auth::user()->id,
+            ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::updateChilds($childRow, $detailed_item_location);
+            }
+        }
+    }
 
     public static function isValidParent($currentRow, $parent_coding)
     {

@@ -112,6 +112,7 @@ $(document).ready(function () {
         $('#quantity').val(data.quantity);
         $('#serial_number').val(data.serial_number);
         $('#description').val(data.description);
+        $('#detailed_item_location').val(data.detailed_item_location);
         $('#initial_flight_hour').val(data.mutation_detail_initial_aging.initial_flight_hour);
         $('#initial_block_hour').val(data.mutation_detail_initial_aging.initial_block_hour);
         $('#initial_flight_cycle').val(data.mutation_detail_initial_aging.initial_flight_cycle);
@@ -175,11 +176,17 @@ $(document).ready(function () {
 
 
 
+
+
     deleteButtonProcess (datatableObject, tableId, actionUrl);
 
 
 
-    
+
+
+
+
+    // -------------------- FRONT-END LEVEL VALIDATION ----------------------------- //
     $("#quantity").on('change', function () {
         if($('#quantity').val() > 1) {
             $('#serial_number').val(null);
@@ -189,6 +196,17 @@ $(document).ready(function () {
             $('#serial_number').prop('disabled', false);
         }            
     });
+
+    $(".parent_coding").on('change', function () {
+        if($('.parent_coding').val() != null) {
+            $('#detailed_item_location').val(null);
+            $('#detailed_item_location').prop('disabled', true);
+        }
+        else {
+            $('#detailed_item_location').prop('disabled', false);
+        }            
+    });
+    // -------------------- END FRONT-END LEVEL VALIDATION ----------------------------- //
 });
 </script>
 @endpush

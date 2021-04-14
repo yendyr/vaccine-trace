@@ -130,7 +130,9 @@ class AircraftConfigurationDetailController extends Controller
             $response[] = [
                 "id" => $data->coding,
                 "parent" => $parent,
-                "text" => 'P/N: <strong>' . $data->item->code . '</strong> | Item Name: <strong>' . $data->item->name . '</strong> | Alias Name: <strong>' . $data->alias_name . '</strong>'
+                "text" => 'P/N: <strong>' . $data->item->code . 
+                '</strong> | Item Name: <strong>' . $data->item->name . 
+                '</strong> | Alias Name: <strong>' . $data->alias_name . '</strong>'
             ];
         }
 
@@ -256,35 +258,33 @@ class AircraftConfigurationDetailController extends Controller
             }
     
             DB::beginTransaction();
-            $currentRow
-                ->update([
-                    'item_id' => $request->item_id,
-                    'alias_name' => $request->alias_name,
-                    'serial_number' => $request->serial_number,
-                    'highlight' => $highlight,
-                    'description' => $request->description,
-                    'parent_coding' => $parent_coding,
-    
-                    'status' => $status,
-                    'updated_by' => Auth::user()->id,
+            $currentRow->update([
+                'item_id' => $request->item_id,
+                'alias_name' => $request->alias_name,
+                'serial_number' => $request->serial_number,
+                'highlight' => $highlight,
+                'description' => $request->description,
+                'parent_coding' => $parent_coding,
+
+                'status' => $status,
+                'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($currentRow->all_childs) > 0) {
                 Self::updateChilds($currentRow, $status);
             }
-            $currentRow->item_stock_initial_aging()
-                ->update([
-                    'uuid' => Str::uuid(),
+            $currentRow->item_stock_initial_aging()->update([
+                'uuid' => Str::uuid(),
 
-                    'initial_flight_hour' => $request->initial_flight_hour,
-                    'initial_block_hour' => $request->initial_block_hour,
-                    'initial_flight_cycle' => $request->initial_flight_cycle,
-                    'initial_flight_event' => $request->initial_flight_event,
-                    'initial_start_date' => $initial_start_date,
-                    'expired_date' => $expired_date,
-                    
-                    'status' => 1,
-                    'updated_by' => $request->user()->id,
-                ]);
+                'initial_flight_hour' => $request->initial_flight_hour,
+                'initial_block_hour' => $request->initial_block_hour,
+                'initial_flight_cycle' => $request->initial_flight_cycle,
+                'initial_flight_event' => $request->initial_flight_event,
+                'initial_start_date' => $initial_start_date,
+                'expired_date' => $expired_date,
+                
+                'status' => 1,
+                'updated_by' => $request->user()->id,
+            ]);
             DB::commit();
             
             return response()->json(['success' => 'Item/Component Data has been Updated']);
@@ -297,11 +297,10 @@ class AircraftConfigurationDetailController extends Controller
     public static function updateChilds($currentRow, $status)
     {
         foreach($currentRow->all_childs as $childRow) {
-            $childRow
-                ->update([
-                    'status' => $status,
-                    'updated_by' => Auth::user()->id,
-                ]);
+            $childRow->update([
+                'status' => $status,
+                'updated_by' => Auth::user()->id,
+            ]);
             if (sizeof($childRow->all_childs) > 0) {
                 Self::updateChilds($childRow, $status);
             }
@@ -337,8 +336,7 @@ class AircraftConfigurationDetailController extends Controller
                 return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
             }
             else {
-                $currentRow
-                ->update([
+                $currentRow->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
                 ItemStock::destroy($ConfigurationDetail->id);
