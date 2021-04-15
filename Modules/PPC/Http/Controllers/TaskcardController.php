@@ -141,7 +141,7 @@ class TaskcardController extends Controller
                     return $row->instruction_details()->count();
                 })
                 ->addColumn('manhours_total', function($row){
-                    return $row->instruction_details()->sum('manhours_estimation');
+                    return number_format($row->instruction_details()->sum('manhours_estimation'), 2, '.', '');
                 })
                 ->addColumn('aircraft_type_name', function($row){
                     $aircraft_type_name = null;
