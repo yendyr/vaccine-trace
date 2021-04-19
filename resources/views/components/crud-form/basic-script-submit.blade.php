@@ -10,7 +10,7 @@
         $('#saveBtn').val("create");
         $(inputFormId).trigger("reset");
         $('select').not('[name$="_length"]').val(null).trigger('change');
-        console.log(inputModalId)
+        
         if (inputModalId == null)
             $('#inputModal').modal('show');
         else
