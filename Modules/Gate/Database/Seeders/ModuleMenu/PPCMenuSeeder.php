@@ -335,5 +335,45 @@ class PPCMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        $menuMaintenance = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Maintenance',
+            'menu_route' => null,
+            'menu_icon' => 'fa-gears',
+            'menu_class' => 'Modules\PPC\Entities\WorkOrder',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/work-order', 'ppc/work-order/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        Menu::create([
+            'menu_link' => 'ppc/work-order',
+            'menu_text' => 'Work Order',
+            'menu_route' => 'ppc.work-order.index',
+            'menu_icon' => 'fa-tasks',
+            'menu_class' => 'Modules\PPC\Entities\WorkOrder',
+            'menu_id' => 'maintenance',
+            'menu_actives' => json_encode(['ppc/work-order', 'ppc/work-order/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuMaintenance->id
+        ]);
     }
 }

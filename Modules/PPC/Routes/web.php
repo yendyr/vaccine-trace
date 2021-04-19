@@ -100,7 +100,9 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/item-aging-report', 'ItemStockAgingController');
-
+        
         Route::resource('/aircraft-aging-report', 'AircraftAgingController');   
+
+        Route::resource('/work-order', 'WorkOrderController');
     });
 }); 
