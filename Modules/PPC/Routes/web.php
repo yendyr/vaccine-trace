@@ -104,5 +104,8 @@ Route::name('ppc.')->group(function () {
         Route::resource('/aircraft-aging-report', 'AircraftAgingController');   
 
         Route::resource('/work-order', 'WorkOrderController');
+        Route::name('work-order.')->group(function() {
+            Route::get('ppc/work-order/select2/aircraft', 'WorkOrderController@select2Aircraft')->name('select2.aircraft');
+        });
     });
 }); 

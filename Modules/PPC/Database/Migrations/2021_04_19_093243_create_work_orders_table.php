@@ -23,10 +23,13 @@ class CreateWorkOrdersTable extends Migration
             $table->string('tsn')->nullable();
             $table->string('tso')->nullable();
             $table->string('title')->nullable();
+            $table->integer('aircraft_id')->nullable()->unsigned();
+            $table->string('aircraft_registration_number');
+            $table->string('aircraft_serial_number')->nullable();
             $table->string('station')->nullable();
             $table->string('description')->nullable();
-            $table->integer('aircraft_id')->nullable()->unsigned();
             $table->integer('parent_id')->nullable()->unsigned();
+            $table->string('file_attachment')->nullable();
             $table->rememberToken();
             
             $table->integer('status')->nullable();

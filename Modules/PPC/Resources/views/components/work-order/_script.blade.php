@@ -97,15 +97,23 @@ $(document).ready(function () {
     // });
 
 
-    // $('.recurrence').select2({
-    //     theme: 'bootstrap4',
-    //     placeholder: 'Choose Recurrence',
-    //     minimumResultsForSearch: -1,
-    //     allowClear: false,
-    //     dropdownParent: $('#inputModal')
-    // });
+    $('.aircraft_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Aircraft',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.work-order.select2.aircraft') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
 
-
+    $('.aircraft_id').on('select2:select', function(event) {
+        let selectedOpt = $(this).text();
+        let res = selectedOpt.split(" | ");
+        $('#aircraft_serial_number').val(res[1]);
+        $('#aircraft_registration_number').val(res[2]);
+    });
 
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Entities\WorkOrder;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -135,5 +136,34 @@ class WorkOrderController extends Controller
             return response()->json(false);
         }
 
+    }
+
+    public function select2Aircraft(Request $request)
+    {
+        $search = $request->term;
+
+        $AircraftConfigurations = AircraftConfiguration::has('approvals')->get();
+
+        if($search != '') {
+            $AircraftConfigurations = AircraftConfiguration::has('approvals')
+                                        ->where('registration_number', 'like', '%' .$search. '%')
+                                        ->orWhere('serial_number', 'like', '%' .$search. '%')
+                                        ->with(['aircraft_type' => function($q) use ($search) {
+                                            $q->where('code', 'like', '%' .$search. '%')
+                                            ->orWhere('name', 'like', '%' .$search. '%');
+                                        }])
+                                        ->get();
+        }
+
+        $response = [];
+
+        foreach($AircraftConfigurations as $AircraftConfigurationRow){
+            $response['results'][] = [
+                "id" => $AircraftConfigurationRow->id,
+                "text" => '['.$AircraftConfigurationRow->aircraft_type->code.'] '.$AircraftConfigurationRow->aircraft_type->name . ' | ' . $AircraftConfigurationRow->serial_number . ' | ' .$AircraftConfigurationRow->registration_number
+            ];
+        }
+
+        return response()->json($response);
     }
 }
