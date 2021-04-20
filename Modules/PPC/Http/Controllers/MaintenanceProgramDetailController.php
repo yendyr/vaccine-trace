@@ -39,13 +39,17 @@ class MaintenanceProgramDetailController extends Controller
                 return Datatables::of($data)
                 ->addColumn('group_structure', function($row) {
                     if ($row->taskcard->taskcard_group_id) {
-                        $currentRow = TaskcardGroup::where('id', $row->taskcard->taskcard_group_id)->first();
+                        $currentRow = TaskcardGroup::where('id', $row->taskcard->taskcard_group_id)
+                                                    ->withTrashed()
+                                                    ->first();
                         $group_structure = '';
 
                         while (true) {
                             if ($currentRow) {
                                 $group_structure = $currentRow->name . ' -> ' . $group_structure;
-                                $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)->first();
+                                $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)
+                                                            ->withTrashed()
+                                                            ->first();
                             }
                             else {
                                 break;
