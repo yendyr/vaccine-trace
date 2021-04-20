@@ -79,6 +79,9 @@
 
             Affected Item/Component Part Number:
             @include('ppc::pages.taskcard.affected-item-detail.content')
+
+            Tag:
+            @include('ppc::pages.taskcard.tag-detail.content')
         </div>
         <div class="col-lg-8">
             <div class="row">
