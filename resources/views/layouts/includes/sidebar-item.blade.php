@@ -57,46 +57,48 @@
                                     @endif
                                 @endforeach
                             @else
-                                @if( $subMenuRow->subMenus()->count() > 0 )
-                                    @can('viewAny', $subMenuRow->menu_class)
+                                @foreach($menuRow->subMenus as $subMenuRow)
+                                    @if( $subMenuRow->subMenus()->count() > 0 )
+                                        @can('viewAny', $subMenuRow->menu_class)
+                                            <li class="{{ $subMenuRow->isActive(request()) }}">
+                                                <a href="#">
+                                                    <div class="nav-second-table-group">
+                                                        <span>
+                                                            <i class="fa {{ $subMenuRow->menu_icon ?? '' }}"></i>
+                                                        </span>
+                                                        <span>{{ $subMenuRow->menu_text ?? '' }}</span>
+                                                        <span class="fa arrow"></span>
+                                                    </div>
+                                                </a>
+                                                <ul class="nav nav-third-level">
+                                                    @foreach( $subMenuRow->subMenus as $subMenuThirdLevel)
+                                                    <li class="{{ $subMenuThirdLevel->isActive(request()) }}">
+                                                        <a href="{{ $subMenuThirdLevel->renderLink() }}">
+                                                            <span>
+                                                                <i class="fa {{ $subMenuThirdLevel->menu_icon ?? '' }}"></i>
+                                                            </span>
+                                                            <span>{{ $subMenuThirdLevel->menu_text ?? '' }}</span>
+                                                        </a>
+                                                    </li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @endcan
+                                    @else
+                                        @can('viewAny', $subMenuRow->menu_class)
                                         <li class="{{ $subMenuRow->isActive(request()) }}">
-                                            <a href="#">
+                                            <a href="{{ $subMenuRow->renderLink() }}">
                                                 <div class="nav-second-table-group">
                                                     <span>
                                                         <i class="fa {{ $subMenuRow->menu_icon ?? '' }}"></i>
                                                     </span>
                                                     <span>{{ $subMenuRow->menu_text ?? '' }}</span>
-                                                    <span class="fa arrow"></span>
                                                 </div>
                                             </a>
-                                            <ul class="nav nav-third-level">
-                                                @foreach( $subMenuRow->subMenus as $subMenuThirdLevel)
-                                                <li class="{{ $subMenuThirdLevel->isActive(request()) }}">
-                                                    <a href="{{ $subMenuThirdLevel->renderLink() }}">
-                                                        <span>
-                                                            <i class="fa {{ $subMenuThirdLevel->menu_icon ?? '' }}"></i>
-                                                        </span>
-                                                        <span>{{ $subMenuThirdLevel->menu_text ?? '' }}</span>
-                                                    </a>
-                                                </li>
-                                                @endforeach
-                                            </ul>
                                         </li>
-                                    @endcan
-                                @else
-                                    @can('viewAny', $subMenuRow->menu_class)
-                                    <li class="{{ $subMenuRow->isActive(request()) }}">
-                                        <a href="{{ $subMenuRow->renderLink() }}">
-                                            <div class="nav-second-table-group">
-                                                <span>
-                                                    <i class="fa {{ $subMenuRow->menu_icon ?? '' }}"></i>
-                                                </span>
-                                                <span>{{ $subMenuRow->menu_text ?? '' }}</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    @endcan
-                                @endif
+                                        @endcan
+                                    @endif
+                                @endforeach
                             @endif
                         @endif
                     </ul>
