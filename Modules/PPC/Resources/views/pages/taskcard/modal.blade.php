@@ -314,15 +314,6 @@
                                                     <div class="invalid-feedback-reference text-danger font-italic"></div>
                                                 </div>
                                                 <div class="col">
-                                                    <label>Document Attach (*.PDF)</label>
-                                                    <div class="custom-file">
-                                                        <input id="file_attachment" type="file" class="custom-file-input" name="file_attachment">
-                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row m-b">
-                                                <div class="col">
                                                     <label>Scheduled Priority</label>
                                                     <select class="scheduled_priority form-control @error('scheduled_priority') is-invalid @enderror" name="scheduled_priority" id="scheduled_priority">
                                                         <option value="Next Check / Workshop Visit">Next Check / Workshop Visit</option>
@@ -338,7 +329,17 @@
                                                         <option value="Repetitive">Repetitive</option>
                                                     </select>
                                                 </div>
+                                                {{-- <div class="col">
+                                                    <label>Document Attach (*.PDF)</label>
+                                                    <div class="custom-file">
+                                                        <input id="file_attachment" type="file" class="custom-file-input" name="file_attachment">
+                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                    </div>
+                                                </div> --}}
                                             </div>
+                                            {{-- <div class="row m-b">
+                                                
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>            
