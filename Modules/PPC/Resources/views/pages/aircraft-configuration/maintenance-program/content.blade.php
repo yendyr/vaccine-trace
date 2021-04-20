@@ -8,6 +8,7 @@
                 <th>MPD Number</th>
                 <th>Title</th>
                 <th>Group</th>
+                <th>Tag</th>
                 <th>Type</th>
                 <th>Instruction/Task Total</th>
                 <th>Manhours Total</th>
@@ -24,3 +25,15 @@
         <span class="text-info font-italic"><i class="fa fa-info-circle"></i>&nbsp;No Maintenance Program Selected</span>
     @endif
 </div>
+
+@push('header-scripts')
+    <style>
+        thead input {
+            width: 100%;
+        }
+        tr.group,
+        tr.group:hover {
+            background-color: #aaa !important;
+        }
+    </style>
+@endpush

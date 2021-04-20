@@ -79,7 +79,7 @@ class MaintenanceProgramDetailController extends Controller
                     return $row->taskcard->instruction_details()->count();
                 })
                 ->addColumn('manhours_total', function($row){
-                    return $row->taskcard->instruction_details()->sum('manhours_estimation');
+                    return number_format($row->taskcard->instruction_details()->sum('manhours_estimation'), 2, '.', '');
                 })
                 ->addColumn('skills', function($row){
                     $skillsArray = array();
