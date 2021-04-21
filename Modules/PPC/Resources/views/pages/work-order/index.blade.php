@@ -17,6 +17,8 @@
                 </button>   
             @endcan
         @endslot    
+
+       
     @endcomponent
 
     @include('ppc::components.work-order._script')

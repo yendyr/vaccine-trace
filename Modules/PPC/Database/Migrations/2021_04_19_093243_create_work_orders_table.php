@@ -16,7 +16,7 @@ class CreateWorkOrdersTable extends Migration
         Schema::create('work_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->string('code')->unique();
+            $table->string('code')->nullable()->unique();
             $table->string('name')->nullable();
             $table->string('csn')->nullable();
             $table->string('cso')->nullable();

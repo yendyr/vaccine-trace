@@ -30,28 +30,14 @@ $(document).ready(function () {
         }
     });
 
-    var groupColumn = 10;
 
     var datatableObject = $(tableId).DataTable({
-        // dom: "<'toolbar'>frtip",
-        columnDefs: [{
-            visible: false, 
-            targets: groupColumn }
-        ],
-        order: [[ groupColumn, 'asc' ]],
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
  
-            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
-                if ( last !== group ) {
-                    $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="14">Repeat Interval: <b>' + group + '</b></td></tr>'
-                    );
-                    last = group;
-                }
-            });
+            
         },
         pageLength: 50,
         processing: true,
@@ -69,12 +55,11 @@ $(document).ready(function () {
             url: "{{ route('ppc.work-order.index') }}",
         },
         columns: [
-            {   title: 'Number', data: 'code', "render": function ( data, type, row, meta ) {
-                    return '<a href="work-order/' + row.id + '">' + row.code + '</a>'; }},
-            {   title: 'Title', data: 'title' },
-            {   title: 'Status', data: 'status' },
-            {   title: 'created_at', data: 'created_at' },
-            {   title: 'Action', data: 'action', orderable: false },
+            { title: 'Work Order Number', data: 'number', name: 'code' },
+            { title: 'Title', data: 'title', name: 'title' },
+            { title: 'Status', data: 'status', name: 'status' },
+            { title: 'Created At', data: 'created_at', name: 'created_at' },
+            { title: 'Action', data: 'action', name: 'action', orderable: false },
         ]
     });
 
@@ -87,15 +72,6 @@ $(document).ready(function () {
             datatableObject.order( [ groupColumn, 'asc' ] ).draw();
         }
     });
-
-    // $('div.toolbar').html("<div class='pretty p-icon p-round p-jelly' style='font-size: 11pt;'><input type='checkbox' class='form-control' id='groupByInterval' /><div class='state p-primary'><i class='icon fa fa-check'></i><label>Group by Interval/Repeat</label></div></div>");
-
-    // $('#groupByInterval').change(function() {
-    //     if(this.checked) {
-    //         alert('Cek');
-    //     }
-    // });
-
 
     $('.aircraft_id').select2({
         theme: 'bootstrap4',

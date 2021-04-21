@@ -42,19 +42,19 @@
                                                 </div>
                                                 <div class="col">
                                                     <label>Work Order Number</label>
-                                                    <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code" value="Auto generate" disabled readonly>
+                                                    <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code" value="Auto generate" readonly>
                                                     <div class="invalid-feedback-code text-danger font-italic"></div>
                                                 </div>
                                             </div>
                                             <div class="row m-b">
                                                 <div class="col">
                                                     <label>Aircraft Serial Number</label>
-                                                    <input type="text" class="form-control @error('aircraft_serial_number') is-invalid @enderror" name="aircraft_serial_number" id="aircraft_serial_number" value="" disabled readonly>
+                                                    <input type="text" class="form-control @error('aircraft_serial_number') is-invalid @enderror" name="aircraft_serial_number" id="aircraft_serial_number" value="" readonly>
                                                     <div class="invalid-feedback-aircraft_serial_number text-danger font-italic"></div>
                                                 </div>
                                                 <div class="col">
                                                     <label>Aircraft Register</label>
-                                                    <input type="text" class="form-control @error('aircraft_registration_number') is-invalid @enderror" name="aircraft_registration_number" id="aircraft_registration_number" value="" disabled readonly>
+                                                    <input type="text" class="form-control @error('aircraft_registration_number') is-invalid @enderror" name="aircraft_registration_number" id="aircraft_registration_number" value="" readonly>
                                                     <div class="invalid-feedback-aircraft_registration_number text-danger font-italic"></div>
                                                 </div>
                                             </div>
@@ -84,19 +84,18 @@
                                                     <input type="text" class="form-control @error('tso') is-invalid @enderror" name="tso" id="tso">
                                                     <div class="invalid-feedback-tso text-danger font-italic"></div>
                                                 </div>
-                                            </div>
-                                            <div class="row m-b">
                                                 <div class="col">
                                                     <label>Station</label>
                                                     <input type="text" class="form-control @error('station') is-invalid @enderror" name="station" id="station">
                                                     <div class="invalid-feedback-station text-danger font-italic"></div>
                                                 </div>
+                                            </div>
+                                            <div class="row m-b">
                                                 <div class="col">
-                                                    <label>Document Attach (*.PDF)</label>
-                                                    <div class="custom-file">
-                                                        <input id="file_attachment" type="file" class="custom-file-input" name="file_attachment">
-                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                                    </div>
+                                                    <label>Description</label>
+                                                    <textarea class="description" name="description" id="description">
+                                                        
+                                                    </textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -121,6 +120,7 @@
 
 @push('header-scripts')
 <link href="{{ URL::asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
+<link href="{{URL::asset('theme/css/plugins/summernote/summernote-bs4.min.css')}}" rel="stylesheet">
 <style>
     .select2-container.select2-container--default.select2-container--open {
         z-index: 9999999 !important;
@@ -132,6 +132,13 @@
 </style>
 @endpush
 
+
 @push('footer-scripts')
-<script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{URL::asset('theme/js/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.description').summernote();
+        });
+    </script>
+    <script src="{{ URL::asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 @endpush
