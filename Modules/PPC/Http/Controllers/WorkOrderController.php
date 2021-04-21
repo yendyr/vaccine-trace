@@ -32,7 +32,7 @@ class WorkOrderController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $work_orders = WorkOrder::latest();
+            $work_orders = WorkOrder::with('aircraft:id,registration_number,serial_number,aircraft_type_id', 'aircraft.aircraft_type:id,code,name')->latest();
 
             return Datatables::of($work_orders)
                 ->addColumn('number', function ($row) use ($request) {
@@ -205,6 +205,35 @@ class WorkOrderController extends Controller
             DB::rollBack();
 
             return response()->json(['error' => "Work Order failed to delete"]);
+        }
+    }
+
+    // Fuction File Upload
+    public function fileUpload(Request $request, WorkOrder $work_order)
+    {
+        if($request->ajax()) {
+            $data = $request->file('file');
+            $extension = $data->getClientOriginalExtension();
+            $filename = 'work_order_attachment_' . $work_order->id . '.' . $extension;
+            $path = public_path('uploads/company/' . $work_order->owned_by . '/work_order/');
+            
+            $workOrderFile = public_path('uploads/company/' . $work_order->owned_by . '/work_order/' . $filename);
+
+            if (File::exists($workOrderFile)) {
+                unlink($workOrderFile);
+            }
+
+            $successText = 'Work Order Attachment has been Updated';
+
+            WorkOrder::where('id', $work_order->id)
+                ->first()->update([
+                    'file_attachment' => $filename,
+                    'updated_by' => $request->user()->id
+                ]);
+
+            $data->move($path, $filename);
+
+            return response()->json(['success' => $successText]);
         }
     }
 

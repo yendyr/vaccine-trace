@@ -11,7 +11,7 @@
                     'tableId' => 'work-order-table'])
 
         @slot('createButton')
-            @can('create', Modules\PPC\Entities\Taskcard::class)                
+            @can('create', Modules\PPC\Entities\WorkOrder::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   

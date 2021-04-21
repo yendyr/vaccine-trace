@@ -67,7 +67,7 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $work_order->aircraft->aircraft_type->id }}" + "&create_maintenance_program=true",
+            url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}" + "&create_maintenance_program=true",
         },
         columns: [
             { data: 'mpd_number', 
@@ -163,7 +163,7 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/ppc/maintenance-program-detail/?maintenance_program_id=" + "{{ null }}",
+            url: "/ppc/maintenance-program-detail/?maintenance_program_id=" + "{{ $MaintenanceProgram->id }}",
         },
         columns: [
             { data: 'taskcard.mpd_number', 

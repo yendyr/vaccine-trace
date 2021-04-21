@@ -356,7 +356,7 @@ class PPCMenuSeeder extends Seeder
             'parent_id' => null
         ]);
 
-        Menu::create([
+        $workOrderMenu = Menu::create([
             'menu_link' => 'ppc/work-order',
             'menu_text' => 'Work Order',
             'menu_route' => 'ppc.work-order.index',

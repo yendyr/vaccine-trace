@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWorkOrdersTable extends Migration
+class CreateWorkOrderWorkPackagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,15 @@ class CreateWorkOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('work_orders', function (Blueprint $table) {
+        Schema::create('work_order_work_packages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
+            $table->unsignedBigInteger('work_order_id');
             $table->string('code')->nullable()->unique();
-            $table->string('name')->nullable();
-            $table->string('csn')->nullable();
-            $table->string('cso')->nullable();
-            $table->string('tsn')->nullable();
-            $table->string('tso')->nullable();
             $table->string('title')->nullable();
-            $table->integer('aircraft_id')->nullable()->unsigned();
-            $table->string('aircraft_registration_number');
-            $table->string('aircraft_serial_number')->nullable();
-            $table->string('station')->nullable();
-            $table->string('description')->nullable();
-            $table->integer('parent_id')->nullable()->unsigned();
-            $table->string('file_attachment')->nullable();
+            $table->text('description')->nullable();
+            $table->unsignedDecimal('performance_factor', 8, 2)->nullable();
+            $table->unsignedDecimal('total_manhours', 8, 2)->nullable();
             
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
@@ -48,6 +40,6 @@ class CreateWorkOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('work_orders');
+        Schema::dropIfExists('work_order_work_packages');
     }
 }

@@ -6,7 +6,7 @@ use App\MainModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class WorkOrder extends MainModel
+class WorkOrderWorkPackage extends MainModel
 {
     use softDeletes;
     use Notifiable;
@@ -15,19 +15,12 @@ class WorkOrder extends MainModel
 
     protected $fillable = [
         'uuid',
+        'work_order_id',
         'code',
-        'name',
-        'csn',
-        'cso',
-        'tsn',
-        'tso',
         'title',
-        'aircraft_id',
-        'aircraft_registration_number',
-        'aircraft_serial_number',
-        'station',
         'description',
-        'parent_id',
+        'performance_factor',
+        'total_manhours',
         'status',
         'created_by',
         'updated_by',
@@ -44,14 +37,9 @@ class WorkOrder extends MainModel
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
-
-    public function aircraft()
+    
+    public function workOrder()
     {
-        return $this->belongsTo(\Modules\PPC\Entities\AircraftConfiguration::class, 'aircraft_id');
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo(\Modules\PPC\Entities\WorkOrder::class, 'parent_id');
+        return $this->belongsTo(\Modules\PPC\Entities\WorkOrder::class, 'work_order_id');
     }
 }

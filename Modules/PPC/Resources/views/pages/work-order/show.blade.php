@@ -11,7 +11,7 @@
                     'deleteFormId' => 'deleteFormItem',
                     'deleteModalButtonItem' => 'deleteModalButtonItem'])
 
-                    <div class="row m-b m-t">
+    <div class="row m-b m-t">
         <div class="col-md-5">
             <div class="profile-image">
                 @if($work_order->file_attachment)
@@ -62,13 +62,26 @@
             </div>
         </div>
     </div>
-   
+
+    <div class="row">
+        <div class="col">
+            @include('ppc::pages.work-order.work-package.content')
+        </div>
+    </div>
 @endsection
 
 @include('ppc::components.work-order._file_upload_script')
 
 @push('header-scripts')
-<style>
+@include('layouts.includes._header-datatable-script')
+    <style>
+        thead input {
+            width: 100%;
+        }
+        tr.group,
+        tr.group:hover {
+            background-color: #aaa !important;
+        }
     .select2-container.select2-container--default.select2-container--open {
         z-index: 9999999 !important;
     }
@@ -90,4 +103,5 @@
             }
         });
     </script>
+@include('layouts.includes._footer-datatable-script')
 @endpush

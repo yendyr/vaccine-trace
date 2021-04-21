@@ -29,15 +29,12 @@ $(document).ready(function () {
             $(this).html('&nbsp;');
         }
     });
-
-
+    
     var datatableObject = $(tableId).DataTable({
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
- 
-            
         },
         pageLength: 50,
         processing: true,
@@ -96,18 +93,8 @@ $(document).ready(function () {
         clearForm();
 
         showCreateModal ('Create New Work Order', inputFormId, actionUrl);
-
-        $('#compliance').val('Optional').trigger('change');
-        $('#threshold_daily_unit').val('Year').trigger('change');
-        $('#repeat_daily_unit').val('Year').trigger('change');
-        $('#interval_control_method').val('Which One Comes First').trigger('change');
-        $('#scheduled_priority').val('As Scheduled').trigger('change');
-        $('#recurrence').val('As Required').trigger('change');
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
-
-
-
 
     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
     datatableObject.on('click', '.editBtn', function () {
@@ -127,128 +114,27 @@ $(document).ready(function () {
 
         $('#mpd_number').val(data.mpd_number);
         $('#title').val(data.title);
+        $('#code').val(data.code);
+        $('#aircraft_serial_number').val(data.aircraft_serial_number);
+        $('#aircraft_registration_number').val(data.aircraft_registration_number);
+        $('#tsn').val(data.tsn);
+        $('#tso').val(data.tso);
+        $('#csn').val(data.csn);
+        $('#cso').val(data.cso);
+        $('#station').val(data.station);
+        $('#description').val(data.description);
+        $('#issued_date').val(data.created_at);
 
-        $('#compliance').val(data.compliance).trigger('change');
-
-        $('#threshold_flight_hour').val(data.threshold_flight_hour);
-        $('#threshold_flight_cycle').val(data.threshold_flight_cycle);
-        $('#threshold_daily').val(data.threshold_daily);
-        $('#threshold_daily_unit').val(data.threshold_daily_unit).trigger('change');
-        $('.threshold_date').val(data.threshold_date);
-
-        $('#repeat_flight_hour').val(data.repeat_flight_hour);
-        $('#repeat_flight_cycle').val(data.repeat_flight_cycle);
-        $('#repeat_daily').val(data.repeat_daily);
-        $('#repeat_daily_unit').val(data.repeat_daily_unit).trigger('change');
-        $('.repeat_date').val(data.repeat_date);
-
-        $('#interval_control_method').val(data.interval_control_method).trigger('change');
-
-        $('#company_number').val(data.company_number);
-        $('#ata').val(data.ata);
-        $('#issued_date').val(data.issued_date);
-        $('#version').val(data.version);
-        $('#revision').val(data.revision);
-        $('#effectivity').val(data.effectivity);
-        $('#source').val(data.source);
-        $('#reference').val(data.reference);
-        $('#file_attachment').val(data.file_attachment);
-
-        $('#scheduled_priority').val(data.scheduled_priority).trigger('change');
-
-        $('#recurrence').val(data.recurrence).trigger('change');
-
-        if (data.work-order_group != null) {
-            $('#work-order_group_id').append('<option value="' + data.work-order_group_id + '" selected>' + data.work-order_group.name + '</option>');
-        }   
-
-        if (data.work-order_type != null) {
-            $('#work-order_type_id').append('<option value="' + data.work-order_type_id + '" selected>' + data.work-order_type.name + '</option>');
+        $("#aircraft_id").val('').trigger('change');
+        if (data.aircraft_id != null) {
+            $('#aircraft_id').append('<option value="' + data.aircraft_id + '" selected>['+ data.aircraft.aircraft_type.code +'] ' + data.aircraft.aircraft_type.name + ' | ' + data.aircraft_serial_number + ' | ' + data.aircraft_registration_number +'</option>');
         }
-
-        if (data.work-order_workarea != null) {
-            $('#work-order_workarea_id').append('<option value="' + data.work-order_workarea_id + '" selected>' + data.work-order_workarea.name + '</option>');
-        }
-
-        $("#aircraft_type_id").val('').trigger('change');
-        if (data.aircraft_types != null) {
-            $.each(data.aircraft_types, function(index, value) {
-                var option = new Option(data.aircraft_types[index].name, data.aircraft_types[index].id, true, true);
-                $("#aircraft_type_id").append(option);
-            });
-        }
-
-        $("#affected_item_id").val('').trigger('change');
-        if (data.affected_items != null) {
-            $.each(data.affected_items, function(index, value) {
-                var option = new Option(data.affected_items[index].code + ' | ' + data.affected_items[index].name, data.affected_items[index].id, true, true);
-                $("#affected_item_id").append(option);
-            });
-        }
-
-        $("#tag_id").val('').trigger('change');
-        if (data.tags != null) {
-            $.each(data.tags, function(index, value) {
-                var option = new Option(data.tags[index].name, data.tags[index].id, true, true);
-                $("#tag_id").append(option);
-            });
-        }
-
-        // $("#interval_group_id").val('').trigger('change');
-        // if (data.interval_groups != null) {
-        //     $.each(data.interval_groups, function(index, value) {
-        //         var option = new Option(data.interval_groups[index].name, data.interval_groups[index].id, true, true);
-        //         $("#interval_group_id").append(option);
-        //     });
-        // }
-
-        $("#work-order_access_id").val('').trigger('change');
-        if (data.accesses != null) {
-            $.each(data.accesses, function(index, value) {
-                var option = new Option(data.accesses[index].name, data.accesses[index].id, true, true);
-                $("#work-order_access_id").append(option);
-            });
-        }
-
-        $("#work-order_zone_id").val('').trigger('change');
-        if (data.zones != null) {
-            $.each(data.zones, function(index, value) {
-                var option = new Option(data.zones[index].name, data.zones[index].id, true, true);
-                $("#work-order_zone_id").append(option);
-            });
-        }
-
-        $("#work-order_document_library_id").val('').trigger('change');
-        if (data.document_libraries != null) {
-            $.each(data.document_libraries, function(index, value) {
-                var option = new Option(data.document_libraries[index].name, data.document_libraries[index].id, true, true);
-                $("#work-order_document_library_id").append(option);
-            });
-        }
-
-        $("#work-order_affected_manual_id").val('').trigger('change');
-        if (data.affected_manuals != null) {
-            $.each(data.affected_manuals, function(index, value) {
-                var option = new Option(data.affected_manuals[index].name, data.affected_manuals[index].id, true, true);
-                $("#work-order_affected_manual_id").append(option);
-            });
-        }
-
-        // if (data.status == '<label class="label label-success">Active</label>') {
-        //     $('#status').prop('checked', true);
-        // }
-        // else {
-        //     $('#status').prop('checked', false);
-        // }
 
         $('#saveBtn').val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $('#inputModal').modal('show');
     });
     // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
-
-
-
 
     $(inputFormId).on('submit', function (event) {
         submitButtonProcess (tableId, inputFormId); 
@@ -258,16 +144,16 @@ $(document).ready(function () {
 
     function clearForm()
     {
-        $('#work-order_group_id').val(null).trigger("change");
-        $('#work-order_type_id').val(null).trigger("change");
-        $('#work-order_workarea_id').val(null).trigger("change");
-        $('#aircraft_type_id').empty().trigger("change");
-        $('#affected_item_id').empty().trigger("change");
-        $('#interval_group_id').empty().trigger("change");
-        $('#work-order_access_id').empty().trigger("change");
-        $('#work-order_zone_id').empty().trigger("change");
-        $('#work-order_document_library_id').empty().trigger("change");
-        $('#work-order_affected_manual_id').empty().trigger("change");
+        $(inputFormId)
+            .find("input,textarea")
+            .val('')
+            .end().
+            find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end()
+            .find("select")
+            .val('')
+            .trigger('change');
     }
 });
 </script>
