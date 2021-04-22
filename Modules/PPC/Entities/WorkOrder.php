@@ -21,7 +21,6 @@ class WorkOrder extends MainModel
         'cso',
         'tsn',
         'tso',
-        'title',
         'aircraft_id',
         'aircraft_registration_number',
         'aircraft_serial_number',

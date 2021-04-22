@@ -30,8 +30,8 @@
                                             <div class="row m-b">
                                                 <div class="col">
                                                     <label>Work Order Title</label>
-                                                    <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="">
-                                                    <div class="invalid-feedback-title text-danger font-italic"></div>
+                                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="">
+                                                    <div class="invalid-feedback-name text-danger font-italic"></div>
                                                 </div>
                                             </div>
                                             <div class="row m-b">

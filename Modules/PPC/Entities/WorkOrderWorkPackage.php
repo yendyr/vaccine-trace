@@ -17,7 +17,7 @@ class WorkOrderWorkPackage extends MainModel
         'uuid',
         'work_order_id',
         'code',
-        'title',
+        'name',
         'description',
         'performance_factor',
         'total_manhours',

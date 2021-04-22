@@ -53,7 +53,7 @@ $(document).ready(function () {
         },
         columns: [
             { title: 'Work Order Number', data: 'number', name: 'code' },
-            { title: 'Title', data: 'title', name: 'title' },
+            { title: 'Title', data: 'name', name: 'name' },
             { title: 'Status', data: 'status', name: 'status' },
             { title: 'Created At', data: 'created_at', name: 'created_at' },
             { title: 'Action', data: 'action', name: 'action', orderable: false },
@@ -113,7 +113,7 @@ $(document).ready(function () {
         }).prependTo('#inputForm');
 
         $('#mpd_number').val(data.mpd_number);
-        $('#title').val(data.title);
+        $('#name').val(data.name);
         $('#code').val(data.code);
         $('#aircraft_serial_number').val(data.aircraft_serial_number);
         $('#aircraft_registration_number').val(data.aircraft_registration_number);

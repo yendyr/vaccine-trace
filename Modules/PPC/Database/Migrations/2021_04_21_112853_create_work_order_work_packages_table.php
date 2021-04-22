@@ -18,7 +18,7 @@ class CreateWorkOrderWorkPackagesTable extends Migration
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('work_order_id');
             $table->string('code')->nullable()->unique();
-            $table->string('title')->nullable();
+            $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->unsignedDecimal('performance_factor', 8, 2)->nullable();
             $table->unsignedDecimal('total_manhours', 8, 2)->nullable();
