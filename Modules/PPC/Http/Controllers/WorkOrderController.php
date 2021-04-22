@@ -99,6 +99,14 @@ class WorkOrderController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'code' => ['required', 'max:30'],
+            'name' => ['required', 'max:30'],
+            'aircraft_registration_number' => ['required', 'max:30'],
+            'aircraft_serial_number' => ['required', 'max:30'],
+            'aircraft_id' => ['required', 'exists:aircraft_configurations,id'],
+        ]);
+
         DB::beginTransaction();
 
         $request->merge([
@@ -165,11 +173,23 @@ class WorkOrderController extends Controller
      * @param WorkOrder $work_order
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, WorkOrder $work_order)
     {
-        DB::beginTransaction();
+        $request->validate([
+            'code' => ['required', 'max:30'],
+            'name' => ['required', 'max:30'],
+            'aircraft_registration_number' => ['required', 'max:30'],
+            'aircraft_serial_number' => ['required', 'max:30'],
+            'aircraft_id' => ['required', 'exists:aircraft_configurations,id'],
+        ]);
 
+        DB::beginTransaction();
         $flag = true;
+        $result = $work_order->update($request->all());
+
+        if( !$result ) {
+            $flag = false;
+        }
 
         if ($flag) {
             DB::commit();
@@ -193,6 +213,12 @@ class WorkOrderController extends Controller
 
         $flag = true;
 
+        $result = $work_order->delete();
+
+        if( !$result ) {
+            $flag = false;
+        }
+        
         if ($flag) {
             DB::commit();
 
