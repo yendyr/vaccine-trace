@@ -180,6 +180,9 @@ use Modules\FlightOperations\Entities\AfmlDetailDiscrepancy;
 use Modules\FlightOperations\Policies\AfmlDetailRectificationPolicy;
 use Modules\FlightOperations\Entities\AfmlDetailRectification;
 
+use Modules\PPC\Entities\WorkOrderWorkPackage;
+use Modules\FlightOperations\Policies\WorkOrderWorkPackagePolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**

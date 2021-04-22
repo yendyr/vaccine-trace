@@ -33,17 +33,26 @@ class WorkOrderWorkPackageController extends Controller
 
             return Datatables::of($work_orders)
                 ->addColumn('number', function ($row) use ($request) {
-                    $noAuthorize = true;
-                    if ($request->user()->can('view', WorkOrderWorkPackage::class)) {
-                        $showText = $row->code;
-                        $noAuthorize = false;
-                    }
+                    if (!$request->aircraft_type_id) {
+                        $noAuthorize = true;
+                        if ($request->user()->can('view', WorkOrder::class)) {
+                            $showText = $row->code;
+                            $noAuthorize = false;
+                            $route = route('ppc.work-order.work-package.show', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
+                        }
 
-                    if ($noAuthorize == false) {
-                        return  '<a href="' . route('ppc.work-order.work-package.show', ['work_order' => $row->work_order_id, 'work_package' => $row->id]) . '">' . $showText . '</a>';
-                    } else {
-                        return '<p class="text-muted font-italic">Not Authorized</p>';
-                    }
+                        if ($request->user()->can('update', WorkOrder::class)) {
+                            $showText = $row->code;
+                            $noAuthorize = false;
+                            $route = route('ppc.work-order.work-package.edit', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
+                        }
+
+                        if ($noAuthorize == false) {
+                            return  '<a href="'. $route.'">'. $showText .'</a>';
+                        } else {
+                            return '<p class="text-muted font-italic">Not Authorized</p>';
+                        }
+                    } 
                 })
                 ->addColumn('action', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
@@ -69,15 +78,17 @@ class WorkOrderWorkPackageController extends Controller
                 ->escapeColumns([])
                 ->make();
         }
+
+        return response()->json('index');
     }
 
     /**
      * Show the form for creating a new resource.
      * @return Renderable
      */
-    public function create()
+    public function create(WorkOrder $work_order)
     {
-        return view('ppc::create');
+        return 'create';
     }
 
     /**
@@ -120,9 +131,14 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function show(WorkOrderWorkPackage $work_order_work_package)
+    public function show(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
-        return view('ppc::show');
+        return response()->json($work_package);
+
+        return view('ppc::pages.work-order.work-package.show', [
+            'work_order' => $work_order,
+            'work_package' => $work_package
+        ]);
     }
 
     /**
@@ -130,9 +146,14 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function edit(WorkOrderWorkPackage $work_order_work_package)
+    public function edit(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
-        return view('ppc::edit');
+        return response()->json($work_package);
+
+        return view('ppc::pages.work-order.work-package.show', [
+            'work_order' => $work_order,
+            'work_package' => $work_package
+        ]);
     }
 
     /**
@@ -141,7 +162,7 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function update(Request $request, WorkOrderWorkPackage $work_order_work_package)
+    public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_order_work_package)
     {
         DB::beginTransaction();
 
@@ -163,7 +184,7 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function destroy(WorkOrderWorkPackage $work_order_work_package)
+    public function destroy(WorkOrder $work_order, WorkOrderWorkPackage $work_order_work_package)
     {
         DB::beginTransaction();
 

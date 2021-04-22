@@ -49,11 +49,7 @@ class WorkOrderController extends Controller
                         } else {
                             return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
-                    } else if ($request->create_maintenance_program) {
-                        $usable = true;
-                        $idToUse = $row->id;
-                        return view('components.action-button', compact(['usable', 'idToUse']));
-                    }
+                    } 
                 })
                 ->addColumn('action', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
