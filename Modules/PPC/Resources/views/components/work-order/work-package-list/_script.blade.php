@@ -83,6 +83,8 @@ $(document).ready(function () {
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
+    deleteButtonProcess (datatableObject, tableId, actionUrl);
+
     function clearForm()
     {
         $(inputFormId)

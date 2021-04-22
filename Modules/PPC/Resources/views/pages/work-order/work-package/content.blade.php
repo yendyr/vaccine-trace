@@ -1,4 +1,7 @@
 <div class="col-md-12 m-t-md fadeIn" style="animation-duration: 1.5s">
+@component('components.delete-modal', ['name' => 'Work Package Datalist'])
+    @endcomponent
+    
         @component('components.crud-form.index',[
                         'title' => 'Work Package list on this project',
                         'tableId' => 'work-package-table'])

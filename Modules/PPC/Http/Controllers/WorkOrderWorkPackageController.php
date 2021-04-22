@@ -125,11 +125,11 @@ class WorkOrderWorkPackageController extends Controller
         if ($flag) {
             DB::commit();
 
-            return response()->json(['success' => 'Work Package has been deleted']);
+            return response()->json(['success' => 'Work Package has been created']);
         } else {
             DB::rollBack();
 
-            return response()->json(['error' => "Work Package failed to delete"]);
+            return response()->json(['error' => "Work Package failed to create"]);
         }
     }
 
@@ -186,11 +186,11 @@ class WorkOrderWorkPackageController extends Controller
         if ($flag) {
             DB::commit();
 
-            return response()->json(['success' => 'Work Package has been deleted']);
+            return response()->json(['success' => 'Work Package has been updated']);
         } else {
             DB::rollBack();
 
-            return response()->json(['error' => "Work Package failed to delete"]);
+            return response()->json(['error' => "Work Package failed to update"]);
         }
     }
 
@@ -199,11 +199,17 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function destroy(WorkOrder $work_order, WorkOrderWorkPackage $work_order_work_package)
+    public function destroy(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         DB::beginTransaction();
 
         $flag = true;
+
+        $result = $work_package->delete();
+
+        if( !$result ) {
+            $flag = false;
+        }
 
         if ($flag) {
             DB::commit();
