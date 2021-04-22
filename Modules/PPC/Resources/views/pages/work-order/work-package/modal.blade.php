@@ -39,7 +39,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 d-flex align-items-center">Performance Factor</label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control @error('performance_factor') is-invalid @enderror" name="performance_factor" id="performance_factor" min=0>
+                            <input type="number" class="form-control @error('performance_factor') is-invalid @enderror" name="performance_factor" id="performance_factor" step="0.1" min=0>
                             <div class="invalid-feedback-performance_factor text-danger font-italic"></div>
                         </div>
                     </div>

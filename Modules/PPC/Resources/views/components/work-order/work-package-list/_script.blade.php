@@ -83,6 +83,37 @@ $(document).ready(function () {
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
 
+
+    // ----------------- "EDIT" BUTTON SCRIPT ------------- //
+    datatableObject.on('click', '.editBtn', function () {
+        clearForm();
+        $('#modalTitle').html("Edit Work Package");
+        $(inputFormId).trigger("reset");                
+        rowId= $(this).val();
+        let tr = $(this).closest('tr');
+        let data = datatableObject.row(tr).data();
+        $(inputFormId).attr('action', actionUrl + '/' + data.id);
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: '_method',
+            value: 'put'
+        }).prependTo('#inputForm');
+
+        $('#mpd_number').val(data.mpd_number);
+
+        $.each(data, function(index, data) {
+            let elementID = '#'+index;
+            $(elementID).val(data);
+        });
+
+        $('#saveBtn').val("edit");
+        $('[class^="invalid-feedback-"]').html('');  // clearing validation
+        $('#inputModal').modal('show');
+    });
+    // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
+
+
     deleteButtonProcess (datatableObject, tableId, actionUrl);
 
     function clearForm()

@@ -165,7 +165,7 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_order_work_package)
+    public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
@@ -177,7 +177,7 @@ class WorkOrderWorkPackageController extends Controller
         DB::beginTransaction();
 
         $flag = true;
-        $result = $work_order_work_package->update($request->all());
+        $result = $work_package->update($request->all());
 
         if( !$result ) {
             $flag = false;
