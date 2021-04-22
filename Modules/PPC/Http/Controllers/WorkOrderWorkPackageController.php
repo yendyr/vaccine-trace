@@ -133,8 +133,6 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function show(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
-        return response()->json($work_package);
-
         return view('ppc::pages.work-order.work-package.show', [
             'work_order' => $work_order,
             'work_package' => $work_package
@@ -148,9 +146,7 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function edit(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
-        return response()->json($work_package);
-
-        return view('ppc::pages.work-order.work-package.show', [
+        return view('ppc::pages.work-order.work-package.index', [
             'work_order' => $work_order,
             'work_package' => $work_package
         ]);

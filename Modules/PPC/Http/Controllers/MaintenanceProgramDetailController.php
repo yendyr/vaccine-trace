@@ -14,6 +14,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
 
 class MaintenanceProgramDetailController extends Controller
@@ -186,7 +187,11 @@ class MaintenanceProgramDetailController extends Controller
                 })
                 ->escapeColumns([])
                 ->make(true);
+            }else{
+                return DataTables::of([])
+                ->make();
             }
+
         }
     }
 

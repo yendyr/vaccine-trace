@@ -10,40 +10,16 @@
             </div>
 
             <form method="post" id="inputForm">
-                <input type="hidden" id="work_order_id" name="work_order_id" value="{{ $work_order?->id }}">
-                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="maintenance_program_id" name="maintenance_program_id" value="{{ $MaintenanceProgram->id ?? '' }}">
+                <input type="hidden" id="taskcard_id" name="taskcard_id">
 
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-lg-12 text-success font-bold" id="work_package_info">
+                        <div class="col-lg-12 text-success font-bold" id="taskcard_info">
 
                         </div>
                     </div>
                     
-                    <div class="form-group row">
-                        <label class="col-sm-3 d-flex align-items-center">Code</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code">
-                            <div class="invalid-feedback-code text-danger font-italic"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-3 d-flex align-items-center">Title</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title">
-                            <div class="invalid-feedback-title text-danger font-italic"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-3 d-flex align-items-center">Performance Factor</label>
-                        <div class="col-sm-9">
-                            <input type="number" class="form-control @error('performance_factor') is-invalid @enderror" name="performance_factor" id="performance_factor" min=0>
-                            <div class="invalid-feedback-performance_factor text-danger font-italic"></div>
-                        </div>
-                    </div>
-
                     <div class="form-group row">
                         <label class="col-sm-3 d-flex align-items-center">Remark</label>
                         <div class="col-sm-9">
@@ -52,6 +28,19 @@
                         </div>
                     </div>
 
+                    {{-- <div class="form-group row">
+                        <label class="col-sm-5 d-flex align-items-center">Active</label>
+                        <div class="col-sm-7">     
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
+                                <div class="state p-primary">
+                                    <i class="icon fa fa-check"></i>
+                                    <label></label>
+                                </div>
+                                <div class="invalid-feedback-status text-danger font-italic"></div>
+                            </div>
+                        </div>
+                    </div> --}}
                 </div>
 
                 <div class="modal-footer">

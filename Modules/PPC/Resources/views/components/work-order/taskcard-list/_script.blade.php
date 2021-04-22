@@ -67,28 +67,28 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}" + "&create_maintenance_program=true",
+            url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $work_order?->aircraft?->aircraft_type?->id }}" + "&create_maintenance_program=true",
         },
         columns: [
-            { data: 'mpd_number', 
+            {   title: 'MPD Number', data: 'mpd_number', 
                     "render": function ( data, type, row, meta ) {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
-            { data: 'title', name: 'Title' },
-            { data: 'group_structure', name: 'Group' },
-            { data: 'tag', defaultContent: '-' },
-            { data: 'taskcard_type.name', name: 'Task Type' },
-            { data: 'instruction_count',
+            {   title: 'Title', data: 'title', name: 'Title' },
+            {   title: 'Group', data: 'group_structure', name: 'Group' },
+            {   title: 'Tag', data: 'tag', defaultContent: '-' },
+            {   title: 'Type', data: 'taskcard_type.name', name: 'Task Type' },
+            {   title: 'Instruction/Task Total', data: 'instruction_count',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
-            { data: 'manhours_total',
+            {   title: 'Manhours Total', data: 'manhours_total',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
-            { data: 'aircraft_type_name', name: 'Aircraft Type' },
-            { data: 'skills', name: 'Skill' },
-            { data: 'threshold_interval', name: 'Threshold' },
-            { data: 'repeat_interval', name: 'Repeat' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            {   title: 'Aircraft Type', data: 'aircraft_type_name', name: 'Aircraft Type' },
+            {   title: 'Skill', data: 'skills', name: 'Skill' },
+            {   title: 'Threshold', data: 'threshold_interval', name: 'Threshold' },
+            {   title: 'Repeat', data: 'repeat_interval', name: 'Repeat' },
+            {   title: 'Created At', data: 'created_at', name: 'Created At' },
+            {   title: 'Action', data: 'action', name: 'Action', orderable: false },
         ]
     });
 
@@ -163,28 +163,28 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/ppc/maintenance-program-detail/?maintenance_program_id=" + "{{ $MaintenanceProgram->id }}",
+            url: "/ppc/maintenance-program-detail/?maintenance_program_id=" + "{{ $work_package->id }}",
         },
         columns: [
-            { data: 'taskcard.mpd_number', 
+            {   title: 'MPD Number', data: 'taskcard.mpd_number', 
                     "render": function ( data, type, row, meta ) {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.taskcard.mpd_number + '</a>'; }},
-            { data: 'taskcard.title', name: 'Title' },
-            { data: 'group_structure', name: 'Group' },
-            { data: 'tag', defaultContent: '-' },
-            { data: 'taskcard.taskcard_type.name', name: 'Task Type' },
-            { data: 'instruction_count',
+            {   title: 'Title', data: 'taskcard.title', name: 'Title' },
+            {   title: 'Group', data: 'group_structure', name: 'Group' },
+            {   title: 'Tag', data: 'tag', defaultContent: '-' },
+            {   title: 'Type', data: 'taskcard.taskcard_type.name', name: 'Task Type' },
+            {   title: 'Instruction/Task Total', data: 'instruction_count',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
-            { data: 'manhours_total',
+            {   title: 'Manhours Total', data: 'manhours_total',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
-            { data: 'skills', name: 'Skill' },
-            { data: 'threshold_interval', name: 'Threshold' },
-            { data: 'repeat_interval', name: 'Repeat' },
-            { data: 'description', name: 'Remark' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            {   title: 'Skill', data: 'skills', name: 'Skill' },
+            {   title: 'Threshold', data: 'threshold_interval', name: 'Threshold' },
+            {   title: 'Repeat', data: 'repeat_interval', name: 'Repeat' },
+            {   title: 'Remark', data: 'description', name: 'Remark' },
+            {   title: 'Created At', data: 'created_at', name: 'Created At' },
+            {   title: 'Action', data: 'action', name: 'Action', orderable: false },
         ]
     });
 

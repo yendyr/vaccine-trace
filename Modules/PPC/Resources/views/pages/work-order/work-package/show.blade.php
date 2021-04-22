@@ -14,8 +14,8 @@
     <div class="row m-b m-t">
         <div class="col-md-5">
             <div class="profile-image">
-                @if($work_order?->file_attachment)
-                    <a target="_blank" href="{{ URL::asset('uploads/company/' . $work_order?->owned_by . '/taskcard/' . $work_order?->file_attachment) }}">
+                @if($work_package?->file_attachment)
+                    <a target="_blank" href="{{ URL::asset('uploads/company/' . $work_package?->owned_by . '/taskcard/' . $work_package?->file_attachment) }}">
                     <img src="{{ URL::asset('assets/default-pdf-image.png') }}" class="m-t-xs" id="fileTaskcard">
                     </a>
 
@@ -26,30 +26,23 @@
                     <span class="font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Attach New File</label></small></span>
                 @endif
 
-                <input onchange="getTaskcardFile(this)" style="display: none;" id="taskcardFile" type="file" name="taskcardFile" data-id="{{ $work_order?->id }}" accept="application/pdf" />
+                <input onchange="getTaskcardFile(this)" style="display: none;" id="taskcardFile" type="file" name="taskcardFile" data-id="{{ $work_package?->id }}" accept="application/pdf" />
             </div>
             <div class="profile-info">
                 <h2 class="m-t-none m-b-none">
-                    <strong>{{ $work_order?->title ?? 'Work Order Title' }}</strong>
+                    <strong>{{ $work_package?->title ?? 'Work Order Title' }}</strong>
                 </h2>
-                <h2 class="text-success m-t-none"><strong>{{ $work_order?->code ?? '' }}</strong></h2>
-                <div>Work Order Description: <strong class="text-success">{{ $work_order?->description ?? '' }}</strong></div>
+                <h2 class="text-success m-t-none"><strong>{{ $work_package?->code ?? '' }}</strong></h2>
             </div>
         </div>
         <div class="col-md-3">
-            <div>CSN: <strong class="text-success">{{ $work_order?->csn ?? '-' }}</strong></div>
-            <div>CSO: <strong class="text-success">{{ $work_order?->cso ?? '-' }}</strong></div>
-            <div>TSN: <strong class="text-success">{{ $work_order?->tsn ?? '-' }}</strong></div>
-            <div>TSO: <strong class="text-success">{{ $work_order?->tso ?? '-' }}</strong></div>
-            <div>Station: <strong class="text-success">{{ $work_order?->station ?? '-' }}</strong></div>
+            <div>Work Order Description: <br><strong class="text-success">{{ $work_package?->description ?? '' }}</strong></div>
         </div>
         <div class="col-md-4">
-        <div>Aircraft: <strong class="text-success">{{ $work_order?->aircraft?->aircraft_type?->name ?? '-' }}</strong></div>
-            <div>Aircraft Serial Number: <strong class="text-success">{{ $work_order?->aircraft_serial_number ?? $work_order?->aircraft?->serial_number ?? '-' }}</strong></div>
-            <div>Aircraft Registration Number: <strong class="text-success">{{ $work_order?->aircraft_registration_number ?? $work_order?->aircraft?->registration_number ?? '-' }}</strong></div>
-            <div>Issued Date: <strong class="text-success">{{ $work_order?->created_at->format('Y-F-d') ?? '-' }}</strong></div>
+            <div>Performance Factor: <strong class="text-success performance_factor">{{ $work_package?->performance_factor ?? '-' }}</strong></div>
+            <div>Total Manhours: <strong class="text-success total_manhours">{{ $work_package?->total_manhours ?? '-' }}</strong></div>
             <div>Status: <strong>
-                @if($work_order?->status == 1)
+                @if($work_package?->status == 1)
                     <label class="label label-success">
                         Active
                     </label>
@@ -64,8 +57,38 @@
     </div>
 
     <div class="row">
-        <div class="col">
-            @include('ppc::pages.work-order.work-package.content')
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li>
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
+                            <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Task Card/Inspection List Reference (MPD)
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
+                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Current Maintenance Program
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body" style="min-height: 600px;">
+                            <div class="row m-b">
+                                @include('ppc::pages.maintenance-program.taskcard-list.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body" style="min-height: 600px;">
+                            <div class="row m-b">
+                                @include('ppc::pages.maintenance-program.maintenance-program-detail.content')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
