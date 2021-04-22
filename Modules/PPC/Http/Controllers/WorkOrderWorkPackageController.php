@@ -173,10 +173,15 @@ class WorkOrderWorkPackageController extends Controller
             'performance_factor' => ['required', 'numeric'],
             'work_order_id' => ['required', 'exists:work_orders,id'],
         ]);
-        
+
         DB::beginTransaction();
 
         $flag = true;
+        $result = $work_order_work_package->update($request->all());
+
+        if( !$result ) {
+            $flag = false;
+        }
 
         if ($flag) {
             DB::commit();

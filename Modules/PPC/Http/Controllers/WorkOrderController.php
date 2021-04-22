@@ -184,8 +184,9 @@ class WorkOrderController extends Controller
         ]);
 
         DB::beginTransaction();
+        
         $flag = true;
-        $result = $work_order->update($request->all());
+        $result = $work_order->update($request->except(['code']));
 
         if( !$result ) {
             $flag = false;
