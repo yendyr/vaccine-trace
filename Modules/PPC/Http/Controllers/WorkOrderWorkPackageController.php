@@ -98,6 +98,13 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'code' => ['required', 'max:30'],
+            'title' => ['required', 'max:30'],
+            'performance_factor' => ['required', 'numeric'],
+            'work_order_id' => ['required', 'exists:work_orders,id'],
+        ]);
+
         DB::beginTransaction();
 
         $flag = true;
@@ -160,6 +167,13 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_order_work_package)
     {
+        $request->validate([
+            'code' => ['required', 'max:30'],
+            'title' => ['required', 'max:30'],
+            'performance_factor' => ['required', 'numeric'],
+            'work_order_id' => ['required', 'exists:work_orders,id'],
+        ]);
+        
         DB::beginTransaction();
 
         $flag = true;
