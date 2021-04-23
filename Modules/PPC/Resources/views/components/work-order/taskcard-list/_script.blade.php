@@ -5,7 +5,7 @@
 <script>
 $(document).ready(function () {
     // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
-    var actionUrl = '/ppc/maintenance-program-detail';
+    var actionUrl = "{{route('ppc.work-order.work-package.taskcard.store', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}";
     var tableId = '#taskcard-table';
     var tableId2 = '#maintenance-program-table';
     var inputFormId = '#inputForm';
@@ -163,7 +163,7 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "/ppc/maintenance-program-detail/?maintenance_program_id=" + "{{ $work_package->id }}",
+            url: "/ppc/work-order/{{$work_order->id}}/work-package/{{$work_package->id}}/taskcard",
         },
         columns: [
             {   title: 'MPD Number', data: 'taskcard.mpd_number', 

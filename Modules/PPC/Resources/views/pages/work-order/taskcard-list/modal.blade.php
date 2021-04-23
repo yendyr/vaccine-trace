@@ -9,8 +9,9 @@
                 </button>
             </div>
 
-            <form method="post" id="inputForm">
-                <input type="hidden" id="maintenance_program_id" name="maintenance_program_id" value="{{ $MaintenanceProgram->id ?? '' }}">
+            <form method="post" id="inputForm" action="{{route('ppc.work-order.work-package.taskcard.store', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}">
+                <input type="hidden" id="work_order_id" name="work_order_id" value="{{ $work_order->id ?? '' }}">
+                <input type="hidden" id="work_package_id" name="work_package_id" value="{{ $work_package->id ?? '' }}">
                 <input type="hidden" id="taskcard_id" name="taskcard_id">
 
                 <div class="modal-body">
@@ -28,19 +29,6 @@
                         </div>
                     </div>
 
-                    {{-- <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Active</label>
-                        <div class="col-sm-7">     
-                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
-                                <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
-                                <div class="state p-primary">
-                                    <i class="icon fa fa-check"></i>
-                                    <label></label>
-                                </div>
-                                <div class="invalid-feedback-status text-danger font-italic"></div>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
 
                 <div class="modal-footer">

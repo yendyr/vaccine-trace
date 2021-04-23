@@ -105,7 +105,10 @@ Route::name('ppc.')->group(function () {
         
         Route::name('work-order.')->prefix('work-order')->group(function() {
             Route::get('/select2/aircraft', 'WorkOrderController@select2Aircraft')->name('select2.aircraft');
-            Route::resource('{work_order}/work-package', 'WorkOrderWorkPackageController');   
+            Route::name('work-package.')->prefix('{work_order}/work-package')->group(function() {
+                Route::resource('{work_package}/taskcard', 'WorkOrderWorkPackageTaskcardController');
+            });
+            Route::resource('{work_order}/work-package', 'WorkOrderWorkPackageController');
         });
         Route::resource('/work-order', 'WorkOrderController');
     });

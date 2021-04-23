@@ -2,39 +2,47 @@
 
 namespace Modules\PPC\Http\Controllers;
 
-use Modules\PPC\Entities\MaintenanceProgram;
-use Modules\PPC\Entities\MaintenanceProgramDetail;
-use Modules\PPC\Entities\TaskcardGroup;
-use Modules\PPC\Entities\TaskcardDetailInstruction;
-use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
-
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
+use Modules\PPC\Entities\WorkOrder;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Modules\PPC\Entities\TaskcardGroup;
+use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Modules\PPC\Entities\TaskcardDetailInstruction;
+use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
+use Modules\PPC\Entities\WorkOrderWorkPackage;
 
-class MaintenanceProgramDetailController extends Controller
+class WorkOrderWorkPackageTaskcardController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(MaintenanceProgram::class, 'maintenance_program_detail');
+        $this->authorizeResource(WorkOrder::class);
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     * @return Renderable
+     */
+    public function index(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         if ($request->ajax()) {
-            if($request->maintenance_program_id) {
-                $data = MaintenanceProgramDetail::where('maintenance_program_details.maintenance_program_id', $request->maintenance_program_id)
+            if( $work_order && $work_package ) {
+                $data = WorkOrderWorkPackageTaskcard::query()
+                                                ->where('work_order_id', $work_order->id)
+                                                ->where('work_package_id', $work_package->id)
                                                 ->with(['taskcard',
                                                         'taskcard.taskcard_type',
                                                         'taskcard.tags:id,code,name',
-                                                        'maintenance_program',
+                                                        'work_order',
+                                                        'work_package',
                                                     ]);
                 return Datatables::of($data)
                 ->addColumn('group_structure', function($row) {
@@ -166,12 +174,12 @@ class MaintenanceProgramDetailController extends Controller
                 })
                 ->addColumn('action', function($row) {
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', MaintenanceProgram::class)) {
+                    if(Auth::user()->can('update', WorkOrder::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', MaintenanceProgram::class)) {
+                    if(Auth::user()->can('delete', WorkOrder::class)) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;
@@ -194,99 +202,101 @@ class MaintenanceProgramDetailController extends Controller
         }
     }
 
-    public function store(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     * @return Renderable
+     */
+    public function create()
     {
-        $existRow = MaintenanceProgramDetail::where('maintenance_program_id', $request->maintenance_program_id)
+        return view('ppc::create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Renderable
+     */
+    public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
+    {
+        $existRow = WorkOrderWorkPackageTaskcard::query()
+                                            ->where('work_order_id', $work_order->id)
+                                            ->where('work_package_id', $work_package->id)
                                             ->where('taskcard_id', $request->taskcard_id)
                                             ->exists();
         if($existRow == false) {
             DB::beginTransaction();
-            MaintenanceProgramDetail::create([
+            $result = WorkOrderWorkPackageTaskcard::create([
                 'uuid' =>  Str::uuid(),
     
-                'code' => $request->code,
-                'name' => $request->name,
+                'code' => $request->code ?? null,
+                'name' => $request->name ?? null,
                 'description' => $request->description,
-                'maintenance_program_id' => $request->maintenance_program_id,
+                'work_order_id' => $work_order->id,
+                'work_package_id' => $work_package->id,
                 'taskcard_id' => $request->taskcard_id,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
-            DB::commit();
-            return response()->json(['success' => 'Task Card has been Added to Maintenance Program']);
+
+            if( !get_class($result) ) {
+                $flag = false;
+            }
+
+            if($flag) {
+                DB::commit();
+
+                return response()->json(['success' => 'Task Card has been added to Maintenance Program']);
+            }else{
+                DB::commit();
+
+                return response()->json(['success' => 'Failed to add task card to Maintenance Program']);
+            }
         }
         else {
             return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
         }
     }
 
-    public function update(Request $request, MaintenanceProgramDetail $MaintenanceProgramDetail)
+    /**
+     * Show the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function show($id)
     {
-        $currentRow = MaintenanceProgram::where('id', $MaintenanceProgramDetail->maintenance_program_id)->first();
-
-        if ($currentRow->approvals()->count() == 0) {
-            // $request->validate([
-            //     'aircraft_type_id' => ['required', 'max:30'],
-            // ]);
-    
-            // if ($request->status) {
-            //     $status = 1;
-            // } 
-            // else {
-            //     $status = 0;
-            // }
-
-            $detailRow = MaintenanceProgramDetail::where('id', $MaintenanceProgramDetail->id)
-                                                ->first();    
-            $detailRow
-                ->update([
-                    'description' => $request->description,
-
-                    'status' => 1,
-                    'updated_by' => Auth::user()->id,
-            ]);
-            return response()->json(['success' => 'Remark has been Updated']);
-        }
-        else {
-            return response()->json(['error' => "This Maintenance Program and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
-        }
-        
+        return view('ppc::show');
     }
 
-    public function destroy(MaintenanceProgramDetail $MaintenanceProgramDetail)
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function edit($id)
     {
-        $currentRow = MaintenanceProgramDetail::where('id', $MaintenanceProgramDetail->id)->first();
-        $currentRow
-            ->update([
-                'deleted_by' => Auth::user()->id,
-            ]);
-
-        MaintenanceProgramDetail::destroy($MaintenanceProgramDetail->id);
-        return response()->json(['success' => "Task Card's Maintenance Program Data has been Deleted"]);
+        return view('ppc::edit');
     }
 
-    // public function select2(Request $request)
-    // {
-    //     $search = $request->q;
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $id
+     * @return Renderable
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
-    //     $query = MaintenanceProgram::with('aircraft_type')
-    //                 // ->whereHas('approvals')
-    //                 ->where('status', 1);
-
-    //     if($search != ''){
-    //         $query = $query->where('name', 'like', '%' .$search. '%');
-    //     }
-    //     $MaintenancePrograms = $query->get();
-
-    //     $response = [];
-    //     foreach($MaintenancePrograms as $MaintenanceProgram){
-    //         $response['results'][] = [
-    //             "id" => $MaintenanceProgram->id,
-    //             "text" => $MaintenanceProgram->name
-    //         ];
-    //     }
-    //     return response()->json($response);
-    // }
+    /**
+     * Remove the specified resource from storage.
+     * @param int $id
+     * @return Renderable
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

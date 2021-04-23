@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
+
+    @include('ppc::pages.work-order.taskcard-list.modal')
+
     @include('components.delete-modal', 
                     ['deleteModalId' => 'deleteModalInstruction',
                     'deleteFormId' => 'deleteFormInstruction',
