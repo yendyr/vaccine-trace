@@ -29,6 +29,9 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @param WorkOrderWorkPackageTaskcard $taskcard
      * @return Renderable
      */
     public function index(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
@@ -204,9 +207,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @param WorkOrderWorkPackageTaskcard $taskcard
      * @return Renderable
      */
-    public function create()
+    public function create(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         return view('ppc::create');
     }
@@ -261,20 +267,24 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @param WorkOrderWorkPackageTaskcard $taskcard
      * @return Renderable
      */
-    public function show($id)
+    public function show(WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
         return view('ppc::show');
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @param WorkOrderWorkPackageTaskcard $taskcard
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
         return view('ppc::edit');
     }
@@ -282,21 +292,50 @@ class WorkOrderWorkPackageTaskcardController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @param WorkOrderWorkPackageTaskcard $taskcard
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
         //
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @param WorkOrderWorkPackageTaskcard $taskcard
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
-        //
+        DB::beginTransaction();
+        $flag = true;
+
+        $updateRes = $taskcard->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+
+        if ( !$updateRes ) {
+            $flag = false;
+        }
+
+        $deleteRes = WorkOrderWorkPackageTaskcard::destroy('id', $taskcard->id);
+
+        if( !$deleteRes ) {
+            $flag = false;
+        }
+
+        if( $flag ) {
+            DB::commit();
+
+            return response()->json(['success' => "Task Card's Maintenance Program Data has been Deleted"]);
+        }else{
+            DB::rollBack();
+
+            return response()->json(['error' => "Failed to delete Task Card's Maintenance Program Data"]);
+        }
     }
 }

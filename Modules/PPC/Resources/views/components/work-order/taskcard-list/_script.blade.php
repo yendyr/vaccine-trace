@@ -5,7 +5,7 @@
 <script>
 $(document).ready(function () {
     // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
-    var actionUrl = "{{route('ppc.work-order.work-package.taskcard.store', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}";
+    var actionUrl = "{{route('ppc.work-order.work-package.taskcard.index', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}";
     var tableId = '#taskcard-table';
     var tableId2 = '#maintenance-program-table';
     var inputFormId = '#inputForm';
