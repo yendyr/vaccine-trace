@@ -21,6 +21,7 @@ class WorkOrderWorkPackage extends MainModel
         'description',
         'performance_factor',
         'total_manhours',
+        'file_attachment',
         'status',
         'created_by',
         'updated_by',

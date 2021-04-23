@@ -22,6 +22,7 @@ class CreateWorkOrderWorkPackagesTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedDecimal('performance_factor', 8, 2)->nullable();
             $table->unsignedDecimal('total_manhours', 8, 2)->nullable();
+            $table->string('file_attachment')->nullable();
             
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
