@@ -233,6 +233,7 @@ class AuthServiceProvider extends ServiceProvider
         ItemStockAging::class => AircraftAgingPolicy::class,
         WorkOrder::class => WorkOrderPolicy::class,
         WorkOrderWorkPackage::class => WorkOrderWorkPackagePolicy::class,
+        WorkOrderWorkPackage::class => WorkOrderWorkPackageTaskcardPolicy::class,
         
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
