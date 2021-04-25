@@ -149,7 +149,7 @@ class CountryController extends Controller
                 ]);
 
         Country::destroy($Country->id);
-        return response()->json(['success' => 'Contact Data has been Deleted']);
+        return response()->json(['success' => 'Country Data has been Deleted']);
     }
 
     public function select2(Request $request)

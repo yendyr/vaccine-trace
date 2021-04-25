@@ -22,8 +22,8 @@ class CreateChartOfAccountsTable extends Migration
 
             $table->string('parent_id')->nullable();
             $table->string('chart_of_account_class_id')->nullable();
-            $table->rememberToken();
 
+            $table->rememberToken();
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();

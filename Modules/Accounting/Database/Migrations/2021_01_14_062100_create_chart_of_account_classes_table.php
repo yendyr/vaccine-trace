@@ -19,9 +19,10 @@ class CreateChartOfAccountClassesTable extends Migration
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
-            $table->string('position')->nullable();
-            $table->rememberToken();
 
+            $table->string('position')->nullable();
+
+            $table->rememberToken();
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();
