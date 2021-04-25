@@ -315,7 +315,7 @@ $(document).ready(function () {
     // ----------------- END "SUBMIT" BUTTON SCRIPT ------------- //
 
 
-
+    // ------------------ DELETE SCRIPT --------------------------- //
     deleteButtonProcess (datatableObject2, tableId2, actionUrl);
 
 });
