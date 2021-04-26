@@ -6,5 +6,6 @@
     "GeneralSetting": true,
     "SupplyChain": true,
     "Accounting": true,
-    "FlightOperations": true
+    "FlightOperations": true,
+    "Procurement": true
 }
