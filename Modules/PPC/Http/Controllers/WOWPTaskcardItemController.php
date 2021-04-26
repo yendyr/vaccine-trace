@@ -25,7 +25,8 @@ class WOWPTaskcardItemController extends Controller
     {
         if ($request->ajax()) {
             $data = WOWPTaskcardItem::query()
-                                        ->where()
+                                        ->where('work_order_id', $work_order->id)
+                                        ->where('work_package_id', $work_package->id)
                                         ->with([
                                             'item:id,code,name',
                                             'unit:id,name',
