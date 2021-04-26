@@ -17,12 +17,12 @@ class CreateWOWPTaskcardItemsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('work_order_id');
-            $table->string('work_package_id');
-            $table->string('taskcard_id');
-            $table->string('item_id');
+            $table->string('work_order_id')->nullable();
+            $table->string('work_package_id')->nullable();
+            $table->string('taskcard_id')->nullable();
+            $table->string('item_id')->nullable();
             $table->integer('quantity')->default(0);
-            $table->string('unit_id');
+            $table->string('unit_id')->nullable();
             $table->string('description')->nullable();
 
             $table->integer('status')->nullable();
