@@ -31,8 +31,8 @@
                     <div class="form-group row">
                         <label class="col-sm-3 d-flex align-items-center">Title</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title">
-                            <div class="invalid-feedback-title text-danger font-italic"></div>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
+                            <div class="invalid-feedback-name text-danger font-italic"></div>
                         </div>
                     </div>
 

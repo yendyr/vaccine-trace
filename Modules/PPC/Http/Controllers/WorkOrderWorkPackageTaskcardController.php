@@ -13,6 +13,7 @@ use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardDetailInstruction;
 use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
@@ -39,12 +40,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
         if ($request->ajax()) {
             if( $work_order && $work_package ) {
                 $data = WorkOrderWorkPackageTaskcard::query()
-                                                ->where('work_order_id', $work_order->id)
                                                 ->where('work_package_id', $work_package->id)
                                                 ->with(['taskcard',
                                                         'taskcard.taskcard_type',
                                                         'taskcard.tags:id,code,name',
-                                                        'work_order',
                                                         'work_package',
                                                     ]);
                 return Datatables::of($data)
@@ -225,39 +224,73 @@ class WorkOrderWorkPackageTaskcardController extends Controller
     public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         $existRow = WorkOrderWorkPackageTaskcard::query()
-                                            ->where('work_order_id', $work_order->id)
                                             ->where('work_package_id', $work_package->id)
                                             ->where('taskcard_id', $request->taskcard_id)
                                             ->exists();
         if($existRow == false) {
             DB::beginTransaction();
+            $flag = true;
+            $taskcard = Taskcard::find($request->taskcard_id);
+            
+            if( !$taskcard ) {
+                $flag = false;
+
+                DB::rollBack();
+
+                return response()->json(['error' => 'Failed to find task card']);
+            }
+
             $result = WorkOrderWorkPackageTaskcard::create([
                 'uuid' =>  Str::uuid(),
     
-                'code' => $request->code ?? null,
-                'name' => $request->name ?? null,
-                'description' => $request->description,
-                'work_order_id' => $work_order->id,
                 'work_package_id' => $work_package->id,
                 'taskcard_id' => $request->taskcard_id,
+                'description' => $request->description,
+
+                'taskcard_json' => json_encode($taskcard),
+                'taskcard_group_json' => json_encode($taskcard->taskcard_group),
+                'taskcard_type_json' => json_encode($taskcard->taskcard_type),
+                'taskcard_workarea_json' => json_encode($taskcard->taskcard_workarea),
+                'aircraft_types_json' => json_encode($taskcard->aircraft_types),
+                'aircraft_type_details_json' => json_encode($taskcard->aircraft_type_details),
+                'affected_items_json' => json_encode($taskcard->affected_items),
+                'affected_item_details_json' => json_encode($taskcard->affected_item_details),
+                'tags_json' => json_encode($taskcard->tags),
+                'tag_details_json' => json_encode($taskcard->tag_details),
+                'accesses_json' => json_encode($taskcard->accesses),
+                'access_details_json' => json_encode($taskcard->access_details),
+                'zones_json' => json_encode($taskcard->zones),
+                'zone_details_json' => json_encode($taskcard->zone_details),
+                'document_libraries_json' => json_encode($taskcard->document_libraries),
+                'document_library_details_json' => json_encode($taskcard->document_library_details),
+                'affected_manuals_json' => json_encode($taskcard->affected_manuals),
+                'affected_manual_details_json' => json_encode($taskcard->affected_manual_details),
+                'instruction_details_json' => json_encode($taskcard->instruction_details),
+                'items_json' => json_encode($taskcard->items),
+                'item_details_json' => json_encode($taskcard->item_details),
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
 
+            
             if( !get_class($result) ) {
                 $flag = false;
             }
+            
+            $taskcard_total_manhours = $taskcard->instruction_details()->sum('manhours_estimation') ?? 0;
+            $total_manhours = ( $work_package->total_manhours ) ? $work_package->total_manhours + $taskcard_total_manhours : 0 + $taskcard_total_manhours;
+            $result = $work_package->update(['total_manhours' => $total_manhours]);
 
             if($flag) {
                 DB::commit();
 
-                return response()->json(['success' => 'Task Card has been added to Maintenance Program']);
+                return response()->json(['success' => 'Task Card has been added to Maintenance Program', 'total_manhours' => number_format($total_manhours, 2), 'total_manhours_with_performance_factor' => number_format($total_manhours * $work_package->performance_factor, 2)]);
             }else{
-                DB::commit();
+                DB::rollBack();
 
-                return response()->json(['success' => 'Failed to add task card to Maintenance Program']);
+                return response()->json(['error' => 'Failed to add task card to Maintenance Program']);
             }
         }
         else {
@@ -328,10 +361,19 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             $flag = false;
         }
 
+        $taskcard = Taskcard::find($taskcard->id);
+        $taskcard_total_manhours = $taskcard->instruction_details()->sum('manhours_estimation') ?? 0;
+        $total_manhours = ( $work_package->total_manhours ) ? $work_package->total_manhours - $taskcard_total_manhours : 0 - $taskcard_total_manhours;
+        $result = $work_package->update(['total_manhours' => $total_manhours]);
+
+        if( !$result ) {
+            $flag = false;
+        }
+
         if( $flag ) {
             DB::commit();
 
-            return response()->json(['success' => "Task Card's Maintenance Program Data has been Deleted"]);
+            return response()->json(['success' => "Task Card's Maintenance Program Data has been Deleted", 'total_manhours' => number_format($total_manhours, 2), 'total_manhours_with_performance_factor' => number_format($total_manhours * $work_package->performance_factor, 2)]);
         }else{
             DB::rollBack();
 

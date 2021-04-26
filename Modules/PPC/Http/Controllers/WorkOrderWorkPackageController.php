@@ -100,7 +100,7 @@ class WorkOrderWorkPackageController extends Controller
     {
         $request->validate([
             'code' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
+            'name' => ['required', 'max:30'],
             'performance_factor' => ['required', 'numeric'],
             'work_order_id' => ['required', 'exists:work_orders,id'],
         ]);
@@ -169,7 +169,7 @@ class WorkOrderWorkPackageController extends Controller
     {
         $request->validate([
             'code' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
+            'name' => ['required', 'max:30'],
             'performance_factor' => ['required', 'numeric'],
             'work_order_id' => ['required', 'exists:work_orders,id'],
         ]);

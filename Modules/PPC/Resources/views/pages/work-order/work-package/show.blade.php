@@ -44,6 +44,7 @@
         <div class="col-md-4">
             <div>Performance Factor: <strong class="text-success performance_factor">{{ $work_package?->performance_factor ?? '-' }}</strong></div>
             <div>Total Manhours: <strong class="text-success total_manhours">{{ $work_package?->total_manhours ?? '-' }}</strong></div>
+            <div>Total Manhours W/ Performance Factor: <strong class="text-success total_manhours_with_performance_factor"> @if( $work_package?->total_manhours && $work_package?->performance_factor) {{ number_format($work_package?->total_manhours * $work_package?->performance_factor, 2) }} @else - @endif</strong></div>
             <div>Status: <strong>
                 @if($work_package?->status == 1)
                     <label class="label label-success">

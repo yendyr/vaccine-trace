@@ -10,17 +10,35 @@ class WorkOrderWorkPackageTaskcard extends MainModel
 {
     use softDeletes;
     use Notifiable;
-    
+
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'uuid',
-        'work_order_id',
         'work_package_id',
         'taskcard_id',
-        'code',
-        'name',
         'description',
+        'taskcard_json',
+        'taskcard_group_json',
+        'taskcard_type_json',
+        'taskcard_workarea_json',
+        'aircraft_types_json',
+        'aircraft_type_details_json',
+        'affected_items_json',
+        'affected_item_details_json',
+        'tags_json',
+        'tag_details_json',
+        'accesses_json',
+        'access_details_json',
+        'zones_json',
+        'zone_details_json',
+        'document_libraries_json',
+        'document_library_details_json',
+        'affected_manuals_json',
+        'affected_manual_details_json',
+        'instruction_details_json',
+        'items_json',
+        'item_details_json',
         'status',
         'created_by',
         'updated_by',
@@ -36,11 +54,6 @@ class WorkOrderWorkPackageTaskcard extends MainModel
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
-    }
-
-    public function work_order()
-    {
-        return $this->belongsTo(\Modules\PPC\Entities\WorkOrder::class, 'work_order_id');
     }
 
     public function work_package()

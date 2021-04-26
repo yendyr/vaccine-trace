@@ -295,14 +295,16 @@ $(document).ready(function () {
                 $('#inputModal').modal('hide');
                 if (data.success) {
                     generateToast ('success', data.success);  
-                    $(tableId2).DataTable().ajax.reload();                          
+                    $(tableId2).DataTable().ajax.reload();       
+                    numberAnimation('total_manhours', data.total_manhours);                  
+                    numberAnimation('total_manhours_with_performance_factor', data.total_manhours_with_performance_factor);    
                 }
                 else if (data.error) {
                     swal.fire({
                         titleText: "Action Failed",
                         text: data.error,
                         icon: "error",
-                    });   
+                    }); 
                 }
             },
             complete: function () {
@@ -314,10 +316,19 @@ $(document).ready(function () {
     });
     // ----------------- END "SUBMIT" BUTTON SCRIPT ------------- //
 
-
+    function numberAnimation(dom, value) {
+        $('.'+dom).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 1000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(value);
+            }
+        });
+    }
 
     deleteButtonProcess (datatableObject2, tableId2, actionUrl);
-
 });
 </script>
 @endpush

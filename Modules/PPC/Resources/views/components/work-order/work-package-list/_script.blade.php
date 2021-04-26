@@ -52,12 +52,12 @@ $(document).ready(function () {
             url: "/ppc/work-order/{{$work_order->id}}/work-package",
         },
         columns: [
-            { title: 'Work Package Number', data: 'number', defaultContent: '-' },
-            { title: 'Title', data: 'title', defaultContent: '-' },
-            { title: 'Total Manhours', data: 'total_manhours', defaultContent: '-' },
-            { title: 'Performance Factor', data: 'performance_factor', defaultContent: '-' },
-            { title: 'Created At', data: 'created_at', defaultContent: '-' },
-            { title: 'Action', data: 'action', orderable: false },
+            { title: 'Work Package Number', data: 'number', name: 'number', defaultContent: '-' },
+            { title: 'Title', data: 'name', name: 'name', defaultContent: '-' },
+            { title: 'Total Manhours', data: 'total_manhours', name: 'total_manhours', defaultContent: '-' },
+            { title: 'Performance Factor', data: 'performance_factor', name: 'performance_factor', defaultContent: '-' },
+            { title: 'Created At', data: 'created_at', name: 'created_at', defaultContent: '-' },
+            { title: 'Action', data: 'action', name: 'action', orderable: false },
         ]
     });
 
