@@ -72,21 +72,21 @@ $(document).ready(function () {
             { data: 'mpd_number', 
                     "render": function ( data, type, row, meta ) {
                     return '<a href="taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
-            { data: 'title' },
-            { data: 'group_structure' },
+            { data: 'title', defaultContent: '-' },
+            { data: 'group_structure', defaultContent: '-' },
             { data: 'tag', defaultContent: '-' },
-            { data: 'taskcard_type.name' },
+            { data: 'taskcard_type.name', defaultContent: '-' },
             { data: 'instruction_count',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
             { data: 'manhours_total',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
-            { data: 'aircraft_type_name' },
-            { data: 'skills' },
-            { data: 'threshold_interval' },
-            { data: 'repeat_interval' },
-            { data: 'created_at' },
+            { data: 'aircraft_type_name', defaultContent: '-' },
+            { data: 'skills', defaultContent: '-' },
+            { data: 'threshold_interval', defaultContent: '-' },
+            { data: 'repeat_interval', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
     });

@@ -41,17 +41,17 @@
                         dataType: "json",
                     },
                     columns: [
-                        { data: 'workgroup', name: 'workgroup' },
-                        { data: 'workname', name: 'workname', defaultContent: "<p class='text-muted'>none</p>" },
-                        { data: 'shiftstatus.content', name: 'shiftstatus.content' },
-                        { data: 'shiftrolling', name: 'shiftrolling', defaultContent: "<p class='text-muted'>none</p>"},
-                        { data: 'rangerolling.content', name: 'rangerolling', defaultContent: "<p class='text-muted'>none</p>" },
-                        { data: 'roundtime.content', name: 'roundtime', defaultContent: "<p class='text-muted'>none</p>" },
-                        { data: 'workfinger.content', name: 'workfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
-                        { data: 'restfinger.content', name: 'restfinger.content', defaultContent: "<p class='text-muted'>none</p>" },
-                        { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
-                        { data: 'status', name: 'status' },
-                        { data: 'action', name: 'action', orderable: false },
+                        { data: 'workgroup', defaultContent: '-' },
+                        { data: 'workname', defaultContent: '-' },
+                        { data: 'shiftstatus.content', defaultContent: '-' },
+                        { data: 'shiftrolling', defaultContent: '-' },
+                        { data: 'rangerolling.content', defaultContent: '-' },
+                        { data: 'roundtime.content', defaultContent: '-' },
+                        { data: 'workfinger.content', defaultContent: '-' },
+                        { data: 'restfinger.content', defaultContent: '-' },
+                        { data: 'remark', defaultContent: '-' },
+                        { data: 'status', defaultContent: '-' },
+                        { data: 'action', orderable: false },
                     ]
                 });
 

@@ -21,13 +21,13 @@
                     dataType: "json",
                 },
                 columns: [
-                    { data: 'empid', name: 'empid' },
-                    { data: 'idcardtype.content', name: 'idcardtype.content', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'idcardno', name: 'idcardno', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'idcarddate', name: 'idcarddate', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'idcardexpdate', name: 'idcardexpdate', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false },
+                    { data: 'empid', defaultContent: '-' },
+                    { data: 'idcardtype.content', defaultContent: '-' },
+                    { data: 'idcardno', defaultContent: '-' },
+                    { data: 'idcarddate', defaultContent: '-' },
+                    { data: 'idcardexpdate', defaultContent: '-' },
+                    { data: 'status', defaultContent: '-' },
+                    { data: 'action', orderable: false },
                 ]
             });
 

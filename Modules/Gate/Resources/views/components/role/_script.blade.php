@@ -20,7 +20,7 @@
             columns: [
                 { data: 'role_name', defaultContent: '-' },
                 { data: 'status', defaultContent: '-' },
-                { data: 'action', name: 'action', orderable: false },
+                { data: 'action', orderable: false },
             ]
         });
 

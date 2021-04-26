@@ -73,22 +73,22 @@ $(document).ready(function () {
             {   title: 'MPD Number', data: 'mpd_number', 
                     "render": function ( data, type, row, meta ) {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
-            {   title: 'Title', data: 'title', name: 'Title' },
-            {   title: 'Group', data: 'group_structure', name: 'Group' },
+            {   title: 'Title', data: 'title', defaultContent: '-' },
+            {   title: 'Group', data: 'group_structure', defaultContent: '-' },
             {   title: 'Tag', data: 'tag', defaultContent: '-' },
-            {   title: 'Type', data: 'taskcard_type.name', name: 'Task Type' },
+            {   title: 'Type', data: 'taskcard_type.name', defaultContent: '-' },
             {   title: 'Instruction/Task Total', data: 'instruction_count',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
             {   title: 'Manhours Total', data: 'manhours_total',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
-            {   title: 'Aircraft Type', data: 'aircraft_type_name', name: 'Aircraft Type' },
-            {   title: 'Skill', data: 'skills', name: 'Skill' },
-            {   title: 'Threshold', data: 'threshold_interval', name: 'Threshold' },
-            {   title: 'Repeat', data: 'repeat_interval', name: 'Repeat' },
-            {   title: 'Created At', data: 'created_at', name: 'Created At' },
-            {   title: 'Action', data: 'action', name: 'Action', orderable: false },
+            {   title: 'Aircraft Type', data: 'aircraft_type_name', defaultContent: '-' },
+            {   title: 'Skill', data: 'skills', defaultContent: '-' },
+            {   title: 'Threshold', data: 'threshold_interval', defaultContent: '-' },
+            {   title: 'Repeat', data: 'repeat_interval', defaultContent: '-' },
+            {   title: 'Created At', data: 'created_at', defaultContent: '-' },
+            {   title: 'Action', data: 'action', orderable: false },
         ]
     });
 

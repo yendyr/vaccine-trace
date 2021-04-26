@@ -52,11 +52,11 @@ $(document).ready(function () {
             url: "{{ route('ppc.work-order.index') }}",
         },
         columns: [
-            { title: 'Work Order Number', data: 'number', name: 'code' },
-            { title: 'Title', data: 'name', name: 'name' },
-            { title: 'Status', data: 'status', name: 'status' },
-            { title: 'Created At', data: 'created_at', name: 'created_at' },
-            { title: 'Action', data: 'action', name: 'action', orderable: false },
+            { title: 'Work Order Number', data: 'number', defaultContent: '-' },
+            { title: 'Title', data: 'name', defaultContent: '-' },
+            { title: 'Status', data: 'status', defaultContent: '-' },
+            { title: 'Created At', data: 'created_at', defaultContent: '-' },
+            { title: 'Action', data: 'action', defaultContent: '-', orderable: false },
         ]
     });
 

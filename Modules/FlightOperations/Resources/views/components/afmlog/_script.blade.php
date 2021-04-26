@@ -49,11 +49,11 @@ $(document).ready(function () {
                             }},
             { data: 'total_flight_cycle', defaultContent: '0' },
             { data: 'total_flight_event', defaultContent: '0' },
-            { data: 'status', name: 'Status' },
-            { data: 'creator_name' },
-            { data: 'created_at' },
-            { data: 'updater_name' },
-            { data: 'updated_at' },
+            { data: 'status', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'updater_name', defaultContent: '-' },
+            { data: 'updated_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
     });

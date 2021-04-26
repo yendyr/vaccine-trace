@@ -23,15 +23,15 @@ $(document).ready(function () {
                             return '<a href="aircraft-configuration/' + row.id + '">' + row.serial_number + '</a>'; } },
             { data: 'registration_number', "render": function ( data, type, row, meta ) {
                             return '<a href="aircraft-configuration/' + row.id + '">' + row.registration_number + '</a>'; } },
-            { data: 'manufactured_date', name: 'Manufactured Date' },
-            { data: 'received_date', name: 'Received Date' },
-            { data: 'description', name: 'Description/Remark' },
-            { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'updater_name', name: 'Last Updated By' },
-            { data: 'updated_at', name: 'Last Updated At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'manufactured_date', defaultContent: '-' },
+            { data: 'received_date', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'status', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'updater_name', defaultContent: '-' },
+            { data: 'updated_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

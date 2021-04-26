@@ -17,17 +17,17 @@ $(document).ready(function () {
             url: "{{ route('ppc.aircraft-configuration-template.index') }}",
         },
         columns: [
-            { data: 'code', name: 'Code'  },
+            { data: 'code', defaultContent: '-' },
             { data: 'name', "render": function ( data, type, row, meta ) {
                             return '<a href="aircraft-configuration-template/' + row.id + '">' + row.name + '</a>'; }},
-            { data: 'aircraft_type.name', name: 'Aircraft Type', defaultContent: '-' },
-            { data: 'description', name: 'Description/Remark' },
-            { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'updater_name', name: 'Last Updated By' },
-            { data: 'updated_at', name: 'Last Updated At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'aircraft_type.name', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'status', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'updater_name', defaultContent: '-' },
+            { data: 'updated_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

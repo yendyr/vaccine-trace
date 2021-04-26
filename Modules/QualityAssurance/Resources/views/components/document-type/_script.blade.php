@@ -17,15 +17,15 @@
                 url: "{{ route('qualityassurance.document-type.index') }}",
             },
             columns: [
-                { data: 'code', name: 'Code'  },
-                { data: 'name', name: 'Document Type Name' },
-                { data: 'description', name: 'Description/Remark' },
-                { data: 'status', name: 'Status' },
-                { data: 'creator_name', name: 'Created By' },
-                { data: 'created_at', name: 'Created At' },
-                { data: 'updater_name', name: 'Last Updated By' },
-                { data: 'updated_at', name: 'Last Updated At' },
-                { data: 'action', name: 'Action', orderable: false },
+                { data: 'code', defaultContent: '-' },
+                { data: 'name', defaultContent: '-' },
+                { data: 'description', defaultContent: '-' },
+                { data: 'status', defaultContent: '-' },
+                { data: 'creator_name', defaultContent: '-' },
+                { data: 'created_at', defaultContent: '-' },
+                { data: 'updater_name', defaultContent: '-' },
+                { data: 'updated_at', defaultContent: '-' },
+                { data: 'action', orderable: false },
             ]
         });
 

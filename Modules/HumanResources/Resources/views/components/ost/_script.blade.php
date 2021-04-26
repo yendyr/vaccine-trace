@@ -22,13 +22,13 @@
                     dataType: "json",
                 },
                 columns: [
-                    { data: 'titlecode.title', name: 'titlecode.title' },
-                    { data: 'jobtitle', name: 'jobtitle' },
-                    { data: 'rptorg.name', name: 'rptorg', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'rpttitle.title', name: 'rpttitle', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false },
-                    { data: 'orgcode', name: 'orgcode', visible: false },
+                    { data: 'titlecode.title', defaultContent: '-' },
+                    { data: 'jobtitle', defaultContent: '-' },
+                    { data: 'rptorg.name', defaultContent: '-' },
+                    { data: 'rpttitle.title', defaultContent: '-' },
+                    { data: 'status', defaultContent: '-' },
+                    { data: 'action', orderable: false },
+                    { data: 'orgcode', visible: false },
                 ]
             });
             $('#TreeGrid').on('click', function () {

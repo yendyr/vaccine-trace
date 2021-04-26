@@ -14,16 +14,16 @@ $(document).ready(function () {
             url: "{{ route('supplychain.stock-monitoring.index') }}",
         },
         columns: [
-            { data: 'warehouse' },
-            { data: 'detailed_item_location', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item.code' },
-            { data: 'item.name' },
-            { data: 'serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'alias_name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'used_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'loaned_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'reserved_quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'warehouse', defaultContent: '-' },
+            { data: 'detailed_item_location', defaultContent: '-' },
+            { data: 'item.code', defaultContent: '-' },
+            { data: 'item.name', defaultContent: '-' },
+            { data: 'serial_number', defaultContent: '-' },
+            { data: 'alias_name', defaultContent: '-' },
+            { data: 'quantity', defaultContent: '-' },
+            { data: 'used_quantity', defaultContent: '-' },
+            { data: 'loaned_quantity', defaultContent: '-' },
+            { data: 'reserved_quantity', defaultContent: '-' },
             { data: 'available_quantity',
                 "render": function ( data, type, row, meta ) {
                     if (row.available_quantity > 0) {
@@ -33,9 +33,9 @@ $(document).ready(function () {
                         return "<span class='label label-danger'>" + row.available_quantity + '</span>';
                     } 
                 }},
-            { data: 'item.unit.name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'description', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'parent', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'item.unit.name', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'parent', defaultContent: '-' },
         ]
     });
 });

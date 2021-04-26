@@ -24,13 +24,13 @@ $(document).ready(function () {
                             return '<a href="mutation-inbound/' + row.id + '">' + row.transaction_date + '</a>'; } },
             { data: 'destination.name', "render": function ( data, type, row, meta ) {
                             return '<a href="mutation-inbound/' + row.id + '">' + row.destination.code + ' | ' + row.destination.name + '</a>'; } },
-            { data: 'description' },
-            { data: 'reference' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'updater_name', name: 'Last Updated By' },
-            { data: 'updated_at', name: 'Last Updated At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'description', defaultContent: '-' },
+            { data: 'reference', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'updater_name', defaultContent: '-' },
+            { data: 'updated_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

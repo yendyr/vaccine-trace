@@ -24,17 +24,17 @@
                     dataType: "json",
                 },
                 columns: [
-                    { data: 'empid', name: 'empid' },
-                    { data: 'quotayear', name: 'quotayear' },
-                    { data: 'quotacode.content', name: 'quotacode.content' },
-                    { data: 'quotastartdate', name: 'quotastartdate', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'quotaexpdate', name: 'quotaexpdate', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'quotaallocdate', name: 'quotaallocdate', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'quotaqty', name: 'quotaqty' },
-                    { data: 'quotabal', name: 'quotabal' },
-                    { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false },
+                    { data: 'empid', defaultContent: '-' },
+                    { data: 'quotayear', defaultContent: '-' },
+                    { data: 'quotacode.content', defaultContent: '-' },
+                    { data: 'quotastartdate', defaultContent: '-' },
+                    { data: 'quotaexpdate', defaultContent: '-' },
+                    { data: 'quotaallocdate', defaultContent: '-' },
+                    { data: 'quotaqty', defaultContent: '-' },
+                    { data: 'quotabal', defaultContent: '-' },
+                    { data: 'remark', defaultContent: '-' },
+                    { data: 'status', defaultContent: '-' },
+                    { data: 'action', orderable: false },
                 ]
             });
 

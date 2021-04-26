@@ -72,21 +72,21 @@ $(document).ready(function () {
             { data: 'taskcard.mpd_number', 
                     "render": function ( data, type, row, meta ) {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.taskcard.id + '">' + row.taskcard.mpd_number + '</a>'; }},
-            { data: 'taskcard.title', name: 'Title' },
-            { data: 'group_structure', name: 'Group' },
+            { data: 'taskcard.title', defaultContent: '-' },
+            { data: 'group_structure', defaultContent: '-' },
             { data: 'tag', defaultContent: '-' },
-            { data: 'taskcard.taskcard_type.name', name: 'Task Type' },
+            { data: 'taskcard.taskcard_type.name', defaultContent: '-' },
             { data: 'instruction_count',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
             { data: 'manhours_total',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
-            { data: 'skills', name: 'Skill' },
-            { data: 'threshold_interval', name: 'Threshold' },
-            { data: 'repeat_interval' },
-            { data: 'description', name: 'Remark' },
-            { data: 'created_at', name: 'Created At' },
+            { data: 'skills', defaultContent: '-' },
+            { data: 'threshold_interval', defaultContent: '-' },
+            { data: 'repeat_interval', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
             // { data: 'action', name: 'Action', orderable: false },
         ]
     });

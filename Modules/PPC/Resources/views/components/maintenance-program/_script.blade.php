@@ -23,13 +23,13 @@ $(document).ready(function () {
                             return '<a href="maintenance-program/' + row.id + '">' + row.aircraft_type.name + '</a>'; } },
             { data: 'name', "render": function ( data, type, row, meta ) {
                             return '<a href="maintenance-program/' + row.id + '">' + row.name + '</a>'; } },
-            { data: 'description', name: 'Description/Remark' },
-            { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'updater_name', name: 'Last Updated By' },
-            { data: 'updated_at', name: 'Last Updated At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'description', defaultContent: '-' },
+            { data: 'status', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'updater_name', defaultContent: '-' },
+            { data: 'updated_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

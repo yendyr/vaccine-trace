@@ -10,15 +10,15 @@
                     url: "{{ route('gate.role-menu.index')}}",
                 },
                 columns: [
-                    { data: 'group', name: 'group' },
-                    { data: 'menu_link', name: 'menu_link' },
-                    { data: 'menu_text', name: 'menu_text' },
-                    { data: 'view_menu', name: 'view_menu' },
-                    { data: 'add_column', name: 'add_column', orderable: false },
-                    { data: 'update_column', name: 'update_column', orderable: false },
-                    { data: 'delete_column', name: 'delete_column', orderable: false },
-                    { data: 'print_column', name: 'print_column', orderable: false },
-                    { data: 'approval_column', name: 'approval_column', orderable: false },
+                    { data: 'group', defaultContent: '-' },
+                    { data: 'menu_link', defaultContent: '-' },
+                    { data: 'menu_text', defaultContent: '-' },
+                    { data: 'view_menu', defaultContent: '-' },
+                    { data: 'add_column', orderable: false },
+                    { data: 'update_column', orderable: false },
+                    { data: 'delete_column', orderable: false },
+                    { data: 'print_column', orderable: false },
+                    { data: 'approval_column', orderable: false },
                 ]
             });
 
@@ -51,15 +51,15 @@
                         url: "/gate/role-menu/datatable/" + roleID,
                     },
                     columns: [
-                        { data: 'group', name: 'group' },
-                        { data: 'menu_link', name: 'menu_link' },
-                        { data: 'menu_text', name: 'menu_text', className: "text-right" },
-                        { data: 'view_menu', name: 'view_menu' },
-                        { data: 'add_column', name: 'add_column', orderable: false },
-                        { data: 'update_column', name: 'update_column', orderable: false },
-                        { data: 'delete_column', name: 'delete_column', orderable: false },
-                        { data: 'print_column', name: 'print_column', orderable: false },
-                        { data: 'approval_column', name: 'approval_column', orderable: false },
+                        { data: 'group', defaultContent: '-' },
+                        { data: 'menu_link', defaultContent: '-' },
+                        { data: 'menu_text', defaultContent: '-', className: "text-right" },
+                        { data: 'view_menu', defaultContent: '-' },
+                        { data: 'add_column', orderable: false },
+                        { data: 'update_column', orderable: false },
+                        { data: 'delete_column', orderable: false },
+                        { data: 'print_column', orderable: false },
+                        { data: 'approval_column', orderable: false },
                     ]
                 });
             });

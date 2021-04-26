@@ -21,12 +21,12 @@ $(document).ready(function () {
             { data: 'username', defaultContent: '-' },
             { data: 'name', defaultContent: '-' },
             { data: 'email', defaultContent: '-' },
-            { data: 'role.role_name', name: 'role.role_name', defaultContent: '-' },
-            { data: 'employee.fullname', name: 'employee.fullname', defaultContent: '-' },
-            { data: 'company.name', name: 'company.name', defaultContent: '-' },
+            { data: 'role.role_name', defaultContent: '-' },
+            { data: 'employee.fullname', defaultContent: '-' },
+            { data: 'company.name', defaultContent: '-' },
             { data: 'status', defaultContent: '-' },
-            { data: 'action', name: 'action', orderable: false },
-            { data: 'password', name: 'password', visible: false },
+            { data: 'action', orderable: false },
+            { data: 'password', visible: false },
         ],
     });
 

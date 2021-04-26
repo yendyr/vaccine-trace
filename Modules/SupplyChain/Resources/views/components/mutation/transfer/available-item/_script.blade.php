@@ -22,8 +22,8 @@ $(document).ready(function () {
         columns: [
             // { data: 'warehouse' },
             { data: 'detailed_item_location', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item.code' },
-            { data: 'item.name' },
+            { data: 'item.code', defaultContent: '-' },
+            { data: 'item.name', defaultContent: '-' },
             { data: 'serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'alias_name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'quantity', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
@@ -107,22 +107,22 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'item_stock.detailed_item_location', defaultContent: '-' },
-            { data: 'item_stock.item.code' },
-            { data: 'item_stock.item.name' },
+            { data: 'item_stock.item.code', defaultContent: '-' },
+            { data: 'item_stock.item.name', defaultContent: '-' },
             { data: 'item_stock.serial_number', defaultContent: '-' },
             { data: 'transfer_quantity',
                 "render": function ( data, type, row, meta ) {
                     return "<span class='label label-primary'>" + row.transfer_quantity + '</span>';
                 }},
-            { data: 'item_stock.item.unit.name' },
+            { data: 'item_stock.item.unit.name', defaultContent: '-' },
             { data: 'item_stock.alias_name', defaultContent: '-' },
             { data: 'item_stock.description', defaultContent: '-' },
             { data: 'transfer_detailed_item_location', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

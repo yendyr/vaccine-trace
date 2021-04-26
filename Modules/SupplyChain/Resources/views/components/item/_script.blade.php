@@ -31,7 +31,7 @@
                 { data: 'created_at', defaultContent: '-' },
                 { data: 'updater_name', defaultContent: '-' },
                 { data: 'updated_at', defaultContent: '-' },
-                { data: 'action', name: 'Action', orderable: false },
+                { data: 'action', orderable: false },
             ]
         });
 

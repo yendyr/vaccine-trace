@@ -33,12 +33,12 @@
                     },
                 },
                 columns: [
-                    { data: 'holidayyear', name: 'holidayyear' },
-                    { data: 'holidaydate.name', name: 'holidaydate.name' },
-                    { data: 'holidaycode.name', name: 'holidaycode.name' },
-                    { data: 'remark', name: 'remark', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false },
+                    { data: 'holidayyear', defaultContent: '-' },
+                    { data: 'holidaydate.name', defaultContent: '-' },
+                    { data: 'holidaycode.name', defaultContent: '-' },
+                    { data: 'remark', defaultContent: '-' },
+                    { data: 'status', defaultContent: '-' },
+                    { data: 'action', orderable: false },
                 ]
             });
 

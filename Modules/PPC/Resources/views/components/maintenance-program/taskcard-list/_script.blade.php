@@ -73,22 +73,22 @@ $(document).ready(function () {
             { data: 'mpd_number', 
                     "render": function ( data, type, row, meta ) {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
-            { data: 'title', name: 'Title' },
-            { data: 'group_structure', name: 'Group' },
+            { data: 'title', defaultContent: '-' },
+            { data: 'group_structure', defaultContent: '-' },
             { data: 'tag', defaultContent: '-' },
-            { data: 'taskcard_type.name', name: 'Task Type' },
+            { data: 'taskcard_type.name', defaultContent: '-' },
             { data: 'instruction_count',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.instruction_count + '</label>'; } },
             { data: 'manhours_total',
                     "render": function ( data, type, row, meta ) {
                     return '<label class="label label-success">' + row.manhours_total + '</label>'; } },
-            { data: 'aircraft_type_name', name: 'Aircraft Type' },
-            { data: 'skills', name: 'Skill' },
-            { data: 'threshold_interval', name: 'Threshold' },
-            { data: 'repeat_interval', name: 'Repeat' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'aircraft_type_name', defaultContent: '-' },
+            { data: 'skills', defaultContent: '-' },
+            { data: 'threshold_interval', defaultContent: '-' },
+            { data: 'repeat_interval', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

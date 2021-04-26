@@ -14,17 +14,17 @@ $(document).ready(function () {
             url: "{{ route('ppc.item-aging-report.index') }}",
         },
         columns: [
-            { data: 'current_position' },
-            { data: 'item.code' },
-            { data: 'serial_number', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item.name' },
-            { data: 'alias_name', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'item_stock_initial_aging.initial_start_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'initial_status' },
-            { data: 'in_period_aging' },
-            { data: 'current_status' },
-            { data: 'month_since_start', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'expired_date', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
+            { data: 'current_position', defaultContent: '-' },
+            { data: 'item.code', defaultContent: '-' },
+            { data: 'serial_number', defaultContent: '-' },
+            { data: 'item.name', defaultContent: '-' },
+            { data: 'alias_name', defaultContent: '-' },
+            { data: 'item_stock_initial_aging.initial_start_date', defaultContent: '-' },
+            { data: 'initial_status', defaultContent: '-' },
+            { data: 'in_period_aging', defaultContent: '-' },
+            { data: 'current_status', defaultContent: '-' },
+            { data: 'month_since_start', defaultContent: '-' },
+            { data: 'expired_date', defaultContent: '-' },
         ]
     });
 });

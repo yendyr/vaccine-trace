@@ -34,14 +34,14 @@
                     dataType: "json",
                 },
                 columns: [
-                    { data: 'empid', name: 'empid' },
-                    { data: 'attdtype.content', name: 'attdtype.content', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'attddate', name: 'attddate', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'attdtime', name: 'attdtime', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'deviceid', name: 'deviceid', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'inputon', name: 'inputon', defaultContent: "<p class='text-muted'>none</p>" },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action' },
+                    { data: 'empid', defaultContent: '-' },
+                    { data: 'attdtype.content', defaultContent: '-' },
+                    { data: 'attddate', defaultContent: '-' },
+                    { data: 'attdtime', defaultContent: '-' },
+                    { data: 'deviceid', defaultContent: '-' },
+                    { data: 'inputon', defaultContent: '-' },
+                    { data: 'status', defaultContent: '-' },
+                    { data: 'action', orderable: false },
                 ]
             });
             var tableAttdValidate = $('#validation-in-table').DataTable({

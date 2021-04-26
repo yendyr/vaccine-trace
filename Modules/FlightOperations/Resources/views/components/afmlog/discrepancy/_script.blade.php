@@ -31,7 +31,7 @@ $(document).ready(function () {
             { data: 'rectification_code', defaultContent: '-' },
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'action', orderable: false },
         ]
     });
 

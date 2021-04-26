@@ -17,15 +17,15 @@ $(document).ready(function () {
             url: "/ppc/configuration-template-detail/?id=" + $('#aircraft_configuration_template_id').val(),
         },
         columns: [
-            { data: 'item.code', name: 'Item Code/PN' },
-            { data: 'item.name', name: 'Item Name' },
-            { data: 'alias_name', name: 'Alias Name' },
-            { data: 'description', name: 'Description/Remark' },
+            { data: 'item.code', defaultContent: '-' },
+            { data: 'item.name', defaultContent: '-' },
+            { data: 'alias_name', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },
-            { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'status', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

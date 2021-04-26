@@ -17,17 +17,17 @@
                 url: "{{ route('gate.role.index') }}",
             },
             columns: [
-                { data: 'code', name: 'Code', defaultContent: '-' },
-                { data: 'role_name', name: 'Role Name' },
-                { data: 'role_name_alias', name: 'Role Name Alias', defaultContent: '-' },
-                { data: 'description', name: 'Description/Remark', defaultContent: '-' },
-                { data: 'is_in_flight_role', name: 'Authorize as In-Flight Role' },
-                { data: 'status', name: 'Status' },
-                { data: 'creator_name', name: 'Created By' },
-                { data: 'created_at', name: 'Created At' },
-                { data: 'updater_name', name: 'Last Updated By' },
-                { data: 'updated_at', name: 'Last Updated At' },
-                { data: 'action', name: 'Action', orderable: false },
+                { data: 'code', defaultContent: '-' },
+                { data: 'role_name', defaultContent: '-' },
+                { data: 'role_name_alias', defaultContent: '-' },
+                { data: 'description', defaultContent: '-' },
+                { data: 'is_in_flight_role', defaultContent: '-' },
+                { data: 'status', defaultContent: '-' },
+                { data: 'creator_name', defaultContent: '-' },
+                { data: 'created_at', defaultContent: '-' },
+                { data: 'updater_name', defaultContent: '-' },
+                { data: 'updated_at', defaultContent: '-' },
+                { data: 'action', orderable: false },
             ]
         });
 

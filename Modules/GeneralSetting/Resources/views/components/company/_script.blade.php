@@ -17,23 +17,23 @@
                 url: "{{ route('generalsetting.company.index') }}",
             },
             columns: [
-                { data: 'code', name: 'Code', defaultContent: '-' },
+                { data: 'code', defaultContent: '-' },
                 { data: 'name', 
                         "render": function ( data, type, row, meta ) {
                         return '<a href="company/' + row.id + '">' + row.name + '</a>';
                         } },
-                { data: 'gst_number', name: 'GST Number', defaultContent: '-' },
-                { data: 'npwp_number', name: 'NPWP', defaultContent: '-' },
-                { data: 'description', name: 'Description/Remark', defaultContent: '-' },
-                { data: 'is_customer', name: 'As Customer', defaultContent: '-' },
-                { data: 'is_supplier', name: 'As Supplier', defaultContent: '-' },
-                { data: 'is_manufacturer', name: 'As Manufacturer', defaultContent: '-' },
-                { data: 'status', name: 'Status', defaultContent: '-' },
-                { data: 'creator_name', name: 'Created By', defaultContent: '-' },
-                { data: 'created_at', name: 'Created At', defaultContent: '-' },
-                { data: 'updater_name', name: 'Last Updated By', defaultContent: '-' },
-                { data: 'updated_at', name: 'Last Updated At', defaultContent: '-' },
-                { data: 'action', name: 'Action', orderable: false },
+                { data: 'gst_number', defaultContent: '-' },
+                { data: 'npwp_number', defaultContent: '-' },
+                { data: 'description', defaultContent: '-' },
+                { data: 'is_customer', defaultContent: '-' },
+                { data: 'is_supplier', defaultContent: '-' },
+                { data: 'is_manufacturer', defaultContent: '-' },
+                { data: 'status', defaultContent: '-' },
+                { data: 'creator_name', defaultContent: '-' },
+                { data: 'created_at', defaultContent: '-' },
+                { data: 'updater_name', defaultContent: '-' },
+                { data: 'updated_at', defaultContent: '-' },
+                { data: 'action', orderable: false },
             ]
         });
 

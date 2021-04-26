@@ -17,18 +17,18 @@ $(document).ready(function () {
             url: "{{ route('ppc.taskcard-tag.index') }}",
         },
         columns: [
-            { data: 'code', name: 'Code'  },
-            { data: 'name', name: 'Task Card Group Name' },
-            { data: 'description', name: 'Description/Remark' },
+            { data: 'code', defaultContent: '-' },
+            { data: 'name', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
             // { data: 'threshold_interval', name: 'Threshold' },
             // { data: 'repeat_interval', name: 'Repeat' },
             // { data: 'interval_control_method', name: 'Method' },
-            { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'updater_name', name: 'Last Updated By' },
-            { data: 'updated_at', name: 'Last Updated At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'status', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'updater_name', defaultContent: '-' },
+            { data: 'updated_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

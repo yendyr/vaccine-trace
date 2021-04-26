@@ -18,11 +18,11 @@ $(document).ready(function () {
             url: "/supplychain/mutation-inbound-detail/?id=" + "{{ $MutationInbound->id }}",
         },
         columns: [
-            { data: 'item.code' },
-            { data: 'item.name' },
+            { data: 'item.code', defaultContent: '-' },
+            { data: 'item.name', defaultContent: '-' },
             { data: 'serial_number', defaultContent: '-' },
-            { data: 'quantity' },
-            { data: 'item.unit.name' },
+            { data: 'quantity', defaultContent: '-' },
+            { data: 'item.unit.name', defaultContent: '-' },
             { data: 'alias_name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'detailed_item_location', defaultContent: '-' },
@@ -35,9 +35,9 @@ $(document).ready(function () {
             { data: 'mutation_detail_initial_aging.initial_start_date', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.expired_date', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 

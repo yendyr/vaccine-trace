@@ -17,12 +17,12 @@ $(document).ready(function () {
             url: "/ppc/configuration-detail/?id=" + $('#aircraft_configuration_id').val(),
         },
         columns: [
-            { data: 'item.code', name: 'Item Code/PN' },
-            { data: 'item.name', name: 'Item Name' },
-            { data: 'serial_number', name: 'Serial Number' },
-            { data: 'alias_name', name: 'Alias Name' },
-            { data: 'description', name: 'Description/Remark' },
-            { data: 'highlighted', name: 'Highlight Item' },
+            { data: 'item.code', defaultContent: '-' },
+            { data: 'item.name', defaultContent: '-' },
+            { data: 'serial_number', defaultContent: '-' },
+            { data: 'alias_name', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'highlighted', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },
             { data: 'item_stock_initial_aging.initial_flight_hour', defaultContent: '-' },
             { data: 'item_stock_initial_aging.initial_block_hour', defaultContent: '-' },
@@ -30,10 +30,10 @@ $(document).ready(function () {
             { data: 'item_stock_initial_aging.initial_flight_event', defaultContent: '-' },
             { data: 'item_stock_initial_aging.initial_start_date', defaultContent: '-' },
             { data: 'item_stock_initial_aging.expired_date', defaultContent: '-' },
-            { data: 'status', name: 'Status' },
-            { data: 'creator_name', name: 'Created By' },
-            { data: 'created_at', name: 'Created At' },
-            { data: 'action', name: 'Action', orderable: false },
+            { data: 'status', defaultContent: '-' },
+            { data: 'creator_name', defaultContent: '-' },
+            { data: 'created_at', defaultContent: '-' },
+            { data: 'action', orderable: false },
         ]
     });
 
