@@ -1,0 +1,13 @@
+{
+    "name": "Procurement",
+    "alias": "procurement",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Procurement\\Providers\\ProcurementServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

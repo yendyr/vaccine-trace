@@ -214,5 +214,12 @@ class UnitSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
+        Unit::create([
+            'name' => 'Unit',
+            'code' => 'UNT',
+            'unit_class_id' => 9,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+        ]);
     }
 }
