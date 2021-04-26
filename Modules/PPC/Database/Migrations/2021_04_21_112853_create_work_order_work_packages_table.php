@@ -16,7 +16,7 @@ class CreateWorkOrderWorkPackagesTable extends Migration
         Schema::create('work_order_work_packages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->unsignedBigInteger('work_order_id');
+            $table->string('work_order_id');
             $table->string('code')->nullable()->unique();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
