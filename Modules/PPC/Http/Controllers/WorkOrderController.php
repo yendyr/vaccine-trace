@@ -235,6 +235,8 @@ class WorkOrderController extends Controller
     public function fileUpload(Request $request, WorkOrder $work_order)
     {
         if($request->ajax()) {
+            DB::beginTransaction();
+            $flag = true;
             $data = $request->file('file');
             $extension = $data->getClientOriginalExtension();
             $filename = 'work_order_attachment_' . $work_order->id . '.' . $extension;
@@ -246,17 +248,28 @@ class WorkOrderController extends Controller
                 unlink($workOrderFile);
             }
 
-            $successText = 'Work Order Attachment has been Updated';
-
-            WorkOrder::where('id', $work_order->id)
+            $result = WorkOrder::where('id', $work_order->id)
                 ->first()->update([
                     'file_attachment' => $filename,
                     'updated_by' => $request->user()->id
                 ]);
 
-            $data->move($path, $filename);
+            if( !$result ) {
+                $flag = false;
+            }
 
-            return response()->json(['success' => $successText]);
+            if($flag) {
+                DB::commit();
+
+                $data->move($path, $filename);
+    
+                return response()->json(['success' => 'Work Order Attachment has been Updated']);
+            }else{
+                DB::rollBack();
+
+                return response()->json(['error' => 'Work Order Attachment failed to update']);
+            }
+
         }
     }
 

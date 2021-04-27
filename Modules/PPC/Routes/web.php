@@ -106,6 +106,7 @@ Route::name('ppc.')->group(function () {
         Route::name('work-order.')->prefix('work-order')->group(function () {
 
             Route::get('/select2/aircraft', 'WorkOrderController@select2Aircraft')->name('select2.aircraft');
+            Route::post('/file-upload/{work_order}', 'WorkOrderController@fileUpload')->name('file-upload');
 
             Route::name('work-package.')->prefix('{work_order}/work-package/{work_package}')->group(function () {
 

@@ -15,18 +15,18 @@
         <div class="col-md-5">
             <div class="profile-image">
                 @if($work_order?->file_attachment)
-                    <a target="_blank" href="{{ URL::asset('uploads/company/' . $work_order?->owned_by . '/taskcard/' . $work_order?->file_attachment) }}">
-                    <img src="{{ URL::asset('assets/default-pdf-image.png') }}" class="m-t-xs" id="fileTaskcard">
+                    <a target="_blank" href="{{ URL::asset('uploads/company/' . $work_order?->owned_by . '/work_order/' . $work_order?->file_attachment) }}">
+                    <img src="{{ URL::asset('assets/default-pdf-image.png') }}" class="m-t-xs" id="fileWorkOrder">
                     </a>
 
-                    <span class="m-l-sm font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Replace File</label></small></span>
+                    <span class="m-l-sm font-italic"><small><label class="label label-primary" for="workOrderFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Replace File</label></small></span>
                 @else
-                    <img src="{{ URL::asset('assets/default-file-image.png') }}" class="m-t-xs" id="fileTaskcard">
+                    <img src="{{ URL::asset('assets/default-file-image.png') }}" class="m-t-xs" id="fileWorkOrder">
 
-                    <span class="font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Attach New File</label></small></span>
+                    <span class="font-italic"><small><label class="label label-primary" for="workOrderFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Attach New File</label></small></span>
                 @endif
 
-                <input onchange="getTaskcardFile(this)" style="display: none;" id="taskcardFile" type="file" name="taskcardFile" data-id="{{ $work_order?->id }}" accept="application/pdf" />
+                <input onchange="getWorkOrderFile(this)" style="display: none;" id="workOrderFile" type="file" name="workOrderFile" data-id="{{ $work_order?->id }}" accept="application/pdf" />
             </div>
             <div class="profile-info">
                 <h2 class="m-t-none m-b-none">

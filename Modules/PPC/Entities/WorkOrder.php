@@ -27,6 +27,7 @@ class WorkOrder extends MainModel
         'station',
         'description',
         'parent_id',
+        'file_attachment',
         'status',
         'created_by',
         'updated_by',

@@ -1,7 +1,7 @@
 @push('footer-scripts')
 <script>
     // ----------------- UPLOAD SCRIPT ------------- //
-    function getTaskcardFile(input) {
+    function getWorkOrderFile(input) {
         
         var filedata = input.files[0];
         let imgsize = filedata.size;
@@ -17,7 +17,7 @@
             var postData = new FormData();
             var id = $('#work-orderFile').data('id');
             postData.append('file', input.files[0]);
-            let url="/ppc/work-order/file-upload/" + id;
+            let url="{{ route('ppc.work-order.file-upload', ['work_order' => $work_order->id]) }}"
 
             $.ajax({
                 headers: {
