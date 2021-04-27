@@ -10,6 +10,7 @@ use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Modules\PPC\Entities\WOWPTaskcardItem;
+use Yajra\DataTables\Facades\DataTables;
 
 class WOWPTaskcardItemController extends Controller
 {
