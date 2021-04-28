@@ -41,7 +41,7 @@ class WorkOrderWorkPackageController extends Controller
                             $route = route('ppc.work-order.work-package.show', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
                         }
 
-                        if ($request->user()->can('update', WorkOrder::class)) {
+                        if ($request->user()->can('update', $row->id) ) {
                             $showText = $row->code;
                             $noAuthorize = false;
                             $route = route('ppc.work-order.work-package.edit', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
@@ -57,12 +57,12 @@ class WorkOrderWorkPackageController extends Controller
                 ->addColumn('action', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
-                        if ($request->user()->can('update', WorkOrder::class)) {
+                        if ($request->user()->can('update', $row->id) ) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if ($request->user()->can('delete', WorkOrder::class)) {
+                        if ($request->user()->can('delete', $row->id) ) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;

@@ -170,12 +170,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('action', function ($row) use ($request) {
                         $noAuthorize = true;
-                        if ( $request->user()->can('update', WorkOrder::class)) {
+                        if ( $request->user()->can('update', $row->id) ) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if ( $request->user()->can('delete', WorkOrder::class)) {
+                        if ( $request->user()->can('delete', $row->id) ) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
