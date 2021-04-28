@@ -96,8 +96,14 @@ class WorkOrderWorkPackageController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(Request $request, WorkOrder $work_order)
     {
+        $is_authorized = $request->user()->can('update', $work_order->id);
+
+        if( !$is_authorized ) {
+            return response()->json(['error' => 'Work Order already approved']);
+        }
+
         $request->validate([
             'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
@@ -174,6 +180,12 @@ class WorkOrderWorkPackageController extends Controller
             'work_order_id' => ['required', 'exists:work_orders,id'],
         ]);
 
+        $is_authorized = $request->user()->can('update', $work_order->id);
+
+        if( !$is_authorized ) {
+            return response()->json(['error' => 'Work Order already approved']);
+        }
+
         DB::beginTransaction();
 
         $flag = true;
@@ -199,8 +211,14 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function destroy(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
+    public function destroy(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
+        $is_authorized = $request->user()->can('delete', $work_order->id);
+
+        if( !$is_authorized ) {
+            return response()->json(['error' => 'Work Order already approved']);
+        }
+
         DB::beginTransaction();
 
         $flag = true;

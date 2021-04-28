@@ -29,7 +29,6 @@
                     <span class="font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Attach New File</label></small></span>
                 @endif
 
-                <input onchange="getTaskcardFile(this)" style="display: none;" id="taskcardFile" type="file" name="taskcardFile" data-id="{{ $work_package?->id }}" accept="application/pdf" />
             </div>
             <div class="profile-info">
                 <h2 class="m-t-none m-b-none">
@@ -65,13 +64,18 @@
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
                     <li>
-                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-task-card"> 
                             <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Task Card/Inspection List Reference (MPD)
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-maintenance-program"> 
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Current Maintenance Program
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-material-tool-requirements"> 
+                            <i class="fa fa-wrench fa-2x text-warning"></i>&nbsp;Material &amp; Tool Requirements
                         </a>
                     </li>
                 </ul>
@@ -80,14 +84,21 @@
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
-                                @include('ppc::pages.maintenance-program.taskcard-list.content')
+                                @include('ppc::pages.work-order.taskcard-list.content')
                             </div>
                         </div>
                     </div>
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
-                                @include('ppc::pages.maintenance-program.maintenance-program-detail.content')
+                                @include('ppc::pages.work-order.maintenance-program-detail.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-3" class="tab-pane">
+                        <div class="panel-body" style="min-height: 600px;">
+                            <div class="row m-b">
+                                @include('ppc::pages.work-order.item-list.content')
                             </div>
                         </div>
                     </div>
@@ -96,8 +107,6 @@
         </div>
     </div>
 @endsection
-
-@include('ppc::components.work-order._file_upload_script')
 
 @push('header-scripts')
 @include('layouts.includes._header-datatable-script')

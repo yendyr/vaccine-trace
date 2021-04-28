@@ -45,6 +45,11 @@ class WorkOrder extends MainModel
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
+    public function approvals()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\WorkOrderApproval::class, 'work_order_id');
+    }
+
     public function aircraft()
     {
         return $this->belongsTo(\Modules\PPC\Entities\AircraftConfiguration::class, 'aircraft_id');

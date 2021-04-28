@@ -15,6 +15,7 @@ class WorkOrderWorkPackageTaskcard extends MainModel
 
     protected $fillable = [
         'uuid',
+        'work_order_id',
         'work_package_id',
         'taskcard_id',
         'description',

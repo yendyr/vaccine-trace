@@ -215,6 +215,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
      */
     public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
+        $is_authorized = $request->user()->can('update', $work_order->id);
+
+        if( !$is_authorized ) {
+            return response()->json(['error' => 'Work Order already approved']);
+        }
+
         $existRow = WorkOrderWorkPackageTaskcard::query()
             ->where('work_order_id', $work_order->id)
             ->where('taskcard_id', $request->taskcard_id)
@@ -363,8 +369,14 @@ class WorkOrderWorkPackageTaskcardController extends Controller
      * @param WorkOrderWorkPackageTaskcard $taskcard
      * @return Renderable
      */
-    public function destroy(WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
+    public function destroy(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
+        $is_authorized = $request->user()->can('delete', $work_order->id);
+
+        if( !$is_authorized ) {
+            return response()->json(['error' => 'Work Order already approved']);
+        }
+
         DB::beginTransaction();
         $flag = true;
 
