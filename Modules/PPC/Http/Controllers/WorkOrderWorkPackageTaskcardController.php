@@ -216,9 +216,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
     public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         $existRow = WorkOrderWorkPackageTaskcard::query()
-            ->where('work_package_id', $work_package->id)
+            ->where('work_order_id', $work_order->id)
             ->where('taskcard_id', $request->taskcard_id)
             ->exists();
+            
         if ($existRow == false) {
             DB::beginTransaction();
             $flag = true;
