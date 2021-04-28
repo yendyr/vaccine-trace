@@ -168,14 +168,14 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     ->addColumn('updater_name', function ($row) {
                         return $row->updater->name ?? '-';
                     })
-                    ->addColumn('action', function ($row) {
+                    ->addColumn('action', function ($row) use ($request) {
                         $noAuthorize = true;
-                        if (Auth::user()->can('update', WorkOrder::class)) {
+                        if ( $request->user()->can('update', WorkOrder::class)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if (Auth::user()->can('delete', WorkOrder::class)) {
+                        if ( $request->user()->can('delete', WorkOrder::class)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -219,7 +219,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             ->where('work_order_id', $work_order->id)
             ->where('taskcard_id', $request->taskcard_id)
             ->exists();
-            
+
         if ($existRow == false) {
             DB::beginTransaction();
             $flag = true;

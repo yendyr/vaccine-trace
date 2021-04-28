@@ -39,7 +39,7 @@ class WorkOrderController extends Controller
                 ->addColumn('number', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
-                        if (Auth::user()->can('view', WorkOrder::class)) {
+                        if ( $request->user()->can('view', WorkOrder::class)) {
                             $showText = $row->code;
                             $showValue = $row->id;
                             $noAuthorize = false;
@@ -56,7 +56,7 @@ class WorkOrderController extends Controller
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
 
-                        if ( Auth::user()->can('update', $row->id) ) {
+                        if ( $request->user()->can('update', $row->id) ) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
@@ -65,7 +65,7 @@ class WorkOrderController extends Controller
                             $updateValue = null;
                         }
 
-                        if ( Auth::user()->can('delete', $row->id) ) {
+                        if ( $request->user()->can('delete', $row->id) ) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -74,7 +74,7 @@ class WorkOrderController extends Controller
                             $deleteId = null;
                         }
 
-                        if ( Auth::user()->can('approval', $row->id) ) {
+                        if ( $request->user()->can('approval', $row->id) ) {
                             $approvable = true;
                             $approveId = $row->id;
                             $noAuthorize = false;

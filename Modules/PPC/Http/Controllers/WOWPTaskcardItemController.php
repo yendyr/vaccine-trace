@@ -41,15 +41,15 @@ class WOWPTaskcardItemController extends Controller
                 ->addColumn('updater_name', function($row){
                     return $row->updater->name ?? '-';
                 })
-                ->addColumn('action', function($row){
+                ->addColumn('action', function($row) use ($request) {
                     $noAuthorize = true;
-                    if(Auth::user()->can('update', Taskcard::class)) {
+                    if( $request->user()->can('update', Taskcard::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $editButtonClass = 'editButtonItem';
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', Taskcard::class)) {
+                    if( $request->user()->can('delete', Taskcard::class)) {
                         $deleteable = true;
                         $deleteButtonClass = 'deleteButtonItem';
                         $deleteId = $row->id;
