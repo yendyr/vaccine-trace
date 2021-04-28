@@ -4,6 +4,9 @@
     @component('components.delete-modal', ['name' => 'Task Card Datalist'])
     @endcomponent
 
+    @component('components.approve-modal', ['name' => 'Aircraft Configuration Datalist'])
+    @endcomponent
+    
     @include('ppc::pages.work-order.modal')
 
     @component('components.crud-form.index',[

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Entities\WorkOrder;
+use Modules\PPC\Entities\WorkOrderApproval;
 use Yajra\DataTables\Facades\DataTables;
 
 class WorkOrderController extends Controller
@@ -54,27 +55,40 @@ class WorkOrderController extends Controller
                 ->addColumn('action', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
-                        if (Auth::user()->can('update', WorkOrder::class)) {
+
+                        if ( Auth::user()->can('update', $row->id) ) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
+                        }else{
+                            $updateable = null;
+                            $updateValue = null;
                         }
-                        if (Auth::user()->can('delete', WorkOrder::class)) {
+
+                        if ( Auth::user()->can('delete', $row->id) ) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
+                        }else{
+                            $deleteable = null;
+                            $deleteId = null;
+                        }
+
+                        if ( Auth::user()->can('approval', $row->id) ) {
+                            $approvable = true;
+                            $approveId = $row->id;
+                            $noAuthorize = false;
+                        }else{
+                            $approvable = null;
+                            $approveId = null;
                         }
 
                         if ($noAuthorize == false) {
-                            return view('components.action-button', compact(['updateable', 'updateValue', 'deleteable', 'deleteId']));
+                            return view('components.action-button', compact(['updateable', 'updateValue', 'deleteable', 'deleteId', 'approvable', 'approveId']));
                         } else {
                             return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
-                    } else if ($request->create_maintenance_program) {
-                        $usable = true;
-                        $idToUse = $row->id;
-                        return view('components.action-button', compact(['usable', 'idToUse']));
-                    }
+                    } 
                 })
                 ->escapeColumns([])
                 ->make();
@@ -229,6 +243,44 @@ class WorkOrderController extends Controller
 
             return response()->json(['error' => "Work Order failed to delete"]);
         }
+    }
+
+    public function approve(Request $request, WorkOrder $work_order)
+    {
+        $is_authorized = $this->authorize('approval', $work_order->id);
+
+        $request->validate([
+            'approval_notes' => ['required', 'max:30'],
+        ]);
+
+        DB::beginTransaction();
+        $flag = true;
+
+        $approval = WorkOrderApproval::create([
+            'uuid' =>  Str::uuid(),
+
+            'work_order_id' =>  $work_order->id,
+            'approval_notes' =>  $request->approval_notes,
+    
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => Auth::user()->id,
+        ]);
+        
+        if( !get_class($approval) ) {
+            $flag = false;
+        }
+
+        if( $flag ) {
+            DB::commit();
+    
+            return response()->json(['success' => 'Work Order Data has been Approved']);
+        }else{
+            DB::rollBack();
+
+            return response()->json(['error' => 'Failed to Approve Work Order Data']);
+        }
+
     }
 
     // Fuction File Upload

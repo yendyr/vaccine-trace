@@ -63,16 +63,19 @@ class AircraftConfigurationController extends Controller
                         return '<p class="text-muted font-italic">Already Approved</p>';
                     }
                     else {
+
                         if(Auth::user()->can('update', AircraftConfiguration::class)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
+
                         if(Auth::user()->can('delete', AircraftConfiguration::class)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
                         }
+                        
                         if(Auth::user()->can('approval', AircraftConfiguration::class)) {
                             $approvable = true;
                             $approveId = $row->id;

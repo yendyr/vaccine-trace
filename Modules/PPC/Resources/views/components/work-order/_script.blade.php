@@ -142,6 +142,8 @@ $(document).ready(function () {
 
     deleteButtonProcess (datatableObject, tableId, actionUrl);
 
+    approveButtonProcess (datatableObject, tableId, actionUrl);
+    
     function clearForm()
     {
         $(inputFormId)
