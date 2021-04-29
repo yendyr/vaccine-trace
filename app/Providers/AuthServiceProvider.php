@@ -98,6 +98,12 @@ use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Policies\ItemStockAgingPolicy;
 use Modules\PPC\Entities\ItemStockAging;
 
+use Modules\PPC\Policies\MaintenanceStatusPolicy;
+use Modules\PPC\Entities\MaintenanceStatus;
+
+use Modules\PPC\Policies\WorkOrderPolicy;
+use Modules\PPC\Entities\WorkOrder;
+
 use Modules\PPC\Policies\AircraftAgingPolicy;
 
 use Modules\QualityAssurance\Policies\SkillPolicy;
@@ -177,9 +183,6 @@ use Modules\FlightOperations\Entities\AfmlDetailDiscrepancy;
 use Modules\FlightOperations\Policies\AfmlDetailRectificationPolicy;
 use Modules\FlightOperations\Entities\AfmlDetailRectification;
 
-use Modules\PPC\Policies\WorkOrderPolicy;
-use Modules\PPC\Entities\WorkOrder;
-
 use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Modules\FlightOperations\Policies\WorkOrderWorkPackagePolicy;
 
@@ -227,6 +230,7 @@ class AuthServiceProvider extends ServiceProvider
         TaskcardDetailItem::class => TaskcardDetailItemPolicy::class,
         AircraftType::class => AircraftTypePolicy::class,
         MaintenanceProgram::class => MaintenanceProgramPolicy::class,
+        // MaintenanceProgram::class => MaintenanceStatusPolicy::class,
         MaintenanceProgramDetail::class => MaintenanceProgramDetailPolicy::class,
         AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,

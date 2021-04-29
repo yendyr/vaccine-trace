@@ -375,5 +375,25 @@ class PPCMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        Menu::create([
+            'menu_link' => 'ppc/maintenance-status-report',
+            'menu_text' => 'Maintenance Status Report',
+            'menu_route' => 'ppc.maintenance-status-report.index',
+            'menu_icon' => 'fa-meanpath',
+            'menu_class' => 'Modules\PPC\Entities\MaintenanceProgram',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['ppc/maintenance-status-report', 'ppc/maintenance-status-report/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }

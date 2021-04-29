@@ -1,25 +1,10 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Owned Aircraft Datalist'])
-    @endcomponent
-
-    @component('components.approve-modal', ['name' => 'Owned Aircraft Datalist'])
-    @endcomponent
-
-    @include('ppc::pages.aircraft-configuration.modal')
 
     @component('components.crud-form.index',[
                     'title' => 'Owned Aircraft Datalist',
-                    'tableId' => 'aircraft-configuration'])
-
-        @slot('createButton')
-            @can('create', Modules\PPC\Entities\AircraftConfiguration::class)                
-                <button type="button" id="create" class="btn btn-primary btn-lg">
-                    <i class="fa fa-plus-circle"></i>&nbsp;Create New
-                </button>   
-            @endcan
-        @endslot    
+                    'tableId' => 'maintenance-status-report'])
 
         @slot('tableContent')
             <th>Aircraft Type Name</th>
@@ -37,7 +22,7 @@
         @endslot
     @endcomponent
 
-    @include('ppc::components.aircraft-configuration._script')
+    @include('ppc::components.maintenance-status-report._script')
 
 @endsection
 

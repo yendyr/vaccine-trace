@@ -39,62 +39,77 @@ class AircraftConfigurationController extends Controller
                                                 'fuel_capacity_unit:id,name',
                                                 'basic_empty_weight_unit:id,name',
                                                 ]);
+
+            if($request->maintenance_status_report) {
+                $data = $data->has('approvals');
+            }
             
             return Datatables::of($data)
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
+                ->addColumn('status', function($row) {
+                    if ($row->status == 1) {
                         return '<label class="label label-success">Active</label>';
-                    } else{
+                    } 
+                    else {
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
-                ->addColumn('creator_name', function($row){
+                ->addColumn('creator_name', function($row) {
                     return $row->creator->name ?? '-';
                 })
-                ->addColumn('updater_name', function($row){
+                ->addColumn('updater_name', function($row) {
                     return $row->updater->name ?? '-';
                 })
-                ->addColumn('action', function($row){
-                    $noAuthorize = true;
-                    $approvable = false;
-                    $approveId = null;
+                ->addColumn('action', function($row) use ($request) {
+                    if(!$request->maintenance_status_report) {
+                        $noAuthorize = true;
+                        $approvable = false;
+                        $approveId = null;
 
-                    if ($row->approvals()->count() > 0) {
-                        return '<p class="text-muted font-italic">Already Approved</p>';
-                    }
-                    else {
-
-                        if(Auth::user()->can('update', AircraftConfiguration::class)) {
-                            $updateable = 'button';
-                            $updateValue = $row->id;
-                            $noAuthorize = false;
-                        }
-
-                        if(Auth::user()->can('delete', AircraftConfiguration::class)) {
-                            $deleteable = true;
-                            $deleteId = $row->id;
-                            $noAuthorize = false;
-                        }
-                        
-                        if(Auth::user()->can('approval', AircraftConfiguration::class)) {
-                            $approvable = true;
-                            $approveId = $row->id;
-                            $noAuthorize = false;
-                        }
-                        
-                        if ($noAuthorize == false) {
-                            return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
+                        if ($row->approvals()->count() > 0) {
+                            return '<p class="text-muted font-italic">Already Approved</p>';
                         }
                         else {
-                            return '<p class="text-muted font-italic">Not Authorized</p>';
+                            if(Auth::user()->can('update', AircraftConfiguration::class)) {
+                                $updateable = 'button';
+                                $updateValue = $row->id;
+                                $noAuthorize = false;
+                            }
+
+                            if(Auth::user()->can('delete', AircraftConfiguration::class)) {
+                                $deleteable = true;
+                                $deleteId = $row->id;
+                                $noAuthorize = false;
+                            }
+                            
+                            if(Auth::user()->can('approval', AircraftConfiguration::class)) {
+                                $approvable = true;
+                                $approveId = $row->id;
+                                $noAuthorize = false;
+                            }
+                            
+                            if ($noAuthorize == false) {
+                                return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
+                            }
+                            else {
+                                return '<p class="text-muted font-italic">Not Authorized</p>';
+                            }
+                        }   
+                    }
+                    else {
+                        if ($row->approvals()->count() > 0) {
+                            $viewable = true;
+                            $idToView = $row->id;
+
+                            return view('components.action-button', compact(['viewable', 'idToView']));
                         }
-                    }   
+                    }
                 })
                 ->escapeColumns([])
                 ->make(true);
         }
-
-        return view('ppc::pages.aircraft-configuration.index');
+        if(!$request->maintenance_status_report) {
+            return view('ppc::pages.aircraft-configuration.index');
+        }
     }
 
     public function store(Request $request)
@@ -268,8 +283,9 @@ class AircraftConfigurationController extends Controller
         }
     }
 
-    public function show(AircraftConfiguration $AircraftConfiguration)
+    public function show(AircraftConfiguration $MaintenanceStatusReport)
     {
+        $AircraftConfiguration = $MaintenanceStatusReport;
         return view('ppc::pages.aircraft-configuration.show', compact('AircraftConfiguration'));
     }
 

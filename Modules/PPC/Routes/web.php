@@ -103,6 +103,8 @@ Route::name('ppc.')->group(function () {
 
         Route::resource('/aircraft-aging-report', 'AircraftAgingController');
 
+        Route::resource('/maintenance-status-report', 'MaintenanceStatusController');
+
         Route::name('work-order.')->prefix('work-order')->group(function () {
 
             Route::get('/select2/aircraft', 'WorkOrderController@select2Aircraft')->name('select2.aircraft');
