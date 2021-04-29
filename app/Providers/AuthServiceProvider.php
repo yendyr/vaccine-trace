@@ -98,6 +98,9 @@ use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Policies\ItemStockAgingPolicy;
 use Modules\PPC\Entities\ItemStockAging;
 
+use Modules\PPC\Policies\MaintenanceStatusPolicy;
+use Modules\PPC\Entities\MaintenanceStatus;
+
 use Modules\PPC\Policies\WorkOrderPolicy;
 use Modules\PPC\Entities\WorkOrder;
 
@@ -226,6 +229,7 @@ class AuthServiceProvider extends ServiceProvider
         TaskcardDetailItem::class => TaskcardDetailItemPolicy::class,
         AircraftType::class => AircraftTypePolicy::class,
         MaintenanceProgram::class => MaintenanceProgramPolicy::class,
+        // MaintenanceProgram::class => MaintenanceStatusPolicy::class,
         MaintenanceProgramDetail::class => MaintenanceProgramDetailPolicy::class,
         AircraftConfigurationTemplate::class => AircraftConfigurationTemplatePolicy::class,
         AircraftConfigurationTemplateDetail::class => AircraftConfigurationTemplateDetailPolicy::class,
