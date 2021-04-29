@@ -5,6 +5,7 @@
 <script>
 $(document).ready(function () {
     var tableId = '#maintenance-status-report';
+    var viewButtonClass = '.viewBtn';
 
     var datatableObject = $(tableId).DataTable({
         pageLength: 25,
@@ -32,6 +33,21 @@ $(document).ready(function () {
             { data: 'action', orderable: false },
         ]
     });
+
+
+
+
+
+
+
+
+
+    // ----------------- "VIEW" BUTTON SCRIPT ------------- //
+    datatableObject.on('click', viewButtonClass, function () {
+        rowId= $(this).val();
+        window.location.href = '/ppc/maintenance-status-report/' + rowId;
+    });
+    // ----------------- END "VIEW" BUTTON SCRIPT ------------- //
 });
 </script>
 @endpush

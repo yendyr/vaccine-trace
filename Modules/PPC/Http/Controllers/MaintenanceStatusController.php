@@ -17,7 +17,7 @@ class MaintenanceStatusController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(AircraftConfiguration::class);
+        // $this->authorizeResource(AircraftConfiguration::class);
         $this->middleware('auth');
     }
 
@@ -28,6 +28,6 @@ class MaintenanceStatusController extends Controller
 
     public function show(AircraftConfiguration $AircraftConfiguration)
     {
-        return view('ppc::pages.maintenance-status-report.show');
+        return view('ppc::pages.maintenance-status-report.show', compact('AircraftConfiguration'));
     }
 }

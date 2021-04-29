@@ -30,24 +30,6 @@
                 </div>
             </div>
         </div>
-
-        @if($AircraftConfiguration->approvals()->count() == 0)
-        @can('update', Modules\PPC\Entities\AircraftConfiguration::class)
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col d-flex justify-content-end">
-                        <button class="editButtonAircraftConfiguration btn btn-sm btn-outline btn-primary" 
-                        data-toggle="tooltip" data-id="{{ $AircraftConfiguration->id ?? '' }}" title="Update">
-                        <i class="fa fa-edit"></i>&nbsp;Edit
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            @include('ppc::pages.aircraft-configuration.aircraft-basic-information.modal')
-            @include('ppc::components.aircraft-configuration.aircraft-basic-information._script')
-        @endcan
-        @endif
     </div>
 </div>
 

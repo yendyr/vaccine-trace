@@ -39,22 +39,27 @@ class AircraftConfigurationController extends Controller
                                                 'fuel_capacity_unit:id,name',
                                                 'basic_empty_weight_unit:id,name',
                                                 ]);
+
+            if($request->maintenance_status_report) {
+                $data = $data->has('approvals');
+            }
             
             return Datatables::of($data)
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
+                ->addColumn('status', function($row) {
+                    if ($row->status == 1) {
                         return '<label class="label label-success">Active</label>';
-                    } else{
+                    } 
+                    else {
                         return '<label class="label label-danger">Inactive</label>';
                     }
                 })
-                ->addColumn('creator_name', function($row){
+                ->addColumn('creator_name', function($row) {
                     return $row->creator->name ?? '-';
                 })
-                ->addColumn('updater_name', function($row){
+                ->addColumn('updater_name', function($row) {
                     return $row->updater->name ?? '-';
                 })
-                ->addColumn('action', function($row){
+                ->addColumn('action', function($row) use ($request) {
                     if(!$request->maintenance_status_report) {
                         $noAuthorize = true;
                         $approvable = false;
@@ -95,7 +100,7 @@ class AircraftConfigurationController extends Controller
                             $viewable = true;
                             $idToView = $row->id;
 
-                            return view('components.action-button', compact('viewable'));
+                            return view('components.action-button', compact(['viewable', 'idToView']));
                         }
                     }
                 })

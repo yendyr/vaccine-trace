@@ -32,7 +32,7 @@
                             <i class="fa fa-info-circle fa-2x text-warning"></i>&nbsp;Basic Aircraft Information
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
                             <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Item/Component Configuration
                         </a>
@@ -41,17 +41,17 @@
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Item/Component Tree View
                         </a>
-                    </li>
-                    <li>
+                    </li> --}}
+                    {{-- <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Maintenance Program
                         </a>
-                    </li>
-                    <li>
+                    </li> --}}
+                    {{-- <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-check-circle fa-2x text-warning"></i>&nbsp;Approval Status
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
                 <div class="tab-content">
                     <div id="tab-0" class="tab-pane active">
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-1" class="tab-pane">
+                    {{-- <div id="tab-1" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
                                 @include('ppc::pages.aircraft-configuration.item-configuration.content')
@@ -79,19 +79,19 @@
                                 @include('ppc::pages.aircraft-configuration.tree-view.content')
                             </div>
                         </div>
-                    </div>
-                    <div id="tab-3" class="tab-pane">
+                    </div> --}}
+                    {{-- <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
                                 @include('ppc::pages.aircraft-configuration.maintenance-program.content')
                             </div>
                         </div>
-                    </div>
-                    <div id="tab-4" class="tab-pane">
+                    </div> --}}
+                    {{-- <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             @include('ppc::pages.aircraft-configuration.approval-status.content')
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

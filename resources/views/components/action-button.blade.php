@@ -29,13 +29,13 @@
 
 @isset($usable)
     <button type="button" class="useBtn btn btn-sm btn-outline btn-success text-nowrap pr-2" data-toggle="tooltip" title="Use" value="{{ $idToUse }}">
-            <i class="fa fa-check-square-o"></i>Use
+            <i class="fa fa-check-square-o"></i>&nbsp;Use
     </button>
 @endisset
 
 @isset($viewable)
     <button type="button" class="viewBtn btn btn-sm btn-outline btn-primary text-nowrap pr-2" data-toggle="tooltip" title="View" value="{{ $idToView }}">
-            <i class="fa fa-search"></i>View
+            <i class="fa fa-search"></i>&nbsp;View
     </button>
 @endisset
 
