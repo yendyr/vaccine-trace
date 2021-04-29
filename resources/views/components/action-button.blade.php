@@ -33,4 +33,10 @@
     </button>
 @endisset
 
+@isset($viewable)
+    <button type="button" class="viewBtn btn btn-sm btn-outline btn-primary text-nowrap pr-2" data-toggle="tooltip" title="View" value="{{ $idToView }}">
+            <i class="fa fa-search"></i>View
+    </button>
+@endisset
+
 </div>

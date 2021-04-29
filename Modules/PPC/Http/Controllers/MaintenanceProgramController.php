@@ -65,7 +65,7 @@ class MaintenanceProgramController extends Controller
                             $noAuthorize = false;
                         }
                         if(Auth::user()->can('approval', MaintenanceProgram::class)) {
-                            $approvable = true;
+                            $approvable = false;
                             $approveId = $row->id;
                             $noAuthorize = false;
                         }
