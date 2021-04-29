@@ -2,9 +2,10 @@
 
 namespace Modules\PPC\Policies;
 
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 use Modules\Gate\Entities\RoleMenu;
+use Modules\PPC\Entities\WorkOrder;
 
 class WorkOrderWorkPackageTaskcardPolicy
 {
@@ -20,10 +21,10 @@ class WorkOrderWorkPackageTaskcardPolicy
         //
     }
 
-    public function viewAny()
+    public function viewAny(User $user)
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -35,10 +36,10 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function view()
+    public function view(User $user)
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -50,10 +51,10 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function create()
+    public function create(User $user)
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -65,10 +66,14 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function update()
+    public function update(User $user, WorkOrder $work_order)
     {
+        if($work_order->approvals->count() !== 0) {
+            return false;
+        }
+
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -80,10 +85,29 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function delete()
+    public function approval(User $user, WorkOrder $work_order)
     {
+        if($work_order->approvals->count() !== 0) {
+            return false;
+        }
+
+        $queryRoleMenu = RoleMenu::where('role_id', $user->role_id)->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){$role->where('status', 1);})->first();
+
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return json_decode($queryRoleMenu->approval, true) !== 0;
+        }
+    }
+
+    public function delete(User $user, WorkOrder $work_order)
+    {
+        if($work_order->approvals->count() !== 0) {
+            return false;
+        }
+
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -95,10 +119,14 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function forceDelete()
+    public function forceDelete(User $user, WorkOrder $work_order)
     {
+        if($work_order->approvals->count() !== 0) {
+            return false;
+        }
+
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();

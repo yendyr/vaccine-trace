@@ -11,6 +11,7 @@ use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Modules\PPC\Entities\Taskcard;
 
 class WorkOrderWorkPackageController extends Controller
 {
@@ -18,7 +19,7 @@ class WorkOrderWorkPackageController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(WorkOrder::class);
+        $this->authorizeResource(WorkOrderWorkPackage::class);
         $this->middleware('auth');
     }
 
@@ -41,28 +42,28 @@ class WorkOrderWorkPackageController extends Controller
                             $route = route('ppc.work-order.work-package.show', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
                         }
 
-                        if ($request->user()->can('update', $row->id) ) {
+                        if ($request->user()->can('update', $row)) {
                             $showText = $row->code;
                             $noAuthorize = false;
                             $route = route('ppc.work-order.work-package.edit', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
                         }
 
                         if ($noAuthorize == false) {
-                            return  '<a href="'. $route.'">'. $showText .'</a>';
+                            return  '<a href="' . $route . '">' . $showText . '</a>';
                         } else {
                             return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
-                    } 
+                    }
                 })
                 ->addColumn('action', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
-                        if ($request->user()->can('update', $row->id) ) {
+                        if ($request->user()->can('update', $row)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if ($request->user()->can('delete', $row->id) ) {
+                        if ($request->user()->can('delete', $row)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -98,9 +99,9 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function store(Request $request, WorkOrder $work_order)
     {
-        $is_authorized = $request->user()->can('update', $work_order->id);
+        $is_authorized = $request->user()->can('update', $work_order);
 
-        if( !$is_authorized ) {
+        if (!$is_authorized) {
             return response()->json(['error' => 'Work Order already approved']);
         }
 
@@ -124,7 +125,7 @@ class WorkOrderWorkPackageController extends Controller
 
         $work_package = WorkOrderWorkPackage::create($request->all());
 
-        if( !$work_package->id ) {
+        if (!$work_package->id) {
             $flag = false;
         }
 
@@ -180,9 +181,9 @@ class WorkOrderWorkPackageController extends Controller
             'work_order_id' => ['required', 'exists:work_orders,id'],
         ]);
 
-        $is_authorized = $request->user()->can('update', $work_order->id);
+        $is_authorized = $request->user()->can('update', $work_order);
 
-        if( !$is_authorized ) {
+        if (!$is_authorized) {
             return response()->json(['error' => 'Work Order already approved']);
         }
 
@@ -191,7 +192,7 @@ class WorkOrderWorkPackageController extends Controller
         $flag = true;
         $result = $work_package->update($request->all());
 
-        if( !$result ) {
+        if (!$result) {
             $flag = false;
         }
 
@@ -213,9 +214,9 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function destroy(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
-        $is_authorized = $request->user()->can('delete', $work_order->id);
+        $is_authorized = $request->user()->can('delete', $work_order);
 
-        if( !$is_authorized ) {
+        if (!$is_authorized) {
             return response()->json(['error' => 'Work Order already approved']);
         }
 
@@ -225,7 +226,7 @@ class WorkOrderWorkPackageController extends Controller
 
         $result = $work_package->delete();
 
-        if( !$result ) {
+        if (!$result) {
             $flag = false;
         }
 
@@ -237,6 +238,52 @@ class WorkOrderWorkPackageController extends Controller
             DB::rollBack();
 
             return response()->json(['error' => "Work Package failed to delete"]);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @return Renderable
+     */
+    public function useAll(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
+    {
+        DB::beginTransaction();
+        $flag = true;
+        $existed_taskcard = $work_order->taskcards()->pluck('taskcard_id');
+        $objWorkOrderWorkPackageTaskcardController = new WorkOrderWorkPackageTaskcardController();
+        $taskcards_query = Taskcard::whereHas(
+            'aircraft_types',
+            function ($aircraft_types) use ($work_order) {
+                $aircraft_types->where('aircraft_types.id', $work_order->aircraft->aircraft_type_id);
+            }
+        )
+            ->whereNotIn('id', $existed_taskcard);
+
+        if ($taskcards_query->count() !== 0) {
+
+            $taskcards = $taskcards_query->pluck('id');
+
+            foreach ($taskcards as $taskcard_id_row) {
+                $request->merge([
+                    'taskcard_id' => $taskcard_id_row
+                ]);
+
+                $result = $objWorkOrderWorkPackageTaskcardController->store($request, $work_order, $work_package);
+
+                $flag = $result['flag'];
+            }
+
+            if ($flag) {
+                DB::commit();
+
+                return response()->json(['success' => 'All Task Card has been added to Maintenance Program', 'total_manhours' => number_format($result['total_manhours'], 2), 'total_manhours_with_performance_factor' => number_format($result['total_manhours'] * $work_package->performance_factor, 2), 'flag' => $flag]);
+            } else {
+                DB::rollBack();
+
+                return response()->json(['error' => 'Failed to add all task card to Maintenance Program', 'flag' => $flag]);
+            }
         }
     }
 }

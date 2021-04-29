@@ -56,7 +56,7 @@ class WorkOrderController extends Controller
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
 
-                        if ( $request->user()->can('update', $row->id) ) {
+                        if ( $request->user()->can('update', $row) ) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
@@ -65,7 +65,7 @@ class WorkOrderController extends Controller
                             $updateValue = null;
                         }
 
-                        if ( $request->user()->can('delete', $row->id) ) {
+                        if ( $request->user()->can('delete', $row) ) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -74,7 +74,7 @@ class WorkOrderController extends Controller
                             $deleteId = null;
                         }
 
-                        if ( $request->user()->can('approval', $row->id) ) {
+                        if ( $request->user()->can('approval', $row) ) {
                             $approvable = true;
                             $approveId = $row->id;
                             $noAuthorize = false;

@@ -2,8 +2,8 @@
 
 namespace Modules\PPC\Policies;
 
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 use Modules\Gate\Entities\RoleMenu;
 use Modules\PPC\Entities\WorkOrder;
 
@@ -21,10 +21,10 @@ class WorkOrderPolicy
         //
     }
 
-    public function viewAny()
+    public function viewAny(User $user)
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -36,10 +36,10 @@ class WorkOrderPolicy
         }
     }
 
-    public function view()
+    public function view(User $user)
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -51,10 +51,10 @@ class WorkOrderPolicy
         }
     }
 
-    public function create()
+    public function create(User $user)
     {
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -66,14 +66,14 @@ class WorkOrderPolicy
         }
     }
 
-    public function update(WorkOrder $work_order)
+    public function update(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() != 0) {
+        if($work_order->approvals->count() !== 0) {
             return false;
         }
 
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -85,29 +85,29 @@ class WorkOrderPolicy
         }
     }
 
-    public function approval(WorkOrder $work_order)
+    public function approval(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() != 0) {
+        if($work_order->approvals->count() !== 0) {
             return false;
         }
 
-        $queryRoleMenu = RoleMenu::where('role_id', Auth::user()->role_id)->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){$role->where('status', 1);})->first();
+        $queryRoleMenu = RoleMenu::where('role_id', $user->role_id)->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){$role->where('status', 1);})->first();
 
         if ($queryRoleMenu == null){
             return false;
         } else {
-            return json_decode($queryRoleMenu->approval, true) != 0;
+            return json_decode($queryRoleMenu->approval, true) !== 0;
         }
     }
 
-    public function delete(WorkOrder $work_order)
+    public function delete(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() != 0) {
+        if($work_order->approvals->count() !== 0) {
             return false;
         }
 
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
@@ -119,14 +119,14 @@ class WorkOrderPolicy
         }
     }
 
-    public function forceDelete(WorkOrder $work_order)
+    public function forceDelete(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() != 0) {
+        if($work_order->approvals->count() !== 0) {
             return false;
         }
 
         $queryRoleMenu = RoleMenu::where(
-            'role_id', Auth::user()->role_id
+            'role_id', $user->role_id
         )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();

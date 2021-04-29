@@ -59,4 +59,14 @@ class WorkOrder extends MainModel
     {
         return $this->belongsTo(\Modules\PPC\Entities\WorkOrder::class, 'parent_id');
     }
+
+    public function workpackages()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\WorkOrderWorkPackage::class, 'work_order_id');
+    }
+
+    public function taskcards()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\WorkOrderWorkPackageTaskcard::class, 'work_order_id');
+    }
 }

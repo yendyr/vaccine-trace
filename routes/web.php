@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::view('/', 'dashboard')->name('dashboard')->middleware('auth');
+

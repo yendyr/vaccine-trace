@@ -216,9 +216,20 @@ class WorkOrderWorkPackageTaskcardController extends Controller
     public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         $is_authorized = $request->user()->can('update', $work_order->id);
+        $is_use_all_taskcard = Str::contains($request->fullUrl(), 'use-all-taskcard');
 
         if( !$is_authorized ) {
-            return response()->json(['error' => 'Work Order already approved']);
+
+            if( $is_use_all_taskcard ){
+                return ['error' => 'Action is not authorized', 'flag' => false];
+            }else{
+                return response()->json(['error' => 'Action is not authorized']);
+            }
+
+        }
+
+        if( !$is_use_all_taskcard ) {
+            DB::beginTransaction();
         }
 
         $existRow = WorkOrderWorkPackageTaskcard::query()
@@ -227,7 +238,6 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             ->exists();
 
         if ($existRow == false) {
-            DB::beginTransaction();
             $flag = true;
             $taskcard = Taskcard::find($request->taskcard_id);
 
@@ -236,7 +246,11 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
                 DB::rollBack();
 
-                return response()->json(['error' => 'Failed to find task card']);
+                if( $is_use_all_taskcard ){
+                    return ['error' => 'Failed to find task card', 'flag' => false];
+                }else{
+                    return response()->json(['error' => 'Failed to find task card']);
+                }
             }
 
             $workpackage_taskcard = WorkOrderWorkPackageTaskcard::create([
@@ -312,16 +326,34 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
 
             if ($flag) {
-                DB::commit();
+                
+                if( $is_use_all_taskcard ){
+                    return ['success' => 'Task Card has been added to Maintenance Program', 'total_manhours' => number_format($total_manhours, 2), 'total_manhours_with_performance_factor' => number_format($total_manhours * $work_package->performance_factor, 2), 'flag' => $flag];
+                }else{
+                    DB::commit();
 
-                return response()->json(['success' => 'Task Card has been added to Maintenance Program', 'total_manhours' => number_format($total_manhours, 2), 'total_manhours_with_performance_factor' => number_format($total_manhours * $work_package->performance_factor, 2)]);
+                    return response()->json(['success' => 'Task Card has been added to Maintenance Program', 'total_manhours' => number_format($total_manhours, 2), 'total_manhours_with_performance_factor' => number_format($total_manhours * $work_package->performance_factor, 2), 'flag' => $flag]);
+                }
+
             } else {
-                DB::rollBack();
+                
+                if( $is_use_all_taskcard ){
+                    return ['error' => 'Failed to add task card to Maintenance Program', 'flag' => $flag];
+                }else{
+                    DB::rollBack();
+                    
+                    return response()->json(['error' => 'Failed to add task card to Maintenance Program', 'flag' => $flag]);
+                }
 
-                return response()->json(['error' => 'Failed to add task card to Maintenance Program']);
             }
         } else {
-            return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
+
+            if( $is_use_all_taskcard ){
+                return ['error' => "This Task Card Already Exist in this Maintenance Program", 'flag' => false];
+            }else{
+                return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
+            }
+
         }
     }
 
@@ -413,4 +445,5 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             return response()->json(['error' => "Failed to delete Task Card's Maintenance Program Data"]);
         }
     }
+
 }

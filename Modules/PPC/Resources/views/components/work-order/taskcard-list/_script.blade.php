@@ -6,10 +6,12 @@
 $(document).ready(function () {
     // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
     var actionUrl = "{{route('ppc.work-order.work-package.taskcard.index', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}";
+    var actionUrlUseAll = "{{route('ppc.work-order.work-package.use-all-taskcard', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}";
     var tableId = '#taskcard-table';
     var tableId2 = '#maintenance-program-table';
     var inputFormId = '#inputForm';
     var useButtonClass = '.useBtn';
+    var useButtonAllClass = '.useBtnAll';
     var saveButtonModalTextId = '#saveButtonModalText';
     // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
@@ -263,7 +265,31 @@ $(document).ready(function () {
     // ----------------- END "USE" BUTTON SCRIPT ------------- //
 
 
+    // ----------------- "USE ALL" BUTTON SCRIPT ------------- //
+    $(useButtonAllClass).on('click', function () {
+        $('#modalTitle').html("Use Task All Card");
 
+        $("input[value='patch']").remove();
+        $(inputFormId).trigger("reset"); 
+
+        rowId= $(this).val();
+        let tr = $(this).closest('tr');
+        let data = datatableObject.row(tr).data();
+        $(inputFormId).attr('action', actionUrlUseAll);
+        
+        $('<input>').attr({
+            type: 'hidden',
+            name: '_method',
+            value: 'post'
+        }).prependTo(inputFormId);
+
+        $('#description').val('');
+
+        $('#saveBtn').val("use");
+        $(saveButtonModalTextId).html("Use All Task Card");
+        $('#inputModal').modal('show');
+    });
+    // ----------------- END "USE ALL" BUTTON SCRIPT ------------- //
 
 
     // ----------------- "SUBMIT" BUTTON SCRIPT ------------- //
@@ -296,8 +322,10 @@ $(document).ready(function () {
                 if (data.success) {
                     generateToast ('success', data.success);  
                     $(tableId2).DataTable().ajax.reload();       
-                    numberAnimation('total_manhours', data.total_manhours);                  
-                    numberAnimation('total_manhours_with_performance_factor', data.total_manhours_with_performance_factor);    
+                    if(data.total_manhours) {
+                        numberAnimation('total_manhours', data.total_manhours);                  
+                        numberAnimation('total_manhours_with_performance_factor', data.total_manhours_with_performance_factor);    
+                    }
                 }
                 else if (data.error) {
                     swal.fire({

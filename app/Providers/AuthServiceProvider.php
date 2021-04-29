@@ -98,9 +98,6 @@ use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Policies\ItemStockAgingPolicy;
 use Modules\PPC\Entities\ItemStockAging;
 
-use Modules\PPC\Policies\WorkOrderPolicy;
-use Modules\PPC\Entities\WorkOrder;
-
 use Modules\PPC\Policies\AircraftAgingPolicy;
 
 use Modules\QualityAssurance\Policies\SkillPolicy;
@@ -180,8 +177,12 @@ use Modules\FlightOperations\Entities\AfmlDetailDiscrepancy;
 use Modules\FlightOperations\Policies\AfmlDetailRectificationPolicy;
 use Modules\FlightOperations\Entities\AfmlDetailRectification;
 
+use Modules\PPC\Policies\WorkOrderPolicy;
+use Modules\PPC\Entities\WorkOrder;
+
 use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Modules\FlightOperations\Policies\WorkOrderWorkPackagePolicy;
+
 use Modules\PPC\Entities\WOWPTaskcardItem;
 
 class AuthServiceProvider extends ServiceProvider
