@@ -19,7 +19,7 @@ class WorkOrderWorkPackageController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(WorkOrderWorkPackage::class);
+        $this->authorizeResource(WorkOrder::class);
         $this->middleware('auth');
     }
 
@@ -30,7 +30,7 @@ class WorkOrderWorkPackageController extends Controller
     public function index(WorkOrder $work_order, Request $request)
     {
         if ($request->ajax()) {
-            $work_orders = WorkOrderWorkPackage::where('work_order_id', $work_order->id)->latest();
+            $work_orders = WorkOrderWorkPackage::where('work_order_id', $work_order->id)->with('work_order:id')->latest();
 
             return Datatables::of($work_orders)
                 ->addColumn('number', function ($row) use ($request) {
@@ -39,13 +39,13 @@ class WorkOrderWorkPackageController extends Controller
                         if ($request->user()->can('view', WorkOrder::class)) {
                             $showText = $row->code;
                             $noAuthorize = false;
-                            $route = route('ppc.work-order.work-package.show', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
+                            $route = route('ppc.work-order.work-package.show', ['work_order' => $row->work_order->id, 'work_package' => $row->id]);
                         }
 
-                        if ($request->user()->can('update', $row)) {
+                        if ($request->user()->can('update', $row->work_order)) {
                             $showText = $row->code;
                             $noAuthorize = false;
-                            $route = route('ppc.work-order.work-package.edit', ['work_order' => $row->workOrder->id, 'work_package' => $row->id]);
+                            $route = route('ppc.work-order.work-package.edit', ['work_order' => $row->work_order->id, 'work_package' => $row->id]);
                         }
 
                         if ($noAuthorize == false) {
@@ -58,12 +58,14 @@ class WorkOrderWorkPackageController extends Controller
                 ->addColumn('action', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
-                        if ($request->user()->can('update', $row)) {
+
+                        if ($request->user()->can('update', $row->work_order)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if ($request->user()->can('delete', $row)) {
+
+                        if ($request->user()->can('delete', $row->work_order)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -158,7 +160,7 @@ class WorkOrderWorkPackageController extends Controller
      * @param WorkOrderWorkPackage $work_order_work_package
      * @return Renderable
      */
-    public function edit(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
+    public function edit(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         return view('ppc::pages.work-order.work-package.index', [
             'work_order' => $work_order,

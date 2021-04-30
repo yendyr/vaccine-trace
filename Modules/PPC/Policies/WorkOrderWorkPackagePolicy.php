@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\Gate\Entities\RoleMenu;
 use Modules\PPC\Entities\WorkOrder;
+use Modules\PPC\Entities\WorkOrderWorkPackage;
+use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
 
 class WorkOrderWorkPackagePolicy
 {
@@ -66,7 +68,7 @@ class WorkOrderWorkPackagePolicy
         }
     }
 
-    public function update(User $user, WorkOrder $work_order)
+    public function update(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         if($work_order->approvals->count() !== 0) {
             return false;

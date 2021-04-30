@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\Gate\Entities\RoleMenu;
 use Modules\PPC\Entities\WorkOrder;
+use Modules\PPC\Entities\WorkOrderWorkPackage;
+use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
 
 class WorkOrderWorkPackageTaskcardPolicy
 {
@@ -66,7 +68,7 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function update(User $user, WorkOrder $work_order)
+    public function update(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
         if($work_order->approvals->count() !== 0) {
             return false;
@@ -85,7 +87,7 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function approval(User $user, WorkOrder $work_order)
+    public function approval(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
         if($work_order->approvals->count() !== 0) {
             return false;
@@ -100,7 +102,7 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function delete(User $user, WorkOrder $work_order)
+    public function delete(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
         if($work_order->approvals->count() !== 0) {
             return false;
@@ -119,7 +121,7 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function forceDelete(User $user, WorkOrder $work_order)
+    public function forceDelete(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         if($work_order->approvals->count() !== 0) {
             return false;

@@ -170,12 +170,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('action', function ($row) use ($request) {
                         $noAuthorize = true;
-                        if ( $request->user()->can('update', $row->id) ) {
+                        if ( $request->user()->can('update', $row) ) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if ( $request->user()->can('delete', $row->id) ) {
+                        if ( $request->user()->can('delete', $row) ) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -215,7 +215,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
      */
     public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
-        $is_authorized = $request->user()->can('update', $work_order->id);
+        $is_authorized = $request->user()->can('update', $work_order);
         $is_use_all_taskcard = Str::contains($request->fullUrl(), 'use-all-taskcard');
 
         if( !$is_authorized ) {

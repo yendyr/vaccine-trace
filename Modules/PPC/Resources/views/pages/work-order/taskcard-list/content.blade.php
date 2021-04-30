@@ -4,7 +4,7 @@
                         'tableId' => 'taskcard-table'])
 
                 @slot('createButton')
-                    @can('update', $work_order->id)                
+                    @can('update', $work_order)                
                         <button type="button" class="useBtnAll btn btn-sm btn-outline btn-success text-nowrap pr-2" data-toggle="tooltip" title="Use All" value="{{ $work_order->id }}">
                             <i class="fa fa-check-square-o"></i>Use All
                         </button>

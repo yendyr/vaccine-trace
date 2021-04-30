@@ -39,7 +39,7 @@ class WorkOrderWorkPackage extends MainModel
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
     
-    public function workOrder()
+    public function work_order()
     {
         return $this->belongsTo(\Modules\PPC\Entities\WorkOrder::class, 'work_order_id');
     }

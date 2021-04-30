@@ -184,7 +184,7 @@ use Modules\FlightOperations\Policies\AfmlDetailRectificationPolicy;
 use Modules\FlightOperations\Entities\AfmlDetailRectification;
 
 use Modules\PPC\Entities\WorkOrderWorkPackage;
-use Modules\FlightOperations\Policies\WorkOrderWorkPackagePolicy;
+use Modules\PPC\Policies\WorkOrderWorkPackagePolicy;
 
 use Modules\PPC\Entities\WOWPTaskcardItem;
 
@@ -238,9 +238,12 @@ class AuthServiceProvider extends ServiceProvider
         ItemStockAging::class => ItemStockAgingPolicy::class,
         ItemStockAging::class => AircraftAgingPolicy::class,
         WorkOrder::class => WorkOrderPolicy::class,
-        WorkOrderWorkPackage::class => WorkOrderWorkPackagePolicy::class,
-        WorkOrderWorkPackageTaskcard::class => WorkOrderWorkPackageTaskcardPolicy::class,
-        WOWPTaskcardItem::class => WOWPTaskcardItemPolicy::class,
+        WorkOrderWorkPackage::class => WorkOrderPolicy::class,
+        WorkOrderWorkPackageTaskcard::class => WorkOrderPolicy::class,
+        WOWPTaskcardItem::class => WorkOrderPolicy::class,
+        // WorkOrderWorkPackage::class => WorkOrderWorkPackagePolicy::class,
+        // WorkOrderWorkPackageTaskcard::class => WorkOrderWorkPackageTaskcardPolicy::class,
+        // WOWPTaskcardItem::class => WOWPTaskcardItemPolicy::class,
         
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
