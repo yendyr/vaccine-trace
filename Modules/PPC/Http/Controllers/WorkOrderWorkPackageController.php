@@ -335,7 +335,7 @@ class WorkOrderWorkPackageController extends Controller
         }
     }
 
-        /**
+    /**
      * Display a listing of the resource.
      * @return Renderable
      */
