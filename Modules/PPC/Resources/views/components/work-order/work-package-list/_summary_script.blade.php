@@ -29,11 +29,11 @@ $(document).ready(function () {
         },
         columns: [
             { title: 'Taskcard No.', data: 'name', name: 'name', defaultContent: '-' },
-            { title: 'Part Number', data: 'name', name: 'name', defaultContent: '-' },
-            { title: 'Item Name', data: 'name', name: 'name', defaultContent: '-' },
-            { title: 'Quantity', data: 'name', name: 'name', defaultContent: '-' },
-            { title: 'Unit', data: 'name', name: 'name', defaultContent: '-' },
-            { title: 'Remark', data: 'name', name: 'name', defaultContent: '-' },
+            { title: 'Part Number', data: 'item.code', name: 'item.code', defaultContent: '-' },
+            { title: 'Item Name', data: 'item.name', name: 'item.name', defaultContent: '-' },
+            { title: 'Quantity', data: 'quantity', name: 'quantity', defaultContent: '-' },
+            { title: 'Unit', data: 'unit.name', name: 'unit.name', defaultContent: '-' },
+            { title: 'Remark', data: 'description', name: 'description', defaultContent: '-' },
         ]
     });
 });
