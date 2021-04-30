@@ -12,6 +12,7 @@ use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Modules\PPC\Entities\Taskcard;
+use Modules\PPC\Entities\WOWPTaskcardItem;
 
 class WorkOrderWorkPackageController extends Controller
 {
@@ -339,17 +340,20 @@ class WorkOrderWorkPackageController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function itemRequirements(WorkOrder $work_order, Request $request)
+    public function itemRequirements(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         if ($request->ajax()) {
 
-            $items = [];
-
-            if( $work_order->taskcards()->count() > 0 ) {
-                foreach ($work_order->taskcards as $taskcardRow) {
-                    $taskcard_items = json_decode($taskcardRow->items_json);
-                }
-            }
+            $items = WOWPTaskcardItem::select(
+                'id',
+                'work_order_id',
+                'work_package_id',
+                'quantity',
+                'description',
+                'unit_json',
+                'item_json',
+                'taskcard_json'
+            )->where('work_order_id', $work_order->id)->where('work_package_id', $work_package->id);
 
             return Datatables::of($items)
                 ->escapeColumns([])

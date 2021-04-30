@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Modules\PPC\Entities\AircraftConfiguration;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderApproval;
+use Modules\PPC\Entities\WOWPTaskcardItem;
 use Yajra\DataTables\Facades\DataTables;
 
 class WorkOrderController extends Controller
@@ -452,17 +453,20 @@ class WorkOrderController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function itemRequirements(WorkOrder $work_order, Request $request)
+    public function itemRequirements(Request $request, WorkOrder $work_order)
     {
         if ($request->ajax()) {
 
-            $items = [];
-
-            if( $work_order->taskcards()->count() > 0 ) {
-                foreach ($work_order->taskcards as $taskcardRow) {
-                    $taskcard_items = json_decode($taskcardRow->items_json);
-                }
-            }
+            $items = WOWPTaskcardItem::select(
+                'id',
+                'work_order_id',
+                'work_package_id',
+                'quantity',
+                'description',
+                'unit_json',
+                'item_json',
+                'taskcard_json'
+            )->where('work_order_id', $work_order->id);
 
             return Datatables::of($items)
                 ->escapeColumns([])
