@@ -97,7 +97,7 @@ $(document).ready(function () {
         $('<input>').attr({
             type: 'hidden',
             name: '_method',
-            value: 'patch'
+            value: 'put'
         }).prependTo('#inputForm');
 
         $('#mpd_number').val(data.mpd_number);

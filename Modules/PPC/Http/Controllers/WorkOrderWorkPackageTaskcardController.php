@@ -279,7 +279,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'document_library_details_json' => json_encode($taskcard->document_library_details),
                 'affected_manuals_json' => json_encode($taskcard->affected_manuals),
                 'affected_manual_details_json' => json_encode($taskcard->affected_manual_details),
-                'instruction_details_json' => json_encode($taskcard->instruction_details),
+                'instruction_details_json' => json_encode($taskcard->instruction_details()->with('skills')->get()),
                 'items_json' => json_encode($taskcard->items),
                 'item_details_json' => json_encode($taskcard->item_details),
 
