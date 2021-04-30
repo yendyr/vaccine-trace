@@ -25,6 +25,10 @@ class CreateWOWPTaskcardItemsTable extends Migration
             $table->string('unit_id')->nullable();
             $table->string('description')->nullable();
 
+            $table->json('item_json')->nullable();
+            $table->json('unit_json')->nullable();
+            $table->json('taskcard_json')->nullable();
+            
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();

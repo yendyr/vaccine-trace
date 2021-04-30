@@ -24,6 +24,10 @@ class WOWPTaskcardItem extends MainModel
         'unit_id',
         'description',
 
+        'item_json',
+        'unit_json',
+        'taskcard_json',
+
         'status',
         'created_by',
         'updated_by',
