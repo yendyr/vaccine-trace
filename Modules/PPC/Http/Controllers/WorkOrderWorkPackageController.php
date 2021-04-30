@@ -164,8 +164,8 @@ class WorkOrderWorkPackageController extends Controller
     {
         $skills = $taskcard_counts = [];
 
-        if( $work_order->taskcards()->count() > 0 ) {
-            foreach ($work_order->taskcards as $taskcardRow) {
+        if( $work_package->taskcards()->count() > 0 ) {
+            foreach ($work_package->taskcards as $taskcardRow) {
 
                 $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
 
