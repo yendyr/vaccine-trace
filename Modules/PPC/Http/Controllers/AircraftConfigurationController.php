@@ -283,9 +283,8 @@ class AircraftConfigurationController extends Controller
         }
     }
 
-    public function show(AircraftConfiguration $MaintenanceStatusReport)
+    public function show(AircraftConfiguration $AircraftConfiguration)
     {
-        $AircraftConfiguration = $MaintenanceStatusReport;
         return view('ppc::pages.aircraft-configuration.show', compact('AircraftConfiguration'));
     }
 

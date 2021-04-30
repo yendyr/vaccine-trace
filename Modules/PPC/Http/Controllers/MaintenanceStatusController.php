@@ -26,8 +26,9 @@ class MaintenanceStatusController extends Controller
         return view('ppc::pages.maintenance-status-report.index');
     }
 
-    public function show(AircraftConfiguration $AircraftConfiguration)
+    public function show(AircraftConfiguration $MaintenanceStatusReport)
     {
+        $AircraftConfiguration = $MaintenanceStatusReport;
         return view('ppc::pages.maintenance-status-report.show', compact('AircraftConfiguration'));
     }
 }
