@@ -16,30 +16,15 @@
 
     <div class="row m-b m-t">
         <div class="col-md-5">
-            <div class="profile-image">
-                @if($work_package?->file_attachment)
-                    <a target="_blank" href="{{ URL::asset('uploads/company/' . $work_package?->owned_by . '/taskcard/' . $work_package?->file_attachment) }}">
-                    <img src="{{ URL::asset('assets/default-pdf-image.png') }}" class="m-t-xs" id="fileTaskcard">
-                    </a>
-
-                    <span class="m-l-sm font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Replace File</label></small></span>
-                @else
-                    <img src="{{ URL::asset('assets/default-file-image.png') }}" class="m-t-xs" id="fileTaskcard">
-
-                    <span class="font-italic"><small><label class="label label-primary" for="taskcardFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Attach New File</label></small></span>
-                @endif
-
-                <input onchange="getTaskcardFile(this)" style="display: none;" id="taskcardFile" type="file" name="taskcardFile" data-id="{{ $work_package?->id }}" accept="application/pdf" />
-            </div>
             <div class="profile-info">
                 <h2 class="m-t-none m-b-none">
-                    <strong>{{ $work_package?->title ?? 'Work Order Title' }}</strong>
+                    <strong>{{ $work_package?->title ?? 'Work Package Title' }}</strong>
                 </h2>
                 <h2 class="text-success m-t-none"><strong>{{ $work_package?->code ?? '' }}</strong></h2>
             </div>
         </div>
         <div class="col-md-3">
-            <div>Work Order Description: <br><strong class="text-success">{{ $work_package?->description ?? '' }}</strong></div>
+            <div>Work Package Description: <br><strong class="text-success">{{ $work_package?->description ?? '' }}</strong></div>
         </div>
         <div class="col-md-4">
             <div>Performance Factor: <strong class="text-success performance_factor">{{ $work_package?->performance_factor ?? '-' }}</strong></div>
@@ -65,41 +50,53 @@
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
                     <li>
-                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-task-card"> 
+                        <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-taskcard" style="min-height: 50px;"> 
                             <i class="fa fa-align-left fa-2x text-warning"></i>&nbsp;Task Card/Inspection List Reference (MPD)
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-maintenance-program"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-current-maintenance-program" style="min-height: 50px;"> 
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Current Maintenance Program
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-material-tool-requirements"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-mat-tool-requirement" style="min-height: 50px;"> 
                             <i class="fa fa-wrench fa-2x text-warning"></i>&nbsp;Material &amp; Tool Requirements
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-summary" style="min-height: 50px;" > 
+                            <i class="fa fa-tasks fa-2x text-warning"></i>&nbsp;Summary
                         </a>
                     </li>
                 </ul>
                 
                 <div class="tab-content">
-                    <div id="tab-1" class="tab-pane active">
+                <div id="tab-taskcard" class="tab-pane active">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
                                 @include('ppc::pages.work-order.taskcard-list.content')
                             </div>
                         </div>
                     </div>
-                    <div id="tab-2" class="tab-pane">
+                    <div id="tab-current-maintenance-program" class="tab-pane">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
                                 @include('ppc::pages.work-order.maintenance-program-detail.content')
                             </div>
                         </div>
                     </div>
-                    <div id="tab-3" class="tab-pane">
+                    <div id="tab-mat-tool-requirement" class="tab-pane">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
                                 @include('ppc::pages.work-order.item-list.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-summary" class="tab-pane">
+                        <div class="panel-body" style="min-height: 600px;">
+                            <div class="row m-b">
+                                @include('ppc::pages.work-order.work-package.summary')
                             </div>
                         </div>
                     </div>

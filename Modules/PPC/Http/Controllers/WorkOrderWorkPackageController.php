@@ -162,9 +162,55 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function edit(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
+        $skills = $taskcard_counts = [];
+
+        if( $work_package->taskcards()->count() > 0 ) {
+            foreach ($work_package->taskcards as $taskcardRow) {
+
+                $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
+
+                if( !empty($taskcard_group) ) {
+                    if( empty($taskcard_counts[$taskcard_group->code]) ){
+                        $taskcard_counts[$taskcard_group->code]['name'] = $taskcard_group->name;
+                        $taskcard_counts[$taskcard_group->code]['count'] = 1;
+                    }else{
+                        $taskcard_counts[$taskcard_group->code]['count']++;
+                    }
+                }
+
+                $instruction_details = json_decode($taskcardRow->instruction_details_json);
+
+    
+                if( !empty($instruction_details) ) {
+
+                    foreach( $instruction_details as $instruction_detail_row ) {
+
+                        if( sizeof($instruction_detail_row->skills) > 0 ) {
+
+                            foreach ($instruction_detail_row->skills as $skillRow) {
+
+                                if( isset($skills[$skillRow->name]) ) {
+                                    $skills[$skillRow->name]++;
+                                }else{
+                                    $skills[$skillRow->name] = 1;
+                                }
+
+                            }
+                            
+                        }
+
+                    }
+
+                } 
+                
+            }
+        }
+        
         return view('ppc::pages.work-order.work-package.index', [
+            'skills' => $skills,
             'work_order' => $work_order,
-            'work_package' => $work_package
+            'work_package' => $work_package,
+            'taskcard_counts' => $taskcard_counts
         ]);
     }
 
@@ -287,5 +333,29 @@ class WorkOrderWorkPackageController extends Controller
                 return response()->json(['error' => 'Failed to add all task card to Maintenance Program', 'flag' => $flag]);
             }
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return Renderable
+     */
+    public function itemRequirements(WorkOrder $work_order, Request $request)
+    {
+        if ($request->ajax()) {
+
+            $items = [];
+
+            if( $work_order->taskcards()->count() > 0 ) {
+                foreach ($work_order->taskcards as $taskcardRow) {
+                    $taskcard_items = json_decode($taskcardRow->items_json);
+                }
+            }
+
+            return Datatables::of($items)
+                ->escapeColumns([])
+                ->make();
+        }
+
+        abort(500);
     }
 }
