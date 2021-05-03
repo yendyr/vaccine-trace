@@ -28,7 +28,7 @@ $(document).ready(function () {
             url: actionUrl,
         },
         columns: [
-            { title: 'Taskcard No.', data: 'taskcard_json.mpd_number', name: 'taskcard_json.mpd_number', defaultContent: '-' },
+            { title: 'Taskcard No.', data: 'taskcard_number', name: 'taskcard_json.mpd_number', defaultContent: '-' },
             { title: 'Part Number', data: 'item_json.code', name: 'item_json.code', defaultContent: '-' },
             { title: 'Item Name', data: 'item_json.name', name: 'item_json.name', defaultContent: '-' },
             { title: 'Quantity', data: 'quantity', name: 'quantity', defaultContent: '-' },
