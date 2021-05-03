@@ -64,6 +64,13 @@ class WOWPTaskcardItemController extends Controller
                     }
                     
                 })
+                ->addColumn('taskcard_number', function($itemRow) use ($work_order, $work_package) {
+                    return "<a href=".route('ppc.work-order.work-package.taskcard.show', [
+                        'work_order' => $work_order->id,
+                        'work_package' => $work_package->id,
+                        'taskcard' => $itemRow->id,
+                    ]).">".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
+                })
                 ->escapeColumns([])
                 ->make(true);
         }

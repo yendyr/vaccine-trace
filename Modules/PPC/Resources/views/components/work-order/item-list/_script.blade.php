@@ -54,8 +54,10 @@ $(document).ready(function () {
             url: "{{ route('ppc.work-order.work-package.item.index', ['work_order' => $work_order->id, 'work_package' => $work_package->id]) }}",
         },
         columns: [
+            { title: 'MPD Number', data: 'taskcard_number', name: 'taskcard_number', defaultContent: '-' },
             { title: 'Code', data: 'item.code', name: 'item.code', defaultContent: '-' },
             { title: 'Item Name', data: 'item.name', name: 'item.name', defaultContent: '-' },
+            { title: 'Quantity', data: 'quantity', name: 'quantity', defaultContent: '-' },
             { title: 'Unit', data: 'unit.name', name: 'unit.name', defaultContent: '-' },
             { title: 'Category', data: 'category.name', name: 'category.name', defaultContent: '-' },
             { title: 'Remark', data: 'description', name: 'description', defaultContent: '-' },
