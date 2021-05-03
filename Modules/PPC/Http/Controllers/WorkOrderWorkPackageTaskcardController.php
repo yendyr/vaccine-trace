@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\TaskcardDetailInstruction;
 use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
+use Modules\PPC\Entities\TaskcardDetailItem;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Modules\PPC\Entities\WOWPTaskcardItem;
 
@@ -170,12 +171,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('action', function ($row) use ($request) {
                         $noAuthorize = true;
-                        if ( $request->user()->can('update', $row) ) {
+                        if ($request->user()->can('update', $row)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if ( $request->user()->can('delete', $row) ) {
+                        if ($request->user()->can('delete', $row)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -218,17 +219,16 @@ class WorkOrderWorkPackageTaskcardController extends Controller
         $is_authorized = $request->user()->can('update', $work_order);
         $is_use_all_taskcard = Str::contains($request->fullUrl(), 'use-all-taskcard');
 
-        if( !$is_authorized ) {
+        if (!$is_authorized) {
 
-            if( $is_use_all_taskcard ){
+            if ($is_use_all_taskcard) {
                 return ['error' => 'Action is not authorized', 'flag' => false];
-            }else{
+            } else {
                 return response()->json(['error' => 'Action is not authorized']);
             }
-
         }
 
-        if( !$is_use_all_taskcard ) {
+        if (!$is_use_all_taskcard) {
             DB::beginTransaction();
         }
 
@@ -246,9 +246,9 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
                 DB::rollBack();
 
-                if( $is_use_all_taskcard ){
+                if ($is_use_all_taskcard) {
                     return ['error' => 'Failed to find task card', 'flag' => false];
-                }else{
+                } else {
                     return response()->json(['error' => 'Failed to find task card']);
                 }
             }
@@ -279,7 +279,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'document_library_details_json' => json_encode($taskcard->document_library_details),
                 'affected_manuals_json' => json_encode($taskcard->affected_manuals),
                 'affected_manual_details_json' => json_encode($taskcard->affected_manual_details),
-                'instruction_details_json' => json_encode($taskcard->instruction_details()->with('skills')->get()),
+                'instruction_details_json' => json_encode($taskcard->instruction_details()->with('skills', 'item_details')->get()),
                 'items_json' => json_encode($taskcard->items()->with('unit', 'category')->get()),
                 'item_details_json' => json_encode($taskcard->item_details()->with('item', 'unit', 'category', 'taskcard_detail_instruction', 'taskcard')->get()),
 
@@ -330,34 +330,31 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
 
             if ($flag) {
-                
-                if( $is_use_all_taskcard ){
+
+                if ($is_use_all_taskcard) {
                     return ['success' => 'Task Card has been added to Maintenance Program', 'total_manhours' => number_format($total_manhours, 2), 'total_manhours_with_performance_factor' => number_format($total_manhours * $work_package->performance_factor, 2), 'flag' => $flag];
-                }else{
+                } else {
                     DB::commit();
 
                     return response()->json(['success' => 'Task Card has been added to Maintenance Program', 'total_manhours' => number_format($total_manhours, 2), 'total_manhours_with_performance_factor' => number_format($total_manhours * $work_package->performance_factor, 2), 'flag' => $flag]);
                 }
-
             } else {
-                
-                if( $is_use_all_taskcard ){
+
+                if ($is_use_all_taskcard) {
                     return ['error' => 'Failed to add task card to Maintenance Program', 'flag' => $flag];
-                }else{
+                } else {
                     DB::rollBack();
-                    
+
                     return response()->json(['error' => 'Failed to add task card to Maintenance Program', 'flag' => $flag]);
                 }
-
             }
         } else {
 
-            if( $is_use_all_taskcard ){
+            if ($is_use_all_taskcard) {
                 return ['error' => "This Task Card Already Exist in this Maintenance Program", 'flag' => false];
-            }else{
+            } else {
                 return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
             }
-
         }
     }
 
@@ -370,7 +367,46 @@ class WorkOrderWorkPackageTaskcardController extends Controller
      */
     public function show(WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
-        return view('ppc::show');
+        $taskcard->taskcard_json = json_decode($taskcard->taskcard_json);
+        $taskcard->taskcard_group_json = json_decode($taskcard->taskcard_group_json);
+        $taskcard->taskcard_type_json = json_decode($taskcard->taskcard_type_json);
+        $taskcard->taskcard_workarea_json = json_decode($taskcard->taskcard_workarea_json);
+        $taskcard->aircraft_types_json = json_decode($taskcard->aircraft_types_json);
+        $taskcard->aircraft_type_details_json = json_decode($taskcard->aircraft_type_details_json);
+        $taskcard->affected_items_json = json_decode($taskcard->affected_items_json);
+        $taskcard->affected_item_details_json = json_decode($taskcard->affected_item_details_json);
+        $taskcard->tags_json = json_decode($taskcard->tags_json);
+        $taskcard->tag_details_json = json_decode($taskcard->tag_details_json);
+        $taskcard->accesses_json = json_decode($taskcard->accesses_json);
+        $taskcard->access_details_json = json_decode($taskcard->access_details_json);
+        $taskcard->zones_json = json_decode($taskcard->zones_json);
+        $taskcard->zone_details_json = json_decode($taskcard->zone_details_json);
+        $taskcard->document_libraries_json = json_decode($taskcard->document_libraries_json);
+        $taskcard->document_library_details_json = json_decode($taskcard->document_library_details_json);
+        $taskcard->affected_manuals_json = json_decode($taskcard->affected_manuals_json);
+        $taskcard->affected_manual_details_json = json_decode($taskcard->affected_manual_details_json);
+        $taskcard->instruction_details_json = json_decode($taskcard->instruction_details_json, true);
+        $instruction_details_json = [];
+
+        if( !empty($taskcard->instruction_details_json) ) {
+            foreach($taskcard->instruction_details_json as $key => $instruction_array) {
+                $instruction_details_json[] = new TaskcardDetailInstruction($instruction_array);
+            }
+        } 
+
+        $instruction_details_json = collect($instruction_details_json);
+        $taskcard->items_json = json_decode($taskcard->items_json);
+        $taskcard->item_details_json = json_decode($taskcard->item_details_json, true);
+
+        $item_details_json = [];
+
+        if( !empty($taskcard->item_details_json) ) {
+            foreach($taskcard->item_details_json as $key => $item_detail_row) {
+                $item_details_json[] = new TaskcardDetailItem($item_detail_row);
+            }
+        } 
+        
+        return view('ppc::pages.work-order.taskcard-list.show', compact('taskcard', 'work_order', 'work_package', 'instruction_details_json', 'item_details_json'));
     }
 
     /**
@@ -409,7 +445,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
     {
         $is_authorized = $request->user()->can('delete', $work_order->id);
 
-        if( !$is_authorized ) {
+        if (!$is_authorized) {
             return response()->json(['error' => 'Work Order already approved']);
         }
 
@@ -449,5 +485,4 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             return response()->json(['error' => "Failed to delete Task Card's Maintenance Program Data"]);
         }
     }
-
 }
