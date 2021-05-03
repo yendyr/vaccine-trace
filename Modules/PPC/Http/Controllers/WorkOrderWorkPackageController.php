@@ -353,11 +353,22 @@ class WorkOrderWorkPackageController extends Controller
                 'unit_json',
                 'item_json',
                 'taskcard_json'
-            )->where('work_order_id', $work_order->id)->where('work_package_id', $work_package->id);
+            )->where('work_order_id', $work_order->id)
+            ->where('work_package_id', $work_package->id);
+
 
             return Datatables::of($items)
+                ->addColumn('unit_json', function($itemRow) {
+                    return json_decode($itemRow->unit_json, true);
+                })
+                ->addColumn('item_json', function($itemRow) {
+                    return json_decode($itemRow->item_json, true);
+                })
+                ->addColumn('taskcard_json', function($itemRow) {
+                    return json_decode($itemRow->taskcard_json, true);
+                })
                 ->escapeColumns([])
-                ->make();
+                ->make(true);
         }
 
         abort(500);
