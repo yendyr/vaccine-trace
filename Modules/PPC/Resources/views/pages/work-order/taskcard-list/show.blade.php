@@ -73,52 +73,17 @@
         @endif
 
         Affected Item/Component Part Number:
-        <div class="ibox full-height">
-            <div class="ibox-title">
-                <h4 class="text-center">Item Requirement</h4>
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a class="fullscreen-link">
-                        <i class="fa fa-expand"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="ibox-content">
-                <div class="table-responsive" style="font-size: 9pt;">
-                    <table id="{{ $instruction_detail->id ?? '-' }}" class="perInstructionItem table table-hover table-striped text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th style="font-weight: normal;">Code</th>
-                                <th style="font-weight: normal;">Item Name</th>
-                                <th style="font-weight: normal;">Qty</th>
-                                <th style="font-weight: normal;">Unit</th>
-                                <th style="font-weight: normal;">Category</th>
-                                <th style="font-weight: normal;">Remark</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ( !empty($taskcard->item_details_json) )
-                            @foreach ($taskcard->item_details_json as $item_detail)
-                            <tr>
-                                <td>{{ $item_detail->item->code ?? '' }}</td>
-                                <td>{{ $item_detail->item->name ?? '' }}</td>
-                                <td>{{ $item_detail->quantity ?? '' }}</td>
-                                <td>{{ $item_detail->unit->name ?? '' }}</td>
-                                <td>{{ $item_detail->category->name ?? '' }}</td>
-                                <td>{{ $item_detail->description ?? '' }}</td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="ibox-footer text-center">
-                
-            </div>
-        </div>
+        @if ( !empty($taskcard->affected_items_json) )
+        <p class="m-b-xs">
+            @foreach ($taskcard->affected_items_json as $affected_item)
+            <label class="label label-success">{{ $affected_item->code }} | {{ $affected_item->name }}</label>
+            @endforeach
+        </p>
+        @else
+        <p class="m-b-xs">
+            <label class="text-success">-</label>
+        </p>
+        @endif
 
         Tag:
         @if ( !empty($taskcard->taskcard_json->tags) )
@@ -229,7 +194,7 @@
                     <div class="panel-body" style="min-height: 500px;">
                         <div class="row m-b">
                             <div class="col">
-                               
+
                             </div>
                         </div>
                         <div class="row">

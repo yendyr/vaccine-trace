@@ -168,9 +168,7 @@ $(document).ready(function () {
             url: "/ppc/work-order/{{$work_order->id}}/work-package/{{$work_package->id}}/taskcard",
         },
         columns: [
-            {   title: 'MPD Number', data: 'taskcard.mpd_number', 
-                    "render": function ( data, type, row, meta ) {
-                    return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.taskcard.mpd_number + '</a>'; }},
+            {   title: 'MPD Number', data: 'taskcard_number', name: 'taskcard.mpd_number',},
             {   title: 'Title', data: 'taskcard.title', name: 'Title' },
             {   title: 'Group', data: 'group_structure', name: 'Group' },
             {   title: 'Tag', data: 'tag', defaultContent: '-' },
