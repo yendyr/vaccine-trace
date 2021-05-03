@@ -67,6 +67,8 @@ class WOWPTaskcardItemController extends Controller
                 ->escapeColumns([])
                 ->make(true);
         }
+
+        abort(404);
     }
 
     /**

@@ -482,13 +482,11 @@ class WorkOrderController extends Controller
                         'work_package' => $itemRow->work_package_id,
                         'taskcard' => $itemRow->id,
                     ]).">".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
-                
-                    // return json_decode($itemRow->taskcard_json, true);
                 })
                 ->escapeColumns([])
                 ->make();
         }
 
-        abort(500);
+        abort(404);
     }
 }

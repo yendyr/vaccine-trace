@@ -83,7 +83,7 @@ class WorkOrderWorkPackageController extends Controller
                 ->make();
         }
 
-        return response()->json('index');
+        abort(404);
     }
 
     /**
@@ -370,13 +370,11 @@ class WorkOrderWorkPackageController extends Controller
                         'work_package' => $work_package->id,
                         'taskcard' => $itemRow->id,
                     ]).">".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
-                
-                    // return json_decode($itemRow->taskcard_json, true);
                 })
                 ->escapeColumns([])
                 ->make(true);
         }
 
-        abort(500);
+        abort(404);
     }
 }

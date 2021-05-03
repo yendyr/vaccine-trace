@@ -221,6 +221,8 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     ->make();
             }
         }
+
+        abort(404);
     }
 
     /**
