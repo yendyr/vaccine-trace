@@ -51,17 +51,23 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'work_package',
                     ]);
                 return Datatables::of($data)
+                    ->addColumn('taskcard_number', function ($itemRow) use ($work_order, $work_package) {
+                        return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
+                            'work_order' => $work_order->id,
+                            'work_package' => $work_package->id,
+                            'taskcard' => $itemRow->id,
+                        ]) . ">" . json_decode($itemRow->taskcard_json)->mpd_number . "</a>";
+                    })
                     ->addColumn('group_structure', function ($row) {
-                        if ($row->taskcard->taskcard_group_id) {
-                            $currentRow = TaskcardGroup::where('id', $row->taskcard->taskcard_group_id)
-                                ->withTrashed()
-                                ->first();
+                        $taskcard_group = json_decode($row->taskcard_group_json);
+                        if (!empty($taskcard_group)) {
+
                             $group_structure = '';
 
                             while (true) {
-                                if ($currentRow) {
-                                    $group_structure = $currentRow->name . ' -> ' . $group_structure;
-                                    $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)
+                                if ($taskcard_group) {
+                                    $group_structure = $taskcard_group->name . ' -> ' . $group_structure;
+                                    $taskcard_group = ( !empty($taskcard_group->taskcard_group)) ? $taskcard_group->taskcard_group : TaskcardGroup::where('id', $taskcard_group->parent_id)
                                         ->withTrashed()
                                         ->first();
                                 } else {
@@ -83,31 +89,47 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('tag', function ($row) {
                         $tag_name = null;
-                        foreach ($row->taskcard->tags as $tag) {
-                            $tag_name .= $tag->name . ', ';
+                        $tag_details_json = json_decode($row->tag_details_json);
+
+                        if( !empty($tag_details_json) ) {
+                            foreach ($row->taskcard->tags as $tag) {
+                                $tag_name .= $tag->name . ', ';
+                            }
+    
+                            $tag_name = Str::beforeLast($tag_name, ',');
                         }
 
-                        $tag_name = Str::beforeLast($tag_name, ',');
                         return $tag_name;
                     })
                     ->addColumn('instruction_count', function ($row) {
-                        return $row->taskcard->instruction_details()->count();
+                        $instruction_details = json_decode($row->instruction_details_json);
+
+                        return sizeof($instruction_details);
                     })
                     ->addColumn('manhours_total', function ($row) {
-                        return number_format($row->taskcard->instruction_details()->sum('manhours_estimation'), 2, '.', '');
+                        $manhours_estimation = null;
+                        $instruction_details_json =  json_decode($row->instruction_details_json) ; 
+
+                        if( !empty($instruction_details_json) )  {
+                            foreach($instruction_details_json as $instruction_detail) {
+                                $manhours_estimation += $instruction_detail->manhours_estimation ?? 0;
+                            }
+                        }
+
+                        return number_format($manhours_estimation, 2, '.', '');
                     })
                     ->addColumn('skills', function ($row) {
                         $skillsArray = array();
                         $skill_name = '';
 
-                        $TaskcardDetailInstructions = TaskcardDetailInstruction::where('taskcard_id', $row->taskcard_id)->get();
+                        $TaskcardDetailInstructions = json_decode($row->instruction_details_json);
 
                         foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
-                            $TaskcardDetailInstructionSkills = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id)->get();
+                            $TaskcardDetailInstructionSkills = ($TaskcardDetailInstruction->skills) ? $TaskcardDetailInstruction->skills : null;
 
                             foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
-                                if (!in_array($TaskcardDetailInstructionSkill->skill->name, $skillsArray)) {
-                                    $skillsArray[] = $TaskcardDetailInstructionSkill->skill->name;
+                                if (!in_array($TaskcardDetailInstructionSkill->name, $skillsArray)) {
+                                    $skillsArray[] = $TaskcardDetailInstructionSkill->name;
                                 }
                             }
                         }
@@ -121,20 +143,22 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('threshold_interval', function ($row) {
                         $threshold_interval = '';
-                        if ($row->taskcard->threshold_flight_hour) {
-                            $threshold_interval .= $row->taskcard->threshold_flight_hour . ' FH / ';
+                        $taskcard_json = json_decode($row->taskcard_json);
+
+                        if ($taskcard_json->threshold_flight_hour) {
+                            $threshold_interval .= $taskcard_json->threshold_flight_hour . ' FH / ';
                         } else {
                             $threshold_interval .= '- FH / ';
                         }
 
-                        if ($row->taskcard->threshold_flight_cycle) {
-                            $threshold_interval .= $row->taskcard->threshold_flight_cycle . ' FC / ';
+                        if ($taskcard_json->threshold_flight_cycle) {
+                            $threshold_interval .= $taskcard_json->threshold_flight_cycle . ' FC / ';
                         } else {
                             $threshold_interval .= '- FC / ';
                         }
 
-                        if ($row->taskcard->threshold_daily) {
-                            $threshold_interval .= $row->taskcard->threshold_daily . ' ' . $row->taskcard->threshold_daily_unit . '(s)';
+                        if ($taskcard_json->threshold_daily) {
+                            $threshold_interval .= $taskcard_json->threshold_daily . ' ' . $taskcard_json->threshold_daily_unit . '(s)';
                         } else {
                             $threshold_interval .= '- Day';
                         }
@@ -143,20 +167,22 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('repeat_interval', function ($row) {
                         $repeat_interval = '';
-                        if ($row->taskcard->repeat_flight_hour) {
-                            $repeat_interval .= $row->taskcard->repeat_flight_hour . ' FH / ';
+                        $taskcard_json = json_decode($row->taskcard_json);
+
+                        if ($taskcard_json->repeat_flight_hour) {
+                            $repeat_interval .= $taskcard_json->repeat_flight_hour . ' FH / ';
                         } else {
                             $repeat_interval .= '- FH / ';
                         }
 
-                        if ($row->taskcard->repeat_flight_cycle) {
-                            $repeat_interval .= $row->taskcard->repeat_flight_cycle . ' FC / ';
+                        if ($taskcard_json->repeat_flight_cycle) {
+                            $repeat_interval .= $taskcard_json->repeat_flight_cycle . ' FC / ';
                         } else {
                             $repeat_interval .= '- FC / ';
                         }
 
-                        if ($row->taskcard->repeat_daily) {
-                            $repeat_interval .= $row->taskcard->repeat_daily . ' ' . $row->taskcard->repeat_daily_unit . '(s)';
+                        if ($taskcard_json->repeat_daily) {
+                            $repeat_interval .= $taskcard_json->repeat_daily . ' ' . $taskcard_json->repeat_daily_unit . '(s)';
                         } else {
                             $repeat_interval .= '- Day';
                         }
@@ -262,7 +288,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'description' => $request->description,
 
                 'taskcard_json' => json_encode($taskcard),
-                'taskcard_group_json' => json_encode($taskcard->taskcard_group),
+                'taskcard_group_json' => json_encode($taskcard->taskcard_group()->with('taskcard_group')->first()),
                 'taskcard_type_json' => json_encode($taskcard->taskcard_type),
                 'taskcard_workarea_json' => json_encode($taskcard->taskcard_workarea),
                 'aircraft_types_json' => json_encode($taskcard->aircraft_types),
@@ -279,7 +305,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'document_library_details_json' => json_encode($taskcard->document_library_details),
                 'affected_manuals_json' => json_encode($taskcard->affected_manuals),
                 'affected_manual_details_json' => json_encode($taskcard->affected_manual_details),
-                'instruction_details_json' => json_encode($taskcard->instruction_details()->with('skills', 'item_details')->get()),
+                'instruction_details_json' => json_encode($taskcard->instruction_details()->with('skills', 'item_details', 'taskcard_workarea', 'engineering_level', 'task_release_level', 'skill_details')->get()),
                 'items_json' => json_encode($taskcard->items()->with('unit', 'category')->get()),
                 'item_details_json' => json_encode($taskcard->item_details()->with('item', 'unit', 'category', 'taskcard_detail_instruction', 'taskcard')->get()),
 
@@ -388,11 +414,11 @@ class WorkOrderWorkPackageTaskcardController extends Controller
         $taskcard->instruction_details_json = json_decode($taskcard->instruction_details_json, true);
         $instruction_details_json = [];
 
-        if( !empty($taskcard->instruction_details_json) ) {
-            foreach($taskcard->instruction_details_json as $key => $instruction_array) {
+        if (!empty($taskcard->instruction_details_json)) {
+            foreach ($taskcard->instruction_details_json as $key => $instruction_array) {
                 $instruction_details_json[] = new TaskcardDetailInstruction($instruction_array);
             }
-        } 
+        }
 
         $instruction_details_json = collect($instruction_details_json);
         $taskcard->items_json = json_decode($taskcard->items_json);
@@ -400,12 +426,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
         $item_details_json = [];
 
-        if( !empty($taskcard->item_details_json) ) {
-            foreach($taskcard->item_details_json as $key => $item_detail_row) {
+        if (!empty($taskcard->item_details_json)) {
+            foreach ($taskcard->item_details_json as $key => $item_detail_row) {
                 $item_details_json[] = new TaskcardDetailItem($item_detail_row);
             }
-        } 
-        
+        }
+
         return view('ppc::pages.work-order.taskcard-list.show', compact('taskcard', 'work_order', 'work_package', 'instruction_details_json', 'item_details_json'));
     }
 
