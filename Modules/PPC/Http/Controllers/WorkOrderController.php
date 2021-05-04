@@ -468,12 +468,17 @@ class WorkOrderController extends Controller
                 ->addColumn('item_json', function ($itemRow) {
                     return json_decode($itemRow->item_json, true);
                 })
-                ->addColumn('taskcard_json', function ($itemRow) use ($work_order) {
+                ->addColumn('taskcard_number', function ($itemRow) use ($work_order) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
                         'work_order' => $work_order->id,
-                        'work_package' => $itemRow->work_package_id,
+                        'work_package' => $itemRow->work_package->id,
                         'taskcard' => $itemRow->id,
-                    ]) . ">" . json_decode($itemRow->taskcard_json)->mpd_number . "</a>";
+                    ]) . " data-toggle='tooltip' title='View'>" . json_decode($itemRow->taskcard_json)->mpd_number . "</a>";
+                })
+                ->addColumn('item_number', function ($itemRow) {
+                    $item_json = json_decode($itemRow->item_json);
+
+                    return "<label class='label label-success viewItemBtn' data-toggle='tooltip' title='View'>" . $item_json->code . "</label>";
                 })
                 ->escapeColumns([])
                 ->make();

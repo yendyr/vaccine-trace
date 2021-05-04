@@ -71,7 +71,7 @@
 @endsection
 
 @include('ppc::components.work-order._file_upload_script')
-
+@include('ppc::pages.work-order.item-list.show')
 @push('header-scripts')
 @include('layouts.includes._header-datatable-script')
     <style>

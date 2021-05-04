@@ -25,7 +25,7 @@
     @endcomponent
 
     @include('ppc::components.work-order._script')
-
+    @include('ppc::pages.work-order.item-list.show')
 @endsection
 
 @push('header-scripts')

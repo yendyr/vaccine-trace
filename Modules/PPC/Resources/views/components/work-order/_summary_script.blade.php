@@ -31,77 +31,48 @@
             ajax: {
                 url: actionUrl,
             },
-            columns: [{
-                    title: 'Taskcard No.',
-                    data: 'taskcard_number',
-                    name: 'taskcard_json.mpd_number',
-                    defaultContent: '-'
-                },
-                {
-                    title: 'Part Number',
-                    data: 'item_json.code',
-                    name: 'item_json.code',
-                    defaultContent: '-'
-                },
-                {
-                    title: 'Item Name',
-                    data: 'item_json.name',
-                    name: 'item_json.name',
-                    defaultContent: '-'
-                },
-                {
-                    title: 'Quantity',
-                    data: 'quantity',
-                    name: 'quantity',
-                    defaultContent: '-'
-                },
-                {
-                    title: 'Unit',
-                    data: 'unit_json.name',
-                    name: 'unit_json.name',
-                    defaultContent: '-'
-                },
-                {
-                    title: 'Remark',
-                    data: 'description',
-                    name: 'description',
-                    defaultContent: '-'
-                },
+            columns: [
+                { title: 'Taskcard No.', data: 'taskcard_number', name: 'taskcard_json', defaultContent: '-' },
+                { title: 'Part Number', data: 'item_number', name: 'item_json', defaultContent: '-' },
+                { title: 'Item Name', data: 'item_json.name', name: 'item_json', defaultContent: '-' },
+                { title: 'Quantity', data: 'quantity', name: 'quantity', defaultContent: '-' },
+                { title: 'Unit', data: 'unit_json.name', name: 'unit_json', defaultContent: '-' },
+                { title: 'Remark', data: 'description', name: 'description', defaultContent: '-' },
             ]
         });
 
-        // ----------------- "SHOW" BUTTON SCRIPT ------------- //
-        $(tableId).on('click', '.viewItemBtn', function(e) {
-            $(modalItemTitleId).html("Material/Tool Information");
-            let tr = $(this).closest('tr');
-            let rowData = datatableObject.row(tr).data();
+    // ----------------- "SHOW" BUTTON SCRIPT ------------- //
+    $(tableId).on('click', '.viewItemBtn', function (e) {
+        $(modalItemTitleId).html("Material/Tool Information");
+        let tr = $(this).closest('tr');
+        let rowData = datatableObject.row( tr ).data();
 
-            $('#code').val(rowData.item_json.code);
-            $('#name').val(rowData.item_json.name);
-            $('#model').val(rowData.item_json.model);
-            $('#type').val(rowData.item_json.type);
-            $('#description').val(rowData.item_json.description);
-            $('#primary_unit').val(rowData.unit_json.name);
-            $('#reorder_stock_level').val(rowData.item_json.reorder_stock_level);
-            $('#status').val(rowData.item_json.status);
+        $('#code').val(rowData.item_json.code);
+        $('#name').val(rowData.item_json.name);
+        $('#model').val(rowData.item_json.model);
+        $('#type').val(rowData.item_json.type);
+        $('#description').val(rowData.item_json.description);
+        $('#primary_unit').val(rowData.unit_json.name);
+        $('#reorder_stock_level').val(rowData.item_json.reorder_stock_level);
+        $('#status').val(rowData.item_json.status);
+        
+        if(rowData.item_json.category) {
+            $('#category').val(rowData.item_json.category.name);
+        }else{
+        $('#category').val(null);
+        }
 
-            if (rowData.item_json.category) {
-                $('#category').val(rowData.item_json.category.name);
-            } else {
-                $('#category').val(null);
-            }
-
-            if (rowData.item_json.manufacturer) {
-                $('#manufacturer').val(rowData.item_json.manufacturer.name);
-            } else {
-                $('#manufacturer').val(null);
-            }
+        if(rowData.item_json.manufacturer){
+            $('#manufacturer').val(rowData.item_json.manufacturer.name);
+        }else{
+            $('#manufacturer').val(null);
+        }
 
 
-            $('[class^="invalid-feedback-"]').html(''); // clearing validation
-            $(inputModalId).modal('show');
-        });
-        // ----------------- END "SHOW" BUTTON SCRIPT ------------- //
+        $('[class^="invalid-feedback-"]').html('');  // clearing validation
+        $(inputModalId).modal('show');
+    });
+    // ----------------- END "SHOW" BUTTON SCRIPT ------------- //
     });
 </script>
 @endpush
