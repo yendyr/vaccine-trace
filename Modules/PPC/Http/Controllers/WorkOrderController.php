@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\PPC\Entities\AircraftConfiguration;
+use Modules\PPC\Entities\MaintenanceProgramDetail;
+use Modules\PPC\Entities\TaskcardDetailInstruction;
+use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
+use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderApproval;
 use Modules\PPC\Entities\WOWPTaskcardItem;
@@ -40,46 +44,46 @@ class WorkOrderController extends Controller
                 ->addColumn('number', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
-                        if ( $request->user()->can('view', WorkOrder::class)) {
+                        if ($request->user()->can('view', WorkOrder::class)) {
                             $showText = $row->code;
                             $showValue = $row->id;
                             $noAuthorize = false;
                         }
 
                         if ($noAuthorize == false) {
-                            return  '<a href="'. route('ppc.work-order.show', ['work_order' => $showValue]) .'">'. $showText .'</a>';
+                            return  '<a href="' . route('ppc.work-order.show', ['work_order' => $showValue]) . '">' . $showText . '</a>';
                         } else {
                             return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
-                    } 
+                    }
                 })
                 ->addColumn('action', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
 
-                        if ( $request->user()->can('update', $row) ) {
+                        if ($request->user()->can('update', $row)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
-                        }else{
+                        } else {
                             $updateable = null;
                             $updateValue = null;
                         }
 
-                        if ( $request->user()->can('delete', $row) ) {
+                        if ($request->user()->can('delete', $row)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
-                        }else{
+                        } else {
                             $deleteable = null;
                             $deleteId = null;
                         }
 
-                        if ( $request->user()->can('approval', $row) ) {
+                        if ($request->user()->can('approval', $row)) {
                             $approvable = true;
                             $approveId = $row->id;
                             $noAuthorize = false;
-                        }else{
+                        } else {
                             $approvable = null;
                             $approveId = null;
                         }
@@ -89,7 +93,7 @@ class WorkOrderController extends Controller
                         } else {
                             return '<p class="text-muted font-italic">Not Authorized</p>';
                         }
-                    } 
+                    }
                 })
                 ->escapeColumns([])
                 ->make();
@@ -169,45 +173,40 @@ class WorkOrderController extends Controller
     {
         $skills = $taskcard_counts = [];
 
-        if( $work_order->taskcards()->count() > 0 ) {
+        if ($work_order->taskcards()->count() > 0) {
             foreach ($work_order->taskcards as $taskcardRow) {
-                
+
                 $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
 
-                if( !empty($taskcard_group) ) {
-                    if( empty($taskcard_counts[$taskcard_group->code]) ){
+                if (!empty($taskcard_group)) {
+                    if (empty($taskcard_counts[$taskcard_group->code])) {
                         $taskcard_counts[$taskcard_group->code]['name'] = $taskcard_group->name;
                         $taskcard_counts[$taskcard_group->code]['count'] = 1;
-                    }else{
+                    } else {
                         $taskcard_counts[$taskcard_group->code]['count']++;
                     }
                 }
 
                 $instruction_details = json_decode($taskcardRow->instruction_details_json);
 
-    
-                if( !empty($instruction_details) ) {
 
-                    foreach( $instruction_details as $instruction_detail_row ) {
+                if (!empty($instruction_details)) {
 
-                        if( sizeof($instruction_detail_row->skills) > 0 ) {
+                    foreach ($instruction_details as $instruction_detail_row) {
+
+                        if (sizeof($instruction_detail_row->skills) > 0) {
 
                             foreach ($instruction_detail_row->skills as $skillRow) {
 
-                                if( isset($skills[$skillRow->name]) ) {
+                                if (isset($skills[$skillRow->name])) {
                                     $skills[$skillRow->name]++;
-                                }else{
+                                } else {
                                     $skills[$skillRow->name] = 1;
                                 }
-
                             }
-                            
                         }
-
                     }
-
-                } 
-                
+                }
             }
         }
 
@@ -227,45 +226,40 @@ class WorkOrderController extends Controller
     {
         $skills = $taskcard_counts = [];
 
-        if( $work_order->taskcards()->count() > 0 ) {
+        if ($work_order->taskcards()->count() > 0) {
             foreach ($work_order->taskcards as $taskcardRow) {
                 dd($taskcardRow);
                 $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
 
-                if( !empty($taskcard_group) ) {
-                    if( empty($taskcard_counts[$taskcard_group->code]) ){
+                if (!empty($taskcard_group)) {
+                    if (empty($taskcard_counts[$taskcard_group->code])) {
                         $taskcard_counts[$taskcard_group->code]['name'] = $taskcard_group->name;
                         $taskcard_counts[$taskcard_group->code]['count'] = 1;
-                    }else{
+                    } else {
                         $taskcard_counts[$taskcard_group->code]['count']++;
                     }
                 }
 
                 $instruction_details = json_decode($taskcardRow->instruction_details_json);
 
-    
-                if( !empty($instruction_details) ) {
 
-                    foreach( $instruction_details as $instruction_detail_row ) {
+                if (!empty($instruction_details)) {
 
-                        if( sizeof($instruction_detail_row->skills) > 0 ) {
+                    foreach ($instruction_details as $instruction_detail_row) {
+
+                        if (sizeof($instruction_detail_row->skills) > 0) {
 
                             foreach ($instruction_detail_row->skills as $skillRow) {
 
-                                if( isset($skills[$skillRow->name]) ) {
+                                if (isset($skills[$skillRow->name])) {
                                     $skills[$skillRow->name]++;
-                                }else{
+                                } else {
                                     $skills[$skillRow->name] = 1;
                                 }
-
                             }
-                            
                         }
-
                     }
-
-                } 
-                
+                }
             }
         }
 
@@ -293,11 +287,11 @@ class WorkOrderController extends Controller
         ]);
 
         DB::beginTransaction();
-        
+
         $flag = true;
         $result = $work_order->update($request->except(['code']));
 
-        if( !$result ) {
+        if (!$result) {
             $flag = false;
         }
 
@@ -325,10 +319,10 @@ class WorkOrderController extends Controller
 
         $result = $work_order->delete();
 
-        if( !$result ) {
+        if (!$result) {
             $flag = false;
         }
-        
+
         if ($flag) {
             DB::commit();
 
@@ -356,39 +350,38 @@ class WorkOrderController extends Controller
 
             'work_order_id' =>  $work_order->id,
             'approval_notes' =>  $request->approval_notes,
-    
+
             'owned_by' => $request->user()->company_id,
             'status' => 1,
             'created_by' => Auth::user()->id,
         ]);
-        
-        if( !get_class($approval) ) {
+
+        if (!get_class($approval)) {
             $flag = false;
         }
 
-        if( $flag ) {
+        if ($flag) {
             DB::commit();
-    
+
             return response()->json(['success' => 'Work Order Data has been Approved']);
-        }else{
+        } else {
             DB::rollBack();
 
             return response()->json(['error' => 'Failed to Approve Work Order Data']);
         }
-
     }
 
     // Fuction File Upload
     public function fileUpload(Request $request, WorkOrder $work_order)
     {
-        if($request->ajax()) {
+        if ($request->ajax()) {
             DB::beginTransaction();
             $flag = true;
             $data = $request->file('file');
             $extension = $data->getClientOriginalExtension();
             $filename = 'work_order_attachment_' . $work_order->id . '.' . $extension;
             $path = public_path('uploads/company/' . $work_order->owned_by . '/work_order/');
-            
+
             $workOrderFile = public_path('uploads/company/' . $work_order->owned_by . '/work_order/' . $filename);
 
             if (File::exists($workOrderFile)) {
@@ -401,22 +394,21 @@ class WorkOrderController extends Controller
                     'updated_by' => $request->user()->id
                 ]);
 
-            if( !$result ) {
+            if (!$result) {
                 $flag = false;
             }
 
-            if($flag) {
+            if ($flag) {
                 DB::commit();
 
                 $data->move($path, $filename);
-    
+
                 return response()->json(['success' => 'Work Order Attachment has been Updated']);
-            }else{
+            } else {
                 DB::rollBack();
 
                 return response()->json(['error' => 'Work Order Attachment failed to update']);
             }
-
         }
     }
 
@@ -467,24 +459,171 @@ class WorkOrderController extends Controller
                 'item_json',
                 'taskcard_json'
             )
-            ->where('work_order_id', $work_order->id);
+                ->where('work_order_id', $work_order->id);
 
             return Datatables::of($items)
-                ->addColumn('unit_json', function($itemRow) {
+                ->addColumn('unit_json', function ($itemRow) {
                     return json_decode($itemRow->unit_json, true);
                 })
-                ->addColumn('item_json', function($itemRow) {
+                ->addColumn('item_json', function ($itemRow) {
                     return json_decode($itemRow->item_json, true);
                 })
-                ->addColumn('taskcard_json', function($itemRow) use ($work_order) {
-                    return "<a href=".route('ppc.work-order.work-package.taskcard.show', [
+                ->addColumn('taskcard_json', function ($itemRow) use ($work_order) {
+                    return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
                         'work_order' => $work_order->id,
                         'work_package' => $itemRow->work_package_id,
                         'taskcard' => $itemRow->id,
-                    ]).">".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
+                    ]) . ">" . json_decode($itemRow->taskcard_json)->mpd_number . "</a>";
                 })
                 ->escapeColumns([])
                 ->make();
+        }
+
+        abort(404);
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return Renderable
+     */
+    public function aircraftMaintenanceProgram(Request $request, WorkOrder $work_order)
+    {
+        if ($request->ajax()) {
+            $data = MaintenanceProgramDetail::where('maintenance_program_details.maintenance_program_id', $work_order->aircraft->maintenance_program_id)
+                ->with([
+                    'taskcard',
+                    'taskcard.taskcard_type',
+                    'taskcard.tags:id,code,name',
+                    'maintenance_program',
+                ]);
+
+            return Datatables::of($data)
+                ->addColumn('group_structure', function ($row) {
+                    if ($row->taskcard->taskcard_group_id) {
+                        $currentRow = TaskcardGroup::where('id', $row->taskcard->taskcard_group_id)
+                            ->withTrashed()
+                            ->first();
+                        $group_structure = '';
+
+                        while (true) {
+                            if ($currentRow) {
+                                $group_structure = $currentRow->name . ' -> ' . $group_structure;
+                                $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)
+                                    ->withTrashed()
+                                    ->first();
+                            } else {
+                                break;
+                            }
+                        }
+                        $group_structure = Str::beforeLast($group_structure, '->');
+                        return $group_structure;
+                    } else {
+                        return '-';
+                    }
+                })
+                ->addColumn('status', function ($row) {
+                    if ($row->status == 1) {
+                        return '<label class="label label-success">Active</label>';
+                    } else {
+                        return '<label class="label label-danger">Inactive</label>';
+                    }
+                })
+                ->addColumn('tag', function ($row) {
+                    $tag_name = null;
+                    foreach ($row->taskcard->tags as $tag) {
+                        $tag_name .= $tag->name . ', ';
+                    }
+
+                    $tag_name = Str::beforeLast($tag_name, ',');
+                    return $tag_name;
+                })
+                ->addColumn('instruction_count', function ($row) {
+                    return $row->taskcard->instruction_details()->count();
+                })
+                ->addColumn('manhours_total', function ($row) {
+                    return number_format($row->taskcard->instruction_details()->sum('manhours_estimation'), 2, '.', '');
+                })
+                ->addColumn('skills', function ($row) {
+                    $skillsArray = array();
+                    $skill_name = '';
+
+                    $TaskcardDetailInstructions = TaskcardDetailInstruction::where('taskcard_id', $row->taskcard_id)->get();
+
+                    foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
+                        $TaskcardDetailInstructionSkills = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id)->get();
+
+                        foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
+                            if (!in_array($TaskcardDetailInstructionSkill->skill->name, $skillsArray)) {
+                                $skillsArray[] = $TaskcardDetailInstructionSkill->skill->name;
+                            }
+                        }
+                    }
+
+                    foreach ($skillsArray as $skill) {
+                        $skill_name .= $skill . ', ';
+                    }
+
+                    $skill_name = Str::beforeLast($skill_name, ',');
+                    return $skill_name;
+                })
+                ->addColumn('threshold_interval', function ($row) {
+                    $threshold_interval = '';
+                    if ($row->taskcard->threshold_flight_hour) {
+                        $threshold_interval .= $row->taskcard->threshold_flight_hour . ' FH / ';
+                    } else {
+                        $threshold_interval .= '- FH / ';
+                    }
+
+                    if ($row->taskcard->threshold_flight_cycle) {
+                        $threshold_interval .= $row->taskcard->threshold_flight_cycle . ' FC / ';
+                    } else {
+                        $threshold_interval .= '- FC / ';
+                    }
+
+                    if ($row->taskcard->threshold_daily) {
+                        $threshold_interval .= $row->taskcard->threshold_daily . ' ' . $row->taskcard->threshold_daily_unit . '(s)';
+                    } else {
+                        $threshold_interval .= '- Day';
+                    }
+
+                    return $threshold_interval;
+                })
+                ->addColumn('repeat_interval', function ($row) {
+                    $repeat_interval = '';
+                    if ($row->taskcard->repeat_flight_hour) {
+                        $repeat_interval .= $row->taskcard->repeat_flight_hour . ' FH / ';
+                    } else {
+                        $repeat_interval .= '- FH / ';
+                    }
+
+                    if ($row->taskcard->repeat_flight_cycle) {
+                        $repeat_interval .= $row->taskcard->repeat_flight_cycle . ' FC / ';
+                    } else {
+                        $repeat_interval .= '- FC / ';
+                    }
+
+                    if ($row->taskcard->repeat_daily) {
+                        $repeat_interval .= $row->taskcard->repeat_daily . ' ' . $row->taskcard->repeat_daily_unit . '(s)';
+                    } else {
+                        $repeat_interval .= '- Day';
+                    }
+
+                    return $repeat_interval;
+                })
+                ->addColumn('creator_name', function ($row) {
+                    return $row->creator->name ?? '-';
+                })
+                ->addColumn('updater_name', function ($row) {
+                    return $row->updater->name ?? '-';
+                })
+                ->addColumn('action', function ($row) {
+                    $usable = true;
+                    $idToUse = $row->taskcard_id;
+
+                    return view('components.action-button', compact(['usable', 'idToUse']));
+                })
+                ->escapeColumns([])
+                ->make(true);
         }
 
         abort(404);

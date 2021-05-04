@@ -111,10 +111,12 @@ Route::name('ppc.')->group(function () {
             Route::post('/{work_order}/file-upload', 'WorkOrderController@fileUpload')->name('file-upload');
             Route::post('/{work_order}/approve', 'WorkOrderController@approve')->name('approve');
             Route::get('/{work_order}/item-requirements-summary', 'WorkOrderController@itemRequirements')->name('item-requirements-summary');
+            Route::get('/{work_order}/aircraft-maintenance-program', 'WorkOrderController@aircraftMaintenanceProgram')->name('aircraft-maintenance-program');
             
             Route::name('work-package.')->prefix('{work_order}/work-package/{work_package}')->group(function () {
                 
                 Route::post('/use-all-taskcard', 'WorkOrderWorkPackageController@useAll')->name('use-all-taskcard');
+                Route::post('/aircraft-maintenance-program/use-all-taskcard', 'WorkOrderWorkPackageController@useAllMaintenanceProgram')->name('aircraft-maintenance-program.use-all-taskcard');
                 Route::get('/item-requirements-summary', 'WorkOrderWorkPackageController@itemRequirements')->name('item-requirements-summary');
                 Route::get('/item', 'WOWPTaskcardItemController@index')->name('item.index');
 

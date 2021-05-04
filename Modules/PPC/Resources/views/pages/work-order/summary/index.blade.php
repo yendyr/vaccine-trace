@@ -70,12 +70,17 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-maintenance-program"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-aircraft-maintenance-program"> 
+                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Aircraft Maintenance Program
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-maintenance-program"> 
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Current Maintenance Program
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-material-tool-requirements"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;" id="tab-material-tool-requirements"> 
                             <i class="fa fa-wrench fa-2x text-warning"></i>&nbsp;Material &amp; Tool Requirements
                         </a>
                     </li>
@@ -92,11 +97,18 @@
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
-                                @include('ppc::pages.work-order.maintenance-program-detail.content')
+                            @include('ppc::pages.work-order.aircraft-maintenance-program.content')
                             </div>
                         </div>
                     </div>
                     <div id="tab-3" class="tab-pane">
+                        <div class="panel-body" style="min-height: 600px;">
+                            <div class="row m-b">
+                                @include('ppc::pages.work-order.maintenance-program-detail.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
                                 @include('ppc::pages.work-order.item-list.content')

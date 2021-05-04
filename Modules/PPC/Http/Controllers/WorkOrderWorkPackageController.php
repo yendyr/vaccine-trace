@@ -291,7 +291,7 @@ class WorkOrderWorkPackageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Store a newly creatd resource in storage
      * @param WorkOrder $work_order
      * @param WorkOrderWorkPackage $work_package
      * @return Renderable
@@ -334,6 +334,61 @@ class WorkOrderWorkPackageController extends Controller
                 return response()->json(['error' => 'Failed to add all task card to Maintenance Program', 'flag' => $flag]);
             }
         }
+    }
+
+    /**
+     * Store a newly creatd resource in storage
+     * @param WorkOrder $work_order
+     * @param WorkOrderWorkPackage $work_package
+     * @return Renderable
+     */
+    public function useAllMaintenanceProgram(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
+    {
+        DB::beginTransaction();
+        $flag = true;
+        $existed_taskcard = $work_order->taskcards()->pluck('taskcard_id');
+        $maintenance_program_taskcards = $work_order?->aircraft?->maintenance_program?->maintenance_details()->pluck('taskcard_id');
+
+        $not_registered_taskcard = $maintenance_program_taskcards->diff($existed_taskcard);
+
+        $objWorkOrderWorkPackageTaskcardController = new WorkOrderWorkPackageTaskcardController();
+        $taskcards_query = Taskcard::whereHas(
+            'aircraft_types',
+            function ($aircraft_types) use ($work_order) {
+                $aircraft_types->where('aircraft_types.id', $work_order->aircraft->aircraft_type_id);
+            }
+        )
+            ->whereIn('id', $not_registered_taskcard);
+
+        if ($taskcards_query->count() !== 0) {
+
+            $taskcards = $taskcards_query->pluck('id');
+
+            foreach ($taskcards as $taskcard_id_row) {
+                $request->merge([
+                    'taskcard_id' => $taskcard_id_row
+                ]);
+
+                $result = $objWorkOrderWorkPackageTaskcardController->store($request, $work_order, $work_package);
+
+                $flag = $result['flag'];
+            }
+
+            if ($flag) {
+                DB::commit();
+
+                return response()->json(['success' => 'All Task Card has been added to Maintenance Program', 'total_manhours' => number_format($result['total_manhours'], 2), 'total_manhours_with_performance_factor' => number_format($result['total_manhours'] * $work_package->performance_factor, 2), 'flag' => $flag]);
+            } else {
+                DB::rollBack();
+
+                return response()->json(['error' => 'Failed to add all task card to Maintenance Program', 'flag' => $flag]);
+            }
+        }
+
+        DB::rollBack();
+
+        return response()->json(['error' => 'There no taskcard to add', 'flag' => $flag]);
+
     }
 
     /**

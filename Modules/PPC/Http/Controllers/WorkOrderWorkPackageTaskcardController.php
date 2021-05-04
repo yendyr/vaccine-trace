@@ -60,6 +60,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('group_structure', function ($row) {
                         $taskcard_group = json_decode($row->taskcard_group_json);
+
                         if (!empty($taskcard_group)) {
 
                             $group_structure = '';
@@ -75,6 +76,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                                 }
                             }
                             $group_structure = Str::beforeLast($group_structure, '->');
+
                             return $group_structure;
                         } else {
                             return '-';
@@ -124,12 +126,14 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
                         $TaskcardDetailInstructions = json_decode($row->instruction_details_json);
 
-                        foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
-                            $TaskcardDetailInstructionSkills = ($TaskcardDetailInstruction->skills) ? $TaskcardDetailInstruction->skills : null;
-
-                            foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
-                                if (!in_array($TaskcardDetailInstructionSkill->name, $skillsArray)) {
-                                    $skillsArray[] = $TaskcardDetailInstructionSkill->name;
+                        if( !empty($TaskcardDetailInstructions ) ){
+                            foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
+                                $TaskcardDetailInstructionSkills = ($TaskcardDetailInstruction->skills) ? $TaskcardDetailInstruction->skills : [];
+    
+                                foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
+                                    if (!in_array($TaskcardDetailInstructionSkill->name, $skillsArray)) {
+                                        $skillsArray[] = $TaskcardDetailInstructionSkill->name;
+                                    }
                                 }
                             }
                         }
@@ -139,6 +143,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         }
 
                         $skill_name = Str::beforeLast($skill_name, ',');
+
                         return $skill_name;
                     })
                     ->addColumn('threshold_interval', function ($row) {
@@ -254,6 +259,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             } else {
                 return response()->json(['error' => 'Action is not authorized']);
             }
+
         }
 
         if (!$is_use_all_taskcard) {

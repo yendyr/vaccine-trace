@@ -56,6 +56,11 @@
                         </a>
                     </li>
                     <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-aircraft-maintenance-program" style="min-height: 50px;"> 
+                            <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Aircraft Maintenance Program
+                        </a>
+                    </li>
+                    <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-current-maintenance-program" style="min-height: 50px;"> 
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Current Maintenance Program
                         </a>
@@ -77,6 +82,13 @@
                         <div class="panel-body" style="min-height: 600px;">
                             <div class="row m-b">
                                 @include('ppc::pages.work-order.taskcard-list.content')
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-aircraft-maintenance-program" class="tab-pane">
+                        <div class="panel-body" style="min-height: 600px;">
+                            <div class="row m-b">
+                                @include('ppc::pages.work-order.aircraft-maintenance-program.content')
                             </div>
                         </div>
                     </div>
