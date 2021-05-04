@@ -369,7 +369,13 @@ class WorkOrderWorkPackageController extends Controller
                         'work_order' => $work_order->id,
                         'work_package' => $work_package->id,
                         'taskcard' => $itemRow->id,
-                    ]).">".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
+                    ])." data-toggle='tooltip' title='View'>".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
+                })
+                ->addColumn('item_number', function($itemRow) {
+                    $item_json = json_decode($itemRow->item_json);
+
+                    return "<label class='label label-success viewItemBtn' data-toggle='tooltip' title='View'>".$item_json->code."</label>";
+                    
                 })
                 ->escapeColumns([])
                 ->make(true);

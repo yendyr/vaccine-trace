@@ -66,4 +66,9 @@ class WorkOrderWorkPackageTaskcard extends MainModel
     {
         return $this->belongsTo(\Modules\PPC\Entities\Taskcard::class, 'taskcard_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\WOWPTaskcardItem::class, 'taskcard_id');
+    }
 }

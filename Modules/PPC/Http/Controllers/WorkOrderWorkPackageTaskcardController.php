@@ -195,14 +195,14 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     ->addColumn('updater_name', function ($row) {
                         return $row->updater->name ?? '-';
                     })
-                    ->addColumn('action', function ($row) use ($request) {
+                    ->addColumn('action', function ($row) use ($request, $work_order) {
                         $noAuthorize = true;
-                        if ($request->user()->can('update', $row)) {
+                        if ($request->user()->can('update', $work_order)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if ($request->user()->can('delete', $row)) {
+                        if ($request->user()->can('delete', $work_order)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
@@ -322,7 +322,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
 
             $taskcard_total_manhours = $taskcard->instruction_details()->sum('manhours_estimation') ?? 0;
-            $total_manhours = ($work_package->total_manhours) ? $work_package->total_manhours + $taskcard_total_manhours : 0 + $taskcard_total_manhours;
+            $total_manhours = 0;
+
+            if($work_package->total_manhours) {
+                $total_manhours = $work_package->total_manhours + $taskcard_total_manhours;
+            }
+
             $result = $work_package->update(['total_manhours' => $total_manhours]);
 
             if (!$result) {
@@ -342,7 +347,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'unit_id' => $item_detail_row->unit_id,
                         'description' => $item_detail_row->description,
 
-                        'item_json' => json_encode($item_detail_row->item),
+                        'item_json' => json_encode($item_detail_row->item()->with('category', 'manufacturer', 'unit')->first()),
                         'unit_json' => json_encode($item_detail_row->unit),
                         'taskcard_json' => json_encode($item_detail_row->taskcard),
 
@@ -471,7 +476,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
      */
     public function destroy(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
-        $is_authorized = $request->user()->can('delete', $work_order->id);
+        $is_authorized = $request->user()->can('delete', $work_order);
 
         if (!$is_authorized) {
             return response()->json(['error' => 'Work Order already approved']);
@@ -488,15 +493,43 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             $flag = false;
         }
 
+        if( $taskcard->items()->count() > 0 ){
+            $childUpdRes = $taskcard->items()->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+
+            if (!$childUpdRes) {
+                $flag = false;
+            }
+
+            $childDelRes = $taskcard->items()->delete();
+
+            if (!$childDelRes) {
+                $flag = false;
+            }
+        }
+
         $deleteRes = WorkOrderWorkPackageTaskcard::destroy('id', $taskcard->id);
 
         if (!$deleteRes) {
             $flag = false;
         }
 
-        $taskcard = Taskcard::find($taskcard->id);
-        $taskcard_total_manhours = $taskcard->instruction_details()->sum('manhours_estimation') ?? 0;
-        $total_manhours = ($work_package->total_manhours) ? $work_package->total_manhours - $taskcard_total_manhours : 0 - $taskcard_total_manhours;
+        $instruction_details_json = json_decode($taskcard->instruction_details_json);
+        $instructions_total_manhours = 0;
+
+        if( !empty($instruction_details_json) ) {
+            foreach($instruction_details_json as $instruction_detail_row) {
+                $instructions_total_manhours += $instruction_detail_row->manhours_estimation ?? 0;
+            }
+        }
+
+        $total_manhours = 0;
+
+        if( $work_package->total_manhours ) {
+            $total_manhours = floatval($work_package->total_manhours) - $instructions_total_manhours;
+        }
+
         $result = $work_package->update(['total_manhours' => $total_manhours]);
 
         if (!$result) {

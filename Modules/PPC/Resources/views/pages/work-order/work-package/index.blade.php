@@ -3,6 +3,7 @@
 @section('content')
 
     @include('ppc::pages.work-order.taskcard-list.modal')
+    @include('ppc::pages.work-order.item-list.show')
 
     @include('components.delete-modal', 
                     ['deleteModalId' => 'deleteModalInstruction',
