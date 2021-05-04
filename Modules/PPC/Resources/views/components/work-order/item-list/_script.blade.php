@@ -46,31 +46,29 @@ $(document).ready(function () {
         ]
     });
 
-     // ----------------- "EDIT" BUTTON SCRIPT ------------- //
-     $(tableId).on('click', '.viewItemBtn', function (e) {
+    // ----------------- "SHOW" BUTTON SCRIPT ------------- //
+    $(tableId).on('click', '.viewItemBtn', function (e) {
         $(modalItemTitleId).html("Material/Tool Information");
         let tr = $(this).closest('tr');
         let rowData = MaterialTooldatatableObject.row( tr ).data();
-        let item_json = JSON.parse(rowData.item_json);
-        let unit_json = JSON.parse(rowData.unit_json);
 
-        $('#code').val(item_json.code);
-        $('#name').val(item_json.name);
-        $('#model').val(item_json.model);
-        $('#type').val(item_json.type);
-        $('#description').val(item_json.description);
-        $('#primary_unit').val(unit_json.name);
-        $('#reorder_stock_level').val(item_json.reorder_stock_level);
-        $('#status').val(item_json.status);
+        $('#code').val(rowData.item_json.code);
+        $('#name').val(rowData.item_json.name);
+        $('#model').val(rowData.item_json.model);
+        $('#type').val(rowData.item_json.type);
+        $('#description').val(rowData.item_json.description);
+        $('#primary_unit').val(rowData.unit_json.name);
+        $('#reorder_stock_level').val(rowData.item_json.reorder_stock_level);
+        $('#status').val(rowData.item_json.status);
         
-        if(item_json.category) {
-            $('#category').val(item_json.category.name);
+        if(rowData.item_json.category) {
+            $('#category').val(rowData.item_json.category.name);
         }else{
         $('#category').val(null);
         }
 
-        if(item_json.manufacturer){
-            $('#manufacturer').val(item_json.manufacturer.name);
+        if(rowData.item_json.manufacturer){
+            $('#manufacturer').val(rowData.item_json.manufacturer.name);
         }else{
             $('#manufacturer').val(null);
         }
@@ -79,7 +77,7 @@ $(document).ready(function () {
         $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $(inputModalId).modal('show');
     });
-    // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
+    // ----------------- END "SHOW" BUTTON SCRIPT ------------- //
 
     $(tableId2).on('draw.dt', function () {
         if( typeof(MaterialTooldatatableObject) != 'undefined' ) {

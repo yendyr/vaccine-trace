@@ -9,6 +9,8 @@ $(document).ready(function () {
     var tableId = '#work-package-items-table';
     var tableId2 = '#maintenance-program-table';
     var inputFormId = '#inputForm';
+    var inputModalId = '#showItemModal';
+    var modalItemTitleId = '#showItemModalTitle'
     // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
     var summaryMaterialTooldatatableObject = $(tableId).DataTable({
@@ -37,6 +39,39 @@ $(document).ready(function () {
             { title: 'Remark', data: 'description', name: 'description', defaultContent: '-' },
         ]
     });
+
+    // ----------------- "SHOW" BUTTON SCRIPT ------------- //
+    $(tableId).on('click', '.viewItemBtn', function (e) {
+        $(modalItemTitleId).html("Material/Tool Information");
+        let tr = $(this).closest('tr');
+        let rowData = summaryMaterialTooldatatableObject.row( tr ).data();
+
+        $('#code').val(rowData.item_json.code);
+        $('#name').val(rowData.item_json.name);
+        $('#model').val(rowData.item_json.model);
+        $('#type').val(rowData.item_json.type);
+        $('#description').val(rowData.item_json.description);
+        $('#primary_unit').val(rowData.unit_json.name);
+        $('#reorder_stock_level').val(rowData.item_json.reorder_stock_level);
+        $('#status').val(rowData.item_json.status);
+        
+        if(rowData.item_json.category) {
+            $('#category').val(rowData.item_json.category.name);
+        }else{
+        $('#category').val(null);
+        }
+
+        if(rowData.item_json.manufacturer){
+            $('#manufacturer').val(rowData.item_json.manufacturer.name);
+        }else{
+            $('#manufacturer').val(null);
+        }
+
+
+        $('[class^="invalid-feedback-"]').html('');  // clearing validation
+        $(inputModalId).modal('show');
+    });
+    // ----------------- END "SHOW" BUTTON SCRIPT ------------- //
 
     $(tableId2).on('draw.dt', function () {
         if( typeof(summaryMaterialTooldatatableObject) != 'undefined' ) {

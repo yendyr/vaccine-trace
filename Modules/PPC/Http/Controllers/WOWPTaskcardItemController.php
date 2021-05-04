@@ -35,6 +35,12 @@ class WOWPTaskcardItemController extends Controller
                                         ]);
                                         
             return Datatables::of($data)  
+                ->addColumn('unit_json', function($itemRow) {
+                    return json_decode($itemRow->unit_json, true);
+                })
+                ->addColumn('item_json', function($itemRow) {
+                    return json_decode($itemRow->item_json, true);
+                })
                 ->addColumn('creator_name', function($row){
                     return $row->creator->name ?? '-';
                 })
