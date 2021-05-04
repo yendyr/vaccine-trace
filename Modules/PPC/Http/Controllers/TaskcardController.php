@@ -619,8 +619,8 @@ class TaskcardController extends Controller
                     ]));
             }
         }
-        else if ($request->interval_group_id == null) {
-            $Taskcard->interval_group_details()->forceDelete();
+        else if ($request->tag_id == null) {
+            $Taskcard->tag_details()->forceDelete();
         }
 
         if ($request->taskcard_access_id) {
