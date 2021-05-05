@@ -20,7 +20,10 @@ class CreateWorkOrderWorkPackageTaskcardsTable extends Migration
             $table->string('work_order_id')->nullable();
             $table->string('work_package_id')->nullable();
             $table->string('taskcard_id')->nullable();
-            $table->string('description');
+            $table->string('code')->nullable();
+            $table->string('transaction_status')->nullable();
+            $table->string('type')->nullable();
+            $table->string('description')->nullable();
 
             $table->json('taskcard_json')->nullable();
             $table->json('taskcard_group_json')->nullable();
