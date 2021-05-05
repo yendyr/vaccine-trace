@@ -168,7 +168,7 @@ $(document).ready(function () {
         columns: [
             { data: 'taskcard.mpd_number', 
                     "render": function ( data, type, row, meta ) {
-                    return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.taskcard.mpd_number + '</a>'; }},
+                    return '<a target="_blank" href="/ppc/taskcard/' + row.taskcard.id + '">' + row.taskcard.mpd_number + '</a>'; }},
             { data: 'taskcard.title', name: 'Title' },
             { data: 'group_structure', name: 'Group' },
             { data: 'tag', defaultContent: '-' },
