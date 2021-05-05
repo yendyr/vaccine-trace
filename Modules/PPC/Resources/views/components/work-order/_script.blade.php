@@ -122,7 +122,8 @@ $(document).ready(function () {
         $('#csn').val(data.csn);
         $('#cso').val(data.cso);
         $('#station').val(data.station);
-        $('#description').val(data.description);
+
+        $("#description").summernote("code", data.description);
         $('#issued_date').val(data.created_at);
 
         $("#aircraft_id").val('').trigger('change');
@@ -156,6 +157,8 @@ $(document).ready(function () {
             .find("select")
             .val('')
             .trigger('change');
+
+        $("#description").summernote("code", '');
     }
 });
 </script>
