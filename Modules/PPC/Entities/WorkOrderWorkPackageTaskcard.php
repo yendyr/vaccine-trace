@@ -18,7 +18,11 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         'work_order_id',
         'work_package_id',
         'taskcard_id',
+        'code',
+        'transaction_status',
+        'type',
         'description',
+
         'taskcard_json',
         'taskcard_group_json',
         'taskcard_type_json',
@@ -40,6 +44,7 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         'instruction_details_json',
         'items_json',
         'item_details_json',
+        
         'status',
         'created_by',
         'updated_by',
