@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form method="post" id="inputForm">
+            <form method="post" id="inputWorkPackageForm">
                 <input type="hidden" id="work_order_id" name="work_order_id" value="{{ $work_order?->id }}">
                 <input type="hidden" id="id" name="id">
 

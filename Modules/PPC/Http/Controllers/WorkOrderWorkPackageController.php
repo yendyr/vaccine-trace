@@ -31,33 +31,36 @@ class WorkOrderWorkPackageController extends Controller
     public function index(WorkOrder $work_order, Request $request)
     {
         if ($request->ajax()) {
-            $work_orders = WorkOrderWorkPackage::where('work_order_id', $work_order->id)->with('work_order:id')->latest();
+            $work_orders = WorkOrderWorkPackage::where('work_order_id', $work_order->id)
+                ->with('work_order:id,status')
+                ->latest();
 
             return Datatables::of($work_orders)
                 ->addColumn('number', function ($row) use ($request) {
-                    if (!$request->aircraft_type_id) {
-                        $noAuthorize = true;
-                        if ($request->user()->can('view', WorkOrder::class)) {
-                            $showText = $row->code;
-                            $noAuthorize = false;
-                            $route = route('ppc.work-order.work-package.show', ['work_order' => $row->work_order->id, 'work_package' => $row->id]);
-                        }
+                    $noAuthorize = true;
 
-                        if ($request->user()->can('update', $row->work_order)) {
-                            $showText = $row->code;
-                            $noAuthorize = false;
-                            $route = route('ppc.work-order.work-package.edit', ['work_order' => $row->work_order->id, 'work_package' => $row->id]);
-                        }
+                    if ($request->user()->can('view', WorkOrder::class)) {
+                        $showText = $row->code;
+                        $noAuthorize = false;
+                        $route = route('ppc.work-order.work-package.show', ['work_order' => $row->work_order->id, 'work_package' => $row->id]);
+                    }
 
-                        if ($noAuthorize == false) {
-                            return  '<a href="' . $route . '">' . $showText . '</a>';
-                        } else {
-                            return '<p class="text-muted font-italic">Not Authorized</p>';
-                        }
+                    if ($request->user()->can('update', $row->work_order) ) {
+                        $showText = $row->code;
+                        $noAuthorize = false;
+                        $route = route('ppc.work-order.work-package.edit', ['work_order' => $row->work_order->id, 'work_package' => $row->id]);
+                    }
+
+                    if ($noAuthorize == false) {
+                        return  '<a href="' . $route . '">' . $showText . '</a>';
+                    } else {
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
                     }
                 })
                 ->addColumn('action', function ($row) use ($request) {
+
                     if (!$request->aircraft_type_id) {
+
                         $noAuthorize = true;
 
                         if ($request->user()->can('update', $row->work_order)) {
@@ -165,48 +168,43 @@ class WorkOrderWorkPackageController extends Controller
     {
         $skills = $taskcard_counts = [];
 
-        if( $work_package->taskcards()->count() > 0 ) {
+        if ($work_package->taskcards()->count() > 0) {
             foreach ($work_package->taskcards as $taskcardRow) {
 
                 $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
 
-                if( !empty($taskcard_group) ) {
-                    if( empty($taskcard_counts[$taskcard_group->code]) ){
+                if (!empty($taskcard_group)) {
+                    if (empty($taskcard_counts[$taskcard_group->code])) {
                         $taskcard_counts[$taskcard_group->code]['name'] = $taskcard_group->name;
                         $taskcard_counts[$taskcard_group->code]['count'] = 1;
-                    }else{
+                    } else {
                         $taskcard_counts[$taskcard_group->code]['count']++;
                     }
                 }
 
                 $instruction_details = json_decode($taskcardRow->instruction_details_json);
 
-    
-                if( !empty($instruction_details) ) {
 
-                    foreach( $instruction_details as $instruction_detail_row ) {
+                if (!empty($instruction_details)) {
 
-                        if( sizeof($instruction_detail_row->skills) > 0 ) {
+                    foreach ($instruction_details as $instruction_detail_row) {
+
+                        if (sizeof($instruction_detail_row->skills) > 0) {
 
                             foreach ($instruction_detail_row->skills as $skillRow) {
 
-                                if( isset($skills[$skillRow->name]) ) {
+                                if (isset($skills[$skillRow->name])) {
                                     $skills[$skillRow->name]++;
-                                }else{
+                                } else {
                                     $skills[$skillRow->name] = 1;
                                 }
-
                             }
-                            
                         }
-
                     }
-
-                } 
-                
+                }
             }
         }
-        
+
         return view('ppc::pages.work-order.work-package.index', [
             'skills' => $skills,
             'work_order' => $work_order,
@@ -388,7 +386,6 @@ class WorkOrderWorkPackageController extends Controller
         DB::rollBack();
 
         return response()->json(['error' => 'There no taskcard to add', 'flag' => $flag]);
-
     }
 
     /**
@@ -409,28 +406,27 @@ class WorkOrderWorkPackageController extends Controller
                 'item_json',
                 'taskcard_json'
             )->where('work_order_id', $work_order->id)
-            ->where('work_package_id', $work_package->id);
+                ->where('work_package_id', $work_package->id);
 
 
             return Datatables::of($items)
-                ->addColumn('unit_json', function($itemRow) {
+                ->addColumn('unit_json', function ($itemRow) {
                     return json_decode($itemRow->unit_json, true);
                 })
-                ->addColumn('item_json', function($itemRow) {
+                ->addColumn('item_json', function ($itemRow) {
                     return json_decode($itemRow->item_json, true);
                 })
-                ->addColumn('taskcard_number', function($itemRow) use ($work_order, $work_package) {
-                    return "<a href=".route('ppc.work-order.work-package.taskcard.show', [
+                ->addColumn('taskcard_number', function ($itemRow) use ($work_order, $work_package) {
+                    return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
                         'work_order' => $work_order->id,
                         'work_package' => $work_package->id,
                         'taskcard' => $itemRow->id,
-                    ])." data-toggle='tooltip' title='View'>".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
+                    ]) . " data-toggle='tooltip' title='View'>" . json_decode($itemRow->taskcard_json)->mpd_number . "</a>";
                 })
-                ->addColumn('item_number', function($itemRow) {
+                ->addColumn('item_number', function ($itemRow) {
                     $item_json = json_decode($itemRow->item_json);
 
-                    return "<label class='label label-success viewItemBtn' data-toggle='tooltip' title='View'>".$item_json->code."</label>";
-                    
+                    return "<label class='label label-success viewItemBtn' data-toggle='tooltip' title='View'>" . $item_json->code . "</label>";
                 })
                 ->escapeColumns([])
                 ->make(true);

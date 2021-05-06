@@ -7,7 +7,7 @@ $(document).ready(function () {
     // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
     var actionUrl = '/ppc/work-order/{{$work_order?->id}}/work-package';
     var tableId = '#work-package-table';
-    var inputFormId = '#inputForm';
+    var inputFormId = '#inputWorkPackageForm';
     // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
 
