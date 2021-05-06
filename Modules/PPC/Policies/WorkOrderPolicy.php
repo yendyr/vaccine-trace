@@ -68,7 +68,7 @@ class WorkOrderPolicy
 
     public function update(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() !== 0) {
+        if($work_order->approvals->count() !== 0 || config('ppc.work-order.status')[$work_order->status] == 'approved' ) {
             return false;
         }
 
@@ -87,7 +87,7 @@ class WorkOrderPolicy
 
     public function approval(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() !== 0) {
+        if($work_order->approvals->count() !== 0 || config('ppc.work-order.status')[$work_order->status] == 'approved' ) {
             return false;
         }
 
@@ -102,7 +102,7 @@ class WorkOrderPolicy
 
     public function delete(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() !== 0) {
+        if($work_order->approvals->count() !== 0 || config('ppc.work-order.status')[$work_order->status] == 'approved' ) {
             return false;
         }
 
@@ -121,7 +121,7 @@ class WorkOrderPolicy
 
     public function forceDelete(User $user, WorkOrder $work_order)
     {
-        if($work_order->approvals->count() !== 0) {
+        if($work_order->approvals->count() !== 0 || config('ppc.work-order.status')[$work_order->status] == 'approved' ) {
             return false;
         }
 
