@@ -84,11 +84,15 @@ $(document).ready(function () {
         $(modalTitleId).html("Edit Task/Instruction");
         $(inputFormId).trigger("reset");
         
-        $('<input>').attr({
-            type: 'hidden',
-            name: '_method',
-            value: 'patch'
-        }).prependTo(inputFormId);
+        if( $("input[name=_method]").length == 0 ){
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_method',
+                value: 'patch'
+            }).prependTo(inputFormId);
+        } else {
+            $("input[name=_method]").val('patch');
+        }
 
         var id = $(this).data('id');
         $.get(actionUrl + '/' + id, function (data) {

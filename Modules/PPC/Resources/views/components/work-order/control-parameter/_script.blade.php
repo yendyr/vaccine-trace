@@ -47,17 +47,25 @@
             $(modalTitleId).html("Edit Control Parameter Setting");
             $(inputFormId).trigger("reset");
             
-            $('<input>').attr({
-                type: 'hidden',
-                name: '_method',
-                value: 'patch'
-            }).prependTo(inputFormId);
+            if( $("input[name=_method]").length == 0 ){
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: '_method',
+                    value: 'patch'
+                }).prependTo(inputFormId);
+            } else {
+                $("input[name=_method]").val('patch');
+            } 
 
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'updateControlParameterOnly',
-                value: 'true'
-            }).prependTo(inputFormId);
+            if( $("input[name=updateControlParameterOnly]").length == 0 ){
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'updateControlParameterOnly',
+                    value: 'true'
+                }).prependTo(inputFormId);
+            } else {
+                $("input[name=updateControlParameterOnly]").val('true');
+            } 
 
             var id = $(this).data('id');
             

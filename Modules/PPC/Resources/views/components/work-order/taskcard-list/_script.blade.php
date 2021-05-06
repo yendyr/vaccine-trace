@@ -207,11 +207,15 @@ $(document).ready(function () {
         let data = datatableObject2.row(tr).data();
         $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
-        $('<input>').attr({
-            type: 'hidden',
-            name: '_method',
-            value: 'patch'
-        }).prependTo(inputFormId);
+        if( $("input[name=_method]").length == 0 ){
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_method',
+                value: 'patch'
+            }).prependTo(inputFormId);
+        } else {
+            $("input[name=_method]").val('patch');
+        }
 
         // $('#code').val(data.code);
         // $('#name').val(data.name);
@@ -244,11 +248,15 @@ $(document).ready(function () {
         let data = datatableObject.row(tr).data();
         $(inputFormId).attr('action', actionUrl);
 
-        $('<input>').attr({
-            type: 'hidden',
-            name: '_method',
-            value: 'post'
-        }).prependTo(inputFormId);
+        if( $("input[name=_method]").length == 0 ){
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_method',
+                value: 'post'
+            }).prependTo(inputFormId);
+        } else {
+            $("input[name=_method]").val('post');
+        }
 
         // $('#code').val(data.code);
         // $('#name').val(data.name);
@@ -275,11 +283,15 @@ $(document).ready(function () {
         let data = datatableObject.row(tr).data();
         $(inputFormId).attr('action', actionUrlUseAll);
         
-        $('<input>').attr({
-            type: 'hidden',
-            name: '_method',
-            value: 'post'
-        }).prependTo(inputFormId);
+        if( $("input[name=_method]").length == 0 ){
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_method',
+                value: 'post'
+            }).prependTo(inputFormId);
+        } else {
+            $("input[name=_method]").val('post');
+        }
 
         $('#description').val('');
 

@@ -163,11 +163,15 @@
             let data = datatableObject2.row(tr).data();
             $(inputFormId).attr('action', actionUrl);
 
-            $('<input>').attr({
-                type: 'hidden',
-                name: '_method',
-                value: 'post'
-            }).prependTo(inputFormId);
+            if( $("input[name=_method]").length == 0 ){
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: '_method',
+                    value: 'post'
+                }).prependTo(inputFormId);
+            } else {
+                $("input[name=_method]").val('post');
+            } 
 
             $('#taskcard_info').html(data.taskcard.mpd_number + ' | ' + data.taskcard.title + ' | ' + data.group_structure + ' | ' + data.taskcard.taskcard_type.name);
             $('#description').val('');
@@ -191,11 +195,15 @@
 
             $(inputFormId).attr('action', actionUrlUseAll);
 
-            $('<input>').attr({
-                type: 'hidden',
-                name: '_method',
-                value: 'post'
-            }).prependTo(inputFormId);
+            if( $("input[name=_method]").length == 0 ){
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: '_method',
+                    value: 'post'
+                }).prependTo(inputFormId);
+            } else {
+                $("input[name=_method]").val('post');
+            } 
 
             $('#saveBtn').val("use");
             $(saveButtonModalTextId).html("Use All Task Card");
