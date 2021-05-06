@@ -98,13 +98,11 @@ $(document).ready(function () {
             type: 'hidden',
             name: '_method',
             value: 'put'
-        }).prependTo('#inputForm');
-
-        $('#mpd_number').val(data.mpd_number);
+        }).prependTo(inputFormId);
 
         $.each(data, function(index, data) {
             let elementID = '#'+index;
-            $(elementID).val(data);
+            $(inputFormId).find(elementID).val(data);
         });
 
         $('#saveBtn').val("edit");
