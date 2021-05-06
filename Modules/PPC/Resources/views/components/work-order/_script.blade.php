@@ -106,11 +106,17 @@ $(document).ready(function () {
         let data = datatableObject.row(tr).data();
         $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
-        $('<input>').attr({
-            type: 'hidden',
-            name: '_method',
-            value: 'patch'
-        }).prependTo('#inputForm');
+        console.log();
+
+        if( $("input[name=_method]").length == 0 ){
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_method',
+                value: 'patch'
+            }).prependTo('#inputForm');
+        } else {
+            $("input[name=_method]").val('patch');
+        }         
 
         $('#mpd_number').val(data.mpd_number);
         $('#name').val(data.name);
