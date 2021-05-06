@@ -54,6 +54,9 @@ class PPCServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
         );
+        $this->mergeConfigFrom(
+            module_path($this->moduleName, 'Config/work-order.php'), $this->moduleNameLower
+        );
     }
 
     /**
