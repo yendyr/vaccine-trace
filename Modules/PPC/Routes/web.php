@@ -106,7 +106,6 @@ Route::name('ppc.')->group(function () {
         Route::resource('/maintenance-status-report', 'MaintenanceStatusController');
 
         Route::name('work-order.')->prefix('work-order')->group(function () {
-
             Route::get('/select2/aircraft', 'WorkOrderController@select2Aircraft')->name('select2.aircraft');
             Route::post('/{work_order}/file-upload', 'WorkOrderController@fileUpload')->name('file-upload');
             Route::post('/{work_order}/approve', 'WorkOrderController@approve')->name('approve');
@@ -136,7 +135,7 @@ Route::name('ppc.')->group(function () {
 
 
         Route::name('job-card.')->prefix('job-card')->group(function () {
-            Route::post('/generate', 'JobCardController@generate')->name('generate');
+            Route::get('/generate', 'JobCardController@generate')->name('generate');
         });
         Route::resource('job-card', 'JobCardController');
     });
