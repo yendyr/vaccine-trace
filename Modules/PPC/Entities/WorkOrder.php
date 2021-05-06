@@ -35,6 +35,8 @@ class WorkOrder extends MainModel
         'deleted_by',
     ];
 
+    // Relationship
+
     public function creator()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'created_by');
@@ -68,5 +70,14 @@ class WorkOrder extends MainModel
     public function taskcards()
     {
         return $this->hasMany(\Modules\PPC\Entities\WorkOrderWorkPackageTaskcard::class, 'work_order_id');
+    }
+
+    // Accessor
+    public function getStatusLabelAttribute() {
+        return ucfirst( config('ppc.work-order.status')[$this->status] ) ?? null;
+    }
+
+    public function getStatusColorAttribute() {
+        return ucfirst( config('ppc.work-order.status-color')[$this->status] ) ?? 'plain';
     }
 }

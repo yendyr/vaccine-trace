@@ -41,6 +41,9 @@ class WorkOrderController extends Controller
             $work_orders = WorkOrder::with('aircraft:id,registration_number,serial_number,aircraft_type_id', 'aircraft.aircraft_type:id,code,name')->latest();
 
             return Datatables::of($work_orders)
+                ->addColumn('status', function($row) {
+                    return ucfirst(config('ppc.work-order.status')[$row->status]) ?? '-';
+                })
                 ->addColumn('number', function ($row) use ($request) {
                     if (!$request->aircraft_type_id) {
                         $noAuthorize = true;
@@ -131,8 +134,8 @@ class WorkOrderController extends Controller
         $request->merge([
             'uuid' =>  Str::uuid(),
             'owned_by' => $request->user()->company_id,
-            'status' => 1,
             'created_by' => $request->user()->id,
+            'status' => array_search('draft', config('ppc.work-order.status'))
         ]);
 
         $flag = true;
@@ -357,6 +360,14 @@ class WorkOrderController extends Controller
         ]);
 
         if (!get_class($approval)) {
+            $flag = false;
+        }
+
+        $update_res = $work_order->update([
+            'status' => array_search('approved', config('ppc.work-order.status') )
+        ]);
+
+        if( !$update_res ){
             $flag = false;
         }
 

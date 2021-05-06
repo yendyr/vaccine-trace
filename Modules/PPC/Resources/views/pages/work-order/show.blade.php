@@ -49,15 +49,9 @@
             <div>Aircraft Registration Number: <strong class="text-success">{{ $work_order?->aircraft_registration_number ?? $work_order?->aircraft?->registration_number ?? '-' }}</strong></div>
             <div>Issued Date: <strong class="text-success">{{ $work_order?->created_at->format('Y-F-d') ?? '-' }}</strong></div>
             <div>Status: <strong>
-                @if($work_order?->status == 1)
-                    <label class="label label-success">
-                        Active
+                    <label class="label label-{{$work_order->status_color}}">
+                        {{ $work_order->status_label }}
                     </label>
-                @else
-                    <label class="label label-danger">
-                        Inactive
-                    </label>
-                @endif
                 </strong>
             </div>
         </div>
