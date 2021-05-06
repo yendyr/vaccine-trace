@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+use Illuminate\Support\Facades\Gate;
+
 use Modules\Gate\Entities\Menu;
 use Modules\Gate\Entities\Role;
 use Modules\Gate\Entities\RoleMenu;
@@ -186,7 +188,11 @@ use Modules\FlightOperations\Entities\AfmlDetailRectification;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Modules\PPC\Policies\WorkOrderWorkPackagePolicy;
 
+use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
+use Modules\PPC\Policies\WorkOrderWorkPackageTaskcardPolicy;
+
 use Modules\PPC\Entities\WOWPTaskcardItem;
+use Modules\PPC\Policies\WOWPTaskcardItemPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -200,7 +206,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Menu::class => MenuPolicy::class,
         RoleMenu::class => RoleMenuPolicy::class,
-        
+
         OrganizationStructure::class => OrganizationStructurePolicy::class,
         OrganizationStructureTitle::class => OrganizationStructureTitlePolicy::class,
         WorkingGroup::class => WorkingGroupPolicy::class,
@@ -238,13 +244,11 @@ class AuthServiceProvider extends ServiceProvider
         ItemStockAging::class => ItemStockAgingPolicy::class,
         ItemStockAging::class => AircraftAgingPolicy::class,
         WorkOrder::class => WorkOrderPolicy::class,
-        // WorkOrderWorkPackage::class => WorkOrderPolicy::class,
-        // WorkOrderWorkPackageTaskcard::class => WorkOrderPolicy::class,
         WOWPTaskcardItem::class => WorkOrderPolicy::class,
         WorkOrderWorkPackage::class => WorkOrderWorkPackagePolicy::class,
         WorkOrderWorkPackageTaskcard::class => WorkOrderWorkPackageTaskcardPolicy::class,
-        // WOWPTaskcardItem::class => WOWPTaskcardItemPolicy::class,
-        
+        WOWPTaskcardItem::class => WOWPTaskcardItemPolicy::class,
+
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,
         EngineeringLevel::class => EngineeringLevelPolicy::class,
@@ -287,18 +291,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-//        Gate::before(function ($user, $ability) {
-//            $queryRoleMenu = RoleMenu::where(
-//                'role_id', Auth::user()->role_id
-//            )->whereHas('role', function($role){
-//                    $role->where('status', 1);
-//                })->first();
-//
-//            if ($queryRoleMenu == null){
-//                return false;
-//            } else {
-//                return true;
-//            }
-//        });
+        // Gate::before(function ($user, $ability) {
+        //     dump($user);
+        //     dd($ability);
+        // });
     }
 }
