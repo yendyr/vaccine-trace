@@ -339,7 +339,7 @@ class WorkOrderController extends Controller
 
     public function approve(Request $request, WorkOrder $work_order)
     {
-        $is_authorized = $this->authorize('approval', $work_order->id);
+        $is_authorized = $this->authorize('approval', $work_order);
 
         $request->validate([
             'approval_notes' => ['required', 'max:30'],

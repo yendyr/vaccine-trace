@@ -133,5 +133,11 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/work-order', 'WorkOrderController');
+
+
+        Route::name('job-card.')->prefix('job-card')->group(function () {
+            Route::post('/generate', 'JobCardController@generate')->name('generate');
+        });
+        Route::resource('job-card', 'JobCardController');
     });
 });

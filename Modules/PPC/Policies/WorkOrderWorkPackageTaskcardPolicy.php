@@ -27,7 +27,7 @@ class WorkOrderWorkPackageTaskcardPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', $user->role_id
-        )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/job-card')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -42,7 +42,7 @@ class WorkOrderWorkPackageTaskcardPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', $user->role_id
-        )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/job-card')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -57,7 +57,7 @@ class WorkOrderWorkPackageTaskcardPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', $user->role_id
-        )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/job-card')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -68,15 +68,11 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function update(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
+    public function update(User $user, WorkOrderWorkPackageTaskcard $job_card)
     {
-        if($work_order->approvals->count() !== 0) {
-            return false;
-        }
-
         $queryRoleMenu = RoleMenu::where(
             'role_id', $user->role_id
-        )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/job-card')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -87,13 +83,9 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function approval(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
+    public function approval(User $user, WorkOrderWorkPackageTaskcard $job_card)
     {
-        if($work_order->approvals->count() !== 0) {
-            return false;
-        }
-
-        $queryRoleMenu = RoleMenu::where('role_id', $user->role_id)->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){$role->where('status', 1);})->first();
+        $queryRoleMenu = RoleMenu::where('role_id', $user->role_id)->where('menu_link', 'ppc/job-card')->whereHas('role', function($role){$role->where('status', 1);})->first();
 
         if ($queryRoleMenu == null){
             return false;
@@ -102,15 +94,11 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function delete(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
+    public function delete(User $user, WorkOrderWorkPackageTaskcard $job_card)
     {
-        if($work_order->approvals->count() !== 0) {
-            return false;
-        }
-
         $queryRoleMenu = RoleMenu::where(
             'role_id', $user->role_id
-        )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/job-card')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -121,15 +109,11 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function forceDelete(User $user, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
+    public function forceDelete(User $user, WorkOrderWorkPackageTaskcard $job_card)
     {
-        if($work_order->approvals->count() !== 0) {
-            return false;
-        }
-
         $queryRoleMenu = RoleMenu::where(
             'role_id', $user->role_id
-        )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
+        )->where('menu_link', 'ppc/job-card')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
