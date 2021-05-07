@@ -59,7 +59,7 @@ $(document).ready(function () {
             processing: '<i class="fa fa-spinner fa-spin fa-5x fa-fw text-success"></i>'
         },
         orderCellsTop: true,
-        serverSide: true,
+        serverSide: false,
         deferRender: true,
         // scrollY: 200,
         scrollCollapse: true,
