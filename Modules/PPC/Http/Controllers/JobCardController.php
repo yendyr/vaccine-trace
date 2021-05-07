@@ -80,7 +80,7 @@ class JobCardController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = WorkOrderWorkPackageTaskcard::query()
+            $data = WorkOrderWorkPackageTaskcard::where('type', array_search('job-card', config('ppc.job-card.type')))
                 ->with([
                     'taskcard',
                     'taskcard.taskcard_type',
@@ -89,9 +89,11 @@ class JobCardController extends Controller
                 ]);
 
             return Datatables::of($data)
-                ->addColumn('taskcard_number', function ($itemRow) {
+                ->addColumn('number', function ($itemRow) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
                         'taskcard' => $itemRow->id,
+                        'work_order' => $itemRow->work_order_id,
+                        'work_package' => $itemRow->work_package_id,
                     ]) . ">" . json_decode($itemRow->taskcard_json)->mpd_number . "</a>";
                 })
                 ->addColumn('group_structure', function ($row) {

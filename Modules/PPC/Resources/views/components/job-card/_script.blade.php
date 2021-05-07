@@ -30,28 +30,13 @@ $(document).ready(function () {
         }
     });
 
-    var groupColumn = 10;
 
     var datatableObject = $(tableId).DataTable({
         // dom: "<'toolbar'>frtip",
-        columnDefs: [{
-            visible: false, 
-            targets: groupColumn }
-        ],
-        order: [[ groupColumn, 'asc' ]],
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
- 
-            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
-                if ( last !== group ) {
-                    $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="14">Repeat Interval: <b>' + group + '</b></td></tr>'
-                    );
-                    last = group;
-                }
-            });
         },
         pageLength: 50,
         processing: true,
@@ -69,20 +54,12 @@ $(document).ready(function () {
             url: "{{ route('ppc.job-card.index') }}",
         },
         columns: [
-            { title: 'title', data: 'title', defaultContent: '-' },
+            { title: 'MPD Number', data: 'number', name: 'taskcard_json', defaultContent: '-' },
+            { title: 'Job Card Number', data: 'code', name: 'code', defaultContent: '-' },
             { title: 'action', data: 'action', orderable: false },
         ]
     });
 
-    $('#job-card-table tbody').on( 'click', 'tr.group', function () {
-        var currentOrder = datatableObject.order()[0];
-        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
-            datatableObject.order( [ groupColumn, 'desc' ] ).draw();
-        }
-        else {
-            datatableObject.order( [ groupColumn, 'asc' ] ).draw();
-        }
-    });
 });
 </script>
 @endpush

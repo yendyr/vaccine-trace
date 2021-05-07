@@ -41,7 +41,7 @@ class WorkOrderController extends Controller
             $work_orders = WorkOrder::with('aircraft:id,registration_number,serial_number,aircraft_type_id', 'aircraft.aircraft_type:id,code,name')->latest();
 
             return Datatables::of($work_orders)
-                ->addColumn('status', function($row) {
+                ->addColumn('status', function ($row) {
                     return ucfirst(config('ppc.work-order.status')[$row->status]) ?? '-';
                 })
                 ->addColumn('number', function ($row) use ($request) {
@@ -341,7 +341,7 @@ class WorkOrderController extends Controller
     {
         $is_authorized = $this->authorize('approval', $work_order);
 
-        if( $work_order->workpackages()->count() == 0 || $work_order->taskcards()->count() == 0 ) {
+        if ($work_order->workpackages()->count() == 0 || $work_order->taskcards()->count() == 0) {
             return response()->json(['error' => 'There is no Work Package/Task Card detected in Work Order.']);
         }
 
@@ -368,10 +368,10 @@ class WorkOrderController extends Controller
         }
 
         $update_res = $work_order->update([
-            'status' => array_search('approved', config('ppc.work-order.status') )
+            'status' => array_search('approved', config('ppc.work-order.status'))
         ]);
 
-        if( !$update_res ){
+        if (!$update_res) {
             $flag = false;
         }
 
@@ -441,7 +441,7 @@ class WorkOrderController extends Controller
          * 4. add taskcard status progress/detail 
          */
         $is_authorized = $request->user()->can('generate', $work_order);
-        
+
         DB::beginTransaction();
         $flag = true;
 
@@ -453,7 +453,7 @@ class WorkOrderController extends Controller
             'transaction_status' => $jobcard_transaction_status
         ]);
 
-        if(!$update_to_jobcard_res) {
+        if (!$update_to_jobcard_res) {
             $flag = false;
         }
 
@@ -461,32 +461,34 @@ class WorkOrderController extends Controller
             'status' => array_search('generated', config('ppc.work-order.status'))
         ]);
 
-        if(!$update_res) {
+        if (!$update_res) {
             $flag = false;
         }
 
         $jobcards = $work_order->taskcards()->select('id', 'work_order_id', 'work_package_id', 'type')->where('type', $jobcard_transaction_type)->get();
 
-        if( sizeof($jobcards) > 0 ) {
-            foreach($jobcards as $jobcard_row) {
+        if (sizeof($jobcards) > 0) {
+            foreach ($jobcards as $jobcard_row) {
                 /** TO DO create code for jobcard */
+
+                $transaction_date = Carbon::now();
 
                 $progress = $jobcard_row->progresses()->create([
                     'uuid' => str::uuid(),
-        
+                    'code' => 'JBCRD-' .  $transaction_date->year . '-' . str_pad($jobcard_row->id, 5, '0', STR_PAD_LEFT),
                     'work_order_id' => $work_order->id,
                     'work_package_id' => $jobcard_row->work_package_id,
                     // 'taskcard_id' => $jobcard_row->id,
-                    
+
                     'transaction_status' => $jobcard_transaction_status,
                     'progress_notes' => $request->generate_notes ?? null,
-            
+
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
                     'created_by' => $request->user()->id,
                 ]);
 
-                if( !get_class($progress) ) {
+                if (!get_class($progress)) {
                     $flag = false;
                 }
             }
@@ -501,7 +503,7 @@ class WorkOrderController extends Controller
 
             return response()->json(['error' => "Job Cards failed to generate"]);
         }
-    }   
+    }
 
     public function select2Aircraft(Request $request)
     {
