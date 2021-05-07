@@ -31,11 +31,26 @@ class JobCardController extends Controller
         $is_authorized = $this->authorize('create', WorkOrderWorkPackageTaskcard::class);
         
         if ($request->ajax()) {
-            $data = WorkOrder::has('approvals');
+            $data = WorkOrder::query();//has('approvals');
 
             return Datatables::of($data)
-                ->addColumn('action', function() {
-                    
+                ->addColumn('status', function($row) {
+                    return ucfirst(config('ppc.work-order.status')[$row->status]) ?? '-';
+                })
+                ->addColumn('action', function($row) use ($request) {
+                    $noAuthorize = true;
+       
+                    if ($request->user()->can('update', $row)) {
+                        $generateable = 'button';
+                        $generateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['generateable', 'generateValue']));
+                    } else {
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
+                    }
                 })
                 ->escapeColumns([])
                 ->make(true);

@@ -4,7 +4,7 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = '/ppc/job-card';
+    var generateActionUrl = '/ppc/work-order';
     var tableId = '#generate-job-card-table';
     var inputFormId = '#inputForm';
 
@@ -31,9 +31,11 @@ $(document).ready(function () {
             url: "{{ route('ppc.job-card.generate') }}",
         },
         columns: [
-            { title: 'code', data: 'code', name: 'code', defaultContent: '-' },
-            { title: 'name', data: 'name', name: 'name', defaultContent: '-' },
-            { title: 'action', data: 'action', orderable: false },
+            { title: 'Work Order Number', data: 'code', name: 'code', defaultContent: '-' },
+            { title: 'Title', data: 'name', name: 'name', defaultContent: '-' },
+            { title: 'Status', data: 'status', name: 'status', defaultContent: '-' },
+            { title: 'Created At', data: 'created_at', name: 'created_at', defaultContent: '-' },
+            { title: 'Action', data: 'action', orderable: false },
         ]
     });
 
@@ -46,6 +48,8 @@ $(document).ready(function () {
             datatableObject.order( [ groupColumn, 'asc' ] ).draw();
         }
     });
+
+    generateButtonProcess (datatableObject, tableId, generateActionUrl);
 });
 </script>
 @endpush

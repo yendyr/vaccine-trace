@@ -64,7 +64,7 @@ class WorkOrderWorkPackageTaskcardPolicy
         if ($queryRoleMenu == null){
             return false;
         } else {
-            return $queryRoleMenu->add == 1;
+            return $queryRoleMenu->process == 1;
         }
     }
 

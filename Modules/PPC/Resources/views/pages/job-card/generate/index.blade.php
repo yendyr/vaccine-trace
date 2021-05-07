@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
 @section('content')
+
+    @component('components.generate-modal', ['name' => 'Work Order Datalist'])
+    @endcomponent
+
     @include('ppc::pages.job-card.generate.modal')
 
     @component('components.crud-form.index',[
