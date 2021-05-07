@@ -39,7 +39,7 @@
     </div>
     <div class="col-md-4">
         <div>Issued Date: <strong class="text-success">{{ Carbon\Carbon::parse($taskcard->taskcard_json->issued_date)->format('Y-F-d') ?? '-' }}</strong></div>
-        <div>Work Area: <strong class="text-success">{{ $taskcard->taskcard_json->taskcard_workarea->name ?? '-' }}</strong></div>
+        <div>Work Area: <strong class="text-success">{{ $taskcard->taskcard_workarea_json->name ?? '-' }}</strong></div>
         <div>Source: <strong class="text-success">{{ $taskcard->taskcard_json->source ?? '-' }}</strong></div>
         <div>Reference: <strong class="text-success">{{ $taskcard->taskcard_json->reference ?? '-' }}</strong></div>
         <div>Scheduled Priority: <strong class="text-success">{{ $taskcard->taskcard_json->scheduled_priority ?? '-' }}</strong></div>
@@ -86,9 +86,9 @@
         @endif
 
         Tag:
-        @if ( !empty($taskcard->taskcard_json->tags) )
+        @if ( !empty($taskcard->tags_json) )
         <p class="m-b-xs">
-            @foreach ($taskcard->taskcard_json->tags as $tag)
+            @foreach ($taskcard->tags_json as $tag)
             <label class="label label-warning">{{ $tag->name }}</label>
             @endforeach
         </p>
