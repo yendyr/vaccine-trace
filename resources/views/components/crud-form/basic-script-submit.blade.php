@@ -244,6 +244,62 @@
         });
     }
 
+    function generateButtonProcess (datatabelObject, targetTableId, actionUrl) {
+        this.datatabelObject = datatabelObject;
+        this.targetTableId = targetTableId;
+        this.actionUrl = actionUrl;
+
+        datatabelObject.on('click', '.generateBtn', function () {
+            rowId = $(this).val();
+            $('#generate-form').trigger("reset");
+            $('#generateModal').modal('show');
+            $('#generate-form').attr('action', actionUrl + '/' + rowId + '/generate');
+        });
+
+        $('#generate-form').on('submit', function (e) {
+            e.preventDefault();
+            let url_action = $(this).attr('action');
+            $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $(
+                        'meta[name="csrf-token"]'
+                    ).attr("content")
+                },
+                url: url_action,
+                type: "POST",
+                data: $('#generate-form').serialize(),
+                dataType: 'json',
+                beforeSend:function(){
+                    $('#generate-button').text('Approving...');
+                    $('#generate-button').prop('disabled', true);
+                },
+                error: function(data){
+                    if (data.error) {
+                        generateToast ('error', data.error);
+                    }
+                },
+                success:function(data){
+                    if (data.success) {
+                        generateToast ('success', data.success);
+                    }
+                    else if (data.error) {
+                        swal.fire({
+                            titleText: "Action Failed",
+                            text: data.error,
+                            icon: "error",
+                        });
+                    }
+                },
+                complete: function(data) {
+                    $('#generate-button').text('Approve');
+                    $('#generateModal').modal('hide');
+                    $('#generate-button').prop('disabled', false);
+                    $(targetTableId).DataTable().ajax.reload();
+                }
+            });
+        });
+    }
+
     function clearForm(inputFormId) {
         this.inputFormId = inputFormId;
 

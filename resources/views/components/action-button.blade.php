@@ -9,6 +9,16 @@
     @endif
 @endisset
 
+@isset($generateable)
+    @if($generateable == 'button')
+        <button class="{{ $generateButtonClass ?? 'generateBtn' }} btn btn-sm btn-outline btn-info ml-1" value="{{ $generateValue }}" data-toggle="tooltip" title="Generate">
+            <i class="fa fa-paste"></i></button>
+    @elseif($generateable == 'a')
+        <a href="{{ $href }}" class="generate btn btn-sm btn-outline btn-info ml-1" data-toggle="tooltip" title="Generate">
+            <i class="fa fa-paste"></i></a>
+    @endif
+@endisset
+
 @isset($deleteable)
     <button type="button" name="delete" class="{{ $deleteButtonClass ?? 'deleteBtn' }} btn btn-sm btn-outline btn-danger pr-2" data-toggle="tooltip" title="Delete" value="{{ (isset($deleteId) ? $deleteId : '') }}">
         <i class="fa fa-trash"></i>
