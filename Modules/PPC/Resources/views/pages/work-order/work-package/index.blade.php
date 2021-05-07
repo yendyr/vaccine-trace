@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div>Work Package Description: <br><strong class="text-success">{{ $work_package?->description ?? '' }}</strong></div>
+            <div>Work Package Description: <br><strong class="text-success">@if( !empty($work_package->description) ) {!! $work_package->description !!} @endif</strong></div>
         </div>
         <div class="col-md-4">
             <div>Performance Factor: <strong class="text-success performance_factor">{{ $work_package?->performance_factor ?? '-' }}</strong></div>

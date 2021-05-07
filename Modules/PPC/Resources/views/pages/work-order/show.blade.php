@@ -33,7 +33,7 @@
                     <strong>{{ $work_order?->title ?? 'Work Order Title' }}</strong>
                 </h2>
                 <h2 class="text-success m-t-none"><strong>{{ $work_order?->code ?? '' }}</strong></h2>
-                <div>Work Order Description: <strong class="text-success">{{ $work_order?->description ?? '' }}</strong></div>
+                <div>Work Order Description: <strong class="text-success">@if( !empty($work_order->description) ) {!! $work_order->description !!} @endif</strong></div>
             </div>
         </div>
         <div class="col-md-3">
