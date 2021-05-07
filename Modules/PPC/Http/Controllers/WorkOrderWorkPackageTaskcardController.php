@@ -331,7 +331,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             $total_manhours = 0;
 
             if($work_package->total_manhours) {
-                $total_manhours = $work_package->total_manhours + $taskcard_total_manhours;
+                $total_manhours = floatval($work_package->total_manhours) + $taskcard_total_manhours;
             }
 
             $result = $work_package->update(['total_manhours' => $total_manhours]);
@@ -534,7 +534,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
         if( $work_package->total_manhours ) {
             $total_manhours = floatval($work_package->total_manhours) - $instructions_total_manhours;
+
         }
+        
+        if( $total_manhours < 0 ) {
+            $total_manhours = 0;
+        }        
 
         $result = $work_package->update(['total_manhours' => $total_manhours]);
 
