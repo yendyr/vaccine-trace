@@ -106,8 +106,6 @@ $(document).ready(function () {
         let data = datatableObject.row(tr).data();
         $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
-        console.log();
-
         if( $("input[name=_method]").length == 0 ){
             $('<input>').attr({
                 type: 'hidden',
