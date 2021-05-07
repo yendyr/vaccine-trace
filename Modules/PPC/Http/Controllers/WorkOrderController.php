@@ -469,6 +469,8 @@ class WorkOrderController extends Controller
 
         if( sizeof($jobcards) > 0 ) {
             foreach($jobcards as $jobcard_row) {
+                /** TO DO create code for jobcard */
+
                 $progress = $jobcard_row->progresses()->create([
                     'uuid' => str::uuid(),
         
