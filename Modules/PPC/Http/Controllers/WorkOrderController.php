@@ -341,8 +341,8 @@ class WorkOrderController extends Controller
     {
         $is_authorized = $this->authorize('approval', $work_order);
 
-        if( $work_order->taskcards()->count() == 0 ) {
-            return response()->json(['error' => 'There is no Task Card detected in Work Order.']);
+        if( $work_order->workpackages()->count() == 0 || $work_order->taskcards()->count() == 0 ) {
+            return response()->json(['error' => 'There is no Work Package/Task Card detected in Work Order.']);
         }
 
         $request->validate([
