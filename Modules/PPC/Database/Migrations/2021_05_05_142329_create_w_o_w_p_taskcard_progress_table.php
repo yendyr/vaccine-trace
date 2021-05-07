@@ -13,7 +13,7 @@ class CreateWOWPTaskcardProgressTable extends Migration
      */
     public function up()
     {
-        Schema::create('w_o_w_p_taskcard_progress', function (Blueprint $table) {
+        Schema::create('wo_wp_taskcard_progress', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
