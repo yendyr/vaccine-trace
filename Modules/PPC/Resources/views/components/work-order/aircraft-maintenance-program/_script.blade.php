@@ -79,7 +79,7 @@
                     title: 'MPD Number',
                     data: 'taskcard.mpd_number',
                     "render": function(data, type, row, meta) {
-                        return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.taskcard.mpd_number + '</a>';
+                        return '<a target="_blank" href="/ppc/taskcard/' + row.taskcard_id + '">' + row.taskcard.mpd_number + '</a>';
                     }
                 },
                 {
