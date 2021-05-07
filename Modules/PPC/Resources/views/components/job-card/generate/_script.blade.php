@@ -4,7 +4,7 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var generateActionUrl = '/ppc/work-order';
+    var generateActionUrl = '/ppc/job-card';
     var tableId = '#generate-job-card-table';
     var inputFormId = '#inputForm';
 
@@ -28,12 +28,12 @@ $(document).ready(function () {
         scroller: true,
         searchDelay: 1500,
         ajax: {
-            url: "{{ route('ppc.job-card.generate') }}",
+            url: "{{ route('ppc.job-card.generate.index') }}",
         },
         columns: [
-            { title: 'Work Order Number', data: 'code', name: 'code', defaultContent: '-' },
+            { title: 'Work Order Number', data: 'number', name: 'code', defaultContent: '-' },
             { title: 'Title', data: 'name', name: 'name', defaultContent: '-' },
-            { title: 'Status', data: 'status', name: 'status', defaultContent: '-' },
+            { title: 'Status', data: 'status', name: 'status', defaultContent: '-', searchable: false },
             { title: 'Created At', data: 'created_at', name: 'created_at', defaultContent: '-' },
             { title: 'Action', data: 'action', orderable: false },
         ]

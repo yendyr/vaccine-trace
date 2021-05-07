@@ -28,19 +28,33 @@ class JobCardController extends Controller
      */
     public function generate(Request $request)
     {
-        $is_authorized = $this->authorize('create', WorkOrderWorkPackageTaskcard::class);
-        
+        $is_authorized = $this->authorize('view', WorkOrderWorkPackageTaskcard::class);
+
         if ($request->ajax()) {
-            $data = WorkOrder::query();//has('approvals');
+            $data = WorkOrder::has('approvals');
 
             return Datatables::of($data)
-                ->addColumn('status', function($row) {
+                ->addColumn('number', function ($row) use ($request) {
+                    $noAuthorize = true;
+                    if ($request->user()->can('view', WorkOrder::class)) {
+                        $showText = $row->code;
+                        $showValue = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return  '<a href="' . route('ppc.work-order.show', ['work_order' => $showValue]) . '">' . $showText . '</a>';
+                    } else {
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
+                    }
+                })
+                ->addColumn('status', function ($row) {
                     return ucfirst(config('ppc.work-order.status')[$row->status]) ?? '-';
                 })
-                ->addColumn('action', function($row) use ($request) {
+                ->addColumn('action', function ($row) use ($request) {
                     $noAuthorize = true;
-       
-                    if ($request->user()->can('update', $row)) {
+
+                    if ($request->user()->can('generate', $row)) {
                         $generateable = 'button';
                         $generateValue = $row->id;
                         $noAuthorize = false;
@@ -224,7 +238,7 @@ class JobCardController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $noAuthorize = true;
-       
+
                     if ($noAuthorize == false) {
                         return view('components.action-button', compact(['updateable', 'updateValue', 'deleteable', 'deleteId']));
                     } else {
@@ -252,7 +266,7 @@ class JobCardController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(Request $request, WorkOrder $work_order)
     {
         //
     }

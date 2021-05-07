@@ -137,4 +137,23 @@ class WorkOrderPolicy
             return $queryRoleMenu->delete == 1;
         }
     }
+
+    public function generate(User $user, WorkOrder $work_order)
+    {
+        if($work_order->approvals->count() < 1 || config('ppc.work-order.status')[$work_order->status] !== 'approved' ) {
+            return false;
+        }
+
+        $queryRoleMenu = RoleMenu::where(
+            'role_id', $user->role_id
+        )->where('menu_link', 'ppc/work-order')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
+
+        if ($queryRoleMenu == null){
+            return false;
+        } else {
+            return $queryRoleMenu->update == 1;
+        }
+    }
 }

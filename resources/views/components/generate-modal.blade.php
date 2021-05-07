@@ -24,7 +24,7 @@
                 </div>
                 <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="{{ $generateModalButtonId ?? 'generate-button' }}" type="submit" class="btn btn-primary">Approve</button>
+                        <button id="{{ $generateModalButtonId ?? 'generate-button' }}" type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
         </div>

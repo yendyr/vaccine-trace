@@ -9,6 +9,7 @@ return [
             12 => 'created',
             2 => 'approved',
             3 => 'progress',
+            31 => 'generated',
             4 => 'finish',
             41 => 'closed'
         ],
@@ -18,6 +19,7 @@ return [
             12 => 'success',
             2 => 'information',
             3 => 'warning',
+            31 => 'warning',
             4 => 'primary',
             41 => 'danger'
         ],

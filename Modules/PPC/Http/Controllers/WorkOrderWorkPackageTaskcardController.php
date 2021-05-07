@@ -294,6 +294,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'work_package_id' => $work_package->id,
                 'taskcard_id' => $request->taskcard_id,
                 'description' => $request->description,
+                'type' => array_search('taskcard', config('ppc.job-card.type')),
 
                 'taskcard_json' => json_encode($taskcard),
                 'taskcard_group_json' => json_encode($taskcard->taskcard_group()->with('taskcard_group')->first()),

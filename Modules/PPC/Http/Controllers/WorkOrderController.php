@@ -427,6 +427,80 @@ class WorkOrderController extends Controller
         }
     }
 
+    /**
+     * Update taskcard type into jobcard from given work order.
+     * @param Request $request
+     * @return Renderable
+     */
+    public function generate(Request $request, WorkOrder $work_order)
+    {
+        /**
+         * 1. Change work order status into generate
+         * 2. update taskcard type into jobcard
+         * 3. update taskcard transaction status into Open
+         * 4. add taskcard status progress/detail 
+         */
+        $is_authorized = $request->user()->can('generate', $work_order);
+        
+        DB::beginTransaction();
+        $flag = true;
+
+        $jobcard_transaction_status = array_search('open', config('ppc.job-card.transaction-status'));
+        $jobcard_transaction_type = array_search('job-card', config('ppc.job-card.type'));
+
+        $update_to_jobcard_res = $work_order->taskcards()->update([
+            'type' => $jobcard_transaction_type,
+            'transaction_status' => $jobcard_transaction_status
+        ]);
+
+        if(!$update_to_jobcard_res) {
+            $flag = false;
+        }
+
+        $update_res = $work_order->update([
+            'status' => array_search('generated', config('ppc.work-order.status'))
+        ]);
+
+        if(!$update_res) {
+            $flag = false;
+        }
+
+        $jobcards = $work_order->taskcards()->select('id', 'work_order_id', 'work_package_id', 'type')->where('type', $jobcard_transaction_type)->get();
+
+        if( sizeof($jobcards) > 0 ) {
+            foreach($jobcards as $jobcard_row) {
+                $progress = $jobcard_row->progresses()->create([
+                    'uuid' => str::uuid(),
+        
+                    'work_order_id' => $work_order->id,
+                    'work_package_id' => $jobcard_row->work_package_id,
+                    // 'taskcard_id' => $jobcard_row->id,
+                    
+                    'transaction_status' => $jobcard_transaction_status,
+                    'progress_notes' => $request->generate_notes ?? null,
+            
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]);
+
+                if( !get_class($progress) ) {
+                    $flag = false;
+                }
+            }
+        }
+
+        if ($flag) {
+            DB::commit();
+
+            return response()->json(['success' => 'Job Cards has been generated']);
+        } else {
+            DB::rollBack();
+
+            return response()->json(['error' => "Job Cards failed to generate"]);
+        }
+    }   
+
     public function select2Aircraft(Request $request)
     {
         $search = $request->term;

@@ -53,7 +53,7 @@ class WorkOrderWorkPackageTaskcardPolicy
         }
     }
 
-    public function create(User $user)
+    public function create(User $user, WorkOrder $work_order)
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', $user->role_id

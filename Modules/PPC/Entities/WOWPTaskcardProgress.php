@@ -12,7 +12,7 @@ class WOWPTaskcardProgress extends MainModel
     use softDeletes;
     use Notifiable;
 
-    protected $table = 'wo_wp_taskcard_items';
+    protected $table = 'wo_wp_taskcard_progress';
     protected $dates = ['deleted_at'];
     protected $fillable = [
         'uuid',

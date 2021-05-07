@@ -100,9 +100,7 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/item-aging-report', 'ItemStockAgingController');
-
         Route::resource('/aircraft-aging-report', 'AircraftAgingController');
-
         Route::resource('/maintenance-status-report', 'MaintenanceStatusController');
 
         Route::name('work-order.')->prefix('work-order')->group(function () {
@@ -131,12 +129,12 @@ Route::name('ppc.')->group(function () {
 
         });
 
-        Route::resource('/work-order', 'WorkOrderController');
-
-
         Route::name('job-card.')->prefix('job-card')->group(function () {
-            Route::get('/generate', 'JobCardController@generate')->name('generate');
+            Route::get('/generate', 'JobCardController@generate')->name('generate.index');
+            Route::post('/{work_order}/generate', 'WorkOrderController@generate')->name('generate');
         });
+
+        Route::resource('/work-order', 'WorkOrderController');
         Route::resource('job-card', 'JobCardController');
     });
 });
