@@ -473,12 +473,18 @@ class WorkOrderController extends Controller
 
                 $transaction_date = Carbon::now();
 
+                $new_jc_code = $jobcard_row->update([
+                    'code' => 'JBCRD-' .  $transaction_date->year . '-' . str_pad($jobcard_row->id, 5, '0', STR_PAD_LEFT),
+                ]);
+
+                if( !$new_jc_code ) {
+                    $flag = false;
+                }
+
                 $progress = $jobcard_row->progresses()->create([
                     'uuid' => str::uuid(),
-                    'code' => 'JBCRD-' .  $transaction_date->year . '-' . str_pad($jobcard_row->id, 5, '0', STR_PAD_LEFT),
                     'work_order_id' => $work_order->id,
                     'work_package_id' => $jobcard_row->work_package_id,
-                    // 'taskcard_id' => $jobcard_row->id,
 
                     'transaction_status' => $jobcard_transaction_status,
                     'progress_notes' => $request->generate_notes ?? null,
