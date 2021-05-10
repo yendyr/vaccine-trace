@@ -191,8 +191,14 @@ use Modules\PPC\Policies\WorkOrderWorkPackagePolicy;
 use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
 use Modules\PPC\Policies\WorkOrderWorkPackageTaskcardPolicy;
 
-use Modules\PPC\Entities\WOWPTaskcardItem;
-use Modules\PPC\Policies\WOWPTaskcardItemPolicy;
+use Modules\PPC\Entities\WOWPTaskcardDetail;
+use Modules\PPC\Policies\WOWPTaskcardDetailPolicy;
+
+use Modules\PPC\Entities\WOWPTaskcardDetailItem;
+use Modules\PPC\Policies\WOWPTaskcardDetailItemPolicy;
+
+use Modules\PPC\Entities\WOWPTaskcardDetailProgress;
+use Modules\PPC\Policies\WOWPTaskcardDetailProgressPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -243,11 +249,13 @@ class AuthServiceProvider extends ServiceProvider
         AircraftConfiguration::class => AircraftConfigurationPolicy::class,
         ItemStockAging::class => ItemStockAgingPolicy::class,
         ItemStockAging::class => AircraftAgingPolicy::class,
+
         WorkOrder::class => WorkOrderPolicy::class,
-        WOWPTaskcardItem::class => WorkOrderPolicy::class,
         WorkOrderWorkPackage::class => WorkOrderWorkPackagePolicy::class,
         WorkOrderWorkPackageTaskcard::class => WorkOrderWorkPackageTaskcardPolicy::class,
-        WOWPTaskcardItem::class => WOWPTaskcardItemPolicy::class,
+        WOWPTaskcardDetail::class => WOWPTaskcardDetailPolicy::class,
+        WOWPTaskcardDetailItem::class => WOWPTaskcardDetailItemPolicy::class,
+        WOWPTaskcardDetailProgress::class => WOWPTaskcardDetailProgressPolicy::class,
 
         Skill::class => SkillPolicy::class,
         DocumentType::class => DocumentTypePolicy::class,

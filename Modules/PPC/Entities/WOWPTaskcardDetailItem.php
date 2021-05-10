@@ -6,7 +6,7 @@ use App\MainModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class WOWPTaskcardItem extends MainModel
+class WOWPTaskcardDetailItem extends MainModel
 {
     use softDeletes;
     use Notifiable;
@@ -19,6 +19,7 @@ class WOWPTaskcardItem extends MainModel
         'work_order_id',
         'work_package_id',
         'taskcard_id',
+        'detail_id',
         'item_id',
         'quantity',
         'unit_id',

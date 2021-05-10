@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWOWPTaskcardProgressTable extends Migration
+class CreateWOWPTaskcardDetailProgressTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateWOWPTaskcardProgressTable extends Migration
      */
     public function up()
     {
-        Schema::create('wo_wp_taskcard_progress', function (Blueprint $table) {
+        Schema::create('wo_wp_taskcard_detail_progress', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
             $table->string('work_order_id')->nullable();
             $table->string('work_package_id')->nullable();
             $table->string('taskcard_id')->nullable();
+            $table->string('detail_id')->nullable();
             
             $table->string('transaction_status')->nullable();
             $table->string('progress_notes')->nullable();

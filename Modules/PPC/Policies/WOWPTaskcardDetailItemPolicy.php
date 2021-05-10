@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\Gate\Entities\RoleMenu;
 use Modules\PPC\Entities\WorkOrder;
 
-class WOWPTaskcardItemPolicy
+class WOWPTaskcardDetailItemPolicy
 {
     use HandlesAuthorization;
 

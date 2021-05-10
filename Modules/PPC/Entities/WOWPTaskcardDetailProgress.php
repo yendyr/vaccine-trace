@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 
-class WOWPTaskcardProgress extends MainModel
+class WOWPTaskcardDetailProgress extends MainModel
 {
     use softDeletes;
     use Notifiable;
@@ -20,6 +20,7 @@ class WOWPTaskcardProgress extends MainModel
         'work_order_id',
         'work_package_id',
         'taskcard_id',
+        'detail_id',
         
         'transaction_status',
         'progress_notes',
