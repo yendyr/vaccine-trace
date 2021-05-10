@@ -337,12 +337,32 @@ class PPCMenuSeeder extends Seeder
         ]);
 
         Menu::create([
+            'menu_link' => 'ppc/job-card/generate',
+            'menu_text' => 'Generate Job Card',
+            'menu_route' => 'ppc.job-card.generate.index',
+            'menu_icon' => 'fa-paste',
+            'menu_class' => 'Modules\PPC\Entities\WorkOrderWorkPackageTaskcard',
+            'menu_id' => 'generate-jobcard',
+            'menu_actives' => json_encode(['ppc/job-card', 'ppc/job-card/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 1,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuMaintenance->id
+        ]);
+
+        Menu::create([
             'menu_link' => 'ppc/job-card',
             'menu_text' => 'Job Card',
             'menu_route' => 'ppc.job-card.index',
             'menu_icon' => 'fa-tasks',
             'menu_class' => 'Modules\PPC\Entities\WorkOrderWorkPackageTaskcard',
-            'menu_id' => 'maintenance',
+            'menu_id' => 'jobcard',
             'menu_actives' => json_encode(['ppc/job-card', 'ppc/job-card/*']),
             'group' => 'PPC',
             'add' => 1,
