@@ -43,9 +43,6 @@ class CreateWorkOrderWorkPackageTaskcardsTable extends Migration
             $table->json('document_library_details_json')->nullable();
             $table->json('affected_manuals_json')->nullable();
             $table->json('affected_manual_details_json')->nullable();
-            $table->json('instruction_details_json')->nullable();
-            $table->json('items_json')->nullable();
-            $table->json('item_details_json')->nullable();
 
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
