@@ -74,9 +74,9 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         return $this->hasMany(\Modules\PPC\Entities\WOWPTaskcardItem::class, 'taskcard_id');
     }
 
-    public function progresses()
+    public function details()
     {
-        return $this->hasMany(\Modules\PPC\Entities\WOWPTaskcardProgress::class, 'taskcard_id')
+        return $this->hasMany(\Modules\PPC\Entities\WOWPTaskcardDetail::class, 'taskcard_id')
             ->where('work_order_id', $this->work_order_id)
             ->where('work_package_id', $this->work_package_id);
     }
