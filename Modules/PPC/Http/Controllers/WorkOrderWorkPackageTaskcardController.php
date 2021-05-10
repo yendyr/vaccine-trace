@@ -273,7 +273,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
         if ($existRow == false) {
             $flag = true;
-            $taskcard = Taskcard::find($request->taskcard_id);
+            $taskcard = Taskcard::with('items')->where('id', $request->taskcard_id)->first();
 
             if (!$taskcard) {
                 $flag = false;
@@ -297,7 +297,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'type' => array_search('taskcard', config('ppc.job-card.type')),
 
                 'taskcard_json' => json_encode($taskcard),
-                'taskcard_group_json' => json_encode($taskcard->taskcard_group()->with('taskcard_group')->first()),
+                'taskcard_group_json' => json_encode($taskcard->taskcard_group()->with('taskcard_group', 'subGroup', 'all_childs')->first()),
                 'taskcard_type_json' => json_encode($taskcard->taskcard_type),
                 'taskcard_workarea_json' => json_encode($taskcard->taskcard_workarea),
                 'aircraft_types_json' => json_encode($taskcard->aircraft_types),
