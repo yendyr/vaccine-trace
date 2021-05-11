@@ -41,6 +41,7 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         'document_library_details_json',
         'affected_manuals_json',
         'affected_manual_details_json',
+        'is_exec_all',
         
         'status',
         'created_by',
