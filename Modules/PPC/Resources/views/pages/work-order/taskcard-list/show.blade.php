@@ -197,21 +197,21 @@
                                             <div class="col-md-9 m-b m-l-n">
                                                 <div class="col">After Flight Hour (FH):</div>
                                                 <div class="col m-b">
-                                                    <h3>{{ $taskcard->taskcard_jsonthreshold_flight_hour ?? '-' }} FH</h3>
+                                                    <h3>{{ $taskcard->taskcard_json->threshold_flight_hour ?? '-' }} FH</h3>
                                                 </div>
                                                 <div class="col">After Flight Cycle (FC):</div>
                                                 <div class="col m-b">
-                                                    <h3>{{ $taskcard->taskcard_jsonthreshold_flight_cycle ?? '-' }} FC</h3>
+                                                    <h3>{{ $taskcard->taskcard_json->threshold_flight_cycle ?? '-' }} FC</h3>
                                                 </div>
                                                 <div class="col">After Daily Basis:</div>
                                                 <div class="col m-b">
-                                                    <h3>{{ $taskcard->taskcard_jsonthreshold_daily ?? '-' }} {{ $taskcard->taskcard_jsonthreshold_daily_unit ?? '' }}(s)</h3>
+                                                    <h3>{{ $taskcard->taskcard_json->threshold_daily ?? '-' }} {{ $taskcard->taskcard_json->threshold_daily_unit ?? '' }}(s)</h3>
                                                 </div>
                                                 <div class="col">After Exact Calendar Date:</div>
                                                 <div class="col m-b">
                                                     <h3>
-                                                        @if($taskcard->taskcard_jsonthreshold_date)
-                                                        {{ Carbon\Carbon::parse($taskcard->taskcard_jsonthreshold_date)->format('Y-F-d') }}
+                                                        @if($taskcard->taskcard_json->threshold_date)
+                                                        {{ Carbon\Carbon::parse($taskcard->taskcard_json->threshold_date)->format('Y-F-d') }}
                                                         @else
                                                         -
                                                         @endif
@@ -236,21 +236,21 @@
                                             <div class="col-md-9 m-b m-l-n">
                                                 <div class="col">After Flight Hour (FH):</div>
                                                 <div class="col m-b">
-                                                    <h3>{{ $taskcard->taskcard_jsonrepeat_flight_hour ?? '-' }} FH</h3>
+                                                    <h3>{{ $taskcard->taskcard_json->repeat_flight_hour ?? '-' }} FH</h3>
                                                 </div>
                                                 <div class="col">After Flight Cycle (FC):</div>
                                                 <div class="col m-b">
-                                                    <h3>{{ $taskcard->taskcard_jsonrepeat_flight_cycle ?? '-' }} FC</h3>
+                                                    <h3>{{ $taskcard->taskcard_json->repeat_flight_cycle ?? '-' }} FC</h3>
                                                 </div>
                                                 <div class="col">After Daily Basis:</div>
                                                 <div class="col m-b">
-                                                    <h3>{{ $taskcard->taskcard_jsonrepeat_daily ?? '-' }} {{ $taskcard->taskcard_jsonrepeat_daily_unit ?? '' }}(s)</h3>
+                                                    <h3>{{ $taskcard->taskcard_json->repeat_daily ?? '-' }} {{ $taskcard->taskcard_json->repeat_daily_unit ?? '' }}(s)</h3>
                                                 </div>
                                                 <div class="col">After Exact Calendar Date:</div>
                                                 <div class="col m-b">
                                                     <h3>
-                                                        @if($taskcard->taskcard_jsonrepeat_date)
-                                                        {{ Carbon\Carbon::parse($taskcard->taskcard_jsonrepeat_date)->format('Y-F-d') }}
+                                                        @if($taskcard->taskcard_json->repeat_date)
+                                                        {{ Carbon\Carbon::parse($taskcard->taskcard_json->repeat_date)->format('Y-F-d') }}
                                                         @else
                                                         -
                                                         @endif
