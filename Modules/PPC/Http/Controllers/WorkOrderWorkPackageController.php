@@ -172,13 +172,16 @@ class WorkOrderWorkPackageController extends Controller
             foreach ($work_package->taskcards as $taskcardRow) {
 
                 $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
+            
+                if (!empty($taskcard_group) && is_array($taskcard_group) ) {
 
-                if (!empty($taskcard_group)) {
-                    if (empty($taskcard_counts[$taskcard_group->code])) {
-                        $taskcard_counts[$taskcard_group->code]['name'] = $taskcard_group->name;
-                        $taskcard_counts[$taskcard_group->code]['count'] = 1;
-                    } else {
-                        $taskcard_counts[$taskcard_group->code]['count']++;
+                    foreach($taskcard_group as $taskcard_group_row) {
+                        if (empty($taskcard_counts[$taskcard_group_row->code])) {
+                            $taskcard_counts[$taskcard_group_row->code]['name'] = $taskcard_group_row->name;
+                            $taskcard_counts[$taskcard_group_row->code]['count'] = 1;
+                        } else {
+                            $taskcard_counts[$taskcard_group_row->code]['count']++;
+                        }
                     }
                 }
 

@@ -61,26 +61,19 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     ->addColumn('group_structure', function ($row) {
                         $taskcard_group = json_decode($row->taskcard_group_json);
 
-                        if (!empty($taskcard_group)) {
+                        $group_structure = null;
 
-                            $group_structure = '';
+                        if ( !empty($taskcard_group) && is_array($taskcard_group) ) {
 
-                            while (true) {
-                                if ($taskcard_group) {
-                                    $group_structure = $taskcard_group->name . ' -> ' . $group_structure;
-                                    $taskcard_group = ( !empty($taskcard_group->taskcard_group)) ? $taskcard_group->taskcard_group : TaskcardGroup::where('id', $taskcard_group->parent_id)
-                                        ->withTrashed()
-                                        ->first();
-                                } else {
-                                    break;
-                                }
+                            foreach($taskcard_group as $taskcard_group_row) {
+                                $group_structure = $taskcard_group_row->name . ' -> ' . $group_structure;
                             }
+
                             $group_structure = Str::beforeLast($group_structure, '->');
 
-                            return $group_structure;
-                        } else {
-                            return '-';
-                        }
+                        } 
+
+                        return $group_structure;
                     })
                     ->addColumn('status', function ($row) {
                         if ($row->status == 1) {
@@ -104,9 +97,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         return $tag_name;
                     })
                     ->addColumn('instruction_count', function ($row) {
-                        $instruction_details = json_decode($row->instruction_details_json);
-
-                        return sizeof($instruction_details);
+                        return $row->details()->count();
                     })
                     ->addColumn('manhours_total', function ($row) {
                         $manhours_estimation = null;
@@ -334,7 +325,6 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'document_library_details_json' => json_encode($taskcard->document_library_details),
                 'affected_manuals_json' => json_encode($taskcard->affected_manuals),
                 'affected_manual_details_json' => json_encode($taskcard->affected_manual_details),
-                'instruction_details_json' => json_encode($taskcard->instruction_details()->with('skills', 'item_details', 'taskcard_workarea', 'engineering_level', 'task_release_level', 'skill_details')->get()),
                 'items_json' => json_encode($taskcard->items()->with('unit', 'category')->get()),
                 'item_details_json' => json_encode($taskcard->item_details()->with('item', 'unit', 'category', 'taskcard_detail_instruction', 'taskcard')->get()),
 
@@ -348,6 +338,72 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 $flag = false;
             }
 
+            $instruction_details = $taskcard->instruction_details()
+                ->with('skills', 'item_details', 'taskcard_workarea', 'engineering_level', 'task_release_level', 'skill_details');
+
+            if( $instruction_details->count() > 0 ) {
+                foreach( $instruction_details->get() as $instruction_detail_row) {
+
+                    $detail = $workpackage_taskcard->details()->create([
+                        'uuid' =>  Str::uuid(),
+
+                        'work_order_id' => $work_order->id,
+                        'work_package_id' => $work_package->id,
+                        'taskcard_id' => $workpackage_taskcard->id,
+                
+                        'sequence' => $instruction_detail_row->sequence,
+                        'instruction_code' => $instruction_detail_row->instruction_code,
+                        'taskcard_workarea_id' => $instruction_detail_row->taskcard_workarea_id,
+                        'manhours_estimation' => $instruction_detail_row->manhours_estimation,
+                        'performance_factor' => $instruction_detail_row->performance_factor,
+                        'engineering_level_id' => $instruction_detail_row->engineering_level_id,
+                        'manpower_quantity' => $instruction_detail_row->manpower_quantity,
+                        'task_release_level_id' => $instruction_detail_row->task_release_level_id,
+                        'instruction' => $instruction_detail_row->instruction,
+                        'transaction_status' => $instruction_detail_row->transaction_status,
+                        'skills_json' => json_encode($instruction_detail_row->skills),
+                        'taskcard_workarea_json' => json_encode($instruction_detail_row->taskcard_workarea),
+                        'engineering_level_json' => json_encode($instruction_detail_row->engineering_level),
+                        'task_release_level_json' => json_encode($instruction_detail_row->task_release_level),
+
+                        'owned_by' => $request->user()->company_id,
+                        'status' => 1,
+                        'created_by' => $request->user()->id,
+                    ]);
+
+                    if( !get_class($detail) ) {
+                        $flag = false;
+                    }
+
+                    foreach ($instruction_detail_row->item_details as $item_detail_row) {
+                        $item_detail = WOWPTaskcardDetailItem::create([
+                            'uuid' =>  Str::uuid(),
+    
+                            'work_order_id' => $work_order->id,
+                            'work_package_id' => $work_package->id,
+                            'taskcard_id' => $workpackage_taskcard->id,
+                            'detail_id' => $detail->id ?? null,
+                            'item_id' => $item_detail_row->item_id,
+                            'quantity' => $item_detail_row->quantity,
+                            'unit_id' => $item_detail_row->unit_id,
+                            'description' => $item_detail_row->description,
+    
+                            'item_json' => json_encode($item_detail_row->item()->with('category', 'manufacturer', 'unit')->first()),
+                            'unit_json' => json_encode($item_detail_row->unit),
+                            'taskcard_json' => json_encode($item_detail_row->taskcard),
+    
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]);
+    
+                        if (!get_class($item_detail)) {
+                            $flag = false;
+                        }
+                    }
+                }
+            }
+
             $taskcard_total_manhours = $taskcard->instruction_details()->sum('manhours_estimation') ?? 0;
             $total_manhours = 0;
 
@@ -359,34 +415,6 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
             if (!$result) {
                 $flag = false;
-            }
-
-            if (!$taskcard->item_details->isEmpty()) {
-                foreach ($taskcard->item_details as $item_detail_row) {
-                    $item_detail = WOWPTaskcardDetailItem::create([
-                        'uuid' =>  Str::uuid(),
-
-                        'work_order_id' => $work_order->id,
-                        'work_package_id' => $work_package->id,
-                        'taskcard_id' => $workpackage_taskcard->id,
-                        'item_id' => $item_detail_row->item_id,
-                        'quantity' => $item_detail_row->quantity,
-                        'unit_id' => $item_detail_row->unit_id,
-                        'description' => $item_detail_row->description,
-
-                        'item_json' => json_encode($item_detail_row->item()->with('category', 'manufacturer', 'unit')->first()),
-                        'unit_json' => json_encode($item_detail_row->unit),
-                        'taskcard_json' => json_encode($item_detail_row->taskcard),
-
-                        'owned_by' => $request->user()->company_id,
-                        'status' => 1,
-                        'created_by' => $request->user()->id,
-                    ]);
-
-                    if (!get_class($item_detail)) {
-                        $flag = false;
-                    }
-                }
             }
 
             if ($flag) {

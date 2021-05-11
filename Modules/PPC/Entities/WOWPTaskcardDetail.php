@@ -2,11 +2,45 @@
 
 namespace Modules\PPC\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use App\MainModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
-class WOWPTaskcardDetail extends Model
+class WOWPTaskcardDetail extends MainModel
 {
-    protected $fillable = [];
+    use softDeletes;
+    use Notifiable;
+
+    protected $table = 'wo_wp_taskcard_details';
+    protected $dates = ['deleted_at'];
+    protected $fillable = [
+        'uuid',
+
+        'work_order_id',
+        'work_package_id',
+        'taskcard_id',
+
+        'sequence',
+        'instruction_code',
+        'taskcard_workarea_id',
+        'manhours_estimation',
+        'performance_factor',
+        'engineering_level_id',
+        'manpower_quantity',
+        'task_release_level_id',
+        'instruction',
+        'transaction_status',
+        'skills_json',
+        'taskcard_workarea_json',
+        'engineering_level_json',
+        'task_release_level_json',
+
+        'status',
+        'created_by',
+        'updated_by',
+        'owned_by',
+        'deleted_by',
+    ];
 
     public function creator()
     {
@@ -31,6 +65,26 @@ class WOWPTaskcardDetail extends Model
     public function taskcard()
     {
         return $this->belongsTo(\Modules\PPC\Entities\WorkOrderWorkPackageTaskcard::class, 'taskcard_id');
+    }
+
+    public function taskcard_workarea()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardWorkarea::class, 'taskcard_workarea_id');
+    }
+
+    public function engineering_level()
+    {
+        return $this->belongsTo(\Modules\QualityAssurance\Entities\EngineeringLevel::class, 'engineering_level_id');
+    }
+
+    public function task_release_level()
+    {
+        return $this->belongsTo(\Modules\QualityAssurance\Entities\TaskReleaseLevel::class, 'task_release_level_id');
+    }
+
+    public function skill_details()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailInstructionSkill::class, 'taskcard_detail_instruction_id', 'detail_id');
     }
 
     public function items()
