@@ -63,15 +63,14 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
                         $group_structure = null;
 
-                        if ( !empty($taskcard_group) && is_array($taskcard_group) ) {
+                        if (!empty($taskcard_group) && is_array($taskcard_group)) {
 
-                            foreach($taskcard_group as $taskcard_group_row) {
+                            foreach ($taskcard_group as $taskcard_group_row) {
                                 $group_structure = $taskcard_group_row->name . ' -> ' . $group_structure;
                             }
 
                             $group_structure = Str::beforeLast($group_structure, '->');
-
-                        } 
+                        }
 
                         return $group_structure;
                     })
@@ -86,11 +85,11 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         $tag_name = null;
                         $tag_details_json = json_decode($row->tag_details_json);
 
-                        if( !empty($tag_details_json) ) {
+                        if (!empty($tag_details_json)) {
                             foreach ($row->taskcard->tags as $tag) {
                                 $tag_name .= $tag->name . ', ';
                             }
-    
+
                             $tag_name = Str::beforeLast($tag_name, ',');
                         }
 
@@ -101,10 +100,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('manhours_total', function ($row) {
                         $manhours_estimation = null;
-                        $instruction_details_json =  json_decode($row->instruction_details_json) ; 
+                        $instruction_details_json =  json_decode($row->instruction_details_json);
 
-                        if( !empty($instruction_details_json) )  {
-                            foreach($instruction_details_json as $instruction_detail) {
+                        if (!empty($instruction_details_json)) {
+                            foreach ($instruction_details_json as $instruction_detail) {
                                 $manhours_estimation += $instruction_detail->manhours_estimation ?? 0;
                             }
                         }
@@ -117,10 +116,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
                         $TaskcardDetailInstructions = json_decode($row->instruction_details_json);
 
-                        if( !empty($TaskcardDetailInstructions ) ){
+                        if (!empty($TaskcardDetailInstructions)) {
                             foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
                                 $TaskcardDetailInstructionSkills = ($TaskcardDetailInstruction->skills) ? $TaskcardDetailInstruction->skills : [];
-    
+
                                 foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
                                     if (!in_array($TaskcardDetailInstructionSkill->name, $skillsArray)) {
                                         $skillsArray[] = $TaskcardDetailInstructionSkill->name;
@@ -250,7 +249,6 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             } else {
                 return response()->json(['error' => 'Action is not authorized']);
             }
-
         }
 
         if (!$is_use_all_taskcard) {
@@ -281,22 +279,21 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             $group_structure = [];
             if ($taskcard->taskcard_group_id) {
                 $currentRow = TaskcardGroup::where('id', $taskcard->taskcard_group_id)
-                                            ->withTrashed()
-                                            ->first();
-                
+                    ->withTrashed()
+                    ->first();
+
                 while (true) {
                     if ($currentRow) {
                         $group_structure[] = $currentRow;
 
                         $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)
-                                                    ->withTrashed()
-                                                    ->first();
-                    }
-                    else {
+                            ->withTrashed()
+                            ->first();
+                    } else {
                         break;
                     }
                 }
-            } 
+            }
 
             $workpackage_taskcard = WorkOrderWorkPackageTaskcard::create([
                 'uuid' =>  Str::uuid(),
@@ -341,8 +338,8 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             $instruction_details = $taskcard->instruction_details()
                 ->with('skills', 'item_details', 'taskcard_workarea', 'engineering_level', 'task_release_level', 'skill_details');
 
-            if( $instruction_details->count() > 0 ) {
-                foreach( $instruction_details->get() as $instruction_detail_row) {
+            if ($instruction_details->count() > 0) {
+                foreach ($instruction_details->get() as $instruction_detail_row) {
 
                     $detail = $workpackage_taskcard->details()->create([
                         'uuid' =>  Str::uuid(),
@@ -350,7 +347,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'work_order_id' => $work_order->id,
                         'work_package_id' => $work_package->id,
                         'taskcard_id' => $workpackage_taskcard->id,
-                
+
                         'sequence' => $instruction_detail_row->sequence,
                         'instruction_code' => $instruction_detail_row->instruction_code,
                         'taskcard_workarea_id' => $instruction_detail_row->taskcard_workarea_id,
@@ -371,14 +368,14 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'created_by' => $request->user()->id,
                     ]);
 
-                    if( !get_class($detail) ) {
+                    if (!get_class($detail)) {
                         $flag = false;
                     }
 
                     foreach ($instruction_detail_row->item_details as $item_detail_row) {
                         $item_detail = WOWPTaskcardDetailItem::create([
                             'uuid' =>  Str::uuid(),
-    
+
                             'work_order_id' => $work_order->id,
                             'work_package_id' => $work_package->id,
                             'taskcard_id' => $workpackage_taskcard->id,
@@ -388,17 +385,17 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                             'unit_id' => $item_detail_row->unit_id,
                             'category_id' => $item_detail_row->item->category_id,
                             'description' => $item_detail_row->description,
-    
+
                             'item_json' => json_encode($item_detail_row->item()->with('category', 'manufacturer', 'unit')->first()),
                             'unit_json' => json_encode($item_detail_row->unit),
                             'category_json' => json_encode($item_detail_row->item->category),
                             'taskcard_json' => json_encode($item_detail_row->taskcard),
-    
+
                             'owned_by' => $request->user()->company_id,
                             'status' => 1,
                             'created_by' => $request->user()->id,
                         ]);
-    
+
                         if (!get_class($item_detail)) {
                             $flag = false;
                         }
@@ -409,7 +406,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             $taskcard_total_manhours = $taskcard->instruction_details()->sum('manhours_estimation') ?? 0;
             $total_manhours = 0;
 
-            if($work_package->total_manhours) {
+            if ($work_package->total_manhours) {
                 $total_manhours = floatval($work_package->total_manhours) + $taskcard_total_manhours;
             }
 
@@ -521,7 +518,26 @@ class WorkOrderWorkPackageTaskcardController extends Controller
      */
     public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
-        //
+        DB::beginTransaction();
+        $flag = true;
+
+        $update = $taskcard->update([
+            'description' => $request->description
+        ]);
+
+        if (!$update) {
+            $flag = false;
+        }
+
+        if ($flag) {
+            DB::commit();
+
+            return response()->json(['success' => 'Task card remark has been updated']);
+        } else {
+            DB::rollBack();
+
+            return response()->json(['error' => 'Failed to updated task card remark']);
+        }
     }
 
     /**
@@ -550,7 +566,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             $flag = false;
         }
 
-        if( $taskcard->items()->count() > 0 ){
+        if ($taskcard->items()->count() > 0) {
             $childUpdRes = $taskcard->items()->update([
                 'deleted_by' => Auth::user()->id,
             ]);
@@ -575,22 +591,21 @@ class WorkOrderWorkPackageTaskcardController extends Controller
         $instruction_details_json = json_decode($taskcard->instruction_details_json);
         $instructions_total_manhours = 0;
 
-        if( !empty($instruction_details_json) ) {
-            foreach($instruction_details_json as $instruction_detail_row) {
+        if (!empty($instruction_details_json)) {
+            foreach ($instruction_details_json as $instruction_detail_row) {
                 $instructions_total_manhours += $instruction_detail_row->manhours_estimation ?? 0;
             }
         }
 
         $total_manhours = 0;
 
-        if( $work_package->total_manhours ) {
+        if ($work_package->total_manhours) {
             $total_manhours = floatval($work_package->total_manhours) - $instructions_total_manhours;
-
         }
-        
-        if( $total_manhours < 0 ) {
+
+        if ($total_manhours < 0) {
             $total_manhours = 0;
-        }        
+        }
 
         $result = $work_package->update(['total_manhours' => $total_manhours]);
 
