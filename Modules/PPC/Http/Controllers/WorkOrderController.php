@@ -473,7 +473,7 @@ class WorkOrderController extends Controller
                 $transaction_date = Carbon::now();
 
                 $new_jc_code = $jobcard_row->update([
-                    'code' => 'JBCRD-' .  $transaction_date->year . '-' . str_pad($jobcard_row->id, 5, '0', STR_PAD_LEFT),
+                    'code' => 'JBCRD-' .  $transaction_date->year . '-' . str_pad($jobcard_row->id, 5, '0', STR_PAD_LEFT)
                 ]);
 
                 if( !$new_jc_code ) {
@@ -482,10 +482,18 @@ class WorkOrderController extends Controller
 
                 if( $jobcard_row->details()->count() > 0 )
                 {
+                    $update_instruction_status = $jobcard_row->details()->update([
+                        'transaction_status' => $jobcard_transaction_status
+                    ]);
+
+                    if( !$update_instruction_status ) {
+                        $flag = false;
+                    }
+
                     foreach($jobcard_row->details as $detail_row) {
 
                         $new_insctruction_code = $detail_row->update([
-                            'code' => 'INSTR-' .  $transaction_date->year . '-' . str_pad($detail_row->id, 5, '0', STR_PAD_LEFT),
+                            'code' => 'INSTR-' .  $transaction_date->year . '-' . str_pad($detail_row->id, 5, '0', STR_PAD_LEFT)
                         ]);
         
                         if( !$new_insctruction_code ) {
