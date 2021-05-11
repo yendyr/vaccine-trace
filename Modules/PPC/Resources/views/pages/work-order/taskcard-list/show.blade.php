@@ -23,8 +23,8 @@
                 <strong>{{ $taskcard->taskcard_json->title ?? 'Task Card Title' }}</strong>
             </h2>
             <h2 class="text-success m-t-none"><strong>{{ $taskcard->taskcard_json->mpd_number ?? '' }}</strong></h2>
-            <div>Task Card Group: <strong class="text-success">{{ $taskcard->taskcard_json->taskcard_group->name ?? '' }}</strong></div>
-            <div>Task Card Type: <strong class="text-success">{{ $taskcard->taskcard_json->taskcard_type->name ?? '' }}</strong></div>
+            <div>Task Card Group: <strong class="text-success">{{ $taskcard->taskcard_group_json->first()->name ?? '' }}</strong></div>
+            <div>Task Card Type: <strong class="text-success">{{ $taskcard->taskcard_type_json->name ?? '' }}</strong></div>
             <div>Task Card Compliance: <strong class="text-success">{{ $taskcard->taskcard_json->compliance ?? '' }}</strong></div>
         </div>
     </div>
@@ -187,6 +187,83 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-6 fadeIn" style="animation-duration: 1.5s">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Threshold
+                                    </div>
+                                    <div class="panel-body" style="margin: 0px; width: 100%; padding-bottom: 0;">
+                                        <div class="row">
+                                            <div class="col-md-9 m-b m-l-n">
+                                                <div class="col">After Flight Hour (FH):</div>
+                                                <div class="col m-b">
+                                                    <h3>{{ $taskcard->taskcard_jsonthreshold_flight_hour ?? '-' }} FH</h3>
+                                                </div>
+                                                <div class="col">After Flight Cycle (FC):</div>
+                                                <div class="col m-b">
+                                                    <h3>{{ $taskcard->taskcard_jsonthreshold_flight_cycle ?? '-' }} FC</h3>
+                                                </div>
+                                                <div class="col">After Daily Basis:</div>
+                                                <div class="col m-b">
+                                                    <h3>{{ $taskcard->taskcard_jsonthreshold_daily ?? '-' }} {{ $taskcard->taskcard_jsonthreshold_daily_unit ?? '' }}(s)</h3>
+                                                </div>
+                                                <div class="col">After Exact Calendar Date:</div>
+                                                <div class="col m-b">
+                                                    <h3>
+                                                        @if($taskcard->taskcard_jsonthreshold_date)
+                                                        {{ Carbon\Carbon::parse($taskcard->taskcard_jsonthreshold_date)->format('Y-F-d') }}
+                                                        @else
+                                                        -
+                                                        @endif
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 m-b">
+                                                <i class="text-danger fa fa-sign-in fa-5x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 fadeIn" style="animation-duration: 1.5s">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Repeat
+                                    </div>
+                                    <div class="panel-body" style="margin: 0px; width: 100%; padding-bottom: 0;">
+                                        <div class="row">
+                                            <div class="col-md-9 m-b m-l-n">
+                                                <div class="col">After Flight Hour (FH):</div>
+                                                <div class="col m-b">
+                                                    <h3>{{ $taskcard->taskcard_jsonrepeat_flight_hour ?? '-' }} FH</h3>
+                                                </div>
+                                                <div class="col">After Flight Cycle (FC):</div>
+                                                <div class="col m-b">
+                                                    <h3>{{ $taskcard->taskcard_jsonrepeat_flight_cycle ?? '-' }} FC</h3>
+                                                </div>
+                                                <div class="col">After Daily Basis:</div>
+                                                <div class="col m-b">
+                                                    <h3>{{ $taskcard->taskcard_jsonrepeat_daily ?? '-' }} {{ $taskcard->taskcard_jsonrepeat_daily_unit ?? '' }}(s)</h3>
+                                                </div>
+                                                <div class="col">After Exact Calendar Date:</div>
+                                                <div class="col m-b">
+                                                    <h3>
+                                                        @if($taskcard->taskcard_jsonrepeat_date)
+                                                        {{ Carbon\Carbon::parse($taskcard->taskcard_jsonrepeat_date)->format('Y-F-d') }}
+                                                        @else
+                                                        -
+                                                        @endif
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 m-b">
+                                                <i class="text-danger fa fa-refresh fa-5x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -198,8 +275,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            @if ( !empty($instruction_details_json) )
-                            @foreach ($instruction_details_json->sortBy('sequence') as $instruction_key => $instruction_detail)
+                            @if ( !empty($taskcard->details) )
+                            @foreach ($taskcard->details->sortBy('sequence') as $instruction_key => $instruction_detail)
                             <div class="col-md-12 fadeIn" style="animation-duration: 1.5s">
                                 <div class="panel panel-success">
                                     <div class="panel-heading">
@@ -284,8 +361,8 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    @if ( !empty($instruction_detail->item_details) )
-                                                                    @foreach ($instruction_detail->item_details as $item_detail)
+                                                                    @if ( !empty($instruction_detail->items) )
+                                                                    @foreach ($instruction_detail->items as $item_detail)
                                                                     <tr>
                                                                         <td>{{ $item_detail->item->code ?? '' }}</td>
                                                                         <td>{{ $item_detail->item->name ?? '' }}</td>

@@ -458,7 +458,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
     public function show(WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
     {
         $taskcard->taskcard_json = json_decode($taskcard->taskcard_json);
-        $taskcard->taskcard_group_json = json_decode($taskcard->taskcard_group_json);
+        $taskcard->taskcard_group_json = collect(json_decode($taskcard->taskcard_group_json));
         $taskcard->taskcard_type_json = json_decode($taskcard->taskcard_type_json);
         $taskcard->taskcard_workarea_json = json_decode($taskcard->taskcard_workarea_json);
         $taskcard->aircraft_types_json = json_decode($taskcard->aircraft_types_json);
