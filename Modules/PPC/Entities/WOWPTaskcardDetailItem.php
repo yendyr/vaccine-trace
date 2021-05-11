@@ -21,12 +21,14 @@ class WOWPTaskcardDetailItem extends MainModel
         'taskcard_id',
         'detail_id',
         'item_id',
-        'quantity',
         'unit_id',
+        'category_id',
+        'quantity',
         'description',
 
         'item_json',
         'unit_json',
+        'category_json',
         'taskcard_json',
 
         'status',
@@ -73,6 +75,6 @@ class WOWPTaskcardDetailItem extends MainModel
 
     public function category()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemCategory::class, 'item_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\ItemCategory::class, 'category_id');
     }
 }

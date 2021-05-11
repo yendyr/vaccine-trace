@@ -386,10 +386,12 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                             'item_id' => $item_detail_row->item_id,
                             'quantity' => $item_detail_row->quantity,
                             'unit_id' => $item_detail_row->unit_id,
+                            'category_id' => $item_detail_row->item->category_id,
                             'description' => $item_detail_row->description,
     
                             'item_json' => json_encode($item_detail_row->item()->with('category', 'manufacturer', 'unit')->first()),
                             'unit_json' => json_encode($item_detail_row->unit),
+                            'category_json' => json_encode($item_detail_row->item->category),
                             'taskcard_json' => json_encode($item_detail_row->taskcard),
     
                             'owned_by' => $request->user()->company_id,
