@@ -174,28 +174,22 @@ class WorkOrderWorkPackageController extends Controller
                 $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
             
                 if (!empty($taskcard_group) && is_array($taskcard_group) ) {
-
-                    foreach($taskcard_group as $taskcard_group_row) {
-                        if (empty($taskcard_counts[$taskcard_group_row->code])) {
-                            $taskcard_counts[$taskcard_group_row->code]['name'] = $taskcard_group_row->name;
-                            $taskcard_counts[$taskcard_group_row->code]['count'] = 1;
-                        } else {
-                            $taskcard_counts[$taskcard_group_row->code]['count']++;
-                        }
+                    if (empty($taskcard_counts[collect($taskcard_group)->first()->code])) {
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['name'] = collect($taskcard_group)->first()->name;
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['count'] = 1;
+                    } else {
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['count']++;
                     }
                 }
 
-                $instruction_details = json_decode($taskcardRow->instruction_details_json);
+                if ( $taskcardRow->details()->count() > 0 ) {
 
+                    foreach ($taskcardRow->details as $instruction_detail_row) {
+                        $skills_json = json_decode($instruction_detail_row->skills_json);
+                        
+                        if (sizeof($skills_json) > 0) {
 
-                if (!empty($instruction_details)) {
-
-                    foreach ($instruction_details as $instruction_detail_row) {
-
-                        if (sizeof($instruction_detail_row->skills) > 0) {
-
-                            foreach ($instruction_detail_row->skills as $skillRow) {
-
+                            foreach ($skills_json as $skillRow) {
                                 if (isset($skills[$skillRow->name])) {
                                     $skills[$skillRow->name]++;
                                 } else {
@@ -203,8 +197,10 @@ class WorkOrderWorkPackageController extends Controller
                                 }
                             }
                         }
+
                     }
                 }
+
             }
         }
 

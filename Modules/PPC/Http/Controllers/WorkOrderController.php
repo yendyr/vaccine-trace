@@ -178,29 +178,26 @@ class WorkOrderController extends Controller
 
         if ($work_order->taskcards()->count() > 0) {
             foreach ($work_order->taskcards as $taskcardRow) {
-
+        
                 $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
-
-                if (!empty($taskcard_group)) {
-                    if (empty($taskcard_counts[$taskcard_group->code])) {
-                        $taskcard_counts[$taskcard_group->code]['name'] = $taskcard_group->name;
-                        $taskcard_counts[$taskcard_group->code]['count'] = 1;
+            
+                if (!empty($taskcard_group) && is_array($taskcard_group) ) {
+                    if (empty($taskcard_counts[collect($taskcard_group)->first()->code])) {
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['name'] = collect($taskcard_group)->first()->name;
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['count'] = 1;
                     } else {
-                        $taskcard_counts[$taskcard_group->code]['count']++;
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['count']++;
                     }
                 }
 
-                $instruction_details = json_decode($taskcardRow->instruction_details_json);
+                if ( $taskcardRow->details()->count() > 0 ) {
 
+                    foreach ($taskcardRow->details as $instruction_detail_row) {
+                        $skills_json = json_decode($instruction_detail_row->skills_json);
 
-                if (!empty($instruction_details)) {
+                        if (sizeof($skills_json) > 0) {
 
-                    foreach ($instruction_details as $instruction_detail_row) {
-
-                        if (sizeof($instruction_detail_row->skills) > 0) {
-
-                            foreach ($instruction_detail_row->skills as $skillRow) {
-
+                            foreach ($skills_json as $skillRow) {
                                 if (isset($skills[$skillRow->name])) {
                                     $skills[$skillRow->name]++;
                                 } else {
@@ -208,8 +205,10 @@ class WorkOrderController extends Controller
                                 }
                             }
                         }
+                        
                     }
                 }
+
             }
         }
 
