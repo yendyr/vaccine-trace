@@ -480,21 +480,37 @@ class WorkOrderController extends Controller
                     $flag = false;
                 }
 
-                $progress = $jobcard_row->progresses()->create([
-                    'uuid' => str::uuid(),
-                    'work_order_id' => $work_order->id,
-                    'work_package_id' => $jobcard_row->work_package_id,
+                if( $jobcard_row->details()->count() > 0 )
+                {
+                    foreach($jobcard_row->details as $detail_row) {
 
-                    'transaction_status' => $jobcard_transaction_status,
-                    'progress_notes' => $request->generate_notes ?? null,
+                        $new_insctruction_code = $detail_row->update([
+                            'code' => 'INSTR-' .  $transaction_date->year . '-' . str_pad($detail_row->id, 5, '0', STR_PAD_LEFT),
+                        ]);
+        
+                        if( !$new_insctruction_code ) {
+                            $flag = false;
+                        }
 
-                    'owned_by' => $request->user()->company_id,
-                    'status' => 1,
-                    'created_by' => $request->user()->id,
-                ]);
-
-                if (!get_class($progress)) {
-                    $flag = false;
+                        $progress = $detail_row->progresses()->create([
+                            'uuid' => str::uuid(),
+                            'work_order_id' => $work_order->id,
+                            'work_package_id' => $jobcard_row->work_package_id,
+                            'taskcard_id' => $jobcard_row->id,
+        
+                            'transaction_status' => $jobcard_transaction_status,
+                            'progress_notes' => $request->generate_notes ?? null,
+        
+                            'owned_by' => $request->user()->company_id,
+                            'status' => 1,
+                            'created_by' => $request->user()->id,
+                        ]);
+        
+                        if (!get_class($progress)) {
+                            $flag = false;
+                        }
+                    }
+    
                 }
             }
         }

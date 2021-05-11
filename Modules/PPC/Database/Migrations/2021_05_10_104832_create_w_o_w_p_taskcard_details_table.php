@@ -21,6 +21,7 @@ class CreateWOWPTaskcardDetailsTable extends Migration
             $table->string('work_package_id')->nullable();
             $table->string('taskcard_id')->nullable();
             
+            $table->string('code')->nullable();
             $table->tinyInteger('sequence')->nullable();
             $table->string('instruction_code')->nullable();
             $table->string('taskcard_workarea_id')->nullable();
