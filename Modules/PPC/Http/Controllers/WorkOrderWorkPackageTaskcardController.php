@@ -18,7 +18,7 @@ use Modules\PPC\Entities\TaskcardDetailInstruction;
 use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 use Modules\PPC\Entities\TaskcardDetailItem;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
-use Modules\PPC\Entities\WOWPTaskcardItem;
+use Modules\PPC\Entities\WOWPTaskcardDetailItem;
 
 class WorkOrderWorkPackageTaskcardController extends Controller
 {
@@ -363,7 +363,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
             if (!$taskcard->item_details->isEmpty()) {
                 foreach ($taskcard->item_details as $item_detail_row) {
-                    $item_detail = WOWPTaskcardItem::create([
+                    $item_detail = WOWPTaskcardDetailItem::create([
                         'uuid' =>  Str::uuid(),
 
                         'work_order_id' => $work_order->id,

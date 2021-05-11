@@ -115,10 +115,10 @@ Route::name('ppc.')->group(function () {
                 Route::post('/use-all-taskcard', 'WorkOrderWorkPackageController@useAll')->name('use-all-taskcard');
                 Route::post('/aircraft-maintenance-program/use-all-taskcard', 'WorkOrderWorkPackageController@useAllMaintenanceProgram')->name('aircraft-maintenance-program.use-all-taskcard');
                 Route::get('/item-requirements-summary', 'WorkOrderWorkPackageController@itemRequirements')->name('item-requirements-summary');
-                Route::get('/item', 'WOWPTaskcardItemController@index')->name('item.index');
+                Route::get('/item', 'WOWPTaskcardDetailItemController@index')->name('item.index');
 
                 Route::name('taskcard.')->prefix('taskcard/{taskcard}')->group(function () {
-                    Route::resource('item', 'WOWPTaskcardItemController')->except(['index']);
+                    Route::resource('item', 'WOWPTaskcardDetailItemController')->except(['index']);
                 });
 
                 Route::resource('taskcard', 'WorkOrderWorkPackageTaskcardController');

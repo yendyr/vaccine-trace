@@ -11,7 +11,7 @@ class WOWPTaskcardDetailItem extends MainModel
     use softDeletes;
     use Notifiable;
 
-    protected $table = 'wo_wp_taskcard_items';
+    protected $table = 'wo_wp_taskcard_detail_items';
     protected $dates = ['deleted_at'];
     protected $fillable = [
         'uuid',

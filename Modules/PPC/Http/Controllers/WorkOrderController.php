@@ -18,7 +18,7 @@ use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderApproval;
-use Modules\PPC\Entities\WOWPTaskcardItem;
+use Modules\PPC\Entities\WOWPTaskcardDetailItem;
 use Yajra\DataTables\Facades\DataTables;
 
 class WorkOrderController extends Controller
@@ -548,7 +548,7 @@ class WorkOrderController extends Controller
     {
         if ($request->ajax()) {
 
-            $items = WOWPTaskcardItem::select(
+            $items = WOWPTaskcardDetailItem::select(
                 'id',
                 'work_order_id',
                 'work_package_id',

@@ -9,10 +9,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Modules\PPC\Entities\Taskcard;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
-use Modules\PPC\Entities\WOWPTaskcardItem;
+use Modules\PPC\Entities\WOWPTaskcardDetailItem;
 use Yajra\DataTables\Facades\DataTables;
 
-class WOWPTaskcardItemController extends Controller
+class WOWPTaskcardDetailItemController extends Controller
 {
     use AuthorizesRequests;
 
@@ -25,7 +25,7 @@ class WOWPTaskcardItemController extends Controller
     public function index(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
         if ($request->ajax()) {
-            $data = WOWPTaskcardItem::query()
+            $data = WOWPTaskcardDetailItem::query()
                                         ->where('work_order_id', $work_order->id)
                                         ->where('work_package_id', $work_package->id)
                                         ->with([
@@ -103,7 +103,7 @@ class WOWPTaskcardItemController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardItem $item)
+    public function store(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardDetailItem $item)
     {
         //
     }
@@ -113,7 +113,7 @@ class WOWPTaskcardItemController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function show(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardItem $item)
+    public function show(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardDetailItem $item)
     {
         return view('ppc::show');
     }
@@ -123,7 +123,7 @@ class WOWPTaskcardItemController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardItem $item)
+    public function edit(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardDetailItem $item)
     {
         return view('ppc::edit');
     }
@@ -134,7 +134,7 @@ class WOWPTaskcardItemController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardItem $item)
+    public function update(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardDetailItem $item)
     {
         //
     }
@@ -144,7 +144,7 @@ class WOWPTaskcardItemController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardItem $item)
+    public function destroy(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, Taskcard $taskcard, WOWPTaskcardDetailItem $item)
     {
         //
     }

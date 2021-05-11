@@ -12,7 +12,7 @@ use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Modules\PPC\Entities\Taskcard;
-use Modules\PPC\Entities\WOWPTaskcardItem;
+use Modules\PPC\Entities\WOWPTaskcardDetailItem;
 
 class WorkOrderWorkPackageController extends Controller
 {
@@ -396,7 +396,7 @@ class WorkOrderWorkPackageController extends Controller
     {
         if ($request->ajax()) {
 
-            $items = WOWPTaskcardItem::select(
+            $items = WOWPTaskcardDetailItem::select(
                 'id',
                 'work_order_id',
                 'work_package_id',
