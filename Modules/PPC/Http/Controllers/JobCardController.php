@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Modules\PPC\Entities\TaskcardDetailInstruction;
+use Modules\PPC\Entities\TaskcardDetailItem;
 use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
@@ -132,7 +134,7 @@ class JobCardController extends Controller
                     $tag_details_json = json_decode($row->tag_details_json);
 
                     if (!empty($tag_details_json)) {
-                        foreach ($row->taskcard->tags as $tag) {
+                        foreach ($row->job_card->tags as $tag) {
                             $tag_name .= $tag->name . ', ';
                         }
 
@@ -275,28 +277,69 @@ class JobCardController extends Controller
 
     /**
      * Show the specified resource.
-     * @param WorkOrderWorkPackageTaskcard $job_card
+     * @param $job_card
      * @return Renderable
      */
-    public function show(WorkOrderWorkPackageTaskcard $job_card)
+    public function show($job_card)
     {
         return view('ppc::show');
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param WorkOrderWorkPackageTaskcard $job_card
+     * @param $job_card
      * @return Renderable
      */
-    public function edit(WorkOrderWorkPackageTaskcard $job_card)
+    public function edit(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
-        return view('ppc::edit');
+        $job_card->taskcard_json = json_decode($job_card->taskcard_json);
+        $job_card->taskcard_group_json = collect(json_decode($job_card->taskcard_group_json));
+        $job_card->taskcard_type_json = json_decode($job_card->taskcard_type_json);
+        $job_card->taskcard_workarea_json = json_decode($job_card->taskcard_workarea_json);
+        $job_card->aircraft_types_json = json_decode($job_card->aircraft_types_json);
+        $job_card->aircraft_type_details_json = json_decode($job_card->aircraft_type_details_json);
+        $job_card->affected_items_json = json_decode($job_card->affected_items_json);
+        $job_card->affected_item_details_json = json_decode($job_card->affected_item_details_json);
+        $job_card->tags_json = json_decode($job_card->tags_json);
+        $job_card->tag_details_json = json_decode($job_card->tag_details_json);
+        $job_card->accesses_json = json_decode($job_card->accesses_json);
+        $job_card->access_details_json = json_decode($job_card->access_details_json);
+        $job_card->zones_json = json_decode($job_card->zones_json);
+        $job_card->zone_details_json = json_decode($job_card->zone_details_json);
+        $job_card->document_libraries_json = json_decode($job_card->document_libraries_json);
+        $job_card->document_library_details_json = json_decode($job_card->document_library_details_json);
+        $job_card->affected_manuals_json = json_decode($job_card->affected_manuals_json);
+        $job_card->affected_manual_details_json = json_decode($job_card->affected_manual_details_json);
+        $job_card->instruction_details_json = json_decode($job_card->instruction_details_json, true);
+        $instruction_details_json = [];
+
+        if (!empty($job_card->instruction_details_json)) {
+            foreach ($job_card->instruction_details_json as $key => $instruction_array) {
+                $instruction_details_json[] = new TaskcardDetailInstruction($instruction_array);
+            }
+        }
+
+        $instruction_details_json = collect($instruction_details_json);
+        $job_card->items_json = json_decode($job_card->items_json);
+        $job_card->item_details_json = json_decode($job_card->item_details_json, true);
+
+        $item_details_json = [];
+
+        if (!empty($job_card->item_details_json)) {
+            foreach ($job_card->item_details_json as $key => $item_detail_row) {
+                $item_details_json[] = new TaskcardDetailItem($item_detail_row);
+            }
+        }
+        
+        return view('ppc::pages.job-card.edit', [
+            'job_card' => $job_card
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param WorkOrderWorkPackageTaskcard $job_card
+     * @param $job_card
      * @return Renderable
      */
     public function update(Request $request, WorkOrderWorkPackageTaskcard $job_card)
@@ -306,11 +349,31 @@ class JobCardController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param WorkOrderWorkPackageTaskcard $job_card
+     * @param $job_card
      * @return Renderable
      */
     public function destroy(WorkOrderWorkPackageTaskcard $job_card)
     {
         //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param $job_card
+     * @return Renderable
+     */
+    public function execute(Request $request)
+    {
+        $job_card = WorkOrderWorkPackageTaskcard::where('uuid', $request->uuid)->first();
+
+        if( empty($job_card) ){
+            return redirect()->back()->with('error', 'Job Card Not Found');
+        }
+
+        $this->edit($request, $job_card);
+
+        return redirect()->route('ppc.job-card.edit', [
+            'job_card' => $job_card
+        ])->withInput();
     }
 }
