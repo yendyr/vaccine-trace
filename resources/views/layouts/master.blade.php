@@ -23,6 +23,7 @@
                 </nav>
             </div>
 
+
             @if (Request::is('dashboard'))
                 @yield('content')
             @else
@@ -30,6 +31,18 @@
 
                 @include('components.breadcrumb')
                 <div class="wrapper wrapper-content animated fadeInRight">
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     @yield('content')
                 </div>
             @endif
@@ -52,7 +65,6 @@
         return true;
     }
 </script>
-
 @include('layouts.includes._footer-script')
 @stack('footer-scripts')
 </body>
