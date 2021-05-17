@@ -238,6 +238,11 @@ class TaskcardController extends Controller
                 ->addColumn('action', function($row) use ($request) {
                     if(!$request->aircraft_type_id) {
                         $noAuthorize = true;
+                        $updateable = null;
+                        $updateValue = null;
+                        $deleteable = null;
+                        $deleteId = null;
+
                         if(Auth::user()->can('update', Taskcard::class)) {
                             $updateable = 'button';
                             $updateValue = $row->id;

@@ -126,7 +126,7 @@ class UserController extends Controller
                 $company_id = $employee->company_id;
             } 
             else {
-                $company_id = null;
+                $company_id = $request->user()->company_id;
             }
 
             User::create([
@@ -204,7 +204,7 @@ class UserController extends Controller
                 $company_id = $employee->company_id;
             } 
             else {
-                $company_id = null;
+                $company_id = $request->user()->company_id;
             }
 
             User::where('id', $user->id)
