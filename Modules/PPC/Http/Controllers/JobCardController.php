@@ -386,6 +386,8 @@ class JobCardController extends Controller
      */
     public function update(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
+        dd($request->all());
+        
         try {
             $is_authorized = $this->authorize('execute', $job_card);
         } catch (\Throwable $th) {

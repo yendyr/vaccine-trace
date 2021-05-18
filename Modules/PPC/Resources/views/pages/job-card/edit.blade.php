@@ -8,6 +8,7 @@
             @component('ppc::components.action-button',[
             'executeable' => 'button',
             'executeValue' => $job_card->id,
+            'executeHref' => route('ppc.job-card.update', ['job_card' => $job_card->id, 'exec_all' => true]),
             'executeText' => 'Execute All'])
             @endcomponent
         @endif
@@ -293,8 +294,9 @@
                                             <div class="col text-right">
                                             @if( empty($job_card->is_exec_all) || $job_card->is_exec_all == false )
                                                 @component('ppc::components.action-button',[
-                                                'executeable' => 'button',
-                                                'executeValue' => $instruction_detail->id,
+                                                    'executeable' => 'button',
+                                                    'executeValue' => $instruction_detail->id,
+                                                    'executeHref' => route('ppc.job-card.update', ['job_card' => $job_card->id, 'exec_all' => false, 'detail_id' => $instruction_detail->id]),
                                                 ])
                                                 @endcomponent
                                             @endif
@@ -455,6 +457,9 @@
         </div>
     </div>
 </div>
+
+@include('ppc::pages.job-card.execute-modal')
+@include('ppc::components.job-card._generate-script')
 @endsection
 
 @push('header-scripts')

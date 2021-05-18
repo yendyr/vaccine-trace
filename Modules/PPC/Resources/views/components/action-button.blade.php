@@ -11,10 +11,10 @@
 
 @isset($executeable)
     @if($executeable == 'button')
-        <button class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $executeValue }}" data-toggle="tooltip" title="Execute">
+        <button href="{{ $executeHref ?? '#' }}" class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $executeValue }}" data-toggle="tooltip" title="Execute">
             <i class="fa fa-paste"></i> {{ $executeText ?? 'Execute'}}</button>
     @elseif($executeable == 'a')
-        <a href="{{ $href }}" class="execute btn btn-sm btn-outline btn-info ml-1 white-bg" data-toggle="tooltip" title="Execute">
+        <a href="{{ $executeHref ?? '#' }}" class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" data-toggle="tooltip" title="Execute">
             <i class="fa fa-paste"></i> {{ $executeText ?? 'Execute'}}</a>
     @endif
 @endisset
