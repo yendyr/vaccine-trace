@@ -136,13 +136,13 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div id="tab-4" class="tab-pane">
+                    <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
                                 @include('flightoperations::pages.afmlog.rectification.content')
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div id="tab-9" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
