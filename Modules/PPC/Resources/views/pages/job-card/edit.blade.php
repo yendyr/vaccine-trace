@@ -55,7 +55,7 @@
         <div>Recurrence: <strong class="text-success">{{ $job_card->taskcard_json->recurrence ?? '-' }}</strong></div>
         <div>Status: <strong>
                 <label class="label label-{{ config('ppc.job-card.transaction-status-color')[$job_card->transaction_status] ?? 'plain' }}">
-                    @php ( isset($job_card->transaction_status) ) ? ucfirst(config('ppc.job-card.transaction-status')[$job_card->transaction_status]) : ucfirst(config('ppc.job-card.transaction-status')[0]) @endphp
+                    {{ ucfirst(config('ppc.job-card.transaction-status')[$job_card->transaction_status]) ?? ucfirst(config('ppc.job-card.transaction-status')[0]) }}
                 </label>
             </strong>
         </div>
@@ -316,9 +316,9 @@
                                             <div class="col-md-3 p-xs border">Task Release Level: <p class="m-b-xs"><strong>{{ $instruction_detail->task_release_level->name ?? '-' }}</strong></p>
                                             </div>
                                             <div class="col-md-6 p-xs border">Skill Requirement:
-                                                @if ( !empty($instruction_detail->skills) )
+                                                @if ( !empty(json_decode($instruction_detail->skills_json)) )
                                                 <p class="m-b-xs">
-                                                    @foreach ($instruction_detail->skills as $skill)
+                                                    @foreach ( json_decode($instruction_detail->skills_json) as $skill)
                                                     <label class="label label-success m-b-none">{{ $skill->name }}</label>
                                                     @endforeach
                                                 </p>

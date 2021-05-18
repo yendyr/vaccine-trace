@@ -261,7 +261,7 @@ class JobCardController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request, WorkOrder $work_order)
+    public function store(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
         //
     }
@@ -271,9 +271,55 @@ class JobCardController extends Controller
      * @param $job_card
      * @return Renderable
      */
-    public function show($job_card)
+    public function show(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
-        return view('ppc::show');
+        $job_card->taskcard_json = json_decode($job_card->taskcard_json);
+        $job_card->taskcard_group_json = collect(json_decode($job_card->taskcard_group_json));
+        $job_card->taskcard_type_json = json_decode($job_card->taskcard_type_json);
+        $job_card->taskcard_workarea_json = json_decode($job_card->taskcard_workarea_json);
+        $job_card->aircraft_types_json = json_decode($job_card->aircraft_types_json);
+        $job_card->aircraft_type_details_json = json_decode($job_card->aircraft_type_details_json);
+        $job_card->affected_items_json = json_decode($job_card->affected_items_json);
+        $job_card->affected_item_details_json = json_decode($job_card->affected_item_details_json);
+        $job_card->tags_json = json_decode($job_card->tags_json);
+        $job_card->tag_details_json = json_decode($job_card->tag_details_json);
+        $job_card->accesses_json = json_decode($job_card->accesses_json);
+        $job_card->access_details_json = json_decode($job_card->access_details_json);
+        $job_card->zones_json = json_decode($job_card->zones_json);
+        $job_card->zone_details_json = json_decode($job_card->zone_details_json);
+        $job_card->document_libraries_json = json_decode($job_card->document_libraries_json);
+        $job_card->document_library_details_json = json_decode($job_card->document_library_details_json);
+        $job_card->affected_manuals_json = json_decode($job_card->affected_manuals_json);
+        $job_card->affected_manual_details_json = json_decode($job_card->affected_manual_details_json);
+        $job_card->instruction_details_json = json_decode($job_card->instruction_details_json, true);
+        $instruction_details_json = [];
+
+        if (!empty($job_card->instruction_details_json)) {
+            foreach ($job_card->instruction_details_json as $key => $instruction_array) {
+                $instruction_details_json[] = new TaskcardDetailInstruction($instruction_array);
+            }
+        }
+
+        $instruction_details_json = collect($instruction_details_json);
+        $job_card->items_json = json_decode($job_card->items_json);
+        $job_card->item_details_json = json_decode($job_card->item_details_json, true);
+
+        $item_details_json = [];
+
+        if (!empty($job_card->item_details_json)) {
+            foreach ($job_card->item_details_json as $key => $item_detail_row) {
+                $item_details_json[] = new TaskcardDetailItem($item_detail_row);
+            }
+        }
+        
+        $job_card_progresses = $job_card->progresses->groupBy(function( $progress ) {
+            return $progress->created_at->format('Y');
+        });
+
+        return view('ppc::pages.job-card.show', [
+            'job_card' => $job_card,
+            'job_card_progresses' => $job_card_progresses
+        ]);
     }
 
     /**
@@ -352,7 +398,7 @@ class JobCardController extends Controller
      * @param $job_card
      * @return Renderable
      */
-    public function destroy(WorkOrderWorkPackageTaskcard $job_card)
+    public function destroy(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
         //
     }
