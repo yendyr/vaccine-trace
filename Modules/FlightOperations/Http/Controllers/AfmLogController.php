@@ -151,9 +151,9 @@ class AfmLogController extends Controller
         return view('flightoperations::pages.afmlog.show', compact('afmlog'));
     }
 
-    public function update(Request $request, AfmLog $AfmLog)
+    public function update(Request $request, AfmLog $afmlog)
     {
-        $currentRow = AfmLog::where('id', $AfmLog->id)->first();
+        $currentRow = AfmLog::where('id', $afmlog->id)->first();
         if ($currentRow->approvals()->count() == 0) {
             $request->validate([
                 'page_number' => ['required', 'max:30', 'unique:afm_logs,aircraft_configuration_id'],
@@ -201,15 +201,15 @@ class AfmLogController extends Controller
         }
     }
 
-    public function destroy(AfmLog $AfmLog)
+    public function destroy(AfmLog $afmlog)
     {
-        $currentRow = AfmLog::where('id', $AfmLog->id)->first();
+        $currentRow = AfmLog::where('id', $afmlog->id)->first();
         $currentRow
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
 
-        AfmLog::destroy($AfmLog->id);
+        AfmLog::destroy($afmlog->id);
         return response()->json(['success' => 'Aircraft Flight & Maintenance Log Data has been Deleted']);
     }
 

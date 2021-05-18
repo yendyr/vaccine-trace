@@ -151,7 +151,7 @@ $(document).ready(function () {
     
 
     datatableObject.on('click', '.editBtn', function () {
-        $('#modalTitle').html("Edit Item COA");
+        $('#modalTitle').html("Edit Aircraft Flight & Maintenance Log");
         $(inputFormId).trigger("reset");                
         rowId= $(this).val();
         let tr = $(this).closest('tr');
