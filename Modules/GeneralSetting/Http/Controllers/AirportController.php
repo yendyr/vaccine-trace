@@ -105,6 +105,7 @@ class AirportController extends Controller
             'wikipedia_link' => $request->wikipedia_link, 
             'keywords' => $request->keywords,
             'description' => $request->description,
+            
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
