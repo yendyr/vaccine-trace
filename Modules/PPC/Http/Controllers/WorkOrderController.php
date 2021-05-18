@@ -755,4 +755,31 @@ class WorkOrderController extends Controller
 
         abort(404);
     }
+
+    public function select2(Request $request)
+    {
+        $search = $request->q;
+
+        $query = WorkOrder::select('id','code','name')
+                    ->whereHas('approvals')
+                    ->where('status', array_search('approved', config('ppc.work-order.status')))
+                    ->latest();
+
+        if($search != ''){
+            $query = $query->where('code', 'like', '%' .$search. '%');
+            $query = $query->orWhere('name', 'like', '%' .$search. '%');
+        }
+
+        $workOrders = $query->get();
+        $response = [];
+        
+        foreach($workOrders as $workOrder){
+            $response['results'][] = [
+                "id" => $workOrder->id,
+                "text" => $workOrder->code . ' | ' . $workOrder->name
+            ];
+        }
+
+        return response()->json($response);
+    }
 }

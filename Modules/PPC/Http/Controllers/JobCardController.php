@@ -90,6 +90,10 @@ class JobCardController extends Controller
                     'work_package',
                 ]);
 
+            if ($request->work_order_id) {
+                $data = $data->where('work_order_id', $request->work_order_id);
+            }
+
             return Datatables::of($data)
                 ->addColumn('number', function ($itemRow) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
@@ -363,17 +367,23 @@ class JobCardController extends Controller
      * @return Renderable
      */
     public function execute(Request $request)
-    {
+    {        
         $job_card = WorkOrderWorkPackageTaskcard::where('uuid', $request->uuid)->first();
 
         if( empty($job_card) ){
             return redirect()->back()->with('error', 'Job Card Not Found');
         }
 
-        $this->edit($request, $job_card);
+        try {
+            $is_authorized = $this->authorize('execute', $job_card);
+        } catch (\Throwable $th) {
+            if($th->getMessage() == 'This action is unauthorized.'){
+                return redirect()->back()->with('error', $th->getMessage());
+            }
+        }
 
-        return redirect()->route('ppc.job-card.edit', [
-            'job_card' => $job_card
-        ])->withInput();
+        $view = $this->edit($request, $job_card);
+
+        return $view;
     }
 }

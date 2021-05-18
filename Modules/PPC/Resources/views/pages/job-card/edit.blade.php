@@ -401,39 +401,39 @@
                     </div>
                 </div>
                 <div id="tab-progress" class="tab-pane active">
-                <div class="col">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Job Card Activities </h5>
-                            </div>
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Job Card Activities </h5>
+                        </div>
 
-                            <div class="ibox-content">
-                                <div class="activity-stream">
-                                    @if( $job_card->progresses()->count() > 0 )
-                                    @foreach( $job_card->progresses as $progress_row)
-                                    <div class="stream">
-                                        <div class="stream-badge">
-                                            <i class="fa fa-{{ config('ppc.job-card.transaction-icon)[$this->transaction_status] }} bg-{{ config('ppc.job-card.transaction-status-color)[$this->transaction_status] }}"></i>
-                                        </div>
-                                        <div class="stream-panel">
-                                            <div class="stream-info">
-                                                <a href="#">
-                                                    <img src="{{
-                                                        isset(\Illuminate\Support\Facades\Auth::user()->image)
-                                                        ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image)
-                                                        : URL::asset('assets/default-user-image.png')
-                                                    }}" />
-                                                    <span>{{ $progress_row->creator->name }}</span>
-                                                    <span class="date">{{ Carbon\Carbon::now()->diffForHumans($progress_row->created_at) }} at {{ $progress_row->created_at->format('H:i:s') }}</span>
-                                                </a>
-                                            </div>
-                                            {{ $progress_row->progress_notes ?? '-' }}
-                                        </div>
+                        <div class="ibox-content">
+                            @if( $job_card->progresses()->count() > 0 )
+                            <div class="activity-stream">
+                                @foreach( $job_card->progresses as $progress_row)
+                                <div class="stream">
+                                    <div class="stream-badge">
+                                        <i class="fa fa-{{ config('ppc.job-card.transaction-icon')[$this->transaction_status] }} bg-{{ config('ppc.job-card.transaction-status-color')[$this->transaction_status] }}"></i>
                                     </div>
-                                    @endforeach
-                                    @endif
+                                    <div class="stream-panel">
+                                        <div class="stream-info">
+                                            <a href="#">
+                                                <img src="{{
+                                                    isset(\Illuminate\Support\Facades\Auth::user()->image)
+                                                    ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image)
+                                                    : URL::asset('assets/default-user-image.png')
+                                                }}" />
+                                                <span>{{ $progress_row->creator->name }}</span>
+                                                <span class="date">{{ Carbon\Carbon::now()->diffForHumans($progress_row->created_at) }} at {{ $progress_row->created_at->format('H:i:s') }}</span>
+                                            </a>
+                                        </div>
+                                        {{ $progress_row->progress_notes ?? '-' }}
+                                    </div>
                                 </div>
+                                @endforeach
                             </div>
+                            @else
+                            <p class="font-italic text-center m-t-xl">No progress Found</p>
+                            @endif
                         </div>
                     </div>
                 </div>

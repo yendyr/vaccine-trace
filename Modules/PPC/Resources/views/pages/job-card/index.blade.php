@@ -2,10 +2,9 @@
 
 @section('content')
 
-<div class="passwordBox animated fadeInDown">
+<div class="animated fadeInDown">
     <div class="row">
-
-        <div class="col-md-12">
+        <div class="col">
             <div class="ibox-content">
 
                 <h2 class="font-bold text-center">Execute Job Card</h2>
@@ -27,9 +26,19 @@
     </div>
     <hr />
 </div>
+    <div class="row">
+        <div class="col">
+            @component('components.crud-form.index',[
+                            'title' => 'Job Card Datalist',
+                            'tableId' => 'job-card-table'])
+                        @slot('createButton')
+                            <select class="work_order_id form-control @error('work_order_id') is-invalid @enderror" id="work_order_id" name="work_order_id" style="width: 100%;"></select>
+                        @endslot
+            @endcomponent
+        </div>
+    </div>
 
 @include('ppc::components.job-card._script')
-
 @endsection
 
 @push('header-scripts')
@@ -44,4 +53,7 @@
         background-color: #aaa !important;
     }
 </style>
+@endpush
+@push('footer-scripts')
+    @include('layouts.includes._footer-datatable-script')
 @endpush
