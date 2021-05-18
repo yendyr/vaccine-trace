@@ -438,6 +438,8 @@ class WorkOrderController extends Controller
          * 2. update taskcard type into jobcard
          * 3. update taskcard transaction status into Open
          * 4. add taskcard status progress/detail 
+         * to do 
+         * 5. tambahkan progress open hanya ditaskcard saja jangan di progressnya
          */
         $is_authorized = $request->user()->can('generate', $work_order);
 
@@ -500,25 +502,27 @@ class WorkOrderController extends Controller
                             $flag = false;
                         }
 
-                        $progress = $detail_row->progresses()->create([
-                            'uuid' => str::uuid(),
-                            'work_order_id' => $work_order->id,
-                            'work_package_id' => $jobcard_row->work_package_id,
-                            'taskcard_id' => $jobcard_row->id,
-        
-                            'transaction_status' => $jobcard_transaction_status,
-                            'progress_notes' => $request->generate_notes ?? null,
-        
-                            'owned_by' => $request->user()->company_id,
-                            'status' => 1,
-                            'created_by' => $request->user()->id,
-                        ]);
-        
-                        if (!get_class($progress)) {
-                            $flag = false;
-                        }
+                        
                     }
     
+                }
+
+                $progress = $jobcard_row->progresses()->create([
+                    'uuid' => str::uuid(),
+                    'work_order_id' => $work_order->id,
+                    'work_package_id' => $jobcard_row->work_package_id,
+                    'taskcard_id' => $jobcard_row->id,
+
+                    'transaction_status' => $jobcard_transaction_status,
+                    'progress_notes' => $request->generate_notes ?? null,
+
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]);
+
+                if (!get_class($progress)) {
+                    $flag = false;
                 }
             }
         }

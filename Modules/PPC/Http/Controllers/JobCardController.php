@@ -386,8 +386,16 @@ class JobCardController extends Controller
      */
     public function update(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
+        /**
+         * To do Validation list:
+         *  1. cek apa sudah ada progress / pernah di eksekusi
+         *        jadi kalau sudah pernah di eksekusi exec_all tidak boleh diupdate
+         *  2. cek status jobcard, selain open, progress, pause tidak boleh update
+         *  3. cek progress user apakah ada progress yang sedang berjalan
+         *  4. saat menambahkan progress check dulu is_exec_all, jadi tambah progress berdasarkan taskcard
+         */
         dd($request->all());
-        
+
         try {
             $is_authorized = $this->authorize('execute', $job_card);
         } catch (\Throwable $th) {
