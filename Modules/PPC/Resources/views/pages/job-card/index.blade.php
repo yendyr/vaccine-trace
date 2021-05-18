@@ -31,6 +31,9 @@
             @component('components.crud-form.index',[
                             'title' => 'Job Card Datalist',
                             'tableId' => 'job-card-table'])
+                        @slot('createButton')
+                            <select class="work_order_id form-control @error('work_order_id') is-invalid @enderror" id="work_order_id" name="work_order_id" style="width: 100%;"></select>
+                        @endslot
             @endcomponent
         </div>
     </div>

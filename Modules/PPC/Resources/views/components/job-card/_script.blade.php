@@ -81,6 +81,21 @@ $(document).ready(function () {
         ]
     });
 
+    var workOrderSelect = $('.work_order_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Work Order',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.work-order.select2') }}",
+            dataType: 'json',
+        }
+    });
+
+    workOrderSelect.on('change', function(event) {
+        var work_order_id = $(this).val();
+        var reloadUrl = "{{ route('ppc.job-card.index') }}?work_order_id="+work_order_id;
+        datatableObject.ajax.url(reloadUrl).load();
+    });
 });
 </script>
 @endpush

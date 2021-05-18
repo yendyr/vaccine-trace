@@ -90,6 +90,10 @@ class JobCardController extends Controller
                     'work_package',
                 ]);
 
+            if ($request->work_order_id) {
+                $data = $data->where('work_order_id', $request->work_order_id);
+            }
+
             return Datatables::of($data)
                 ->addColumn('number', function ($itemRow) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
