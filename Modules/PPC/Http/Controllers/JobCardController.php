@@ -95,12 +95,17 @@ class JobCardController extends Controller
             }
 
             return Datatables::of($data)
-                ->addColumn('number', function ($itemRow) {
+                ->addColumn('mpd_number', function ($itemRow) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
                         'taskcard' => $itemRow->id,
                         'work_order' => $itemRow->work_order_id,
                         'work_package' => $itemRow->work_package_id,
                     ]) . ">" . json_decode($itemRow->taskcard_json)->mpd_number . "</a>";
+                })
+                ->addColumn('jobcard_number', function ($itemRow) {
+                    return "<a href=" . route('ppc.job-card.edit', [
+                        'job_card' => $itemRow->id,
+                    ]) . ">" . $itemRow->code . "</a>";
                 })
                 ->addColumn('group_structure', function ($row) {
                     $taskcard_group = json_decode($row->taskcard_group_json);
@@ -317,8 +322,13 @@ class JobCardController extends Controller
             }
         }
         
+        $job_card_progresses = $job_card->progresses->groupBy(function( $progress ) {
+            return $progress->created_at->format('Y');
+        });
+
         return view('ppc::pages.job-card.edit', [
-            'job_card' => $job_card
+            'job_card' => $job_card,
+            'job_card_progresses' => $job_card_progresses
         ]);
     }
 
@@ -330,7 +340,11 @@ class JobCardController extends Controller
      */
     public function update(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
-        //
+        try {
+            $is_authorized = $this->authorize('execute', $job_card);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -359,9 +373,7 @@ class JobCardController extends Controller
         try {
             $is_authorized = $this->authorize('execute', $job_card);
         } catch (\Throwable $th) {
-            if($th->getMessage() == 'This action is unauthorized.'){
-                return redirect()->back()->with('error', $th->getMessage());
-            }
+            return redirect()->back()->with('error', $th->getMessage());
         }
 
         $view = $this->edit($request, $job_card);

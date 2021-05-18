@@ -54,8 +54,8 @@ $(document).ready(function () {
             url: "{{ route('ppc.job-card.index') }}",
         },
         columns: [
-            { title: 'MPD Number', data: 'number', name: 'taskcard_json', defaultContent: '-' },
-            { title: 'Job Card Number', data: 'code', name: 'code', defaultContent: '-' },
+            { title: 'Job Card Number', data: 'jobcard_number', name: 'code', defaultContent: '-' },
+            { title: 'MPD Number', data: 'mpd_number', name: 'taskcard_json', defaultContent: '-' },
             { title: 'Title', data: 'taskcard.title', name: 'Title' },
             { title: 'Group', data: 'group_structure', name: 'Group' },
             { title: 'Tag', data: 'tag', defaultContent: '-' },

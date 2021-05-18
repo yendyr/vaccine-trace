@@ -4,11 +4,13 @@
 <div class="row">
     <div class="col">
         <div class="title-action">
+        @if( empty($job_card->is_exec_all) || $job_card->is_exec_all == true )
             @component('ppc::components.action-button',[
             'executeable' => 'button',
             'executeValue' => $job_card->id,
             'executeText' => 'Execute All'])
             @endcomponent
+        @endif
         </div>
     </div>
 </div>
@@ -289,11 +291,13 @@
                                                 Task Code: <label class="label label-danger m-b-none">{{ $instruction_detail->instruction_code ?? '-' }}</label>
                                             </div>
                                             <div class="col text-right">
+                                            @if( empty($job_card->is_exec_all) || $job_card->is_exec_all == false )
                                                 @component('ppc::components.action-button',[
                                                 'executeable' => 'button',
                                                 'executeValue' => $instruction_detail->id,
                                                 ])
                                                 @endcomponent
+                                            @endif
                                             </div>
                                         </div>
                                     </div>
@@ -407,12 +411,12 @@
                         </div>
 
                         <div class="ibox-content">
-                            @if( $job_card->progresses()->count() > 0 )
+                            @if( $job_card_progresses->count() > 0 )
                             <div class="activity-stream">
-                                @foreach( $job_card->progresses as $progress_row)
+                                @foreach( $job_card_progresses as $time_grouped_progress_row)
                                 <div class="stream">
                                     <div class="stream-badge">
-                                        <i class="fa fa-{{ config('ppc.job-card.transaction-icon')[$this->transaction_status] }} bg-{{ config('ppc.job-card.transaction-status-color')[$this->transaction_status] }}"></i>
+                                        <i class="fa fa-{{ config('ppc.job-card.transaction-icon')[$time_grouped_progress_row->first()->transaction_status] }} bg-{{ config('ppc.job-card.transaction-status-color')[$time_grouped_progress_row->first()->transaction_status] }}"></i>
                                     </div>
                                     <div class="stream-panel">
                                         <div class="stream-info">
@@ -422,11 +426,21 @@
                                                     ? URL::asset('uploads/user/img/'.\Illuminate\Support\Facades\Auth::user()->image)
                                                     : URL::asset('assets/default-user-image.png')
                                                 }}" />
-                                                <span>{{ $progress_row->creator->name }}</span>
-                                                <span class="date">{{ Carbon\Carbon::now()->diffForHumans($progress_row->created_at) }} at {{ $progress_row->created_at->format('H:i:s') }}</span>
+                                                <span>{{ $time_grouped_progress_row->first()->creator->name }}</span>
+                                                <span class="date">{{ Carbon\Carbon::now()->diffForHumans($time_grouped_progress_row->first()->created_at) }} {{ $time_grouped_progress_row->first()->created_at->format('H:i:s') }}</span>
                                             </a>
                                         </div>
-                                        {{ $progress_row->progress_notes ?? '-' }}
+                                        {{ ucfirst($time_grouped_progress_row->first()->progress_notes) ?? '-' }} 
+                                        @php 
+                                            $instruction_codes = [];
+                                            if( !empty($time_grouped_progress_row) ){
+                                                foreach($time_grouped_progress_row as $instruction_row) {
+                                                    $instruction_codes[] = $instruction_row->instruction->code;
+                                                }
+                                            }
+                                        @endphp
+                                        <strong class="text-default">{{ collect($instruction_codes)->implode(', ') ?? '-' }}</strong>
+                                        ( <strong class="text-{{ config('ppc.job-card.transaction-status-color')[$time_grouped_progress_row->first()->transaction_status] ?? 'success' }}">{{ ucfirst(config('ppc.job-card.transaction-status')[$time_grouped_progress_row->first()->transaction_status]) ?? '-' }} </strong> )
                                     </div>
                                 </div>
                                 @endforeach

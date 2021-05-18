@@ -56,4 +56,9 @@ class WOWPTaskcardDetailProgress extends MainModel
     {
         return $this->belongsTo(\Modules\PPC\Entities\WorkOrderWorkPackageTaskcard::class, 'taskcard_id');
     }
+
+    public function instruction()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\WOWPTaskcardDetail::class, 'detail_id');
+    }
 }
