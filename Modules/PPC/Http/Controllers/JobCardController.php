@@ -107,21 +107,13 @@ class JobCardController extends Controller
 
                     if (!empty($taskcard_group)) {
 
-                        $group_structure = '';
+                        $group_structure = collect([]);
 
-                        while (true) {
-                            if ($taskcard_group) {
-                                $group_structure = $taskcard_group->name . ' -> ' . $group_structure;
-                                $taskcard_group = (!empty($taskcard_group->taskcard_group)) ? $taskcard_group->taskcard_group : TaskcardGroup::where('id', $taskcard_group->parent_id)
-                                    ->withTrashed()
-                                    ->first();
-                            } else {
-                                break;
-                            }
+                        foreach($taskcard_group as $taskcard_group_row) {
+                            $group_structure->prepend($taskcard_group_row->name);
                         }
-                        $group_structure = Str::beforeLast($group_structure, '->');
 
-                        return $group_structure;
+                        return $group_structure->implode(' -> ');
                     } else {
                         return '-';
                     }
@@ -148,9 +140,9 @@ class JobCardController extends Controller
                     return $tag_name;
                 })
                 ->addColumn('instruction_count', function ($row) {
-                    $instruction_details = json_decode($row->instruction_details_json);
+                    $instruction_details = $row->details()->count();
 
-                    return sizeof($instruction_details);
+                    return $instruction_details;
                 })
                 ->addColumn('manhours_total', function ($row) {
                     $manhours_estimation = null;
@@ -165,30 +157,20 @@ class JobCardController extends Controller
                     return number_format($manhours_estimation, 2, '.', '');
                 })
                 ->addColumn('skills', function ($row) {
-                    $skillsArray = array();
-                    $skill_name = '';
-
-                    $TaskcardDetailInstructions = json_decode($row->instruction_details_json);
+                    $skillsArray = collect(array());
+                    
+                    $TaskcardDetailInstructions = $row->details;
 
                     if (!empty($TaskcardDetailInstructions)) {
                         foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
-                            $TaskcardDetailInstructionSkills = ($TaskcardDetailInstruction->skills) ? $TaskcardDetailInstruction->skills : [];
-
-                            foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
-                                if (!in_array($TaskcardDetailInstructionSkill->name, $skillsArray)) {
-                                    $skillsArray[] = $TaskcardDetailInstructionSkill->name;
-                                }
+                            $skills = collect(json_decode($TaskcardDetailInstruction->skills_json));
+                            if( !$skills->isEmpty() ) {
+                                $skillsArray = $skillsArray->concat($skills->pluck('name')->toArray());
                             }
                         }
                     }
 
-                    foreach ($skillsArray as $skill) {
-                        $skill_name .= $skill . ', ';
-                    }
-
-                    $skill_name = Str::beforeLast($skill_name, ',');
-
-                    return $skill_name;
+                    return $skillsArray->unique()->implode(', ');
                 })
                 ->addColumn('threshold_interval', function ($row) {
                     $threshold_interval = '';
