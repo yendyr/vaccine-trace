@@ -67,11 +67,6 @@ class CountryController extends Controller
         return view('generalsetting::pages.country.index');
     }
 
-    public function create()
-    {
-        return view('generalsetting::pages.country.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([

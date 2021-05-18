@@ -52,11 +52,11 @@
             }).prependTo('#inputForm');
 
             $('#iso').val(data.iso);
-            $('#iso_3').val(data.iso3);
+            $('#iso_3').val(data.iso_3);
             $('#name').val(data.name);
-            $('#nice_name').val(data.nicename);
-            $('#num_code').val(data.numcode);
-            $('#phone_code').val(data.phonecode);
+            $('#nice_name').val(data.nice_name);
+            $('#num_code').val(data.num_code);
+            $('#phone_code').val(data.phone_code);
             $('#description').val(data.description);                
             if (data.status == '<label class="label label-success">Active</label>') {
                 $('#status').prop('checked', true);
