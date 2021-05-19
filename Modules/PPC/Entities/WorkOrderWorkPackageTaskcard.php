@@ -5,6 +5,7 @@ namespace Modules\PPC\Entities;
 use App\MainModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class WorkOrderWorkPackageTaskcard extends MainModel
 {
@@ -87,5 +88,14 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         return $this->hasMany(\Modules\PPC\Entities\WOWPTaskcardDetailProgress::class, 'taskcard_id')
             ->where('work_order_id', $this->work_order_id)
             ->where('work_package_id', $this->work_package_id);
+    }
+
+    public function currentUserProgress($taskcard_id)
+    {
+        $latest_progress = $this->progresses()
+        ->where('taskcard_id', $taskcard_id)
+        ->where('created_by', Auth::user()->id)->latest()->first();
+        
+        return $latest_progress->transaction_status ?? 1;
     }
 }

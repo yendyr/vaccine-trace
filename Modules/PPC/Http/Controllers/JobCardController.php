@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 use Modules\PPC\Entities\TaskcardDetailInstruction;
 use Modules\PPC\Entities\TaskcardDetailItem;
 use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
+use Modules\PPC\Entities\WOWPTaskcardDetailProgress;
 use Yajra\DataTables\Facades\DataTables;
 
 class JobCardController extends Controller
@@ -367,14 +369,9 @@ class JobCardController extends Controller
                 $item_details_json[] = new TaskcardDetailItem($item_detail_row);
             }
         }
-        
-        $job_card_progresses = $job_card->progresses->groupBy(function( $progress ) {
-            return $progress->created_at->format('Y');
-        });
 
         return view('ppc::pages.job-card.edit', [
             'job_card' => $job_card,
-            'job_card_progresses' => $job_card_progresses
         ]);
     }
 
@@ -386,20 +383,113 @@ class JobCardController extends Controller
      */
     public function update(Request $request, WorkOrderWorkPackageTaskcard $job_card)
     {
+        DB::beginTransaction();
+        $flag = true;
+        $job_card_transaction_status = config('ppc.job-card.transaction-status');
         /**
          * To do Validation list:
-         *  1. cek apa sudah ada progress / pernah di eksekusi
-         *        jadi kalau sudah pernah di eksekusi exec_all tidak boleh diupdate
-         *  2. cek status jobcard, selain open, progress, pause tidak boleh update
-         *  3. cek progress user apakah ada progress yang sedang berjalan
-         *  4. saat menambahkan progress check dulu is_exec_all, jadi tambah progress berdasarkan taskcard
+         *  [v]1. cek status jobcard, selain open, progress, pause tidak boleh update
+         *  [v]2. cek apa yang akan dieksekusi apakah job card atau instruction
+         *  [v]3. cek progress user apakah ada progress yang sedang berjalan
+         *  [v]4. cek apa sudah ada progress / pernah di eksekusi
+         *          jadi kalau sudah pernah di eksekusi exec_all tidak boleh diupdate progress detilnya
+         *  [x]5. cek jumlah user yang telah progress pada jobcard/task tersebut apakah sudah melebih batas atau belum ( later )
+         *  [x]6. cek apakah skill user dan skill pada jobcard/task telah sesusai ( later )
+         *  [x]7. untuk proses close harus ada tambahan 
+         *          menutup semua progress user lainnya pada object tersebut,
+         *          dan mengupdate transaction status object tersebut
          */
-        dd($request->all());
 
+        // 1. cek status jobcard, selain open, progress, pause tidak boleh update
         try {
             $is_authorized = $this->authorize('execute', $job_card);
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+            return response()->json(['error' => $th->getMessage()]);
+        }
+
+        // 3. cek progress user apakah ada progress yang sedang berjalan
+        $last_progress = WOWPTaskcardDetailProgress::where('created_by',  $request->user()->id)->latest()->first();
+
+        if( $last_progress->transaction_status == array_search('progress', $job_card_transaction_status) ) {
+
+            // if detail id is empty, user executing job-card, if not user executing task
+            // 2. cek apa yang akan dieksekusi apakah job card atau instruction
+            if( empty($request->detail_id) ) {
+                if($last_progress->taskcard_id !== $job_card->taskcard_id) {
+                    return response()->json(['error' => 'You have progress on another job card!']);
+                }
+            }else{
+                if($last_progress->detail_id !== $request->detail_id) {
+                    return response()->json(['error' => 'You have progress on another job card!']);
+                }
+            }
+
+        }
+        // end 3. cek progress user apakah ada progress yang sedang berjalan
+
+        if( $job_card->is_exec_all == null ) {
+            $result = $job_card->update([
+                'is_exec_all' => $request->exec_all
+            ]);
+
+            if( !$result ) {
+                $flag = false;
+            }
+        }
+
+        if( $job_card->status == array_search('open', $job_card_transaction_status) || strtolower($request->next_progress) == 'closed') {
+
+            $status = 'progress';
+
+            if( strtolower($request->next_progress) == 'closed') {
+                $status = 'closed';
+            }
+            
+            // update job card status row 
+            $result = $job_card->update([
+                'transaction_status' => array_search($status, $job_card_transaction_status)
+            ]);
+
+            if( !$result ) {
+                $flag = false;
+            }
+
+            // update detail status row
+            if( !empty($request->detail_id) ) {
+                $job_card->details()->where('id', $request->detail_id)->update([
+                    'transaction_status' => array_search($status, $job_card_transaction_status)
+                ]);
+            }
+        }
+
+        $new_progress = WOWPTaskcardDetailProgress::create([
+            'uuid' => str::uuid(),
+            'work_order_id' => $job_card->work_order_id,
+            'work_package_id' => $job_card->work_package_id,
+            'taskcard_id' => $job_card->id,
+            'detail_id' => $request->detail_id ?? null,
+
+            'transaction_status' => array_search($request->next_status, $job_card_transaction_status),
+            'progress_notes' => $request->notes ?? null,
+
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => $request->user()->id,
+        ]);
+
+        if( !get_class($new_progress) ) 
+        {
+            $flag = false;
+        }
+
+        if ($flag) {
+            DB::commit();
+
+            return response()->json(['success' => 'Job Cards has been updated', 'redirectUrl' => route('ppc.job-card.index')]);
+        } else {
+            DB::rollBack();
+
+            return response()->json(['error' => "Job Cards failed to update", 'redirectUrl' => route('ppc.job-card.index')]);
         }
     }
 
@@ -432,7 +522,20 @@ class JobCardController extends Controller
             return redirect()->back()->with('error', $th->getMessage());
         }
 
-        $view = $this->edit($request, $job_card);
+        /**
+         * [x]tambahkan kondisi pengecekan status job card 
+         *  apabila open atau progress masih bisa menuju halaman eksekusi
+         *  apabila selain itu maka akan diarahkan menuju ke halaman show
+         * 
+         * [x]fitur dimasa depan akan ada pengecekan jumlah engineer/mechanic 
+         *  yang bisa eksekusi jobcard
+         */
+
+        if( $job_card->transaction_status > 3 ) {
+            $view = $this->show($request, $job_card); 
+        }else{
+            $view = $this->edit($request, $job_card);
+        }
 
         return $view;
     }

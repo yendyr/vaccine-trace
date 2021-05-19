@@ -29,14 +29,15 @@ return [
             6 => 'fighter-jet'
         ],
         'transaction-status-color' => [
+            0 => 'plain',
             1 => 'plain',
-            11 => 'plain',
-            12 => 'success',
-            2 => 'information',
+            2 => 'info',
             3 => 'warning',
-            31 => 'warning',
-            4 => 'primary',
-            41 => 'danger'
+            4 => 'success',
+            41 => 'success',
+            5 => 'info',
+            51 => 'info',
+            6 => 'danger',
         ],
     ]
 ];

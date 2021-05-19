@@ -79,7 +79,12 @@
                 }
 
                 $('#inputModal').modal('hide');
-                $(targetTableId).DataTable().ajax.reload();
+                if( $(targetTableId).length !== 0){
+                    $(targetTableId).DataTable().ajax.reload();
+                }
+                if( data.redirectUrl ){
+                    window.location.href = data.redirectUrl;
+                }
             },
             complete: function () {
                 let l = $( '.ladda-button-submit' ).ladda();
@@ -125,7 +130,12 @@
                     generateToast ('success', data.success);
                 }
                 $(inputModalId).modal('hide');
-                $(targetTableId).DataTable().ajax.reload();
+                if( $(targetTableId).length !== 0){
+                    $(targetTableId).DataTable().ajax.reload();
+                }
+                if( data.redirectUrl ){
+                    window.location.href = data.redirectUrl;
+                }
             },
             complete: function () {
                 let l = $( '.ladda-button-submit' ).ladda();
@@ -182,7 +192,12 @@
                     $('#delete-button').text('Delete');
                     $('#deleteModal').modal('hide');
                     $('#delete-button').prop('disabled', false);
+                    if( $(targetTableId).length !== 0){
                     $(targetTableId).DataTable().ajax.reload();
+                }
+                if( data.redirectUrl ){
+                    window.location.href = data.redirectUrl;
+                }
                 }
             });
         });
@@ -238,7 +253,12 @@
                     $('#approve-button').text('Approve');
                     $('#approveModal').modal('hide');
                     $('#approve-button').prop('disabled', false);
+                    if( $(targetTableId).length !== 0){
                     $(targetTableId).DataTable().ajax.reload();
+                }
+                if( data.redirectUrl ){
+                    window.location.href = data.redirectUrl;
+                }
                 }
             });
         });
@@ -294,7 +314,12 @@
                     $('#generate-button').text('Approve');
                     $('#generateModal').modal('hide');
                     $('#generate-button').prop('disabled', false);
+                    if( $(targetTableId).length !== 0){
                     $(targetTableId).DataTable().ajax.reload();
+                }
+                if( data.redirectUrl ){
+                    window.location.href = data.redirectUrl;
+                }
                 }
             });
         });

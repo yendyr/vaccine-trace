@@ -1,29 +1,76 @@
 <div class="pr-1">
-@isset($closeable)
-    @if($closeable == 'button')
-        <button class="{{ $editButtonClass ?? 'editBtn' }} btn btn-sm btn-outline btn-primary ml-1 white-bg" value="{{ $closeValue }}" data-toggle="tooltip" title="Close">
-            <i class="fa fa-edit"></i></button>
-    @elseif($closeable == 'a')
-        <a href="{{ $href }}" class="edit btn btn-sm btn-outline btn-primary ml-1 white-bg" data-toggle="tooltip" title="Close">
-            <i class="fa fa-edit"></i></a>
-    @endif
-@endisset
+@switch($status)
+@case(1)
+    @isset($executeable)
+        @if($executeable == 'button')
+            <button href="{{ $executeHref ?? '#' }}" class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $executeValue ?? null }}" data-next-status="progress" data-toggle="tooltip" title="Execute">
+                <i class="fa fa-play"></i> {{ $executeText ?? 'Execute'}}</button>
+        @elseif($executeable == 'a')
+            <a href="{{ $executeHref ?? '#' }}" class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="progress" data-toggle="tooltip" title="Execute">
+                <i class="fa fa-play"></i> {{ $executeText ?? 'Execute'}}</a>
+        @endif
+    @endisset
+@break
 
-@isset($executeable)
-    @if($executeable == 'button')
-        <button href="{{ $executeHref ?? '#' }}" class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $executeValue }}" data-toggle="tooltip" title="Execute">
-            <i class="fa fa-paste"></i> {{ $executeText ?? 'Execute'}}</button>
-    @elseif($executeable == 'a')
-        <a href="{{ $executeHref ?? '#' }}" class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" data-toggle="tooltip" title="Execute">
-            <i class="fa fa-paste"></i> {{ $executeText ?? 'Execute'}}</a>
-    @endif
-@endisset
+@case(2)
+    @isset($pauseable)
+        @if($pauseable == 'button')
+            <button href="{{ $pauseHref ?? '#' }}" class="{{ $pauseButtonClass ?? 'pauseBtn' }} btn btn-sm btn-outline btn-warning ml-1 white-bg" value="{{ $pauseValue ?? null }}" data-next-status="pause" data-toggle="tooltip" title="Pause">
+                <i class="fa fa-pause"></i> {{ $pauseText ?? 'Pause' }}</button>
+        @elseif($pauseable == 'a')
+            <a href="{{ $pauseHref ?? '#' }}" class="pause btn btn-sm btn-outline btn-warning ml-1 white-bg" data-next-status="pause" data-toggle="tooltip" title="Pause">
+                <i class="fa fa-pause"></i> {{ $pauseText ?? 'Pause' }}</a>
+        @endif
+    @endisset
 
-@isset($defectable)
-    <button type="button" name="defect" class="{{ $defectButtonClass ?? 'defectBtn' }} btn btn-sm btn-outline btn-danger pr-2" data-toggle="tooltip" title="Defect" value="{{ (isset($defectId) ? $defectId : '') }}">
-        <i class="fa fa-trash"></i>
-    </button>
-@endisset
+    @isset($closeable)
+        @if($closeable == 'button')
+            <button href="{{ $closeHref ?? '#' }}" class="{{ $closeButtonClass ?? 'closeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $closeValue ?? null }}" data-next-status="close" data-toggle="tooltip" title="Close">
+                <i class="fa fa-stop"></i> {{ $closeText ?? 'Close' }}</button>
+        @elseif($closeable == 'a')
+            <a href="{{ $closeHref ?? '#' }}" class="close btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="close" data-toggle="tooltip" title="Close">
+                <i class="fa fa-stop"></i> {{ $closeText ?? 'Close' }}</a>
+        @endif
+    @endisset
+
+    @isset($defectable)
+        @if($defectable == 'button')
+            <button href="{{ $defectHref ?? '#' }}" class="{{ $defectButtonClass ?? 'defectBtn' }} btn btn-sm btn-outline btn-warning ml-1 white-bg" value="{{ $defectValue ?? null }}" data-toggle="tooltip" title="Found Defect">
+                <i class="fa fa-search-plus"></i> {{ $defectText ?? 'Found Defect' }}</button>
+        @elseif($defectable == 'a')
+            <a href="{{ $defectHref ?? '#' }}" class="defect btn btn-sm btn-outline btn-warning ml-1 white-bg" data-toggle="tooltip" title="Found Defect">
+                <i class="fa fa-search-plus"></i> {{ $defectText ?? 'Found Defect' }}</a>
+        @endif
+    @endisset
+@break
+
+@case(3)
+    @isset($resumeable)
+        @if($resumeable == 'button')
+            <button href="{{ $resumeHref ?? '#' }}" class="{{ $resumeButtonClass ?? 'resumeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $resumeValue ?? null }}" data-next-status="progress" data-toggle="tooltip" title="Resume">
+                <i class="fa fa-play"></i> {{ $resumeText ?? 'Resume'}}</button>
+        @elseif($resumeable == 'a')
+            <a href="{{ $resumeHref ?? '#' }}" class="{{ $resumeButtonClass ?? 'resumeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="progress" data-toggle="tooltip" title="Resume">
+                <i class="fa fa-play"></i> {{ $resumeText ?? 'Resume'}}</a>
+        @endif
+    @endisset
+    @isset($closeable)
+        @if($closeable == 'button')
+            <button href="{{ $closeHref ?? '#' }}" class="{{ $closeButtonClass ?? 'closeBtn' }} btn btn-sm btn-outline btn-danger ml-1 white-bg" value="{{ $closeValue ?? null }}" data-toggle="tooltip" title="Close">
+                <i class="fa fa-stop"></i> {{ $closeText ?? 'Close' }}</button>
+        @elseif($closeable == 'a')
+            <a href="{{ $closeHref ?? '#' }}" class="close btn btn-sm btn-outline btn-danger ml-1 white-bg" data-toggle="tooltip" title="Close">
+                <i class="fa fa-stop"></i> {{ $closeText ?? 'Close' }}</a>
+        @endif
+    @endisset
+
+    @isset($defectable)
+        <button type="button" name="defect" class="{{ $defectButtonClass ?? 'defectBtn' }} btn btn-sm btn-outline btn-danger pr-2" data-toggle="tooltip" title="Defect" value="{{ (isset($defectId) ? $defectId : '') }}">
+            <i class="fa fa-trash"></i>
+        </button>
+    @endisset
+@break
+@endswitch
 
 @isset($printable)
 
@@ -36,17 +83,4 @@
     </button>
 @endif
 @endisset
-
-@isset($usable)
-    <button type="button" class="useBtn btn btn-sm btn-outline btn-success text-nowrap pr-2" data-toggle="tooltip" title="Use" value="{{ $idToUse }}">
-            <i class="fa fa-check-square-o"></i>&nbsp;Use
-    </button>
-@endisset
-
-@isset($viewable)
-    <button type="button" class="viewBtn btn btn-sm btn-outline btn-primary text-nowrap pr-2" data-toggle="tooltip" title="View" value="{{ $idToView }}">
-            <i class="fa fa-search"></i>&nbsp;View
-    </button>
-@endisset
-
 </div>
