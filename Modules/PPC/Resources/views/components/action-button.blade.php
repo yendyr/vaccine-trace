@@ -1,6 +1,6 @@
 <div class="pr-1">
 @switch($status)
-@case(1)
+@case(array_search('open', config('ppc.job-card.transaction-status')))
     @isset($executeable)
         @if($executeable == 'button')
             <button href="{{ $executeHref ?? '#' }}" class="{{ $executeButtonClass ?? 'executeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $executeValue ?? null }}" data-next-status="progress" data-toggle="tooltip" title="Execute">
@@ -12,7 +12,7 @@
     @endisset
 @break
 
-@case(2)
+@case(array_search('progress', config('ppc.job-card.transaction-status')))
     @isset($pauseable)
         @if($pauseable == 'button')
             <button href="{{ $pauseHref ?? '#' }}" class="{{ $pauseButtonClass ?? 'pauseBtn' }} btn btn-sm btn-outline btn-warning ml-1 white-bg" value="{{ $pauseValue ?? null }}" data-next-status="pause" data-toggle="tooltip" title="Pause">
@@ -44,7 +44,7 @@
     @endisset
 @break
 
-@case(3)
+@case(array_search('pause', config('ppc.job-card.transaction-status')))
     @isset($resumeable)
         @if($resumeable == 'button')
             <button href="{{ $resumeHref ?? '#' }}" class="{{ $resumeButtonClass ?? 'resumeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $resumeValue ?? null }}" data-next-status="progress" data-toggle="tooltip" title="Resume">
@@ -56,10 +56,10 @@
     @endisset
     @isset($closeable)
         @if($closeable == 'button')
-            <button href="{{ $closeHref ?? '#' }}" class="{{ $closeButtonClass ?? 'closeBtn' }} btn btn-sm btn-outline btn-danger ml-1 white-bg" value="{{ $closeValue ?? null }}" data-toggle="tooltip" title="Close">
+            <button href="{{ $closeHref ?? '#' }}" class="{{ $closeButtonClass ?? 'closeBtn' }} btn btn-sm btn-outline btn-danger ml-1 white-bg" value="{{ $closeValue ?? null }}" data-next-status="close" data-toggle="tooltip" title="Close">
                 <i class="fa fa-stop"></i> {{ $closeText ?? 'Close' }}</button>
         @elseif($closeable == 'a')
-            <a href="{{ $closeHref ?? '#' }}" class="close btn btn-sm btn-outline btn-danger ml-1 white-bg" data-toggle="tooltip" title="Close">
+            <a href="{{ $closeHref ?? '#' }}" class="close btn btn-sm btn-outline btn-danger ml-1 white-bg" data-next-status="close" data-toggle="tooltip" title="Close">
                 <i class="fa fa-stop"></i> {{ $closeText ?? 'Close' }}</a>
         @endif
     @endisset
@@ -68,6 +68,17 @@
         <button type="button" name="defect" class="{{ $defectButtonClass ?? 'defectBtn' }} btn btn-sm btn-outline btn-danger pr-2" data-toggle="tooltip" title="Defect" value="{{ (isset($defectId) ? $defectId : '') }}">
             <i class="fa fa-trash"></i>
         </button>
+    @endisset
+@break
+@case(array_search('close', config('ppc.job-card.transaction-status')))
+    @isset($releaseable)
+        @if($releaseable == 'button')
+            <button href="{{ $releaseHref ?? '#' }}" class="{{ $releaseButtonClass ?? 'releaseBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $releaseValue ?? null }}" data-next-status="release" data-toggle="tooltip" title="Release">
+                <i class="fa fa-check"></i> {{ $releaseText ?? 'Release' }}</button>
+        @elseif($releaseable == 'a')
+            <a href="{{ $releaseHref ?? '#' }}" class="release btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="release" data-toggle="tooltip" title="Release">
+                <i class="fa fa-check"></i> {{ $releaseText ?? 'Release' }}</a>
+        @endif
     @endisset
 @break
 @endswitch

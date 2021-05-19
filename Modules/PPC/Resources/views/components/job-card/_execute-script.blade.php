@@ -14,7 +14,7 @@ $(document).ready(function () {
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
         $('#modalTitle').html("Execute Job Card");
-        $('.job-card-modal-icon').removeClass("fa-pause fa-stop text-warning text-danger").addClass("fa-play text-success");
+        $('.job-card-modal-icon').removeClass("fa-pause fa-stop fa-check text-warning text-danger").addClass("fa-play text-success");
         $('#saveBtn').html('Execute Job Card').removeClass('btn-danger btn-warning').addClass('btn-primary');
         
         showExecuteModal(actionHref, next_status, detail_id);
@@ -25,8 +25,19 @@ $(document).ready(function () {
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
         $('#modalTitle').html("Resume Job Card");
-        $('.job-card-modal-icon').removeClass("fa-pause fa-stop text-warning text-danger").addClass("fa-play text-success");
+        $('.job-card-modal-icon').removeClass("fa-pause fa-stop fa-check text-warning text-danger").addClass("fa-play text-success");
         $('#saveBtn').html('Resume Job Card').removeClass('btn-danger btn-warning').addClass('btn-primary');
+        
+        showExecuteModal(actionHref, next_status, detail_id);
+    });
+
+    $('.releaseBtn').click(function () {
+        var detail_id = $(this).val();
+        var actionHref = $(this).attr('href');
+        var next_status = $(this).data('next-status');
+        $('#modalTitle').html("Release Job Card");
+        $('.job-card-modal-icon').removeClass("fa-pause fa-stop fa-play text-warning text-danger").addClass("fa-check text-info");
+        $('#saveBtn').html('Release Job Card').removeClass('btn-danger btn-warning').addClass('btn-info');
         
         showExecuteModal(actionHref, next_status, detail_id);
     });
@@ -36,7 +47,7 @@ $(document).ready(function () {
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
         $('#modalTitle').html("Pause Job Card");
-        $('.job-card-modal-icon').removeClass("fa-play fa-stop text-success text-danger").addClass("fa-pause text-warning");
+        $('.job-card-modal-icon').removeClass("fa-play fa-stop fa-check text-success text-danger").addClass("fa-pause text-warning");
         $('#saveBtn').html('Pause Job Card').removeClass('btn-primary btn-danger').addClass('btn-warning');
         
         showExecuteModal(actionHref, next_status, detail_id);
@@ -47,7 +58,7 @@ $(document).ready(function () {
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
         $('#modalTitle').html("Close Job Card");
-        $('.job-card-modal-icon').removeClass("fa-play fa-pause text-success text-warning").addClass("fa-stop text-danger");
+        $('.job-card-modal-icon').removeClass("fa-play fa-pause fa-check text-success text-warning").addClass("fa-stop text-danger");
         $('#saveBtn').html('Close Job Card').removeClass('btn-primary btn-warning').addClass('btn-danger');
         
         showExecuteModal(actionHref, next_status, detail_id);

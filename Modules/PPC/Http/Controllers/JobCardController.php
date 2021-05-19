@@ -437,13 +437,9 @@ class JobCardController extends Controller
             }
         }
 
-        if( $job_card->status == array_search('open', $job_card_transaction_status) || strtolower($request->next_progress) == 'closed') {
-
+        // update status row if still open
+        if( $job_card->transaction_status == array_search('open', $job_card_transaction_status) ) {
             $status = 'progress';
-
-            if( strtolower($request->next_progress) == 'closed') {
-                $status = 'closed';
-            }
             
             // update job card status row 
             $result = $job_card->update([
@@ -453,6 +449,31 @@ class JobCardController extends Controller
             if( !$result ) {
                 $flag = false;
             }
+        }
+
+        // update detail status row if still open
+        if( !empty($request->detail_id) && $job_card->details()->where('id', $request->detail_id)->first()->transaction_status ==  array_search('open', $job_card_transaction_status)) {
+            $status = 'progress';
+
+            $job_card->details()->where('id', $request->detail_id)->update([
+                'transaction_status' => array_search($status, $job_card_transaction_status)
+            ]);
+        }
+
+        if( trtolower($request->next_progress) == 'closed') 
+        {        
+            /** perlu refactor karena harus mengecek 
+             * untuk job card yang close itu bukan hanya dari 1 task saja */
+            $status = 'closed';
+            
+            // update job card status row 
+            // $result = $job_card->update([
+            //     'transaction_status' => array_search($status, $job_card_transaction_status)
+            // ]);
+
+            // if( !$result ) {
+            //     $flag = false;
+            // }
 
             // update detail status row
             if( !empty($request->detail_id) ) {
@@ -461,6 +482,12 @@ class JobCardController extends Controller
                 ]);
             }
         }
+
+        // if( strtolower($request->next_progress) == 'release') {
+        //     $release_status = 'released';
+
+        //     if()
+        // }
 
         $new_progress = WOWPTaskcardDetailProgress::create([
             'uuid' => str::uuid(),

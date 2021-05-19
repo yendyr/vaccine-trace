@@ -16,6 +16,8 @@
             'resumeHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
             'closeable' => 'button',
             'closeHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
+            'releaseable' => 'button',
+            'releaseHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
             ])
             @endcomponent
         @endif
@@ -314,6 +316,9 @@
                                                     'closeable' => 'button',
                                                     'closeValue' => $instruction_detail->id,
                                                     'closeHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
+                                                    'releaseable' => 'button',
+                                                    'releaseValue' => $instruction_detail->id,
+                                                    'releaseHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
                                                 ])
                                                 @endcomponent
                                             @endif
