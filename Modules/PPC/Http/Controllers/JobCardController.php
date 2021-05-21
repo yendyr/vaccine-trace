@@ -116,7 +116,7 @@ class JobCardController extends Controller
 
                         $group_structure = collect([]);
 
-                        foreach($taskcard_group as $taskcard_group_row) {
+                        foreach ($taskcard_group as $taskcard_group_row) {
                             $group_structure->prepend($taskcard_group_row->name);
                         }
 
@@ -165,13 +165,13 @@ class JobCardController extends Controller
                 })
                 ->addColumn('skills', function ($row) {
                     $skillsArray = collect(array());
-                    
+
                     $TaskcardDetailInstructions = $row->details;
 
                     if (!empty($TaskcardDetailInstructions)) {
                         foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
                             $skills = collect(json_decode($TaskcardDetailInstruction->skills_json));
-                            if( !$skills->isEmpty() ) {
+                            if (!$skills->isEmpty()) {
                                 $skillsArray = $skillsArray->concat($skills->pluck('name')->toArray());
                             }
                         }
@@ -313,8 +313,8 @@ class JobCardController extends Controller
                 $item_details_json[] = new TaskcardDetailItem($item_detail_row);
             }
         }
-        
-        $job_card_progresses = $job_card->progresses->groupBy(function( $progress ) {
+
+        $job_card_progresses = $job_card->progresses->groupBy(function ($progress) {
             return $progress->created_at->format('Y');
         });
 
@@ -410,16 +410,15 @@ class JobCardController extends Controller
         // 3. cek progress user apakah ada progress yang sedang berjalan
         $last_progress = WOWPTaskcardDetailProgress::where('created_by',  $request->user()->id)->latest()->first();
 
-        if( $last_progress->transaction_status == array_search('progress', $job_card_transaction_status) ) {
-
+        if ($last_progress->transaction_status == array_search('progress', $job_card_transaction_status)) {
             // if detail id is empty, user executing job-card, if not user executing task
             // 2. cek apa yang akan dieksekusi apakah job card atau instruction
-            if( empty($request->detail_id) ) {
-                if($last_progress->taskcard_id !== $job_card->taskcard_id) {
+            if (empty($request->detail_id)) {
+                if ($last_progress->taskcard_id != $job_card->id) {
                     return response()->json(['error' => 'You have progress on another job card!']);
                 }
-            }else{
-                if($last_progress->detail_id !== $request->detail_id) {
+            } else {
+                if ($last_progress->detail_id != $request->detail_id) {
                     return response()->json(['error' => 'You have progress on another job card!']);
                 }
             }
@@ -427,32 +426,32 @@ class JobCardController extends Controller
         }
         // end 3. cek progress user apakah ada progress yang sedang berjalan
 
-        if( $job_card->is_exec_all == null ) {
+        if ($job_card->is_exec_all == null) {
             $result = $job_card->update([
                 'is_exec_all' => $request->exec_all
             ]);
 
-            if( !$result ) {
+            if (!$result) {
                 $flag = false;
             }
         }
 
         // update status row if still open
-        if( $job_card->transaction_status == array_search('open', $job_card_transaction_status) ) {
+        if ($job_card->transaction_status == array_search('open', $job_card_transaction_status)) {
             $status = 'progress';
-            
+
             // update job card status row 
             $result = $job_card->update([
                 'transaction_status' => array_search($status, $job_card_transaction_status)
             ]);
 
-            if( !$result ) {
+            if (!$result) {
                 $flag = false;
             }
         }
 
         // update detail status row if still open
-        if( !empty($request->detail_id) && $job_card->details()->where('id', $request->detail_id)->first()->transaction_status ==  array_search('open', $job_card_transaction_status)) {
+        if (!empty($request->detail_id) && $job_card->details()->where('id', $request->detail_id)->first()->transaction_status ==  array_search('open', $job_card_transaction_status)) {
             $status = 'progress';
 
             $job_card->details()->where('id', $request->detail_id)->update([
@@ -460,30 +459,39 @@ class JobCardController extends Controller
             ]);
         }
 
-        if( trtolower($request->next_progress) == 'closed') 
-        {        
+        if ( strtolower($request->next_status) == 'close') {
             /** perlu refactor karena harus mengecek 
              * untuk job card yang close itu bukan hanya dari 1 task saja */
-            $status = 'closed';
-            
-            // update job card status row 
-            // $result = $job_card->update([
-            //     'transaction_status' => array_search($status, $job_card_transaction_status)
-            // ]);
+            $status = 'close';
 
-            // if( !$result ) {
-            //     $flag = false;
-            // }
+            if (!$job_card->is_exec_all) {
 
-            // update detail status row
-            if( !empty($request->detail_id) ) {
-                $job_card->details()->where('id', $request->detail_id)->update([
+                // update detail status row
+                if (!empty($request->detail_id)) {
+                    $job_card->details()->where('id', $request->detail_id)->update([
+                        'transaction_status' => array_search($status, $job_card_transaction_status)
+                    ]);
+                }
+
+                $details_transaction_status = $job_card->details()->map(function($row) {
+                    return config('ppc.job-card.transactional-status')[$row->transaction_status] ?? null;
+                });
+
+                dd($details_transaction_status);
+
+            } else {
+                // update job card status row 
+                $result = $job_card->update([
                     'transaction_status' => array_search($status, $job_card_transaction_status)
                 ]);
+
+                if (!$result) {
+                    $flag = false;
+                }
             }
         }
 
-        // if( strtolower($request->next_progress) == 'release') {
+        // if( strtolower($request->next_status) == 'release') {
         //     $release_status = 'released';
 
         //     if()
@@ -504,8 +512,7 @@ class JobCardController extends Controller
             'created_by' => $request->user()->id,
         ]);
 
-        if( !get_class($new_progress) ) 
-        {
+        if (!get_class($new_progress)) {
             $flag = false;
         }
 
@@ -536,10 +543,10 @@ class JobCardController extends Controller
      * @return Renderable
      */
     public function execute(Request $request)
-    {        
+    {
         $job_card = WorkOrderWorkPackageTaskcard::where('uuid', $request->uuid)->first();
 
-        if( empty($job_card) ){
+        if (empty($job_card)) {
             return redirect()->back()->with('error', 'Job Card Not Found');
         }
 
@@ -558,9 +565,9 @@ class JobCardController extends Controller
          *  yang bisa eksekusi jobcard
          */
 
-        if( $job_card->transaction_status > 3 ) {
-            $view = $this->show($request, $job_card); 
-        }else{
+        if ($job_card->transaction_status > 3) {
+            $view = $this->show($request, $job_card);
+        } else {
             $view = $this->edit($request, $job_card);
         }
 

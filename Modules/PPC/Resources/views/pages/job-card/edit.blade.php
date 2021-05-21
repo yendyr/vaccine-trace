@@ -27,7 +27,7 @@
 <div class="row m-b m-t">
     <div class="col-md-5">
         <div class="profile-image">
-            @if($job_card->taskcard_json->file_attachment)
+            @if( isset($job_card->taskcard_json->file_attachment) )
             <a target="_blank" href="{{ URL::asset('uploads/company/' . $job_card->taskcard_json->owned_by . '/taskcard/' . $job_card->taskcard_json->file_attachment) }}">
                 <img src="{{ URL::asset('assets/default-pdf-image.png') }}" class="m-t-xs" id="fileTaskcard">
             </a>
