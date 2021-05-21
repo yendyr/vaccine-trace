@@ -124,7 +124,11 @@ class WOWPTaskcardDetail extends MainModel
         $next_sequence_level = $current_task_release->sequence_level + 1;
         $next_task_release = $task_release_level->where('sequence_level', $next_sequence_level)->first();
 
-        return $next_task_release ?? $task_release_level->first();
+        if( strlen($this->transaction_status) == 36 ){
+            return $next_task_release;
+        }else{
+            return $next_task_release ?? $task_release_level->first();
+        }
     }
 
     public function getSkillsAttribute()

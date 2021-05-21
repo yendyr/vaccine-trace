@@ -298,7 +298,7 @@
                                                 Instruction Sequence: <label class="label label-danger m-b-none">{{ $instruction_detail->sequence ?? '-' }}</label>
                                             </div>
                                             <div class="col">
-                                                Task Code: <label class="label label-danger m-b-none">{{ $instruction_detail->instruction_code ?? '-' }}</label>
+                                                Task Code: <label class="label label-danger m-b-none">{{ $instruction_detail->code ?? '-' }}</label>
                                             </div>
                                             <div class="col text-right">
                                             @if( $job_card->is_exec_all == null || $job_card->is_exec_all == false )

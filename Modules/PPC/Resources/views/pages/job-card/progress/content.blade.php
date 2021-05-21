@@ -9,7 +9,11 @@
             @foreach( $job_card->progresses as $progress_row)
             <div class="stream">
                 <div class="stream-badge">
+                    @if( strlen($progress_row->transaction_status) != 36)
                     <i class="fa fa-{{ config('ppc.job-card.transaction-icon')[$progress_row->transaction_status] }} bg-{{ config('ppc.job-card.transaction-status-color')[$progress_row->transaction_status] }}"></i>
+                    @else
+                    <i class="fa fa-check bg-success"></i>
+                    @endif
                 </div>
                 <div class="stream-panel">
                     <div class="stream-info">
@@ -25,7 +29,11 @@
                     </div>
                     {{ ucfirst($progress_row->progress_notes) ?? '-' }}
                     <strong class="text-default">{{ $progress_row->instruction->code ?? $progress_row->taskcard->code ?? '-' }}</strong>
+                    @if( strlen($progress_row->transaction_status) != 36)
                     ( <strong class="text-{{ config('ppc.job-card.transaction-status-color')[$progress_row->transaction_status] ?? 'success' }}">{{ ucfirst(config('ppc.job-card.transaction-status')[$progress_row->transaction_status]) ?? '-' }} </strong> )
+                    @else
+                    ( <strong class="text-success }}">@if( isset($progress_row->instruction) ) {{ collect($progress_row->instruction->task_release_level)->where('uuid', $progress_row->transaction_status)->first()->name ?? 'Released' }} @else Released  @endif</strong> )
+                    @endif
                 </div>
             </div>
             @endforeach

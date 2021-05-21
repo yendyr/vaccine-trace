@@ -387,6 +387,7 @@ class JobCardController extends Controller
         DB::beginTransaction();
         $flag = true;
         $job_card_transaction_status = config('ppc.job-card.transaction-status');
+        $next_transaction_status = array_search($request->next_status, $job_card_transaction_status);
         /**
          * To do Validation list:
          *  [v]1. cek status jobcard, selain open, progress, pause tidak boleh update
@@ -514,6 +515,8 @@ class JobCardController extends Controller
                 if (!$result) {
                     $flag = false;
                 }
+
+                $next_transaction_status = $task_release_level->uuid;
             }
         }
 
@@ -524,7 +527,7 @@ class JobCardController extends Controller
             'taskcard_id' => $job_card->id,
             'detail_id' => $request->detail_id ?? null,
 
-            'transaction_status' => array_search($request->next_status, $job_card_transaction_status),
+            'transaction_status' => $next_transaction_status,
             'progress_notes' => $request->notes ?? null,
 
             'owned_by' => $request->user()->company_id,
