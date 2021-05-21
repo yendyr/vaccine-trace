@@ -145,7 +145,7 @@ class WorkOrderController extends Controller
         if (!$work_order->id) {
             $flag = false;
         } else {
-            $code = 'WKORD-' .  $transaction_date->year . '-' . str_pad($work_order->id, 5, '0', STR_PAD_LEFT);
+            $code = 'WKORD-' .  $transaction_date->year . '-' . hexdec($work_order->id);
 
             $update_res = $work_order->update([
                 'code' => $code
@@ -475,7 +475,7 @@ class WorkOrderController extends Controller
                 $transaction_date = Carbon::now();
 
                 $new_jc_code = $jobcard_row->update([
-                    'code' => 'JBCRD-' .  $transaction_date->year . '-' . str_pad($jobcard_row->id, 5, '0', STR_PAD_LEFT)
+                    'code' => 'JBCRD-' .  $transaction_date->year . '-' . hexdec($jobcard_row->id)
                 ]);
 
                 if( !$new_jc_code ) {
@@ -495,7 +495,7 @@ class WorkOrderController extends Controller
                     foreach($jobcard_row->details as $detail_row) {
 
                         $new_insctruction_code = $detail_row->update([
-                            'code' => 'INSTR-' .  $transaction_date->year . '-' . str_pad($detail_row->id, 5, '0', STR_PAD_LEFT)
+                            'code' => 'INSTR-' .  $transaction_date->year . '-' . hexdec($detail_row->id)
                         ]);
         
                         if( !$new_insctruction_code ) {
