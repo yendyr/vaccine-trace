@@ -3,6 +3,7 @@
 namespace Modules\PPC\Entities;
 
 use App\MainModel;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -129,6 +130,55 @@ class WOWPTaskcardDetail extends MainModel
         }else{
             return $next_task_release ?? $task_release_level->first();
         }
+    }
+
+    public function getActualManhourAttribute()
+    {
+        $job_card_statuses = config('ppc.job-card.transaction-status');
+        $status_open = array_search('open', $job_card_statuses);
+        $progresses_group = $this->progresses()->where('transaction_status', '<>', $status_open)->orderBy('created_at')->get()->groupBy('created_by');
+
+        $total_manhours = 0;
+        foreach ($progresses_group as $progresses) {
+            foreach ($progresses as $key => $progress) {
+                
+                if( strlen($progress->transaction_status) == 36 ){
+                    continue;
+                }
+
+                $code = $job_card_statuses[$progress->transaction_status];
+                if ($code == "progress") {
+                    $next_key = $key + 1;
+                    $exists = array_key_exists($next_key, $progresses->toArray());
+
+                    if ($exists) {
+                        if (str_contains($job_card_statuses[$progresses[$next_key]->transaction_status], 'pending') || str_contains($job_card_statuses[$progresses[$next_key]->transaction_status],  'close')) {
+                            $is_pending_close = true;
+                        } else {
+                            $is_pending_close = false;
+                        }
+                    }
+
+                    if ($exists && $is_pending_close) {
+                        $t1 = Carbon::parse($progress->created_at);
+                        $t2 = Carbon::parse($progresses[$next_key]->created_at);
+                        $diff = $t1->diffInSeconds($t2);
+                        $total_manhours += $diff;
+                    } else {
+                        $t1 = Carbon::parse($progress->created_at);
+                        $t2 = Carbon::now();
+                        $diff = $t1->diffInSeconds($t2);
+                        $total_manhours += $diff;
+                    }
+                }
+            }
+        }
+
+        $actual_manhours = number_format(($total_manhours  / 3600), 2);
+
+
+        return $actual_manhours;
+
     }
 
     public function getSkillsAttribute()

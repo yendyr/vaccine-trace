@@ -334,13 +334,16 @@
                                             </div>
                                             <div class="col-md-3 p-xs border">Performance Factor: <p class="m-b-xs"><strong>{{ $instruction_detail->performance_factor ?? '-' }}</strong></p>
                                             </div>
+                                            <div class="col-md-3 p-xs border">Actual Manhours:
+                                                <p class="m-b-xs"><strong>{{ $instruction_detail->actual_manhour ?? '-' }}</strong></p>
+                                            </div>
                                             <div class="col-md-3 p-xs border">Minimum Engineering Level: <p class="m-b-xs"><strong>{{ $instruction_detail->engineering_level->name ?? '-' }}</strong></p>
                                             </div>
                                             <div class="col-md-3 p-xs border">Manpower Quantity: <p class="m-b-xs"><strong>{{ $instruction_detail->manpower_quantity ?? '-' }}</strong></p>
                                             </div>
                                             <div class="col-md-3 p-xs border">Task Release Level: <p class="m-b-xs"><strong>{{ $instruction_detail->task_release_level->name ?? '-' }}</strong></p>
                                             </div>
-                                            <div class="col-md-6 p-xs border">Skill Requirement:
+                                            <div class="col-md-3 p-xs border">Skill Requirement:
                                                 @if ( !empty(json_decode($instruction_detail->skills_json)) )
                                                 <p class="m-b-xs">
                                                     @foreach ( json_decode($instruction_detail->skills_json) as $skill)
