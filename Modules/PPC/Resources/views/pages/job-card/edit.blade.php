@@ -319,6 +319,7 @@
                                                     'releaseable' => 'button',
                                                     'releaseValue' => $instruction_detail->id,
                                                     'releaseHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
+                                                    'releaseText' => $instruction_detail->getNextTaskRelease()->name ?? null
                                                 ])
                                                 @endcomponent
                                             @endif

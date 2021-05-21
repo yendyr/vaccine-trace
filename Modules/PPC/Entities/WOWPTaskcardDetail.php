@@ -110,4 +110,61 @@ class WOWPTaskcardDetail extends MainModel
 
         return $latest_progress->transaction_status ?? 1;
     }
+
+    public function getCurrentTaskRelease(){
+        $task_release_level = collect($this->task_release_level);
+        $current_task_release = $task_release_level->where('uuid', $this->transaction_status)->first();
+
+        return $current_task_release ?? $task_release_level->first();
+    }
+
+    public function getNextTaskRelease() {
+        $task_release_level = collect($this->task_release_level);
+        $current_task_release = $this->getCurrentTaskRelease();
+        $next_sequence_level = $current_task_release->sequence_level + 1;
+        $next_task_release = $task_release_level->where('sequence_level', $next_sequence_level)->first();
+
+        return $next_task_release ?? $task_release_level->first();
+    }
+
+    public function getSkillsAttribute()
+    {
+        if( is_object($this->skills_json) || is_array($this->skills_json) ){
+            return $this->skills_json;
+        }else{
+            return json_decode($this->skills_json);
+        }
+
+    }
+
+    public function getTaskcardWorkareaAttribute()
+    {
+        if( is_object($this->taskcard_workarea_json) || is_array($this->taskcard_workarea_json) ){
+            return $this->taskcard_workarea_json;
+        }else{
+            return json_decode($this->taskcard_workarea_json);
+        }
+
+    }
+
+    public function getEngineeringLevelAttribute()
+    {
+        if( is_object($this->engineering_level_json) || is_array($this->engineering_level_json) ){
+            return $this->engineering_level_json;
+        }else{
+            return json_decode($this->engineering_level_json);
+        }
+
+    }
+
+    public function getTaskReleaseLevelAttribute()
+    {
+        if( is_object($this->task_release_level_json) || is_array($this->task_release_level_json) ){
+            return $this->task_release_level_json;
+        }else{
+            return json_decode($this->task_release_level_json);
+        }
+
+    }
+
 }

@@ -14,6 +14,7 @@ use Modules\PPC\Entities\TaskcardGroup;
 use Modules\PPC\Entities\WorkOrder;
 use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
 use Modules\PPC\Entities\WOWPTaskcardDetailProgress;
+use Modules\QualityAssurance\Entities\TaskReleaseLevel;
 use Yajra\DataTables\Facades\DataTables;
 
 class JobCardController extends Controller
@@ -499,11 +500,22 @@ class JobCardController extends Controller
             }
         }
 
-        // if( strtolower($request->next_status) == 'release') {
-        //     $release_status = 'released';
+        if( strtolower($request->next_status) == 'release') {
 
-        //     if()
-        // }
+            if (!empty($request->detail_id)) {
+
+                $detail = $job_card->details()->where('id', $request->detail_id)->first();
+                $task_release_level = $detail->getNextTaskRelease();
+
+                $result = $detail->update([
+                    'transaction_status' => $task_release_level->uuid
+                ]);
+
+                if (!$result) {
+                    $flag = false;
+                }
+            }
+        }
 
         $new_progress = WOWPTaskcardDetailProgress::create([
             'uuid' => str::uuid(),

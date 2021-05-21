@@ -138,7 +138,7 @@ class WorkOrderWorkPackageController extends Controller
         if ($flag) {
             DB::commit();
 
-            return response()->json(['success' => 'Work Package has been created']);
+            return response()->json(['success' => 'Work Package has been created', 'id' => $work_package->id]);
         } else {
             DB::rollBack();
 
@@ -245,7 +245,7 @@ class WorkOrderWorkPackageController extends Controller
         if ($flag) {
             DB::commit();
 
-            return response()->json(['success' => 'Work Package has been updated']);
+            return response()->json(['success' => 'Work Package has been updated', 'id' => $work_package->id]);
         } else {
             DB::rollBack();
 
@@ -324,7 +324,7 @@ class WorkOrderWorkPackageController extends Controller
             if ($flag) {
                 DB::commit();
 
-                return response()->json(['success' => 'All Task Card has been added to Maintenance Program', 'total_manhours' => number_format($result['total_manhours'], 2), 'total_manhours_with_performance_factor' => number_format($result['total_manhours'] * $work_package->performance_factor, 2), 'flag' => $flag]);
+                return response()->json(['success' => 'All Task Card has been added to Maintenance Program', 'total_manhours' => number_format($result['total_manhours'], 2), 'total_manhours_with_performance_factor' => number_format($result['total_manhours'] * $work_package->performance_factor, 2), 'flag' => $flag, 'id' => $work_package->id]);
             } else {
                 DB::rollBack();
 

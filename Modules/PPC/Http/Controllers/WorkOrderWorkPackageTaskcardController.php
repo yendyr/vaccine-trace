@@ -19,6 +19,7 @@ use Modules\PPC\Entities\TaskcardDetailInstructionSkill;
 use Modules\PPC\Entities\TaskcardDetailItem;
 use Modules\PPC\Entities\WorkOrderWorkPackage;
 use Modules\PPC\Entities\WOWPTaskcardDetailItem;
+use Modules\QualityAssurance\Entities\TaskReleaseLevel;
 
 class WorkOrderWorkPackageTaskcardController extends Controller
 {
@@ -341,6 +342,17 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             if ($instruction_details->count() > 0) {
                 foreach ($instruction_details->get() as $instruction_detail_row) {
 
+                    // get all current task release level 
+                    $task_release_level_json = [];
+                    $task_release_level = $instruction_detail_row->task_release_level;
+                    
+                    while ( !empty($task_release_level) ) {
+                        $sequence = $task_release_level->sequence_level;
+                        $task_release_level_json[$sequence] = $task_release_level;
+                        $sequence--;
+                        $task_release_level = TaskReleaseLevel::CompanyData()->where('sequence_level', $sequence)->first();
+                    }
+
                     $detail = $workpackage_taskcard->details()->create([
                         'uuid' =>  Str::uuid(),
 
@@ -361,7 +373,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'skills_json' => json_encode($instruction_detail_row->skills),
                         'taskcard_workarea_json' => json_encode($instruction_detail_row->taskcard_workarea),
                         'engineering_level_json' => json_encode($instruction_detail_row->engineering_level),
-                        'task_release_level_json' => json_encode($instruction_detail_row->task_release_level),
+                        'task_release_level_json' => json_encode($task_release_level_json),
 
                         'owned_by' => $request->user()->company_id,
                         'status' => 1,

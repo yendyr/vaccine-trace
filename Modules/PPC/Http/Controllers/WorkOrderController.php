@@ -159,7 +159,7 @@ class WorkOrderController extends Controller
         if ($flag) {
             DB::commit();
 
-            return response()->json(['success' => 'Work Order has been created']);
+            return response()->json(['success' => 'Work Order has been created', 'id' => $work_order->id]);
         } else {
             DB::rollBack();
 
