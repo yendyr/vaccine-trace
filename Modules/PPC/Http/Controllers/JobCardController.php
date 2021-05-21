@@ -473,11 +473,19 @@ class JobCardController extends Controller
                     ]);
                 }
 
-                $details_transaction_status = $job_card->details()->map(function($row) {
-                    return config('ppc.job-card.transactional-status')[$row->transaction_status] ?? null;
-                });
-
-                dd($details_transaction_status);
+                foreach ($job_card->details as $key => $row) {
+                    $row->transaction_status =  config('ppc.job-card.transaction-status')[$row->transaction_status] ?? null;
+                }
+                
+                if($job_card->details->whereIn('transaction_status', ['open', 'pause', 'progress'])->count() == 0) {
+                    $result = $job_card->update([
+                        'transaction_status' => array_search($status, $job_card_transaction_status)
+                    ]);
+    
+                    if (!$result) {
+                        $flag = false;
+                    }
+                }
 
             } else {
                 // update job card status row 
