@@ -18,7 +18,7 @@ class MainModel extends Model implements Auditable
      */
     public function scopeCompanyData($query) 
     {
-        return $query->where('company_id', Auth::user()->company->id);
+        return $query->where('owned_by', Auth::user()->company_id);
     }
 
 }
