@@ -283,21 +283,28 @@ class TaskcardController extends Controller
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
             'compliance' => ['required'],
-            'interval_control_method' => ['required', 'max:30'],
+            // 'interval_control_method' => ['required', 'max:30'],
 
             'aircraft_type_id' => ['required_without_all:item_id'],
             'affected_item_id' => ['required_without_all:aircraft_type_id'],
 
-            'threshold_flight_hour' => ['required_without_all:threshold_flight_cycle,threshold_daily,threshold_date'],
-            'threshold_flight_cycle' => ['required_without_all:threshold_flight_hour,threshold_daily,threshold_date'],
-            'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
-            'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
+            'threshold_flight_hour' => ['required_without_all:on_condition,threshold_flight_cycle,threshold_daily,threshold_date'],
+            'threshold_flight_cycle' => ['required_without_all:on_condition,threshold_flight_hour,threshold_daily,threshold_date'],
+            'threshold_daily' => ['required_without_all:on_condition,threshold_flight_hour,threshold_flight_cycle,threshold_date'],
+            'threshold_date' => ['required_without_all:on_condition,threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
 
-            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_daily,repeat_date'],
-            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_daily,repeat_date'],
-            'repeat_daily' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
-            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
+            'repeat_flight_hour' => ['required_without_all:on_condition,repeat_flight_cycle,repeat_daily,repeat_date'],
+            'repeat_flight_cycle' => ['required_without_all:on_condition,repeat_flight_hour,repeat_daily,repeat_date'],
+            'repeat_daily' => ['required_without_all:on_condition,repeat_flight_hour,repeat_flight_cycle,repeat_date'],
+            'repeat_date' => ['required_without_all:on_condition,repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
         ]);
+
+        if ($request->on_condition) {
+            $on_condition = 1;
+        } 
+        else {
+            $on_condition = 0;
+        }
 
         if ($request->status) {
             $status = 1;
@@ -347,6 +354,7 @@ class TaskcardController extends Controller
             'taskcard_type_id' => $request->taskcard_type_id,
             'compliance' => $request->compliance,
 
+            'on_condition' => $on_condition,
             'threshold_flight_hour' => $request->threshold_flight_hour,
             'threshold_flight_cycle' => $request->threshold_flight_cycle,
             'threshold_daily' => $request->threshold_daily,
@@ -365,6 +373,7 @@ class TaskcardController extends Controller
             'version' => $request->version,
             'revision' => $request->revision,
             'effectivity' => $request->effectivity,
+            'position' => $request->position,
             'taskcard_workarea_id' => $request->taskcard_workarea_id,
             'source' => $request->source,
             'reference' => $request->reference,
@@ -486,7 +495,7 @@ class TaskcardController extends Controller
             'taskcard_group_id' => ['required', 'max:30'],
             'taskcard_type_id' => ['required', 'max:30'],
             'compliance' => ['required'],
-            'interval_control_method' => ['required', 'max:30'],
+            // 'interval_control_method' => ['required', 'max:30'],
 
             'aircraft_type_id' => ['required_without_all:item_id'],
             'affected_item_id' => ['required_without_all:aircraft_type_id'],
@@ -496,11 +505,18 @@ class TaskcardController extends Controller
             // 'threshold_daily' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_date'],
             // 'threshold_date' => ['required_without_all:threshold_flight_hour,threshold_flight_cycle,threshold_daily'],
 
-            'repeat_flight_hour' => ['required_without_all:repeat_flight_cycle,repeat_daily,repeat_date'],
-            'repeat_flight_cycle' => ['required_without_all:repeat_flight_hour,repeat_daily,repeat_date'],
-            'repeat_daily' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_date'],
-            'repeat_date' => ['required_without_all:repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
+            'repeat_flight_hour' => ['required_without_all:on_condition,repeat_flight_cycle,repeat_daily,repeat_date'],
+            'repeat_flight_cycle' => ['required_without_all:on_condition,repeat_flight_hour,repeat_daily,repeat_date'],
+            'repeat_daily' => ['required_without_all:on_condition,repeat_flight_hour,repeat_flight_cycle,repeat_date'],
+            'repeat_date' => ['required_without_all:on_condition,repeat_flight_hour,repeat_flight_cycle,repeat_daily'],
         ]);
+
+        if ($request->on_condition) {
+            $on_condition = 1;
+        } 
+        else {
+            $on_condition = 0;
+        }
 
         if ($request->status) {
             $status = 1;
@@ -551,6 +567,7 @@ class TaskcardController extends Controller
                 'taskcard_type_id' => $request->taskcard_type_id,
                 'compliance' => $request->compliance,
 
+                'on_condition' => $on_condition,
                 'threshold_flight_hour' => $request->threshold_flight_hour,
                 'threshold_flight_cycle' => $request->threshold_flight_cycle,
                 'threshold_daily' => $request->threshold_daily,
@@ -569,6 +586,7 @@ class TaskcardController extends Controller
                 'version' => $request->version,
                 'revision' => $request->revision,
                 'effectivity' => $request->effectivity,
+                'position' => $request->position,
                 'taskcard_workarea_id' => $request->taskcard_workarea_id,
                 'source' => $request->source,
                 'reference' => $request->reference,

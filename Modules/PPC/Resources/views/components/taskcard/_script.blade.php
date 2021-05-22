@@ -336,6 +336,7 @@ $(document).ready(function () {
         $('#version').val(data.version);
         $('#revision').val(data.revision);
         $('#effectivity').val(data.effectivity);
+        $('#position').val(data.position);
         $('#source').val(data.source);
         $('#reference').val(data.reference);
         $('#file_attachment').val(data.file_attachment);
@@ -420,6 +421,37 @@ $(document).ready(function () {
             });
         }
 
+        if (data.on_condition == 1) {
+            $('#on_condition').prop('checked', true);
+
+            $('#threshold_flight_hour').prop('disabled', true);
+            $('#threshold_flight_cycle').prop('disabled', true);
+            $('#threshold_daily').prop('disabled', true);
+            $('#threshold_daily_unit').prop('disabled', true);
+            $('.threshold_date').prop('disabled', true);
+
+            $('#repeat_flight_hour').prop('disabled', true);
+            $('#repeat_flight_cycle').prop('disabled', true);
+            $('#repeat_daily').prop('disabled', true);
+            $('#repeat_daily_unit').prop('disabled', true);
+            $('.repeat_date').prop('disabled', true);
+        }
+        else {
+            $('#on_condition').prop('checked', false);
+
+            $('#threshold_flight_hour').prop('disabled', false);
+            $('#threshold_flight_cycle').prop('disabled', false);
+            $('#threshold_daily').prop('disabled', false);
+            $('#threshold_daily_unit').prop('disabled', false);
+            $('.threshold_date').prop('disabled', false);
+
+            $('#repeat_flight_hour').prop('disabled', false);
+            $('#repeat_flight_cycle').prop('disabled', false);
+            $('#repeat_daily').prop('disabled', false);
+            $('#repeat_daily_unit').prop('disabled', false);
+            $('.repeat_date').prop('disabled', false);
+        }
+
         // if (data.status == '<label class="label label-success">Active</label>') {
         //     $('#status').prop('checked', true);
         // }
@@ -454,7 +486,60 @@ $(document).ready(function () {
         $('#taskcard_zone_id').empty().trigger("change");
         $('#taskcard_document_library_id').empty().trigger("change");
         $('#taskcard_affected_manual_id').empty().trigger("change");
+
+        $('#threshold_flight_hour').prop('disabled', false);
+        $('#threshold_flight_cycle').prop('disabled', false);
+        $('#threshold_daily').prop('disabled', false);
+        $('#threshold_daily_unit').prop('disabled', false);
+        $('.threshold_date').prop('disabled', false);
+
+        $('#repeat_flight_hour').prop('disabled', false);
+        $('#repeat_flight_cycle').prop('disabled', false);
+        $('#repeat_daily').prop('disabled', false);
+        $('#repeat_daily_unit').prop('disabled', false);
+        $('.repeat_date').prop('disabled', false);
     }
+
+    $("#on_condition").change(function(){
+        if (this.checked) {
+            $('#threshold_flight_hour').val(null);
+            $('#threshold_flight_cycle').val(null);
+            $('#threshold_daily').val(null);
+            $('#threshold_daily_unit').val('Year').trigger('change');
+            $('.threshold_date').val(null);
+
+            $('#repeat_flight_hour').val(null);
+            $('#repeat_flight_cycle').val(null);
+            $('#repeat_daily').val(null);
+            $('#repeat_daily_unit').val('Year').trigger('change');
+            $('.repeat_date').val(null);
+
+            $('#threshold_flight_hour').prop('disabled', true);
+            $('#threshold_flight_cycle').prop('disabled', true);
+            $('#threshold_daily').prop('disabled', true);
+            $('#threshold_daily_unit').prop('disabled', true);
+            $('.threshold_date').prop('disabled', true);
+
+            $('#repeat_flight_hour').prop('disabled', true);
+            $('#repeat_flight_cycle').prop('disabled', true);
+            $('#repeat_daily').prop('disabled', true);
+            $('#repeat_daily_unit').prop('disabled', true);
+            $('.repeat_date').prop('disabled', true);
+        }
+        else {
+            $('#threshold_flight_hour').prop('disabled', false);
+            $('#threshold_flight_cycle').prop('disabled', false);
+            $('#threshold_daily').prop('disabled', false);
+            $('#threshold_daily_unit').prop('disabled', false);
+            $('.threshold_date').prop('disabled', false);
+
+            $('#repeat_flight_hour').prop('disabled', false);
+            $('#repeat_flight_cycle').prop('disabled', false);
+            $('#repeat_daily').prop('disabled', false);
+            $('#repeat_daily_unit').prop('disabled', false);
+            $('.repeat_date').prop('disabled', false);
+        }
+    });
 });
 </script>
 @endpush

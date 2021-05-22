@@ -22,6 +22,8 @@ class Taskcard extends MainModel
         'taskcard_type_id',
         'compliance',
 
+        'on_condition',
+
         'threshold_flight_hour',
         'threshold_flight_cycle',
         'threshold_daily',
@@ -41,6 +43,7 @@ class Taskcard extends MainModel
         'version',
         'revision',
         'effectivity',
+        'position',
         'taskcard_workarea_id',
         'source',
         'reference',

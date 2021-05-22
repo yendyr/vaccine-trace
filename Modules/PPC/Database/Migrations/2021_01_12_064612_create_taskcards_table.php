@@ -23,6 +23,7 @@ class CreateTaskcardsTable extends Migration
             $table->string('taskcard_type_id');
             $table->string('compliance')->default('Optional');
 
+            $table->integer('on_condition')->nullable();
             $table->string('threshold_flight_hour')->nullable();
             $table->string('threshold_flight_cycle')->nullable();
             $table->string('threshold_daily')->nullable();
@@ -39,6 +40,7 @@ class CreateTaskcardsTable extends Migration
             $table->string('ata')->nullable();
             $table->date('issued_date')->nullable();
             $table->string('version')->nullable();
+            $table->string('position')->nullable();
             $table->string('revision')->nullable();
             $table->string('effectivity')->nullable();
             $table->string('taskcard_workarea_id')->nullable();

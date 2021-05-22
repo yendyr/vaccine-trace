@@ -103,6 +103,19 @@
                                     <div id="tab-1" class="tab-pane fadeIn" style="animation-duration: 1.5s">
                                         <div class="panel-body">
                                             <div class="row">
+                                                <label class="col-sm-3 d-flex align-items-center">On Condition</label>
+                                                <div class="col-sm-7">     
+                                                    <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                                                        <input type="checkbox" class="form-control @error('on_condition') is-invalid @enderror" name="on_condition" id="on_condition" />
+                                                        <div class="state p-primary">
+                                                            <i class="icon fa fa-check"></i>
+                                                            <label></label>
+                                                        </div>
+                                                        <div class="invalid-feedback-on_condition text-danger font-italic"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col">
                                                     <label>Threshold</label>
                                                 </div>
@@ -252,6 +265,11 @@
                                             </div>
                                             <div class="row m-b">
                                                 <div class="col">
+                                                    <label>Item/Component Position</label>
+                                                    <input type="text" class="form-control @error('position') is-invalid @enderror" name="position" id="position">                            
+                                                    <div class="invalid-feedback-position text-danger font-italic"></div>
+                                                </div>
+                                                <div class="col">
                                                     <label>Work Area</label>
                                                     <select class="taskcard_workarea_id form-control @error('taskcard_workarea_id') is-invalid @enderror" name="taskcard_workarea_id" id="taskcard_workarea_id">
                                                     </select>
@@ -351,7 +369,7 @@
                 <div class="modal-footer" style="background-color: #fff;">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
                     <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveBtn">
-                        <strong>Save New</strong>                        
+                        <strong>Save</strong>                        
                     </button>
                 </div>
             </form>
