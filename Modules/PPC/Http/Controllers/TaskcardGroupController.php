@@ -232,7 +232,7 @@ class TaskcardGroupController extends Controller
     {
         $search = $request->q;
         $query = TaskcardGroup::orderby('name','asc')
-                    ->select('id','name')
+                    ->select('id','name','code')
                     ->where('status', 1);
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
@@ -242,8 +242,8 @@ class TaskcardGroupController extends Controller
         $response = [];
         foreach($TaskcardGroups as $TaskcardGroup){
             $response['results'][] = [
-                "id"=>$TaskcardGroup->id,
-                "text"=>$TaskcardGroup->name
+                "id" => $TaskcardGroup->id,
+                "text" => $TaskcardGroup->code . ' | ' . $TaskcardGroup->name
             ];
         }
 
