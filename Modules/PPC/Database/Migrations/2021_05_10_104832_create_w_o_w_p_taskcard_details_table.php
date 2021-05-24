@@ -36,6 +36,10 @@ class CreateWOWPTaskcardDetailsTable extends Migration
             $table->json('taskcard_workarea_json')->nullable();
             $table->json('engineering_level_json')->nullable();
             $table->json('task_release_level_json')->nullable();
+            $table->json('instruction_group_json')->nullable();
+            $table->json('subGroup_json')->nullable();
+            $table->json('all_childs_json')->nullable();
+            $table->json('instruction_json')->nullable();
             $table->string('is_exec_all')->nullable();
 
             $table->integer('status')->nullable();

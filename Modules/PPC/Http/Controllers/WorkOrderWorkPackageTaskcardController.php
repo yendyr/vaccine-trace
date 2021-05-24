@@ -337,7 +337,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
 
             $instruction_details = $taskcard->instruction_details()
-                ->with('skills', 'item_details', 'taskcard_workarea', 'engineering_level', 'task_release_level', 'skill_details');
+                ->with('skills', 'item_details', 'taskcard_workarea', 'engineering_level', 'task_release_level', 'skill_details', 'instruction_group', 'subGroup', 'all_childs');
 
             if ($instruction_details->count() > 0) {
                 foreach ($instruction_details->get() as $instruction_detail_row) {
@@ -374,6 +374,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'taskcard_workarea_json' => json_encode($instruction_detail_row->taskcard_workarea),
                         'engineering_level_json' => json_encode($instruction_detail_row->engineering_level),
                         'task_release_level_json' => json_encode($task_release_level_json),
+                        'instruction_group_json' => json_encode($instruction_detail_row->instruction_group),
+                        'subGroup_json' => json_encode($instruction_detail_row->subGroup),
+                        'all_childs_json' => json_encode($instruction_detail_row->all_childs),
+                        'instruction_json' => json_encode($instruction_detail_row),
 
                         'owned_by' => $request->user()->company_id,
                         'status' => 1,

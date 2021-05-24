@@ -37,6 +37,10 @@ class WOWPTaskcardDetail extends MainModel
         'taskcard_workarea_json',
         'engineering_level_json',
         'task_release_level_json',
+        'instruction_group_json',
+        'subGroup_json',
+        'all_childs_json',
+        'instruction_json',
 
         'status',
         'created_by',
