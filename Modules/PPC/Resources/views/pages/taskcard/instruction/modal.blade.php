@@ -23,7 +23,7 @@
                         </div>   
                         <div class="col">
                             <label>Task Code</label>
-                            <input type="text" class="form-control @error('instruction_code') is-invalid @enderror" name="instruction_code" id="instruction_code">
+                            <input type="text" class="form-control @error('instruction_code') is-invalid @enderror" name="instruction_code" id="instruction_code" required>
                             <div class="invalid-feedback-instruction_code text-danger font-italic"></div>
                         </div>  
                         <div class="col">

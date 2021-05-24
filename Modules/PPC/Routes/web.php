@@ -63,6 +63,8 @@ Route::name('ppc.')->group(function () {
             Route::post('/taskcard/file-upload/{taskcard}', 'TaskcardController@fileUpload')->name('file-upload');
         });
 
+        Route::get('/taskcard-detail-instruction/detail-tree', 'TaskcardDetailInstructionController@tree')->name('taskcard-detail-instruction.detail-tree');
+
         Route::resource('/taskcard-detail-instruction', 'TaskcardDetailInstructionController');
         Route::name('taskcard-detail-instruction.')->group(function () {
             Route::get('ppc/taskcard-detail-instruction/select2/parent', 'TaskcardDetailInstructionController@select2Parent')->name('select2.parent');

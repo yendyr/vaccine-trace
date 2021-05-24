@@ -176,6 +176,34 @@ class TaskcardDetailInstructionController extends Controller
         return $isValid;
     }
 
+    public function tree(Request $request)
+    {
+        $taskcard_id = $request->taskcard_id;
+        
+        $datas = TaskcardDetailInstruction::where('taskcard_id', $taskcard_id)
+                                ->with(['instruction_group:id,parent_id,instruction_code'])
+                                ->where('taskcard_detail_instructions.status', 1)
+                                // ->orderBy('created_at','asc')
+                                ->get();
+
+        $response = [];
+        foreach($datas as $data) {
+            if ($data->parent_id) {
+                $parent = $data->parent_id;
+            }
+            else {
+                $parent = '#';
+            }
+
+            $response[] = [
+                "id" => $data->id,
+                "parent" => $parent,
+                "text" => 'Instruction Code: <strong>' . $data->instruction_code . '</strong>'
+            ];
+        }
+        return response()->json($response);
+    }
+
     public function destroy(TaskcardDetailInstruction $TaskcardDetailInstruction)
     {
         DB::beginTransaction();

@@ -8,10 +8,10 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-3">
-                    Instruction Sequence: <label class="label label-danger m-b-none">{{ $instruction_detail->sequence ?? '-' }}</label>
-                </div>
-                <div class="col">
                     Task Code: <label class="label label-danger m-b-none">{{ $instruction_detail->instruction_code ?? '-' }}</label>
+                </div>
+                <div class="col-md-3">
+                    Instruction Sequence: <label class="label label-danger m-b-none">{{ $instruction_detail->sequence ?? '-' }}</label>
                 </div>
             </div>
         </div>
