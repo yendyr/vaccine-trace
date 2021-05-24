@@ -7,6 +7,7 @@
 <!-- Main Bootstrap & Theme Engine -->
 <script src="{{URL::asset('theme/js/popper.min.js')}}"></script>
 <script src="{{URL::asset('theme/js/bootstrap.min.js')}}"></script>
+{{-- <script src="{{URL::asset('theme/js/bootstrap.bundle.min.js')}}"></script> --}}
 <script src="{{URL::asset('theme/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
 <script src="{{URL::asset('theme/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 
