@@ -90,7 +90,6 @@ class TaskcardGroupController extends Controller
                 "text" => $data->name
             ];
         }
-
         return response()->json($response);
     }
 
@@ -279,5 +278,4 @@ class TaskcardGroupController extends Controller
 
         return response()->json($response);
     }
-
 }

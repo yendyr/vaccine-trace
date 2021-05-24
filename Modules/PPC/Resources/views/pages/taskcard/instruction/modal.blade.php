@@ -25,7 +25,13 @@
                             <label>Task Code</label>
                             <input type="text" class="form-control @error('instruction_code') is-invalid @enderror" name="instruction_code" id="instruction_code">
                             <div class="invalid-feedback-instruction_code text-danger font-italic"></div>
-                        </div>   
+                        </div>  
+                        <div class="col">
+                            <label>Parent Instruction</label>
+                            <select class="parent_id form-control @error('parent_id') is-invalid @enderror" name="parent_id" id="parent_id">
+                            </select>
+                            <div class="invalid-feedback-parent_id text-danger font-italic"></div>
+                        </div> 
                         <div class="col">
                             <label>Work Area</label>
                             <select class="taskcard_workarea_id form-control @error('taskcard_workarea_id') is-invalid @enderror" name="taskcard_workarea_id" id="taskcard_workarea_id">

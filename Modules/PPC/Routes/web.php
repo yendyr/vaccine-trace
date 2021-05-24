@@ -64,6 +64,10 @@ Route::name('ppc.')->group(function () {
         });
 
         Route::resource('/taskcard-detail-instruction', 'TaskcardDetailInstructionController');
+        Route::name('taskcard-detail-instruction.')->group(function () {
+            Route::get('ppc/taskcard-detail-instruction/select2/parent', 'TaskcardDetailInstructionController@select2Parent')->name('select2.parent');
+            // Route::get('ppc/taskcard-group/select2/child', 'TaskcardGroupController@select2Child')->name('select2.child');
+        });
 
         Route::resource('/taskcard-detail-item', 'TaskcardDetailItemController');
 

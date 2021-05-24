@@ -17,6 +17,7 @@ class TaskcardDetailInstruction extends MainModel
         'uuid',
 
         'taskcard_id',
+        'parent_id',
 
         'sequence',
         'instruction_code',
@@ -78,6 +79,21 @@ class TaskcardDetailInstruction extends MainModel
     public function item_details()
     {
         return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailItem::class, 'taskcard_detail_instruction_id');
+    }
+
+    public function instruction_group()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\TaskcardDetailInstruction::class, 'parent_id');
+    }
+
+    public function subGroup()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailInstruction::class, 'parent_id');
+    }
+
+    public function all_childs()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\TaskcardDetailInstruction::class, 'parent_id', 'id')->with('all_childs');
     }
 
     public static function boot() {

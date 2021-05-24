@@ -21,6 +21,24 @@ $(document).ready(function () {
 
 
 
+    $('.parent_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Parent',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('ppc.taskcard-detail-instruction.select2.parent') }}",
+            dataType: 'json',
+            data: function (params) {
+                var getHeaderId = { 
+                    term: params.term,
+                    taskcard_id: '{{ $Taskcard->id }}',
+                }
+                return getHeaderId;
+            }
+        },
+        dropdownParent: $(inputModalId)
+    });
+
     $('.taskcard_workarea_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Work Area',
@@ -99,6 +117,11 @@ $(document).ready(function () {
             $('#performance_factor').val(data.performance_factor);
             $('#manpower_quantity').val(data.manpower_quantity);
             $("#instruction").summernote("code", data.instruction);
+
+            $(".parent_id").val(null).trigger('change');
+            if (data.instruction_group != null) {
+                $('.parent_id').append('<option value="' + data.parent_id + '" selected>' + data.instruction_group.instruction_code + '</option>');
+            }
             
             $(".taskcard_workarea_id").val(null).trigger('change');
             if (data.taskcard_workarea != null) {
@@ -165,7 +188,16 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.success) {
-                    generateToast ('success', data.success);                            
+                    generateToast ('success', data.success);
+
+                    setTimeout(location.reload.bind(location), 2000);
+                }
+                else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });
                 }
                 $(inputModalId).modal('hide');
             },
@@ -175,8 +207,6 @@ $(document).ready(function () {
                 $(saveButtonId). prop('disabled', false);
             }
         }); 
-
-        setTimeout(location.reload.bind(location), 2000);
     });
     // ----------------- END "SUBMIT FORM" BUTTON SCRIPT ------------- //
 
@@ -238,6 +268,7 @@ $(document).ready(function () {
         $('#performance_factor').val('');
         $('#manpower_quantity').val('');
         $("#instruction").summernote("code", '');
+        $(".parent_id").val(null).trigger('change');
         $(".taskcard_workarea_id").val(null).trigger('change');
         $(".engineering_level_id").val(null).trigger('change');
         $(".task_release_level_id").val(null).trigger('change');

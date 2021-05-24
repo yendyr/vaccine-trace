@@ -18,6 +18,7 @@ class CreateTaskcardDetailInstructionsTable extends Migration
             $table->uuid('uuid')->unique();
 
             $table->string('taskcard_id');
+            $table->string('parent_id')->nullable();
             $table->tinyInteger('sequence')->nullable();
             $table->string('instruction_code')->nullable();
             $table->string('taskcard_workarea_id')->nullable();
