@@ -296,6 +296,28 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 }
             }
 
+            $datas = TaskcardDetailInstruction::where('taskcard_id', $taskcard->id)
+                ->with(['instruction_group:id,parent_id,instruction_code'])
+                ->where('taskcard_detail_instructions.status', 1)
+                // ->orderBy('created_at','asc')
+                ->get();
+
+            $task_tree_json = [];
+
+            foreach ($datas as $data) {
+                if ($data->parent_id) {
+                    $parent = $data->parent_id;
+                } else {
+                    $parent = '#';
+                }
+
+                $task_tree_json[] = [
+                    "id" => $data->id,
+                    "parent" => $parent,
+                    "text" => 'Instruction Code: <strong>' . $data->instruction_code . '</strong>'
+                ];
+            }
+
             $workpackage_taskcard = WorkOrderWorkPackageTaskcard::create([
                 'uuid' =>  Str::uuid(),
 
@@ -325,6 +347,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 'affected_manual_details_json' => json_encode($taskcard->affected_manual_details),
                 'items_json' => json_encode($taskcard->items()->with('unit', 'category')->get()),
                 'item_details_json' => json_encode($taskcard->item_details()->with('item', 'unit', 'category', 'taskcard_detail_instruction', 'taskcard')->get()),
+                'task_tree_json' => json_encode($task_tree_json),
 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -340,13 +363,13 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 ->with('skills', 'item_details', 'taskcard_workarea', 'engineering_level', 'task_release_level', 'skill_details', 'instruction_group', 'subGroup', 'all_childs');
 
             if ($instruction_details->count() > 0) {
+                $tree_array = [];
                 foreach ($instruction_details->get() as $instruction_detail_row) {
-
                     // get all current task release level 
                     $task_release_level_json = [];
                     $task_release_level = $instruction_detail_row->task_release_level;
-                    
-                    while ( !empty($task_release_level) ) {
+
+                    while (!empty($task_release_level)) {
                         $sequence = $task_release_level->sequence_level;
                         $task_release_level_json[$sequence] = $task_release_level;
                         $sequence--;
@@ -384,8 +407,18 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'created_by' => $request->user()->id,
                     ]);
 
+                    
+                    
                     if (!get_class($detail)) {
                         $flag = false;
+                    }
+                    
+                    $tree_array[$detail->id] = $instruction_detail_row->id;
+
+                    if( !empty($instruction_detail_row->parent_id) ) {
+                        $update_parent_id = $detail->update([
+                            'parent_id' => array_search($instruction_detail_row->parent_id, $tree_array)
+                        ]);
                     }
 
                     foreach ($instruction_detail_row->item_details as $item_detail_row) {
@@ -638,5 +671,32 @@ class WorkOrderWorkPackageTaskcardController extends Controller
 
             return response()->json(['error' => "Failed to delete Task Card's Maintenance Program Data"]);
         }
+    }
+
+    public function tree(Request $request, WorkOrder $work_order, WorkOrderWorkPackage $work_package, WorkOrderWorkPackageTaskcard $taskcard)
+    {
+        // json way
+        return json_decode($taskcard->task_tree_json);
+
+        // or taskcard details way
+        // $datas = $taskcard->details()->get();
+
+        // $response = [];
+        // foreach ($datas as $data) {
+
+        //     if ($data->parent_id) {
+        //         $parent = $data->parent_id;
+        //     } else {
+        //         $parent = '#';
+        //     }
+
+        //     $response[] = [
+        //         "id" => $data->id,
+        //         "parent" => $parent,
+        //         "text" => 'Instruction Code: <strong>' . $data->instruction_code . '</strong>'
+        //     ];
+        // }
+
+        // return response()->json($response);
     }
 }

@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // windows only
-        // Schema::defaultStringLength(125);
+        Schema::defaultStringLength(125);
 
         if( Schema::hasTable('menus') && Schema::hasColumns('menus', ['id', 'parent_id', 'group'])) {
             $menuGroups = Menu::whereNull('parent_id')

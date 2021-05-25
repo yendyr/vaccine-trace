@@ -125,6 +125,7 @@ Route::name('ppc.')->group(function () {
                 Route::get('/item', 'WOWPTaskcardDetailItemController@index')->name('item.index');
 
                 Route::name('taskcard.')->prefix('taskcard/{taskcard}')->group(function () {
+                    Route::get('tree', 'WorkOrderWorkPackageTaskcardController@tree')->name('tree');
                     Route::resource('item', 'WOWPTaskcardDetailItemController')->except(['index']);
                 });
 
