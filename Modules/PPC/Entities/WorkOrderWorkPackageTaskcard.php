@@ -24,6 +24,7 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         'transaction_status',
         'type',
         'description',
+        'is_exec_all',
 
         'taskcard_json',
         'taskcard_group_json',
@@ -43,7 +44,7 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         'document_library_details_json',
         'affected_manuals_json',
         'affected_manual_details_json',
-        'is_exec_all',
+        'task_tree_json',
         
         'status',
         'created_by',

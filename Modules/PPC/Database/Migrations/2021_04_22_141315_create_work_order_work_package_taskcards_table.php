@@ -24,6 +24,7 @@ class CreateWorkOrderWorkPackageTaskcardsTable extends Migration
             $table->string('transaction_status')->nullable();
             $table->string('type')->nullable();
             $table->string('description')->nullable();
+            $table->string('is_exec_all')->nullable();
 
             $table->json('taskcard_json')->nullable();
             $table->json('taskcard_group_json')->nullable();
@@ -43,8 +44,8 @@ class CreateWorkOrderWorkPackageTaskcardsTable extends Migration
             $table->json('document_library_details_json')->nullable();
             $table->json('affected_manuals_json')->nullable();
             $table->json('affected_manual_details_json')->nullable();
+            $table->json('task_tree_json')->nullable();
 
-            $table->string('is_exec_all')->nullable();
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();

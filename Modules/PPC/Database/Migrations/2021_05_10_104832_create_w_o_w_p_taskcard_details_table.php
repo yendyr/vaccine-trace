@@ -20,6 +20,7 @@ class CreateWOWPTaskcardDetailsTable extends Migration
             $table->string('work_order_id')->nullable();
             $table->string('work_package_id')->nullable();
             $table->string('taskcard_id')->nullable();
+            $table->string('parent_id')->nullable();
             
             $table->string('code')->nullable();
             $table->tinyInteger('sequence')->nullable();
@@ -32,6 +33,7 @@ class CreateWOWPTaskcardDetailsTable extends Migration
             $table->string('task_release_level_id');
             $table->string('instruction', 2000)->nullable();
             $table->string('transaction_status')->nullable();
+            $table->string('is_exec_all')->nullable();
             $table->json('skills_json')->nullable();
             $table->json('taskcard_workarea_json')->nullable();
             $table->json('engineering_level_json')->nullable();
@@ -40,7 +42,6 @@ class CreateWOWPTaskcardDetailsTable extends Migration
             $table->json('subGroup_json')->nullable();
             $table->json('all_childs_json')->nullable();
             $table->json('instruction_json')->nullable();
-            $table->string('is_exec_all')->nullable();
 
             $table->integer('status')->nullable();
             $table->integer('owned_by')->nullable()->unsigned();

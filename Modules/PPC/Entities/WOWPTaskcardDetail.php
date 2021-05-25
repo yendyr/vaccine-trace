@@ -21,6 +21,7 @@ class WOWPTaskcardDetail extends MainModel
         'work_order_id',
         'work_package_id',
         'taskcard_id',
+        'parent_id',
         
         'code', 
         'sequence',
