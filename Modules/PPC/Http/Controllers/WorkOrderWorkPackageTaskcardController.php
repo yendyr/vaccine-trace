@@ -631,17 +631,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
         }
 
-        $deleteRes = WorkOrderWorkPackageTaskcard::destroy('id', $taskcard->id);
-
-        if (!$deleteRes) {
-            $flag = false;
-        }
-
-        $instruction_details_json = json_decode($taskcard->instruction_details_json);
         $instructions_total_manhours = 0;
 
-        if (!empty($instruction_details_json)) {
-            foreach ($instruction_details_json as $instruction_detail_row) {
+        if ($taskcard->details()->count() > 0) {
+            foreach ($taskcard->details as $instruction_detail_row) {
                 $instructions_total_manhours += $instruction_detail_row->manhours_estimation ?? 0;
             }
         }
@@ -657,10 +650,16 @@ class WorkOrderWorkPackageTaskcardController extends Controller
         }
 
         $result = $work_package->update(['total_manhours' => $total_manhours]);
-
+        
         if (!$result) {
             $flag = false;
         }
+
+        $deleteRes = WorkOrderWorkPackageTaskcard::destroy('id', $taskcard->id);
+
+        if (!$deleteRes) {
+            $flag = false;
+        }        
 
         if ($flag) {
             DB::commit();
