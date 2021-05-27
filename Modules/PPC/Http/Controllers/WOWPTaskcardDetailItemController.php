@@ -74,7 +74,7 @@ class WOWPTaskcardDetailItemController extends Controller
                     return "<a href=".route('ppc.work-order.work-package.taskcard.show', [
                         'work_order' => $work_order->id,
                         'work_package' => $work_package->id,
-                        'taskcard' => $itemRow->id,
+                        'taskcard' => $itemRow->taskcard_id->id,
                     ])." data-toggle='tooltip' title='View'>".json_decode($itemRow->taskcard_json)->mpd_number."</a>";
                 })
                 ->addColumn('item_number', function($itemRow) {
