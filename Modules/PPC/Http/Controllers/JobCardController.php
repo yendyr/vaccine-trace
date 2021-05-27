@@ -596,4 +596,10 @@ class JobCardController extends Controller
 
         return $view;
     }
+
+    public function print(Request $request)
+    {
+        return view('ppc::pages.job-card.print');
+        return view('ppc::pages.job-card.print-preview');
+    }
 }

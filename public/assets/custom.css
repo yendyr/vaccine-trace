@@ -289,3 +289,7 @@ div.table-responsive>div.dataTables_wrapper>div.row {
 .text-muted {
     color: #ccc!important;
 }
+
+.print-content {
+    font-family: 'Courier New', Courier, monospace!important;
+}

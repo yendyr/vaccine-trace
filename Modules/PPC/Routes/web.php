@@ -139,6 +139,7 @@ Route::name('ppc.')->group(function () {
 
         Route::name('job-card.')->prefix('job-card')->group(function () {
             Route::get('/generate', 'JobCardController@generate')->name('generate.index');
+            Route::get('/print', 'JobCardController@print')->name('print');
             Route::post('/execute', 'JobCardController@execute')->name('execute');
             Route::post('/{work_order}/generate', 'WorkOrderController@generate')->name('generate');
         });

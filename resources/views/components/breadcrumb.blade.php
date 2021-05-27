@@ -1,4 +1,4 @@
-<div class="row wrapper border-bottom white-bg page-heading">
+<div class="row wrapper border-bottom white-bg page-heading d-print-none">
     <div class="col-lg-12">
     <h2>{{ $name ?? '' }}</h2>
         <ol class="breadcrumb">

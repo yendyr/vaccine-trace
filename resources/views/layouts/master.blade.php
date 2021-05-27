@@ -47,7 +47,7 @@
                 </div>
             @endif
 
-            <div class="footer">
+            <div class="footer d-print-none">
                 <strong>Copyright</strong> SmartAircraft.ID &copy; {{ date('Y') }}
             </div>            
 
