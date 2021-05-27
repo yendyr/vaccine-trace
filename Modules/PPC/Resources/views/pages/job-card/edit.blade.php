@@ -190,6 +190,11 @@
                     </a>
                 </li>
                 <li>
+                    <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
+                        <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Instructions and Tasks's Tree View
+                    </a>
+                </li>
+                <li>
                     <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-progress" style="min-height: 50px;">
                         <i class="fa fa-sort-amount-asc fa-2x text-warning"></i>&nbsp;Progress
                     </a>
@@ -429,6 +434,18 @@
                                 <p class="font-italic text-center m-t-xl">No Data Found</p>
                             </div>
                             @endif
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-3" class="tab-pane">
+                    <div class="panel-body" style="min-height: 500px;">
+                        <div class="row m-b">
+                            <div class="col">
+                                <span class="text-info font-italic"><i class="fa fa-info-circle"></i>&nbsp;Refresh Page to See Tree Structure Changes After Add or Updating Data</span>
+                            </div>
+                        </div>
+                        <div class="row m-b">
+                            @include('ppc::pages.work-order.tree-view.content')
                         </div>
                     </div>
                 </div>
