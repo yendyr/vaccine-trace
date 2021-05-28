@@ -153,9 +153,49 @@ class WorkOrderWorkPackageController extends Controller
      */
     public function show(WorkOrder $work_order, WorkOrderWorkPackage $work_package)
     {
+        $skills = $taskcard_counts = [];
+
+        if ($work_package->taskcards()->count() > 0) {
+            foreach ($work_package->taskcards as $taskcardRow) {
+
+                $taskcard_group = json_decode($taskcardRow->taskcard_group_json);
+            
+                if (!empty($taskcard_group) && is_array($taskcard_group) ) {
+                    if (empty($taskcard_counts[collect($taskcard_group)->first()->code])) {
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['name'] = collect($taskcard_group)->first()->name;
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['count'] = 1;
+                    } else {
+                        $taskcard_counts[collect($taskcard_group)->first()->code]['count']++;
+                    }
+                }
+
+                if ( $taskcardRow->details()->count() > 0 ) {
+
+                    foreach ($taskcardRow->details as $instruction_detail_row) {
+                        $skills_json = json_decode($instruction_detail_row->skills_json);
+                        
+                        if (sizeof($skills_json) > 0) {
+
+                            foreach ($skills_json as $skillRow) {
+                                if (isset($skills[$skillRow->name])) {
+                                    $skills[$skillRow->name]++;
+                                } else {
+                                    $skills[$skillRow->name] = 1;
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+
         return view('ppc::pages.work-order.work-package.show', [
-            'work_order' => $work_order,
-            'work_package' => $work_package
+            'skills' => $skills,
+            'work_order' => $work_order,            
+            'work_package' => $work_package,
+            'taskcard_counts' => $taskcard_counts
         ]);
     }
 
