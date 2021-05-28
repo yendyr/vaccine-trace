@@ -101,10 +101,9 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                     })
                     ->addColumn('manhours_total', function ($row) {
                         $manhours_estimation = null;
-                        $instruction_details_json =  json_decode($row->instruction_details_json);
 
-                        if (!empty($instruction_details_json)) {
-                            foreach ($instruction_details_json as $instruction_detail) {
+                        if ( $row->details()->count() > 0 ) {
+                            foreach ($row->details as $instruction_detail) {
                                 $manhours_estimation += $instruction_detail->manhours_estimation ?? 0;
                             }
                         }
@@ -252,7 +251,7 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
         }
 
-        if (!$is_use_all_taskcard) {
+        if ($is_use_all_taskcard == false) {
             DB::beginTransaction();
         }
 
@@ -407,8 +406,6 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         'created_by' => $request->user()->id,
                     ]);
 
-                    
-                    
                     if (!get_class($detail)) {
                         $flag = false;
                     }
