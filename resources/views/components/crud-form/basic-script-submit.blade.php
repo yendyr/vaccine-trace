@@ -1,6 +1,6 @@
 @push('footer-scripts')
 <script>
-    function showCreateModal (modalTitle, inputFormId, actionUrl, inputModalId = null) {
+    function showCreateModal(modalTitle, inputFormId, actionUrl, inputModalId = null) {
         this.modalTitle = modalTitle;
         this.inputFormId = inputFormId;
         this.actionUrl = actionUrl;
@@ -10,7 +10,7 @@
         $('#saveBtn').val("create");
         $(inputFormId).trigger("reset");
         $('select').not('[name$="_length"]').val(null).trigger('change');
-        
+
         if (inputModalId == null)
             $('#inputModal').modal('show');
         else
@@ -18,7 +18,7 @@
         $("input[value='patch']").remove();
     }
 
-    function showCreateModalDynamic (inputModalId, modalTitleId, modalTitle, saveButtonId, inputFormId, actionUrl) {
+    function showCreateModalDynamic(inputModalId, modalTitleId, modalTitle, saveButtonId, inputFormId, actionUrl) {
         this.inputModalId = inputModalId;
         this.modalTitleId = modalTitleId;
         this.modalTitle = modalTitle;
@@ -36,7 +36,7 @@
         $("input[value='patch']").remove();
     }
 
-    function submitButtonProcess (targetTableId, inputFormId) {
+    function submitButtonProcess(targetTableId, inputFormId) {
         this.targetTableId = targetTableId;
         this.inputFormId = inputFormId;
 
@@ -52,25 +52,24 @@
             method: "POST",
             data: $(inputFormId).serialize(),
             dataType: 'json',
-            beforeSend:function(){
-                let l = $( '.ladda-button-submit' ).ladda();
-                l.ladda( 'start' );
+            beforeSend: function() {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('start');
                 $('[class^="invalid-feedback-"]').html('');
                 $('#saveBtn').prop('disabled', true);
             },
-            error: function(data){
+            error: function(data) {
                 let errors = data.responseJSON.errors;
                 if (errors) {
-                    $.each(errors, function (index, value) {
-                        $('div.invalid-feedback-'+index).html(value);
+                    $.each(errors, function(index, value) {
+                        $('div.invalid-feedback-' + index).html(value);
                     })
                 }
             },
-            success: function (data) {
+            success: function(data) {
                 if (data.success) {
-                    generateToast ('success', data.success);
-                }
-                else if (data.error) {
+                    generateToast('success', data.success);
+                } else if (data.error) {
                     swal.fire({
                         titleText: "Action Failed",
                         text: data.error,
@@ -79,22 +78,22 @@
                 }
 
                 $('#inputModal').modal('hide');
-                if( $(targetTableId).length !== 0){
+                if ($(targetTableId).length !== 0) {
                     $(targetTableId).DataTable().ajax.reload();
                 }
-                if( data.redirectUrl ){
+                if (data.redirectUrl) {
                     window.location.href = data.redirectUrl;
                 }
             },
-            complete: function () {
-                let l = $( '.ladda-button-submit' ).ladda();
-                l.ladda( 'stop' );
-                $('#saveBtn'). prop('disabled', false);
+            complete: function() {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('stop');
+                $('#saveBtn').prop('disabled', false);
             }
         });
     }
 
-    function submitButtonProcessDynamic (targetTableId, inputFormId, inputModalId) {
+    function submitButtonProcessDynamic(targetTableId, inputFormId, inputModalId) {
         this.targetTableId = targetTableId;
         this.inputFormId = inputFormId;
         this.inputModalId = inputModalId;
@@ -111,52 +110,52 @@
             method: "POST",
             data: $(inputFormId).serialize(),
             dataType: 'json',
-            beforeSend:function(){
-                let l = $( '.ladda-button-submit' ).ladda();
-                l.ladda( 'start' );
+            beforeSend: function() {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('start');
                 $('[class^="invalid-feedback-"]').html('');
                 $('#saveBtn').prop('disabled', true);
             },
-            error: function(data){
+            error: function(data) {
                 let errors = data.responseJSON.errors;
                 if (errors) {
-                    $.each(errors, function (index, value) {
-                        $('div.invalid-feedback-'+index).html(value);
+                    $.each(errors, function(index, value) {
+                        $('div.invalid-feedback-' + index).html(value);
                     })
                 }
             },
-            success: function (data) {
+            success: function(data) {
                 if (data.success) {
-                    generateToast ('success', data.success);
+                    generateToast('success', data.success);
                 }
                 $(inputModalId).modal('hide');
-                if( $(targetTableId).length !== 0){
+                if ($(targetTableId).length !== 0) {
                     $(targetTableId).DataTable().ajax.reload();
                 }
-                if( data.redirectUrl ){
+                if (data.redirectUrl) {
                     window.location.href = data.redirectUrl;
                 }
             },
-            complete: function () {
-                let l = $( '.ladda-button-submit' ).ladda();
-                l.ladda( 'stop' );
-                $('#saveBtn'). prop('disabled', false);
+            complete: function() {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('stop');
+                $('#saveBtn').prop('disabled', false);
             }
         });
     }
 
-    function deleteButtonProcess (datatabelObject, targetTableId, actionUrl) {
+    function deleteButtonProcess(datatabelObject, targetTableId, actionUrl) {
         this.datatabelObject = datatabelObject;
         this.targetTableId = targetTableId;
         this.actionUrl = actionUrl;
 
-        datatabelObject.on('click', '.deleteBtn', function () {
+        datatabelObject.on('click', '.deleteBtn', function() {
             rowId = $(this).val();
             $('#deleteModal').modal('show');
             $('#delete-form').attr('action', actionUrl + '/' + rowId);
         });
 
-        $('#delete-form').on('submit', function (e) {
+        $('#delete-form').on('submit', function(e) {
             e.preventDefault();
             let url_action = $(this).attr('action');
             $.ajax({
@@ -167,55 +166,57 @@
                 },
                 url: url_action,
                 type: "DELETE",
-                beforeSend:function(){
+                beforeSend: function() {
+                    let l = $('.ladda-button-submit').ladda();
+                    l.ladda('start');
+                    $('[class^="invalid-feedback-"]').html('');
                     $('#delete-button').text('Deleting...');
                     $('#delete-button').prop('disabled', true);
                 },
-                error: function(data){
+                error: function(data) {
                     if (data.error) {
-                        generateToast ('error', data.error);
+                        generateToast('error', data.error);
                     }
                 },
-                success:function(data){
-                    if (data.success){
-                        generateToast ('success', data.success);
+                success: function(data) {
+                    if (data.success) {
+                        generateToast('success', data.success);
+                    } else if (data.error) {
+                        swal.fire({
+                            titleText: "Action Failed",
+                            text: data.error,
+                            icon: "error",
+                        });
                     }
-                    else if (data.error) {
-                    swal.fire({
-                        titleText: "Action Failed",
-                        text: data.error,
-                        icon: "error",
-                    });
-                }
                 },
                 complete: function(data) {
                     $('#delete-button').text('Delete');
                     $('#deleteModal').modal('hide');
                     $('#delete-button').prop('disabled', false);
-                    if( $(targetTableId).length !== 0){
-                    $(targetTableId).DataTable().ajax.reload();
-                }
-                if( data.redirectUrl ){
-                    window.location.href = data.redirectUrl;
-                }
+                    if ($(targetTableId).length !== 0) {
+                        $(targetTableId).DataTable().ajax.reload();
+                    }
+                    if (data.redirectUrl) {
+                        window.location.href = data.redirectUrl;
+                    }
                 }
             });
         });
     }
 
-    function approveButtonProcess (datatabelObject, targetTableId, actionUrl) {
+    function approveButtonProcess(datatabelObject, targetTableId, actionUrl) {
         this.datatabelObject = datatabelObject;
         this.targetTableId = targetTableId;
         this.actionUrl = actionUrl;
 
-        datatabelObject.on('click', '.approveBtn', function () {
+        datatabelObject.on('click', '.approveBtn', function() {
             rowId = $(this).val();
             $('#approve-form').trigger("reset");
             $('#approveModal').modal('show');
             $('#approve-form').attr('action', actionUrl + '/' + rowId + '/approve');
         });
 
-        $('#approve-form').on('submit', function (e) {
+        $('#approve-form').on('submit', function(e) {
             e.preventDefault();
             let url_action = $(this).attr('action');
             $.ajax({
@@ -228,20 +229,19 @@
                 type: "POST",
                 data: $('#approve-form').serialize(),
                 dataType: 'json',
-                beforeSend:function(){
+                beforeSend: function() {
                     $('#approve-button').text('Approving...');
                     $('#approve-button').prop('disabled', true);
                 },
-                error: function(data){
+                error: function(data) {
                     if (data.error) {
-                        generateToast ('error', data.error);
+                        generateToast('error', data.error);
                     }
                 },
-                success:function(data){
+                success: function(data) {
                     if (data.success) {
-                        generateToast ('success', data.success);
-                    }
-                    else if (data.error) {
+                        generateToast('success', data.success);
+                    } else if (data.error) {
                         swal.fire({
                             titleText: "Action Failed",
                             text: data.error,
@@ -253,30 +253,30 @@
                     $('#approve-button').text('Approve');
                     $('#approveModal').modal('hide');
                     $('#approve-button').prop('disabled', false);
-                    if( $(targetTableId).length !== 0){
-                    $(targetTableId).DataTable().ajax.reload();
-                }
-                if( data.redirectUrl ){
-                    window.location.href = data.redirectUrl;
-                }
+                    if ($(targetTableId).length !== 0) {
+                        $(targetTableId).DataTable().ajax.reload();
+                    }
+                    if (data.redirectUrl) {
+                        window.location.href = data.redirectUrl;
+                    }
                 }
             });
         });
     }
 
-    function generateButtonProcess (datatabelObject, targetTableId, actionUrl) {
+    function generateButtonProcess(datatabelObject, targetTableId, actionUrl) {
         this.datatabelObject = datatabelObject;
         this.targetTableId = targetTableId;
         this.actionUrl = actionUrl;
 
-        datatabelObject.on('click', '.generateBtn', function () {
+        datatabelObject.on('click', '.generateBtn', function() {
             rowId = $(this).val();
             $('#generate-form').trigger("reset");
             $('#generateModal').modal('show');
             $('#generate-form').attr('action', actionUrl + '/' + rowId + '/generate');
         });
 
-        $('#generate-form').on('submit', function (e) {
+        $('#generate-form').on('submit', function(e) {
             e.preventDefault();
             let url_action = $(this).attr('action');
             $.ajax({
@@ -289,20 +289,19 @@
                 type: "POST",
                 data: $('#generate-form').serialize(),
                 dataType: 'json',
-                beforeSend:function(){
+                beforeSend: function() {
                     $('#generate-button').text('Approving...');
                     $('#generate-button').prop('disabled', true);
                 },
-                error: function(data){
+                error: function(data) {
                     if (data.error) {
-                        generateToast ('error', data.error);
+                        generateToast('error', data.error);
                     }
                 },
-                success:function(data){
+                success: function(data) {
                     if (data.success) {
-                        generateToast ('success', data.success);
-                    }
-                    else if (data.error) {
+                        generateToast('success', data.success);
+                    } else if (data.error) {
                         swal.fire({
                             titleText: "Action Failed",
                             text: data.error,
@@ -314,12 +313,12 @@
                     $('#generate-button').text('Approve');
                     $('#generateModal').modal('hide');
                     $('#generate-button').prop('disabled', false);
-                    if( $(targetTableId).length !== 0){
-                    $(targetTableId).DataTable().ajax.reload();
-                }
-                if( data.redirectUrl ){
-                    window.location.href = data.redirectUrl;
-                }
+                    if ($(targetTableId).length !== 0) {
+                        $(targetTableId).DataTable().ajax.reload();
+                    }
+                    if (data.redirectUrl) {
+                        window.location.href = data.redirectUrl;
+                    }
                 }
             });
         });
