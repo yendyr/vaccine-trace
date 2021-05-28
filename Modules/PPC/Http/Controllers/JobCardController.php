@@ -599,7 +599,6 @@ class JobCardController extends Controller
 
     public function print(Request $request)
     {
-        return view('ppc::pages.job-card.print');
-        return view('ppc::pages.job-card.print-preview');
+        return \PDF::loadView('ppc::pages.job-card.print')->stream();
     }
 }
