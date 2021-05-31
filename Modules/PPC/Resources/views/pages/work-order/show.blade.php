@@ -23,7 +23,9 @@
                 @else
                     <img src="{{ URL::asset('assets/default-file-image.png') }}" class="m-t-xs" id="fileWorkOrder">
 
+                    @can('update', $work_order)
                     <span class="font-italic"><small><label class="label label-primary" for="workOrderFile" style="cursor:pointer;" data-toggle="tooltip" title="Upload New Work Order Attachment File">Attach New File</label></small></span>
+                    @endcan
                 @endif
 
                 <input onchange="getWorkOrderFile(this)" style="display: none;" id="workOrderFile" type="file" name="workOrderFile" data-id="{{ $work_order?->id }}" accept="application/pdf" />
