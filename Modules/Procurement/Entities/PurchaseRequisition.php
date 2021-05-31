@@ -41,4 +41,23 @@ class PurchaseRequisition extends MainModel
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
+
+    public function purchase_requisition_details()
+    {
+        return $this->hasMany(\Modules\Procurement\Entities\PurchaseRequisitionDetail::class, 'purchase_requisition_id');
+    }
+
+    public function approvals()
+    {
+        return $this->hasMany(\Modules\Procurement\Entities\PurchaseRequisitionApproval::class, 'purchase_requisition_id');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($PurchaseRequisition) {
+            $PurchaseRequisition->purchase_requisition_details()->delete(); 
+            $PurchaseRequisition->approvals()->delete(); 
+        });
+    }
 }

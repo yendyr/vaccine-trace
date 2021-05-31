@@ -16,7 +16,7 @@ class PurchaseRequisitionDetail extends MainModel
     protected $fillable = [
         'uuid',
 
-        'purchase_requisiton_id',
+        'purchase_requisition_id',
 
         'coding',
         'item_id',
@@ -43,5 +43,25 @@ class PurchaseRequisitionDetail extends MainModel
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
+    }
+
+    public function purchase_requisition()
+    {
+        return $this->belongsTo(\Modules\Procurement\Entities\PurchaseRequisition::class, 'purchase_requisition_id');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(\Modules\SupplyChain\Entities\Item::class, 'item_id');
+    }
+
+    public function item_group()
+    {
+        return $this->belongsTo(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'parent_coding', 'coding');
+    }
+
+    public function all_childs()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
 }
