@@ -3,6 +3,7 @@
 namespace Modules\Procurement\Http\Controllers;
 
 use Modules\Procurement\Entities\PurchaseRequisition;
+use Modules\Procurement\Entities\PurchaseRequisitionApproval;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -166,7 +167,19 @@ class PurchaseRequisitionController extends Controller
                 'approval_notes' => ['required', 'max:30'],
             ]);
     
-            // ItemStockMutation::approveInbound($request, $MutationInbound);
+            DB::beginTransaction();
+            PurchaseRequisitionApproval::create([
+                'uuid' =>  Str::uuid(),
+
+                'purchase_requisition_id' =>  $PurchaseRequisition->id,
+                'approval_notes' =>  $request->approval_notes,
+        
+                'owned_by' => $request->user()->company_id,
+                'status' => 1,
+                'created_by' => Auth::user()->id,
+            ]);
+            DB::commit();
+            
             return response()->json(['success' => 'Purchase Requisition Data has been Approved']);
         }
         else {

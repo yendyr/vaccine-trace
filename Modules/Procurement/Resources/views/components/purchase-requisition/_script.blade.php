@@ -13,7 +13,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: false,
         searchDelay: 1500,
-        order: [ 6, "desc" ],
+        order: [ 5, "desc" ],
         ajax: {
             url: "{{ route('procurement.purchase-requisition.index') }}",
         },
