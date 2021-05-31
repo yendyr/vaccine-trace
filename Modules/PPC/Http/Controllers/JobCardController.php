@@ -154,13 +154,17 @@ class JobCardController extends Controller
                 })
                 ->addColumn('manhours_total', function ($row) {
                     $manhours_estimation = null;
-                    $instruction_details_json =  json_decode($row->instruction_details_json);
 
-                    if (!empty($instruction_details_json)) {
-                        foreach ($instruction_details_json as $instruction_detail) {
+                    if ( $row->details()->count() > 0 ) {
+                        foreach ($row->details as $instruction_detail) {
                             $manhours_estimation += $instruction_detail->manhours_estimation ?? 0;
                         }
                     }
+
+                    return number_format($manhours_estimation, 2, '.', '');
+                })
+                ->addColumn('actual_manhour', function ($row) {
+                    $manhours_estimation = $row->actual_manhour;
 
                     return number_format($manhours_estimation, 2, '.', '');
                 })
