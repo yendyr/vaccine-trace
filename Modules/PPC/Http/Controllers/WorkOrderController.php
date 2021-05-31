@@ -392,6 +392,8 @@ class WorkOrderController extends Controller
     // Fuction File Upload
     public function fileUpload(Request $request, WorkOrder $work_order)
     {
+        $is_authorized = $this->authorize('update', $work_order);
+
         if ($request->ajax()) {
             DB::beginTransaction();
             $flag = true;
