@@ -65,6 +65,7 @@
 @endsection
 
 @include('ppc::components.work-order._file_upload_script')
+@include('ppc::components.work-order.work-order-content._script')
 @include('ppc::pages.work-order.item-list.show')
 @push('header-scripts')
 @include('layouts.includes._header-datatable-script')
