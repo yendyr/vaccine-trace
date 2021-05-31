@@ -93,7 +93,7 @@ class JobCardController extends Controller
                     'work_package',
                 ]);
 
-            if ($request->work_order_id) {
+            if ($request->work_order_id && $request->work_order_id !== "null" ) {
                 $data = $data->where('work_order_id', $request->work_order_id);
             }
 

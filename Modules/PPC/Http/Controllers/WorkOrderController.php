@@ -770,7 +770,7 @@ class WorkOrderController extends Controller
 
         $query = WorkOrder::select('id','code','name')
                     ->whereHas('approvals')
-                    ->where('status', array_search('approved', config('ppc.work-order.status')))
+                    ->where('status', array_search('generated', config('ppc.work-order.status')))
                     ->latest();
 
         if($search != ''){
