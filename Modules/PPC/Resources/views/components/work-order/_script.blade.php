@@ -174,9 +174,11 @@ $(document).ready(function () {
                 $('#inputModal').modal('hide');
                 $(targetTableId).DataTable().ajax.reload();
 
-                setTimeout(function () {
-                    window.location.href = "work-order/" + data.id;
-                }, 2000);
+                if(data.id) {
+                    setTimeout(function () {
+                        window.location.href = "work-order/" + data.id;
+                    }, 2000);
+                }
             },
             complete: function () {
                 let l = $( '.ladda-button-submit' ).ladda();
