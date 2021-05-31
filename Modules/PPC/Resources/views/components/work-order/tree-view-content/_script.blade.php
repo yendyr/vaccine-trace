@@ -12,7 +12,7 @@ $(document).ready(function () {
             },
             "data": {
                 type: "GET",
-                url: "/ppc/work-order/"+{{$work_order->id}}+"/work-package/" + {{ $work_package->id }} +"/taskcard/" + {{ $taskcard->id}}+"/tree"
+                url: "/ppc/work-order/"+{{$job_card->work_order_id}}+"/work-package/" + {{ $job_card->work_package_id }} +"/taskcard/" + {{ $job_card->id}}+"/tree"
                 ,
                 success: function (data) {
                     data.d;
