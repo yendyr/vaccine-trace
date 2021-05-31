@@ -59,6 +59,10 @@ class WorkOrderWorkPackageController extends Controller
                 })
                 ->addColumn('action', function ($row) use ($request) {
 
+                    if ($row->work_order->approvals()->count() > 0) {
+                        return '<p class="text-muted font-italic">Already Approved</p>';
+                    }
+
                     if (!$request->aircraft_type_id) {
 
                         $noAuthorize = true;
@@ -195,7 +199,8 @@ class WorkOrderWorkPackageController extends Controller
             'skills' => $skills,
             'work_order' => $work_order,            
             'work_package' => $work_package,
-            'taskcard_counts' => $taskcard_counts
+            'taskcard_counts' => $taskcard_counts,
+            'is_approved' => $work_order->approvals()->count()            
         ]);
     }
 

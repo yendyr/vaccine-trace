@@ -12,6 +12,11 @@
                         <i class="fa fa-tasks fa-2x text-warning"></i>&nbsp;Work Order Summary
                     </a>
                 </li>
+                    <li>
+                    <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;"> 
+                        <i class="fa fa-check-circle fa-2x text-warning"></i>&nbsp;Approval Status
+                    </a>
+                </li>
                 <li>
             </ul>
 
@@ -127,6 +132,11 @@
                                 @include('ppc::components.work-order._summary_script')
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div id="tab-3" class="tab-pane">
+                    <div class="panel-body" style="min-height: 500px;">
+                        @include('ppc::pages.work-order.approval-status.content')
                     </div>
                 </div>
             </div>

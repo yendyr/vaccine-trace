@@ -145,7 +145,14 @@
                     title: 'Action',
                     data: 'action',
                     name: 'Action',
-                    orderable: false
+                    orderable: false,
+                    "render": function ( data, type, row, meta ) {
+                        if("{{ $is_approved }}" == "0") {
+                            return data;
+                        }else{
+                            return '<p class="text-muted font-italic">Already Approved</p>';
+                        }
+                    }
                 },
             ]
         });
