@@ -2,6 +2,8 @@
 
 namespace Modules\Procurement\Http\Controllers;
 
+use Modules\Procurement\Entities\PurchaseRequisition;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +19,7 @@ class PurchaseRequisitionController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(PurchaseRequisition::class, 'purchase_requisition');
+        // $this->authorizeResource(PurchaseRequisition::class);
         $this->middleware('auth');
     }
 

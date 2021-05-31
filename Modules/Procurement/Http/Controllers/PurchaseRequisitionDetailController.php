@@ -1,10 +1,9 @@
 <?php
 
-namespace Modules\SupplyChain\Http\Controllers;
+namespace Modules\Procurement\Http\Controllers;
 
-use Modules\SupplyChain\Entities\StockMutation;
-use Modules\SupplyChain\Entities\InboundMutationDetail;
-use Modules\SupplyChain\Entities\InboundMutationDetailInitialAging;
+use Modules\Procurement\Entities\PurchaseRequisition;
+use Modules\Procurement\Entities\PurchaseRequisitionDetail;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class StockMutationInboundDetailController extends Controller
+class PurchaseRequisitionDetailController extends Controller
 {
     use AuthorizesRequests;
 
@@ -26,34 +25,31 @@ class StockMutationInboundDetailController extends Controller
 
     public function index(Request $request)
     {
-        $stock_mutation_id = $request->id;
-        $StockMutation = StockMutation::where('id', $stock_mutation_id)->first();
+        $purchase_requisition_id = $request->id;
+        $PurchaseRequisition = PurchaseRequisition::where('id', $purchase_requisition_id)->first();
 
         $approved = false;
-        if ($StockMutation->approvals()->count() > 0) {
+        if ($PurchaseRequisition->approvals()->count() > 0) {
             $approved = true;
         }
         
-        $data = InboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
+        $data = PurchaseRequisitionDetail::where('purchase_requisition_id', $purchase_requisition_id)
                                 ->with(['item.unit',
-                                        'mutation_detail_initial_aging',
                                         'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
                                         'item_group.item']);
         
         return Datatables::of($data)
-        ->addColumn('highlighted', function($row){
-            if ($row->highlight == 1){
-                return '<label class="label label-primary">Yes</label>';
-            } else{
-                return '<label class="label label-danger">No</label>';
-            }
-        })
+        // ->addColumn('highlighted', function($row){
+        //     if ($row->highlight == 1){
+        //         return '<label class="label label-primary">Yes</label>';
+        //     } else{
+        //         return '<label class="label label-danger">No</label>';
+        //     }
+        // })
         ->addColumn('parent', function($row){
             if ($row->item_group) {
                 return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
-                'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
-                'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
-                'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
+                'Name: <strong>' . $row->item_group->item->name . '</strong><br>';
             } 
             else {
                 return "<span class='text-muted font-italic'>Not Set</span>";
@@ -69,12 +65,12 @@ class StockMutationInboundDetailController extends Controller
             if ($approved == false) {
                 $noAuthorize = true;
 
-                if(Auth::user()->can('update', StockMutation::class)) {
+                if(Auth::user()->can('update', PurchaseRequisition::class)) {
                     $updateable = 'button';
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', StockMutation::class)) {
+                if(Auth::user()->can('delete', PurchaseRequisition::class)) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
@@ -97,10 +93,10 @@ class StockMutationInboundDetailController extends Controller
 
     public function tree(Request $request)
     {
-        $stock_mutation_id = $request->id;
-        $datas = InboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
+        $purchase_requisition_id = $request->id;
+        $datas = PurchaseRequisitionDetail::where('purchase_requisition_id', $purchase_requisition_id)
                                 ->with(['item.unit',
-                                        'item_group:id,item_id,alias_name,coding,parent_coding'])
+                                        'item_group:id,item_id,coding,parent_coding'])
                                 ->get();
 
         $response = [];
@@ -116,11 +112,7 @@ class StockMutationInboundDetailController extends Controller
                 "id" => $data->coding,
                 "parent" => $parent,
                 "text" => 'P/N: <strong>' . $data->item->code . 
-                '</strong> | Item Name: <strong>' . $data->item->name . 
-                '</strong> | Serial Number: <strong>' . $data->serial_number . 
-                '</strong> | Alias Name: <strong>' . $data->alias_name .
-                '</strong> | Inbound Qty: <strong>' . $data->quantity . ' ' .
-                $data->item->unit->name . '</strong>'
+                '</strong> | Item Name: <strong>' . $data->item->name . '</strong>'
             ];
         }
         return response()->json($response);
@@ -128,95 +120,73 @@ class StockMutationInboundDetailController extends Controller
 
     public function store(Request $request)
     {
-        $StockMutation = StockMutation::where('id', $request->stock_mutation_id)->first();
+        $PurchaseRequisition = PurchaseRequisition::where('id', $request->purchase_requisition_id)->first();
 
-        if ($StockMutation->approvals()->count() == 0) {
+        if ($PurchaseRequisition->approvals()->count() == 0) {
             $request->validate([
                 'item_id' => ['required'],
             ]);
 
-            if($request->quantity > 1) {
-                $quantity = $request->quantity;
-                $serial_number = null;
-            }
-            else {
-                $quantity = 1;
-                $serial_number = $request->serial_number;
-            }
+            // if($request->quantity > 1) {
+            //     $quantity = $request->quantity;
+            //     $serial_number = null;
+            // }
+            // else {
+            //     $quantity = 1;
+            //     $serial_number = $request->serial_number;
+            // }
 
-            $detailed_item_location = $request->detailed_item_location;
             $parent_coding = null;
             
             if ($request->parent_coding) {
                 $parent_coding = $request->parent_coding;
-                $parentRow = InboundMutationDetail::where('coding', $parent_coding)->first();
-                $detailed_item_location = $parentRow->detailed_item_location;
+                // $parentRow = PurchaseRequisitionDetail::where('coding', $parent_coding)->first();
+                // $detailed_item_location = $parentRow->detailed_item_location;
             }
             
-            if ($request->highlight) {
-                $highlight = 1;
-            } 
-            else {
-                $highlight = 0;
-            }
-    
-            $initial_start_date = $request->initial_start_date;
-            $expired_date = $request->expired_date;
+            // if ($request->highlight) {
+            //     $highlight = 1;
+            // } 
+            // else {
+            //     $highlight = 0;
+            // }
     
             DB::beginTransaction();
-            $InboundMutationDetail = InboundMutationDetail::create([
+            $PurchaseRequisitionDetail = PurchaseRequisitionDetail::create([
                 'uuid' =>  Str::uuid(),
     
-                'stock_mutation_id' => $request->stock_mutation_id,
+                'purchase_requisition_id' => $request->purchase_requisition_id,
                 'item_id' => $request->item_id,
-                'quantity' => $quantity,
-                'serial_number' => $serial_number,
-                'alias_name' => $request->alias_name,
-                'highlight' => $highlight,
+                'request_quantity' => $request->quantity,
                 'description' => $request->description,
-                'detailed_item_location' => $detailed_item_location,
+                // 'detailed_item_location' => $detailed_item_location,
                 'parent_coding' => $parent_coding,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
-            $InboundMutationDetail->update([
-                'coding' => $StockMutation->warehouse_destination . '-' . $InboundMutationDetail->id,
+            $PurchaseRequisitionDetail->update([
+                'coding' => $request->purchase_requisition_id . '-' . $PurchaseRequisitionDetail->id,
             ]);
-            $InboundMutationDetail->mutation_detail_initial_aging()
-                ->save(new InboundMutationDetailInitialAging([
-                    'uuid' => Str::uuid(),
-
-                    'initial_flight_hour' => $request->initial_flight_hour,
-                    'initial_block_hour' => $request->initial_block_hour,
-                    'initial_flight_cycle' => $request->initial_flight_cycle,
-                    'initial_flight_event' => $request->initial_flight_event,
-                    'initial_start_date' => $initial_start_date,
-                    'expired_date' => $expired_date,
-                    
-                    'owned_by' => $request->user()->company_id,
-                    'status' => 1,
-                    'created_by' => $request->user()->id,
-                ]));
             DB::commit();
     
             return response()->json(['success' => 'Item/Component Data has been Added']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Purchase Requisition and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
-    public function update(Request $request, InboundMutationDetail $MutationInboundDetail)
+    public function update(Request $request, PurchaseRequisitionDetail $PurchaseRequisitionDetail)
     {
-        $currentRow = InboundMutationDetail::where('id', $MutationInboundDetail->id)
+        $currentRow = PurchaseRequisitionDetail::where('id', $PurchaseRequisitionDetail->id)
                                         ->with('all_childs')
                                         ->first();
 
-        $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
+        $PurchaseRequisition = PurchaseRequisition::where('id', $currentRow->purchase_requisition_id)->first();
 
-        if ($StockMutation->approvals()->count() == 0) {
+        if ($PurchaseRequisition->approvals()->count() == 0) {
             $request->validate([
                 'item_id' => ['required'],
             ]);
@@ -227,32 +197,29 @@ class StockMutationInboundDetailController extends Controller
                 }
                 else {
                     $quantity = $request->quantity;
-                    $serial_number = null;
+                    // $serial_number = null;
                 }
             }
             else {
                 $quantity = 1;
-                $serial_number = $request->serial_number;
+                // $serial_number = $request->serial_number;
             }
 
-            if ($request->highlight) {
-                $highlight = 1;
-            } 
-            else {
-                $highlight = 0;
-            }
+            // if ($request->highlight) {
+            //     $highlight = 1;
+            // } 
+            // else {
+            //     $highlight = 0;
+            // }
     
             $parent_coding = null;
-            $initial_start_date = $request->initial_start_date;
-            $expired_date = $request->expired_date;
-            $detailed_item_location = $request->detailed_item_location;
             
             if ($request->parent_coding) {
                 if (Self::isValidParent($currentRow, $request->parent_coding)) {
                     if ($request->parent_coding != $currentRow->coding) {
                         $parent_coding = $request->parent_coding;
-                        $parentRow = InboundMutationDetail::where('coding', $parent_coding)->first();
-                        $detailed_item_location = $parentRow->detailed_item_location;
+                        // $parentRow = PurchaseRequisitionDetail::where('coding', $parent_coding)->first();
+                        // $detailed_item_location = $parentRow->detailed_item_location;
                     }
                 }
                 else {
@@ -263,52 +230,37 @@ class StockMutationInboundDetailController extends Controller
             DB::beginTransaction();
             $currentRow->update([
                 'item_id' => $request->item_id,
-                'alias_name' => $request->alias_name,
-                'quantity' => $quantity,
-                'serial_number' => $serial_number,
-                'highlight' => $highlight,
+                'request_quantity' => $request->quantity,
                 'description' => $request->description,
-                'detailed_item_location' => $detailed_item_location,
                 'parent_coding' => $parent_coding,
 
                 'updated_by' => Auth::user()->id,
             ]);
-            if (sizeof($currentRow->all_childs) > 0) {
-                Self::updateChilds($currentRow, $detailed_item_location);
-            }
-            $currentRow->mutation_detail_initial_aging()->update([
-                'uuid' => Str::uuid(),
-
-                'initial_flight_hour' => $request->initial_flight_hour,
-                'initial_block_hour' => $request->initial_block_hour,
-                'initial_flight_cycle' => $request->initial_flight_cycle,
-                'initial_flight_event' => $request->initial_flight_event,
-                'initial_start_date' => $initial_start_date,
-                'expired_date' => $expired_date,
-                
-                'updated_by' => $request->user()->id,
-            ]);
+            // if (sizeof($currentRow->all_childs) > 0) {
+            //     Self::updateChilds($currentRow, $detailed_item_location);
+            // }
+            
             DB::commit();
             
             return response()->json(['success' => 'Item/Component Data has been Updated']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Purchase Requisition and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
-    public static function updateChilds($currentRow, $detailed_item_location)
-    {
-        foreach($currentRow->all_childs as $childRow) {
-            $childRow->update([
-                'detailed_item_location' => $detailed_item_location,
-                'updated_by' => Auth::user()->id,
-            ]);
-            if (sizeof($childRow->all_childs) > 0) {
-                Self::updateChilds($childRow, $detailed_item_location);
-            }
-        }
-    }
+    // public static function updateChilds($currentRow, $detailed_item_location)
+    // {
+    //     foreach($currentRow->all_childs as $childRow) {
+    //         $childRow->update([
+    //             'detailed_item_location' => $detailed_item_location,
+    //             'updated_by' => Auth::user()->id,
+    //         ]);
+    //         if (sizeof($childRow->all_childs) > 0) {
+    //             Self::updateChilds($childRow, $detailed_item_location);
+    //         }
+    //     }
+    // }
 
     public static function isValidParent($currentRow, $parent_coding)
     {
@@ -326,15 +278,15 @@ class StockMutationInboundDetailController extends Controller
         return $isValid;
     }
 
-    public function destroy(InboundMutationDetail $MutationInboundDetail)
+    public function destroy(PurchaseRequisitionDetail $PurchaseRequisitionDetail)
     {
-        $currentRow = InboundMutationDetail::where('id', $MutationInboundDetail->id)
+        $currentRow = PurchaseRequisitionDetail::where('id', $PurchaseRequisitionDetail->id)
                                         ->with(['all_childs'])
                                         ->first();
 
-        $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
+        $PurchaseRequisition = PurchaseRequisition::where('id', $currentRow->purchase_requisition_id)->first();
 
-        if ($StockMutation->approvals()->count() == 0) {
+        if ($PurchaseRequisition->approvals()->count() == 0) {
             if (sizeof($currentRow->all_childs) > 0) {
                 return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
             }
@@ -343,22 +295,22 @@ class StockMutationInboundDetailController extends Controller
                 ->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
-                InboundMutationDetail::destroy($MutationInboundDetail->id);
+                PurchaseRequisitionDetail::destroy($PurchaseRequisitionDetail->id);
                 return response()->json(['success' => 'Item/Component Data has been Deleted']);
             }
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Purchase Requisition and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
     public function select2Parent(Request $request)
     {
         $search = $request->term;
-        $stock_mutation_id = $request->stock_mutation_id;
+        $purchase_requisition_id = $request->purchase_requisition_id;
 
         if($search != '') {
-            $InboundMutationDetails = InboundMutationDetail::with(['item' => function($q) use ($search) {
+            $PurchaseRequisitionDetails = PurchaseRequisitionDetail::with(['item' => function($q) use ($search) {
                                             $q->where('items.code', 'like', '%' .$search. '%')
                                             ->orWhere('items.name', 'like', '%' .$search. '%');
                                         }])
@@ -366,19 +318,17 @@ class StockMutationInboundDetailController extends Controller
                                             $q->where('items.code', 'like', '%' .$search. '%')
                                             ->orWhere('items.name', 'like', '%' .$search. '%');
                                         })
-                                        ->where('stock_mutation_id', $stock_mutation_id)
-                                        ->where('quantity', 1)
+                                        ->where('purchase_requisition_id', $purchase_requisition_id)
+                                        ->where('request_quantity', 1)
                                         ->get();
         }
 
         $response = [];
-        foreach($InboundMutationDetails as $InboundMutationDetail){
+        foreach($PurchaseRequisitionDetails as $PurchaseRequisitionDetail){
             $response['results'][] = [
-                "id" => $InboundMutationDetail->coding,
-                "text" => $InboundMutationDetail->item->code . ' | ' . 
-                $InboundMutationDetail->serial_number . ' | ' .
-                $InboundMutationDetail->item->name . ' | ' . 
-                $InboundMutationDetail->alias_name
+                "id" => $PurchaseRequisitionDetail->coding,
+                "text" => $PurchaseRequisitionDetail->item->code . ' | ' . 
+                $PurchaseRequisitionDetail->item->name
             ];
         }
         return response()->json($response);

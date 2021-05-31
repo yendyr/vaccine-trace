@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Gate\Entities\Menu;
 
-class ProcurementSeeder extends Seeder
+class ProcurementMenuSeeder extends Seeder
 {
     /**
      * Run the database seeds.

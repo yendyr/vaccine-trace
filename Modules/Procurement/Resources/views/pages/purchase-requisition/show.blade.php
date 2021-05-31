@@ -3,7 +3,7 @@
 @section('content')
     <div class="row m-b m-t">
         <div class="col-md-2 d-flex align-items-start">
-            <i class="fa fa-cloud-download fa-fw fa-5x text-info"></i>
+            <i class="fa fa-shopping-bag fa-fw fa-5x text-info"></i>
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Transaction Code:</p>         
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row m-t">
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
