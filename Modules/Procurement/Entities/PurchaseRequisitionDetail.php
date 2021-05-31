@@ -57,11 +57,11 @@ class PurchaseRequisitionDetail extends MainModel
 
     public function item_group()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'parent_coding', 'coding');
+        return $this->belongsTo(\Modules\Procurement\Entities\PurchaseRequisitionDetail::class, 'parent_coding', 'coding');
     }
 
     public function all_childs()
     {
-        return $this->hasMany(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'parent_coding', 'coding')->with('all_childs');
+        return $this->hasMany(\Modules\Procurement\Entities\PurchaseRequisitionDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
 }

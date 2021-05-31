@@ -21,6 +21,15 @@ $(document).ready(function () {
             { data: 'item.code', defaultContent: '-' },
             { data: 'item.name', defaultContent: '-' },
             { data: 'request_quantity', defaultContent: '-' },
+            { data: 'available_stock',
+                "render": function ( data, type, row, meta ) {
+                    if (row.available_stock > 0) {
+                        return "<span class='label label-success'>" + row.available_stock + '</span>';
+                    }
+                    else {
+                        return "<span class='label label-danger'>" + row.available_stock + '</span>';
+                    } 
+                }},
             { data: 'item.unit.name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },

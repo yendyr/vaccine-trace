@@ -21,7 +21,8 @@
     @slot('tableContent')
         <th>Item Code/PN</th>
         <th>Item Name</th>
-        <th>Qty</th>
+        <th>Request Qty</th>
+        <th>In-Stock Qty</th>
         <th>UoM</th>
         <th>Remark</th>
         <th>Parent Item</th>

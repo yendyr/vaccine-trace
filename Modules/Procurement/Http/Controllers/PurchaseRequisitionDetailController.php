@@ -4,6 +4,7 @@ namespace Modules\Procurement\Http\Controllers;
 
 use Modules\Procurement\Entities\PurchaseRequisition;
 use Modules\Procurement\Entities\PurchaseRequisitionDetail;
+use app\Helpers\SupplyChain\ItemStockChecker;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class PurchaseRequisitionDetailController extends Controller
         
         $data = PurchaseRequisitionDetail::where('purchase_requisition_id', $purchase_requisition_id)
                                 ->with(['item.unit',
-                                        'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
+                                        'item_group:id,item_id,coding,parent_coding',
                                         'item_group.item']);
         
         return Datatables::of($data)
@@ -46,6 +47,9 @@ class PurchaseRequisitionDetailController extends Controller
         //         return '<label class="label label-danger">No</label>';
         //     }
         // })
+        ->addColumn('available_stock', function($row){
+            return ItemStockChecker::usable_item(null, $row->item->code);
+        })
         ->addColumn('parent', function($row){
             if ($row->item_group) {
                 return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
