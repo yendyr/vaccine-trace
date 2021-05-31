@@ -11,6 +11,17 @@
 |
 */
 
-Route::prefix('procurement')->group(function() {
-    Route::get('/', 'ProcurementController@index');
+Route::name('procurement.')->group(function() {
+    Route::prefix('procurement')->group(function() {
+        
+        Route::get('/purchase-requisition/detail-tree', 'PurchaseRequisitionDetailController@tree')->name('purchase-requisition.detail-tree');
+        Route::resource('/purchase-requisition', 'PurchaseRequisitionController');
+        Route::post('/purchase-requisition/{purchase_requisition}/approve', 'PurchaseRequisitionController@approve');
+
+        Route::resource('/purchase-requisition-detail', 'PurchaseRequisitionDetailController');        
+        Route::name('purchase-requisition-detail.')->group(function() {
+            Route::get('procurement/purchase-requisition-detail/select2', 'PurchaseRequisitionDetailController@select2Parent')->name('select2');
+        });
+
+    });
 });

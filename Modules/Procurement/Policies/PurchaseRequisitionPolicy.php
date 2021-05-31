@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\SupplyChain\Policies;
+namespace Modules\Procurement\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 use Modules\Gate\Entities\RoleMenu;
 
-class StockMutationOutboundPolicy
+class PurchaseRequisitionPolicy
 {
     use HandlesAuthorization;
 
@@ -19,7 +19,23 @@ class StockMutationOutboundPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'supplychain/mutation-outbound')->whereHas('role', function($role){
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        } 
+        else {
+            return true;
+        }
+    }
+
+    public function view()
+    {
+        $queryRoleMenu = RoleMenu::where(
+            'role_id', Auth::user()->role_id
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -35,7 +51,7 @@ class StockMutationOutboundPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'supplychain/mutation-outbound')->whereHas('role', function($role){
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -51,7 +67,7 @@ class StockMutationOutboundPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'supplychain/mutation-outbound')->whereHas('role', function($role){
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -67,7 +83,7 @@ class StockMutationOutboundPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'supplychain/mutation-outbound')->whereHas('role', function($role){
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -83,7 +99,7 @@ class StockMutationOutboundPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'supplychain/mutation-outbound')->whereHas('role', function($role){
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 
@@ -99,7 +115,7 @@ class StockMutationOutboundPolicy
     {
         $queryRoleMenu = RoleMenu::where(
             'role_id', Auth::user()->role_id
-        )->where('menu_link', 'supplychain/mutation-outbound')->whereHas('role', function($role){
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
             $role->where('status', 1);
         })->first();
 

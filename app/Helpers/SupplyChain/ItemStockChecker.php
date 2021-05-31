@@ -7,6 +7,33 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ItemStockChecker
 {
+    public static function usable_item($warehouse_id, $item_code)
+    {
+        $result = ItemStock::with(['item.unit',
+                                'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
+                                'warehouse'])
+                                ->whereHas('warehouse', function ($warehouse) {
+                                    $warehouse->whereHas('aircraft_configuration', function ($aircraft_configuration) {
+                                        $aircraft_configuration->has('approvals');
+                                    })
+                                    ->orWhere('aircraft_configuration_id', null);
+                                })
+                                ->whereHas('item', function ($item) use ($item_code) {
+                                    $item->where('code', $item_code);
+                                })
+                                ->whereRaw('item_stocks.quantity > item_stocks.used_quantity');
+        if ($warehouse_id) {
+            $result = $result->where('warehouse_id', $warehouse_id);
+        }
+
+        $result = $result->get()
+                        ->sum(function ($row) {
+                            return $row->quantity - $row->used_quantity;
+                        });
+        
+        return $result;
+    }
+
     public static function usable_items($warehouse_id, $with_use_button)
     {
         $result = ItemStock::with(['item.unit',

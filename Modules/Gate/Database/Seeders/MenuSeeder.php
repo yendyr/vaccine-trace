@@ -25,6 +25,7 @@ class MenuSeeder extends Seeder
             ModuleMenu\SupplyChainMenuSeeder::class,
             ModuleMenu\PPCMenuSeeder::class,
             ModuleMenu\FlightOperationsMenuSeeder::class,
+            ModuleMenu\ProcurementMenuSeeder::class,
         ]);
     }
 }

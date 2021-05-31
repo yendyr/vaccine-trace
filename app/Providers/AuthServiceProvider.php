@@ -200,6 +200,9 @@ use Modules\PPC\Policies\WOWPTaskcardDetailItemPolicy;
 use Modules\PPC\Entities\WOWPTaskcardDetailProgress;
 use Modules\PPC\Policies\WOWPTaskcardDetailProgressPolicy;
 
+use Modules\Procurement\Entities\PurchaseRequisition;
+use Modules\Procurement\Policies\PurchaseRequisitionPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -288,6 +291,8 @@ class AuthServiceProvider extends ServiceProvider
         AfmlDetailManifest::class => AfmlDetailManifestPolicy::class,
         AfmlDetailDiscrepancy::class => AfmlDetailDiscrepancyPolicy::class,
         AfmlDetailRectification::class => AfmlDetailRectificationPolicy::class,
+
+        PurchaseRequisition::class => PurchaseRequisitionPolicy::class,
     ];
 
     /**
