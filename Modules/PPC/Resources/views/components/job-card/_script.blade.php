@@ -56,28 +56,28 @@ $(document).ready(function () {
         columns: [
             { title: 'Job Card Number', data: 'jobcard_number', name: 'code', defaultContent: '-' },
             { title: 'MPD Number', data: 'mpd_number', name: 'taskcard_json', defaultContent: '-' },
-            { title: 'Title', data: 'taskcard.title', name: 'Title' },
-            { title: 'Group', data: 'group_structure', name: 'Group' },
-            { title: 'Tag', data: 'tag', defaultContent: '-' },
-            { title: 'Type', data: 'taskcard.taskcard_type.name', name: 'Task Type' },
+            { title: 'Title', data: 'taskcard.title', name: 'taskcard_json' },
+            { title: 'Group', data: 'group_structure', name: 'taskcard_group_json' },
+            { title: 'Tag', data: 'tag', name:'tags_json', defaultContent: '-' },
+            { title: 'Type', data: 'taskcard.taskcard_type.name', name: 'taskcard_type_json' },
             { title: 'Instruction/Task Total', data: 'instruction_count', "render": function(data, type, row, meta) {
                     return '<label class="label label-success">' + row.instruction_count + '</label>';
                 }
             },
-            { title: 'Manhours Total', data: 'manhours_total', "render": function(data, type, row, meta) {
+            { title: 'Manhours Total', data: 'manhours_total', searchable:false, "render": function(data, type, row, meta) {
                     return '<label class="label label-success">' + row.manhours_total + '</label>';
                 }
             },
-            { title: 'Actual Manhours Total', data: 'manhours_total', "render": function(data, type, row, meta) {
-                    return '<label class="label label-success">' + row.manhours_total + '</label>';
+            { title: 'Actual Manhours Total', data: 'actual_manhour', searchable:false, "render": function(data, type, row, meta) {
+                    return '<label class="label label-success">' + row.actual_manhour + '</label>';
                 }
             },
-            { title: 'Skill', data: 'skills', name: 'Skill' },
-            { title: 'Threshold', data: 'threshold_interval', name: 'Threshold' },
-            { title: 'Repeat', data: 'repeat_interval', name: 'Repeat' },
-            { title: 'Remark', data: 'description', name: 'Remark' },
-            { title: 'Created At', data: 'created_at', name: 'Created At' },
-            { title: 'Action', data: 'action', name: 'Action', orderable: false },
+            { title: 'Skill', data: 'skills', name: 'Skill', searchable:false },
+            { title: 'Threshold', data: 'threshold_interval', name: 'taskcard_json', searchable:true },
+            { title: 'Repeat', data: 'repeat_interval', name: 'taskcard_json', searchable:true },
+            { title: 'Remark', data: 'description', name: 'description' },
+            { title: 'Created At', data: 'created_at', name: 'created_at', searchable:false },
+            { title: 'Action', data: 'action', name: 'Action', orderable: false, searchable:false },
         ]
     });
 
