@@ -190,6 +190,8 @@
                     }
                 },
                 complete: function(data) {
+                    let l = $('.ladda-button-submit').ladda();
+                    l.ladda('stop');
                     $('#delete-button').text('Delete');
                     $('#deleteModal').modal('hide');
                     $('#delete-button').prop('disabled', false);
