@@ -23,9 +23,10 @@ class ItemPolicy
             $role->where('status', 1);
         })->first();
 
-        if ($queryRoleMenu == null){
+        if ($queryRoleMenu == null) {
             return false;
-        } else {
+        } 
+        else {
             return true;
         }
     }
@@ -38,9 +39,10 @@ class ItemPolicy
             $role->where('status', 1);
         })->first();
 
-        if ($queryRoleMenu == null){
+        if ($queryRoleMenu == null) {
             return false;
-        } else {
+        } 
+        else {
             return $queryRoleMenu->add == 1;
         }
     }
@@ -53,9 +55,10 @@ class ItemPolicy
             $role->where('status', 1);
         })->first();
 
-        if ($queryRoleMenu == null){
+        if ($queryRoleMenu == null) {
             return false;
-        } else {
+        } 
+        else {
             return $queryRoleMenu->update == 1;
         }
     }
@@ -68,9 +71,10 @@ class ItemPolicy
             $role->where('status', 1);
         })->first();
 
-        if ($queryRoleMenu == null){
+        if ($queryRoleMenu == null) {
             return false;
-        } else {
+        } 
+        else {
             return $queryRoleMenu->delete == 1;
         }
     }
@@ -83,9 +87,10 @@ class ItemPolicy
             $role->where('status', 1);
         })->first();
 
-        if ($queryRoleMenu == null){
+        if ($queryRoleMenu == null) {
             return false;
-        } else {
+        } 
+        else {
             return $queryRoleMenu->delete == 1;
         }
     }
