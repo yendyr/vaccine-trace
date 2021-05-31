@@ -29,7 +29,12 @@
         {{-- <th>Status</th> --}}
         <th>Created By</th>
         <th>Created At</th>
-        <th>Action</th>
+
+        @if($PurchaseRequisition->approvals()->count() == 0)
+            <th>Action</th>
+        @else
+            <th>Purchase Order Status</th>
+        @endif
     @endslot
     @endcomponent
 </div>

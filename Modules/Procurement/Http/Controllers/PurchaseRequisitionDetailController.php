@@ -88,7 +88,9 @@ class PurchaseRequisitionDetailController extends Controller
                 }
             }
             else {
-                return '<p class="text-muted font-italic">Already Approved</p>';
+                return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
+                'Processed: <strong>' . $row->processed_to_po_quantity . '</strong><br>';
+                // return '<p class="text-muted font-italic">Already Approved</p>';
             }
         })
         ->escapeColumns([])

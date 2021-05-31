@@ -13,7 +13,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: false,
         searchDelay: 1500,
-        // order: [ 17, "asc" ],
+        order: [ 8, "asc" ],
         ajax: {
             url: "/procurement/purchase-requisition-detail/?id=" + "{{ $PurchaseRequisition->id }}",
         },
