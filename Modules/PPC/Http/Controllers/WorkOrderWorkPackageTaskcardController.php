@@ -191,6 +191,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                         return $row->updater->name ?? '-';
                     })
                     ->addColumn('action', function ($row) use ($request, $work_order) {
+                        if ($row->work_order->approvals()->count() > 0) {
+                            return '<p class="text-muted font-italic">Already Approved</p>';
+                        }
+
                         $noAuthorize = true;
                         if ($request->user()->can('update', $work_order)) {
                             $updateable = 'button';

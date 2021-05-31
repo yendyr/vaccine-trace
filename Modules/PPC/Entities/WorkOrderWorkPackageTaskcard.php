@@ -63,6 +63,11 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
+    public function work_order()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\WorkOrder::class, 'work_order_id');
+    }
+    
     public function work_package()
     {
         return $this->belongsTo(\Modules\PPC\Entities\WorkOrderWorkPackage::class, 'work_package_id');

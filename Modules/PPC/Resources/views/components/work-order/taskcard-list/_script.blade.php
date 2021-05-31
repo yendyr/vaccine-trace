@@ -90,7 +90,15 @@ $(document).ready(function () {
             {   title: 'Threshold', data: 'threshold_interval', defaultContent: '-' },
             {   title: 'Repeat', data: 'repeat_interval', defaultContent: '-' },
             {   title: 'Created At', data: 'created_at', defaultContent: '-' },
-            {   title: 'Action', data: 'action', orderable: false },
+            {   title: 'Action', data: 'action', orderable: false,
+                "render": function ( data, type, row, meta ) {
+                    if("{{ $is_approved }}" == "0") {
+                        return data;
+                    }else{
+                        return '<p class="text-muted font-italic">Already Approved</p>';
+                    }
+                }
+            }
         ]
     });
 
