@@ -169,5 +169,4 @@ class CountryController extends Controller
 
         return response()->json($response);
     }
-
 }

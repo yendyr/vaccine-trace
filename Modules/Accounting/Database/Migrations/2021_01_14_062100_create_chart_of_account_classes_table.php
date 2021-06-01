@@ -16,6 +16,7 @@ class CreateChartOfAccountClassesTable extends Migration
         Schema::create('chart_of_account_classes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
+            
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('description')->nullable();

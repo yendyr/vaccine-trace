@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChartOfAccountsTable extends Migration
+class CreateCurrenciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateChartOfAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('chart_of_accounts', function (Blueprint $table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             
             $table->string('code')->unique();
             $table->string('name')->nullable();
+            $table->string('symbol')->nullable();
             $table->string('description')->nullable();
 
-            $table->string('parent_id')->nullable();
-            $table->string('chart_of_account_class_id')->nullable();
+            $table->string('country_id')->nullable();
 
             $table->rememberToken();
             $table->integer('status')->nullable();
@@ -42,6 +42,6 @@ class CreateChartOfAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chart_of_account_groups');
+        Schema::dropIfExists('currencies');
     }
 }
