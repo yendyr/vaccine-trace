@@ -95,15 +95,10 @@ class ItemStock extends MainModel
         return ($this->quantity - ($this->loaned_quantity + $this->used_quantity + $this->reserved_quantity));
     }
 
-    // public function getIsFullyUsedAttribute()
-    // {
-    //     if ($this->quantity > $this->used_quantity) {
-    //         return false;
-    //     }
-    //     else {
-    //         return true;
-    //     }
-    // }
+    public function purchase_requisition_details()
+    {
+        return $this->hasMany(\Modules\Procurement\Entities\PurchaseRequisitionDetail::class, 'item_id', 'item_id');
+    }
 
     public static function boot() {
         parent::boot();

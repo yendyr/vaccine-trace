@@ -64,4 +64,9 @@ class PurchaseRequisitionDetail extends MainModel
     {
         return $this->hasMany(\Modules\Procurement\Entities\PurchaseRequisitionDetail::class, 'parent_coding', 'coding')->with('all_childs');
     }
+
+    public function item_stocks()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'item_id', 'item_id');
+    }
 }
