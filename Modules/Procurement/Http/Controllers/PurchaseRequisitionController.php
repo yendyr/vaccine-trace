@@ -46,7 +46,11 @@ class PurchaseRequisitionController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
-                    $approvable = false;
+                    $updateable = null;
+                    $updateValue = null;
+                    $deleteable = null;
+                    $deleteId = null;
+                    $approvable = null;
                     $approveId = null;
 
                     if ($row->approvals()->count() > 0) {

@@ -23,6 +23,7 @@ class GeneralSettingDatabaseSeeder extends Seeder
             CompanyDetailAddressSeeder::class,
             CompanyDetailBankSeeder::class,
             AirportSeeder::class,
+            CurrencySeeder::class,
         ]);
     }
 }

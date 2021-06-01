@@ -138,6 +138,9 @@ use Modules\GeneralSetting\Entities\CompanyDetailBank;
 use Modules\GeneralSetting\Policies\AirportPolicy;
 use Modules\GeneralSetting\Entities\Airport;
 
+use Modules\GeneralSetting\Policies\CurrencyPolicy;
+use Modules\GeneralSetting\Entities\Currency;
+
 use Modules\SupplyChain\Policies\WarehousePolicy;
 use Modules\SupplyChain\Entities\Warehouse;
 
@@ -271,6 +274,7 @@ class AuthServiceProvider extends ServiceProvider
         CompanyDetailBank::class => CompanyDetailBankPolicy::class,
         Country::class => CountryPolicy::class,
         Airport::class => AirportPolicy::class,
+        Currency::class => CurrencyPolicy::class,
 
         Warehouse::class => WarehousePolicy::class,
         UnitClass::class => UnitClassPolicy::class,

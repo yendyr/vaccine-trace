@@ -2,29 +2,31 @@
 
 namespace Modules\GeneralSetting\Http\Controllers;
 
-use Modules\GeneralSetting\Entities\Country;
+use Modules\GeneralSetting\Entities\Currency;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class CountryController extends Controller
+class CurrencyController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(Country::class);
+        $this->authorizeResource(Currency::class);
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Country::all();
-            
+            $data = Currency::with(['country']);
+
             return Datatables::of($data)
             ->addColumn('status', function($row){
                 if ($row->status == 1){
@@ -46,12 +48,12 @@ class CountryController extends Controller
                 $deleteable = null;
                 $deleteId = null;
 
-                if(Auth::user()->can('update', Country::class)) {
+                if(Auth::user()->can('update', Currency::class)) {
                     $updateable = 'button';
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', Country::class)) {
+                if(Auth::user()->can('delete', Currency::class)) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
@@ -68,13 +70,16 @@ class CountryController extends Controller
             ->escapeColumns([])
             ->make(true);
         }
-        return view('generalsetting::pages.country.index');
+        return view('generalsetting::pages.currency.index');
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'code' => ['required', 'max:30', 'unique:currencies,code'],
             'name' => ['required', 'max:30'],
+            'symbol' => ['required', 'max:30'],
+            'country_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -84,26 +89,29 @@ class CountryController extends Controller
             $status = 0;
         }
 
-        Country::create([
-            'iso' => $request->iso,
-            'iso_3' => $request->iso_3,
+        Currency::create([
+            'uuid' =>  Str::uuid(),
+            'code' => $request->code,
             'name' => $request->name,
-            'nice_name' => $request->nice_name,
-            'num_code' => $request->num_code,
-            'phone_code' => $request->phone_code,
+            'symbol' => $request->symbol,
             'description' => $request->description,
+            'country_id' => $request->country_id,
+
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
-        return response()->json(['success' => 'Country Data has been Added']);
+        return response()->json(['success' => 'Currency Data has been Added']);
     
     }
 
-    public function update(Request $request, Country $Country)
+    public function update(Request $request, ChartOfAccount $ChartOfAccount)
     {
         $request->validate([
+            'code' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
+            'symbol' => ['required', 'max:30'],
+            'country_id' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -113,51 +121,62 @@ class CountryController extends Controller
             $status = 0;
         }
 
-        $currentRow = Country::where('id', $Country->id)->first();
-        $currentRow->update([
-                'iso' => $request->iso,
-                'iso_3' => $request->iso_3,
-                'name' => $request->name,
-                'nice_name' => $request->nice_name,
-                'num_code' => $request->num_code,
-                'phone_code' => $request->phone_code,
-                'description' => $request->description,
-                'status' => $status,
+        DB::beginTransaction();
+        if ($currentRow->code == $request->code) {
+            $currentRow
+                ->update([
+                    'name' => $request->name,
+                    'symbol' => $request->symbol,
+                    'description' => $request->description,
+                    'country_id' => $request->country_id,
+                    
+                    'status' => $status,
+                    'updated_by' => Auth::user()->id,
             ]);
-        
-        return response()->json(['success' => 'Country Data has been Updated']);
-    
+        }
+        else {
+            $currentRow
+                ->update([
+                    'code' => $request->code,
+                    'symbol' => $request->symbol,
+                    'description' => $request->description,
+                    'country_id' => $request->country_id,
+                    
+                    'status' => $status,
+                    'updated_by' => Auth::user()->id,
+            ]);
+        }
+        DB::commit();
+        return response()->json(['success' => 'Currency Data has been Updated']);
     }
 
-    public function destroy(Country $Country)
+    public function destroy(Currency $Currency)
     {
-        $currentRow = Country::where('id', $Country->id)->first();
-        $currentRow
-                ->update([
-                    'deleted_by' => Auth::user()->id,
-                ]);
-
-        Country::destroy($Country->id);
-        return response()->json(['success' => 'Country Data has been Deleted']);
+        $currentRow->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
+        Currency::destroy($Currency->id);
+        return response()->json(['success' => 'Currency Data has been Deleted']);
     }
 
     public function select2(Request $request)
     {
         $search = $request->q;
-        $query = Country::orderby('nice_name','asc')
-                        ->select('id','nice_name')
-                        ->where('status', 1);
+        $query = Currency::orderby('name','asc')
+                ->where('status', 1);
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
         }
-        $Countries = $query->get();
+        $Currencies = $query->get();
 
         $response = [];
-        foreach($Countries as $Country){
+        foreach($Currencies as $Currency){
             $response['results'][] = [
-                "id"=>$Country->id,
-                "text"=>$Country->nice_name
+                "id" => $Currency->id,
+                "text" => $Currency->code . ' | ' . 
+                $Currency->symbol . ' | ' .
+                $Currency->name
             ];
         }
         return response()->json($response);

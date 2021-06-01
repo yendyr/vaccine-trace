@@ -35,6 +35,11 @@ Route::name('generalsetting.')->group(function () {
 
         Route::resource('/company-detail-contact', 'CompanyDetailContactController');
         Route::resource('/company-detail-address', 'CompanyDetailAddressController');
-        Route::resource('/company-detail-bank', 'CompanyDetailBankController');        
+        Route::resource('/company-detail-bank', 'CompanyDetailBankController');  
+        
+        Route::resource('/currency', 'CurrencyController');
+        Route::name('currency.')->group(function() {
+            Route::get('generalsetting/currency/select2', 'CurrencyController@select2')->name('select2');
+        });
     });
 });

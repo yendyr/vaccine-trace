@@ -117,5 +117,25 @@ class GeneralSettingMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        Menu::create([
+            'menu_link' => 'generalsetting/currency',
+            'menu_text' => 'Master Currency',
+            'menu_route' => 'generalsetting.currency.index',
+            'menu_icon' => 'fa-money',
+            'menu_class' => 'Modules\GeneralSetting\Entities\Currency',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['generalsetting/currency', 'generalsetting/currency/*']),
+            'group' => 'General Setting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }

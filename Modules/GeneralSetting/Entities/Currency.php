@@ -8,20 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Country extends MainModel
+class Currency extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
     use Notifiable;
 
     protected $fillable = [
-        'iso',
-        'iso_3',
+        'uuid',
+        'code',
         'name',
-        'nice_name',
-        'num_code',
-        'phone_code',
+        'symbol',
         'description',
+        'country_id',
         
         'status',
         'created_by',
@@ -40,8 +39,8 @@ class Country extends MainModel
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function currencies()
+    public function country()
     {
-        return $this->hasMany(\Modules\GeneralSetting\Entities\Currency::class, 'country_id');
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Country::class, 'country_id');
     }
 }

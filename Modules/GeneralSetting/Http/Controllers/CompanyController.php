@@ -64,6 +64,11 @@ class CompanyController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
+                    $updateable = null;
+                    $updateValue = null;
+                    $deleteable = null;
+                    $deleteId = null;
+
                     if(Auth::user()->can('update', Company::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
