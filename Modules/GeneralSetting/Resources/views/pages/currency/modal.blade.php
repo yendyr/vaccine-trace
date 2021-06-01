@@ -65,7 +65,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
                     <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveBtn">
-                        <strong>Save Changes</strong>
+                        <strong>Save</strong>
                     </button>
                 </div>
             </form>
