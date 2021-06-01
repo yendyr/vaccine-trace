@@ -105,7 +105,7 @@ class CurrencyController extends Controller
     
     }
 
-    public function update(Request $request, ChartOfAccount $ChartOfAccount)
+    public function update(Request $request, Currency $Currency)
     {
         $request->validate([
             'code' => ['required', 'max:30'],
@@ -122,8 +122,8 @@ class CurrencyController extends Controller
         }
 
         DB::beginTransaction();
-        if ($currentRow->code == $request->code) {
-            $currentRow
+        if ($Currency->code == $request->code) {
+            $Currency
                 ->update([
                     'name' => $request->name,
                     'symbol' => $request->symbol,
@@ -135,7 +135,7 @@ class CurrencyController extends Controller
             ]);
         }
         else {
-            $currentRow
+            $Currency
                 ->update([
                     'code' => $request->code,
                     'symbol' => $request->symbol,
@@ -152,7 +152,7 @@ class CurrencyController extends Controller
 
     public function destroy(Currency $Currency)
     {
-        $currentRow->update([
+        $Currency->update([
             'deleted_by' => Auth::user()->id,
         ]);
         Currency::destroy($Currency->id);
