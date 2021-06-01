@@ -21,8 +21,8 @@ class CreateCurrenciesTable extends Migration
             $table->string('name')->nullable();
             $table->string('symbol')->nullable();
             $table->string('description')->nullable();
-
             $table->string('country_id')->nullable();
+            $table->tinyInteger('is_primary')->default(0);
 
             $table->rememberToken();
             $table->integer('status')->nullable();

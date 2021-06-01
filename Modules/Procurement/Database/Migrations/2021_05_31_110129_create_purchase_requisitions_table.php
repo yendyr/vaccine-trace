@@ -19,6 +19,7 @@ class CreatePurchaseRequisitionsTable extends Migration
 
             $table->string('code')->nullable();
             $table->date('transaction_date')->nullable();
+            $table->date('required_date')->nullable();
             $table->string('description')->nullable();
 
             $table->string('transaction_reference_id')->nullable();

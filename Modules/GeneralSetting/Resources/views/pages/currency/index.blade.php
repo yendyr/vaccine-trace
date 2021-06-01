@@ -25,6 +25,7 @@
             <th>Description/Remark</th>
             <th>Country</th>
             <th>Status</th>
+            <th>Primary/Local Currency</th>
             <th>Created By</th>
             <th>Created At</th>
             <th>Last Updated By</th>

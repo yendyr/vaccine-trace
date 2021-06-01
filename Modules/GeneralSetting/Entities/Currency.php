@@ -21,6 +21,7 @@ class Currency extends MainModel
         'symbol',
         'description',
         'country_id',
+        'is_primary',
         
         'status',
         'created_by',

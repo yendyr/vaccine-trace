@@ -13,6 +13,7 @@
             processing: true,
             serverSide: false,
             searchDelay: 1500,
+            order: [ 8, "desc" ],
             ajax: {
                 url: "{{ route('generalsetting.currency.index') }}",
             },
@@ -23,6 +24,7 @@
                 { data: 'description', defaultContent: '-' },
                 { data: 'country.nice_name', defaultContent: '-' },
                 { data: 'status', defaultContent: '-' },
+                { data: 'is_primary', defaultContent: '-' },
                 { data: 'creator_name', defaultContent: '-' },
                 { data: 'created_at', defaultContent: '-' },
                 { data: 'updater_name', defaultContent: '-' },
@@ -84,6 +86,13 @@
             }
             else {
                 $('#status').prop('checked', false);
+            }
+
+            if (data.is_primary == '<label class="label label-primary">Yes</label>') {
+                $('#is_primary').prop('checked', true);
+            }
+            else {
+                $('#is_primary').prop('checked', false);
             }
 
             $('#saveBtn').val("edit");

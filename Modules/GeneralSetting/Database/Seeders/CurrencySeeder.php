@@ -24,6 +24,7 @@ class CurrencySeeder extends Seeder
             'symbol' => 'Rp.',
             'description' => 'Indonesia Rupiah',
             'country_id' => 100,
+            'is_primary' => 1,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);
@@ -34,6 +35,7 @@ class CurrencySeeder extends Seeder
             'symbol' => '$',
             'description' => 'US Dollar',
             'country_id' => 226,
+            'is_primary' => 0,
             'status' => 1,
             'uuid' => Str::uuid(),
         ]);

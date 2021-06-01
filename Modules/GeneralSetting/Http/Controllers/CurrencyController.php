@@ -35,6 +35,13 @@ class CurrencyController extends Controller
                     return '<label class="label label-danger">Inactive</label>';
                 }
             })
+            ->addColumn('is_primary', function($row){
+                if ($row->is_primary == 1){
+                    return '<label class="label label-primary">Yes</label>';
+                } else{
+                    return '<label class="label label-danger">No</label>';
+                }
+            })
             ->addColumn('creator_name', function($row){
                 return $row->creator->name ?? '-';
             })
@@ -53,7 +60,7 @@ class CurrencyController extends Controller
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', Currency::class)) {
+                if(Auth::user()->can('delete', Currency::class) && $row->is_primary != 1) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
@@ -89,18 +96,31 @@ class CurrencyController extends Controller
             $status = 0;
         }
 
-        Currency::create([
+        if ($request->is_primary) {
+            $is_primary = 1;
+        } 
+        else {
+            $is_primary = 0;
+        }
+
+        DB::beginTransaction();
+        $newCurrency = Currency::create([
             'uuid' =>  Str::uuid(),
             'code' => $request->code,
             'name' => $request->name,
             'symbol' => $request->symbol,
             'description' => $request->description,
             'country_id' => $request->country_id,
+            'is_primary' => $is_primary,
 
             'owned_by' => $request->user()->company_id,
             'status' => $status,
             'created_by' => $request->user()->id,
         ]);
+        if ($is_primary == 1) {
+            Currency::where('id', '<>', $newCurrency->id)->update(['is_primary' => 0]);
+        }
+        DB::commit();
         return response()->json(['success' => 'Currency Data has been Added']);
     
     }
@@ -121,6 +141,13 @@ class CurrencyController extends Controller
             $status = 0;
         }
 
+        if ($request->is_primary) {
+            $is_primary = 1;
+        } 
+        else {
+            $is_primary = 0;
+        }
+
         DB::beginTransaction();
         if ($Currency->code == $request->code) {
             $Currency
@@ -129,6 +156,7 @@ class CurrencyController extends Controller
                     'symbol' => $request->symbol,
                     'description' => $request->description,
                     'country_id' => $request->country_id,
+                    'is_primary' => $is_primary,
                     
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
@@ -141,10 +169,14 @@ class CurrencyController extends Controller
                     'symbol' => $request->symbol,
                     'description' => $request->description,
                     'country_id' => $request->country_id,
+                    'is_primary' => $is_primary,
                     
                     'status' => $status,
                     'updated_by' => Auth::user()->id,
             ]);
+        }
+        if ($is_primary == 1) {
+            Currency::where('id', '<>', $Currency->id)->update(['is_primary' => 0]);
         }
         DB::commit();
         return response()->json(['success' => 'Currency Data has been Updated']);
