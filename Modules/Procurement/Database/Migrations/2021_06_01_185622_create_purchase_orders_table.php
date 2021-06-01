@@ -20,15 +20,18 @@ class CreatePurchaseOrdersTable extends Migration
             $table->string('code')->nullable();
             $table->date('transaction_date');
             $table->date('valid_until_date')->nullable();
-            $table->date('shipping_date')->nullable();
             $table->string('shipping_address')->nullable();
             $table->string('supplier_id');
+            $table->string('supplier_reference_document');
             $table->string('description')->nullable();
             $table->string('term_and_condition')->nullable();
 
             $table->string('current_primary_currency_id');
             $table->string('currency_id');
             $table->double('exchange_rate')->default(1);
+
+            $table->double('total_before_vat')->default(0);
+            $table->double('total_after_vat')->default(0);
 
             $table->string('transaction_reference_id')->nullable();
             $table->string('transaction_reference_class')->default('\Modules\Procurement\Entities\PurchaseRequisition');

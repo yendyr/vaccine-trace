@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePurchaseOrderDetailsTable extends Migration
+class CreatePurchaseOrderDetailOtherCostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePurchaseOrderDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchase_order_details', function (Blueprint $table) {
+        Schema::create('purchase_order_detail_other_costs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
@@ -44,6 +44,6 @@ class CreatePurchaseOrderDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchase_order_details');
+        Schema::dropIfExists('purchase_order_detail_other_costs');
     }
 }
