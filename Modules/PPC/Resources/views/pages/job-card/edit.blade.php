@@ -457,8 +457,7 @@
     </div>
 </div>
 
-@include('ppc::pages.job-card.execute-modal')
-@include('ppc::components.job-card._execute-script')
+
 @endsection
 
 @push('header-scripts')
@@ -485,4 +484,6 @@
         }
     });
 </script>
+@include('ppc::pages.job-card.execute-modal')
+@include('ppc::components.job-card._execute-script')
 @endpush

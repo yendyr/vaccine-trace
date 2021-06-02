@@ -13,9 +13,19 @@ $(document).ready(function () {
         var detail_id = $(this).val();
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
-        $('#modalTitle').html("Execute Job Card");
+        $('#modalTitle').html("Execute Confirmation");
         $('.job-card-modal-icon').removeClass("fa-pause fa-stop fa-check text-warning text-danger").addClass("fa-play text-success");
         $('#saveBtn').html('Execute Job Card').removeClass('btn-danger btn-warning').addClass('btn-primary');
+
+        if(detail_id) {
+            $(".text-notes").text("This Action Will Execute Instruction");
+        }else{
+            $(".text-notes").text("This Action Will Execute all Detailed Instructions in this Taskcard");
+        }
+
+        $(".input-notes").hide();
+        $("#notes").attr("required", false);
+        
         
         showExecuteModal(actionHref, next_status, detail_id);
     });
@@ -24,10 +34,19 @@ $(document).ready(function () {
         var detail_id = $(this).val();
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
-        $('#modalTitle').html("Resume Job Card");
+        $('#modalTitle').html("Resume Confirmation");
         $('.job-card-modal-icon').removeClass("fa-pause fa-stop fa-check text-warning text-danger").addClass("fa-play text-success");
         $('#saveBtn').html('Resume Job Card').removeClass('btn-danger btn-warning').addClass('btn-primary');
         
+        if(detail_id) {
+            $(".text-notes").text("This Action Will Execute Instruction");
+        }else{
+            $(".text-notes").text("This Action Will Execute all Detailed Instructions in this Taskcard");
+        }
+
+        $(".input-notes").hide();
+        $("#notes").attr("required", false);
+
         showExecuteModal(actionHref, next_status, detail_id);
     });
 
@@ -35,10 +54,13 @@ $(document).ready(function () {
         var detail_id = $(this).val();
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
-        $('#modalTitle').html("Release Job Card");
+        $('#modalTitle').html("Release Confirmation");
         $('.job-card-modal-icon').removeClass("fa-pause fa-stop fa-play text-warning text-danger").addClass("fa-check text-info");
         $('#saveBtn').html('Release Job Card').removeClass('btn-danger btn-warning').addClass('btn-info');
-        
+        $(".text-notes").text("Please Enter a Description of the Release Jobcard");
+        $(".input-notes").show("slow");
+        $("#notes").attr("required", true);
+
         showExecuteModal(actionHref, next_status, detail_id);
     });
 
@@ -46,10 +68,13 @@ $(document).ready(function () {
         var detail_id = $(this).val();
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
-        $('#modalTitle').html("Pause Job Card");
+        $('#modalTitle').html("Pause Confirmation");
         $('.job-card-modal-icon').removeClass("fa-play fa-stop fa-check text-success text-danger").addClass("fa-pause text-warning");
         $('#saveBtn').html('Pause Job Card').removeClass('btn-primary btn-danger').addClass('btn-warning');
-        
+        $(".text-notes").text("Please Enter a Description of the Pending Jobcard");
+        $(".input-notes").show("slow");
+        $("#notes").attr("required", true);
+
         showExecuteModal(actionHref, next_status, detail_id);
     });
 
@@ -57,10 +82,13 @@ $(document).ready(function () {
         var detail_id = $(this).val();
         var actionHref = $(this).attr('href');
         var next_status = $(this).data('next-status');
-        $('#modalTitle').html("Close Job Card");
+        $('#modalTitle').html("Close Confirmation");
         $('.job-card-modal-icon').removeClass("fa-play fa-pause fa-check text-success text-warning").addClass("fa-stop text-danger");
         $('#saveBtn').html('Close Job Card').removeClass('btn-primary btn-warning').addClass('btn-danger');
-        
+        $(".text-notes").text("Please Enter a Description of the Closing Jobcard");
+        $(".input-notes").show("slow");
+        $("#notes").attr("required", true);
+
         showExecuteModal(actionHref, next_status, detail_id);
     });
 
