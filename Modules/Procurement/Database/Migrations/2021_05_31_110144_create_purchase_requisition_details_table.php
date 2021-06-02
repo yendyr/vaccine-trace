@@ -21,9 +21,8 @@ class CreatePurchaseRequisitionDetailsTable extends Migration
 
             $table->string('item_id');
             $table->string('coding')->nullable();
-            $table->integer('quantity')->default(1);
 
-            $table->integer('request_quantity')->default(0);
+            $table->integer('request_quantity')->default(1);
             $table->integer('prepared_to_po_quantity')->default(0);
             $table->integer('processed_to_po_quantity')->default(0);
 

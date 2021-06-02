@@ -17,14 +17,10 @@ class CreatePurchaseOrderDetailOtherCostsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('item_id')->nullable();
-            $table->integer('quantity')->nullable();
-            $table->date('required_delivery_date')->nullable();
             $table->string('description')->nullable();
-
+            $table->integer('quantity')->nullable();
             $table->double('vat')->default(0);
             $table->double('price_before_vat')->default(0);
-            $table->double('price_after_vat')->default(0);
 
             $table->rememberToken();
             $table->integer('status')->nullable()->default(1);

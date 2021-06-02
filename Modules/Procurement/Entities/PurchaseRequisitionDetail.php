@@ -69,4 +69,9 @@ class PurchaseRequisitionDetail extends MainModel
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\ItemStock::class, 'item_id', 'item_id');
     }
+
+    public function purchase_order_details()
+    {
+        return $this->hasMany(\Modules\Procurement\Entities\PurchaseOrderDetail::class, 'purchase_requisition_id');
+    }
 }
