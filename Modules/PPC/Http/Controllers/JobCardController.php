@@ -238,11 +238,31 @@ class JobCardController extends Controller
                 ->addColumn('updater_name', function ($row) {
                     return $row->updater->name ?? '-';
                 })
-                ->addColumn('action', function ($row) {
+                ->addColumn('transaction_status_label', function ($row) {
+                    return $row->transaction_status_label;
+                })
+                ->addColumn('action', function ($row) use ($request) {
                     $noAuthorize = true;
 
+                    if ($request->user()->can('update', $row)) {
+                        $noAuthorize = false;
+                    }
+
                     if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue', 'deleteable', 'deleteId']));
+                        return view('ppc::components.action-button', [
+                            'status' => $row->currentUserProgress($row->id),
+                            'executeable' => 'button',
+                            'executeHref' => route('ppc.job-card.update', ['job_card' => $row->id, 'exec_all' => true]),
+                            'executeText' => 'Execute All',
+                            'pauseable' => 'button',
+                            'pauseHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
+                            'resumeable' => 'button',
+                            'resumeHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
+                            'closeable' => 'button',
+                            'closeHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
+                            'releaseable' => 'button',
+                            'releaseHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
+                        ]);
                     } else {
                         return '<p class="text-muted font-italic">Not Authorized</p>';
                     }

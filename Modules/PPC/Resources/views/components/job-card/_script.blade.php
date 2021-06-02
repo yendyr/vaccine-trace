@@ -73,6 +73,7 @@ $(document).ready(function () {
                 }
             },
             { title: 'Skill', data: 'skills', name: 'Skill', searchable:false },
+            { title: 'Status', data: 'transaction_status_label', name: 'transaction_status', searchable:false },
             { title: 'Threshold', data: 'threshold_interval', name: 'taskcard_json', searchable:true },
             { title: 'Repeat', data: 'repeat_interval', name: 'taskcard_json', searchable:true },
             { title: 'Remark', data: 'description', name: 'description' },

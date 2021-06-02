@@ -106,6 +106,17 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         return $latest_progress->transaction_status ?? 1;
     }
 
+    public function getTransactionStatusLabelAttribute(){
+        $transaction_status = null;
+
+        if($this->transaction_status) {
+            $transaction_status = config('ppc.job-card.transaction-status')[$this->transaction_status];
+        }
+
+        return ucfirst($transaction_status);
+
+    }
+
     public function getActualManhourAttribute()
     {
         $job_card_statuses = config('ppc.job-card.transaction-status');
