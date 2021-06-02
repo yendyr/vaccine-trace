@@ -26,12 +26,13 @@ class ItemController extends Controller
     {
         if ($request->ajax()) {
             $data = Item::with(['sales_coa:id,name'])
-                            ->with(['inventory_coa:id,name',
-                                    'cost_coa:id,name',
-                                    'inventory_adjustment_coa:id,name',
-                                    'unit:id,name',
-                                    'category:id,name',
-                                    'manufacturer:id,name']);
+                                'inventory_coa:id,name',
+                                'cost_coa:id,name',
+                                'inventory_adjustment_coa:id,name',
+                                'work_in_progress_coa:id,name',
+                                'unit:id,name',
+                                'category:id,name',
+                                'manufacturer:id,name']);
 
             return Datatables::of($data)
                 ->addColumn('status', function($row){
@@ -108,22 +109,12 @@ class ItemController extends Controller
             'category_id' => $request->category_id,
             'primary_unit_id' => $request->primary_unit_id,
             'manufacturer_id' => $request->manufacturer_id,
+
             'status' => $status,
             'owned_by' => $request->user()->company_id,
             'created_by' => $request->user()->id,
         ]);
         return response()->json(['success' => 'Item has been Added']);
-    
-    }
-
-    public function show(Item $Item)
-    {
-        return view('supplychain::pages.item.show');
-    }
-
-    public function edit(Item $Item)
-    {
-        return view('supplychain::pages.item.edit', compact('Item'));
     }
 
     public function update(Request $request, Item $Item)
@@ -178,7 +169,6 @@ class ItemController extends Controller
             ]);
         }
         return response()->json(['success' => 'Item Data has been Updated']);
-    
     }
 
     public function update_accounting(Request $request, Item $Item)
@@ -188,6 +178,7 @@ class ItemController extends Controller
             'inventory_coa_id' => ['required', 'max:30'],
             'cost_coa_id' => ['required', 'max:30'],
             'inventory_adjustment_coa_id' => ['required', 'max:30'],
+            'work_in_progress_coa' => ['required', 'max:30'],
         ]);
 
         if ($request->status) {
@@ -203,6 +194,8 @@ class ItemController extends Controller
                 'inventory_coa_id' => $request->inventory_coa_id,
                 'cost_coa_id' => $request->cost_coa_id,
                 'inventory_adjustment_coa_id' => $request->inventory_adjustment_coa_id,
+                'work_in_progress_coa' => $request->work_in_progress_coa,
+
                 'status' => $status,
                 'updated_by' => Auth::user()->id,
             ]);

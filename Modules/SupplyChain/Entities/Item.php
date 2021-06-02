@@ -32,6 +32,7 @@ class Item extends MainModel
         'inventory_coa_id',
         'cost_coa_id',
         'inventory_adjustment_coa_id',
+        'work_in_progress_coa_id',
 
         'status',
         'created_by',
@@ -68,6 +69,11 @@ class Item extends MainModel
     public function inventory_adjustment_coa()
     {
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'inventory_adjustment_coa_id');
+    }
+
+    public function work_in_progress_coa()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'work_in_progress_coa_id');
     }
 
     public function unit()

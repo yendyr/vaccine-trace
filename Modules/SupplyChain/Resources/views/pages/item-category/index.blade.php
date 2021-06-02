@@ -22,6 +22,7 @@
             <th>Code</th>
             <th>Category Name</th>
             <th>Description/Remark</th>
+            <th>Item Type</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>

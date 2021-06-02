@@ -39,6 +39,21 @@
                             <div class="invalid-feedback-description text-danger font-italic"></div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 d-flex align-items-center">Item Type</label>
+                        <div class="col-sm-7">
+                            <select class="item_type form-control @error('item_type') is-invalid @enderror" name="item_type" id="item_type">
+                                <option value="Purchased Item">Purchased Item</option>
+                                <option value="Manufactured Item">Manufactured Item</option>
+                                <option value="Service">Service</option>
+                            </select>
+                            <div class="invalid-feedback-item_type text-danger font-italic"></div>
+                            <span class="text-success font-italic">
+                                <i class="fa fa-info-circle"></i>
+                                &nbsp;if you choose "Service", it's mean non-stockable item type.
+                            </span>
+                        </div>
+                    </div>
                     {{-- <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Active</label>
                         <div class="col-sm-7">     

@@ -33,8 +33,9 @@ class CreateItemsTable extends Migration
             $table->string('inventory_coa_id')->nullable();
             $table->string('cost_coa_id')->nullable();
             $table->string('inventory_adjustment_coa_id')->nullable();
-            $table->rememberToken();
+            $table->string('work_in_progress_coa_id')->nullable();
 
+            $table->rememberToken();
             $table->integer('status')->nullable()->default(1);
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();
