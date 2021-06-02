@@ -30,7 +30,7 @@
                 @yield('page-heading')
 
                 @include('components.breadcrumb')
-                <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="wrapper wrapper-content animated fadeInRight hidden">
                     @if (session('error'))
                         <div class="alert alert-danger">
                             {{ session('error') }}
@@ -67,5 +67,16 @@
 </script>
 @include('layouts.includes._footer-script')
 @stack('footer-scripts')
+@if (session('error'))
+<script>
+generateToast ('error', "{{ session('error') }}");                            
+</script>
+@endif
+
+@if (session('success'))
+<script>
+generateToast ('success', "{{ session('success') }}");                            
+</script>
+@endif
 </body>
 </html>
