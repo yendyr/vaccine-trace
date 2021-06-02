@@ -27,7 +27,10 @@ class PurchaseOrderController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = PurchaseOrder::with(['approvals']);
+            $data = PurchaseOrder::with(['approvals',
+                                        'supplier:id,code,name'
+                                        'current_primary_currency:id,code,symbol,name'
+                                        'currency:id,code,symbol,name']);
 
             return Datatables::of($data)
             ->addColumn('reference', function($row){

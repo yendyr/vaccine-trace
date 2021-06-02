@@ -40,6 +40,7 @@ Route::name('generalsetting.')->group(function () {
         Route::resource('/currency', 'CurrencyController');
         Route::name('currency.')->group(function() {
             Route::get('generalsetting/currency/select2', 'CurrencyController@select2')->name('select2');
+            Route::get('generalsetting/currency/select2/primary', 'CurrencyController@select2Primary')->name('select2.primary');
         });
     });
 });

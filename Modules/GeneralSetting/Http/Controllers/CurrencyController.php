@@ -213,4 +213,29 @@ class CurrencyController extends Controller
         }
         return response()->json($response);
     }
+
+    public function select2Primary(Request $request)
+    {
+        // $search = $request->q;
+        $query = Currency::orderby('name','asc')
+                ->where('status', 1)
+                ->where('is_primary', 1)
+                ->first();
+
+        // if($search != ''){
+        //     $query = $query->where('name', 'like', '%' .$search. '%');
+        // }
+        // $Currencies = $query->get();
+
+        $response = [];
+        foreach($Currencies as $Currency){
+            $response['results'][] = [
+                "id" => $Currency->id,
+                "text" => $Currency->code . ' | ' . 
+                $Currency->symbol . ' | ' .
+                $Currency->name
+            ];
+        }
+        return response()->json($response);
+    }
 }

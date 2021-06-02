@@ -20,7 +20,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->string('code')->nullable();
             $table->date('transaction_date');
             $table->date('valid_until_date')->nullable();
-            $table->string('shipping_address')->nullable();
+            $table->string('shipping_address', 2000)->nullable();
             $table->string('supplier_id');
             $table->string('supplier_reference_document');
             $table->string('description', 2000)->nullable();
