@@ -83,7 +83,9 @@
                 }
 
                 if (data.redirectUrl && data.success) {
-                    setTimeout(location.reload.bind(data.redirectUrl), 3000);    
+                    setTimeout(function() {
+                        window.location.href = data.redirectUrl;
+                    }, 3000);    
                 }
             },
             complete: function() {
@@ -135,7 +137,9 @@
                 }
                 
                 if (data.redirectUrl && data.success) {
-                    setTimeout(location.reload.bind(data.redirectUrl), 3000);    
+                    setTimeout(function() {
+                        window.location.href = data.redirectUrl;
+                    }, 3000);    
                 }
             },
             complete: function() {
@@ -202,7 +206,9 @@
                     }
 
                     if (data.redirectUrl && data.success) {
-                        setTimeout(location.reload.bind(data.redirectUrl), 3000);    
+                        setTimeout(function() {
+                            window.location.href = data.redirectUrl;
+                        }, 3000);    
                     }
                 }
             });
@@ -263,7 +269,9 @@
                     }
 
                     if (data.redirectUrl && data.success) {
-                        setTimeout(location.reload.bind(data.redirectUrl), 3000);    
+                        setTimeout(function() {
+                            window.location.href = data.redirectUrl;
+                        }, 3000);    
                     }
                 }
             });
@@ -324,7 +332,9 @@
                     }
 
                     if (data.redirectUrl && data.success) {
-                        setTimeout(location.reload.bind(data.redirectUrl), 3000);    
+                        setTimeout(function() {
+                            window.location.href = data.redirectUrl;
+                        }, 3000);    
                     }
                 }
             });
