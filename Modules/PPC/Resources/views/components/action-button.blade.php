@@ -74,10 +74,10 @@
     @isset($releaseable)
         @if($releaseable == 'button')
             <button href="{{ $releaseHref ?? '#' }}" class="{{ $releaseButtonClass ?? 'releaseBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $releaseValue ?? null }}" data-next-status="release" data-toggle="tooltip" title="Release">
-                <i class="fa fa-check"></i> {{ $releaseText ?? 'Release' }}</button>
+                <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</button>
         @elseif($releaseable == 'a')
             <a href="{{ $releaseHref ?? '#' }}" class="release btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="release" data-toggle="tooltip" title="Release">
-                <i class="fa fa-check"></i> {{ $releaseText ?? 'Release' }}</a>
+                <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</a>
         @endif
     @endisset
 @break
@@ -85,10 +85,10 @@
     @isset($releaseText)
         @if($releaseable == 'button')
             <button href="{{ $releaseHref ?? '#' }}" class="{{ $releaseButtonClass ?? 'releaseBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $releaseValue ?? null }}" data-next-status="release" data-toggle="tooltip" title="Release">
-                <i class="fa fa-check"></i> {{ $releaseText ?? 'Release' }}</button>
+                <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</button>
         @elseif($releaseable == 'a')
             <a href="{{ $releaseHref ?? '#' }}" class="release btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="release" data-toggle="tooltip" title="Release">
-                <i class="fa fa-check"></i> {{ $releaseText ?? 'Release' }}</a>
+                <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</a>
         @endif
     @endisset
 @break

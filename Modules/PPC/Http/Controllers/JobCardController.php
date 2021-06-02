@@ -248,7 +248,7 @@ class JobCardController extends Controller
                         $noAuthorize = false;
                     }
 
-                    if ($noAuthorize == false) {
+                    if ($noAuthorize == false && $row->is_exec_all == true || $row->is_exec_all == null) {
                         return view('ppc::components.action-button', [
                             'status' => $row->currentUserProgress($row->id),
                             'executeable' => 'button',

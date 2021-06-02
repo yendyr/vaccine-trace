@@ -18,11 +18,12 @@
                     <div class="row m-b d-flex justify-content-center">
                         <i class="fa fa-play fa-5x fa-fw text-success job-card-modal-icon"></i>
                     </div>
-                    <div class="row m-b">
-                        Notes:
+                    <div class="row m-b text-notes">
+                        This Action Will Execute all Detailed Instructions in this Taskcard
                     </div>
-                    <div class="row">
-                        <input class="form-control @error('notes') is-invalid @enderror" type="text" id="notes"  name="notes" required>
+                    <div class="row input-notes">
+                        Notes: <br>
+                        <input class="form-control @error('notes') is-invalid @enderror" type="text" id="notes" name="notes" required max="50">
                         <div class="invalid-feedback-notes text-danger font-italic"></div>
                     </div>
                 </div>

@@ -38,7 +38,6 @@
         </div>
     </div>
 
-@include('ppc::components.job-card._script')
 @endsection
 
 @push('header-scripts')
@@ -62,4 +61,6 @@
 
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
+    @include('ppc::components.job-card._script')
+    @include('ppc::components.job-card._execute-script')
 @endpush
