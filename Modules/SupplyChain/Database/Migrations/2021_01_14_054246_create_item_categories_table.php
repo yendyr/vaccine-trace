@@ -19,13 +19,15 @@ class CreateItemCategoriesTable extends Migration
             $table->string('code')->unique();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
+            $table->string('item_type')->default('Purchased Item');
 
             $table->string('sales_coa_id')->nullable();
             $table->string('inventory_coa_id')->nullable();
             $table->string('cost_coa_id')->nullable();
             $table->string('inventory_adjustment_coa_id')->nullable();
-            $table->rememberToken();
+            $table->string('work_in_progress_coa_id')->nullable();
 
+            $table->rememberToken();
             $table->integer('status')->nullable()->default(0);
             $table->integer('owned_by')->nullable()->unsigned();
             $table->integer('created_by')->nullable()->unsigned();
