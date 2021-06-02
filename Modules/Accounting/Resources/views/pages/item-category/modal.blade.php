@@ -16,22 +16,25 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Code</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code" readonly>                            
-                                    <div class="invalid-feedback-code text-danger font-italic"></div>                            
+                                    <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code" readonly>                       
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">Item Category Name</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" readonly>
-                                    <div class="invalid-feedback-name text-danger font-italic"></div>
                                 </div>
                             </div>    
                             <div class="form-group row m-b">
                                 <label class="col-sm-5 d-flex align-items-center">Description/Remark</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" readonly>
-                                    <div class="invalid-feedback-description text-danger font-italic"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row m-b">
+                                <label class="col-sm-5 d-flex align-items-center">Item Type</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control @error('item_type') is-invalid @enderror" name="item_type" id="item_type" readonly>
                                 </div>
                             </div>
                         </div>
@@ -69,6 +72,13 @@
                                                 <div class="col-sm-7">
                                                     <select class="inventory_adjustment_coa_id form-control @error('inventory_adjustment_coa_id') is-invalid @enderror" id="inventory_adjustment_coa_id" name="inventory_adjustment_coa_id"></select>
                                                     <div class="invalid-feedback-inventory_adjustment_coa_id text-danger font-italic"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-5 d-flex align-items-center">Work in Progress</label>
+                                                <div class="col-sm-7">
+                                                    <select class="work_in_progress_coa_id form-control @error('work_in_progress_coa_id') is-invalid @enderror" id="work_in_progress_coa_id" name="work_in_progress_coa_id"></select>
+                                                    <div class="invalid-feedback-work_in_progress_coa_id text-danger font-italic"></div>
                                                 </div>
                                             </div>
                                         </div>
