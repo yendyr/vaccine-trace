@@ -98,7 +98,7 @@ class PurchaseOrderController extends Controller
             'current_primary_currency_id' => ['required', 'max:30'],
             'currency_id' => ['required', 'max:30'],
             'exchange_rate' => ['required', 'max:30'],
-            'description' => ['required'],
+            // 'description' => ['required'],
         ]);
 
         $transaction_date = Carbon::parse($request->transaction_date);
@@ -153,7 +153,7 @@ class PurchaseOrderController extends Controller
                 'current_primary_currency_id' => ['required', 'max:30'],
                 'currency_id' => ['required', 'max:30'],
                 'exchange_rate' => ['required', 'max:30'],
-                'description' => ['required'],
+                // 'description' => ['required'],
             ]);
 
             $transaction_date = Carbon::parse($request->transaction_date);

@@ -69,7 +69,7 @@ $(document).ready(function () {
     $('.currency_id').select2({
         theme: 'bootstrap4',
         placeholder: 'Choose Currency',
-        allowClear: true,
+        allowClear: false,
         ajax: {
             url: "{{ route('generalsetting.currency.select2') }}",
             dataType: 'json',
@@ -87,8 +87,6 @@ $(document).ready(function () {
 
     $('#create').click(function () {
         showCreateModal ('Create New Purchase Order', inputFormId, actionUrl);
-
-        $('.current_primary_currency_id option:eq(0)').prop('selected',true);
     });
 
 
@@ -180,7 +178,7 @@ $(document).ready(function () {
                 $(targetTableId).DataTable().ajax.reload();
 
                 setTimeout(function () {
-                    window.location.href = "purchase-requisition/" + data.id;
+                    window.location.href = "purchase-order/" + data.id;
                 }, 2000);
             },
             complete: function () {
