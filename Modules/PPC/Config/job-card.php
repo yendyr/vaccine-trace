@@ -12,10 +12,11 @@ return [
             2 => 'progress',
             21 => 'partially progress',
             3 => 'pending',
-            31 => 'partially pending',
-            4 => 'close',
-            41 => 'partially close',
-            5 => 'exception'
+            4 => 'closed',
+            41 => 'partially closed',
+            5 => 'exception',
+            6 => 'released',
+            61 => 'partially released'
         ],
         'transaction-icon' => [
             0 => 'circle',
@@ -23,10 +24,11 @@ return [
             2 => 'forward',
             21 => 'forward',
             3 => 'pause',
-            31 => 'pause',
             4 => 'stop',
             41 => 'stop',
-            5 => 'fighter-jet'
+            5 => 'fighter-jet',
+            6 => 'fighter-jet',
+            61 => 'fighter-jet'
         ],
         'transaction-status-color' => [
             0 => 'plain',
@@ -34,10 +36,11 @@ return [
             2 => 'info',
             21 => 'info',
             3 => 'warning',
-            31 => 'warning',
             4 => 'success',
             41 => 'success',
             5 => 'danger',
+            6 => 'success',
+            61 => 'success'
         ],
     ]
 ];

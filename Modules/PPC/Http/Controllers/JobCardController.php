@@ -534,7 +534,7 @@ class JobCardController extends Controller
         // Progress Release
         if( strtolower($request->next_status) == 'release') {
 
-            if (!empty($request->detail_id)) {
+            if (!empty($request->detail_id)) { // berarti ini update detail/instruction
 
                 $detail = $job_card->details()->where('id', $request->detail_id)->first();
                 $task_release_level = $detail->getNextTaskRelease();
@@ -548,6 +548,16 @@ class JobCardController extends Controller
                 }
 
                 $next_transaction_status = $task_release_level->uuid;
+
+                if($job_card->transaction_status !== array_search('partially released', $job_card_transaction_status)) {
+                    $result = $job_card->update([
+                        'transaction_status' => array_search('partially released', $job_card_transaction_status)
+                    ]);
+    
+                    if (!$result) {
+                        $flag = false;
+                    }
+                }
             }
         }
 
@@ -573,7 +583,6 @@ class JobCardController extends Controller
                 
                 // cek kalau semua detail apakah sudah close ?
                 if($job_card->details()->whereIn('transaction_status', ['pending', 'pause'])->count() == $job_card->details()->count()) {
-                    $status = 'partially pending';
 
                     $result = $job_card->update([
                         'transaction_status' => array_search($status, $job_card_transaction_status)
