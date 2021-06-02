@@ -37,5 +37,25 @@ class ProcurementMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        Menu::create([
+            'menu_link' => 'procurement/purchase-order',
+            'menu_text' => 'Purchase Order',
+            'menu_route' => 'procurement.purchase-order.index',
+            'menu_icon' => 'fa-shopping-cart',
+            'menu_class' => 'Modules\Procurement\Entities\PurchaseOrder',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['procurement/purchase-order', 'procurement/purchase-order/*']),
+            'group' => 'Procurement',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }

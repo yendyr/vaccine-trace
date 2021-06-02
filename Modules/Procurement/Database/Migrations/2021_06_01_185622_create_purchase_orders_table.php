@@ -23,8 +23,8 @@ class CreatePurchaseOrdersTable extends Migration
             $table->string('shipping_address')->nullable();
             $table->string('supplier_id');
             $table->string('supplier_reference_document');
-            $table->string('description')->nullable();
-            $table->string('term_and_condition')->nullable();
+            $table->string('description', 2000)->nullable();
+            $table->string('term_and_condition', 2000)->nullable();
 
             $table->string('current_primary_currency_id');
             $table->string('currency_id');
@@ -34,8 +34,8 @@ class CreatePurchaseOrdersTable extends Migration
             $table->double('total_after_vat')->default(0);
 
             $table->string('transaction_reference_id')->nullable();
-            $table->string('transaction_reference_class')->default('\Modules\Procurement\Entities\PurchaseRequisition');
-            $table->string('transaction_reference_text')->default('Purchase Requisition');
+            $table->string('transaction_reference_class')->nullable();
+            $table->string('transaction_reference_text')->nullable();
             $table->string('transaction_reference_url')->nullable();
 
             $table->rememberToken();

@@ -206,6 +206,9 @@ use Modules\PPC\Policies\WOWPTaskcardDetailProgressPolicy;
 use Modules\Procurement\Entities\PurchaseRequisition;
 use Modules\Procurement\Policies\PurchaseRequisitionPolicy;
 
+use Modules\Procurement\Entities\PurchaseOrder;
+use Modules\Procurement\Policies\PurchaseOrderPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -297,6 +300,7 @@ class AuthServiceProvider extends ServiceProvider
         AfmlDetailRectification::class => AfmlDetailRectificationPolicy::class,
 
         PurchaseRequisition::class => PurchaseRequisitionPolicy::class,
+        PurchaseOrder::class => PurchaseOrderPolicy::class,
     ];
 
     /**

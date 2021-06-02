@@ -20,7 +20,7 @@ class PurchaseRequisitionController extends Controller
 
     public function __construct()
     {
-        // $this->authorizeResource(PurchaseRequisition::class);
+        $this->authorizeResource(PurchaseRequisition::class);
         $this->middleware('auth');
     }
 

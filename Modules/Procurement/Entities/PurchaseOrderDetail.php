@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class PurchaseOrder extends MainModel
+class PurchaseOrderDetail extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -16,26 +16,16 @@ class PurchaseOrder extends MainModel
     protected $fillable = [
         'uuid',
 
-        'code',
-        'transaction_date',
-        'valid_until_date',
-        'shipping_address',
-        'supplier_id',
-        'supplier_reference_document',
+        'purchase_requisition_detail_id',
+        'required_delivery_date',
         'description',
-        'term_and_condition',
 
-        'current_primary_currency_id',
-        'currency_id',
-        'exchange_rate',
+        'order_quantity',
+        'prepared_to_grn_quantity',
+        'processed_to_grn_quantity',
 
-        'total_before_vat',
-        'total_after_vat',
-
-        'transaction_reference_id',
-        'transaction_reference_class',
-        'transaction_reference_text',
-        'transaction_reference_url',
+        'vat',
+        'price_before_vat',
         
         'status',
         'created_by',
@@ -54,9 +44,9 @@ class PurchaseOrder extends MainModel
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
     }
 
-    public function supplier()
+    public function purchase_requisition_detail()
     {
-        return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'supplier_id');
+        return $this->belongsTo(\Modules\Procurement\Entities\PurchaseRequisitionDetail::class, 'purchase_requisition_detail_id');
     }
 
     public function current_primary_currency()
