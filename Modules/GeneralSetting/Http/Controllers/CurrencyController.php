@@ -217,10 +217,10 @@ class CurrencyController extends Controller
     public function select2Primary(Request $request)
     {
         // $search = $request->q;
-        $query = Currency::orderby('name','asc')
+        $Currencies = Currency::orderby('name','asc')
                 ->where('status', 1)
                 ->where('is_primary', 1)
-                ->first();
+                ->get();
 
         // if($search != ''){
         //     $query = $query->where('name', 'like', '%' .$search. '%');

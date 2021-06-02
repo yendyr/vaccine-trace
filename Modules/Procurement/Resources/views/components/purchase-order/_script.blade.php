@@ -52,7 +52,7 @@ $(document).ready(function () {
             url: "{{ route('generalsetting.company.select2.supplier') }}",
             dataType: 'json',
         },
-        dropdownParent: $(inputModalId)
+        dropdownParent: $(inputModal)
     });
 
     $('.current_primary_currency_id').select2({
@@ -63,7 +63,7 @@ $(document).ready(function () {
             url: "{{ route('generalsetting.currency.select2.primary') }}",
             dataType: 'json',
         },
-        dropdownParent: $(inputModalId)
+        dropdownParent: $(inputModal)
     });
 
     $('.currency_id').select2({
@@ -74,7 +74,7 @@ $(document).ready(function () {
             url: "{{ route('generalsetting.currency.select2') }}",
             dataType: 'json',
         },
-        dropdownParent: $(inputModalId)
+        dropdownParent: $(inputModal)
     });
 
     
@@ -87,6 +87,8 @@ $(document).ready(function () {
 
     $('#create').click(function () {
         showCreateModal ('Create New Purchase Order', inputFormId, actionUrl);
+
+        $('.current_primary_currency_id option:eq(0)').prop('selected',true);
     });
 
 
@@ -112,6 +114,7 @@ $(document).ready(function () {
         $('.transaction_date').val(data.transaction_date);
         $('.valid_until_date').val(data.valid_until_date);
         $('#supplier_reference_document').val(data.supplier_reference_document);
+        $('#exchange_rate').val(data.exchange_rate);
         $('#shipping_address').summernote("code", data.shipping_address);
         $('#description').summernote("code", data.description);
         $('#term_and_condition').summernote("code", data.term_and_condition);
@@ -191,6 +194,28 @@ $(document).ready(function () {
     deleteButtonProcess (datatableObject, tableId, actionUrl);
 
     approveButtonProcess (datatableObject, tableId, actionUrl);
+
+
+
+
+
+    function exchange_rate_validation () {
+        if ($('.current_primary_currency_id').val() == $('.currency_id').val()) {
+            $("#exchange_rate").val(1);
+            $('#exchange_rate').attr('readonly', true);
+        }
+        else {
+            $('#exchange_rate').attr('readonly', false);
+        }
+    }
+
+    $('.current_primary_currency_id').on('change', function (e) {
+        exchange_rate_validation ();
+    });
+
+    $('.currency_id').on('change', function (e) {
+        exchange_rate_validation ();
+    });
 });
 </script>
 @endpush

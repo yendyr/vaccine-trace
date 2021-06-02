@@ -110,10 +110,10 @@
 @endpush
 
 @push('footer-scripts')
-    <script src="{{URL::asset('theme/js/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <script src="{{ URL::asset('theme/js/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script>
         $(document).ready(function(){
-            $('.instruction').summernote();
+            $('.instruction').summernote({ height: 100 });
         });
     </script>
 @endpush

@@ -256,10 +256,10 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     border-radius: 5px;
 }
 
-.note-editor.note-frame {
+/* .note-editor.note-frame {
     border: 1px solid #b3e2ff;
     min-height: 200px;
-}
+} */
 
 .nav-tabs > li > a {
     background-color: #ededed;
@@ -282,9 +282,9 @@ div.table-responsive>div.dataTables_wrapper>div.row {
     font-size: 12px;
 }
 
-.note-editor.note-frame .note-editing-area {
+/* .note-editor.note-frame .note-editing-area {
     padding-top: 30px;
-}
+} */
 
 .text-muted {
     color: #ccc!important;

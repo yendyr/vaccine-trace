@@ -28,8 +28,8 @@ class PurchaseOrderController extends Controller
     {
         if ($request->ajax()) {
             $data = PurchaseOrder::with(['approvals',
-                                        'supplier:id,code,name'
-                                        'current_primary_currency:id,code,symbol,name'
+                                        'supplier:id,code,name',
+                                        'current_primary_currency:id,code,symbol,name',
                                         'currency:id,code,symbol,name']);
 
             return Datatables::of($data)
