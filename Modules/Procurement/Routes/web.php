@@ -23,5 +23,13 @@ Route::name('procurement.')->group(function() {
             Route::get('procurement/purchase-requisition-detail/select2', 'PurchaseRequisitionDetailController@select2Parent')->name('select2');
         });
 
+        Route::resource('/purchase-order', 'PurchaseOrderController');
+        Route::post('/purchase-order/{purchase_order}/approve', 'PurchaseOrderController@approve');
+
+        Route::resource('/purchase-order-detail', 'PurchaseOrderDetailController');        
+        Route::name('purchase-order-detail.')->group(function() {
+            Route::get('procurement/purchase-order-detail/select2', 'PurchaseOrderDetailController@select2Parent')->name('select2');
+        });
+
     });
 });
