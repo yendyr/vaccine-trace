@@ -25,7 +25,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Item::with(['sales_coa:id,name'])
+            $data = Item::with(['sales_coa:id,name',
                                 'inventory_coa:id,name',
                                 'cost_coa:id,name',
                                 'inventory_adjustment_coa:id,name',
@@ -35,44 +35,43 @@ class ItemController extends Controller
                                 'manufacturer:id,name']);
 
             return Datatables::of($data)
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
-                        return '<label class="label label-success">Active</label>';
-                    } else{
-                        return '<label class="label label-danger">Inactive</label>';
-                    }
-                })
-                ->addColumn('creator_name', function($row){
-                    return $row->creator->name ?? '-';
-                })
-                ->addColumn('updater_name', function($row){
-                    return $row->updater->name ?? '-';
-                })
-                ->addColumn('action', function($row){
-                    $noAuthorize = true;
-                    if(Auth::user()->can('update', Item::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        $noAuthorize = false;
-                    }
-                    if(Auth::user()->can('delete', Item::class)) {
-                        $deleteable = true;
-                        $deleteId = $row->id;
-                        $noAuthorize = false;
-                    }
+            ->addColumn('status', function($row){
+                if ($row->status == 1){
+                    return '<label class="label label-success">Active</label>';
+                } else{
+                    return '<label class="label label-danger">Inactive</label>';
+                }
+            })
+            ->addColumn('creator_name', function($row){
+                return $row->creator->name ?? '-';
+            })
+            ->addColumn('updater_name', function($row){
+                return $row->updater->name ?? '-';
+            })
+            ->addColumn('action', function($row){
+                $noAuthorize = true;
+                if(Auth::user()->can('update', Item::class)) {
+                    $updateable = 'button';
+                    $updateValue = $row->id;
+                    $noAuthorize = false;
+                }
+                if(Auth::user()->can('delete', Item::class)) {
+                    $deleteable = true;
+                    $deleteId = $row->id;
+                    $noAuthorize = false;
+                }
 
-                    if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
-                    }
-                    else {
-                        return '<p class="text-muted font-italic">Not Authorized</p>';
-                    }
-                    
-                })
-                ->escapeColumns([])
-                ->make(true);
+                if ($noAuthorize == false) {
+                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                }
+                else {
+                    return '<p class="text-muted font-italic">Not Authorized</p>';
+                }
+                
+            })
+            ->escapeColumns([])
+            ->make(true);
         }
-
         return view('supplychain::pages.item.index');
     }
 

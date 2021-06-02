@@ -26,6 +26,7 @@
             <th>Inventory COA</th>
             <th>Cost COA</th>
             <th>Inventory Adj. COA</th>
+            <th>Work in Progress COA</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>

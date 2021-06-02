@@ -69,8 +69,12 @@ class ItemCategoryController extends Controller
             ->escapeColumns([])
             ->make(true);
         }
-
         return view('supplychain::pages.item-category.index');
+    }
+
+    public function index_accounting(Request $request)
+    {
+        return view('accounting::pages.item-category.index');
     }
 
     public function store(Request $request)

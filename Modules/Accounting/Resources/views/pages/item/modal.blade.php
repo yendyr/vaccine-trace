@@ -71,6 +71,13 @@
                                                     <div class="invalid-feedback-inventory_adjustment_coa_id text-danger font-italic"></div>
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-5 d-flex align-items-center">Work in Progress</label>
+                                                <div class="col-sm-7">
+                                                    <select class="work_in_progress_coa_id form-control @error('work_in_progress_coa_id') is-invalid @enderror" id="work_in_progress_coa_id" name="work_in_progress_coa_id"></select>
+                                                    <div class="invalid-feedback-work_in_progress_coa_id text-danger font-italic"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
