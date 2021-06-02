@@ -81,8 +81,9 @@
                 if ($(targetTableId).length !== 0) {
                     $(targetTableId).DataTable().ajax.reload();
                 }
-                if (data.redirectUrl) {
-                    window.location.href = data.redirectUrl;
+
+                if (data.redirectUrl && data.success) {
+                    setTimeout(location.reload.bind(data.redirectUrl), 3000);    
                 }
             },
             complete: function() {
@@ -132,8 +133,9 @@
                 if ($(targetTableId).length !== 0) {
                     $(targetTableId).DataTable().ajax.reload();
                 }
-                if (data.redirectUrl) {
-                    window.location.href = data.redirectUrl;
+                
+                if (data.redirectUrl && data.success) {
+                    setTimeout(location.reload.bind(data.redirectUrl), 3000);    
                 }
             },
             complete: function() {
@@ -198,8 +200,9 @@
                     if ($(targetTableId).length !== 0) {
                         $(targetTableId).DataTable().ajax.reload();
                     }
-                    if (data.redirectUrl) {
-                        window.location.href = data.redirectUrl;
+
+                    if (data.redirectUrl && data.success) {
+                        setTimeout(location.reload.bind(data.redirectUrl), 3000);    
                     }
                 }
             });
@@ -258,8 +261,9 @@
                     if ($(targetTableId).length !== 0) {
                         $(targetTableId).DataTable().ajax.reload();
                     }
-                    if (data.redirectUrl) {
-                        window.location.href = data.redirectUrl;
+
+                    if (data.redirectUrl && data.success) {
+                        setTimeout(location.reload.bind(data.redirectUrl), 3000);    
                     }
                 }
             });
@@ -318,8 +322,9 @@
                     if ($(targetTableId).length !== 0) {
                         $(targetTableId).DataTable().ajax.reload();
                     }
-                    if (data.redirectUrl) {
-                        window.location.href = data.redirectUrl;
+
+                    if (data.redirectUrl && data.success) {
+                        setTimeout(location.reload.bind(data.redirectUrl), 3000);    
                     }
                 }
             });
