@@ -52,8 +52,14 @@
     tr.group:hover {
         background-color: #aaa !important;
     }
+
+    .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered{
+        color: rgb(0, 0, 0);
+    }
 </style>
 @endpush
+
+
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
 @endpush
