@@ -253,7 +253,7 @@ class JobCardController extends Controller
                             'status' => $row->currentUserProgress($row->id),
                             'executeable' => 'button',
                             'executeHref' => route('ppc.job-card.update', ['job_card' => $row->id, 'exec_all' => true]),
-                            'executeText' => 'Execute All',
+                            'executeText' => 'Execute',
                             'pauseable' => 'button',
                             'pauseHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
                             'resumeable' => 'button',
