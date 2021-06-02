@@ -462,9 +462,13 @@ class JobCardController extends Controller
             }
         }
 
-        // update status row if still open
+        // update HEADER status row if still open
         if ($job_card->transaction_status == array_search('open', $job_card_transaction_status)) {
-            $status = 'progress';
+            if( $job_card->is_exec_all ) {
+                $status = 'progress';
+            }else{
+                $status = 'partially progress';
+            }
 
             // update job card status row 
             $result = $job_card->update([
@@ -476,7 +480,7 @@ class JobCardController extends Controller
             }
         }
 
-        // update detail status row if still open
+        // update DETAIL/INSTRUCTION status row if still open
         if (!empty($request->detail_id) && $job_card->details()->where('id', $request->detail_id)->first()->transaction_status ==  array_search('open', $job_card_transaction_status)) {
             $status = 'progress';
 
@@ -485,6 +489,7 @@ class JobCardController extends Controller
             ]);
         }
 
+        // Progress close
         if ( strtolower($request->next_status) == 'close') {
             /** perlu refactor karena harus mengecek 
              * untuk job card yang close itu bukan hanya dari 1 task saja */
@@ -503,7 +508,8 @@ class JobCardController extends Controller
                     $row->transaction_status =  config('ppc.job-card.transaction-status')[$row->transaction_status] ?? null;
                 }
                 
-                if($job_card->details->whereIn('transaction_status', ['open', 'pause', 'progress'])->count() == 0) {
+                // cek kalau semua detail apakah sudah close ?
+                if($job_card->details->whereIn('transaction_status', ['open', 'pending', 'pause', 'progress'])->count() == 0) {
                     $result = $job_card->update([
                         'transaction_status' => array_search($status, $job_card_transaction_status)
                     ]);
@@ -525,6 +531,7 @@ class JobCardController extends Controller
             }
         }
 
+        // Progress Release
         if( strtolower($request->next_status) == 'release') {
 
             if (!empty($request->detail_id)) {
@@ -541,6 +548,51 @@ class JobCardController extends Controller
                 }
 
                 $next_transaction_status = $task_release_level->uuid;
+            }
+        }
+
+        // Progress PAUSE/PENDING
+        // Progress close
+        if ( strtolower($request->next_status) == 'pause' || strtolower($request->next_status) == 'pending') {
+            /** perlu refactor karena harus mengecek 
+             * untuk job card yang close itu bukan hanya dari 1 task saja */
+            $status = 'pending';
+
+            if (!$job_card->is_exec_all) {
+
+                // update detail status row
+                if (!empty($request->detail_id)) {
+                    $job_card->details()->where('id', $request->detail_id)->update([
+                        'transaction_status' => array_search($status, $job_card_transaction_status)
+                    ]);
+                }
+
+                foreach ($job_card->details as $key => $row) {
+                    $row->transaction_status =  config('ppc.job-card.transaction-status')[$row->transaction_status] ?? null;
+                }
+                
+                // cek kalau semua detail apakah sudah close ?
+                if($job_card->details()->whereIn('transaction_status', ['pending', 'pause'])->count() == $job_card->details()->count()) {
+                    $status = 'partially pending';
+
+                    $result = $job_card->update([
+                        'transaction_status' => array_search($status, $job_card_transaction_status)
+                    ]);
+    
+                    if (!$result) {
+                        $flag = false;
+                    }
+                }
+
+            } else {
+                // update job card status row 
+                $result = $job_card->update([
+                    'transaction_status' => array_search($status, $job_card_transaction_status)
+                ]);
+
+                if (!$result) {
+                    $flag = false;
+                }
             }
         }
 
