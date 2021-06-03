@@ -12,7 +12,7 @@ $(document).ready(function () {
             },
             "data": {
                 type: "GET",
-                url: "/procurement/purchase-requisition/detail-tree/?id=" + $('#purchase_requisition_id').val(),
+                url: "/procurement/purchase-order/detail-tree/?id=" + $('#purchase_order_id').val(),
                 success: function (data) {
                     data.d;
                     $(data).each(function () {

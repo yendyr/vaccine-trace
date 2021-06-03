@@ -16,7 +16,9 @@ class PurchaseOrderDetail extends MainModel
     protected $fillable = [
         'uuid',
 
+        'purchase_order_id',
         'purchase_requisition_detail_id',
+
         'required_delivery_date',
         'description',
 
@@ -25,7 +27,7 @@ class PurchaseOrderDetail extends MainModel
         'processed_to_grn_quantity',
 
         'vat',
-        'price_before_vat',
+        'each_price_before_vat',
         
         'status',
         'created_by',

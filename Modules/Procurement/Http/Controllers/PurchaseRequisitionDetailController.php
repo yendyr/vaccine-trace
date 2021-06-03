@@ -170,6 +170,11 @@ class PurchaseRequisitionDetailController extends Controller
         ->addColumn('updater_name', function($row){
             return $row->updater->name ?? '-';
         })
+        ->addColumn('purchase_requisition_data', function($row){
+            return "<a href='/procurement/purchase-requisition/" . 
+            $row->purchase_requisition->id . "' target='_blank'>" . 
+            $row->purchase_requisition->code . '</a>';
+        })
         ->addColumn('purchase_order_status', function($row){
             return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
             'Processed: <strong>' . $row->processed_to_po_quantity . '</strong><br>';

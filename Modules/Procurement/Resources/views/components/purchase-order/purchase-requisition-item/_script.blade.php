@@ -48,7 +48,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="14">Purchase Request Code: <b>' + group + '</b></td></tr>'
+                        '<tr class="group" style="text-align: left;"><td colspan="10">Purchase Request Transaction Code: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -59,11 +59,12 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         // order: [ 13, "desc" ],
+        orderCellsTop: true,
         ajax: {
             url: "/procurement/purchase-requisition/outstanding/?with_use_button=true",
         },
         columns: [
-            { data: 'purchase_requisition.code', defaultContent: "-" },
+            { data: 'purchase_requisition_data' },
             { data: 'item.code' },
             { data: 'item.name' },
             { data: 'request_quantity' },
@@ -86,11 +87,13 @@ $(document).ready(function () {
     });    
 
 
+
+
     
 
     // ----------------- "USE" BUTTON SCRIPT ------------- //
     datatableObject.on('click', useButtonClass, function () {
-        $('#modalTitle').html("Use this Item");
+        $('#modalTitle').html("Use this to Purchase Order");
 
         $("input[value='patch']").remove();
         $(inputFormId).trigger("reset"); 
@@ -107,25 +110,21 @@ $(document).ready(function () {
         }).prependTo(inputFormId);
 
         $('#item').val(data.item.code + ' | ' + data.item.name);
-        $('#item_stock_id').val(data.id);
-        $('#available_quantity').val(data.available_quantity);
-        $('#unit').val(data.item.unit.name);
+        $('#purchase_requisition_detail_id').val(data.id);
+        $('#purchase_requisition_code').val(data.purchase_requisition.code);
+        $('#request_quantity').val(data.request_quantity);
+        $('#available_stock').val(data.available_stock);
+        $('#prepared_to_po_quantity').val(data.prepared_to_po_quantity);
+        $('#processed_to_po_quantity').val(data.processed_to_po_quantity);
+        $('.unit').val(data.item.unit.name);
 
-        $('#outbound_quantity').attr('max', data.available_quantity);
-        $('#outbound_unit').val(data.item.unit.name);
-
-        $('#serial_number').val(data.serial_number);
-        $('#alias_name').val(data.alias_name);
+        $('#order_quantity').attr('max', data.request_quantity);
+        $('#order_unit').val(data.item.unit.name);
+        
         $('#description').val(data.description);
-        $('#detailed_item_location').val(data.detailed_item_location);
-        // $('#parent').val(data.parent);
-
-        if(data.available_quantity == 1 && data.serial_number != null) {
-            $('#outbound_quantity').val(1);
-        }
 
         $('#saveBtn').val("use");
-        $(saveButtonModalTextId).html("Use this Item");
+        $(saveButtonModalTextId).html("Use this Item to Purchase Order");
         $('#inputModal').modal('show');
     });
     // ----------------- END "USE" BUTTON SCRIPT ------------- //
@@ -141,29 +140,43 @@ $(document).ready(function () {
         processing: true,
         serverSide: false,
         searchDelay: 1500,
-        order: [ 11, "desc" ],
+        order: [ 14, "desc" ],
         ajax: {
-            url: "/supplychain/mutation-outbound-detail/?id=" + "null",
+            url: "/procurement/purchase-order-detail/?id=" + "{{ $PurchaseOrder->id }}",
         },
         columns: [
-            { data: 'item_stock.detailed_item_location', defaultContent: '-' },
-            { data: 'item_stock.item.code', defaultContent: '-' },
-            { data: 'item_stock.item.name', defaultContent: '-' },
-            { data: 'item_stock.serial_number', defaultContent: '-' },
-            { data: 'outbound_quantity',
-                "render": function ( data, type, row, meta ) {
-                    return "<span class='label label-primary'>" + row.outbound_quantity + '</span>';
-                }},
-            { data: 'item_stock.item.unit.name', defaultContent: '-' },
-            { data: 'item_stock.alias_name', defaultContent: '-' },
-            { data: 'item_stock.description', defaultContent: '-' },
-            { data: 'description', defaultContent: '-' },
+            { data: 'purchase_requisition.code', defaultContent: '-' },
+            { data: 'purchase_requisition.item.code', defaultContent: '-' },
+            { data: 'purchase_requisition.item.name', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },
-            { data: 'creator_name', defaultContent: '-' },
+            { data: 'purchase_requisition.request_quantity', defaultContent: '-' },
+            { data: 'available_stock',
+                "render": function ( data, type, row, meta ) {
+                    if (row.available_stock > 0) {
+                        return "<span class='label label-success'>" + row.available_stock + '</span>';
+                    }
+                    else {
+                        return "<span class='label label-danger'>" + row.available_stock + '</span>';
+                    } 
+                }},
+            { data: 'order_quantity',
+                "render": function ( data, type, row, meta ) {
+                    return "<span class='label label-primary'>" + row.order_quantity + '</span>';
+                }},
+            { data: 'purchase_requisition.item.unit.name', defaultContent: '-' },
+            // { data: 'purchase_requisition.description', defaultContent: '-' },
+            { data: 'description', defaultContent: '-' },
+            { data: 'required_delivery_date', defaultContent: '-' },
+            { data: 'each_price_before_vat', defaultContent: '-' },
+            { data: 'vat', defaultContent: '-' },
+            { data: 'price_after_vat', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
     });
+
+
+
 
 
 
@@ -324,6 +337,44 @@ $(document).ready(function () {
             });
         });
     // ----------------- END "DELETE" BUTTON SCRIPT ------------- //
+
+
+
+
+
+
+
+
+    function calculate_total_price () {
+        var decimaltax = $("#vat").val() / 100;
+        var totalprice = ($("#each_price_before_vat").val() * $("#order_quantity").val()) * decimaltax + ($("#each_price_before_vat").val() * $("#order_quantity").val());
+
+        $("#total_price").val(addCommas(totalprice));
+    }
+
+    $('#each_price_before_vat').on('input', function (e) {
+        calculate_total_price ();
+    });
+
+    $('#vat').on('input', function (e) {
+        calculate_total_price ();
+    });
+
+    $('#order_quantity').on('input', function (e) {
+        calculate_total_price ();
+    });
+
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
 });
 </script>
 @endpush
