@@ -17,6 +17,7 @@ class CreatePurchaseOrderDetailsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
+            $table->string('purchase_order_id');
             $table->string('purchase_requisition_detail_id')->nullable();
 
             $table->integer('order_quantity')->default(1);
@@ -27,7 +28,7 @@ class CreatePurchaseOrderDetailsTable extends Migration
             $table->string('description')->nullable();
 
             $table->double('vat')->default(0);
-            $table->double('price_before_vat')->default(0);
+            $table->double('each_price_before_vat')->default(0);
 
             $table->rememberToken();
             $table->integer('status')->nullable()->default(1);

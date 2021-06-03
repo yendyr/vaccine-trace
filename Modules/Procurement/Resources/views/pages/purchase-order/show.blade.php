@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+@include('procurement::pages.purchase-order.purchase-requisition-item.modal')
     <div class="row m-b m-t">
         <div class="col d-flex align-items-start">
             <i class="fa fa-shopping-bag fa-fw fa-5x text-info"></i>
@@ -56,7 +57,7 @@
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Item/Component Request
+                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Purchase Order's Item/Component
                         </a>
                     </li>
                     <li>
@@ -88,7 +89,7 @@
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                {{-- @include('procurement::pages.purchase-order.item-configuration.content') --}}
+                                @include('procurement::pages.purchase-order.item-configuration.content')
                             </div>
                         </div>
                     </div>

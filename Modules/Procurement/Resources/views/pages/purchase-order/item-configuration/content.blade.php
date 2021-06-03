@@ -1,49 +1,37 @@
 <div class="col fadeIn" style="animation-duration: 1.5s">
-    @component('components.delete-modal', ['name' => 'Item/Component Datalist'])
+    @component('components.delete-modal', ['name' => 'Outbound Item/Component Datalist'])
     @endcomponent
-
-    @include('procurement::pages.purchase-requisition.item-configuration.modal')
     
     @component('components.crud-form.index',[
-        'title' => 'Item/Component Datalist',
-        'tableId' => 'purchase-requisition-detail-table'])
-
-    @if($PurchaseRequisition->approvals()->count() == 0)
-        @slot('createButton')
-            @can('create', Modules\Procurement\Entities\PurchaseRequisition::class)                
-                <button type="button" id="create" class="btn btn-primary btn-lg">
-                    <i class="fa fa-plus-circle"></i>&nbsp;Add Item
-                </button>   
-            @endcan
-        @endslot    
-    @endif
+        'title' => "Purchase Order's Item/Component Datalist",
+        'tableId' => 'purchase-order-detail-table'])
 
     @slot('tableContent')
+        <th>PR Reference</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
+        <th>Parent Item</th>
         <th>Request Qty</th>
         <th>In-Stock Qty</th>
+        <th>Order Qty</th>
         <th>UoM</th>
         <th>Remark</th>
-        <th>Parent Item</th>
+        <th>Required Delivery Date</th>
+        <th>@ Price Before Tax</th>
+        <th>Tax</th>
+        <th>Price After Tax</th>
         {{-- <th>Status</th> --}}
-        <th>Created By</th>
         <th>Created At</th>
 
-        @if($PurchaseRequisition->approvals()->count() == 0)
+        @if($PurchaseOrder->approvals()->count() == 0)
             <th>Action</th>
         @else
-            <th>Purchase Order Status</th>
+            <th>Goods Receive Status</th>
         @endif
     @endslot
     @endcomponent
 </div>
 
-@include('procurement::components.purchase-requisition.item-configuration._script')
-
-@push('header-scripts')
-    @include('layouts.includes._header-datatable-script')
-@endpush
-@push('footer-scripts')
-    @include('layouts.includes._footer-datatable-script')
-@endpush
+@if($PurchaseOrder->approvals()->count() > 0)
+    @include('procurement::components.purchase-order.item-configuration._script')
+@endif
