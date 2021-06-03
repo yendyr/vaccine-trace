@@ -26,6 +26,9 @@ class PurchaseOrderDetail extends MainModel
 
         'vat',
         'each_price_before_vat',
+
+        'prepared_to_grn_quantity',
+        'processed_to_grn_quantity',
         
         'status',
         'created_by',
