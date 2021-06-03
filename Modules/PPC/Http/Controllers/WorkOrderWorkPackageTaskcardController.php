@@ -255,9 +255,10 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
         }
 
-        if ($is_use_all_taskcard == false) {
-            DB::beginTransaction();
-        }
+        DB::beginTransaction();
+        // if ($is_use_all_taskcard == false) {
+        //     DB::beginTransaction();
+        // }
 
         $existRow = WorkOrderWorkPackageTaskcard::query()
             ->where('work_order_id', $work_order->id)
@@ -453,11 +454,13 @@ class WorkOrderWorkPackageTaskcardController extends Controller
                 }
             }
 
-            $taskcard_total_manhours = $taskcard->instruction_details()->sum('manhours_estimation') ?? 0;
             $total_manhours = 0;
-
-            if ($work_package->total_manhours) {
-                $total_manhours = floatval($work_package->total_manhours) + $taskcard_total_manhours;
+            
+            if($work_package->taskcards()->count() > 0 ){
+                foreach($work_package->taskcards as $taskcardRow){
+                    $taskcard_total_manhours = $taskcardRow->details()->sum('manhours_estimation') ?? 0;
+                    $total_manhours += $taskcard_total_manhours;
+                }
             }
 
             $result = $work_package->update(['total_manhours' => $total_manhours]);
