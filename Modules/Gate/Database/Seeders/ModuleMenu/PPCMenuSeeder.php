@@ -357,26 +357,6 @@ class PPCMenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'menu_link' => 'ppc/job-card',
-            'menu_text' => 'Execute',
-            'menu_route' => 'ppc.job-card.index',
-            'menu_icon' => 'fa-play',
-            'menu_class' => 'Modules\PPC\Entities\WorkOrderWorkPackageTaskcard',
-            'menu_id' => 'execute-jobcard',
-            'menu_actives' => json_encode(['ppc/job-card', 'ppc/job-card/*']),
-            'group' => 'PPC',
-            'add' => 1,
-            'update' => 1,
-            'delete' => 1,
-            'print' => 1,
-            'approval' => 1,
-            'process' => 1,
-            'status' => 1,
-            'uuid' => Str::uuid(),
-            'parent_id' => $jobcardMenu->id
-        ]);
-
-        Menu::create([
             'menu_link' => 'ppc/job-card/generate',
             'menu_text' => 'Generate Job Card',
             'menu_route' => 'ppc.job-card.generate.index',
@@ -395,6 +375,26 @@ class PPCMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => $jobcardMenu->id
         ]);
+
+        Menu::create([
+            'menu_link' => 'ppc/job-card',
+            'menu_text' => 'Execute',
+            'menu_route' => 'ppc.job-card.index',
+            'menu_icon' => 'fa-play',
+            'menu_class' => 'Modules\PPC\Entities\WorkOrderWorkPackageTaskcard',
+            'menu_id' => 'execute-jobcard',
+            'menu_actives' => json_encode(['ppc/job-card', 'ppc/job-card/*']),
+            'group' => 'PPC',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 1,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $jobcardMenu->id
+        ]);        
 
         Menu::create([
             'menu_link' => 'ppc/aircraft-aging-report',
