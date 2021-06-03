@@ -175,7 +175,7 @@ $(document).ready(function () {
         searchDelay: 1500,
         order: [ 14, "desc" ],
         ajax: {
-            url: "/procurement/purchase-order-detail/?id=" + "{{ $PurchaseOrder->id }}",
+            url: "/procurement/purchase-order-detail/?purchase_order_id=" + "{{ $PurchaseOrder->id }}",
         },
         columns: [
             { data: 'purchase_requisition_detail.purchase_requisition.code', defaultContent: '-' },

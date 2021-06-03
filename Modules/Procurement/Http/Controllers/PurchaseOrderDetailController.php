@@ -30,7 +30,7 @@ class PurchaseOrderDetailController extends Controller
 
     public function index(Request $request)
     {
-        $purchase_order_id = $request->id;
+        $purchase_order_id = $request->purchase_order_id;
         $PurchaseOrder = PurchaseOrder::where('id', $purchase_order_id)->first();
 
         $approved = false;
@@ -102,7 +102,7 @@ class PurchaseOrderDetailController extends Controller
 
     public function tree(Request $request)
     {
-        $purchase_order_id = $request->id;
+        $purchase_order_id = $request->purchase_order_id;
         $datas = PurchaseOrderDetail::where('purchase_order_id', $purchase_order_id)
                                     ->with(['purchase_requisition_detail.item.unit',
                                     'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
