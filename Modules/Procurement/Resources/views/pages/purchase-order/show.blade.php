@@ -51,16 +51,21 @@
                     </li>
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
+                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Purchase Requisition
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-contact"> 
                             <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Item/Component Request
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-address"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Item/Component Tree View
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
+                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-check-circle fa-2x text-warning"></i>&nbsp;Approval Status
                         </a>
                     </li>
@@ -76,11 +81,18 @@
                     <div id="tab-1" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
-                                {{-- @include('procurement::pages.purchase-order.item-configuration.content') --}}
+                                @include('procurement::pages.purchase-order.purchase-requisition-item.content')
                             </div>
                         </div>
                     </div>
                     <div id="tab-2" class="tab-pane">
+                        <div class="panel-body" style="min-height: 500px;">
+                            <div class="row m-b">
+                                {{-- @include('procurement::pages.purchase-order.item-configuration.content') --}}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
                                 <div class="col">
@@ -92,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-3" class="tab-pane">
+                    <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             {{-- @include('procurement::pages.purchase-order.approval-status.content') --}}
                         </div>
@@ -103,7 +115,21 @@
     </div>
 @endsection
 
+@push('header-scripts')
+    @include('layouts.includes._header-datatable-script')
+    <style>
+        thead input {
+            width: 100%;
+        }
+        tr.group,
+        tr.group:hover {
+            background-color: #aaa !important;
+        }
+    </style>
+@endpush
+
 @push('footer-scripts')
+@include('layouts.includes._footer-datatable-script')
     <script>
         $(document).ready(function(){
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {

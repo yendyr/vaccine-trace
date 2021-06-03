@@ -124,6 +124,76 @@ class PurchaseRequisitionDetailController extends Controller
         return response()->json($response);
     }
 
+    public function outstanding_purchase_request_details(Request $request)
+    {
+        $with_use_button = $request->with_use_button;
+        // $purchase_requisition_id = $request->id;
+        // $PurchaseRequisition = PurchaseRequisition::where('id', $purchase_requisition_id)->first();
+
+        // $approved = false;
+        // if ($PurchaseRequisition->approvals()->count() > 0) {
+        //     $approved = true;
+        // }
+        
+        $data = PurchaseRequisitionDetail::with(['item.unit',
+                                                'purchase_requisition',
+                                                'item_group:id,item_id,coding,parent_coding',
+                                                'item_group.item'])
+                                        ->whereHas('purchase_requisition', function ($pr) {
+                                            $pr->has('approvals');
+                                        })
+                                        ->whereRaw('purchase_requisition_details.processed_to_po_quantity < purchase_requisition_details.request_quantity');
+        
+        return Datatables::of($data)
+        // ->addColumn('highlighted', function($row){
+        //     if ($row->highlight == 1){
+        //         return '<label class="label label-primary">Yes</label>';
+        //     } else{
+        //         return '<label class="label label-danger">No</label>';
+        //     }
+        // })
+        ->addColumn('available_stock', function($row){
+            return ItemStockChecker::usable_item(null, $row->item->code);
+        })
+        ->addColumn('parent', function($row){
+            if ($row->item_group) {
+                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                'Name: <strong>' . $row->item_group->item->name . '</strong><br>';
+            } 
+            else {
+                return "<span class='text-muted font-italic'>Not Set</span>";
+            }
+        })
+        ->addColumn('creator_name', function($row){
+            return $row->creator->name ?? '-';
+        })
+        ->addColumn('updater_name', function($row){
+            return $row->updater->name ?? '-';
+        })
+        ->addColumn('purchase_order_status', function($row){
+            return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
+            'Processed: <strong>' . $row->processed_to_po_quantity . '</strong><br>';
+            // return '<p class="text-muted font-italic">Already Approved</p>';
+        })
+        ->addColumn('action', function($row) use ($with_use_button) {
+            if ($with_use_button == true) {
+                if ((($row->prepared_to_po_quantity + $row->processed_to_po_quantity) < $row->request_quantity) && $row->parent_coding == null) {
+                    $usable = true;
+                    $idToUse = $row->id;
+                    return view('components.action-button', compact(['usable', 'idToUse']));
+                }
+                else if ($row->prepared_to_po_quantity == $row->request_quantity) {
+                    return "<span class='text-danger font-italic'>Already Prepared on Another Purchase Order</span>";
+                }
+                else if ($row->parent_coding) {
+                    return "<span class='text-muted font-italic'>this Item has Parent</span>";
+                }
+            }
+        })
+        ->escapeColumns([])
+        ->make(true);
+    }
+
     public function store(Request $request)
     {
         $PurchaseRequisition = PurchaseRequisition::where('id', $request->purchase_requisition_id)->first();
