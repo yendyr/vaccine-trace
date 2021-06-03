@@ -21,8 +21,6 @@ class CreatePurchaseOrderDetailsTable extends Migration
             $table->string('purchase_requisition_detail_id')->nullable();
 
             $table->integer('order_quantity')->default(1);
-            $table->integer('prepared_to_grn_quantity')->default(0);
-            $table->integer('processed_to_grn_quantity')->default(0);
 
             $table->date('required_delivery_date')->nullable();
             $table->string('description')->nullable();

@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Current Primary Currency</label>
+                                <label class="col-sm-5 d-flex align-items-center">Current Primary/Local Currency</label>
                                 <div class="col-sm-7">
                                     <select class="current_primary_currency_id form-control @error('current_primary_currency_id') is-invalid @enderror" id="current_primary_currency_id" name="current_primary_currency_id"></select>
                                     <div class="invalid-feedback-current_primary_currency_id text-danger font-italic"></div>

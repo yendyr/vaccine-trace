@@ -27,6 +27,8 @@ class PurchaseRequisitionDetail extends MainModel
         'request_quantity',
         'prepared_to_po_quantity',
         'processed_to_po_quantity',
+        'prepared_to_grn_quantity',
+        'processed_to_grn_quantity',
         
         'status',
         'created_by',

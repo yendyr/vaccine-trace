@@ -25,7 +25,7 @@
             <p class="m-t-none font-bold">{{ $PurchaseOrder->supplier_reference_document ?? '-' }}</p>
         </div>
         <div class="col">   
-            <p  class="m-t-none m-b-none">Current Primary Currency:</p>         
+            <p  class="m-t-none m-b-none">Current Primary/Local Currency:</p>         
             <p class="m-t-none font-bold">{{ $PurchaseOrder->current_primary_currency->code ?? '' }} | {{ $PurchaseOrder->current_primary_currency->symbol ?? '' }} | {{ $PurchaseOrder->current_primary_currency->name ?? '' }}</p>
 
             <p  class="m-t-none m-b-none">Transaction Currency:</p>         

@@ -36,6 +36,7 @@ class PurchaseRequisitionDetailController extends Controller
         
         $data = PurchaseRequisitionDetail::where('purchase_requisition_id', $purchase_requisition_id)
                                 ->with(['item.unit',
+                                        'item.category',
                                         'item_group:id,item_id,coding,parent_coding',
                                         'item_group.item']);
         
@@ -189,7 +190,7 @@ class PurchaseRequisitionDetailController extends Controller
                     return view('components.action-button', compact(['usable', 'idToUse']));
                 }
                 else if ($row->prepared_to_po_quantity == $row->request_quantity) {
-                    return "<span class='text-danger font-italic'>Already Prepared on Another Purchase Order</span>";
+                    return "<span class='text-danger font-italic'>Already Prepared</span>";
                 }
                 else if ($row->parent_coding) {
                     return "<span class='text-muted font-italic'>this Item has Parent</span>";

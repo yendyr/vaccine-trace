@@ -194,14 +194,14 @@ class PurchaseOrderDetailController extends Controller
                 'purchase_order_id' => $purchase_order_id,
                 'purchase_requisition_detail_id' => $childRow->id,
                 'required_delivery_date' => $required_delivery_date,
-                'order_quantity' => $childRow->quantity,
+                'order_quantity' => $childRow->request_quantity,
     
                 'owned_by' => Auth::user()->company_id,
                 'status' => 1,
                 'created_by' => Auth::user()->id,
             ]);
             $childRow->update([
-                'prepared_to_po_quantity' => $childRow->quantity,
+                'prepared_to_po_quantity' => $childRow->request_quantity,
 
                 'updated_by' => Auth::user()->id,
             ]);
