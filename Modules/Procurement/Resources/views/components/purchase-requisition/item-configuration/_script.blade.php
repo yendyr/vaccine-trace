@@ -20,6 +20,7 @@ $(document).ready(function () {
         columns: [
             { data: 'item.code', defaultContent: '-' },
             { data: 'item.name', defaultContent: '-' },
+            { data: 'item.category.name', defaultContent: '-' },
             { data: 'request_quantity', defaultContent: '-' },
             { data: 'available_stock',
                 "render": function ( data, type, row, meta ) {

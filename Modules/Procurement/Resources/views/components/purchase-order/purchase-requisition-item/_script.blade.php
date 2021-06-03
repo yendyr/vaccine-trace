@@ -4,7 +4,7 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = '/purchase-requisition/outstanding';
+    var actionUrl = '/procurement/purchase-order-detail';
     var tableId = '#outstanding-item-table';
     var tableId2 = '#purchase-order-detail-table';
     var inputFormId = '#inputForm';
@@ -67,6 +67,7 @@ $(document).ready(function () {
             { data: 'purchase_requisition_data' },
             { data: 'item.code' },
             { data: 'item.name' },
+            { data: 'item.category.name' },
             { data: 'request_quantity' },
             { data: 'available_stock',
                 "render": function ( data, type, row, meta ) {
@@ -118,7 +119,7 @@ $(document).ready(function () {
         $('#processed_to_po_quantity').val(data.processed_to_po_quantity);
         $('.unit').val(data.item.unit.name);
 
-        $('#order_quantity').attr('max', data.request_quantity);
+        $('#order_quantity').attr('max', (data.request_quantity - (data.prepared_to_po_quantity + data.processed_to_po_quantity)));
         $('#order_unit').val(data.item.unit.name);
         
         $('#description').val(data.description);
@@ -136,6 +137,38 @@ $(document).ready(function () {
 
     
     var datatableObject2 = $(tableId2).DataTable({
+        footerCallback: function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 13 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            // pageTotal = api
+            //     .column( 12, { page: 'current'} )
+            //     .data()
+            //     .reduce( function (a, b) {
+            //         return intVal(a) + intVal(b);
+            //     }, 0 );
+ 
+            // Update footer
+            $( api.column( 13 ).footer() ).html(
+                addCommas(total)
+            );
+        },
         pageLength: 25,
         processing: true,
         serverSide: false,
@@ -145,11 +178,12 @@ $(document).ready(function () {
             url: "/procurement/purchase-order-detail/?id=" + "{{ $PurchaseOrder->id }}",
         },
         columns: [
-            { data: 'purchase_requisition.code', defaultContent: '-' },
-            { data: 'purchase_requisition.item.code', defaultContent: '-' },
-            { data: 'purchase_requisition.item.name', defaultContent: '-' },
+            { data: 'purchase_requisition_detail.purchase_requisition.code', defaultContent: '-' },
+            { data: 'purchase_requisition_detail.item.code', defaultContent: '-' },
+            { data: 'purchase_requisition_detail.item.name', defaultContent: '-' },
+            { data: 'purchase_requisition_detail.item.category.name', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },
-            { data: 'purchase_requisition.request_quantity', defaultContent: '-' },
+            { data: 'purchase_requisition_detail.request_quantity', defaultContent: '-' },
             { data: 'available_stock',
                 "render": function ( data, type, row, meta ) {
                     if (row.available_stock > 0) {
@@ -163,14 +197,23 @@ $(document).ready(function () {
                 "render": function ( data, type, row, meta ) {
                     return "<span class='label label-primary'>" + row.order_quantity + '</span>';
                 }},
-            { data: 'purchase_requisition.item.unit.name', defaultContent: '-' },
+            { data: 'purchase_requisition_detail.item.unit.name', defaultContent: '-' },
             // { data: 'purchase_requisition.description', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'required_delivery_date', defaultContent: '-' },
-            { data: 'each_price_before_vat', defaultContent: '-' },
-            { data: 'vat', defaultContent: '-' },
-            { data: 'price_after_vat', defaultContent: '-' },
-            { data: 'created_at', defaultContent: '-' },
+            { data: 'each_price_before_vat', 
+                "render": function ( data, type, row, meta ) {
+                    return addCommas(row.each_price_before_vat);
+                }},
+            { data: 'vat', 
+                "render": function ( data, type, row, meta ) {
+                    return (row.vat * 100) + ' %';
+                }},
+            { data: 'price_after_vat', 
+                "render": function ( data, type, row, meta ) {
+                    return addCommas(row.price_after_vat);
+                }},
+            { data: 'created_at', defaultContent: '-', visible: false },
             { data: 'action', orderable: false },
         ]
     });

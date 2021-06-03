@@ -61,9 +61,9 @@ class PurchaseOrderDetail extends MainModel
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Currency::class, 'currency_id');
     }
 
-    public function purchase_order_details()
+    public function purchase_order()
     {
-        return $this->hasMany(\Modules\Procurement\Entities\PurchaseOrderDetail::class, 'purchase_order_id');
+        return $this->belongsTo(\Modules\Procurement\Entities\PurchaseOrder::class, 'purchase_order_id');
     }
 
     public function approvals()

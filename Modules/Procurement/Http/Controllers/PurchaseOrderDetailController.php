@@ -4,8 +4,10 @@ namespace Modules\Procurement\Http\Controllers;
 
 use Modules\Procurement\Entities\PurchaseOrder;
 use Modules\Procurement\Entities\PurchaseOrderDetail;
+use Modules\Procurement\Entities\PurchaseRequisitionDetail;
 
 use app\Helpers\SupplyChain\ItemStockChecker;
+use Carbon\Carbon;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -37,20 +39,23 @@ class PurchaseOrderDetailController extends Controller
         }
         
         $data = PurchaseOrderDetail::where('purchase_order_id', $purchase_order_id)
-                                ->with(['purchase_requisition_details.item.unit',
-                                        'purchase_requisition_details.item_group:id,item_id,coding,parent_coding']);
-        
+                                ->with(['purchase_requisition_detail.purchase_requisition',
+                                        'purchase_requisition_detail.item',
+                                        'purchase_requisition_detail.item.category',
+                                        'purchase_requisition_detail.item.unit',
+                                        'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding']);
+                                        
         return Datatables::of($data)
         ->addColumn('available_stock', function($row){
-            return ItemStockChecker::usable_item(null, $row->item->code);
+            return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
         })
         ->addColumn('price_after_vat', function($row){
-            return (($row->order_quantity * $row->each_price_before_vat) * $row->vat) + ($row->order_quantity * $row->price_before_vat);
+            return (($row->order_quantity * $row->each_price_before_vat) * $row->vat) + ($row->order_quantity * $row->each_price_before_vat);
         })
         ->addColumn('parent', function($row){
-            if ($row->purchase_requisition_details->item_group) {
-                return 'P/N: <strong>' . $row->purchase_requisition_details->item_group->item->code . '</strong><br>' . 
-                'Name: <strong>' . $row->purchase_requisition_details->item_group->item->name . '</strong><br>';
+            if ($row->purchase_requisition_detail->item_group) {
+                return 'P/N: <strong>' . $row->purchase_requisition_detail->item_group->item->code . '</strong><br>' . 
+                'Name: <strong>' . $row->purchase_requisition_detail->item_group->item->name . '</strong><br>';
             } 
             else {
                 return "<span class='text-muted font-italic'>Not Set</span>";
@@ -63,7 +68,7 @@ class PurchaseOrderDetailController extends Controller
             return $row->updater->name ?? '-';
         })
         ->addColumn('action', function($row) use ($approved) {
-            if ($row->purchase_requisition_details->parent_coding) {
+            if ($row->purchase_requisition_detail->parent_coding) {
                 return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
             }
             else if ($approved == false) {
@@ -99,8 +104,8 @@ class PurchaseOrderDetailController extends Controller
     {
         $purchase_order_id = $request->id;
         $datas = PurchaseOrderDetail::where('purchase_order_id', $purchase_order_id)
-                                    ->with(['purchase_requisition_details.item.unit',
-                                    'purchase_requisition_details.item_group:id,item_id,coding,parent_coding'])
+                                    ->with(['purchase_requisition_detail.item.unit',
+                                    'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
                                     ->get();
 
         $response = [];
@@ -125,49 +130,84 @@ class PurchaseOrderDetailController extends Controller
 
     public function store(Request $request)
     {
-        $StockMutation = StockMutation::where('id', $request->stock_mutation_id)->first();
+        $PurchaseOrder = PurchaseOrder::where('id', $request->purchase_order_id)->first();
 
-        if ($StockMutation->approvals()->count() == 0) {
+        if ($PurchaseOrder->approvals()->count() == 0) {
             $request->validate([
-                'stock_mutation_id' => ['required'],
-                'item_stock_id' => ['required'],
-                'outbound_quantity' => ['required'],
+                'purchase_order_id' => ['required'],
+                'purchase_requisition_detail_id' => ['required'],
+                'order_quantity' => ['required'],
+                'each_price_before_vat' => ['required'],
+                'vat' => ['required'],
             ]);
 
-            $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
+            $PurchaseRequisitionDetail = PurchaseRequisitionDetail::where('id', $request->purchase_requisition_detail_id)->first();
             
-            if(($request->outbound_quantity > 0) && ($request->outbound_quantity <= $item_stock->available_quantity)) {
-                $outbound_quantity = $request->outbound_quantity;
+            if(($request->order_quantity > 0) && 
+            ($request->order_quantity <= $PurchaseRequisitionDetail->request_quantity - ($PurchaseRequisitionDetail->prepared_to_po_quantity + $PurchaseRequisitionDetail->processed_to_po_quantity))) {
+                $order_quantity = $request->order_quantity;
             }
             else {
-                return response()->json(['error' => "Outbound Quantity Must be Greater than 0 and Less than Current Available Stock"]);
+                return response()->json(['error' => "Order Quantity Must be Greater than 0 and Less than Requested Quantity"]);
             }
+
+            $required_delivery_date = Carbon::parse($request->required_delivery_date);
+            $vat = $request->vat / 100;
     
             DB::beginTransaction();
-            OutboundMutationDetail::create([
+            PurchaseOrderDetail::create([
                 'uuid' =>  Str::uuid(),
     
-                'stock_mutation_id' => $request->stock_mutation_id,
-                'item_stock_id' => $request->item_stock_id,
-                'outbound_quantity' => $outbound_quantity,
-                'description' => $request->outbound_remark,
+                'purchase_order_id' => $request->purchase_order_id,
+                'purchase_requisition_detail_id' => $request->purchase_requisition_detail_id,
+                'required_delivery_date' => $required_delivery_date,
+                'order_quantity' => $order_quantity,
+                'each_price_before_vat' => $request->each_price_before_vat,
+                'vat' => $vat,
+                'description' => $request->order_remark,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
-            $item_stock->update([
-                'reserved_quantity' => $item_stock->reserved_quantity + $outbound_quantity,
+            $PurchaseRequisitionDetail->update([
+                'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity,
             ]);
-            if (sizeof($item_stock->all_childs) > 0) {
-                ItemStockMutation::pickChildsForOutbound($item_stock, $request->stock_mutation_id);
+            if (sizeof($PurchaseRequisitionDetail->all_childs) > 0) {
+                Self::pickChildsForPurchaseOrder($PurchaseRequisitionDetail, $request->purchase_order_id, $required_delivery_date);
             }
             DB::commit();
     
-            return response()->json(['success' => 'Outbound Item/Component Data has been Added']);
+            return response()->json(['success' => 'Item/Component Data has been Added']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Purchase Order and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
+    }
+
+    public static function pickChildsForPurchaseOrder($PurchaseRequisitionDetail, $purchase_order_id, $required_delivery_date)
+    {
+        foreach($PurchaseRequisitionDetail->all_childs as $childRow) {
+            PurchaseOrderDetail::create([
+                'uuid' =>  Str::uuid(),
+    
+                'purchase_order_id' => $purchase_order_id,
+                'purchase_requisition_detail_id' => $childRow->id,
+                'required_delivery_date' => $required_delivery_date,
+                'order_quantity' => $childRow->quantity,
+    
+                'owned_by' => Auth::user()->company_id,
+                'status' => 1,
+                'created_by' => Auth::user()->id,
+            ]);
+            $childRow->update([
+                'prepared_to_po_quantity' => $childRow->quantity,
+
+                'updated_by' => Auth::user()->id,
+            ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::pickChildsForPurchaseOrder($childRow, $purchase_order_id);
+            }
         }
     }
 

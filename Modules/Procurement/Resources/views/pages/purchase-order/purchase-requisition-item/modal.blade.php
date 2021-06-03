@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Prepared to Quantity</label>
+                                <label class="col-sm-5 d-flex align-items-center">Prepared to PO Quantity</label>
                                 <div class="col input-group">
                                     <input type="text" class="form-control" name="prepared_to_po_quantity" id="prepared_to_po_quantity" readonly>
                                     <input type="text" class="unit form-control" name="unit" id="unit" readonly>
@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Processed to Quantity</label>
+                                <label class="col-sm-5 d-flex align-items-center">Processed to PO Quantity</label>
                                 <div class="col input-group">
                                     <input type="text" class="form-control" name="processed_to_po_quantity" id="processed_to_po_quantity" readonly>
                                     <input type="text" class="unit form-control" name="unit" id="unit" readonly>
@@ -133,7 +133,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
                     <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveBtn">
-                        <strong id="saveButtonModalText">Save Changes</strong>
+                        <strong id="saveButtonModalText">Save</strong>
                     </button>
                 </div>
 

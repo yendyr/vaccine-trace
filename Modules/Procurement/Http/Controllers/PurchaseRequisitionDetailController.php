@@ -136,6 +136,7 @@ class PurchaseRequisitionDetailController extends Controller
         // }
         
         $data = PurchaseRequisitionDetail::with(['item.unit',
+                                                'item.category',
                                                 'purchase_requisition',
                                                 'item_group:id,item_id,coding,parent_coding',
                                                 'item_group.item'])

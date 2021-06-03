@@ -10,6 +10,7 @@
         <th>PR Reference</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
+        <th>Item Category</th>
         <th>Parent Item</th>
         <th>Request Qty</th>
         <th>In-Stock Qty</th>
@@ -28,6 +29,11 @@
         @else
             <th>Goods Receive Status</th>
         @endif
+    @endslot
+
+    @slot('tableFooter')
+        <th colspan="13" style="text-align:right" class="text-danger">Total ({{ $PurchaseOrder->currency->code }}):</th>
+        <th class="text-danger"></th>
     @endslot
     @endcomponent
 </div>
