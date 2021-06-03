@@ -48,7 +48,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="14">Purchase Request Code: <b>' + group + '</b></td></tr>'
+                        '<tr class="group" style="text-align: left;"><td colspan="14">Purchase Request Transaction Code: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -63,7 +63,7 @@ $(document).ready(function () {
             url: "/procurement/purchase-requisition/outstanding/?with_use_button=true",
         },
         columns: [
-            { data: 'purchase_requisition.code', defaultContent: "-" },
+            { data: 'purchase_requisition_data' },
             { data: 'item.code' },
             { data: 'item.name' },
             { data: 'request_quantity' },
