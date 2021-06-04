@@ -7,14 +7,14 @@
         'tableId' => 'purchase-order-detail-table'])
 
     @slot('tableContent')
-        <th>PR Reference</th>
+        <th>PR Code</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Item Category</th>
         <th>Parent Item</th>
         <th>Request Qty</th>
         <th>In-Stock Qty</th>
-        <th>Order Qty</th>
+        <th>Purchase Order Qty</th>
         <th>UoM</th>
         <th>Remark</th>
         <th>Required Delivery Date</th>

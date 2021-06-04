@@ -30,7 +30,7 @@ class PurchaseOrderDetailController extends Controller
 
     public function index(Request $request)
     {
-        $purchase_order_id = $request->id;
+        $purchase_order_id = $request->purchase_order_id;
         $PurchaseOrder = PurchaseOrder::where('id', $purchase_order_id)->first();
 
         $approved = false;
@@ -46,6 +46,11 @@ class PurchaseOrderDetailController extends Controller
                                         'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding']);
                                         
         return Datatables::of($data)
+        ->addColumn('purchase_requisition_data', function($row){
+            return "<a href='/procurement/purchase-requisition/" . 
+            $row->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . 
+            $row->purchase_requisition_detail->purchase_requisition->code . '</a>';
+        })
         ->addColumn('available_stock', function($row){
             return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
         })
@@ -102,7 +107,7 @@ class PurchaseOrderDetailController extends Controller
 
     public function tree(Request $request)
     {
-        $purchase_order_id = $request->id;
+        $purchase_order_id = $request->purchase_order_id;
         $datas = PurchaseOrderDetail::where('purchase_order_id', $purchase_order_id)
                                     ->with(['purchase_requisition_detail.item.unit',
                                     'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
@@ -172,6 +177,10 @@ class PurchaseOrderDetailController extends Controller
             ]);
             $PurchaseRequisitionDetail->update([
                 'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity,
+            ]);
+            $PurchaseOrder->update([
+                'total_before_vat' => $PurchaseOrder->total_before_vat + ($request->each_price_before_vat * $order_quantity),
+                'total_after_vat' => $PurchaseOrder->total_after_vat + (($request->each_price_before_vat * $order_quantity) * $vat + ($request->each_price_before_vat * $order_quantity)),
             ]);
             if (sizeof($PurchaseRequisitionDetail->all_childs) > 0) {
                 Self::pickChildsForPurchaseOrder($PurchaseRequisitionDetail, $request->purchase_order_id, $required_delivery_date);
@@ -259,17 +268,73 @@ class PurchaseOrderDetailController extends Controller
         }
     }
 
-    public function destroy(OutboundMutationDetail $MutationOutboundDetail)
+    public function destroy(PurchaseOrderDetail $PurchaseOrderDetail)
     {
-        $StockMutation = StockMutation::where('id', $MutationOutboundDetail->stock_mutation_id)
+        $PurchaseOrder = PurchaseOrder::where('id', $PurchaseOrderDetail->purchase_order_detail_id)
                                     ->first();
 
-        if ($StockMutation->approvals()->count() == 0) {
-            ItemStockMutation::deleteOutboundDetailRow($MutationOutboundDetail);
-            return response()->json(['success' => 'Outbound Item/Component Data has been Deleted']);
+        if ($PurchaseOrder->approvals()->count() == 0) {
+            Self::deletePurchaseOrderDetailRow($PurchaseOrder, $PurchaseOrderDetail);
+            return response()->json(['success' => 'Item/Component Data has been Deleted']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Purchase Order and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
+    }
+
+    public static function deletePurchaseOrderDetailRow($PurchaseOrderRow, $PurchaseOrderDetailRow)
+    {
+        $PurchaseOrderDetailRow = PurchaseOrderDetail::where('id', $PurchaseOrderDetailRow->id)
+                                                    ->with(['item_stock.all_childs'])
+                                                    ->first();
+
+        $purchase_requisition_detail = PurchaseRequisitionDetail::where('id', $PurchaseOrderDetailRow->purchase_requisition_detail)->first();
+
+        DB::beginTransaction();
+        if (sizeof($purchase_requisition_detail->all_childs) > 0) {
+            Self::unpickChildsForPurchaseOrderDetail($purchase_requisition_detail, $PurchaseOrderDetailRow->purchase_requisition_detail_id);
+        }
+        $PurchaseOrderDetailRow->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
+        
+        $purchase_requisition_detail->update([
+            'prepared_quantity' => $purchase_requisition_detail->prepared_quantity - $PurchaseOrderDetailRow->order_quantity,
+
+            'updated_by' => Auth::user()->id,
+        ]);
+
+        // $PurchaseOrderRow->update([
+        //     'total_before_vat' => $PurchaseOrderRow->total_before_vat - ($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity),
+        //     'total_after_vat' => $PurchaseOrderRow->total_after_vat - (($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity) * $vat + ($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity)),
+
+        //     'updated_by' => Auth::user()->id,
+        // ]);
+
+        PurchaseOrderDetail::destroy($PurchaseOrderDetailRow->id);
+        DB::commit();
+    }
+
+    public static function unpickChildsForPurchaseOrderDetail($purchase_requisition_detail, $purchase_requisition_detail_id)
+    {
+        foreach($purchase_requisition_detail->all_childs as $childRow) {
+            $childRow->update([
+                'prepared_quantity' => 0,
+
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            $PurchaseOrderDetailRow = PurchaseOrderDetail::where('purchase_requisition_detail_id', $purchase_requisition_detail_id)
+                                    ->where('purchase_requisition_detail_id', $childRow->id)
+                                    ->first();
+            $PurchaseOrderDetailRow->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            PurchaseOrderDetail::destroy($PurchaseOrderDetailRow->id);
+            
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::unpickChildsForPurchaseOrderDetail($childRow, $purchase_requisition_detail_id);
+            }
         }
     }
 }

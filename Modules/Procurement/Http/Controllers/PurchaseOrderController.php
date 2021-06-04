@@ -3,6 +3,7 @@
 namespace Modules\Procurement\Http\Controllers;
 
 use Modules\Procurement\Entities\PurchaseOrder;
+use Modules\Procurement\Entities\PurchaseOrderDetail;
 use Modules\Procurement\Entities\PurchaseOrderApproval;
 
 use Illuminate\Support\Facades\DB;
@@ -28,14 +29,32 @@ class PurchaseOrderController extends Controller
     {
         if ($request->ajax()) {
             $data = PurchaseOrder::with(['approvals',
+                                        'purchase_order_details',
+                                        'purchase_order_details.purchase_requisition_detail.purchase_requisition',
                                         'supplier:id,code,name',
                                         'current_primary_currency:id,code,symbol,name',
                                         'currency:id,code,symbol,name']);
 
             return Datatables::of($data)
             ->addColumn('reference', function($row){
-                if ($row->transaction_reference_id) {
-                    return $row->transaction_reference_id;
+                if ($row->purchase_order_details) {
+                    $referenceCodeArray = array();
+                    $reference_code = '';
+
+                    $PurchaseOrderDetails = PurchaseOrderDetail::where('purchase_order_id', $row->id)->get();
+                    
+                    foreach ($PurchaseOrderDetails as $PurchaseOrderDetail) {
+                        if (!in_array($PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->code, $referenceCodeArray)) {
+                            $referenceCodeArray[] = $PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->code;
+                        }
+                    }
+
+                    foreach ($referenceCodeArray as $code) {
+                        $reference_code .= $code . ',<br>';
+                    }
+                    
+                    $reference_code = Str::beforeLast($reference_code, ',');
+                    return $reference_code;
                 } 
                 else {
                     return "-";

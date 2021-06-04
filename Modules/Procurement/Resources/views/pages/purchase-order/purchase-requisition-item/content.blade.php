@@ -17,7 +17,11 @@
         {{-- <th>Status</th> --}}
         {{-- <th>Created At</th> --}}
         <th>Purchase Order Status</th>
-        <th>Action</th>
+        @if($PurchaseOrder->approvals()->count() == 0)
+            <th>Action</th>
+        @else
+            <th>GRN Status</th>
+        @endif
     @endslot
     @endcomponent
 </div>

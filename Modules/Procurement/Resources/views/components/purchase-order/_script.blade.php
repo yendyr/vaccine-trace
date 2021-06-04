@@ -18,19 +18,32 @@ $(document).ready(function () {
             url: "{{ route('procurement.purchase-order.index') }}",
         },
         columns: [
-            { data: 'code', "render": function ( data, type, row, meta ) {
-                            return '<a href="purchase-order/' + row.id + '">' + row.code + '</a>'; } },
-            { data: 'transaction_date', "render": function ( data, type, row, meta ) {
-                            return '<a href="purchase-order/' + row.id + '">' + row.transaction_date + '</a>'; } },
+            { data: 'code', 
+                "render": function ( data, type, row, meta ) {
+                    return '<a href="purchase-order/' + row.id + '">' + row.code + '</a>';
+                }},
+            { data: 'transaction_date', 
+                "render": function ( data, type, row, meta ) {
+                    return '<a href="purchase-order/' + row.id + '">' + row.transaction_date + '</a>'; 
+                }},
             { data: 'supplier.name', defaultContent: '-' },
             { data: 'supplier_reference_document', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'current_primary_currency.code', defaultContent: '-' },
             { data: 'currency.code', defaultContent: '-' },
-            { data: 'exchange_rate', defaultContent: '-' },
+            { data: 'exchange_rate', 
+                "render": function ( data, type, row, meta ) {
+                    return formatNumber(row.exchange_rate);
+                }},
             { data: 'reference', defaultContent: '-' },
-            { data: 'total_before_vat', defaultContent: '-' },
-            { data: 'total_after_vat', defaultContent: '-' },
+            { data: 'total_before_vat', 
+                "render": function ( data, type, row, meta ) {
+                    return formatNumber(row.total_before_vat);
+                }},
+            { data: 'total_after_vat', 
+                "render": function ( data, type, row, meta ) {
+                    return formatNumber(row.total_after_vat);
+                }},
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
             // { data: 'updater_name', defaultContent: '-' },
@@ -88,6 +101,8 @@ $(document).ready(function () {
     $('#create').click(function () {
         showCreateModal ('Create New Purchase Order', inputFormId, actionUrl);
     });
+
+
 
 
 

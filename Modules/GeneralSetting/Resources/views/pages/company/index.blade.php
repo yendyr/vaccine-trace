@@ -26,7 +26,7 @@
             <th>Description/Remark</th>
             <th>As Customer</th>
             <th>As Supplier</th>
-            <th>As Vendor</th>
+            <th>As Manufacturer</th>
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>

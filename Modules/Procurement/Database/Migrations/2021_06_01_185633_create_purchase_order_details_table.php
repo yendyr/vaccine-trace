@@ -28,6 +28,9 @@ class CreatePurchaseOrderDetailsTable extends Migration
             $table->double('vat')->default(0);
             $table->double('each_price_before_vat')->default(0);
 
+            $table->integer('prepared_to_grn_quantity')->default(0);
+            $table->integer('processed_to_grn_quantity')->default(0);
+
             $table->rememberToken();
             $table->integer('status')->nullable()->default(1);
             $table->integer('owned_by')->nullable()->unsigned();

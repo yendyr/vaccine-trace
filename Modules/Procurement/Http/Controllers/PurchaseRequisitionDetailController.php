@@ -2,6 +2,7 @@
 
 namespace Modules\Procurement\Http\Controllers;
 
+use Modules\Procurement\Entities\PurchaseOrder;
 use Modules\Procurement\Entities\PurchaseRequisition;
 use Modules\Procurement\Entities\PurchaseRequisitionDetail;
 use app\Helpers\SupplyChain\ItemStockChecker;
@@ -89,8 +90,10 @@ class PurchaseRequisitionDetailController extends Controller
                 }
             }
             else {
-                return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
-                'Processed: <strong>' . $row->processed_to_po_quantity . '</strong><br>';
+                return 'Prepared to PO: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
+                'Processed to PO: <strong>' . $row->processed_to_po_quantity . '</strong><br><br>' .
+                'Prepared to GRN: <strong>WIP</strong><br>' . 
+                'Processed to GRN: <strong>WIP</strong><br>';
                 // return '<p class="text-muted font-italic">Already Approved</p>';
             }
         })
@@ -128,13 +131,13 @@ class PurchaseRequisitionDetailController extends Controller
     public function outstanding_purchase_request_details(Request $request)
     {
         $with_use_button = $request->with_use_button;
-        // $purchase_requisition_id = $request->id;
-        // $PurchaseRequisition = PurchaseRequisition::where('id', $purchase_requisition_id)->first();
+        $purchase_order_id = $request->purchase_order_id;
+        $PurchaseOrder = PurchaseOrder::where('id', $purchase_order_id)->first();
 
-        // $approved = false;
-        // if ($PurchaseRequisition->approvals()->count() > 0) {
-        //     $approved = true;
-        // }
+        $approved = false;
+        if ($PurchaseOrder->approvals()->count() > 0) {
+            $approved = true;
+        }
         
         $data = PurchaseRequisitionDetail::with(['item.unit',
                                                 'item.category',
@@ -182,7 +185,12 @@ class PurchaseRequisitionDetailController extends Controller
             'Processed: <strong>' . $row->processed_to_po_quantity . '</strong><br>';
             // return '<p class="text-muted font-italic">Already Approved</p>';
         })
-        ->addColumn('action', function($row) use ($with_use_button) {
+        ->addColumn('goods_received_status', function($row){
+            return 'Prepared: <strong>WIP</strong><br>' . 
+            'Processed: <strong>WIP</strong><br>';
+            // return '<p class="text-muted font-italic">Already Approved</p>';
+        })
+        ->addColumn('action', function($row) use ($with_use_button, $approved) {
             if ($with_use_button == true) {
                 if ((($row->prepared_to_po_quantity + $row->processed_to_po_quantity) < $row->request_quantity) && $row->parent_coding == null) {
                     $usable = true;
@@ -195,6 +203,9 @@ class PurchaseRequisitionDetailController extends Controller
                 else if ($row->parent_coding) {
                     return "<span class='text-muted font-italic'>this Item has Parent</span>";
                 }
+            }
+            else if ($approved == true) {
+                return 'Prepared to PO: <strong>' . $row->prepared_to_grn_quantity . '</strong><br>' . 'Processed to PO: <strong>' . $row->processed_to_grn_quantity . '</strong><br>';
             }
         })
         ->escapeColumns([])

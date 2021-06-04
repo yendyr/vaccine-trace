@@ -35,7 +35,7 @@ $(document).ready(function () {
             { data: 'description', defaultContent: '-' },
             { data: 'parent', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
-            { data: 'creator_name', defaultContent: '-' },
+            // { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
