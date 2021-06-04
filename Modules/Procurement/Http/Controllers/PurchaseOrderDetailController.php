@@ -76,7 +76,7 @@ class PurchaseOrderDetailController extends Controller
             if ($row->purchase_requisition_detail->parent_coding) {
                 return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
             }
-            else if ($approved == false) {
+            if ($approved == false) {
                 $noAuthorize = true;
 
                 if(Auth::user()->can('update', PurchaseOrder::class)) {
@@ -98,7 +98,9 @@ class PurchaseOrderDetailController extends Controller
                 }
             }
             else if ($approved == true) {
-                return '<p class="text-muted font-italic">Already Approved</p>';
+                return 'Prepared to GRN: <strong>' . $row->prepared_to_grn_quantity . 
+                '</strong><br>Processed to GRN: <strong>' . 
+                $row->processed_to_grn_quantity . '</strong>';
             }
         })
         ->escapeColumns([])

@@ -7,7 +7,7 @@ $(document).ready(function () {
         rowId = $(this).val();
         $('#approve-form').trigger("reset");
         $('#approveModal').modal('show');
-        $('#approve-form').attr('action', '/procurement/purchase-requisition/' + rowId + '/approve');
+        $('#approve-form').attr('action', '/procurement/purchase-order/' + rowId + '/approve');
     });
 
     $('#approve-form').on('submit', function (e) {

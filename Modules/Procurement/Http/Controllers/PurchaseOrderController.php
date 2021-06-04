@@ -3,6 +3,7 @@
 namespace Modules\Procurement\Http\Controllers;
 
 use Modules\Procurement\Entities\PurchaseOrder;
+use Modules\Procurement\Entities\PurchaseRequisitionDetail;
 use Modules\Procurement\Entities\PurchaseOrderDetail;
 use Modules\Procurement\Entities\PurchaseOrderApproval;
 
@@ -228,24 +229,39 @@ class PurchaseOrderController extends Controller
             $request->validate([
                 'approval_notes' => ['required', 'max:30'],
             ]);
-    
-            DB::beginTransaction();
-            PurchaseOrderApproval::create([
-                'uuid' =>  Str::uuid(),
-
-                'purchase_order_id' =>  $PurchaseOrder->id,
-                'approval_notes' =>  $request->approval_notes,
-        
-                'owned_by' => $request->user()->company_id,
-                'status' => 1,
-                'created_by' => Auth::user()->id,
-            ]);
-            DB::commit();
             
+            Self::approvePurchaseOrder($request, $PurchaseOrder);
             return response()->json(['success' => 'Purchase Order Data has been Approved']);
         }
         else {
             return response()->json(['error' => "This Purchase Order doesn't Have Any Detail Data"]);
         }
+    }
+
+    public static function approvePurchaseOrder($request, $PurchaseOrder)
+    {
+        DB::beginTransaction();
+        PurchaseOrderApproval::create([
+            'uuid' =>  Str::uuid(),
+
+            'purchase_order_id' =>  $PurchaseOrder->id,
+            'approval_notes' =>  $request->approval_notes,
+    
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        foreach($PurchaseOrder->purchase_order_details as $purchase_order_detail) {
+            $PurchaseRequisitionDetail = PurchaseRequisitionDetail::where('id', $purchase_order_detail->purchase_requisition_detail_id)->first();
+
+            $PurchaseRequisitionDetail->update([
+                'processed_to_po_quantity' => $PurchaseRequisitionDetail->processed_to_po_quantity + $purchase_order_detail->order_quantity,
+                'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity - $purchase_order_detail->order_quantity,
+
+                'updated_by' => Auth::user()->id,
+            ]);
+        }
+        DB::commit();
     }
 }

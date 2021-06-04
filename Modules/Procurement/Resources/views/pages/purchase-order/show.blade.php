@@ -50,16 +50,26 @@
                             <i class="fa fa-info-circle fa-2x text-warning"></i>&nbsp;Basic Information
                         </a>
                     </li>
-                    <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Purchase Requisition
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-contact"> 
-                            <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Purchase Order's Item/Component
-                        </a>
-                    </li>
+
+                    @if($PurchaseOrder->approvals()->count() == 0)
+                        <li>
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-contact"> 
+                                <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Purchase Requisition
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-contact"> 
+                                <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Purchase Order's Item/Component
+                            </a>
+                        </li>
+                    @else
+                        <li>
+                            <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-contact"> 
+                                <i class="fa fa-sliders fa-2x text-warning"></i>&nbsp;Purchase Order's Item/Component
+                            </a>
+                        </li>
+                    @endif
+                    
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-address"> 
                             <i class="fa fa-list-ol fa-2x text-warning"></i>&nbsp;Item/Component Tree View
@@ -79,20 +89,32 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-1" class="tab-pane">
-                        <div class="panel-body" style="min-height: 500px;">
-                            <div class="row m-b">
-                                @include('procurement::pages.purchase-order.purchase-requisition-item.content')
+
+                    @if ($PurchaseOrder->approvals()->count() == 0)
+                        <div id="tab-1" class="tab-pane">
+                            <div class="panel-body" style="min-height: 500px;">
+                                <div class="row m-b">
+                                    @include('procurement::pages.purchase-order.purchase-requisition-item.content')
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="tab-2" class="tab-pane">
-                        <div class="panel-body" style="min-height: 500px;">
-                            <div class="row m-b">
-                                @include('procurement::pages.purchase-order.item-configuration.content')
+                        <div id="tab-2" class="tab-pane">
+                            <div class="panel-body" style="min-height: 500px;">
+                                <div class="row m-b">
+                                    @include('procurement::pages.purchase-order.item-configuration.content')
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        <div id="tab-2" class="tab-pane active">
+                            <div class="panel-body" style="min-height: 500px;">
+                                <div class="row m-b">
+                                    @include('procurement::pages.purchase-order.item-configuration.content')
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -107,7 +129,7 @@
                     </div>
                     <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
-                            {{-- @include('procurement::pages.purchase-order.approval-status.content') --}}
+                            @include('procurement::pages.purchase-order.approval-status.content')
                         </div>
                     </div>
                 </div>

@@ -8,10 +8,10 @@
                 <div class="row">
                     <div class="col-md-10">
                         <p class="m-b-none">Approved by:</p>
-                        <p><strong>{{ $PurchaseRequisition->approvals->first()->creator->name ?? 'Not Yet Approved' }}</strong></p>
+                        <p><strong>{{ $PurchaseOrder->approvals->first()->creator->name ?? 'Not Yet Approved' }}</strong></p>
                         
                         <p class="m-b-none">Approved Date:</p>
-                        <p><strong>{{ $PurchaseRequisition->approvals->first()->created_at ?? 'Not Yet Approved' }}</strong></p>
+                        <p><strong>{{ $PurchaseOrder->approvals->first()->created_at ?? 'Not Yet Approved' }}</strong></p>
                     </div>
                     <div class="col-md-2 p-r-xl">
                         <i class="text-success fa fa-check-circle-o fa-3x fw"></i>
@@ -21,19 +21,19 @@
         </div>
     </div>
 
-    @if($PurchaseRequisition->approvals()->count() == 0)
-        @can('approval', Modules\Procurement\Entities\PurchaseRequisition::class)
-            @component('components.approve-modal', ['name' => 'Mutation Inbound Datalist'])
+    @if($PurchaseOrder->approvals()->count() == 0)
+        @can('approval', Modules\Procurement\Entities\PurchaseOrder::class)
+            @component('components.approve-modal', ['name' => 'Purchase Order Datalist'])
             @endcomponent
 
             <div class="col-md-4">
                 <button type="button" class="approveBtn btn btn-lg btn-outline btn-success" data-toggle="tooltip" title="Approve"
-                    value="{{ $PurchaseRequisition->id }}">
+                    value="{{ $PurchaseOrder->id }}">
                     <i class="fa fa-check-circle"></i>&nbsp;Approve Now
                 </button>
             </div>
 
-            @include('procurement::components.purchase-requisition.approval-status._script')
+            @include('procurement::components.purchase-order.approval-status._script')
         @endcan
     @endif
 </div>
