@@ -108,25 +108,27 @@ class PurchaseOrderDetailController extends Controller
     public function tree(Request $request)
     {
         $purchase_order_id = $request->purchase_order_id;
-        $datas = PurchaseOrderDetail::where('purchase_order_id', $purchase_order_id)
-                                    ->with(['purchase_requisition_detail.item.unit',
+        $datas = PurchaseOrderDetail::with(['purchase_requisition_detail',
+                                    'purchase_requisition_detail.item',
+                                    'purchase_requisition_detail.item.unit',
                                     'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
+                                    ->where('purchase_order_id', $purchase_order_id)
                                     ->get();
-        dd($datas);
+        // dd($purchase_order_id);
         $response = [];
         foreach($datas as $data) {
-            if ($data->purchase_requisition_details->parent_coding) {
-                $parent = $data->purchase_requisition_details->parent_coding;
+            if ($data->purchase_requisition_detail->parent_coding) {
+                $parent = $data->purchase_requisition_detail->parent_coding;
             }
             else {
                 $parent = '#';
             }
 
             $response[] = [
-                "id" => $data->purchase_requisition_details->coding,
+                "id" => $data->purchase_requisition_detail->coding,
                 "parent" => $parent,
-                "text" => 'P/N: <strong>' . $data->purchase_requisition_details->item->code . 
-                '</strong> | Item Name: <strong>' . $data->purchase_requisition_details->item->name . 
+                "text" => 'P/N: <strong>' . $data->purchase_requisition_detail->item->code . 
+                '</strong> | Item Name: <strong>' . $data->purchase_requisition_detail->item->name . 
                 '</strong> | Order Qty: <strong>' . $data->order_quantity . '</strong>'
             ];
         }
