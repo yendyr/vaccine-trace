@@ -16,11 +16,20 @@
 
 <body style="size: A4;">
 
+<div class="row">
+  <div class="col">
+  @if( isset(Auth::user()->company->logo) )
+    <img src="{{ URL::asset('uploads/company/' . Auth::user()->company_id . '/logo/' . Auth::user()->company->logo) }}" height="40px">
+  @else
+    <img src="{{ URL::asset('/Logo-Web.png') }}" height="40px">
+  @endif
+  </div>
       <div class="col text-right">
         Model 208 Series Maintenance Manual (Rev 37)
         <br>
         35-01-00 (Rev 24)
       </div>
+</div>
 
       <div class="col">
         <strong> C122106 </strong>

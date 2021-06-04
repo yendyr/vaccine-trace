@@ -356,7 +356,7 @@ class CompanyController extends Controller
                 $successText = 'Company Logo has been Updated';
             }
 
-            Company::where('id', $Company->id)
+            $result = Company::where('id', $Company->id)
                 ->first()->update([
                     'logo' => $filename,
                     'updated_by' => $request->user()->id
