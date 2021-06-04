@@ -25,6 +25,8 @@ Route::name('procurement.')->group(function() {
             Route::get('procurement/purchase-requisition-detail/select2', 'PurchaseRequisitionDetailController@select2Parent')->name('select2');
         });
 
+        Route::get('/purchase-order/detail-tree', 'PurchaseOrderDetailController@tree')->name('purchase-order.detail-tree');
+
         Route::resource('/purchase-order', 'PurchaseOrderController');
         Route::post('/purchase-order/{purchase_order}/approve', 'PurchaseOrderController@approve');
 

@@ -112,7 +112,7 @@ class PurchaseOrderDetailController extends Controller
                                     ->with(['purchase_requisition_detail.item.unit',
                                     'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
                                     ->get();
-
+        dd($datas);
         $response = [];
         foreach($datas as $data) {
             if ($data->purchase_requisition_details->parent_coding) {
@@ -324,9 +324,8 @@ class PurchaseOrderDetailController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
 
-            $PurchaseOrderDetailRow = PurchaseOrderDetail::where('purchase_requisition_detail_id', $purchase_requisition_detail_id)
-                                    ->where('purchase_requisition_detail_id', $childRow->id)
-                                    ->first();
+            $PurchaseOrderDetailRow = PurchaseOrderDetail::where('purchase_requisition_detail_id', $childRow->id)->first();
+
             $PurchaseOrderDetailRow->update([
                 'deleted_by' => Auth::user()->id,
             ]);

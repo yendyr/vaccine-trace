@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                             <div class="row m-b">
-                                {{-- @include('procurement::pages.purchase-order.tree-view.content') --}}
+                                @include('procurement::pages.purchase-order.tree-view.content')
                             </div>
                         </div>
                     </div>

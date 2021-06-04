@@ -4,7 +4,7 @@
     </div>
 </div>
 
-@include('procurement::components.purchase-requisition.tree-view-content._script')
+@include('procurement::components.purchase-order.tree-view-content._script')
 @push('header-scripts')
 <link href="{{ URL::asset('theme/css/plugins/jsTree/proton/style.min.css') }}" rel="stylesheet">
 @endpush
