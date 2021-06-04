@@ -18,8 +18,8 @@
 
 <div class="row">
   <div class="col">
-  @if( isset(Auth::user()->company->logo) )
-    <img src="{{ URL::asset('uploads/company/' . Auth::user()->company_id . '/logo/' . Auth::user()->company->logo) }}" height="40px">
+  @if( File::exists(Auth::user()->company->logo_path) )
+    <img src="{{ URL::asset(Auth::user()->company->logo_path) }}" height="40px">
   @else
     <img src="{{ URL::asset('/Logo-Web.png') }}" height="40px">
   @endif

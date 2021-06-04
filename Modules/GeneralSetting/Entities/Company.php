@@ -92,4 +92,8 @@ class Company extends MainModel
     {
         return $this->hasMany(\Modules\HumanResources\Entities\Employee::class, 'employee_id');
     }
+
+    public function getLogoPathAttribute(){
+        return public_path('uploads/company/' . $this->id . '/logo/' . $this->logo);
+    }
 }
