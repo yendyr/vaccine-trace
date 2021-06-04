@@ -213,14 +213,33 @@ class PurchaseOrderController extends Controller
 
     public function destroy(PurchaseOrder $PurchaseOrder)
     {
-        $currentRow = PurchaseOrder::where('id', $PurchaseOrder->id)->first();
-        $currentRow
-            ->update([
+        Self::deletePurchaseOrder($PurchaseOrder);
+        return response()->json(['success' => 'Purchase Order Data has been Deleted']);
+    }
+
+    public static function deletePurchaseOrder($PurchaseOrder)
+    {
+        DB::beginTransaction();
+        foreach($PurchaseOrder->purchase_order_details as $purchase_order_detail) {
+            $PurchaseRequisitionDetail = PurchaseRequisitionDetail::where('id', $purchase_order_detail->purchase_requisition_detail_id)->first();
+
+            $purchase_order_detail->update([
                 'deleted_by' => Auth::user()->id,
             ]);
+            OutboundMutationDetail::destroy($purchase_order_detail->id);
+            $PurchaseRequisitionDetail->update([
+                'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity - $purchase_order_detail->order_quantity,
+
+                // 'updated_by' => Auth::user()->id,
+            ]);
+        }
+
+        $PurchaseOrder->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
 
         PurchaseOrder::destroy($PurchaseOrder->id);
-        return response()->json(['success' => 'Purchase Order Data has been Deleted']);
+        DB::commit();
     }
 
     public function approve(Request $request, PurchaseOrder $PurchaseOrder)
