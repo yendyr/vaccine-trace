@@ -18,6 +18,7 @@ class Company extends MainModel
         'uuid', 
         'code', 
         'name', 
+        'logo',
         'gst_number', 
         'npwp_number', 
         'description', 
@@ -90,5 +91,9 @@ class Company extends MainModel
     public function employees()
     {
         return $this->hasMany(\Modules\HumanResources\Entities\Employee::class, 'employee_id');
+    }
+
+    public function getLogoPathAttribute(){
+        return public_path('uploads/company/' . $this->id . '/logo/' . $this->logo);
     }
 }
