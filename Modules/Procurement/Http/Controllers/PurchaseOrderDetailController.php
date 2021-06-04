@@ -215,7 +215,7 @@ class PurchaseOrderDetailController extends Controller
             $childRow->update([
                 'prepared_to_po_quantity' => $childRow->request_quantity,
 
-                'updated_by' => Auth::user()->id,
+                // 'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($childRow->all_childs) > 0) {
                 Self::pickChildsForPurchaseOrder($childRow, $purchase_order_id, $required_delivery_date);
@@ -267,7 +267,7 @@ class PurchaseOrderDetailController extends Controller
             $PurchaseRequisitionDetail->update([
                 'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity_gap,
 
-                'updated_by' => Auth::user()->id,
+                // 'updated_by' => Auth::user()->id,
             ]);
             DB::commit();
             
@@ -311,7 +311,7 @@ class PurchaseOrderDetailController extends Controller
         $purchase_requisition_detail->update([
             'prepared_to_po_quantity' => $purchase_requisition_detail->prepared_to_po_quantity - $PurchaseOrderDetailRow->order_quantity,
 
-            'updated_by' => Auth::user()->id,
+            // 'updated_by' => Auth::user()->id,
         ]);
 
         // $PurchaseOrderRow->update([
