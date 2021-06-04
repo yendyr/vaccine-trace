@@ -44,7 +44,7 @@
     @endisset
 @break
 
-@case(array_search('pause', config('ppc.job-card.transaction-status')))
+@case( array_search('pause', config('ppc.job-card.transaction-status')) || array_search('pending', config('ppc.job-card.transaction-status')) )
     @isset($resumeable)
         @if($resumeable == 'button')
             <button href="{{ $resumeHref ?? '#' }}" class="{{ $resumeButtonClass ?? 'resumeBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $resumeValue ?? null }}" data-next-status="progress" data-toggle="tooltip" title="Resume">
@@ -70,19 +70,9 @@
         </button>
     @endisset
 @break
-@case(array_search('close', config('ppc.job-card.transaction-status')))
+
+@case( array_search('close', config('ppc.job-card.transaction-status')) || strlen($status) == 36)
     @isset($releaseable)
-        @if($releaseable == 'button')
-            <button href="{{ $releaseHref ?? '#' }}" class="{{ $releaseButtonClass ?? 'releaseBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $releaseValue ?? null }}" data-next-status="release" data-toggle="tooltip" title="Release">
-                <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</button>
-        @elseif($releaseable == 'a')
-            <a href="{{ $releaseHref ?? '#' }}" class="release btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="release" data-toggle="tooltip" title="Release">
-                <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</a>
-        @endif
-    @endisset
-@break
-@case(strlen($status) == 36)
-    @isset($releaseText)
         @if($releaseable == 'button')
             <button href="{{ $releaseHref ?? '#' }}" class="{{ $releaseButtonClass ?? 'releaseBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $releaseValue ?? null }}" data-next-status="release" data-toggle="tooltip" title="Release">
                 <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</button>

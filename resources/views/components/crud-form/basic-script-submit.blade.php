@@ -79,10 +79,10 @@
 
                 $('#inputModal').modal('hide');
                 if ($(targetTableId).length !== 0) {
-                    $(targetTableId).DataTable().ajax.reload();
+                    $(targetTableId).DataTable().ajax.reload(null, true);
                 }
 
-                if (data.redirectUrl && data.success) {
+                if (data.redirectUrl && data.success && targetTableId == null) {
                     setTimeout(function() {
                         window.location.href = data.redirectUrl;
                     }, 3000);    
@@ -133,10 +133,10 @@
                 }
                 $(inputModalId).modal('hide');
                 if ($(targetTableId).length !== 0) {
-                    $(targetTableId).DataTable().ajax.reload();
+                    $(targetTableId).DataTable().ajax.reload(null, true);
                 }
                 
-                if (data.redirectUrl && data.success) {
+                if (data.redirectUrl && data.success && targetTableId == null) {
                     setTimeout(function() {
                         window.location.href = data.redirectUrl;
                     }, 3000);    
@@ -202,10 +202,10 @@
                     $('#deleteModal').modal('hide');
                     $('#delete-button').prop('disabled', false);
                     if ($(targetTableId).length !== 0) {
-                        $(targetTableId).DataTable().ajax.reload();
+                        $(targetTableId).DataTable().ajax.reload(null, true);
                     }
 
-                    if (data.redirectUrl && data.success) {
+                    if (data.redirectUrl && data.success && targetTableId == null) {
                         setTimeout(function() {
                             window.location.href = data.redirectUrl;
                         }, 3000);    
@@ -265,10 +265,10 @@
                     $('#approveModal').modal('hide');
                     $('#approve-button').prop('disabled', false);
                     if ($(targetTableId).length !== 0) {
-                        $(targetTableId).DataTable().ajax.reload();
+                        $(targetTableId).DataTable().ajax.reload(null, true);
                     }
 
-                    if (data.redirectUrl && data.success) {
+                    if (data.redirectUrl && data.success && targetTableId == null) {
                         setTimeout(function() {
                             window.location.href = data.redirectUrl;
                         }, 3000);    
@@ -328,10 +328,10 @@
                     $('#generateModal').modal('hide');
                     $('#generate-button').prop('disabled', false);
                     if ($(targetTableId).length !== 0) {
-                        $(targetTableId).DataTable().ajax.reload();
+                        $(targetTableId).DataTable().ajax.reload(null, true);
                     }
 
-                    if (data.redirectUrl && data.success) {
+                    if (data.redirectUrl && data.success && targetTableId == null) {
                         setTimeout(function() {
                             window.location.href = data.redirectUrl;
                         }, 3000);    
