@@ -221,42 +221,49 @@ class PurchaseOrderDetailController extends Controller
         }
     }
 
-    public function update(Request $request, OutboundMutationDetail $MutationOutboundDetail)
+    public function update(Request $request, PurchaseOrderDetail $PurchaseOrderDetail)
     {
-        $currentRow = OutboundMutationDetail::where('id', $MutationOutboundDetail->id)
-                                        ->first();
+        $PurchaseOrder = PurchaseOrder::where('id', $PurchaseOrderDetail->purchase_order_id)
+                                    ->first();
 
-        $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
-
-        if ($StockMutation->approvals()->count() == 0) {
+        if ($PurchaseOrder->approvals()->count() == 0) {
             $request->validate([
-                'stock_mutation_id' => ['required'],
-                'item_stock_id' => ['required'],
-                'outbound_quantity' => ['required'],
+                'purchase_order_id' => ['required'],
+                'purchase_requisition_detail_id' => ['required'],
+                'order_quantity' => ['required'],
+                'each_price_before_vat' => ['required'],
+                'vat' => ['required'],
             ]);
 
-            $item_stock = ItemStock::where('id', $request->item_stock_id)->first();
+            $PurchaseRequisitionDetail = PurchaseRequisitionDetail::where('id', $request->purchase_requisition_detail_id)->first();
 
-            $temporary_available_quantity = $item_stock->available_quantity + $currentRow->outbound_quantity;
-        
-            if(($request->outbound_quantity > 0) && ($request->outbound_quantity <= $temporary_available_quantity)) {
-                $outbound_quantity = $request->outbound_quantity;
+            $temp_available_request = ($PurchaseRequisitionDetail->request_quantity + $PurchaseOrderDetail->order_quantity) - ($PurchaseRequisitionDetail->prepared_to_po_quantity + $PurchaseRequisitionDetail->processed_to_po_quantity);
+            
+            if(($request->order_quantity > 0) && 
+            ($request->order_quantity <= $temp_available_request)) {
+                $order_quantity = $request->order_quantity;
             }
             else {
-                return response()->json(['error' => "Outbound Quantity Must be Greater than 0 and Less than Current Available Stock"]);
+                return response()->json(['error' => "Order Quantity Must be Greater than 0 and Less than Requested Quantity"]);
             }
 
-            $outbound_quantity_gap = $outbound_quantity - $currentRow->outbound_quantity;
-    
+            $required_delivery_date = Carbon::parse($request->required_delivery_date);
+            $vat = $request->vat / 100;
+
+            $order_quantity_gap = $order_quantity - $PurchaseOrderDetail->order_quantity;
+
             DB::beginTransaction();
-            $currentRow->update([
-                'outbound_quantity' => $outbound_quantity,
-                'description' => $request->outbound_remark,
+            $PurchaseOrderDetail->update([
+                'required_delivery_date' => $required_delivery_date,
+                'order_quantity' => $order_quantity,
+                'each_price_before_vat' => $request->each_price_before_vat,
+                'vat' => $vat,
+                'description' => $request->order_remark,
 
                 'updated_by' => Auth::user()->id,
             ]);
-            $item_stock->update([
-                'reserved_quantity' => $item_stock->reserved_quantity + $outbound_quantity_gap,
+            $PurchaseRequisitionDetail->update([
+                'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity_gap,
 
                 'updated_by' => Auth::user()->id,
             ]);
@@ -265,7 +272,7 @@ class PurchaseOrderDetailController extends Controller
             return response()->json(['success' => 'Item/Component Data has been Updated']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Purchase Order and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
