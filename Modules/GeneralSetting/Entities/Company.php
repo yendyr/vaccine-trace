@@ -18,6 +18,7 @@ class Company extends MainModel
         'uuid', 
         'code', 
         'name', 
+        'logo',
         'gst_number', 
         'npwp_number', 
         'description', 
