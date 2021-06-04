@@ -37,6 +37,7 @@
             @endcomponent
         </div>
     </div>
+    @include('ppc::pages.job-card.execute-modal')
 
 @endsection
 
@@ -62,5 +63,5 @@
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
     @include('ppc::components.job-card._script')
-    @include('ppc::components.job-card._execute-script')
+    @include('ppc::components.job-card._datatable-execute-script')
 @endpush

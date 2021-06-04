@@ -531,39 +531,10 @@ class JobCardController extends Controller
             }
         }
 
-        // Progress Release
-        if( strtolower($request->next_status) == 'release') {
+         // Progress PAUSE/PENDING
+         if ( strtolower($request->next_status) == 'pause' || strtolower($request->next_status) == 'pending') {
+            $next_transaction_status = array_search("pending", $job_card_transaction_status);
 
-            if (!empty($request->detail_id)) { // berarti ini update detail/instruction
-
-                $detail = $job_card->details()->where('id', $request->detail_id)->first();
-                $task_release_level = $detail->getNextTaskRelease();
-
-                $result = $detail->update([
-                    'transaction_status' => $task_release_level->uuid
-                ]);
-
-                if (!$result) {
-                    $flag = false;
-                }
-
-                $next_transaction_status = $task_release_level->uuid;
-
-                if($job_card->transaction_status !== array_search('partially released', $job_card_transaction_status)) {
-                    $result = $job_card->update([
-                        'transaction_status' => array_search('partially released', $job_card_transaction_status)
-                    ]);
-    
-                    if (!$result) {
-                        $flag = false;
-                    }
-                }
-            }
-        }
-
-        // Progress PAUSE/PENDING
-        // Progress close
-        if ( strtolower($request->next_status) == 'pause' || strtolower($request->next_status) == 'pending') {
             /** perlu refactor karena harus mengecek 
              * untuk job card yang close itu bukan hanya dari 1 task saja */
             $status = 'pending';
@@ -604,6 +575,38 @@ class JobCardController extends Controller
                 }
             }
         }
+        
+        // Progress Release
+        if( strtolower($request->next_status) == 'release') {
+
+            if (!empty($request->detail_id)) { // berarti ini update detail/instruction
+
+                $detail = $job_card->details()->where('id', $request->detail_id)->first();
+                $task_release_level = $detail->getNextTaskRelease();
+
+                $result = $detail->update([
+                    'transaction_status' => $task_release_level->uuid
+                ]);
+
+                if (!$result) {
+                    $flag = false;
+                }
+
+                $next_transaction_status = $task_release_level->uuid;
+
+                if($job_card->transaction_status !== array_search('partially released', $job_card_transaction_status)) {
+                    $result = $job_card->update([
+                        'transaction_status' => array_search('partially released', $job_card_transaction_status)
+                    ]);
+    
+                    if (!$result) {
+                        $flag = false;
+                    }
+                }
+            }
+        }
+
+       
 
         $new_progress = WOWPTaskcardDetailProgress::create([
             'uuid' => str::uuid(),
