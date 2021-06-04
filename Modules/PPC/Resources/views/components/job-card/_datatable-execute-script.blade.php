@@ -114,7 +114,7 @@ $(document).ready(function () {
     }
 
     $(inputFormId).on('submit', function (event) {
-        submitButtonProcess (null, inputFormId); 
+        submitButtonProcess (tableId, inputFormId); 
     });
 });
 </script>
