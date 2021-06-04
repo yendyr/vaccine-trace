@@ -61,7 +61,7 @@ $(document).ready(function () {
         // order: [ 13, "desc" ],
         orderCellsTop: true,
         ajax: {
-            url: "/procurement/purchase-requisition/outstanding/?with_use_button=true",
+            url: "/procurement/purchase-requisition/outstanding/?with_use_button=true&purchase_order_id=" + "{{ $PurchaseOrder->id }}",
         },
         columns: [
             { data: 'purchase_requisition_data' },
@@ -136,7 +136,50 @@ $(document).ready(function () {
 
 
     
+    $('#purchase-order-detail-table thead tr').clone(true).appendTo('#purchase-order-detail-table thead');
+    $('#purchase-order-detail-table thead tr:eq(1) th').each( function (i) {
+        if ($(this).text() != 'Action') {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+    
+            $('input', this).on('keypress', function (e) {
+                if(e.which == 13) {
+                    if (datatableObject.column(i).search() !== this.value) {
+                        datatableObject
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                }
+            });
+        }
+        else {
+            $(this).html('&nbsp;');
+        }
+    });
+
+    var groupColumn = 0;
+
     var datatableObject2 = $(tableId2).DataTable({
+        columnDefs: [{
+            visible: false, 
+            targets: groupColumn }
+        ],
+        order: [[ groupColumn, 'asc' ]],
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="text-align: left;"><td colspan="14">Reference Purchase Request Transaction Code: <b>' + group + '</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
         footerCallback: function ( row, data, start, end, display ) {
             var api = this.api(), data;
  
@@ -166,7 +209,7 @@ $(document).ready(function () {
  
             // Update footer
             $( api.column( 13 ).footer() ).html(
-                addCommas(total)
+                formatNumber(total)
             );
         },
         pageLength: 25,
@@ -178,7 +221,7 @@ $(document).ready(function () {
             url: "/procurement/purchase-order-detail/?purchase_order_id=" + "{{ $PurchaseOrder->id }}",
         },
         columns: [
-            { data: 'purchase_requisition_detail.purchase_requisition.code', defaultContent: '-' },
+            { data: 'purchase_requisition_data' },
             { data: 'purchase_requisition_detail.item.code', defaultContent: '-' },
             { data: 'purchase_requisition_detail.item.name', defaultContent: '-' },
             { data: 'purchase_requisition_detail.item.category.name', defaultContent: '-' },
@@ -203,7 +246,7 @@ $(document).ready(function () {
             { data: 'required_delivery_date', defaultContent: '-' },
             { data: 'each_price_before_vat', 
                 "render": function ( data, type, row, meta ) {
-                    return addCommas(row.each_price_before_vat);
+                    return formatNumber(row.each_price_before_vat);
                 }},
             { data: 'vat', 
                 "render": function ( data, type, row, meta ) {
@@ -211,7 +254,7 @@ $(document).ready(function () {
                 }},
             { data: 'price_after_vat', 
                 "render": function ( data, type, row, meta ) {
-                    return addCommas(row.price_after_vat);
+                    return formatNumber(row.price_after_vat);
                 }},
             { data: 'created_at', defaultContent: '-', visible: false },
             { data: 'action', orderable: false },
@@ -392,7 +435,7 @@ $(document).ready(function () {
         var decimaltax = $("#vat").val() / 100;
         var totalprice = ($("#each_price_before_vat").val() * $("#order_quantity").val()) * decimaltax + ($("#each_price_before_vat").val() * $("#order_quantity").val());
 
-        $("#total_price").val(addCommas(totalprice));
+        $("#total_price").val(formatNumber(totalprice));
     }
 
     $('#each_price_before_vat').on('input', function (e) {
@@ -406,18 +449,6 @@ $(document).ready(function () {
     $('#order_quantity').on('input', function (e) {
         calculate_total_price ();
     });
-
-    function addCommas(nStr) {
-        nStr += '';
-        x = nStr.split('.');
-        x1 = x[0];
-        x2 = x.length > 1 ? '.' + x[1] : '';
-        var rgx = /(\d+)(\d{3})/;
-        while (rgx.test(x1)) {
-            x1 = x1.replace(rgx, '$1' + ',' + '$2');
-        }
-        return x1 + x2;
-    }
 });
 </script>
 @endpush

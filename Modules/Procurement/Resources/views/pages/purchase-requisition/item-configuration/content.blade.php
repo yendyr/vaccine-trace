@@ -28,13 +28,13 @@
         <th>Remark</th>
         <th>Parent Item</th>
         {{-- <th>Status</th> --}}
-        <th>Created By</th>
+        {{-- <th>Created By</th> --}}
         <th>Created At</th>
 
         @if($PurchaseRequisition->approvals()->count() == 0)
             <th>Action</th>
         @else
-            <th>Purchase Order Status</th>
+            <th>PO & GRN Status</th>
         @endif
     @endslot
     @endcomponent

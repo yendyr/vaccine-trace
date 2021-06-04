@@ -46,6 +46,11 @@ class PurchaseOrderDetailController extends Controller
                                         'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding']);
                                         
         return Datatables::of($data)
+        ->addColumn('purchase_requisition_data', function($row){
+            return "<a href='/procurement/purchase-requisition/" . 
+            $row->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . 
+            $row->purchase_requisition_detail->purchase_requisition->code . '</a>';
+        })
         ->addColumn('available_stock', function($row){
             return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
         })
@@ -173,6 +178,10 @@ class PurchaseOrderDetailController extends Controller
             $PurchaseRequisitionDetail->update([
                 'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity,
             ]);
+            $PurchaseOrder->update([
+                'total_before_vat' => $PurchaseOrder->total_before_vat + ($request->each_price_before_vat * $order_quantity),
+                'total_after_vat' => $PurchaseOrder->total_after_vat + (($request->each_price_before_vat * $order_quantity) * $vat + ($request->each_price_before_vat * $order_quantity)),
+            ]);
             if (sizeof($PurchaseRequisitionDetail->all_childs) > 0) {
                 Self::pickChildsForPurchaseOrder($PurchaseRequisitionDetail, $request->purchase_order_id, $required_delivery_date);
             }
@@ -259,17 +268,17 @@ class PurchaseOrderDetailController extends Controller
         }
     }
 
-    public function destroy(OutboundMutationDetail $MutationOutboundDetail)
+    public function destroy(PurchaseOrderDetail $PurchaseOrderDetail)
     {
-        $StockMutation = StockMutation::where('id', $MutationOutboundDetail->stock_mutation_id)
+        $PurchaseOrder = PurchaseOrder::where('id', $PurchaseOrderDetail->purchase_order_detail_id)
                                     ->first();
 
-        if ($StockMutation->approvals()->count() == 0) {
-            ItemStockMutation::deleteOutboundDetailRow($MutationOutboundDetail);
-            return response()->json(['success' => 'Outbound Item/Component Data has been Deleted']);
+        if ($PurchaseOrder->approvals()->count() == 0) {
+            Self::deleteOutboundDetailRow($PurchaseOrderDetail);
+            return response()->json(['success' => 'Item/Component Data has been Deleted']);
         }
         else {
-            return response()->json(['error' => "This Stock Mutation Outbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Purchase Order and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 }
