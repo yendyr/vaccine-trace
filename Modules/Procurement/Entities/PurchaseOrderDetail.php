@@ -72,12 +72,12 @@ class PurchaseOrderDetail extends MainModel
         return $this->hasMany(\Modules\Procurement\Entities\PurchaseOrderApproval::class, 'purchase_order_id');
     }
 
-    public static function boot() {
-        parent::boot();
+    // public static function boot() {
+    //     parent::boot();
 
-        static::deleting(function($PurchaseOrder) {
-            $PurchaseOrder->purchase_order_details()->delete(); 
-            $PurchaseOrder->approvals()->delete(); 
-        });
-    }
+    //     static::deleting(function($PurchaseOrder) {
+    //         $PurchaseOrder->purchase_order_details()->delete(); 
+    //         $PurchaseOrder->approvals()->delete(); 
+    //     });
+    // }
 }

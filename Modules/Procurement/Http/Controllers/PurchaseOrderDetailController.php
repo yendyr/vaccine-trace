@@ -270,7 +270,7 @@ class PurchaseOrderDetailController extends Controller
 
     public function destroy(PurchaseOrderDetail $PurchaseOrderDetail)
     {
-        $PurchaseOrder = PurchaseOrder::where('id', $PurchaseOrderDetail->purchase_order_detail_id)
+        $PurchaseOrder = PurchaseOrder::where('id', $PurchaseOrderDetail->purchase_order_id)
                                     ->first();
 
         if ($PurchaseOrder->approvals()->count() == 0) {
@@ -285,10 +285,10 @@ class PurchaseOrderDetailController extends Controller
     public static function deletePurchaseOrderDetailRow($PurchaseOrderRow, $PurchaseOrderDetailRow)
     {
         $PurchaseOrderDetailRow = PurchaseOrderDetail::where('id', $PurchaseOrderDetailRow->id)
-                                                    ->with(['item_stock.all_childs'])
+                                                    ->with(['purchase_requisition_detail.all_childs'])
                                                     ->first();
 
-        $purchase_requisition_detail = PurchaseRequisitionDetail::where('id', $PurchaseOrderDetailRow->purchase_requisition_detail)->first();
+        $purchase_requisition_detail = PurchaseRequisitionDetail::where('id', $PurchaseOrderDetailRow->purchase_requisition_detail_id)->first();
 
         DB::beginTransaction();
         if (sizeof($purchase_requisition_detail->all_childs) > 0) {
@@ -299,7 +299,7 @@ class PurchaseOrderDetailController extends Controller
         ]);
         
         $purchase_requisition_detail->update([
-            'prepared_quantity' => $purchase_requisition_detail->prepared_quantity - $PurchaseOrderDetailRow->order_quantity,
+            'prepared_to_po_quantity' => $purchase_requisition_detail->prepared_to_po_quantity - $PurchaseOrderDetailRow->order_quantity,
 
             'updated_by' => Auth::user()->id,
         ]);
@@ -319,7 +319,7 @@ class PurchaseOrderDetailController extends Controller
     {
         foreach($purchase_requisition_detail->all_childs as $childRow) {
             $childRow->update([
-                'prepared_quantity' => 0,
+                'prepared_to_po_quantity' => 0,
 
                 'updated_by' => Auth::user()->id,
             ]);

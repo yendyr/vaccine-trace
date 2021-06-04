@@ -33,7 +33,7 @@
         </div>
         <div class="col">   
             <p  class="m-t-none m-b-none">Exchange Rate:</p>         
-            <p class="m-t-none font-bold">{{ $PurchaseOrder->exchange_rate ?? '' }}</p>
+            <p class="m-t-none font-bold">{{ number_format($PurchaseOrder->exchange_rate, 2) ?? '' }}</p>
         </div>
         {{-- <div class="col">
             <p  class="m-t-none m-b-none">Remark:</p>
