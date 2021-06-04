@@ -285,30 +285,31 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo(inputFormId);
 
-        $('#item').val(data.item_stock.item.code + ' | ' + data.item_stock.item.name);
-        $('#item_stock_id').val(data.item_stock_id);
+        $('#item').val(data.purchase_requisition_detail.item.code + ' | ' + data.purchase_requisition_detail.item.name);
+        $('#purchase_requisition_detail_id').val(data.purchase_requisition_detail.id);
+        $('#purchase_requisition_code').val(data.purchase_requisition_detail.purchase_requisition.code);
+        $('#request_quantity').val(data.purchase_requisition_detail.request_quantity);
+        $('#available_stock').val(data.available_stock);
 
-        var showAvailableQty = data.item_stock.available_quantity + data.outbound_quantity;
-        $('#available_quantity').val(showAvailableQty);
-        $('#unit').val(data.item_stock.item.unit.name);
+        var temp_prepared_po = data.purchase_requisition_detail.prepared_to_po_quantity - data.order_quantity;
+        var temp_processed_po = data.purchase_requisition_detail.processed_to_po_quantity;
 
-        $('#outbound_quantity').attr('max', showAvailableQty);
-        $('#outbound_unit').val(data.item_stock.item.unit.name);
+        $('#prepared_to_po_quantity').val(temp_prepared_po);
+        $('#processed_to_po_quantity').val(temp_processed_po);
+        $('.unit').val(data.purchase_requisition_detail.item.unit.name);
 
-        $('#serial_number').val(data.item_stock.serial_number);
-        $('#alias_name').val(data.item_stock.alias_name);
-        $('#description').val(data.item_stock.description);
-        $('#detailed_item_location').val(data.item_stock.detailed_item_location);
-        // $('#parent').val(data.parent);
+        $('#order_quantity').attr('max', data.purchase_requisition_detail.request_quantity - (temp_prepared_po + temp_processed_po));
+        $('#order_unit').val(data.purchase_requisition_detail.item.unit.name);
+        
+        $('#description').val(data.purchase_requisition_detail.description);
 
-        if(showAvailableQty == 1 && data.item_stock.serial_number != null) {
-            $('#outbound_quantity').val(1);
-        }
-        else {
-            $('#outbound_quantity').val(data.outbound_quantity);
-        }
-
-        $('#outbound_remark').val(data.description);
+        $('#order_quantity').val(data.order_quantity);
+        $('#order_remark').val(data.description);
+        $('.required_delivery_date').val(data.required_delivery_date);
+        $('#each_price_before_vat').val(data.each_price_before_vat);
+        $('#vat').val(data.vat * 100);
+        
+        calculate_total_price ();
 
         $('#saveBtn').val("use");
         $(saveButtonModalTextId).html("Edit this Item");
