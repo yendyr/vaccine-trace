@@ -215,7 +215,7 @@ class PurchaseOrderDetailController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($childRow->all_childs) > 0) {
-                Self::pickChildsForPurchaseOrder($childRow, $purchase_order_id);
+                Self::pickChildsForPurchaseOrder($childRow, $purchase_order_id, $required_delivery_date);
             }
         }
     }
