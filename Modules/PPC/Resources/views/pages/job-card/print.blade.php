@@ -19,7 +19,7 @@
 <div class="row">
   <div class="col">
   @if( File::exists(Auth::user()->company->logo_path) )
-    <img src="{{ URL::asset(Auth::user()->company->logo_path) }}" height="40px">
+    <img src="{{ Auth::user()->company->logo_path }}" height="40px">
   @else
     <img src="{{ URL::asset('/Logo-Web.png') }}" height="40px">
   @endif
