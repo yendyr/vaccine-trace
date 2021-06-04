@@ -6,6 +6,8 @@ use Modules\Procurement\Entities\PurchaseOrder;
 use Modules\Procurement\Entities\PurchaseOrderDetail;
 use Modules\Procurement\Entities\PurchaseOrderApproval;
 
+use app\Helpers\Procurement\PurchaseOrderPrice;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +67,12 @@ class PurchaseOrderController extends Controller
             })
             ->addColumn('updater_name', function($row){
                 return $row->updater->name ?? '-';
+            })
+            ->addColumn('total_price_before_tax', function($row){
+                return PurchaseOrderPrice::totalPriceBeforeTax($row->id);
+            })
+            ->addColumn('total_price_after_tax', function($row){
+                return PurchaseOrderPrice::totalPriceAfterTax($row->id);
             })
             ->addColumn('action', function($row){
                 $noAuthorize = true;

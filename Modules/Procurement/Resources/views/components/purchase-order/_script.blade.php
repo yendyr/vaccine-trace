@@ -36,13 +36,13 @@ $(document).ready(function () {
                     return formatNumber(row.exchange_rate);
                 }},
             { data: 'reference', defaultContent: '-' },
-            { data: 'total_before_vat', 
+            { data: 'total_price_before_tax', 
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.total_before_vat);
+                    return formatNumber(row.total_price_before_tax);
                 }},
-            { data: 'total_after_vat', 
+            { data: 'total_price_after_tax', 
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.total_after_vat);
+                    return formatNumber(row.total_price_after_tax);
                 }},
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
