@@ -114,7 +114,6 @@ class PurchaseOrderDetailController extends Controller
                                     'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
                                     ->where('purchase_order_id', $purchase_order_id)
                                     ->get();
-        // dd($purchase_order_id);
         $response = [];
         foreach($datas as $data) {
             if ($data->purchase_requisition_detail->parent_coding) {

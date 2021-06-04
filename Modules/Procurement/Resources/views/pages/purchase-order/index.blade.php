@@ -27,7 +27,7 @@
             <th>Supplier</th>
             <th>Supplier's Reference</th>
             <th>Remark</th>
-            <th>Current Primary Currency</th>
+            <th>Current Primary/Local Currency</th>
             <th>Currency</th>
             <th>Exchange Rate</th>
             <th>Transaction Reference</th>
