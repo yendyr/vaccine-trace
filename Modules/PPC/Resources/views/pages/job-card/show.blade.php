@@ -433,7 +433,7 @@
                                             $instruction_codes = [];
                                             if( !empty($time_grouped_progress_row) ){
                                                 foreach($time_grouped_progress_row as $instruction_row) {
-                                                    $instruction_codes[] = $instruction_row->instruction->code;
+                                                    $instruction_codes[] = $instruction_row->instruction->code ?? null;
                                                 }
                                             }
                                         @endphp
