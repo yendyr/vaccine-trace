@@ -656,7 +656,7 @@ class JobCardController extends Controller
      */
     public function execute(Request $request)
     {
-        $job_card = WorkOrderWorkPackageTaskcard::where('uuid', $request->uuid)->first();
+        $job_card = WorkOrderWorkPackageTaskcard::where('code', $request->code)->first();
 
         if (empty($job_card)) {
             return redirect()->back()->with('error', 'Job Card Not Found');

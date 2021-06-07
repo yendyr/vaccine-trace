@@ -14,7 +14,7 @@
                         <form class="m-t" role="inputForm" method="POST" action="{{ route('ppc.job-card.execute') }}">
                             @csrf
                             <div class="form-group">
-                                <input type="password" name="uuid" id="uuid" class="form-control" placeholder="Scan QR Code here" required="" autofocus>
+                                <input type="input" name="code" id="code" class="form-control" placeholder="Scan QR Code here" required="" autofocus>
                             </div>
 
                             <button type="submit" class="btn btn-primary block full-width m-b">Execute</button>
