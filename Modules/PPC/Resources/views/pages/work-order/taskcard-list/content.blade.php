@@ -6,7 +6,7 @@
                 @slot('createButton')
                     @can('update', $work_order)                
                         <button type="button" class="useBtnAll btn btn-sm btn-outline btn-success text-nowrap pr-2" data-toggle="tooltip" title="Use All" value="{{ $work_order->id }}">
-                            <i class="fa fa-check-square-o"></i>Use All
+                            <i class="fa fa-check-square-o"></i> Use All
                         </button>
                     @endcan
                 @endslot
