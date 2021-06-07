@@ -71,7 +71,13 @@ class TaskcardDetailItemController extends Controller
     {
         $request->validate([
             'taskcard_id' => ['required'],
-            'item_id' => ['required'],
+            'item_id' => ['required', function  ($attribute, $value, $fail) use ($request) {
+                $existed = TaskcardDetailItem::where('taskcard_id', $request->taskcard_id)->where('item_id', $value)->exists();
+                
+                if($existed) {
+                    $fail('This item already existed!');
+                }
+            }],
             'quantity' => ['required'],
         ]);
 
