@@ -253,7 +253,8 @@ class WorkOrderWorkPackageController extends Controller
             'skills' => $skills,
             'work_order' => $work_order,
             'work_package' => $work_package,
-            'taskcard_counts' => $taskcard_counts
+            'taskcard_counts' => $taskcard_counts,
+            'is_approved' => $work_order->approvals()->count()   
         ]);
     }
 

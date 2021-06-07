@@ -92,7 +92,7 @@ $(document).ready(function () {
             {   title: 'Created At', data: 'created_at', defaultContent: '-' },
             {   title: 'Action', data: 'action', orderable: false,
                 "render": function ( data, type, row, meta ) {
-                    if("{{ $is_approved }}" == "0") {
+                    if("{{ $is_approved ?? 0 }}" == "0") {
                         return data;
                     }else{
                         return '<p class="text-muted font-italic">Already Approved</p>';
