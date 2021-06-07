@@ -147,7 +147,7 @@
                     name: 'Action',
                     orderable: false,
                     "render": function ( data, type, row, meta ) {
-                        if("{{ $is_approved }}" == "0") {
+                        if("{{ $is_approved ?? 0 }}" == "0") {
                             return data;
                         }else{
                             return '<p class="text-muted font-italic">Already Approved</p>';
