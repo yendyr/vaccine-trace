@@ -99,6 +99,37 @@ class JobCardController extends Controller
             }
 
             return Datatables::of($data)
+                ->filterColumn('code', function($query, $keyword) {
+                    $query->where('code' ,'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('taskcard_json', function($query, $keyword) {
+                    $query->where('taskcard_json' ,'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('taskcard_group_json', function($query, $keyword) {
+                    $query->where('taskcard_group_json' ,'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('tags_json', function($query, $keyword) {
+                    $query->where('tags_json' ,'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('taskcard_type_json', function($query, $keyword) {
+                    $query->where('taskcard_type_json' ,'LIKE', "%{$keyword}%");
+                })
+                ->filterColumn('transaction_status', function($query, $keyword) {
+                    $status = array_search(strtolower($keyword), config('ppc.job-card.transaction-status'));
+                    
+                    $query->where('transaction_status' , $status);
+                })
+                ->filterColumn('instruction_count', function($query, $keyword) {
+                    $query->has('details' ,'=', $keyword);
+                })
+                ->filterColumn('skills', function($query, $keyword) {
+                    $query->whereHas('details', function($subquery) use ($keyword) {
+                        $subquery->where('skills_json','LIKE', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('description', function($query, $keyword) {
+                    $query->where('description' ,'LIKE', "%{$keyword}%");
+                })
                 ->addColumn('mpd_number', function ($itemRow) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
                         'taskcard' => $itemRow->id,

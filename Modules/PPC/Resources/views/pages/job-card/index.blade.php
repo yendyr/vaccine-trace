@@ -34,6 +34,25 @@
                         @slot('createButton')
                             <select class="work_order_id form-control @error('work_order_id') is-invalid @enderror" id="work_order_id" name="work_order_id" style="width: 100%;"></select>
                         @endslot
+
+                        @slot('tableContent')
+                            <th> Job Card Number </th>
+                            <th> MPD Number </th>
+                            <th> Title </th>
+                            <th> Group </th>
+                            <th> Tag </th>
+                            <th> Type </th>
+                            <th> Instruction/Task Total </th>
+                            <th> Manhours Total </th>
+                            <th> Actual Manhours Total </th>
+                            <th> Skill </th>
+                            <th> Status </th>
+                            <th> Threshold </th>
+                            <th> Repeat </th>
+                            <th> Remark </th>
+                            <th> Created At </th>
+                            <th> Action </th>
+                        @endslot
             @endcomponent
         </div>
     </div>
