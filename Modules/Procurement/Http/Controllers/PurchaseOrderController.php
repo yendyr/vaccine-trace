@@ -226,7 +226,7 @@ class PurchaseOrderController extends Controller
             $purchase_order_detail->update([
                 'deleted_by' => Auth::user()->id,
             ]);
-            OutboundMutationDetail::destroy($purchase_order_detail->id);
+            PurchaseRequisitionDetail::destroy($purchase_order_detail->id);
             $PurchaseRequisitionDetail->update([
                 'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity - $purchase_order_detail->order_quantity,
 
