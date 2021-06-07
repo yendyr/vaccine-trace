@@ -6,10 +6,12 @@
 $(document).ready(function () {
     // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
     var actionUrl = '/ppc/maintenance-program-detail';
+    var actionUrlUseAll = "{{ route('ppc.maintenance-program.use-all-taskcard', ['MaintenanceProgram' => $MaintenanceProgram->id] ) }}";
     var tableId = '#taskcard-table';
     var tableId2 = '#maintenance-program-table';
     var inputFormId = '#inputForm';
     var useButtonClass = '.useBtn';
+    var useButtonAllClass = '.useBtnAll';
     var saveButtonModalTextId = '#saveButtonModalText';
     // ----------------- END BINDING FORNT-END INPUT SCRIPT ------------- //
 
@@ -263,7 +265,32 @@ $(document).ready(function () {
     // ----------------- END "USE" BUTTON SCRIPT ------------- //
 
 
+    // ----------------- "USE ALL" BUTTON SCRIPT ------------- //
+    $(useButtonAllClass).on('click', function () {
+        $('#modalTitle').html("Use All Task Card");
 
+        $("input[value='patch']").remove();
+        $(inputFormId).trigger("reset"); 
+
+        rowId= $(this).val();
+        let tr = $(this).closest('tr');
+        let data = datatableObject.row(tr).data();
+        $(inputFormId).attr('action', actionUrlUseAll);
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: '_method',
+            value: 'post'
+        }).prependTo(inputFormId);
+        $('#taskcard_info').html("Use All Task Cards?");
+        $('#description').val('');
+        // $('#taskcard_id').val(data.id);
+
+        $('#saveBtn').val("use");
+        $(saveButtonModalTextId).html("Use All Task Card");
+        $('#inputModal').modal('show');
+    });
+    // ----------------- END "USE" BUTTON SCRIPT ------------- //
 
 
     // ----------------- "SUBMIT" BUTTON SCRIPT ------------- //

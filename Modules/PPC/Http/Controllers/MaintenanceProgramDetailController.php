@@ -14,6 +14,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\PPC\Entities\Taskcard;
 use Yajra\DataTables\Facades\DataTables;
 
 class MaintenanceProgramDetailController extends Controller
@@ -197,11 +198,16 @@ class MaintenanceProgramDetailController extends Controller
     public function store(Request $request)
     {
         $existRow = MaintenanceProgramDetail::where('maintenance_program_id', $request->maintenance_program_id)
-                                            ->where('taskcard_id', $request->taskcard_id)
-                                            ->exists();
+            ->where('taskcard_id', $request->taskcard_id)
+            ->exists();
+        
+        $is_use_all_taskcard = Str::contains($request->fullUrl(), 'use-all-taskcard');
+
         if($existRow == false) {
+            $flag = true;
             DB::beginTransaction();
-            MaintenanceProgramDetail::create([
+
+            $maintenanceProgramDetail = MaintenanceProgramDetail::create([
                 'uuid' =>  Str::uuid(),
     
                 'code' => $request->code,
@@ -214,11 +220,39 @@ class MaintenanceProgramDetailController extends Controller
                 'status' => 1,
                 'created_by' => $request->user()->id,
             ]);
-            DB::commit();
-            return response()->json(['success' => 'Task Card has been Added to Maintenance Program']);
+
+            if( !get_class($maintenanceProgramDetail) ) {
+                $flag = false;
+            }
+
+            if($flag) {
+
+                if( $is_use_all_taskcard ) {
+                    return ['flag' => $flag];
+                }else{
+                    DB::commit();
+                    return response()->json(['success' => 'Task Card has been Added to Maintenance Program']);
+                }
+
+            }else{
+                
+                if( $is_use_all_taskcard ) {
+                    return ['flag' => $flag];
+                }else{
+                    DB::rollBack();
+                    return response()->json(['error' => "Failed to add this task card to this Maintenance Program"]);
+                }
+
+            }
         }
         else {
-            return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
+
+            if( $is_use_all_taskcard ) {
+                return ['flag' => false];
+            }else{
+                return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
+            }
+
         }
     }
 
@@ -265,6 +299,52 @@ class MaintenanceProgramDetailController extends Controller
 
         MaintenanceProgramDetail::destroy($MaintenanceProgramDetail->id);
         return response()->json(['success' => "Task Card's Maintenance Program Data has been Deleted"]);
+    }
+
+     /**
+     * Store a newly creatd resource in storage
+     * @param WorkOrder $work_order
+     * @return Renderable
+     */
+    public function useAll(Request $request, MaintenanceProgram $MaintenanceProgram)
+    {
+        DB::beginTransaction();
+        $flag = true;
+        $existed_taskcard = $MaintenanceProgram->maintenance_details()->pluck('taskcard_id');
+        $taskcards_query = Taskcard::whereHas(
+            'aircraft_types',
+            function ($aircraft_types) use ($MaintenanceProgram) {
+                $aircraft_types->where('aircraft_types.id', $MaintenanceProgram->aircraft_type_id);
+            }
+        )
+            ->whereNotIn('id', $existed_taskcard);
+
+        if ($taskcards_query->count() !== 0) {
+
+            $taskcards = $taskcards_query->pluck('id');
+
+            foreach ($taskcards as $taskcard_id_row) {
+                $request->merge([
+                    'taskcard_id' => $taskcard_id_row
+                ]);
+
+                $result = $this->store($request, $MaintenanceProgram);
+
+                $flag = $result['flag'];
+            }
+
+            if ($flag) {
+                DB::commit();
+
+                return response()->json([
+                    'success' => 'All Task Card has been added to Maintenance Program'
+                ]);
+            } else {
+                DB::rollBack();
+
+                return response()->json(['error' => 'Failed to add all task card to Maintenance Program', 'flag' => $flag]);
+            }
+        }
     }
 
     // public function select2(Request $request)

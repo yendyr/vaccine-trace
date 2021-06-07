@@ -493,6 +493,8 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             if ($is_use_all_taskcard) {
                 return ['error' => "This Task Card Already Exist in this Maintenance Program", 'flag' => false];
             } else {
+                DB::rollBack();
+
                 return response()->json(['error' => "This Task Card Already Exist in this Maintenance Program"]);
             }
         }

@@ -11,8 +11,6 @@
                     @endcan
                 @endslot
         @endcomponent
-
-    @include('ppc::pages.work-order.aircraft-maintenance-program.modal')
 </div>
 
 @push('footer-scripts')
