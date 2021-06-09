@@ -211,9 +211,9 @@ class PurchaseOrderDetailController extends Controller
         //     // return '<p class="text-muted font-italic">Already Approved</p>';
         // })
         ->addColumn('goods_received_status', function($row){
-            return 'Prepared: <strong>WIP</strong><br>' . 
-            'Processed: <strong>WIP</strong><br>';
-            // return '<p class="text-muted font-italic">Already Approved</p>';
+            return 'Prepared to GRN: <strong>' . $row->prepared_to_grn_quantity . 
+                '</strong><br>Processed to GRN: <strong>' . 
+                $row->processed_to_grn_quantity . '</strong>';
         })
         ->addColumn('action', function($row) {
             $usable = true;
