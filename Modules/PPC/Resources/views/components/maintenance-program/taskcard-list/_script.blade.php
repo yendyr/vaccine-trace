@@ -282,7 +282,8 @@ $(document).ready(function () {
             name: '_method',
             value: 'post'
         }).prependTo(inputFormId);
-        $('#taskcard_info').html("Use All Task Cards?");
+        $('.modal-body').find('.form-group').hide('slow');
+        $('#taskcard_info').html("Use All Task Cards?").parent().show('fast');
         $('#description').val('');
         // $('#taskcard_id').val(data.id);
 
