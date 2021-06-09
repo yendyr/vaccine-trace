@@ -140,7 +140,7 @@ class StockMutationInboundController extends Controller
             ]);
 
             if ($currentRow->supplier_id && ($request->supplier_id != $currentRow->supplier_id)) {
-                if ($currentRow->inbound_mutation_details()->count() == 0) {
+                if ($currentRow->inbound_mutation_details()->count() > 0) {
                     return response()->json(['error' => "This Stock Mutation Inbound Already has Prepared Detail Data Which Relate to Specific Supplier and Purchase Order, So You Can't Modify Supplier"]);
                 }
             }

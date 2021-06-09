@@ -71,7 +71,7 @@
                         <div id="tab-0" class="tab-pane active">
                             <div class="panel-body" style="min-height: 500px;">
                                 <div class="row m-b">
-                                    {{-- @include('supplychain::pages.mutation.inbound.purchase-order-item.content') --}}
+                                    @include('supplychain::pages.mutation.inbound.purchase-order-item.content')
                                 </div>
                             </div>
                         </div>
