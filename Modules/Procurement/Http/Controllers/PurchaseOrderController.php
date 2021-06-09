@@ -47,8 +47,9 @@ class PurchaseOrderController extends Controller
                     $PurchaseOrderDetails = PurchaseOrderDetail::where('purchase_order_id', $row->id)->get();
                     
                     foreach ($PurchaseOrderDetails as $PurchaseOrderDetail) {
-                        if (!in_array($PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->code, $referenceCodeArray)) {
-                            $referenceCodeArray[] = $PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->code;
+                        $temp_code = "<a href='/procurement/purchase-requisition/" . $PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . $PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->code . "</a>";
+                        if (!in_array($temp_code, $referenceCodeArray)) {
+                            $referenceCodeArray[] = $temp_code;
                         }
                     }
 

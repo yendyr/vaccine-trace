@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
+    @include('supplychain::components.mutation.inbound.item-configuration._script')
+    @if($MutationInbound->approvals()->count() == 0)
+        @include('supplychain::pages.mutation.inbound.item-configuration.modal')
+    @endif
+
     <div class="row m-b m-t">
         <div class="col-md-2 d-flex align-items-start">
             <i class="fa fa-cloud-download fa-fw fa-5x text-info"></i>

@@ -41,7 +41,7 @@
                         <div class="col-sm-7">
                             <select class="supplier_id form-control @error('supplier_id') is-invalid @enderror" name="supplier_id" id="supplier_id"></select>
                             <div class="invalid-feedback-supplier_id text-danger font-italic"></div>
-                            <div class="text-info font-italic">
+                            <div class="text-success font-italic">
                                 <i class="fa fa-info-circle"></i>&nbsp;choose supplier if you want receive item from purchase order
                             </div>
                         </div>

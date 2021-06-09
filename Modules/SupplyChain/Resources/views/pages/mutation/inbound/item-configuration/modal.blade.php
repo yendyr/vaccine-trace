@@ -11,6 +11,8 @@
 
             <form method="post" id="inputForm">
                 <input type="hidden" id="stock_mutation_id" name="stock_mutation_id" value="{{ $MutationInbound->id ?? '' }}">
+                <input type="hidden" id="purchase_order_detail_id" name="purchase_order_detail_id" value="">
+
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -159,7 +161,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
                     <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveBtn">
-                        <strong>Save Changes</strong>
+                        <strong>Save</strong>
                     </button>
                 </div>
 

@@ -5,6 +5,7 @@
 <script>
 $(document).ready(function () {
     var tableId = '#outstanding-item-table';
+    var useButtonClass = '.useBtn';
 
     $('#outstanding-item-table thead tr').clone(true).appendTo('#outstanding-item-table thead');
     $('#outstanding-item-table thead tr:eq(1) th').each( function (i) {
@@ -43,7 +44,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="12">Purchase Order Transaction Code: <b>' + group + '</b></td></tr>'
+                        '<tr class="group" style="text-align: left;"><td colspan="13">Purchase Order Transaction Code: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -82,7 +83,8 @@ $(document).ready(function () {
             { data: 'purchase_requisition_detail.item.unit.name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'required_delivery_date', defaultContent: '-' },
-            { data: 'created_at', defaultContent: '-', visible: false },
+            { data: 'goods_received_status', defaultContent: '-' },
+            // { data: 'created_at', defaultContent: '-', visible: false },
             { data: 'action', orderable: false },
         ],
     });    
@@ -94,38 +96,37 @@ $(document).ready(function () {
 
     // ----------------- "USE" BUTTON SCRIPT ------------- //
     datatableObject1.on('click', useButtonClass, function () {
-        $('#modalTitle').html("Use this to Purchase Order");
+        $('#modalTitle').html("Receive this Item");
 
         $("input[value='patch']").remove();
-        $(inputFormId).trigger("reset"); 
+        $('#inputForm').trigger("reset"); 
 
         rowId= $(this).val();
         let tr = $(this).closest('tr');
         let data = datatableObject1.row(tr).data();
-        $(inputFormId).attr('action', actionUrl);
+        $('#inputForm').attr('action', actionUrl);
 
         $('<input>').attr({
             type: 'hidden',
             name: '_method',
             value: 'post'
-        }).prependTo(inputFormId);
+        }).prependTo('#inputForm');
 
-        $('#item').val(data.item.code + ' | ' + data.item.name);
-        $('#purchase_requisition_detail_id').val(data.id);
-        $('#purchase_requisition_code').val(data.purchase_requisition.code);
-        $('#request_quantity').val(data.request_quantity);
-        $('#available_stock').val(data.available_stock);
-        $('#prepared_to_po_quantity').val(data.prepared_to_po_quantity);
-        $('#processed_to_po_quantity').val(data.processed_to_po_quantity);
-        $('.unit').val(data.item.unit.name);
+        // $('#item').val(data.item.code + ' | ' + data.item.name);
+        // $('#purchase_requisition_detail_id').val(data.id);
+        // $('#purchase_requisition_code').val(data.purchase_requisition.code);
+        // $('#request_quantity').val(data.request_quantity);
+        // $('#available_stock').val(data.available_stock);
+        // $('#prepared_to_po_quantity').val(data.prepared_to_po_quantity);
+        // $('#processed_to_po_quantity').val(data.processed_to_po_quantity);
+        // $('.unit').val(data.item.unit.name);
 
-        $('#order_quantity').attr('max', (data.request_quantity - (data.prepared_to_po_quantity + data.processed_to_po_quantity)));
-        $('#order_unit').val(data.item.unit.name);
+        // $('#order_quantity').attr('max', (data.request_quantity - (data.prepared_to_po_quantity + data.processed_to_po_quantity)));
+        // $('#order_unit').val(data.item.unit.name);
         
-        $('#description').val(data.description);
+        // $('#description').val(data.description);
 
         $('#saveBtn').val("use");
-        $(saveButtonModalTextId).html("Use this Item to Purchase Order");
         $('#inputModal').modal('show');
     });
     // ----------------- END "USE" BUTTON SCRIPT ------------- //
