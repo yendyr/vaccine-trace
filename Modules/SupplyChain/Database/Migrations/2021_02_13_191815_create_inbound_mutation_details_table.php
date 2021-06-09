@@ -18,6 +18,7 @@ class CreateInboundMutationDetailsTable extends Migration
             $table->uuid('uuid')->unique();
 
             $table->string('stock_mutation_id');
+            $table->string('purchase_order_detail_id')->nullable();
 
             $table->string('item_id');
             $table->string('serial_number')->nullable();

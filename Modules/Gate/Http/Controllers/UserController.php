@@ -39,27 +39,27 @@ class UserController extends Controller
             $data = User::with(['role:id,role_name', 'company:id,name', 'employee:id,fullname']);
 
             return Datatables::of($data)
-                ->addColumn('status', function($row){
-                    if ($row->status == 1){
-                        return '<label class="label label-success">Active</label>';
-                    } 
-                    else {
-                        return '<label class="label label-danger">Inactive</label>';
-                    }
-                })
-                ->addColumn('action', function($row){
-                    if(Auth::user()->can('update', User::class)) {
-                        $updateable = 'button';
-                        $updateValue = $row->id;
-                        return view('components.action-button', compact(['updateable', 'updateValue']));
-                    }
-                    return '<p class="text-muted font-italic">Not Authorized</p>';
-                })
-                ->addColumn('password', function($row){
-                    return $row->password;
-                })
-                ->escapeColumns([])
-                ->make(true);
+            ->addColumn('status', function($row){
+                if ($row->status == 1){
+                    return '<label class="label label-success">Active</label>';
+                } 
+                else {
+                    return '<label class="label label-danger">Inactive</label>';
+                }
+            })
+            ->addColumn('action', function($row){
+                if(Auth::user()->can('update', User::class)) {
+                    $updateable = 'button';
+                    $updateValue = $row->id;
+                    return view('components.action-button', compact(['updateable', 'updateValue']));
+                }
+                return '<p class="text-muted font-italic">Not Authorized</p>';
+            })
+            ->addColumn('password', function($row){
+                return $row->password;
+            })
+            ->escapeColumns([])
+            ->make(true);
         }
 
         return view('gate::pages.user.index');
@@ -125,6 +125,9 @@ class UserController extends Controller
                                     
                 $company_id = $employee->company_id;
             } 
+            else if ($request->user()->company_id == 1 || $request->user()->company_id == 2) {
+                $company_id = $request->company_id;
+            }
             else {
                 $company_id = $request->user()->company_id;
             }
@@ -203,6 +206,9 @@ class UserController extends Controller
 
                 $company_id = $employee->company_id;
             } 
+            else if ($request->user()->company_id == 1 || $request->user()->company_id == 2) {
+                $company_id = $request->company_id;
+            }
             else {
                 $company_id = $request->user()->company_id;
             }

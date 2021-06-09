@@ -17,6 +17,7 @@ class InboundMutationDetail extends MainModel
         'uuid',
 
         'stock_mutation_id',
+        'purchase_order_detail_id',
 
         'coding',
         'detailed_item_location',
@@ -52,6 +53,11 @@ class InboundMutationDetail extends MainModel
     public function stock_mutation()
     {
         return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'stock_mutation_id');
+    }
+
+    public function purchase_order_detail()
+    {
+        return $this->belongsTo(\Modules\Procurement\Entities\PurchaseOrderDetail::class, 'purchase_order_detail_id');
     }
 
     public function item()

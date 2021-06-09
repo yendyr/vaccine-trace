@@ -36,12 +36,6 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        {{-- <div class="col-md-6">
-                            <label>Company</label>
-                            <select class="select2_company form-control m-b " id="fcompany" name="company">
-                            </select>
-                            <div class="invalid-feedback-company text-danger"></div>
-                        </div> --}}
                         <div class="col-md-6">
                             <label>Assign to Employee</label>
                             <select class="employee_id form-control m-b" id="employee_id" name="employee_id">
@@ -55,6 +49,16 @@
                             <div class="invalid-feedback-role text-danger"></div>
                         </div>
                     </div>
+                    @if (Auth::user()->company_id == 1 || Auth::user()->company_id == 2)
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label>Company</label>
+                            <select class="company_id form-control m-b " id="company_id" name="company_id">
+                            </select>
+                            <div class="invalid-feedback-company_id text-danger"></div>
+                        </div>
+                    </div>
+                    @endif
                     <div class="form-group row">
                         <label class="col-sm-4 d-flex align-items-center">Active</label>
                         <div class="col-sm-1">     

@@ -19,8 +19,8 @@ class CompanySeeder extends Seeder
         Model::unguard();
 
         $company = Company::create([
-            'name' => 'PT. Rahu Arta Mandiri',
-            'code' => 'RAM',
+            'name' => 'PT. Sarana Mendulang Arta',
+            'code' => 'Smart',
             'gst_number' => '99.4877.AXXED-HDGTEHS',
             'npwp_number' => '01.855.081.4-412.000',
             'description' => 'one of biggest aviation industry supplier and manufacturer, part of global supply chain',
@@ -28,8 +28,8 @@ class CompanySeeder extends Seeder
             'uuid' => Str::uuid(),
         ]);
         $company = Company::create([
-            'name' => 'PT. Sarana Mendulang Arta',
-            'code' => 'Smart',
+            'name' => 'PT. Rahu Arta Mandiri',
+            'code' => 'RAM',
             'gst_number' => '99.4877.AXXED-HDGTEHS',
             'npwp_number' => '01.855.081.4-412.000',
             'description' => 'one of biggest aviation industry supplier and manufacturer, part of global supply chain',
