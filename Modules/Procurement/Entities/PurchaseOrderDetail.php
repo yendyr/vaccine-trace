@@ -67,6 +67,11 @@ class PurchaseOrderDetail extends MainModel
         return $this->belongsTo(\Modules\Procurement\Entities\PurchaseOrder::class, 'purchase_order_id');
     }
 
+    public function inbound_mutation_details()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\InboundMutationDetail::class, 'purchase_order_detail_id');
+    }
+
     public function approvals()
     {
         return $this->hasMany(\Modules\Procurement\Entities\PurchaseOrderApproval::class, 'purchase_order_id');

@@ -582,6 +582,7 @@ class EmployeeController extends Controller
         $search = $request->q;
         $query = Employee::orderby('fullname','asc')
                         ->select('id','fullname')
+                        ->where('company_id', $request->user()->company_id)
                         ->where('status', 1);
 
         if($search != ''){
@@ -596,7 +597,6 @@ class EmployeeController extends Controller
                 "text" => $Employee->fullname
             ];
         }
-
         return response()->json($response);
     }
 }

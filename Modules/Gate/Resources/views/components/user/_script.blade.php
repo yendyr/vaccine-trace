@@ -33,15 +33,15 @@ $(document).ready(function () {
 
 
 
-    // $('.select2_company').select2({
-    //     theme: 'bootstrap4',
-    //     placeholder: 'Choose a Company',
-    //     ajax: {
-    //         url: "{{route('generalsetting.company.select2.company')}}",
-    //         dataType: 'json',
-    //     },
-    //     dropdownParent: $('#inputModal')
-    // });
+    $('.company_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose a Company',
+        ajax: {
+            url: "{{route('generalsetting.company.select2.company')}}",
+            dataType: 'json',
+        },
+        dropdownParent: $('#inputModal')
+    });
     
     $('.select2_role').select2({
         theme: 'bootstrap4',
@@ -98,6 +98,11 @@ $(document).ready(function () {
         $(".employee_id").val(null).trigger('change');
         if (data.employee != null){
             $('#employee_id').append('<option value="' + data.employee_id + '" selected>' + data.employee.fullname + '</option>');
+        } 
+
+        $(".company_id").val(null).trigger('change');
+        if (data.company_id != null){
+            $('#company_id').append('<option value="' + data.company_id + '" selected>' + data.company.name + '</option>');
         } 
 
         if (data.status == '<label class="label label-success">Active</label>') {
