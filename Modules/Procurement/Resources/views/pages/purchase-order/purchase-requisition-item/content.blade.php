@@ -9,11 +9,11 @@
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Item Category</th>
+        <th>Parent Item</th>
         <th>Request Qty</th>
         <th>In-Stock Qty</th>
         <th>UoM</th>
         <th>Remark</th>
-        <th>Parent Item</th>
         {{-- <th>Status</th> --}}
         {{-- <th>Created At</th> --}}
         <th>Purchase Order Status</th>

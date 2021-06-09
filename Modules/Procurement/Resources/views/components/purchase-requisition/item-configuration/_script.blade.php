@@ -21,6 +21,7 @@ $(document).ready(function () {
             { data: 'item.code', defaultContent: '-' },
             { data: 'item.name', defaultContent: '-' },
             { data: 'item.category.name', defaultContent: '-' },
+            { data: 'parent', defaultContent: '-' },
             { data: 'request_quantity', defaultContent: '-' },
             { data: 'available_stock',
                 "render": function ( data, type, row, meta ) {
@@ -33,7 +34,6 @@ $(document).ready(function () {
                 }},
             { data: 'item.unit.name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
-            { data: 'parent', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
             // { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },

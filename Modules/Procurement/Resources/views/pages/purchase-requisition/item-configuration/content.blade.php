@@ -22,11 +22,11 @@
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Item Category</th>
+        <th>Parent Item</th>
         <th>Request Qty</th>
         <th>In-Stock Qty</th>
         <th>UoM</th>
         <th>Remark</th>
-        <th>Parent Item</th>
         {{-- <th>Status</th> --}}
         {{-- <th>Created By</th> --}}
         <th>Created At</th>
@@ -34,7 +34,7 @@
         @if($PurchaseRequisition->approvals()->count() == 0)
             <th>Action</th>
         @else
-            <th>PO & GRN Status</th>
+            <th colspan="2">PO & GRN Status</th>
         @endif
     @endslot
     @endcomponent
