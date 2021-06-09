@@ -125,8 +125,11 @@ class UserController extends Controller
                                     
                 $company_id = $employee->company_id;
             } 
-            else {
+            else if ($request->user()->company_id == 1 || $request->user()->company_id == 2) {
                 $company_id = $request->company_id;
+            }
+            else {
+                $company_id = $request->user()->company_id;
             }
 
             User::create([
@@ -203,8 +206,11 @@ class UserController extends Controller
 
                 $company_id = $employee->company_id;
             } 
-            else {
+            else if ($request->user()->company_id == 1 || $request->user()->company_id == 2) {
                 $company_id = $request->company_id;
+            }
+            else {
+                $company_id = $request->user()->company_id;
             }
 
             User::where('id', $user->id)

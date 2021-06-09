@@ -49,6 +49,7 @@
                             <div class="invalid-feedback-role text-danger"></div>
                         </div>
                     </div>
+                    @if (Auth::user()->company_id == 1 || Auth::user()->company_id == 2)
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label>Company</label>
@@ -57,6 +58,7 @@
                             <div class="invalid-feedback-company_id text-danger"></div>
                         </div>
                     </div>
+                    @endif
                     <div class="form-group row">
                         <label class="col-sm-4 d-flex align-items-center">Active</label>
                         <div class="col-sm-1">     

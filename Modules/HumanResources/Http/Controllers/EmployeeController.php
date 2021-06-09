@@ -580,10 +580,18 @@ class EmployeeController extends Controller
     public function select2(Request $request)
     {
         $search = $request->q;
-        $query = Employee::orderby('fullname','asc')
+
+        if ($request->user()->company_id == 1 || $request->user()->company_id == 2) {
+            $query = Employee::orderby('fullname','asc')
+                        ->select('id','fullname')
+                        ->where('status', 1);
+        }
+        else {
+            $query = Employee::orderby('fullname','asc')
                         ->select('id','fullname')
                         ->where('company_id', $request->user()->company_id)
                         ->where('status', 1);
+        }
 
         if($search != ''){
             $query = $query->where('name', 'like', '%' .$search. '%');
