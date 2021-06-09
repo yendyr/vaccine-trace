@@ -21,6 +21,8 @@ class StockMutation extends MainModel
         'warehouse_origin',
         'warehouse_destination',
 
+        'supplier_id',
+
         'transaction_reference_id',
         'transaction_reference_class',
         'transaction_reference_text',
@@ -73,6 +75,11 @@ class StockMutation extends MainModel
     public function transfer_mutation_details()
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\TransferMutationDetail::class, 'stock_mutation_id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'supplier_id');
     }
 
     public function approvals()
