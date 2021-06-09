@@ -112,6 +112,16 @@ $(document).ready(function () {
             value: 'post'
         }).prependTo('#inputForm');
 
+        $('#purchase_order_detail_id').val(data.id);
+
+        // $("#item_id").prop("disabled", true);
+        $('#item_id').append('<option value="' + data.purchase_requisition_detail.item_id + '" selected>' + data.purchase_requisition_detail.item.code + ' | ' + data.purchase_requisition_detail.item.name + '</option>');
+        
+        $('#quantity').attr('max', (data.order_quantity - (data.prepared_to_grn_quantity + data.processed_to_grn_quantity)));
+
+        $('.parent_coding').val(null).trigger('change');
+        $('.parent_coding').prop('disabled', true)
+
         // $('#item').val(data.item.code + ' | ' + data.item.name);
         // $('#purchase_requisition_detail_id').val(data.id);
         // $('#purchase_requisition_code').val(data.purchase_requisition.code);

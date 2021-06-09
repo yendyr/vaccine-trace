@@ -17,6 +17,7 @@
     @endif
 
     @slot('tableContent')
+        <th>PO Transaction Code</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Serial Number</th>
