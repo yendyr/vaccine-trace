@@ -228,10 +228,8 @@ $(document).ready(function () {
                 }
 
                 $('#inputModal').modal('hide');
-                if ($(targetTableId).length !== 0) {
-                    $(targetTableId).DataTable().ajax.reload(null, true);
-                    $('#outstanding-item-table').DataTable().ajax.reload();
-                }
+                $('#mutation-inbound-detail-table').DataTable().ajax.reload();
+                $('#outstanding-item-table').DataTable().ajax.reload();
 
                 if (data.redirectUrl && data.success && targetTableId == null) {
                     setTimeout(function() {
@@ -296,6 +294,9 @@ $(document).ready(function () {
                         icon: "error",
                     });
                 }
+
+                $('#mutation-inbound-detail-table').DataTable().ajax.reload();
+                $('#outstanding-item-table').DataTable().ajax.reload();
             },
             complete: function(data) {
                 let l = $('.ladda-button-submit').ladda();
@@ -303,11 +304,7 @@ $(document).ready(function () {
                 $('#delete-button').text('Delete');
                 $('#deleteModal').modal('hide');
                 $('#delete-button').prop('disabled', false);
-                if ($(targetTableId).length !== 0) {
-                    $(targetTableId).DataTable().ajax.reload(null, true);
-                    $('#outstanding-item-table').DataTable().ajax.reload();
-                }
-
+                
                 if (data.redirectUrl && data.success && targetTableId == null) {
                     setTimeout(function() {
                         window.location.href = data.redirectUrl;

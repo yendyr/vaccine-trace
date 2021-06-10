@@ -98,7 +98,7 @@ class PurchaseOrderDetailController extends Controller
                 }
             }
             else if ($approved == true) {
-                return 'Prepared to Receiving: <strong>' . $row->prepared_to_grn_quantity . 
+                return 'Prepared: <strong>' . $row->prepared_to_grn_quantity . 
                 '</strong><br>Received: <strong>' . 
                 $row->processed_to_grn_quantity . '</strong>';
             }
@@ -145,6 +145,7 @@ class PurchaseOrderDetailController extends Controller
                                     ->pluck('id');
 
         $data = PurchaseOrderDetail::whereIn('purchase_order_id', $PurchaseOrder)
+                                ->whereRaw('purchase_order_details.processed_to_grn_quantity < purchase_order_details.order_quantity')
                                 ->with(['purchase_order',
                                         'purchase_requisition_detail.purchase_requisition',
                                         'purchase_requisition_detail.item',
@@ -156,9 +157,9 @@ class PurchaseOrderDetailController extends Controller
             return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
         })
         ->addColumn('parent', function($row){
-            if ($row->item_group) {
-                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
-                'Name: <strong>' . $row->item_group->item->name . '</strong><br>';
+            if ($row->purchase_requisition_detail->item_group) {
+                return 'P/N: <strong>' . $row->purchase_requisition_detail->item_group->item->code . '</strong><br>' . 
+                'Name: <strong>' . $row->purchase_requisition_detail->item_group->item->name . '</strong><br>';
             } 
             else {
                 return "<span class='text-muted font-italic'>Not Set</span>";
@@ -179,7 +180,6 @@ class PurchaseOrderDetailController extends Controller
             return "<a href='/procurement/purchase-requisition/" . 
             $row->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . 
             $row->purchase_requisition_detail->purchase_requisition->code . '</a>';
-            // return '';
         })
         // ->addColumn('purchase_order_status', function($row){
         //     return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
@@ -192,9 +192,19 @@ class PurchaseOrderDetailController extends Controller
                 $row->processed_to_grn_quantity . '</strong>';
         })
         ->addColumn('action', function($row) {
-            $usable = true;
-            $idToUse = $row->id;
-            return view('components.action-button', compact(['usable', 'idToUse']));
+            if (($row->prepared_to_grn_quantity + $row->processed_to_grn_quantity) < $row->order_quantity) {
+                // if (!$row->purchase_requisition_detail->parent_coding) {
+                    $usable = true;
+                    $idToUse = $row->id;
+                    return view('components.action-button', compact(['usable', 'idToUse']));
+                // }
+            }
+            else if ($row->prepared_to_grn_quantity == $row->order_quantity) {
+                return "<span class='text-danger font-italic'>Already Prepared</span>";
+            }
+            // else if ($row->purchase_requisition_detail->parent_coding) {
+            //     return "<span class='text-muted font-italic'>this Item has Parent</span>";
+            // }
         })
         ->escapeColumns([])
         ->make(true);
