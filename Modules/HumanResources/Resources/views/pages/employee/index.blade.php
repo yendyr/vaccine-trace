@@ -5,33 +5,44 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
+                    @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
                     <li>
                         <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-employee">
                             <i class="fa fa-user-circle fa-2x text-warning"></i>&nbsp;Employee
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-idcard">
                             <i class="fa fa-id-card-o fa-2x text-warning"></i>&nbsp;ID Card
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Education::class)
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-education">
                             <i class="fa fa-mortar-board fa-2x text-warning"></i>&nbsp;Education
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Family::class)
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-4" style="min-height: 50px;" id="tab-family">
                             <i class="fa fa-users fa-2x text-warning"></i>&nbsp;Family
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Address::class)
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-5" style="min-height: 50px;" id="tab-address">
                             <i class="fa fa-address-book fa-2x text-warning"></i>&nbsp;Address
                         </a>
                     </li>
+                    @endcan
                 </ul>
                 <div class="tab-content">
+                    @can('viewAny', \Modules\HumanResources\Entities\Employee::class)
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -39,6 +50,8 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\IdCard::class)
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -46,6 +59,8 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Education::class)
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -53,6 +68,8 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Family::class)
                     <div id="tab-4" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -60,6 +77,8 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\Address::class)
                     <div id="tab-5" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -67,6 +86,7 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
                 </div>
             </div>
         </div>
