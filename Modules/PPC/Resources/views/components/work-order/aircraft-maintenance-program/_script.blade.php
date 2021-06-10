@@ -251,8 +251,7 @@
                 $(modalId).modal('hide');
                 if (data.success) {
                     generateToast ('success', data.success);  
-                    $(tableId).DataTable().ajax.reload();       
-                    $(tableId2).DataTable().ajax.reload();       
+                    setTimeout(location.reload.bind(location), 2000);   
                     if(data.total_manhours) {
                         numberAnimation('total_manhours', data.total_manhours);                  
                         numberAnimation('total_manhours_with_performance_factor', data.total_manhours_with_performance_factor);    
@@ -304,8 +303,7 @@
                     $('#inputModal').modal('hide');
                     if (data.success) {
                         generateToast('success', data.success); 
-                        $(tableId).DataTable().ajax.reload();       
-                        $(tableId2).DataTable().ajax.reload();
+                        setTimeout(location.reload.bind(location), 2000);
                     } else if (data.error) {
                         swal.fire({
                             titleText: "Action Failed",
