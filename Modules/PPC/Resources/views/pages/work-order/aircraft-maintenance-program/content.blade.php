@@ -13,6 +13,8 @@
         @endcomponent
 </div>
 
+@include('ppc::pages.work-order.aircraft-maintenance-program.modal')
+
 @push('footer-scripts')
     @include('ppc::components.work-order.aircraft-maintenance-program._script')
 @endpush
