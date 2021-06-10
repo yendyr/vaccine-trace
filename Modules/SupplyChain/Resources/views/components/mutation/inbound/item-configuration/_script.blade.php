@@ -86,11 +86,20 @@ $(document).ready(function () {
 
 
 
+
+
     // ----------------- "CREATE NEW" BUTTON SCRIPT ------------- //
     $('#create').click(function () {
         showCreateModal ('Add New Item/Component', inputFormId, actionUrl);
+
+        $("#item_id").prop('disabled', false);
+        $('.parent_coding').val(null).trigger('change');
+        $('.parent_coding').prop('disabled', false);
     });
     // ----------------- END "CREATE NEW" BUTTON SCRIPT ------------- //
+
+
+
 
 
 
@@ -174,6 +183,12 @@ $(document).ready(function () {
 
 
 
+
+
+
+
+
+    // --------------------------- "SUBMIT" BUTTON SCRIPT ----------------------- //
     $(inputFormId).on('submit', function (event) {
         event.preventDefault();
         let url_action = $(inputFormId).attr('action');
@@ -213,11 +228,8 @@ $(document).ready(function () {
                 }
 
                 $('#inputModal').modal('hide');
-                if ($(targetTableId).length !== 0) {
-                    $(targetTableId).DataTable().ajax.reload(null, true);
-                                            
-                    $('#outstanding-item-table').DataTable().ajax.reload();
-                }
+                $('#mutation-inbound-detail-table').DataTable().ajax.reload();
+                $('#outstanding-item-table').DataTable().ajax.reload();
 
                 if (data.redirectUrl && data.success && targetTableId == null) {
                     setTimeout(function() {
@@ -232,13 +244,78 @@ $(document).ready(function () {
             }
         });
     });
+    // --------------------------- END "SUBMIT" BUTTON SCRIPT ----------------------- //
 
 
 
 
 
 
-    deleteButtonProcess (datatableObject, tableId, actionUrl);
+
+
+
+    // --------------------------- "DELETE" BUTTON SCRIPT ----------------------- //
+    datatableObject.on('click', '.deleteBtn', function() {
+        rowId = $(this).val();
+        $('#deleteModal').modal('show');
+        $('#delete-form').attr('action', actionUrl + '/' + rowId);
+    });
+
+    $('#delete-form').on('submit', function(e) {
+        e.preventDefault();
+        let url_action = $(this).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            type: "DELETE",
+            beforeSend: function() {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('start');
+                $('[class^="invalid-feedback-"]').html('');
+                $('#delete-button').text('Deleting...');
+                $('#delete-button').prop('disabled', true);
+            },
+            error: function(data) {
+                if (data.error) {
+                    generateToast('error', data.error);
+                }
+            },
+            success: function(data) {
+                if (data.success) {
+                    generateToast('success', data.success);
+                } else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });
+                }
+
+                $('#mutation-inbound-detail-table').DataTable().ajax.reload();
+                $('#outstanding-item-table').DataTable().ajax.reload();
+            },
+            complete: function(data) {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('stop');
+                $('#delete-button').text('Delete');
+                $('#deleteModal').modal('hide');
+                $('#delete-button').prop('disabled', false);
+                
+                if (data.redirectUrl && data.success && targetTableId == null) {
+                    setTimeout(function() {
+                        window.location.href = data.redirectUrl;
+                    }, 3000);    
+                }
+            }
+        });
+    });
+    // --------------------------- END "DELETE" BUTTON SCRIPT ----------------------- //
+
+
 
 
 

@@ -27,7 +27,7 @@
         @if($PurchaseOrder->approvals()->count() == 0)
             <th>Action</th>
         @else
-            <th>Goods Receive Status</th>
+            <th>Receiving/Inbound Status</th>
         @endif
     @endslot
 

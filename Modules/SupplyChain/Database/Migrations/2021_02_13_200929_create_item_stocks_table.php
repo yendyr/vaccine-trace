@@ -26,7 +26,7 @@ class CreateItemStocksTable extends Migration
 
             $table->string('coding')->nullable();
 
-            $table->integer('price_exclude_tax')->default(0);
+            $table->double('each_price_before_vat')->default(0);
             $table->integer('quantity')->default(1);
             $table->integer('used_quantity')->default(0);
             $table->integer('loaned_quantity')->default(0);

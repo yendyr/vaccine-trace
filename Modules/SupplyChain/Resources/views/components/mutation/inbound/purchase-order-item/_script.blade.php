@@ -4,6 +4,7 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
+    var actionUrl = '/supplychain/mutation-inbound-detail';
     var tableId = '#outstanding-item-table';
     var useButtonClass = '.useBtn';
 
@@ -92,9 +93,12 @@ $(document).ready(function () {
 
 
 
+
+
+
     
 
-    // ----------------- "USE" BUTTON SCRIPT ------------- //
+    // ---------------------- "USE" BUTTON SCRIPT ------------------ //
     datatableObject1.on('click', useButtonClass, function () {
         $('#modalTitle').html("Receive this Item");
 
@@ -114,13 +118,14 @@ $(document).ready(function () {
 
         $('#purchase_order_detail_id').val(data.id);
 
-        // $("#item_id").prop("disabled", true);
+        $("#item_id").prop('disabled', true);
         $('#item_id').append('<option value="' + data.purchase_requisition_detail.item_id + '" selected>' + data.purchase_requisition_detail.item.code + ' | ' + data.purchase_requisition_detail.item.name + '</option>');
         
         $('#quantity').attr('max', (data.order_quantity - (data.prepared_to_grn_quantity + data.processed_to_grn_quantity)));
+        $('#quantity').val(1);
 
         $('.parent_coding').val(null).trigger('change');
-        $('.parent_coding').prop('disabled', true)
+        $('.parent_coding').prop('disabled', true);
 
         // $('#item').val(data.item.code + ' | ' + data.item.name);
         // $('#purchase_requisition_detail_id').val(data.id);
@@ -139,7 +144,7 @@ $(document).ready(function () {
         $('#saveBtn').val("use");
         $('#inputModal').modal('show');
     });
-    // ----------------- END "USE" BUTTON SCRIPT ------------- //
+    // ---------------------- END "USE" BUTTON SCRIPT ------------------ //
 
 
 

@@ -21,7 +21,7 @@
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Serial Number</th>
-        <th>Qty</th>
+        <th>Inbound Qty</th>
         <th>UoM</th>
         <th>Alias Name</th>
         <th>Remark</th>
