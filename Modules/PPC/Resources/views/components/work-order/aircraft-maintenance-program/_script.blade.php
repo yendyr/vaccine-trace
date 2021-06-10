@@ -7,6 +7,7 @@
         // ----------------- BINDING FORNT-END INPUT SCRIPT ------------- //
         var actionUrl = "{{route('ppc.work-order.work-package.taskcard.index', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}";
         var actionUrlUseAll = "{{route('ppc.work-order.work-package.aircraft-maintenance-program.use-all-taskcard', ['work_package' => $work_package->id, 'work_order' => $work_order->id])}}";
+        var tableId = '#maintenance-program-table';
         var tableId2 = '#aircraft-maintenance-program-table';
         var inputFormId = '#inputUseAllForm';
         var useButtonClass = '.useBtn';
@@ -250,6 +251,7 @@
                 $(modalId).modal('hide');
                 if (data.success) {
                     generateToast ('success', data.success);  
+                    $(tableId).DataTable().ajax.reload();       
                     $(tableId2).DataTable().ajax.reload();       
                     if(data.total_manhours) {
                         numberAnimation('total_manhours', data.total_manhours);                  
@@ -301,7 +303,8 @@
                 success: function(data) {
                     $('#inputModal').modal('hide');
                     if (data.success) {
-                        generateToast('success', data.success);
+                        generateToast('success', data.success); 
+                        $(tableId).DataTable().ajax.reload();       
                         $(tableId2).DataTable().ajax.reload();
                     } else if (data.error) {
                         swal.fire({
