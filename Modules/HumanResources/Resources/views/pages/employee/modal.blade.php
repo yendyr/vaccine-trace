@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="employeeModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" id="employeeModal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,14 +67,18 @@
                             </select>
                             <div class="invalid-feedback-religion text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-1">
+                        <div class="form-group col-sm-3">
+                            <label class="col-form-label" for="fmaritalstatus">Marital Status</label>
+                            <select class="select2_maritalstatus form-control m-b-sm" id="fmaritalstatus" name="maritalstatus">
+                            </select>
+                            <div class="invalid-feedback-maritalstatus text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <label class="col-form-label" for="fmobile01">Phone 1</label>
                             <input type="text" class="form-control" id="fmobile01" name="mobile01">
                             <div class="invalid-feedback-mobile01 text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <label class="col-form-label" for="fmobile02">Phone 2</label>
                             <input type="text" class="form-control" id="fmobile02" name="mobile02">
                             <div class="invalid-feedback-mobile02 text-danger"></div>
@@ -87,19 +91,21 @@
                             <input type="text" class="form-control" id="femail" name="email">
                             <div class="invalid-feedback-email text-danger"></div>
                         </div>
-                        <div class="form-group col-sm-1">
-                        </div>
+                        @if (Auth::user()->company_id == 1 || Auth::user()->company_id == 2)
+                            <div class="form-group row col-sm-4 offset-sm-1">
+                                <div class="col-md-12">
+                                    <label for="fcompany_id">Assign to Company</label>
+                                    <select class="select2_company_id form-control m-b " id="fcompany_id" name="company_id">
+                                    </select>
+                                    <div class="invalid-feedback-company_id text-danger"></div>
+                                </div>
+                            </div>
+                        @endif
                         <div class="form-group col-sm-3">
                             <label class="col-form-label" for="fbloodtype">Blood Type</label>
                             <select class="select2_bloodtype form-control m-b-sm" id="fbloodtype" name="bloodtype">
                             </select>
                             <div class="invalid-feedback-bloodtype text-danger"></div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="fmaritalstatus">Marital Status</label>
-                            <select class="select2_maritalstatus form-control m-b-sm" id="fmaritalstatus" name="maritalstatus">
-                            </select>
-                            <div class="invalid-feedback-maritalstatus text-danger"></div>
                         </div>
                     </div>
 
