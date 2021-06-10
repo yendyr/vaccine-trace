@@ -2,8 +2,6 @@
     @component('components.delete-modal', ['name' => 'Item/Component Datalist'])
     @endcomponent
 
-    @include('supplychain::pages.mutation.inbound.item-configuration.modal')
-    
     @component('components.crud-form.index',[
         'title' => 'Item/Component Datalist',
         'tableId' => 'mutation-inbound-detail-table'])
@@ -19,6 +17,7 @@
     @endif
 
     @slot('tableContent')
+        <th>PO Transaction Code</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
         <th>Serial Number</th>
@@ -42,8 +41,6 @@
     @endslot
     @endcomponent
 </div>
-
-@include('supplychain::components.mutation.inbound.item-configuration._script')
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')

@@ -34,7 +34,18 @@
                             <select class="warehouse_destination form-control @error('warehouse_destination') is-invalid @enderror" name="warehouse_destination" id="warehouse_destination" required></select>
                             <div class="invalid-feedback-warehouse_destination text-danger font-italic"></div>
                         </div>
-                    </div>    
+                    </div>  
+                    
+                    <div class="form-group row">
+                        <label class="col-sm-5 d-flex align-items-center">Supplier</label>
+                        <div class="col-sm-7">
+                            <select class="supplier_id form-control @error('supplier_id') is-invalid @enderror" name="supplier_id" id="supplier_id"></select>
+                            <div class="invalid-feedback-supplier_id text-danger font-italic"></div>
+                            <div class="text-success font-italic">
+                                <i class="fa fa-info-circle"></i>&nbsp;choose supplier if you want receive item from purchase order
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Remark</label>

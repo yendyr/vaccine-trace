@@ -18,10 +18,14 @@ $(document).ready(function () {
             url: "/supplychain/mutation-inbound-detail/?id=" + "{{ $MutationInbound->id }}",
         },
         columns: [
+            { data: 'purchase_order_data', defaultContent: '-' },
             { data: 'item.code', defaultContent: '-' },
             { data: 'item.name', defaultContent: '-' },
             { data: 'serial_number', defaultContent: '-' },
-            { data: 'quantity', defaultContent: '-' },
+            { data: 'quantity', 
+                "render": function ( data, type, row, meta ) {
+                    return "<span class='label label-primary'>" + row.quantity + '</span>'; 
+                }},
             { data: 'item.unit.name', defaultContent: '-' },
             { data: 'alias_name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
@@ -171,7 +175,62 @@ $(document).ready(function () {
 
 
     $(inputFormId).on('submit', function (event) {
-        submitButtonProcess (tableId, inputFormId); 
+        event.preventDefault();
+        let url_action = $(inputFormId).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            method: "POST",
+            data: $(inputFormId).serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('start');
+                $('[class^="invalid-feedback-"]').html('');
+                $('#saveBtn').prop('disabled', true);
+            },
+            error: function(data) {
+                let errors = data.responseJSON.errors;
+                if (errors) {
+                    $.each(errors, function(index, value) {
+                        $('div.invalid-feedback-' + index).html(value);
+                    })
+                }
+            },
+            success: function(data) {
+                if (data.success) {
+                    generateToast('success', data.success);
+                } else if (data.error) {
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });
+                }
+
+                $('#inputModal').modal('hide');
+                if ($(targetTableId).length !== 0) {
+                    $(targetTableId).DataTable().ajax.reload(null, true);
+                                            
+                    $('#outstanding-item-table').DataTable().ajax.reload();
+                }
+
+                if (data.redirectUrl && data.success && targetTableId == null) {
+                    setTimeout(function() {
+                        window.location.href = data.redirectUrl;
+                    }, 3000);    
+                }
+            },
+            complete: function() {
+                let l = $('.ladda-button-submit').ladda();
+                l.ladda('stop');
+                $('#saveBtn').prop('disabled', false);
+            }
+        });
     });
 
 

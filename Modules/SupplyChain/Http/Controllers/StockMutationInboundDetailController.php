@@ -5,6 +5,7 @@ namespace Modules\SupplyChain\Http\Controllers;
 use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\InboundMutationDetail;
 use Modules\SupplyChain\Entities\InboundMutationDetailInitialAging;
+use Modules\Procurement\Entities\PurchaseOrderDetail;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ class StockMutationInboundDetailController extends Controller
         $data = InboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item.unit',
                                         'mutation_detail_initial_aging',
+                                        'purchase_order_detail.purchase_order',
                                         'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
                                         'item_group.item']);
         
@@ -59,6 +61,16 @@ class StockMutationInboundDetailController extends Controller
                 return "<span class='text-muted font-italic'>Not Set</span>";
             }
         })
+        ->addColumn('purchase_order_data', function($row){
+            if ($row->purchase_order_detail) {
+                return "<a href='/procurement/purchase-order/" . 
+                $row->purchase_order_detail->purchase_order->id . "' target='_blank'>" . 
+                $row->purchase_order_detail->purchase_order->code . '</a>';
+            }
+            else {
+                return '-';
+            }
+        })
         ->addColumn('creator_name', function($row){
             return $row->creator->name ?? '-';
         })
@@ -68,8 +80,10 @@ class StockMutationInboundDetailController extends Controller
         ->addColumn('action', function($row) use ($approved) {
             if ($approved == false) {
                 $noAuthorize = true;
+                $updateable = null;
+                $updateValue = null;
 
-                if(Auth::user()->can('update', StockMutation::class)) {
+                if(Auth::user()->can('update', StockMutation::class) && (!$row->purchase_order_detail_id)) {
                     $updateable = 'button';
                     $updateValue = $row->id;
                     $noAuthorize = false;
@@ -135,6 +149,10 @@ class StockMutationInboundDetailController extends Controller
                 'item_id' => ['required'],
             ]);
 
+            if ($request->purchase_order_detail_id) {
+                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $request->purchase_order_detail_id)->first();
+            }
+
             if($request->quantity > 1) {
                 $quantity = $request->quantity;
                 $serial_number = null;
@@ -168,6 +186,8 @@ class StockMutationInboundDetailController extends Controller
                 'uuid' =>  Str::uuid(),
     
                 'stock_mutation_id' => $request->stock_mutation_id,
+                'purchase_order_detail_id' => $request->purchase_order_detail_id,
+
                 'item_id' => $request->item_id,
                 'quantity' => $quantity,
                 'serial_number' => $serial_number,
@@ -199,6 +219,11 @@ class StockMutationInboundDetailController extends Controller
                     'status' => 1,
                     'created_by' => $request->user()->id,
                 ]));
+            if ($request->purchase_order_detail_id) {
+                $PurchaseOrderDetail->update([
+                    'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_grn_quantity + $quantity,
+                ]);
+            }   
             DB::commit();
     
             return response()->json(['success' => 'Item/Component Data has been Added']);
@@ -338,12 +363,26 @@ class StockMutationInboundDetailController extends Controller
             if (sizeof($currentRow->all_childs) > 0) {
                 return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
             }
-            else {
-                $currentRow
-                ->update([
+            else if (!$currentRow->purchase_order_detail_id) {
+                $currentRow->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
                 InboundMutationDetail::destroy($MutationInboundDetail->id);
+                return response()->json(['success' => 'Item/Component Data has been Deleted']);
+            }
+            else {
+                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $currentRow->purchase_order_detail_id)->first();
+
+                DB::beginTransaction();
+                $currentRow->update([
+                    'deleted_by' => Auth::user()->id,
+                ]);
+                $PurchaseOrderDetail->update([
+                    'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_po_quantity - $currentRow->quantity,
+                ]);
+                InboundMutationDetail::destroy($MutationInboundDetail->id);
+                DB::commit();
+
                 return response()->json(['success' => 'Item/Component Data has been Deleted']);
             }
         }

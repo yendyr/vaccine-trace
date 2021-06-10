@@ -27,10 +27,10 @@
             <th>Supplier</th>
             <th>Supplier's Reference</th>
             <th>Remark</th>
+            <th>Transaction Reference</th>
             <th>Current Primary/Local Currency</th>
             <th>Currency</th>
             <th>Exchange Rate</th>
-            <th>Transaction Reference</th>
             <th>Total Before Tax</th>
             <th>Total After Tax</th>
             <th>Created By</th>

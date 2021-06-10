@@ -23,6 +23,8 @@ class CreateStockMutationsTable extends Migration
             $table->string('warehouse_origin')->nullable();
             $table->string('warehouse_destination')->nullable();
 
+            $table->string('supplier_id')->nullable(); // applied in item inbound from purchase order
+
             $table->string('transaction_reference_id')->nullable();
             $table->string('transaction_reference_class')->nullable();
             $table->string('transaction_reference_text')->nullable();

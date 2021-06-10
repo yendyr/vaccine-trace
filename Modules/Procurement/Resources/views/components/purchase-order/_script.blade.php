@@ -29,13 +29,13 @@ $(document).ready(function () {
             { data: 'supplier.name', defaultContent: '-' },
             { data: 'supplier_reference_document', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
+            { data: 'reference', defaultContent: '-' },
             { data: 'current_primary_currency.code', defaultContent: '-' },
             { data: 'currency.code', defaultContent: '-' },
             { data: 'exchange_rate', 
                 "render": function ( data, type, row, meta ) {
                     return formatNumber(row.exchange_rate);
                 }},
-            { data: 'reference', defaultContent: '-' },
             { data: 'total_price_before_tax', 
                 "render": function ( data, type, row, meta ) {
                     return formatNumber(row.total_price_before_tax);

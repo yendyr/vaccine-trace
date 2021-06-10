@@ -136,6 +136,94 @@ class PurchaseOrderDetailController extends Controller
         return response()->json($response);
     }
 
+    public function outstanding_purchase_order_details(Request $request)
+    {
+        $supplier_id = $request->supplier_id;
+        $PurchaseOrder = PurchaseOrder::where('supplier_id', $supplier_id)
+                                    ->with(['approvals'])
+                                    ->has('approvals')
+                                    ->pluck('id');
+
+        // dd($PurchaseOrder);
+
+        // $approved = false;
+        // if ($PurchaseOrder->approvals()->count() > 0) {
+        //     $approved = true;
+        // }
+        
+        // $data = PurchaseRequisitionDetail::with(['item.unit',
+        //                                         'item.category',
+        //                                         'purchase_requisition',
+        //                                         'item_group:id,item_id,coding,parent_coding',
+        //                                         'item_group.item'])
+        //                                 ->whereHas('purchase_requisition', function ($pr) {
+        //                                     $pr->has('approvals');
+        //                                 })
+        //                                 ->whereRaw('purchase_requisition_details.processed_to_po_quantity < purchase_requisition_details.request_quantity');
+
+        $data = PurchaseOrderDetail::whereIn('purchase_order_id', $PurchaseOrder)
+                                ->with(['purchase_order',
+                                        'purchase_requisition_detail.purchase_requisition',
+                                        'purchase_requisition_detail.item',
+                                        'purchase_requisition_detail.item.category',
+                                        'purchase_requisition_detail.item.unit',
+                                        'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding']);
+        return Datatables::of($data)
+        // ->addColumn('highlighted', function($row){
+        //     if ($row->highlight == 1){
+        //         return '<label class="label label-primary">Yes</label>';
+        //     } else{
+        //         return '<label class="label label-danger">No</label>';
+        //     }
+        // })
+        ->addColumn('available_stock', function($row){
+            return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
+        })
+        ->addColumn('parent', function($row){
+            if ($row->item_group) {
+                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                'Name: <strong>' . $row->item_group->item->name . '</strong><br>';
+            } 
+            else {
+                return "<span class='text-muted font-italic'>Not Set</span>";
+            }
+        })
+        ->addColumn('creator_name', function($row){
+            return $row->creator->name ?? '-';
+        })
+        ->addColumn('updater_name', function($row){
+            return $row->updater->name ?? '-';
+        })
+        ->addColumn('purchase_order_data', function($row){
+            return "<a href='/procurement/purchase-order/" . 
+            $row->purchase_order->id . "' target='_blank'>" . 
+            $row->purchase_order->code . '</a>';
+        })
+        ->addColumn('purchase_requisition_data', function($row){
+            return "<a href='/procurement/purchase-requisition/" . 
+            $row->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . 
+            $row->purchase_requisition_detail->purchase_requisition->code . '</a>';
+            // return '';
+        })
+        // ->addColumn('purchase_order_status', function($row){
+        //     return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
+        //     'Processed: <strong>' . $row->processed_to_po_quantity . '</strong><br>';
+        //     // return '<p class="text-muted font-italic">Already Approved</p>';
+        // })
+        ->addColumn('goods_received_status', function($row){
+            return 'Prepared to GRN: <strong>' . $row->prepared_to_grn_quantity . 
+                '</strong><br>Processed to GRN: <strong>' . 
+                $row->processed_to_grn_quantity . '</strong>';
+        })
+        ->addColumn('action', function($row) {
+            $usable = true;
+            $idToUse = $row->id;
+            return view('components.action-button', compact(['usable', 'idToUse']));
+        })
+        ->escapeColumns([])
+        ->make(true);
+    }
+
     public function store(Request $request)
     {
         $PurchaseOrder = PurchaseOrder::where('id', $request->purchase_order_id)->first();

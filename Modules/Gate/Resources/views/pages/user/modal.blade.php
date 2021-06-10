@@ -52,7 +52,7 @@
                     @if (Auth::user()->company_id == 1 || Auth::user()->company_id == 2)
                     <div class="form-group row">
                         <div class="col-md-12">
-                            <label>Company</label>
+                            <label>Assign to Company</label>
                             <select class="company_id form-control m-b " id="company_id" name="company_id">
                             </select>
                             <div class="invalid-feedback-company_id text-danger"></div>

@@ -68,6 +68,7 @@ $(document).ready(function () {
             { data: 'item.code' },
             { data: 'item.name' },
             { data: 'item.category.name' },
+            { data: 'parent', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             { data: 'request_quantity' },
             { data: 'available_stock',
                 "render": function ( data, type, row, meta ) {
@@ -80,7 +81,6 @@ $(document).ready(function () {
                 }},
             { data: 'item.unit.name' },
             { data: 'description', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
-            { data: 'parent', defaultContent: "<span class='text-muted font-italic'>Not Set</span>" },
             // { data: 'created_at', visible: false },
             { data: 'purchase_order_status' },
             { data: 'action' },

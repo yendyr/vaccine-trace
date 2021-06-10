@@ -24,12 +24,13 @@ $(document).ready(function () {
                             return '<a href="mutation-inbound/' + row.id + '">' + row.transaction_date + '</a>'; } },
             { data: 'destination.name', "render": function ( data, type, row, meta ) {
                             return '<a href="mutation-inbound/' + row.id + '">' + row.destination.code + ' | ' + row.destination.name + '</a>'; } },
+            { data: 'supplier.name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'reference', defaultContent: '-' },
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
-            { data: 'updater_name', defaultContent: '-' },
-            { data: 'updated_at', defaultContent: '-' },
+            // { data: 'updater_name', defaultContent: '-' },
+            // { data: 'updated_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
     });
@@ -38,6 +39,18 @@ $(document).ready(function () {
 
 
 
+
+
+    $('.supplier_id').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Choose Supplier',
+        allowClear: true,
+        ajax: {
+            url: "{{ route('generalsetting.company.select2.supplier') }}",
+            dataType: 'json',
+        },
+        dropdownParent: $(inputModal)
+    });
 
     $('.warehouse_destination').select2({
         theme: 'bootstrap4',
@@ -90,6 +103,11 @@ $(document).ready(function () {
             $('#warehouse_destination').append('<option value="' + data.warehouse_destination + '" selected>' + data.destination.code + ' | ' + data.destination.name + '</option>');
         }
 
+        $(".supplier_id").val(null).trigger('change');
+        if (data.supplier_id != null) {
+            $('.supplier_id').append('<option value="' + data.supplier_id + '" selected>' + data.supplier.name + '</option>');
+        }
+
         $('#saveBtn').val("edit");
         $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $('#inputModal').modal('show');
@@ -130,14 +148,23 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.success) {
-                    generateToast ('success', data.success);                            
-                }
-                $('#inputModal').modal('hide');
-                $(targetTableId).DataTable().ajax.reload();
+                    generateToast ('success', data.success); 
 
-                setTimeout(function () {
-                    window.location.href = "mutation-inbound/" + data.id;
-                }, 2000);
+                    $('#inputModal').modal('hide');
+                    $(targetTableId).DataTable().ajax.reload();
+
+                    setTimeout(function () {
+                        window.location.href = "mutation-inbound/" + data.id;
+                    }, 2000);                           
+                }
+                else if (data.error) {
+                    $('#inputModal').modal('hide');
+                    swal.fire({
+                        titleText: "Action Failed",
+                        text: data.error,
+                        icon: "error",
+                    });
+                }
             },
             complete: function () {
                 let l = $( '.ladda-button-submit' ).ladda();
