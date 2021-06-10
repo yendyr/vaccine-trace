@@ -17,7 +17,7 @@ class CreateWorkOrderWorkPackagesTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('work_order_id')->nullable();
-            $table->string('code')->nullable()->unique();
+            $table->string('code')->nullable();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->unsignedDecimal('performance_factor', 8, 2)->nullable();
