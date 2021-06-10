@@ -98,8 +98,8 @@ class PurchaseOrderDetailController extends Controller
                 }
             }
             else if ($approved == true) {
-                return 'Prepared to GRN: <strong>' . $row->prepared_to_grn_quantity . 
-                '</strong><br>Processed to GRN: <strong>' . 
+                return 'Prepared to Receiving: <strong>' . $row->prepared_to_grn_quantity . 
+                '</strong><br>Received: <strong>' . 
                 $row->processed_to_grn_quantity . '</strong>';
             }
         })
@@ -144,23 +144,6 @@ class PurchaseOrderDetailController extends Controller
                                     ->has('approvals')
                                     ->pluck('id');
 
-        // dd($PurchaseOrder);
-
-        // $approved = false;
-        // if ($PurchaseOrder->approvals()->count() > 0) {
-        //     $approved = true;
-        // }
-        
-        // $data = PurchaseRequisitionDetail::with(['item.unit',
-        //                                         'item.category',
-        //                                         'purchase_requisition',
-        //                                         'item_group:id,item_id,coding,parent_coding',
-        //                                         'item_group.item'])
-        //                                 ->whereHas('purchase_requisition', function ($pr) {
-        //                                     $pr->has('approvals');
-        //                                 })
-        //                                 ->whereRaw('purchase_requisition_details.processed_to_po_quantity < purchase_requisition_details.request_quantity');
-
         $data = PurchaseOrderDetail::whereIn('purchase_order_id', $PurchaseOrder)
                                 ->with(['purchase_order',
                                         'purchase_requisition_detail.purchase_requisition',
@@ -169,13 +152,6 @@ class PurchaseOrderDetailController extends Controller
                                         'purchase_requisition_detail.item.unit',
                                         'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding']);
         return Datatables::of($data)
-        // ->addColumn('highlighted', function($row){
-        //     if ($row->highlight == 1){
-        //         return '<label class="label label-primary">Yes</label>';
-        //     } else{
-        //         return '<label class="label label-danger">No</label>';
-        //     }
-        // })
         ->addColumn('available_stock', function($row){
             return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
         })
@@ -211,8 +187,8 @@ class PurchaseOrderDetailController extends Controller
         //     // return '<p class="text-muted font-italic">Already Approved</p>';
         // })
         ->addColumn('goods_received_status', function($row){
-            return 'Prepared to GRN: <strong>' . $row->prepared_to_grn_quantity . 
-                '</strong><br>Processed to GRN: <strong>' . 
+            return 'Prepared to Receiving: <strong>' . $row->prepared_to_grn_quantity . 
+                '</strong><br>Received: <strong>' . 
                 $row->processed_to_grn_quantity . '</strong>';
         })
         ->addColumn('action', function($row) {

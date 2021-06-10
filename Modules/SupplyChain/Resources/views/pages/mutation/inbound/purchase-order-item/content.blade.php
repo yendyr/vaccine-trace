@@ -19,7 +19,7 @@
         <th>Required Delivery Date</th>
         {{-- <th>Status</th> --}}
         {{-- <th>Created At</th> --}}
-        <th>Goods Receive Status</th>
+        <th>Receiving/Inbound Status</th>
         <th>Action</th>
     @endslot
     @endcomponent

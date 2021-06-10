@@ -145,12 +145,18 @@ class StockMutationInboundDetailController extends Controller
         $StockMutation = StockMutation::where('id', $request->stock_mutation_id)->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-            $request->validate([
-                'item_id' => ['required'],
-            ]);
+            if (!$request->purchase_order_detail_id) {
+                $request->validate([
+                    'item_id' => ['required'],
+                ]);
+                $item_id = $request->item_id;
+            }
+            else if ($request->purchase_order_detail_id) {
+                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $request->purchase_order_detail_id)
+                ->with(['purchase_requisition_detail'])
+                ->first();
 
-            if ($request->purchase_order_detail_id) {
-                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $request->purchase_order_detail_id)->first();
+                $item_id = $PurchaseOrderDetail->purchase_requisition_detail->item_id;
             }
 
             if($request->quantity > 1) {
@@ -188,7 +194,7 @@ class StockMutationInboundDetailController extends Controller
                 'stock_mutation_id' => $request->stock_mutation_id,
                 'purchase_order_detail_id' => $request->purchase_order_detail_id,
 
-                'item_id' => $request->item_id,
+                'item_id' => $item_id,
                 'quantity' => $quantity,
                 'serial_number' => $serial_number,
                 'alias_name' => $request->alias_name,
