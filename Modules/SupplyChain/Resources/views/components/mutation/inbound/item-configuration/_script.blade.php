@@ -93,6 +93,7 @@ $(document).ready(function () {
         showCreateModal ('Add New Item/Component', inputFormId, actionUrl);
 
         $("#item_id").prop('disabled', false);
+        $('#serial_number').prop('disabled', false);
         $('.parent_coding').val(null).trigger('change');
         $('.parent_coding').prop('disabled', false);
     });

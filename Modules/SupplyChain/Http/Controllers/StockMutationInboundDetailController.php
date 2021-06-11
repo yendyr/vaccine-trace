@@ -286,16 +286,16 @@ class StockMutationInboundDetailController extends Controller
                 ->save(new InboundMutationDetailInitialAging([
                     'uuid' => Str::uuid(),
 
-                    'initial_flight_hour' => $request->initial_flight_hour,
-                    'initial_block_hour' => $request->initial_block_hour,
-                    'initial_flight_cycle' => $request->initial_flight_cycle,
-                    'initial_flight_event' => $request->initial_flight_event,
-                    'initial_start_date' => $initial_start_date,
-                    'expired_date' => $expired_date,
+                    'initial_flight_hour' => 0,
+                    'initial_block_hour' => 0,
+                    'initial_flight_cycle' => 0,
+                    'initial_flight_event' => 0,
+                    'initial_start_date' => null,
+                    'expired_date' => null,
                     
-                    'owned_by' => $request->user()->company_id,
+                    'owned_by' => Auth::user()->company_id,
                     'status' => 1,
-                    'created_by' => $request->user()->id,
+                    'created_by' => Auth::user()->id,
                 ])
             );
             $childRow->purchase_order_details->first()->update([

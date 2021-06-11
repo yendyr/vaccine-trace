@@ -124,22 +124,10 @@ $(document).ready(function () {
         $('#quantity').attr('max', (data.order_quantity - (data.prepared_to_grn_quantity + data.processed_to_grn_quantity)));
         $('#quantity').val(1);
 
+        $('#serial_number').prop('disabled', false);
+
         $('.parent_coding').val(null).trigger('change');
         $('.parent_coding').prop('disabled', true);
-
-        // $('#item').val(data.item.code + ' | ' + data.item.name);
-        // $('#purchase_requisition_detail_id').val(data.id);
-        // $('#purchase_requisition_code').val(data.purchase_requisition.code);
-        // $('#request_quantity').val(data.request_quantity);
-        // $('#available_stock').val(data.available_stock);
-        // $('#prepared_to_po_quantity').val(data.prepared_to_po_quantity);
-        // $('#processed_to_po_quantity').val(data.processed_to_po_quantity);
-        // $('.unit').val(data.item.unit.name);
-
-        // $('#order_quantity').attr('max', (data.request_quantity - (data.prepared_to_po_quantity + data.processed_to_po_quantity)));
-        // $('#order_unit').val(data.item.unit.name);
-        
-        // $('#description').val(data.description);
 
         $('#saveBtn').val("use");
         $('#inputModal').modal('show');
