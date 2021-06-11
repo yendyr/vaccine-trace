@@ -72,6 +72,6 @@ class PurchaseRequisitionDetail extends MainModel
 
     public function purchase_order_details()
     {
-        return $this->hasMany(\Modules\Procurement\Entities\PurchaseOrderDetail::class, 'purchase_requisition_id');
+        return $this->hasMany(\Modules\Procurement\Entities\PurchaseOrderDetail::class, 'purchase_requisition_detail_id');
     }
 }

@@ -193,18 +193,18 @@ class PurchaseOrderDetailController extends Controller
         })
         ->addColumn('action', function($row) {
             if (($row->prepared_to_grn_quantity + $row->processed_to_grn_quantity) < $row->order_quantity) {
-                // if (!$row->purchase_requisition_detail->parent_coding) {
+                if (!$row->purchase_requisition_detail->parent_coding) {
                     $usable = true;
                     $idToUse = $row->id;
                     return view('components.action-button', compact(['usable', 'idToUse']));
-                // }
+                }
+                else if ($row->purchase_requisition_detail->parent_coding) {
+                    return "<span class='text-muted font-italic'>this Item has Parent</span>";
+                }
             }
             else if ($row->prepared_to_grn_quantity == $row->order_quantity) {
                 return "<span class='text-danger font-italic'>Already Prepared</span>";
             }
-            // else if ($row->purchase_requisition_detail->parent_coding) {
-            //     return "<span class='text-muted font-italic'>this Item has Parent</span>";
-            // }
         })
         ->escapeColumns([])
         ->make(true);

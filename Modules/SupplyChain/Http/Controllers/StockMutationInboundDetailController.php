@@ -161,7 +161,9 @@ class StockMutationInboundDetailController extends Controller
                 $item_id = $PurchaseOrderDetail->purchase_requisition_detail->item_id;
                 $each_price_before_vat = $PurchaseOrderDetail->each_price_before_vat;
 
-                $PurchaseRequisitionDetail = PurchaseRequisitionDetail::where('id', $PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition_detail_id)->first();
+                $PurchaseRequisitionDetail = PurchaseRequisitionDetail::with(['all_childs','purchase_order_details'])
+                            ->where('id', $PurchaseOrderDetail->purchase_requisition_detail_id)
+                            ->first();
             }
 
             if($request->quantity > 1) {
@@ -230,15 +232,16 @@ class StockMutationInboundDetailController extends Controller
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
                     'created_by' => $request->user()->id,
-                ]));
+                ])
+            );
             if ($request->purchase_order_detail_id) {
                 $PurchaseOrderDetail->update([
                     'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_grn_quantity + $quantity,
                 ]);
 
-                // if (sizeof($PurchaseRequisitionDetail->all_childs) > 0) {
-                //     Self::pickChildsForInbound($PurchaseRequisitionDetail, $request->stock_mutation_id, $request->purchase_order_detail_id);
-                // }
+                if (sizeof($PurchaseRequisitionDetail->all_childs) > 0) {
+                    Self::pickChildsForInbound($PurchaseRequisitionDetail, $request->stock_mutation_id, $StockMutation->warehouse_destination, $highlight, $detailed_item_location, $InboundMutationDetail->coding);
+                }
             }   
             DB::commit();
     
@@ -249,18 +252,16 @@ class StockMutationInboundDetailController extends Controller
         }
     }
 
-    public static function pickChildsForInbound($PurchaseRequisitionDetail, $stock_mutation_id, $highlight, $detailed_item_location, $parent_coding)
+    public static function pickChildsForInbound($PurchaseRequisitionDetail, $stock_mutation_id, $warehouse_destination, $highlight, $detailed_item_location, $parent_coding)
     {
         foreach($PurchaseRequisitionDetail->all_childs as $childRow) {
             $createChild = InboundMutationDetail::create([
                 'uuid' =>  Str::uuid(),
-    
-                // 'purchase_order_id' => $purchase_order_id,
-                // 'purchase_requisition_detail_id' => $childRow->id,
-                // 'order_quantity' => $childRow->request_quantity,
 
                 'stock_mutation_id' => $stock_mutation_id,
-                'purchase_order_detail_id' => $purchase_order_detail_id,
+                'purchase_order_detail_id' => $childRow->purchase_order_details
+                                                        ->first()
+                                                        ->id,
 
                 'item_id' => $childRow->item_id,
                 'quantity' => $childRow->request_quantity,
@@ -270,19 +271,40 @@ class StockMutationInboundDetailController extends Controller
                 // 'description' => $request->description,
                 'detailed_item_location' => $detailed_item_location,
                 'parent_coding' => $parent_coding,
-                'each_price_before_vat' => $childRow->purchase_order_detail->each_price_before_vat,
+                'each_price_before_vat' => $childRow->purchase_order_details
+                                                    ->first()
+                                                    ->each_price_before_vat,
     
                 'owned_by' => Auth::user()->company_id,
                 'status' => 1,
                 'created_by' => Auth::user()->id,
             ]);
-            $childRow->update([
-                'prepared_to_grn_quantity' => $childRow->order_quantity,
+            $createChild->update([
+                'coding' => $warehouse_destination . '-' . $createChild->id,
+            ]);
+            $createChild->mutation_detail_initial_aging()
+                ->save(new InboundMutationDetailInitialAging([
+                    'uuid' => Str::uuid(),
+
+                    'initial_flight_hour' => $request->initial_flight_hour,
+                    'initial_block_hour' => $request->initial_block_hour,
+                    'initial_flight_cycle' => $request->initial_flight_cycle,
+                    'initial_flight_event' => $request->initial_flight_event,
+                    'initial_start_date' => $initial_start_date,
+                    'expired_date' => $expired_date,
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ])
+            );
+            $childRow->purchase_order_details->first()->update([
+                'prepared_to_grn_quantity' => $childRow->request_quantity,
 
                 // 'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($childRow->all_childs) > 0) {
-                Self::pickChildsForInbound($childRow, $stock_mutation_id, $purchase_order_detail_id);
+                Self::pickChildsForInbound($childRow, $stock_mutation_id, $warehouse_destination, $highlight, $detailed_item_location, $createChild->coding);
             }
         }
     }
