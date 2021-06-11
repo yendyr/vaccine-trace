@@ -79,6 +79,9 @@ class StockMutationInboundDetailController extends Controller
             return $row->updater->name ?? '-';
         })
         ->addColumn('action', function($row) use ($approved) {
+            if ($row->item_group && $row->purchase_order_detail) {
+                return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
+            }
             if ($approved == false) {
                 $noAuthorize = true;
                 $updateable = null;
@@ -286,10 +289,10 @@ class StockMutationInboundDetailController extends Controller
                 ->save(new InboundMutationDetailInitialAging([
                     'uuid' => Str::uuid(),
 
-                    'initial_flight_hour' => 0,
-                    'initial_block_hour' => 0,
-                    'initial_flight_cycle' => 0,
-                    'initial_flight_event' => 0,
+                    'initial_flight_hour' => null,
+                    'initial_block_hour' => null,
+                    'initial_flight_cycle' => null,
+                    'initial_flight_event' => null,
                     'initial_start_date' => null,
                     'expired_date' => null,
                     
@@ -436,7 +439,7 @@ class StockMutationInboundDetailController extends Controller
         $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-            if (sizeof($currentRow->all_childs) > 0) {
+            if (sizeof($currentRow->all_childs) > 0 && !$currentRow->purchase_order_detail_id) {
                 return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
             }
             else if (!$currentRow->purchase_order_detail_id) {
@@ -449,7 +452,15 @@ class StockMutationInboundDetailController extends Controller
             else {
                 $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $currentRow->purchase_order_detail_id)->first();
 
+                // $PurchaseRequisitionDetail = PurchaseRequisitionDetail::with(['all_childs','purchase_order_details'])
+                //             ->where('id', $PurchaseOrderDetail->purchase_requisition_detail_id)
+                //             ->first();
+
                 DB::beginTransaction();
+                if (sizeof($currentRow->all_childs) > 0) {
+                    Self::unpickChilds($currentRow);
+                }
+
                 $currentRow->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
@@ -464,6 +475,25 @@ class StockMutationInboundDetailController extends Controller
         }
         else {
             return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
+    }
+
+    public static function unpickChilds($currentRow)
+    {
+        foreach($currentRow->all_childs as $childRow) {
+            $purchaseOrderDetailRow = PurchaseOrderDetail::where('id', $childRow->purchase_order_detail_id)->first();
+
+            $currentRow->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            $purchaseOrderDetailRow->update([
+                'prepared_to_grn_quantity' => 0,
+            ]);
+            InboundMutationDetail::destroy($currentRow->id);
+            
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::unpickChilds($childRow);
+            }
         }
     }
 

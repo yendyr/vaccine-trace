@@ -288,8 +288,6 @@ class PurchaseOrderDetailController extends Controller
             ]);
             $childRow->update([
                 'prepared_to_po_quantity' => $childRow->request_quantity,
-
-                // 'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($childRow->all_childs) > 0) {
                 Self::pickChildsForPurchaseOrder($childRow, $purchase_order_id, $required_delivery_date);
@@ -340,8 +338,6 @@ class PurchaseOrderDetailController extends Controller
             ]);
             $PurchaseRequisitionDetail->update([
                 'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity_gap,
-
-                // 'updated_by' => Auth::user()->id,
             ]);
             DB::commit();
             
@@ -384,16 +380,7 @@ class PurchaseOrderDetailController extends Controller
         
         $purchase_requisition_detail->update([
             'prepared_to_po_quantity' => $purchase_requisition_detail->prepared_to_po_quantity - $PurchaseOrderDetailRow->order_quantity,
-
-            // 'updated_by' => Auth::user()->id,
         ]);
-
-        // $PurchaseOrderRow->update([
-        //     'total_before_vat' => $PurchaseOrderRow->total_before_vat - ($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity),
-        //     'total_after_vat' => $PurchaseOrderRow->total_after_vat - (($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity) * $vat + ($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity)),
-
-        //     'updated_by' => Auth::user()->id,
-        // ]);
 
         PurchaseOrderDetail::destroy($PurchaseOrderDetailRow->id);
         DB::commit();
@@ -404,8 +391,6 @@ class PurchaseOrderDetailController extends Controller
         foreach($purchase_requisition_detail->all_childs as $childRow) {
             $childRow->update([
                 'prepared_to_po_quantity' => 0,
-
-                'updated_by' => Auth::user()->id,
             ]);
 
             $PurchaseOrderDetailRow = PurchaseOrderDetail::where('purchase_requisition_detail_id', $childRow->id)->first();
