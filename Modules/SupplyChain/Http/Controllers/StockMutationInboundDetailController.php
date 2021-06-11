@@ -249,43 +249,43 @@ class StockMutationInboundDetailController extends Controller
         }
     }
 
-    // public static function pickChildsForInbound($PurchaseRequisitionDetail, $stock_mutation_id, $purchase_order_detail_id)
-    // {
-    //     foreach($PurchaseRequisitionDetail->all_childs as $childRow) {
-    //         InboundMutationDetail::create([
-    //             'uuid' =>  Str::uuid(),
+    public static function pickChildsForInbound($PurchaseRequisitionDetail, $stock_mutation_id, $highlight, $detailed_item_location, $parent_coding)
+    {
+        foreach($PurchaseRequisitionDetail->all_childs as $childRow) {
+            $createChild = InboundMutationDetail::create([
+                'uuid' =>  Str::uuid(),
     
-    //             // 'purchase_order_id' => $purchase_order_id,
-    //             // 'purchase_requisition_detail_id' => $childRow->id,
-    //             // 'order_quantity' => $childRow->request_quantity,
+                // 'purchase_order_id' => $purchase_order_id,
+                // 'purchase_requisition_detail_id' => $childRow->id,
+                // 'order_quantity' => $childRow->request_quantity,
 
-    //             'stock_mutation_id' => $stock_mutation_id,
-    //             'purchase_order_detail_id' => $purchase_order_detail_id,
+                'stock_mutation_id' => $stock_mutation_id,
+                'purchase_order_detail_id' => $purchase_order_detail_id,
 
-    //             'item_id' => $item_id,
-    //             'quantity' => $quantity,
-    //             'serial_number' => $serial_number,
-    //             'alias_name' => $request->alias_name,
-    //             'highlight' => $highlight,
-    //             'description' => $request->description,
-    //             'detailed_item_location' => $detailed_item_location,
-    //             'parent_coding' => $parent_coding,
-    //             'each_price_before_vat' => $each_price_before_vat,
+                'item_id' => $childRow->item_id,
+                'quantity' => $childRow->request_quantity,
+                // 'serial_number' => $serial_number,
+                // 'alias_name' => $request->alias_name,
+                'highlight' => $highlight,
+                // 'description' => $request->description,
+                'detailed_item_location' => $detailed_item_location,
+                'parent_coding' => $parent_coding,
+                'each_price_before_vat' => $childRow->purchase_order_detail->each_price_before_vat,
     
-    //             'owned_by' => Auth::user()->company_id,
-    //             'status' => 1,
-    //             'created_by' => Auth::user()->id,
-    //         ]);
-    //         $childRow->update([
-    //             'prepared_to_grn_quantity' => $childRow->order_quantity,
+                'owned_by' => Auth::user()->company_id,
+                'status' => 1,
+                'created_by' => Auth::user()->id,
+            ]);
+            $childRow->update([
+                'prepared_to_grn_quantity' => $childRow->order_quantity,
 
-    //             // 'updated_by' => Auth::user()->id,
-    //         ]);
-    //         if (sizeof($childRow->all_childs) > 0) {
-    //             Self::pickChildsForInbound($childRow, $stock_mutation_id, $purchase_order_detail_id);
-    //         }
-    //     }
-    // }
+                // 'updated_by' => Auth::user()->id,
+            ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::pickChildsForInbound($childRow, $stock_mutation_id, $purchase_order_detail_id);
+            }
+        }
+    }
 
     public function update(Request $request, InboundMutationDetail $MutationInboundDetail)
     {
