@@ -483,13 +483,13 @@ class StockMutationInboundDetailController extends Controller
         foreach($currentRow->all_childs as $childRow) {
             $purchaseOrderDetailRow = PurchaseOrderDetail::where('id', $childRow->purchase_order_detail_id)->first();
 
-            $currentRow->update([
+            $childRow->update([
                 'deleted_by' => Auth::user()->id,
             ]);
             $purchaseOrderDetailRow->update([
                 'prepared_to_grn_quantity' => 0,
             ]);
-            InboundMutationDetail::destroy($currentRow->id);
+            InboundMutationDetail::destroy($childRow->id);
             
             if (sizeof($childRow->all_childs) > 0) {
                 Self::unpickChilds($childRow);
