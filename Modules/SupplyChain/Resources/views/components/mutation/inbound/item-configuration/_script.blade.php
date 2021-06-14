@@ -117,11 +117,13 @@ $(document).ready(function () {
         let data = datatableObject.row(tr).data();
         $(inputFormId).attr('action', actionUrl + '/' + data.id);
 
+        $("input[value='post']").remove();
+
         $('<input>').attr({
             type: 'hidden',
             name: '_method',
             value: 'patch'
-        }).prependTo('#inputForm');
+        }).prependTo(inputFormId);
 
         if (data.purchase_order_detail_id) {
             $("#item_id").prop('disabled', true);
