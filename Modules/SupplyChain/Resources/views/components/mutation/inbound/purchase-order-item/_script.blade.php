@@ -124,6 +124,7 @@ $(document).ready(function () {
         $('#quantity').attr('max', (data.order_quantity - (data.prepared_to_grn_quantity + data.processed_to_grn_quantity)));
         $('#quantity').val(1);
 
+        $("#quantity").prop('readonly', false);
         $('#serial_number').prop('disabled', false);
 
         $('.parent_coding').val(null).trigger('change');
