@@ -28,6 +28,7 @@ class ItemStock extends MainModel
         'highlight',
         'parent_coding',
 
+        'each_price_before_vat',
         'quantity',
         'used_quantity',
         'loaned_quantity',

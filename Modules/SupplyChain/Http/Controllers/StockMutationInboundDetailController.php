@@ -5,6 +5,7 @@ namespace Modules\SupplyChain\Http\Controllers;
 use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\InboundMutationDetail;
 use Modules\SupplyChain\Entities\InboundMutationDetailInitialAging;
+use Modules\Procurement\Entities\PurchaseRequisitionDetail;
 use Modules\Procurement\Entities\PurchaseOrderDetail;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -78,6 +79,9 @@ class StockMutationInboundDetailController extends Controller
             return $row->updater->name ?? '-';
         })
         ->addColumn('action', function($row) use ($approved) {
+            if ($row->item_group && $row->purchase_order_detail) {
+                return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
+            }
             if ($approved == false) {
                 $noAuthorize = true;
                 $updateable = null;
@@ -145,12 +149,24 @@ class StockMutationInboundDetailController extends Controller
         $StockMutation = StockMutation::where('id', $request->stock_mutation_id)->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-            $request->validate([
-                'item_id' => ['required'],
-            ]);
+            if (!$request->purchase_order_detail_id) {
+                $request->validate([
+                    'item_id' => ['required'],
+                ]);
+                $item_id = $request->item_id;
+                $each_price_before_vat = 0;
+            }
+            else if ($request->purchase_order_detail_id) {
+                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $request->purchase_order_detail_id)
+                ->with(['purchase_requisition_detail'])
+                ->first();
 
-            if ($request->purchase_order_detail_id) {
-                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $request->purchase_order_detail_id)->first();
+                $item_id = $PurchaseOrderDetail->purchase_requisition_detail->item_id;
+                $each_price_before_vat = $PurchaseOrderDetail->each_price_before_vat;
+
+                $PurchaseRequisitionDetail = PurchaseRequisitionDetail::with(['all_childs','purchase_order_details'])
+                            ->where('id', $PurchaseOrderDetail->purchase_requisition_detail_id)
+                            ->first();
             }
 
             if($request->quantity > 1) {
@@ -188,7 +204,7 @@ class StockMutationInboundDetailController extends Controller
                 'stock_mutation_id' => $request->stock_mutation_id,
                 'purchase_order_detail_id' => $request->purchase_order_detail_id,
 
-                'item_id' => $request->item_id,
+                'item_id' => $item_id,
                 'quantity' => $quantity,
                 'serial_number' => $serial_number,
                 'alias_name' => $request->alias_name,
@@ -196,6 +212,7 @@ class StockMutationInboundDetailController extends Controller
                 'description' => $request->description,
                 'detailed_item_location' => $detailed_item_location,
                 'parent_coding' => $parent_coding,
+                'each_price_before_vat' => $each_price_before_vat,
     
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -218,11 +235,16 @@ class StockMutationInboundDetailController extends Controller
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
                     'created_by' => $request->user()->id,
-                ]));
+                ])
+            );
             if ($request->purchase_order_detail_id) {
                 $PurchaseOrderDetail->update([
                     'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_grn_quantity + $quantity,
                 ]);
+
+                if (sizeof($PurchaseRequisitionDetail->all_childs) > 0) {
+                    Self::pickChildsForInbound($PurchaseRequisitionDetail, $request->stock_mutation_id, $StockMutation->warehouse_destination, $highlight, $detailed_item_location, $InboundMutationDetail->coding);
+                }
             }   
             DB::commit();
     
@@ -230,6 +252,63 @@ class StockMutationInboundDetailController extends Controller
         }
         else {
             return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
+    }
+
+    public static function pickChildsForInbound($PurchaseRequisitionDetail, $stock_mutation_id, $warehouse_destination, $highlight, $detailed_item_location, $parent_coding)
+    {
+        foreach($PurchaseRequisitionDetail->all_childs as $childRow) {
+            $createChild = InboundMutationDetail::create([
+                'uuid' =>  Str::uuid(),
+
+                'stock_mutation_id' => $stock_mutation_id,
+                'purchase_order_detail_id' => $childRow->purchase_order_details
+                                                        ->first()
+                                                        ->id,
+
+                'item_id' => $childRow->item_id,
+                'quantity' => $childRow->request_quantity,
+                // 'serial_number' => $serial_number,
+                // 'alias_name' => $request->alias_name,
+                'highlight' => $highlight,
+                // 'description' => $request->description,
+                'detailed_item_location' => $detailed_item_location,
+                'parent_coding' => $parent_coding,
+                'each_price_before_vat' => $childRow->purchase_order_details
+                                                    ->first()
+                                                    ->each_price_before_vat,
+    
+                'owned_by' => Auth::user()->company_id,
+                'status' => 1,
+                'created_by' => Auth::user()->id,
+            ]);
+            $createChild->update([
+                'coding' => $warehouse_destination . '-' . $createChild->id,
+            ]);
+            $createChild->mutation_detail_initial_aging()
+                ->save(new InboundMutationDetailInitialAging([
+                    'uuid' => Str::uuid(),
+
+                    'initial_flight_hour' => null,
+                    'initial_block_hour' => null,
+                    'initial_flight_cycle' => null,
+                    'initial_flight_event' => null,
+                    'initial_start_date' => null,
+                    'expired_date' => null,
+                    
+                    'owned_by' => Auth::user()->company_id,
+                    'status' => 1,
+                    'created_by' => Auth::user()->id,
+                ])
+            );
+            $childRow->purchase_order_details->first()->update([
+                'prepared_to_grn_quantity' => $childRow->request_quantity,
+
+                // 'updated_by' => Auth::user()->id,
+            ]);
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::pickChildsForInbound($childRow, $stock_mutation_id, $warehouse_destination, $highlight, $detailed_item_location, $createChild->coding);
+            }
         }
     }
 
@@ -360,7 +439,7 @@ class StockMutationInboundDetailController extends Controller
         $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-            if (sizeof($currentRow->all_childs) > 0) {
+            if (sizeof($currentRow->all_childs) > 0 && !$currentRow->purchase_order_detail_id) {
                 return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
             }
             else if (!$currentRow->purchase_order_detail_id) {
@@ -373,12 +452,20 @@ class StockMutationInboundDetailController extends Controller
             else {
                 $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $currentRow->purchase_order_detail_id)->first();
 
+                // $PurchaseRequisitionDetail = PurchaseRequisitionDetail::with(['all_childs','purchase_order_details'])
+                //             ->where('id', $PurchaseOrderDetail->purchase_requisition_detail_id)
+                //             ->first();
+
                 DB::beginTransaction();
+                if (sizeof($currentRow->all_childs) > 0) {
+                    Self::unpickChilds($currentRow);
+                }
+
                 $currentRow->update([
                     'deleted_by' => Auth::user()->id,
                 ]);
                 $PurchaseOrderDetail->update([
-                    'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_po_quantity - $currentRow->quantity,
+                    'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_grn_quantity - $currentRow->quantity,
                 ]);
                 InboundMutationDetail::destroy($MutationInboundDetail->id);
                 DB::commit();
@@ -388,6 +475,25 @@ class StockMutationInboundDetailController extends Controller
         }
         else {
             return response()->json(['error' => "This Stock Mutation Inbound and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
+    }
+
+    public static function unpickChilds($currentRow)
+    {
+        foreach($currentRow->all_childs as $childRow) {
+            $purchaseOrderDetailRow = PurchaseOrderDetail::where('id', $childRow->purchase_order_detail_id)->first();
+
+            $childRow->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            $purchaseOrderDetailRow->update([
+                'prepared_to_grn_quantity' => 0,
+            ]);
+            InboundMutationDetail::destroy($childRow->id);
+            
+            if (sizeof($childRow->all_childs) > 0) {
+                Self::unpickChilds($childRow);
+            }
         }
     }
 

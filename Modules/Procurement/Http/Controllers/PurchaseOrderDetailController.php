@@ -98,8 +98,8 @@ class PurchaseOrderDetailController extends Controller
                 }
             }
             else if ($approved == true) {
-                return 'Prepared to GRN: <strong>' . $row->prepared_to_grn_quantity . 
-                '</strong><br>Processed to GRN: <strong>' . 
+                return 'Prepared: <strong>' . $row->prepared_to_grn_quantity . 
+                '</strong><br>Received: <strong>' . 
                 $row->processed_to_grn_quantity . '</strong>';
             }
         })
@@ -144,24 +144,8 @@ class PurchaseOrderDetailController extends Controller
                                     ->has('approvals')
                                     ->pluck('id');
 
-        // dd($PurchaseOrder);
-
-        // $approved = false;
-        // if ($PurchaseOrder->approvals()->count() > 0) {
-        //     $approved = true;
-        // }
-        
-        // $data = PurchaseRequisitionDetail::with(['item.unit',
-        //                                         'item.category',
-        //                                         'purchase_requisition',
-        //                                         'item_group:id,item_id,coding,parent_coding',
-        //                                         'item_group.item'])
-        //                                 ->whereHas('purchase_requisition', function ($pr) {
-        //                                     $pr->has('approvals');
-        //                                 })
-        //                                 ->whereRaw('purchase_requisition_details.processed_to_po_quantity < purchase_requisition_details.request_quantity');
-
         $data = PurchaseOrderDetail::whereIn('purchase_order_id', $PurchaseOrder)
+                                ->whereRaw('purchase_order_details.processed_to_grn_quantity < purchase_order_details.order_quantity')
                                 ->with(['purchase_order',
                                         'purchase_requisition_detail.purchase_requisition',
                                         'purchase_requisition_detail.item',
@@ -169,20 +153,13 @@ class PurchaseOrderDetailController extends Controller
                                         'purchase_requisition_detail.item.unit',
                                         'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding']);
         return Datatables::of($data)
-        // ->addColumn('highlighted', function($row){
-        //     if ($row->highlight == 1){
-        //         return '<label class="label label-primary">Yes</label>';
-        //     } else{
-        //         return '<label class="label label-danger">No</label>';
-        //     }
-        // })
         ->addColumn('available_stock', function($row){
             return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
         })
         ->addColumn('parent', function($row){
-            if ($row->item_group) {
-                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
-                'Name: <strong>' . $row->item_group->item->name . '</strong><br>';
+            if ($row->purchase_requisition_detail->item_group) {
+                return 'P/N: <strong>' . $row->purchase_requisition_detail->item_group->item->code . '</strong><br>' . 
+                'Name: <strong>' . $row->purchase_requisition_detail->item_group->item->name . '</strong><br>';
             } 
             else {
                 return "<span class='text-muted font-italic'>Not Set</span>";
@@ -203,7 +180,6 @@ class PurchaseOrderDetailController extends Controller
             return "<a href='/procurement/purchase-requisition/" . 
             $row->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . 
             $row->purchase_requisition_detail->purchase_requisition->code . '</a>';
-            // return '';
         })
         // ->addColumn('purchase_order_status', function($row){
         //     return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
@@ -211,14 +187,24 @@ class PurchaseOrderDetailController extends Controller
         //     // return '<p class="text-muted font-italic">Already Approved</p>';
         // })
         ->addColumn('goods_received_status', function($row){
-            return 'Prepared to GRN: <strong>' . $row->prepared_to_grn_quantity . 
-                '</strong><br>Processed to GRN: <strong>' . 
+            return 'Prepared to Receiving: <strong>' . $row->prepared_to_grn_quantity . 
+                '</strong><br>Received: <strong>' . 
                 $row->processed_to_grn_quantity . '</strong>';
         })
         ->addColumn('action', function($row) {
-            $usable = true;
-            $idToUse = $row->id;
-            return view('components.action-button', compact(['usable', 'idToUse']));
+            if (($row->prepared_to_grn_quantity + $row->processed_to_grn_quantity) < $row->order_quantity) {
+                if (!$row->purchase_requisition_detail->parent_coding) {
+                    $usable = true;
+                    $idToUse = $row->id;
+                    return view('components.action-button', compact(['usable', 'idToUse']));
+                }
+                else if ($row->purchase_requisition_detail->parent_coding) {
+                    return "<span class='text-muted font-italic'>this Item has Parent</span>";
+                }
+            }
+            else if ($row->prepared_to_grn_quantity == $row->order_quantity) {
+                return "<span class='text-danger font-italic'>Already Prepared</span>";
+            }
         })
         ->escapeColumns([])
         ->make(true);
@@ -302,8 +288,6 @@ class PurchaseOrderDetailController extends Controller
             ]);
             $childRow->update([
                 'prepared_to_po_quantity' => $childRow->request_quantity,
-
-                // 'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($childRow->all_childs) > 0) {
                 Self::pickChildsForPurchaseOrder($childRow, $purchase_order_id, $required_delivery_date);
@@ -354,8 +338,6 @@ class PurchaseOrderDetailController extends Controller
             ]);
             $PurchaseRequisitionDetail->update([
                 'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity_gap,
-
-                // 'updated_by' => Auth::user()->id,
             ]);
             DB::commit();
             
@@ -398,16 +380,7 @@ class PurchaseOrderDetailController extends Controller
         
         $purchase_requisition_detail->update([
             'prepared_to_po_quantity' => $purchase_requisition_detail->prepared_to_po_quantity - $PurchaseOrderDetailRow->order_quantity,
-
-            // 'updated_by' => Auth::user()->id,
         ]);
-
-        // $PurchaseOrderRow->update([
-        //     'total_before_vat' => $PurchaseOrderRow->total_before_vat - ($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity),
-        //     'total_after_vat' => $PurchaseOrderRow->total_after_vat - (($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity) * $vat + ($PurchaseOrderDetailRow->each_price_before_vat * $PurchaseOrderDetailRow->order_quantity)),
-
-        //     'updated_by' => Auth::user()->id,
-        // ]);
 
         PurchaseOrderDetail::destroy($PurchaseOrderDetailRow->id);
         DB::commit();
@@ -418,8 +391,6 @@ class PurchaseOrderDetailController extends Controller
         foreach($purchase_requisition_detail->all_childs as $childRow) {
             $childRow->update([
                 'prepared_to_po_quantity' => 0,
-
-                'updated_by' => Auth::user()->id,
             ]);
 
             $PurchaseOrderDetailRow = PurchaseOrderDetail::where('purchase_requisition_detail_id', $childRow->id)->first();

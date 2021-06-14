@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Modules\Gate\Entities\Company;
+use Modules\GeneralSetting\Entities\Company;
 use Modules\HumanResources\Entities\Employee;
 use Modules\HumanResources\Entities\HrLookup;
 use Modules\HumanResources\Entities\OrganizationStructure;
@@ -65,6 +65,12 @@ class EmployeeController extends Controller
                     $maritalstatus['content'] = $content->remark;
                     $maritalstatus['value'] = $row->maritalstatus;
                     return $maritalstatus;
+                })
+                ->addColumn('company', function($row){
+                    $content = Company::find($row->company_id);
+                    $company['content'] = $content->name;
+                    $company['value'] = $content->id;
+                    return $company;
                 })
                 ->addColumn('probation', function($row){
                     if ($row->probation == 'Y'){
@@ -374,7 +380,7 @@ class EmployeeController extends Controller
         if ($request->ajax()){
             $validationArray = $this->getValidationArray($request);
             $validation = $request->validate($validationArray);
-
+            
             //Proses upload file photo
             if ($request->hasFile('photo')) {
                 $data = $request->file('photo');
@@ -390,11 +396,14 @@ class EmployeeController extends Controller
             } else{ //null filename if request->file('photo') null
                 $filename = null;
             }
+            //conditional company_id
+            $companyId = $request->filled('company_id') ? $request->company_id : $request->user()->company_id;
 
             $dml = Employee::create([
                 'uuid' => Str::uuid(),
                 'empid' => $request->empid,
                 'fullname' => $request->fullname,
+                'company_id' => $companyId,
                 'nickname' => $request->nickname,
                 'photo' => $filename,
                 'pob' => $request->pob,
@@ -483,11 +492,14 @@ class EmployeeController extends Controller
             } else{ //null filename if request->file('photo') null
                 $filename = null;
             }
+            //conditional company_id
+            $companyId = $request->filled('company_id') ? $request->company_id : $request->user()->company_id;
 
             $dml = Employee::where('id', $employee->id)
                 ->first()->update([
 //                'empid' => $request->empid,
                 'fullname' => $request->fullname,
+                'company_id' => $companyId,
                 'nickname' => $request->nickname,
                 'photo' => ( ($filename != null) ? $filename : $employee->photo),
                 'pob' => $request->pob,

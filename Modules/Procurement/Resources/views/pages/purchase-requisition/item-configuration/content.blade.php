@@ -34,7 +34,7 @@
         @if($PurchaseRequisition->approvals()->count() == 0)
             <th>Action</th>
         @else
-            <th colspan="2">PO & GRN Status</th>
+            <th colspan="2">PO & Receiving/Inbound Status</th>
         @endif
     @endslot
     @endcomponent

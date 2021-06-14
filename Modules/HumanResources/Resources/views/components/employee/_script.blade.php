@@ -34,6 +34,15 @@
                 dropdownParent: $('#employeeModal')
             });
         }
+        $('.select2_company_id').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose a Company',
+            ajax: {
+                url: "{{route('generalsetting.company.select2.company')}}",
+                dataType: 'json',
+            },
+            dropdownParent: $('#employeeModal')
+        });
         $('.select2_workgroup').select2({
             theme: 'bootstrap4',
             placeholder: 'choose workgroup',
@@ -141,6 +150,7 @@
                     { data: 'photo', defaultContent: '-' },
                     { data: 'empid', defaultContent: '-' },
                     { data: 'fullname', defaultContent: '-' },
+                    { data: 'company.content', defaultContent: '-' },
                     { data: 'pob', defaultContent: '-', searchable:false },
                     { data: 'dob', defaultContent: '-', searchable:false },
                     { data: 'gender.content', searchable:false, defaultContent: '-' },
@@ -205,6 +215,7 @@
                 $('#frecruitby').val(null).trigger('change');
                 $('#freligion').val(null).trigger('change');
                 $('#fbloodtype').val(null).trigger('change');
+                $('#fcompany_id').val(null).trigger('change');
                 $('#fmaritalstatus').val(null).trigger('change');
                 $('#fphoto').siblings('.custom-file-label').removeClass("selected").html('choose photo');
                 $("#employeeForm").find('#fempid').attr('readonly', false);
@@ -217,7 +228,7 @@
                 $('#employeeModal').find('#modalTitle').html("Update Employee data");
                 let tr = $(this).closest('tr');
                 let data = $('#employee-table').DataTable().row(tr).data();
-
+                console.log(data)
                 $('<input>').attr({
                     type: 'hidden',
                     name: '_method',
@@ -244,6 +255,7 @@
                 $('#fmobile01').val(data.phone?.mobile01);
                 $('#fmobile02').val(data.phone?.mobile02);
                 $('#femail').val(data.email);
+                $('#fcompany_id').append('<option value="' + data.company.value + '" selected>' + data.company.content + '</option>');
                 $('#fbloodtype').append('<option value="' + data.bloodtype + '" selected>' + data.bloodtype + '</option>');
                 if (data.maritalstatus != null)
                     $('#fmaritalstatus').append('<option value="' + data.maritalstatus.value + '" selected>' + data.maritalstatus.content + '</option>');

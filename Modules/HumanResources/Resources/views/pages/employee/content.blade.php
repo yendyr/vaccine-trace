@@ -20,6 +20,7 @@
             <th>photo</th>
             <th>Employee ID</th>
             <th>Name</th>
+            <th>Company</th>
             <th>Place of birth</th>
             <th>Date of birth</th>
             <th>Gender</th>
