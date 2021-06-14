@@ -56,6 +56,7 @@ class ItemStockMutation
                 'initial_flight_cycle' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_cycle,
                 'initial_flight_event' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_event,
                 'initial_start_date' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_start_date,
+                'expired_date' => $inbound_mutation_detail->mutation_detail_initial_aging->expired_date,
                 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,

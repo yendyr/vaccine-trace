@@ -14,6 +14,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\Procurement\Entities\PurchaseOrderDetail;
 use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseRequisitionDetailController extends Controller
@@ -91,10 +92,15 @@ class PurchaseRequisitionDetailController extends Controller
                 }
             }
             else {
+                $PreparedGrn = PurchaseOrderDetail::where('purchase_requisition_detail_id', $row->id)
+                                                ->sum('prepared_to_grn_quantity');
+                $ProcessedGrn = PurchaseOrderDetail::where('purchase_requisition_detail_id', $row->id)
+                                                ->sum('processed_to_grn_quantity');
+                                                
                 return 'Prepared to PO: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
                 'Processed to PO: <strong>' . $row->processed_to_po_quantity . '</strong><br><br>' .
-                'Prepared to Receiving: <strong>WIP</strong><br>' . 
-                'Processed to Receiving: <strong>WIP</strong><br>';
+                'Prepared to Receiving: <strong>' . $PreparedGrn . '</strong><br>' . 
+                'Processed to Receiving: <strong>' . $ProcessedGrn . '</strong><br>';
                 // return '<p class="text-muted font-italic">Already Approved</p>';
             }
         })
