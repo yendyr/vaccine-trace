@@ -100,7 +100,7 @@ class PurchaseRequisitionDetailController extends Controller
                 return 'Prepared to PO: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
                 'Processed to PO: <strong>' . $row->processed_to_po_quantity . '</strong><br><br>' .
                 'Prepared to Receiving: <strong>' . $PreparedGrn . '</strong><br>' . 
-                'Processed to Receiving: <strong>' . $ProcessedGrn . '</strong><br>';
+                'Received: <strong>' . $ProcessedGrn . '</strong><br>';
                 // return '<p class="text-muted font-italic">Already Approved</p>';
             }
         })
