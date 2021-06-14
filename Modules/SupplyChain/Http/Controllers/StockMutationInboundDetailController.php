@@ -79,20 +79,25 @@ class StockMutationInboundDetailController extends Controller
             return $row->updater->name ?? '-';
         })
         ->addColumn('action', function($row) use ($approved) {
-            if ($row->item_group && $row->purchase_order_detail) {
-                return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
-            }
+            // if ($row->item_group && $row->purchase_order_detail) {
+            //     return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
+            // }
             if ($approved == false) {
                 $noAuthorize = true;
                 $updateable = null;
                 $updateValue = null;
 
-                if(Auth::user()->can('update', StockMutation::class) && (!$row->purchase_order_detail_id)) {
+                // if (Auth::user()->can('update', StockMutation::class) && (!$row->purchase_order_detail_id)) {
+                //     $updateable = 'button';
+                //     $updateValue = $row->id;
+                //     $noAuthorize = false;
+                // }
+                if (Auth::user()->can('update', StockMutation::class)) {
                     $updateable = 'button';
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', StockMutation::class)) {
+                if (Auth::user()->can('delete', StockMutation::class)) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
