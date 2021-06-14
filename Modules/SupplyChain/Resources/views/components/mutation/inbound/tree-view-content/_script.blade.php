@@ -12,7 +12,7 @@ $(document).ready(function () {
             },
             "data": {
                 type: "GET",
-                url: "/supplychain/mutation-inbound/detail-tree/?id=" + $('#stock_mutation_id').val(),
+                url: "/supplychain/mutation-inbound/detail-tree/?id=" + "{{ $MutationInbound->id }}",
                 success: function (data) {
                     data.d;
                     $(data).each(function () {

@@ -86,6 +86,8 @@ class StockMutationInboundDetailController extends Controller
                 $noAuthorize = true;
                 $updateable = null;
                 $updateValue = null;
+                $deleteable = null;
+                $deleteId = null;
 
                 // if (Auth::user()->can('update', StockMutation::class) && (!$row->purchase_order_detail_id)) {
                 //     $updateable = 'button';
@@ -97,7 +99,7 @@ class StockMutationInboundDetailController extends Controller
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if (Auth::user()->can('delete', StockMutation::class)) {
+                if (Auth::user()->can('delete', StockMutation::class) && (!$row->purchase_order_detail_id || !$row->parent_coding )) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
@@ -308,8 +310,6 @@ class StockMutationInboundDetailController extends Controller
             );
             $childRow->purchase_order_details->first()->update([
                 'prepared_to_grn_quantity' => $childRow->request_quantity,
-
-                // 'updated_by' => Auth::user()->id,
             ]);
             if (sizeof($childRow->all_childs) > 0) {
                 Self::pickChildsForInbound($childRow, $stock_mutation_id, $warehouse_destination, $highlight, $detailed_item_location, $createChild->coding);
@@ -326,10 +326,12 @@ class StockMutationInboundDetailController extends Controller
         $StockMutation = StockMutation::where('id', $currentRow->stock_mutation_id)->first();
 
         if ($StockMutation->approvals()->count() == 0) {
-            $request->validate([
-                'item_id' => ['required'],
-            ]);
-
+            if (!$currentRow->purchase_order_detail_id) {
+                $request->validate([
+                    'item_id' => ['required'],
+                ]);
+            }
+            
             if($request->quantity > 1) {
                 if (sizeof($currentRow->all_childs) > 0) {
                     return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Set Quantity Larger than 1"]);
@@ -370,24 +372,35 @@ class StockMutationInboundDetailController extends Controller
             }
     
             DB::beginTransaction();
-            $currentRow->update([
-                'item_id' => $request->item_id,
-                'alias_name' => $request->alias_name,
-                'quantity' => $quantity,
-                'serial_number' => $serial_number,
-                'highlight' => $highlight,
-                'description' => $request->description,
-                'detailed_item_location' => $detailed_item_location,
-                'parent_coding' => $parent_coding,
-
-                'updated_by' => Auth::user()->id,
-            ]);
+            if ($currentRow->purchase_order_detail_id) {
+                $currentRow->update([
+                    'alias_name' => $request->alias_name,
+                    'serial_number' => $serial_number,
+                    'highlight' => $highlight,
+                    'description' => $request->description,
+                    'detailed_item_location' => $detailed_item_location,
+    
+                    'updated_by' => Auth::user()->id,
+                ]);
+            }
+            else {
+                $currentRow->update([
+                    'item_id' => $request->item_id,
+                    'alias_name' => $request->alias_name,
+                    'quantity' => $quantity,
+                    'serial_number' => $serial_number,
+                    'highlight' => $highlight,
+                    'description' => $request->description,
+                    'detailed_item_location' => $detailed_item_location,
+                    'parent_coding' => $parent_coding,
+    
+                    'updated_by' => Auth::user()->id,
+                ]);
+            }
             if (sizeof($currentRow->all_childs) > 0) {
                 Self::updateChilds($currentRow, $detailed_item_location);
             }
             $currentRow->mutation_detail_initial_aging()->update([
-                'uuid' => Str::uuid(),
-
                 'initial_flight_hour' => $request->initial_flight_hour,
                 'initial_block_hour' => $request->initial_block_hour,
                 'initial_flight_cycle' => $request->initial_flight_cycle,

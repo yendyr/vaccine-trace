@@ -93,8 +93,8 @@ class PurchaseRequisitionDetailController extends Controller
             else {
                 return 'Prepared to PO: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
                 'Processed to PO: <strong>' . $row->processed_to_po_quantity . '</strong><br><br>' .
-                'Prepared to GRN: <strong>WIP</strong><br>' . 
-                'Processed to GRN: <strong>WIP</strong><br>';
+                'Prepared to Receiving: <strong>WIP</strong><br>' . 
+                'Processed to Receiving: <strong>WIP</strong><br>';
                 // return '<p class="text-muted font-italic">Already Approved</p>';
             }
         })

@@ -7,6 +7,7 @@ use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\StockMutationApproval;
 use Modules\SupplyChain\Entities\OutboundMutationDetail;
 use Modules\SupplyChain\Entities\TransferMutationDetail;
+use Modules\Procurement\Entities\PurchaseOrderDetail;
 use Modules\PPC\Entities\ItemStockInitialAging;
 
 use Illuminate\Support\Str;
@@ -18,17 +19,6 @@ class ItemStockMutation
     public static function approveInbound($request, $stockMutationRow)
     {
         DB::beginTransaction();
-        StockMutationApproval::create([
-            'uuid' =>  Str::uuid(),
-
-            'stock_mutation_id' =>  $stockMutationRow->id,
-            'approval_notes' =>  $request->approval_notes,
-    
-            'owned_by' => $request->user()->company_id,
-            'status' => 1,
-            'created_by' => Auth::user()->id,
-        ]);
-
         foreach ($stockMutationRow->item_stocks as $item_stock) {
             $item_stock->item_stock_initial_aging()->forceDelete();
         }
@@ -48,6 +38,8 @@ class ItemStockMutation
                 'description' => $inbound_mutation_detail->description,
                 'detailed_item_location' => $inbound_mutation_detail->detailed_item_location,
                 'parent_coding' => $inbound_mutation_detail->parent_coding,
+
+                'each_price_before_vat' => $inbound_mutation_detail->each_price_before_vat,
                 
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
@@ -71,7 +63,27 @@ class ItemStockMutation
             ]);
 
             $Item_Stock->item_stock_initial_aging()->save($ItemStockInitialAging);
+
+            if ($inbound_mutation_detail->purchase_order_detail_id) {
+                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $inbound_mutation_detail->purchase_order_detail_id)->first();
+
+                $PurchaseOrderDetail->update([
+                    'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_grn_quantity - $inbound_mutation_detail->quantity,
+                    'processed_to_grn_quantity' => $PurchaseOrderDetail->processed_to_grn_quantity + $inbound_mutation_detail->quantity,
+                ]);
+            }
         }
+
+        StockMutationApproval::create([
+            'uuid' =>  Str::uuid(),
+
+            'stock_mutation_id' =>  $stockMutationRow->id,
+            'approval_notes' =>  $request->approval_notes,
+    
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => Auth::user()->id,
+        ]);
         DB::commit();
     }
 

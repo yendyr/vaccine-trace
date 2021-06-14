@@ -123,6 +123,24 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo('#inputForm');
 
+        if (data.purchase_order_detail_id) {
+            $("#item_id").prop('disabled', true);
+            $("#quantity").prop('readonly', true);
+            $('.parent_coding').prop('disabled', true);
+        }
+        else {
+            $("#item_id").prop('disabled', false);
+            $("#quantity").prop('readonly', false);
+            $('.parent_coding').prop('disabled', false);
+        }
+
+        if (data.parent_coding) {
+            $("#detailed_item_location").prop('readonly', true);
+        }
+        else {
+            $("#detailed_item_location").prop('readonly', false);
+        }
+
         $('#alias_name').val(data.alias_name);
         $('#quantity').val(data.quantity);
         $('#serial_number').val(data.serial_number);
