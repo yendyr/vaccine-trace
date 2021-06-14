@@ -25,6 +25,7 @@ class CreateWorkOrderWorkPackageTaskcardsTable extends Migration
             $table->string('type')->nullable();
             $table->string('description')->nullable();
             $table->string('is_exec_all')->nullable();
+            $table->string('is_subcon')->nullable();
 
             $table->json('taskcard_json')->nullable();
             $table->json('taskcard_group_json')->nullable();

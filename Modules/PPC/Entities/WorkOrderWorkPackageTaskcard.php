@@ -25,6 +25,7 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         'type',
         'description',
         'is_exec_all',
+        'is_subcon',
 
         'taskcard_json',
         'taskcard_group_json',
