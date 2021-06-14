@@ -91,12 +91,12 @@ class StockMutation extends MainModel
         parent::boot();
 
         static::deleting(function($StockMutation) {
-            if (sizeOf($StockMutation->inbound_mutation_details) > 0) {
-                foreach ($StockMutation->inbound_mutation_details as $inbound_mutation_detail) {
-                    $inbound_mutation_detail->mutation_detail_initial_aging()->delete();
-                }
-                $StockMutation->inbound_mutation_details()->delete();
-            }
+            // if (sizeOf($StockMutation->inbound_mutation_details) > 0) {
+            //     foreach ($StockMutation->inbound_mutation_details as $inbound_mutation_detail) {
+            //         $inbound_mutation_detail->mutation_detail_initial_aging()->delete();
+            //     }
+            //     $StockMutation->inbound_mutation_details()->delete();
+            // }
             // $StockMutation->item_stocks()->delete();
             $StockMutation->approvals()->delete(); 
         });
