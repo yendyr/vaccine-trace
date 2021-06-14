@@ -34,8 +34,27 @@ class StockMutationInboundController extends Controller
 
             return Datatables::of($data)
             ->addColumn('reference', function($row){
-                if ($row->transaction_reference_id) {
-                    return $row->transaction_reference_id;
+                if ($row->inbound_mutation_details) {
+                    $referenceCodeArray = array();
+                    $reference_code = '';
+
+                    $InboundMutationDetails = InboundMutationDetail::where('stock_mutation_id', $row->id)->get();
+                    
+                    foreach ($InboundMutationDetails as $InboundMutationDetail) {
+                        if ($InboundMutationDetail->purchase_order_detail) {
+                            $temp_code = "<a href='/procurement/purchase-order/" . $InboundMutationDetail->purchase_order_detail->purchase_order->id . "' target='_blank'>" . $InboundMutationDetail->purchase_order_detail->purchase_order->code . "</a>";
+                            if (!in_array($temp_code, $referenceCodeArray)) {
+                                $referenceCodeArray[] = $temp_code;
+                            }
+                        }
+                    }
+
+                    foreach ($referenceCodeArray as $code) {
+                        $reference_code .= $code . ',<br>';
+                    }
+                    
+                    $reference_code = Str::beforeLast($reference_code, ',');
+                    return $reference_code;
                 } 
                 else {
                     return "-";
