@@ -20,7 +20,6 @@
     AddOutputFilterByType DEFLATE text/html
     AddOutputFilterByType DEFLATE text/javascript
     AddOutputFilterByType DEFLATE text/plain
-    DeflateCompressionLevel 9
 </IfModule>
 
 <IfModule mod_rewrite.c>
