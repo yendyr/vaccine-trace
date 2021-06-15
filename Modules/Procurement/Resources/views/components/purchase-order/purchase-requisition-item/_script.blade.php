@@ -285,6 +285,15 @@ $(document).ready(function () {
             value: 'patch'
         }).prependTo(inputFormId);
 
+        if (data.purchase_requisition_detail.parent_coding) {
+            $("#order_quantity").prop('readonly', true);
+            $(".required_delivery_date").prop('disabled', true);
+        }
+        else {
+            $("#order_quantity").prop('readonly', false);
+            $(".required_delivery_date").prop('disabled', false);
+        }
+
         $('#item').val(data.purchase_requisition_detail.item.code + ' | ' + data.purchase_requisition_detail.item.name);
         $('#purchase_requisition_detail_id').val(data.purchase_requisition_detail.id);
         $('#purchase_requisition_code').val(data.purchase_requisition_detail.purchase_requisition.code);
