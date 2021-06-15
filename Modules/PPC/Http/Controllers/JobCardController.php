@@ -548,15 +548,25 @@ class JobCardController extends Controller
                 }
                 
                 // cek kalau semua detail apakah sudah close ?
-                if($job_card->details->whereIn('transaction_status', ['open', 'pending', 'pause', 'progress'])->count() == 0) {
+                // Update status job card
+                $temp_array = ['open', 'pending', 'pause', 'progress', 'partially progress'];
+                $keys = [];
+                foreach($temp_array as $row){
+                    $keys[] = collect($job_card_transaction_status)->search($row);
+                }
+
+                // if($job_card->details->whereIn('transaction_status', ['open', 'pending', 'pause', 'progress'])->count() == 0) {
+                if( in_array($job_card->transaction_status, $keys) ) {
                     $result = $job_card->update([
-                        'transaction_status' => $transaction_status
+                        'transaction_status' => array_search('partially closed', $job_card_transaction_status)
                     ]);
     
                     if (!$result) {
                         $flag = false;
                     }
+                // }
                 }
+
 
             } else {
                 // update job card status row 
