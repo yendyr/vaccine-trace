@@ -144,8 +144,8 @@ $(document).ready(function () {
     
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
-                    if (datatableObject.column(i).search() !== this.value) {
-                        datatableObject
+                    if (datatableObject2.column(i).search() !== this.value) {
+                        datatableObject2
                             .column(i)
                             .search( this.value )
                             .draw();
@@ -161,6 +161,7 @@ $(document).ready(function () {
     var groupColumn = 0;
 
     var datatableObject2 = $(tableId2).DataTable({
+        orderCellsTop: true,
         columnDefs: [{
             visible: false, 
             targets: groupColumn }
@@ -212,7 +213,7 @@ $(document).ready(function () {
                 formatNumber(total)
             );
         },
-        pageLength: 25,
+        pageLength: 50,
         processing: true,
         serverSide: false,
         searchDelay: 1500,
