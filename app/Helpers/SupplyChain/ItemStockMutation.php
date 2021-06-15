@@ -25,44 +25,46 @@ class ItemStockMutation
         $stockMutationRow->item_stocks()->forceDelete();
 
         foreach($stockMutationRow->inbound_mutation_details as $inbound_mutation_detail) {
-            $ItemStock = new ItemStock([
-                'uuid' => $stockMutationRow->uuid,
-                'warehouse_id' => $stockMutationRow->warehouse_destination,
-                'coding' => $inbound_mutation_detail->coding,
-                'item_id' => $inbound_mutation_detail->item_id,
-                'quantity' => $inbound_mutation_detail->quantity,
-                'serial_number' => $inbound_mutation_detail->serial_number,
-                'alias_name' => $inbound_mutation_detail->alias_name,
-                'highlight' => $inbound_mutation_detail->highlight,
-                'description' => $inbound_mutation_detail->description,
-                'detailed_item_location' => $inbound_mutation_detail->detailed_item_location,
-                'parent_coding' => $inbound_mutation_detail->parent_coding,
-
-                'each_price_before_vat' => $inbound_mutation_detail->each_price_before_vat,
-                
-                'owned_by' => $request->user()->company_id,
-                'status' => 1,
-                'created_by' => $request->user()->id,
-            ]);
-
-            $Item_Stock = $stockMutationRow->item_stocks()->save($ItemStock);
-
-            $ItemStockInitialAging = new ItemStockInitialAging([
-                'uuid' => Str::uuid(),
-
-                'initial_flight_hour' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_hour,
-                'initial_block_hour' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_block_hour,
-                'initial_flight_cycle' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_cycle,
-                'initial_flight_event' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_event,
-                'initial_start_date' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_start_date,
-                'expired_date' => $inbound_mutation_detail->mutation_detail_initial_aging->expired_date,
-                
-                'owned_by' => $request->user()->company_id,
-                'status' => 1,
-                'created_by' => $request->user()->id,
-            ]);
-
-            $Item_Stock->item_stock_initial_aging()->save($ItemStockInitialAging);
+            if ($inbound_mutation_detail->purchase_order_detail->purchase_requisition_detail->item->category->item_type != 'Service') {
+                $ItemStock = new ItemStock([
+                    'uuid' => $stockMutationRow->uuid,
+                    'warehouse_id' => $stockMutationRow->warehouse_destination,
+                    'coding' => $inbound_mutation_detail->coding,
+                    'item_id' => $inbound_mutation_detail->item_id,
+                    'quantity' => $inbound_mutation_detail->quantity,
+                    'serial_number' => $inbound_mutation_detail->serial_number,
+                    'alias_name' => $inbound_mutation_detail->alias_name,
+                    'highlight' => $inbound_mutation_detail->highlight,
+                    'description' => $inbound_mutation_detail->description,
+                    'detailed_item_location' => $inbound_mutation_detail->detailed_item_location,
+                    'parent_coding' => $inbound_mutation_detail->parent_coding,
+    
+                    'each_price_before_vat' => $inbound_mutation_detail->each_price_before_vat,
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]);
+    
+                $Item_Stock = $stockMutationRow->item_stocks()->save($ItemStock);
+    
+                $ItemStockInitialAging = new ItemStockInitialAging([
+                    'uuid' => Str::uuid(),
+    
+                    'initial_flight_hour' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_hour,
+                    'initial_block_hour' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_block_hour,
+                    'initial_flight_cycle' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_cycle,
+                    'initial_flight_event' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_flight_event,
+                    'initial_start_date' => $inbound_mutation_detail->mutation_detail_initial_aging->initial_start_date,
+                    'expired_date' => $inbound_mutation_detail->mutation_detail_initial_aging->expired_date,
+                    
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]);
+    
+                $Item_Stock->item_stock_initial_aging()->save($ItemStockInitialAging);
+            }
 
             if ($inbound_mutation_detail->purchase_order_detail_id) {
                 $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $inbound_mutation_detail->purchase_order_detail_id)->first();

@@ -45,6 +45,11 @@
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')
+    <style>
+        thead input {
+            width: 100%;
+        }
+    </style>
 @endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
