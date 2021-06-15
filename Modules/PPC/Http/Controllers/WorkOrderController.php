@@ -304,7 +304,7 @@ class WorkOrderController extends Controller
         if ($flag) {
             DB::commit();
 
-            return response()->json(['success' => 'Work Order has been updated']);
+            return response()->json(['success' => 'Work Order has been updated', 'id' => $work_order->id]);
         } else {
             DB::rollBack();
 
