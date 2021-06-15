@@ -73,10 +73,10 @@ class PurchaseOrderDetailController extends Controller
             return $row->updater->name ?? '-';
         })
         ->addColumn('action', function($row) use ($approved) {
-            if ($row->purchase_requisition_detail->parent_coding) {
+            if ($row->purchase_requisition_detail->parent_coding && $approved == false) {
                 return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
             }
-            if ($approved == false) {
+            else if ($approved == false) {
                 $noAuthorize = true;
 
                 if(Auth::user()->can('update', PurchaseOrder::class)) {

@@ -5,8 +5,51 @@ $(document).ready(function () {
     var tableId = '#stock-monitoring-table';
     var inputFormId = '#inputForm';
 
+    $('#stock-monitoring-table thead tr').clone(true).appendTo('#stock-monitoring-table thead');
+    $('#stock-monitoring-table thead tr:eq(1) th').each( function (i) {
+        if ($(this).text() != 'Action') {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+    
+            $('input', this).on('keypress', function (e) {
+                if(e.which == 13) {
+                    if (datatableObject1.column(i).search() !== this.value) {
+                        datatableObject1
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                }
+            });
+        }
+        else {
+            $(this).html('&nbsp;');
+        }
+    });
+
+    var groupColumn = 0;
+
     var datatableObject = $(tableId).DataTable({
-        pageLength: 25,
+        columnDefs: [{
+            visible: false, 
+            targets: groupColumn }
+        ],
+        order: [[ groupColumn, 'asc' ]],
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="text-align: left;"><td colspan="13">Warehouse Location: <b>' + group + '</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
+        pageLength: 50,
         processing: true,
         serverSide: false,
         searchDelay: 1500,

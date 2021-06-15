@@ -29,6 +29,15 @@
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')
+    <style>
+        thead input {
+            width: 100%;
+        }
+        tr.group,
+        tr.group:hover {
+            background-color: #aaa !important;
+        }
+    </style>
 @endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')

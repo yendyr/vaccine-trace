@@ -4,9 +4,8 @@ namespace Modules\SupplyChain\Http\Controllers;
 
 use app\Helpers\SupplyChain\ItemStockMutation;
 use Modules\SupplyChain\Entities\StockMutation;
-use Modules\SupplyChain\Entities\StockMutationApproval;
-use Modules\SupplyChain\Entities\ItemStock;
-use Modules\PPC\Entities\ItemStockInitialAging;
+use Modules\SupplyChain\Entities\InboundMutationDetail;
+use Modules\Procurement\Entities\PurchaseOrderDetail;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -35,8 +34,27 @@ class StockMutationInboundController extends Controller
 
             return Datatables::of($data)
             ->addColumn('reference', function($row){
-                if ($row->transaction_reference_id) {
-                    return $row->transaction_reference_id;
+                if ($row->inbound_mutation_details) {
+                    $referenceCodeArray = array();
+                    $reference_code = '';
+
+                    $InboundMutationDetails = InboundMutationDetail::where('stock_mutation_id', $row->id)->get();
+                    
+                    foreach ($InboundMutationDetails as $InboundMutationDetail) {
+                        if ($InboundMutationDetail->purchase_order_detail) {
+                            $temp_code = "<a href='/procurement/purchase-order/" . $InboundMutationDetail->purchase_order_detail->purchase_order->id . "' target='_blank'>" . $InboundMutationDetail->purchase_order_detail->purchase_order->code . "</a>";
+                            if (!in_array($temp_code, $referenceCodeArray)) {
+                                $referenceCodeArray[] = $temp_code;
+                            }
+                        }
+                    }
+
+                    foreach ($referenceCodeArray as $code) {
+                        $reference_code .= $code . ',<br>';
+                    }
+                    
+                    $reference_code = Str::beforeLast($reference_code, ',');
+                    return $reference_code;
                 } 
                 else {
                     return "-";
@@ -166,13 +184,32 @@ class StockMutationInboundController extends Controller
 
     public function destroy(StockMutation $MutationInbound)
     {
-        $currentRow = StockMutation::where('id', $MutationInbound->id)->first();
-        $currentRow
-            ->update([
+        $StockMutation = StockMutation::where('id', $MutationInbound->id)->first();
+
+        DB::beginTransaction();
+        foreach($StockMutation->inbound_mutation_details as $inbound_mutation_detail) {
+            if ($inbound_mutation_detail->purchase_order_detail_id) {
+                $PurchaseOrderDetail = PurchaseOrderDetail::where('id', $inbound_mutation_detail->purchase_order_detail_id)->first();
+
+                $PurchaseOrderDetail->update([
+                    'prepared_to_grn_quantity' => $PurchaseOrderDetail->prepared_to_grn_quantity - $inbound_mutation_detail->quantity,
+                ]);
+            }
+
+            $inbound_mutation_detail->mutation_detail_initial_aging()->delete();
+            $inbound_mutation_detail->update([
                 'deleted_by' => Auth::user()->id,
             ]);
+            InboundMutationDetail::destroy($inbound_mutation_detail->id);
+        }
+
+        $StockMutation->update([
+            'deleted_by' => Auth::user()->id,
+        ]);
 
         StockMutation::destroy($MutationInbound->id);
+        DB::commit();
+
         return response()->json(['success' => 'Stock Mutation Inbound Data has been Deleted']);
     }
 
