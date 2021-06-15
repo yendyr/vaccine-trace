@@ -144,8 +144,8 @@ $(document).ready(function () {
     
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
-                    if (datatableObject.column(i).search() !== this.value) {
-                        datatableObject
+                    if (datatableObject2.column(i).search() !== this.value) {
+                        datatableObject2
                             .column(i)
                             .search( this.value )
                             .draw();
@@ -161,6 +161,7 @@ $(document).ready(function () {
     var groupColumn = 0;
 
     var datatableObject2 = $(tableId2).DataTable({
+        orderCellsTop: true,
         columnDefs: [{
             visible: false, 
             targets: groupColumn }
@@ -212,7 +213,7 @@ $(document).ready(function () {
                 formatNumber(total)
             );
         },
-        pageLength: 25,
+        pageLength: 50,
         processing: true,
         serverSide: false,
         searchDelay: 1500,
@@ -284,6 +285,15 @@ $(document).ready(function () {
             name: '_method',
             value: 'patch'
         }).prependTo(inputFormId);
+
+        if (data.purchase_requisition_detail.parent_coding) {
+            $("#order_quantity").prop('readonly', true);
+            $(".required_delivery_date").prop('disabled', true);
+        }
+        else {
+            $("#order_quantity").prop('readonly', false);
+            $(".required_delivery_date").prop('disabled', false);
+        }
 
         $('#item').val(data.purchase_requisition_detail.item.code + ' | ' + data.purchase_requisition_detail.item.name);
         $('#purchase_requisition_detail_id').val(data.purchase_requisition_detail.id);

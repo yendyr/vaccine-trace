@@ -12,8 +12,8 @@ $(document).ready(function () {
     
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
-                    if (datatableObject.column(i).search() !== this.value) {
-                        datatableObject
+                    if (datatableObject2.column(i).search() !== this.value) {
+                        datatableObject2
                             .column(i)
                             .search( this.value )
                             .draw();
@@ -25,8 +25,11 @@ $(document).ready(function () {
             $(this).html('&nbsp;');
         }
     });
+
     var groupColumn = 0;
+
     var datatableObject2 = $('#purchase-order-detail-table').DataTable({
+        orderCellsTop: true,
         columnDefs: [{
             visible: false, 
             targets: groupColumn }
@@ -78,7 +81,7 @@ $(document).ready(function () {
                 formatNumber(total)
             );
         },
-        pageLength: 25,
+        pageLength: 50,
         processing: true,
         serverSide: false,
         searchDelay: 1500,

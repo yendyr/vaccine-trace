@@ -38,6 +38,7 @@ class StockMutationInboundDetailController extends Controller
         
         $data = InboundMutationDetail::where('stock_mutation_id', $stock_mutation_id)
                                 ->with(['item.unit',
+                                        'item.category',
                                         'mutation_detail_initial_aging',
                                         'purchase_order_detail.purchase_order',
                                         'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',

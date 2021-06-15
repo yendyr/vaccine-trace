@@ -20,14 +20,15 @@
         <th>PO Transaction Code</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
+        <th>Item Category</th>
         <th>Serial Number</th>
+        <th>Parent Item</th>
         <th>Inbound Qty</th>
         <th>UoM</th>
         <th>Alias Name</th>
         <th>Remark</th>
         <th>Detailed Location</th>
         <th>Highlighted Item</th>
-        <th>Parent Item</th>
         <th>Initial FH</th>
         <th>Initial Block Hour</th>
         <th>Initial FC</th>

@@ -13,8 +13,8 @@ $(document).ready(function () {
     
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
-                    if (datatableObject1.column(i).search() !== this.value) {
-                        datatableObject1
+                    if (datatableObject.column(i).search() !== this.value) {
+                        datatableObject
                             .column(i)
                             .search( this.value )
                             .draw();
@@ -30,6 +30,9 @@ $(document).ready(function () {
     var groupColumn = 0;
 
     var datatableObject = $(tableId).DataTable({
+        // dom: 'Bfrtip',
+        // buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        orderCellsTop: true,
         columnDefs: [{
             visible: false, 
             targets: groupColumn }
@@ -43,7 +46,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="13">Warehouse Location: <b>' + group + '</b></td></tr>'
+                        '<tr class="group" style="text-align: left;"><td colspan="14">Warehouse Location: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -62,9 +65,13 @@ $(document).ready(function () {
             { data: 'detailed_item_location', defaultContent: '-' },
             { data: 'item.code', defaultContent: '-' },
             { data: 'item.name', defaultContent: '-' },
+            { data: 'item.category.name', defaultContent: '-' },
             { data: 'serial_number', defaultContent: '-' },
             { data: 'alias_name', defaultContent: '-' },
-            { data: 'quantity', defaultContent: '-' },
+            { data: 'quantity', 
+                "render": function ( data, type, row, meta ) {
+                    return "<span class='label label-primary'>" + row.quantity + '</span>'; 
+                }},
             { data: 'used_quantity', defaultContent: '-' },
             { data: 'loaned_quantity', defaultContent: '-' },
             { data: 'reserved_quantity', defaultContent: '-' },

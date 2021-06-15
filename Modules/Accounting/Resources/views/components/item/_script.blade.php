@@ -8,8 +8,31 @@ $(document).ready(function () {
     var tableId = '#item-table';
     var inputFormId = '#inputForm';
 
+    $('#item-table thead tr').clone(true).appendTo('#item-table thead');
+    $('#item-table thead tr:eq(1) th').each( function (i) {
+        if ($(this).text() != 'Action') {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+    
+            $('input', this).on('keypress', function (e) {
+                if(e.which == 13) {
+                    if (datatableObject.column(i).search() !== this.value) {
+                        datatableObject
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                }
+            });
+        }
+        else {
+            $(this).html('&nbsp;');
+        }
+    });
+
     var datatableObject = $(tableId).DataTable({
-        pageLength: 25,
+        orderCellsTop: true,
+        pageLength: 50,
         processing: true,
         serverSide: false,
         searchDelay: 1500,
@@ -28,8 +51,8 @@ $(document).ready(function () {
             { data: 'status', defaultContent: '-' },
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
-            { data: 'updater_name', defaultContent: '-' },
-            { data: 'updated_at', defaultContent: '-' },
+            // { data: 'updater_name', defaultContent: '-' },
+            // { data: 'updated_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
     });
@@ -109,27 +132,27 @@ $(document).ready(function () {
 
         $(".sales_coa_id").val(null).trigger('change');
         if (data.sales_coa != null){
-            $('#sales_coa_id').append('<option value="' + data.sales_coa_id + '" selected>' + data.sales_coa.name + '</option>');
+            $('#sales_coa_id').append('<option value="' + data.sales_coa_id + '" selected>' + data.sales_coa.code + ' | ' + data.sales_coa.name + '</option>');
         } 
 
         $(".inventory_coa_id").val(null).trigger('change');
         if (data.inventory_coa != null){
-            $('#inventory_coa_id').append('<option value="' + data.inventory_coa_id + '" selected>' + data.inventory_coa.name + '</option>');
+            $('#inventory_coa_id').append('<option value="' + data.inventory_coa_id + '" selected>' + data.inventory_coa.code + ' | ' + data.inventory_coa.name + '</option>');
         } 
 
         $(".cost_coa_id").val(null).trigger('change');
         if (data.cost_coa != null){
-            $('#cost_coa_id').append('<option value="' + data.cost_coa_id + '" selected>' + data.cost_coa.name + '</option>');
+            $('#cost_coa_id').append('<option value="' + data.cost_coa_id + '" selected>' + data.cost_coa.code + ' | ' + data.cost_coa.name + '</option>');
         } 
 
         $(".inventory_adjustment_coa_id").val(null).trigger('change');
         if (data.inventory_adjustment_coa != null){
-            $('#inventory_adjustment_coa_id').append('<option value="' + data.inventory_adjustment_coa_id + '" selected>' + data.inventory_adjustment_coa.name + '</option>');
+            $('#inventory_adjustment_coa_id').append('<option value="' + data.inventory_adjustment_coa_id + '" selected>' + data.inventory_adjustment_coa.code + ' | ' + data.inventory_adjustment_coa.name + '</option>');
         } 
 
         $(".work_in_progress_coa_id").val(null).trigger('change');
         if (data.work_in_progress_coa_id != null){
-            $('#work_in_progress_coa_id').append('<option value="' + data.work_in_progress_coa_id + '" selected>' + data.work_in_progress_coa.name + '</option>');
+            $('#work_in_progress_coa_id').append('<option value="' + data.work_in_progress_coa_id + '" selected>' + data.work_in_progress_coa.code + ' | ' + data.work_in_progress_coa.name + '</option>');
         } 
                         
         if (data.status == '<label class="label label-success">Active</label>') {

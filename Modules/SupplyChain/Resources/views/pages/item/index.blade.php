@@ -31,8 +31,8 @@
             <th>Status</th>
             <th>Created By</th>
             <th>Created At</th>
-            <th>Last Updated By</th>
-            <th>Last Updated At</th>
+            {{-- <th>Last Updated By</th>
+            <th>Last Updated At</th> --}}
             <th>Action</th>
         @endslot
     @endcomponent
@@ -43,6 +43,11 @@
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')
+    <style>
+        thead input {
+            width: 100%;
+        }
+    </style>
 @endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
