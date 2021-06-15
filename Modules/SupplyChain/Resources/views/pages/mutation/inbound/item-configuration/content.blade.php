@@ -38,7 +38,11 @@
         {{-- <th>Print QR</th> --}}
         {{-- <th>Created By</th> --}}
         <th>Created At</th>
-        <th>Action</th>
+        @if($MutationInbound->approvals()->count() == 0)
+            <th>Action</th>
+        @else
+            <th>Print QR Code</th>
+        @endif
     @endslot
     @endcomponent
 </div>
