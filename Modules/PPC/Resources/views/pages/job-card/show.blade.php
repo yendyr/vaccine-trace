@@ -42,7 +42,7 @@
         <div>Recurrence: <strong class="text-success">{{ $job_card->taskcard_json->recurrence ?? '-' }}</strong></div>
         <div>Status: <strong>
                 <label class="label label-{{ config('ppc.job-card.transaction-status-color')[$job_card->transaction_status] ?? 'plain' }}">
-                    {{ ucfirst(config('ppc.job-card.transaction-status')[$job_card->transaction_status]) ?? ucfirst(config('ppc.job-card.transaction-status')[0]) }}
+                    {{ ucwords(config('ppc.job-card.transaction-status')[$job_card->transaction_status]) ?? ucwords(config('ppc.job-card.transaction-status')[0]) }}
                 </label>
             </strong>
         </div>
