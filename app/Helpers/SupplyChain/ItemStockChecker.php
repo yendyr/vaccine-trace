@@ -38,7 +38,8 @@ class ItemStockChecker
     {
         $result = ItemStock::with(['item.unit',
                                 'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
-                                'warehouse'])
+                                'warehouse',
+                                'item.category'])
                                 ->whereHas('warehouse', function ($warehouse) {
                                     $warehouse->whereHas('aircraft_configuration', function ($aircraft_configuration) {
                                         $aircraft_configuration->has('approvals');

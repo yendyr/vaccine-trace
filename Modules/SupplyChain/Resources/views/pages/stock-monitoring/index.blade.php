@@ -11,6 +11,7 @@
             <th>Detailed Location</th>
             <th>Item Part Number</th>
             <th>Item Name</th>
+            <th>Item Category</th>
             <th>Serial Number</th>
             <th>Alias Name</th>
             <th>Inbound Qty</th>
