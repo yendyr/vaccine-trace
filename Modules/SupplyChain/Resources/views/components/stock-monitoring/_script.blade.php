@@ -13,8 +13,8 @@ $(document).ready(function () {
     
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
-                    if (datatableObject1.column(i).search() !== this.value) {
-                        datatableObject1
+                    if (datatableObject.column(i).search() !== this.value) {
+                        datatableObject
                             .column(i)
                             .search( this.value )
                             .draw();
@@ -30,6 +30,7 @@ $(document).ready(function () {
     var groupColumn = 0;
 
     var datatableObject = $(tableId).DataTable({
+        orderCellsTop: true,
         columnDefs: [{
             visible: false, 
             targets: groupColumn }
