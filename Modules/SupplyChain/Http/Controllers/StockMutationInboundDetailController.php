@@ -75,9 +75,17 @@ class StockMutationInboundDetailController extends Controller
         ->addColumn('creator_name', function($row){
             return $row->creator->name ?? '-';
         })
-        ->addColumn('updater_name', function($row){
-            return $row->updater->name ?? '-';
-        })
+        // ->addColumn('updater_name', function($row){
+        //     return $row->updater->name ?? '-';
+        // })
+        // ->addColumn('qr_code', function($row) use ($approved) {
+        //     if ($approved == true) {
+                
+        //     }
+        //     else {
+        //         return '-';
+        //     }
+        // })
         ->addColumn('action', function($row) use ($approved) {
             // if ($row->item_group && $row->purchase_order_detail) {
             //     return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
@@ -113,7 +121,11 @@ class StockMutationInboundDetailController extends Controller
                 }
             }
             else {
-                return '<p class="text-muted font-italic">Already Approved</p>';
+                // return '<p class="text-muted font-italic">Already Approved</p>';
+                $printSingleQr = 'button';
+                $printSingleQrId = $row->uuid;
+    
+                return view('components.action-button', compact(['printSingleQr', 'printSingleQrId']));
             }
         })
         ->escapeColumns([])

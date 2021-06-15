@@ -39,7 +39,8 @@ $(document).ready(function () {
             { data: 'mutation_detail_initial_aging.initial_start_date', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.expired_date', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
-            { data: 'creator_name', defaultContent: '-' },
+            // { data: 'qr_code', defaultContent: '-' },
+            // { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]

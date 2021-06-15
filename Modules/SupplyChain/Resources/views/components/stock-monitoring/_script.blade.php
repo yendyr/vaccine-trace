@@ -58,6 +58,7 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'warehouse', defaultContent: '-' },
+            { data: 'uuid', visible: false },
             { data: 'detailed_item_location', defaultContent: '-' },
             { data: 'item.code', defaultContent: '-' },
             { data: 'item.name', defaultContent: '-' },

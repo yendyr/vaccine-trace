@@ -7,6 +7,7 @@
 
         @slot('tableContent')
             <th>Warehouse / Location</th>
+            <th>UUID</th>
             <th>Detailed Location</th>
             <th>Item Part Number</th>
             <th>Item Name</th>

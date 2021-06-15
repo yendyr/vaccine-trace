@@ -20,3 +20,13 @@ Route::get('/', function () {
 
 Route::view('/', 'dashboard')->name('dashboard')->middleware('auth');
 
+Route::get('printsingleqr', 'QrController@single_qr');
+
+// Route::name('supplychain.')->group(function () {
+//     Route::prefix('supplychain')->group(function() {
+//         Route::resource('/warehouse', 'WarehouseController');
+//         Route::name('warehouse.')->group(function() {
+//             Route::get('supplychain/warehouse/select2', 'WarehouseController@select2')->name('select2');
+//         });
+//     });
+// });

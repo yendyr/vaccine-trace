@@ -35,7 +35,8 @@
         <th>Initial Start Date</th>
         <th>Expired Date</th>
         {{-- <th>Status</th> --}}
-        <th>Created By</th>
+        {{-- <th>Print QR</th> --}}
+        {{-- <th>Created By</th> --}}
         <th>Created At</th>
         <th>Action</th>
     @endslot

@@ -43,6 +43,14 @@
     </button>
 @endisset
 
+@isset($printSingleQr)
+<a href="/printsingleqr/?code={{ $printSingleQrId }}" target="_blank">
+    <button type="button" name="printSingleQr" class="{{ $printSingleQrClass ?? 'printSingleQrBtn' }} btn btn-sm btn-outline btn-success pr-2" data-toggle="tooltip" title="Print QR" value="{{ (isset($printSingleQrId) ? $printSingleQrId : '') }}">
+        <i class="fa fa-qrcode"></i>
+    </button>
+</a>
+@endisset
+
 @isset($viewable)
     <button type="button" class="viewBtn btn btn-sm btn-outline btn-primary text-nowrap pr-2" data-toggle="tooltip" title="View" value="{{ $idToView }}">
             <i class="fa fa-search"></i>&nbsp;View

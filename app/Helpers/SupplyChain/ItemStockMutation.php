@@ -26,8 +26,7 @@ class ItemStockMutation
 
         foreach($stockMutationRow->inbound_mutation_details as $inbound_mutation_detail) {
             $ItemStock = new ItemStock([
-                'uuid' => Str::uuid(),
-
+                'uuid' => $stockMutationRow->uuid,
                 'warehouse_id' => $stockMutationRow->warehouse_destination,
                 'coding' => $inbound_mutation_detail->coding,
                 'item_id' => $inbound_mutation_detail->item_id,
