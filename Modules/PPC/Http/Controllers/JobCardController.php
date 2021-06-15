@@ -100,19 +100,19 @@ class JobCardController extends Controller
 
             return Datatables::of($data)
                 ->filterColumn('code', function($query, $keyword) {
-                    $query->where('code' ,'LIKE', "%{$keyword}%");
+                    $query->where('code' ,'LIKE', "%".$keyword."%");
                 })
                 ->filterColumn('taskcard_json', function($query, $keyword) {
-                    $query->where('taskcard_json' ,'LIKE', "%{$keyword}%");
+                    $query->where('taskcard_json' ,'LIKE', "%".$keyword."%");
                 })
                 ->filterColumn('taskcard_group_json', function($query, $keyword) {
-                    $query->where('taskcard_group_json' ,'LIKE', "%{$keyword}%");
+                    $query->where('taskcard_group_json' ,'LIKE', "%".$keyword."%");
                 })
                 ->filterColumn('tags_json', function($query, $keyword) {
-                    $query->where('tags_json' ,'LIKE', "%{$keyword}%");
+                    $query->where('tags_json' ,'LIKE', "%".$keyword."%");
                 })
                 ->filterColumn('taskcard_type_json', function($query, $keyword) {
-                    $query->where('taskcard_type_json' ,'LIKE', "%{$keyword}%");
+                    $query->where('taskcard_type_json' ,'LIKE', "%".$keyword."%");
                 })
                 ->filterColumn('transaction_status', function($query, $keyword) {
                     $status = array_search(strtolower($keyword), config('ppc.job-card.transaction-status'));
@@ -124,11 +124,11 @@ class JobCardController extends Controller
                 })
                 ->filterColumn('skills', function($query, $keyword) {
                     $query->whereHas('details', function($subquery) use ($keyword) {
-                        $subquery->where('skills_json','LIKE', "%{$keyword}%");
+                        $subquery->where('skills_json','LIKE', "%".$keyword."%");
                     });
                 })
                 ->filterColumn('description', function($query, $keyword) {
-                    $query->where('description' ,'LIKE', "%{$keyword}%");
+                    $query->where('description' ,'LIKE', "%".$keyword."%");
                 })
                 ->addColumn('mpd_number', function ($itemRow) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
@@ -525,14 +525,21 @@ class JobCardController extends Controller
         if ( strtolower($request->next_status) == 'close') {
             /** perlu refactor karena harus mengecek 
              * untuk job card yang close itu bukan hanya dari 1 task saja */
-            $status = 'close';
+            $transaction_status = null;
+            $status = 'closed';
+            $transaction_status = array_search($status, $job_card_transaction_status);
+
+            if( empty($transaction_status) ){
+                $status = 'close';
+                $transaction_status = array_search($status, $job_card_transaction_status);
+            }
 
             if (!$job_card->is_exec_all) {
 
                 // update detail status row
                 if (!empty($request->detail_id)) {
                     $job_card->details()->where('id', $request->detail_id)->update([
-                        'transaction_status' => array_search($status, $job_card_transaction_status)
+                        'transaction_status' => $transaction_status
                     ]);
                 }
 
@@ -543,7 +550,7 @@ class JobCardController extends Controller
                 // cek kalau semua detail apakah sudah close ?
                 if($job_card->details->whereIn('transaction_status', ['open', 'pending', 'pause', 'progress'])->count() == 0) {
                     $result = $job_card->update([
-                        'transaction_status' => array_search($status, $job_card_transaction_status)
+                        'transaction_status' => $transaction_status
                     ]);
     
                     if (!$result) {
@@ -554,13 +561,15 @@ class JobCardController extends Controller
             } else {
                 // update job card status row 
                 $result = $job_card->update([
-                    'transaction_status' => array_search($status, $job_card_transaction_status)
+                    'transaction_status' => $transaction_status
                 ]);
 
                 if (!$result) {
                     $flag = false;
                 }
             }
+
+            $next_transaction_status = $transaction_status;
         }
 
          // Progress PAUSE/PENDING
