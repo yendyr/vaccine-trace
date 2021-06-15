@@ -25,11 +25,11 @@ class ItemCategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ItemCategory::with(['sales_coa:id,name',
-                                        'inventory_coa:id,name',
-                                        'cost_coa:id,name',
-                                        'inventory_adjustment_coa:id,name',
-                                        'work_in_progress_coa:id,name',]);
+            $data = ItemCategory::with(['sales_coa:code,id,name',
+                                        'inventory_coa:code,id,name',
+                                        'cost_coa:code,id,name',
+                                        'inventory_adjustment_coa:code,id,name',
+                                        'work_in_progress_coa:code,id,name',]);
 
             return Datatables::of($data)
             ->addColumn('status', function($row){
@@ -172,7 +172,7 @@ class ItemCategoryController extends Controller
             'inventory_coa_id' => $request->inventory_coa_id,
             'cost_coa_id' => $request->cost_coa_id,
             'inventory_adjustment_coa_id' => $request->inventory_adjustment_coa_id,
-            'work_in_progress_coa_id' => $request->work_in_progress_coa,
+            'work_in_progress_coa_id' => $request->work_in_progress_coa_id,
 
             'status' => $status,
             'updated_by' => Auth::user()->id,
