@@ -109,7 +109,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 d-flex align-items-center">@ Price Before Tax ({{ $PurchaseOrder->currency->code }})</label>
                                 <div class="col input-group">
-                                    <input type="number" min="1" class="form-control" name="each_price_before_vat" id="each_price_before_vat" required>
+                                    <input type="number" min="0" class="form-control" name="each_price_before_vat" id="each_price_before_vat" required>
                                 </div>
                             </div>
 

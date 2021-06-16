@@ -7,7 +7,7 @@
     @component('components.approve-modal', ['name' => 'Journal Datalist'])
     @endcomponent
 
-    @include('procurement::pages.journal.modal')
+    @include('accounting::pages.journal.modal')
 
     @component('components.crud-form.index',[
                     'title' => 'Journal Datalist',
@@ -24,12 +24,13 @@
         @slot('tableContent')
             <th>Transaction Code</th>
             <th>Transaction Date</th>
+            <th>Type</th>
             <th>Remark</th>
-            <th>Transaction Reference</th>
             <th>Current Primary/Local Currency</th>
-            <th>Currency</th>
+            <th>Transaction Currency</th>
             <th>Exchange Rate</th>
             <th>Total Amount</th>
+            <th>Transaction Reference</th>
             <th>Created By</th>
             <th>Created At</th>
             {{-- <th>Last Updated By</th>

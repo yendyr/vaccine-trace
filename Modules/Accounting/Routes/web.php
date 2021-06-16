@@ -36,5 +36,6 @@ Route::name('accounting.')->group(function () {
         });
 
         Route::resource('/journal', 'JournalController');
+        Route::resource('/journal-detail', 'JournalDetailController');
     });
 }); 

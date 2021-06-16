@@ -17,7 +17,7 @@ class CreateJournalsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             
-            $table->string('code')->unique();
+            $table->string('code')->unique()->nullable();
             $table->date('transaction_date');
             $table->date('document_date')->nullable();
             $table->date('event_date')->nullable();

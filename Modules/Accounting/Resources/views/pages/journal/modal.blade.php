@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"></h4>
@@ -27,23 +27,6 @@
                                     <span class="input-group-addon">Date</span>
                                     <input type="text" class="transaction_date form-control @error('transaction_date') is-invalid @enderror" name="transaction_date" id="transaction_date" readonly="true" required>
                                     <div class="invalid-feedback-transaction_date text-danger font-italic"></div>
-                                </div>
-                            </div>  
-                            
-                            <div class="form-group row" id="valid_until_date">
-                                <label class="col-sm-5 d-flex align-items-center">Valid Until Date</label>
-                                <div class="col-md-7 input-group date">
-                                    <span class="input-group-addon">Date</span>
-                                    <input type="text" class="valid_until_date form-control @error('valid_until_date') is-invalid @enderror" name="valid_until_date" id="valid_until_date" readonly="true" required>
-                                    <div class="invalid-feedback-valid_until_date text-danger font-italic"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Supplier</label>
-                                <div class="col-sm-7">
-                                    <select class="supplier_id form-control @error('supplier_id') is-invalid @enderror" id="supplier_id" name="supplier_id"></select>
-                                    <div class="invalid-feedback-supplier_id text-danger font-italic"></div>
                                 </div>
                             </div>
         

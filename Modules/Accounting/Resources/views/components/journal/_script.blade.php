@@ -8,21 +8,53 @@ $(document).ready(function () {
     var tableId = '#journal-table';
     var inputFormId = '#inputForm';
 
+    $('#journal-table thead tr').clone(true).appendTo('#journal-table thead');
+    $('#journal-table thead tr:eq(1) th').each( function (i) {
+        if ($(this).text() != 'Action') {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search" class="form-control" />');
+    
+            $('input', this).on('keypress', function (e) {
+                if(e.which == 13) {
+                    if (datatableObject.column(i).search() !== this.value) {
+                        datatableObject
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                }
+            });
+        }
+        else {
+            $(this).html('&nbsp;');
+        }
+    });
+
     var datatableObject = $(tableId).DataTable({
         searchDelay: 1500,
         pageLength: 50,
         processing: true,
         serverSide: false,
+        orderCellsTop: true,
+        order: [ 10, "desc" ],
         ajax: {
             url: "{{ route('accounting.journal.index') }}",
         },
         columns: [
             { data: 'code', defaultContent: '-' },
             { data: 'transaction_date', defaultContent: '-' },
+            { data: 'type', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'current_primary_currency.code', defaultContent: '-' },
             { data: 'currency.code', defaultContent: '-' },
-            { data: 'exchange_rate', defaultContent: '-' },
+            { data: 'exchange_rate',
+                "render": function ( data, type, row, meta ) {
+                    return formatNumber(row.exchange_rate);
+                }},
+            { data: 'total_amount', 
+                "render": function ( data, type, row, meta ) {
+                    return formatNumber(row.total_amount);
+                }},
             { data: 'reference', defaultContent: '-' },
             // { data: 'status', defaultContent: '-' },
             { data: 'creator_name', defaultContent: '-' },
@@ -136,21 +168,77 @@ $(document).ready(function () {
 
 
     $(inputFormId).on('submit', function (event) {
-        submitButtonProcess (tableId, inputFormId); 
+        event.preventDefault();
+        let url_action = $(inputFormId).attr('action');
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $(
+                    'meta[name="csrf-token"]'
+                ).attr("content")
+            },
+            url: url_action,
+            method: "POST",
+            data: $(inputFormId).serialize(),
+            dataType: 'json',
+            beforeSend:function(){
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'start' );
+                $('[class^="invalid-feedback-"]').html('');
+                $('#saveBtn').prop('disabled', true);
+            },
+            error: function(data){
+                let errors = data.responseJSON.errors;
+                if (errors) {
+                    $.each(errors, function (index, value) {
+                        $('div.invalid-feedback-'+index).html(value);
+                    })
+                }
+            },
+            success: function (data) {
+                if (data.success) {
+                    generateToast ('success', data.success);                            
+                }
+                $('#inputModal').modal('hide');
+                $(targetTableId).DataTable().ajax.reload();
+
+                setTimeout(function () {
+                    window.location.href = "journal/" + data.id;
+                }, 2000);
+            },
+            complete: function () {
+                let l = $( '.ladda-button-submit' ).ladda();
+                l.ladda( 'stop' );
+                $('#saveBtn'). prop('disabled', false);
+            }
+        }); 
     });
 
-
-
-
-
-
-
-
-
-
-
-
     deleteButtonProcess (datatableObject, tableId, actionUrl);
+
+    approveButtonProcess (datatableObject, tableId, actionUrl);
+
+
+
+
+
+
+    function exchange_rate_validation () {
+        if ($('.current_primary_currency_id').val() == $('.currency_id').val()) {
+            $("#exchange_rate").val(1);
+            $('#exchange_rate').attr('readonly', true);
+        }
+        else {
+            $('#exchange_rate').attr('readonly', false);
+        }
+    }
+
+    $('.current_primary_currency_id').on('change', function (e) {
+        exchange_rate_validation ();
+    });
+
+    $('.currency_id').on('change', function (e) {
+        exchange_rate_validation ();
+    });
 });
 </script>
 @endpush

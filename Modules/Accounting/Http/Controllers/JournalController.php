@@ -59,10 +59,21 @@ class JournalController extends Controller
                     return "-";
                 }
             })
-            ->addColumn('creator_name', function($row){
+            ->addColumn('type', function($row) {
+                if ($row->transaction_reference_text) {
+                    return $row->transaction_reference_text;
+                }
+                else {
+                    return 'Manual Journal Entry';
+                }
+            })
+            ->addColumn('total_amount', function($row) {
+                return '-';
+            })
+            ->addColumn('creator_name', function($row) {
                 return $row->creator->name ?? '-';
             })
-            ->addColumn('updater_name', function($row){
+            ->addColumn('updater_name', function($row) {
                 return $row->updater->name ?? '-';
             })
             // ->addColumn('total_price_before_tax', function($row){
@@ -71,7 +82,7 @@ class JournalController extends Controller
             // ->addColumn('total_price_after_tax', function($row){
             //     return PurchaseOrderPrice::totalPriceAfterTax($row->id);
             // })
-            ->addColumn('action', function($row){
+            ->addColumn('action', function($row) {
                 $noAuthorize = true;
                 $updateable = null;
                 $updateValue = null;
@@ -111,7 +122,7 @@ class JournalController extends Controller
             ->escapeColumns([])
             ->make(true);
         }
-        return view('procurement::pages.journal.index');
+        return view('accounting::pages.journal.index');
     }
 
     public function store(Request $request)

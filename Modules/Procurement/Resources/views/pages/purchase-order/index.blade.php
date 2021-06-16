@@ -29,7 +29,7 @@
             <th>Remark</th>
             <th>Transaction Reference</th>
             <th>Current Primary/Local Currency</th>
-            <th>Currency</th>
+            <th>Transaction Currency</th>
             <th>Exchange Rate</th>
             <th>Total Before Tax</th>
             <th>Total After Tax</th>
