@@ -5,7 +5,7 @@ namespace Modules\Accounting\Http\Controllers;
 use Modules\Accounting\Entities\Journal;
 use Modules\Accounting\Entities\JournalDetail;
 
-// use app\Helpers\SupplyChain\ItemStockChecker;
+use app\Helpers\Accounting\JournalProcess;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;

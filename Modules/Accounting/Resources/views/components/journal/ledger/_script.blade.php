@@ -21,8 +21,15 @@ $(document).ready(function () {
             };
  
             // Total over all pages
-            total = api
-                .column( 13 )
+            totalDebit = api
+                .column( 2 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+
+            totalCredit = api
+                .column( 3 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -37,8 +44,11 @@ $(document).ready(function () {
             //     }, 0 );
  
             // Update footer
+            $( api.column( 2 ).footer() ).html(
+                formatNumber(totalDebit)
+            );
             $( api.column( 3 ).footer() ).html(
-                formatNumber(total)
+                formatNumber(totalCredit)
             );
         },
         pageLength: 25,

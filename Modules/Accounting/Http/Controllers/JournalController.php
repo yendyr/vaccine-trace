@@ -5,6 +5,8 @@ namespace Modules\Accounting\Http\Controllers;
 use Modules\Accounting\Entities\Journal;
 use Modules\Accounting\Entities\JournalDetail;
 
+use app\Helpers\Accounting\JournalProcess;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +70,7 @@ class JournalController extends Controller
                 }
             })
             ->addColumn('total_amount', function($row) {
-                return '-';
+                return JournalProcess::totalDebit($row->id);
             })
             ->addColumn('creator_name', function($row) {
                 return $row->creator->name ?? '-';
