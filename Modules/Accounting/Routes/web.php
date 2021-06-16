@@ -34,5 +34,7 @@ Route::name('accounting.')->group(function () {
             Route::get('item', [Modules\SupplyChain\Http\Controllers\ItemController::class, 'index_accounting'])->name('index_accounting');
             Route::patch('item/{item}', [Modules\SupplyChain\Http\Controllers\ItemController::class, 'update_accounting'])->name('update_accounting');
         });
+
+        Route::resource('/journal', 'JournalController');
     });
 }); 
