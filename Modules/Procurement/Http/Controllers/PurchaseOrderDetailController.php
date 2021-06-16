@@ -125,6 +125,7 @@ class PurchaseOrderDetailController extends Controller
                                     ->get();
         $response = [];
         foreach($datas as $data) {
+            dd($data);
             if ($data->purchase_requisition_detail->parent_coding) {
                 $parent = $data->purchase_requisition_detail->parent_coding;
             }
