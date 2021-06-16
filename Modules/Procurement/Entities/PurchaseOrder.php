@@ -83,7 +83,7 @@ class PurchaseOrder extends MainModel
         parent::boot();
 
         static::deleting(function($PurchaseOrder) {
-            $PurchaseOrder->purchase_order_details()->delete(); 
+            // $PurchaseOrder->purchase_order_details()->delete(); 
             $PurchaseOrder->approvals()->delete(); 
         });
     }
