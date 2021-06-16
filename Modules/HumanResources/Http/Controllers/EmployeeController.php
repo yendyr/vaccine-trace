@@ -175,6 +175,8 @@ class EmployeeController extends Controller
             $orgcodeOst[] = $rowOst->orgcode;
         }
         //get if orgcode in Organization Structure Title contains orgcode in $query Organization Structure
+        $orgcodes = [];
+        $orgnames = [];
         foreach ($queryOs as $i => $rowOs) {
             if (in_array($rowOs->orgcode, $orgcodeOst)){
                 $orgcodes[$i] = $rowOs->orgcode;
@@ -200,19 +202,22 @@ class EmployeeController extends Controller
             if($search != ''){
                 $query = $query->where('titlecode', 'like', '%' .$search. '%');
             }
-        }
-        $results = $query->distinct()->get();
 
-        $titles = [
-            'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
-        ];
-        $response = [];
-        foreach($results as $result){
-            $response['results'][] = [
-                "id"=>$result->titlecode,
-                "text"=>($titles[$result->titlecode-1])
+            $results = $query->distinct()->get();
+
+            $titles = [
+                'Kepala', 'Wakil kepala', 'Anggota', 'Staff', 'Operator'
             ];
-        };
+            $response = [];
+            foreach($results as $result){
+                $response['results'][] = [
+                    "id"=>$result->titlecode,
+                    "text"=>($titles[$result->titlecode-1])
+                ];
+            };
+        }else{
+            $response = null;
+        }
 
         return response()->json($response);
     }
@@ -225,15 +230,17 @@ class EmployeeController extends Controller
                 ->where('orgcode', $request->orgcode)
                 ->where('titlecode', $request->titlecode)
                 ->where('status', 1)->get();
-        }
 
-        $response = [];
-        foreach($query as $result){
-            $response['results'][] = [
-                "id"=>$result->jobtitle,
-                "text"=>$result->jobtitle
-            ];
-        };
+            $response = [];
+            foreach($query as $result){
+                $response['results'][] = [
+                    "id"=>$result->jobtitle,
+                    "text"=>$result->jobtitle
+                ];
+            };
+        }else{
+            $response = null;
+        }
 
         return response()->json($response);
     }
@@ -242,15 +249,16 @@ class EmployeeController extends Controller
         if (isset($request->orgcode)){
             $query = OrganizationStructure::select('orglevel')->where('orgcode', $request->orgcode)
                 ->where('status', 1)->first();
+            $orglevels = [
+                'Direksi', 'General', 'Divisi', 'Bagian', 'Seksi', 'Regu', 'Grup'
+            ];
+            $response['results'][] = [
+                "id"=>$query->orglevel,
+                "text"=>$orglevels[$query->orglevel-1]
+            ];
+        }else{
+            $response = null;
         }
-
-        $orglevels = [
-            'Direksi', 'General', 'Divisi', 'Bagian', 'Seksi', 'Regu', 'Grup'
-        ];
-        $response['results'][] = [
-            "id"=>$query->orglevel,
-            "text"=>$orglevels[$query->orglevel-1]
-        ];
 
         return response()->json($response);
     }

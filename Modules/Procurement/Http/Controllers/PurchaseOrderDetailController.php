@@ -73,10 +73,12 @@ class PurchaseOrderDetailController extends Controller
             return $row->updater->name ?? '-';
         })
         ->addColumn('action', function($row) use ($approved) {
-            if ($row->purchase_requisition_detail->parent_coding && $approved == false) {
-                return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
-            }
-            else if ($approved == false) {
+            // if ($row->purchase_requisition_detail->parent_coding && $approved == false) {
+            //     return "<span class='text-info font-italic'>this Item Included with its Parent</span>";
+            // }
+            if ($approved == false) {
+                $deleteable = null;
+                $deleteId = null;
                 $noAuthorize = true;
 
                 if(Auth::user()->can('update', PurchaseOrder::class)) {
@@ -84,7 +86,7 @@ class PurchaseOrderDetailController extends Controller
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', PurchaseOrder::class)) {
+                if(Auth::user()->can('delete', PurchaseOrder::class) && !$row->purchase_requisition_detail->parent_coding) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
@@ -301,15 +303,25 @@ class PurchaseOrderDetailController extends Controller
                                     ->first();
 
         if ($PurchaseOrder->approvals()->count() == 0) {
-            $request->validate([
-                'purchase_order_id' => ['required'],
-                'purchase_requisition_detail_id' => ['required'],
-                'order_quantity' => ['required'],
-                'each_price_before_vat' => ['required'],
-                'vat' => ['required'],
-            ]);
-
             $PurchaseRequisitionDetail = PurchaseRequisitionDetail::where('id', $request->purchase_requisition_detail_id)->first();
+
+            if (!$PurchaseRequisitionDetail->parent_coding) {
+                $request->validate([
+                    'purchase_order_id' => ['required'],
+                    'purchase_requisition_detail_id' => ['required'],
+                    'order_quantity' => ['required'],
+                    'each_price_before_vat' => ['required'],
+                    'vat' => ['required'],
+                ]);
+            }
+            else {
+                $request->validate([
+                    'purchase_order_id' => ['required'],
+                    'purchase_requisition_detail_id' => ['required'],
+                    'each_price_before_vat' => ['required'],
+                    'vat' => ['required'],
+                ]);
+            }
 
             $temp_available_request = ($PurchaseRequisitionDetail->request_quantity + $PurchaseOrderDetail->order_quantity) - ($PurchaseRequisitionDetail->prepared_to_po_quantity + $PurchaseRequisitionDetail->processed_to_po_quantity);
             
@@ -327,15 +339,29 @@ class PurchaseOrderDetailController extends Controller
             $order_quantity_gap = $order_quantity - $PurchaseOrderDetail->order_quantity;
 
             DB::beginTransaction();
-            $PurchaseOrderDetail->update([
-                'required_delivery_date' => $required_delivery_date,
-                'order_quantity' => $order_quantity,
-                'each_price_before_vat' => $request->each_price_before_vat,
-                'vat' => $vat,
-                'description' => $request->order_remark,
-
-                'updated_by' => Auth::user()->id,
-            ]);
+            if (!$PurchaseRequisitionDetail->parent_coding) {
+                $PurchaseOrderDetail->update([
+                    'required_delivery_date' => $required_delivery_date,
+                    'order_quantity' => $order_quantity,
+                    'each_price_before_vat' => $request->each_price_before_vat,
+                    'vat' => $vat,
+                    'description' => $request->order_remark,
+    
+                    'updated_by' => Auth::user()->id,
+                ]);
+                // if (sizeof($childRow->all_childs) > 0) {
+                //     Self::pickChildsForPurchaseOrder($childRow, $purchase_order_id, $required_delivery_date);
+                // }
+            }
+            else {
+                $PurchaseOrderDetail->update([
+                    'each_price_before_vat' => $request->each_price_before_vat,
+                    'vat' => $vat,
+                    'description' => $request->order_remark,
+    
+                    'updated_by' => Auth::user()->id,
+                ]);
+            }
             $PurchaseRequisitionDetail->update([
                 'prepared_to_po_quantity' => $PurchaseRequisitionDetail->prepared_to_po_quantity + $order_quantity_gap,
             ]);
@@ -347,6 +373,19 @@ class PurchaseOrderDetailController extends Controller
             return response()->json(['error' => "This Purchase Order and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
+
+    // public static function updateChildsForPurchaseOrder($PurchaseOrderDetail, $required_delivery_date)
+    // {
+    //     foreach($PurchaseOrderDetail->purchase_requisition_detail->all_childs as $childRow) {
+    //         $childRow->update([
+    //             'required_delivery_date' => $required_delivery_date,
+    //             'updated_by' => Auth::user()->id,
+    //         ]);
+    //         if (sizeof($childRow->all_childs) > 0) {
+    //             Self::updateChildsForPurchaseOrder($childRow, $required_delivery_date);
+    //         }
+    //     }
+    // }
 
     public function destroy(PurchaseOrderDetail $PurchaseOrderDetail)
     {

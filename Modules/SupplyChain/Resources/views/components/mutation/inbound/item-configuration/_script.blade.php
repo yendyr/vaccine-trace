@@ -21,7 +21,9 @@ $(document).ready(function () {
             { data: 'purchase_order_data', defaultContent: '-' },
             { data: 'item.code', defaultContent: '-' },
             { data: 'item.name', defaultContent: '-' },
+            { data: 'item.category.name', defaultContent: '-' },
             { data: 'serial_number', defaultContent: '-' },
+            { data: 'parent', defaultContent: '-' },
             { data: 'quantity', 
                 "render": function ( data, type, row, meta ) {
                     return "<span class='label label-primary'>" + row.quantity + '</span>'; 
@@ -31,7 +33,6 @@ $(document).ready(function () {
             { data: 'description', defaultContent: '-' },
             { data: 'detailed_item_location', defaultContent: '-' },
             { data: 'highlighted', defaultContent: '-' },
-            { data: 'parent', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_flight_hour', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_block_hour', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.initial_flight_cycle', defaultContent: '-' },
@@ -39,7 +40,8 @@ $(document).ready(function () {
             { data: 'mutation_detail_initial_aging.initial_start_date', defaultContent: '-' },
             { data: 'mutation_detail_initial_aging.expired_date', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
-            { data: 'creator_name', defaultContent: '-' },
+            // { data: 'qr_code', defaultContent: '-' },
+            // { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]

@@ -26,23 +26,30 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs" id="myTab">
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
                     <li>
                         <a class="nav-link d-flex align-items-center active" data-toggle="tab" href="#tab-1" style="min-height: 50px;" id="tab-header">
                             <i class="text-warning"></i>&nbsp;Working Hour
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-2" style="min-height: 50px;" id="tab-detail">
                             <i class="text-warning"></i>&nbsp;Workhour Detail
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
                     <li>
                         <a class="nav-link d-flex align-items-center" data-toggle="tab" href="#tab-3" style="min-height: 50px;" id="tab-attendance">
                             <i class="text-warning"></i>&nbsp;Workhour Attendance
                         </a>
                     </li>
+                    @endcan
                 </ul>
                 <div class="tab-content">
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHour::class)
                     <div id="tab-1" class="tab-pane active">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -50,6 +57,8 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHourDetail::class)
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -57,6 +66,8 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
+                    @can('viewAny', \Modules\HumanResources\Entities\WorkingHourAttendance::class)
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body" style="min-height: 500px;">
                             <div class="row m-b">
@@ -64,6 +75,7 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
                 </div>
             </div>
         </div>

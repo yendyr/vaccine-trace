@@ -20,14 +20,15 @@
         <th>PO Transaction Code</th>
         <th>Item Code/PN</th>
         <th>Item Name</th>
+        <th>Item Category</th>
         <th>Serial Number</th>
+        <th>Parent Item</th>
         <th>Inbound Qty</th>
         <th>UoM</th>
         <th>Alias Name</th>
         <th>Remark</th>
         <th>Detailed Location</th>
         <th>Highlighted Item</th>
-        <th>Parent Item</th>
         <th>Initial FH</th>
         <th>Initial Block Hour</th>
         <th>Initial FC</th>
@@ -35,9 +36,14 @@
         <th>Initial Start Date</th>
         <th>Expired Date</th>
         {{-- <th>Status</th> --}}
-        <th>Created By</th>
+        {{-- <th>Print QR</th> --}}
+        {{-- <th>Created By</th> --}}
         <th>Created At</th>
-        <th>Action</th>
+        @if($MutationInbound->approvals()->count() == 0)
+            <th>Action</th>
+        @else
+            <th>Print QR Code</th>
+        @endif
     @endslot
     @endcomponent
 </div>
