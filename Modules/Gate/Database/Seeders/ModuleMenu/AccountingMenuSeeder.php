@@ -77,5 +77,25 @@ class AccountingMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        Menu::create([
+            'menu_link' => 'accounting/journal',
+            'menu_text' => 'Journal',
+            'menu_route' => 'accounting.journal.index',
+            'menu_icon' => 'fa-tasks',
+            'menu_class' => 'Modules\Accounting\Entities\Journal',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['accounting/journal', 'accounting/journal/*']),
+            'group' => 'Accounting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }
