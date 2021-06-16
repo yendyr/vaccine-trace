@@ -17,7 +17,7 @@ class CreateJournalApprovalsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
 
-            $table->string('purchase_order_id');
+            $table->string('journal_id');
             $table->string('approval_notes');
 
             $table->rememberToken();

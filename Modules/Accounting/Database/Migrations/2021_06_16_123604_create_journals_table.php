@@ -21,6 +21,7 @@ class CreateJournalsTable extends Migration
             $table->date('transaction_date');
             $table->date('document_date')->nullable();
             $table->date('event_date')->nullable();
+            $table->string('description')->nullable();
 
             $table->string('current_primary_currency_id');
             $table->string('currency_id');

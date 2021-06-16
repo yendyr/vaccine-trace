@@ -46,10 +46,15 @@ class PurchaseOrderDetailController extends Controller
                                         'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding']);
                                         
         return Datatables::of($data)
-        ->addColumn('purchase_requisition_data', function($row){
-            return "<a href='/procurement/purchase-requisition/" . 
-            $row->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . 
-            $row->purchase_requisition_detail->purchase_requisition->code . '</a>';
+        ->addColumn('purchase_requisition_data', function($row) {
+            if ($row->purchase_requisition_detail) {
+                return "<a href='/procurement/purchase-requisition/" . 
+                $row->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . 
+                $row->purchase_requisition_detail->purchase_requisition->code . '</a>';
+            }
+            else {
+                return '-';
+            }
         })
         ->addColumn('available_stock', function($row){
             return ItemStockChecker::usable_item(null, $row->purchase_requisition_detail->item->code);
