@@ -495,7 +495,7 @@ class JobCardController extends Controller
         }
 
         // update HEADER status row if still open
-        if ($job_card->transaction_status == array_search('open', $job_card_transaction_status)) {
+        if ($job_card->transaction_status == array_search('open', $job_card_transaction_status) || $job_card->transaction_status == array_search('pending', $job_card_transaction_status)) {
             if( $job_card->is_exec_all ) {
                 $status = 'progress';
             }else{
