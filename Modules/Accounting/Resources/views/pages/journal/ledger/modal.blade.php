@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"></h4>
@@ -23,14 +23,14 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Debit ({{ $Journal->currency->code }})</label>
+                                <label class="col-sm-5 d-flex align-items-center">Debit&nbsp;<b>({{ $Journal->currency->code }})</b></label>
                                 <div class="col input-group">
                                     <input type="number" min="1" class="form-control @error('debit') is-invalid @enderror" name="debit" id="debit">
                                     <div class="invalid-feedback-debit text-danger font-italic"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 d-flex align-items-center">Credit ({{ $Journal->currency->code }})</label>
+                                <label class="col-sm-5 d-flex align-items-center">Credit&nbsp;<b>({{ $Journal->currency->code }})</b></label>
                                 <div class="col input-group">
                                     <input type="number" min="1" class="form-control @error('credit') is-invalid @enderror" name="credit" id="credit">
                                     <div class="invalid-feedback-credit text-danger font-italic"></div>

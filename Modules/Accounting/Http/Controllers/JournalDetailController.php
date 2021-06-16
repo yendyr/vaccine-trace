@@ -87,15 +87,18 @@ class JournalDetailController extends Controller
 
         if ($Journal->approvals()->count() == 0) {
             $request->validate([
+                'journal_id' => ['required'],
+                'coa_id' => ['required'],
                 'debit' => ['required_without_all:credit'],
                 'credit' => ['required_without_all:debit'],
             ]);
     
             DB::beginTransaction();
-            $Journal = Journal::create([
+            $JournalDetail = JournalDetail::create([
                 'uuid' =>  Str::uuid(),
     
                 'journal_id' => $request->journal_id,
+                'coa_id' => $request->coa_id,
                 'debit' => $request->debit,
                 'credit' => $request->credit,
                 'description' => $request->description,

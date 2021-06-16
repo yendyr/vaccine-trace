@@ -35,10 +35,10 @@
             @endif --}}
         @endslot
 
-        {{-- @slot('tableFooter')
-            <th colspan="13" style="text-align:right" class="text-danger">Total ({{ $Journal->currency->code }}):</th>
+        @slot('tableFooter')
+            <th colspan="3" style="text-align:right" class="text-danger">Total ({{ $Journal->currency->code }}):</th>
             <th class="text-danger"></th>
-        @endslot --}}
+        @endslot
     @endcomponent
 </div>
 

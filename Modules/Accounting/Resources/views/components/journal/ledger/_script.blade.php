@@ -9,6 +9,38 @@ $(document).ready(function () {
     var inputFormId = '#inputForm';
 
     var datatableObject = $(tableId).DataTable({
+        footerCallback: function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 13 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            // pageTotal = api
+            //     .column( 12, { page: 'current'} )
+            //     .data()
+            //     .reduce( function (a, b) {
+            //         return intVal(a) + intVal(b);
+            //     }, 0 );
+ 
+            // Update footer
+            $( api.column( 3 ).footer() ).html(
+                formatNumber(total)
+            );
+        },
         pageLength: 25,
         processing: true,
         serverSide: false,
@@ -22,11 +54,21 @@ $(document).ready(function () {
             { data: 'coa.name', defaultContent: '-' },
             { data: 'debit', 
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.debit);
+                    if (row.debit != null) {
+                        return formatNumber(row.debit);
+                    }
+                    else {
+                        return '-';
+                    }
                 }},
             { data: 'credit',
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.credit);
+                    if (row.credit != null) {
+                        return formatNumber(row.credit);
+                    }
+                    else {
+                        return '-';
+                    }
                 }},
             { data: 'description', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
@@ -120,6 +162,20 @@ $(document).ready(function () {
 
 
     deleteButtonProcess (datatableObject, tableId, actionUrl);
+
+
+
+
+
+
+    
+    $('#debit').on('input', function (e) {
+        $('#credit').val(null);
+    });
+
+    $('#credit').on('input', function (e) {
+        $('#debit').val(null);
+    });
 });
 </script>
 @endpush
