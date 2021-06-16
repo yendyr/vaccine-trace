@@ -41,8 +41,14 @@ $(document).ready(function () {
             url: "{{ route('accounting.journal.index') }}",
         },
         columns: [
-            { data: 'code', defaultContent: '-' },
-            { data: 'transaction_date', defaultContent: '-' },
+            { data: 'code', 
+                "render": function ( data, type, row, meta ) {
+                return '<a href="journal/' + row.id + '">' + row.code + '</a>'; 
+                }},
+            { data: 'transaction_date',
+                "render": function ( data, type, row, meta ) {
+                return '<a href="journal/' + row.id + '">' + row.transaction_date + '</a>'; 
+                }},
             { data: 'type', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
             { data: 'current_primary_currency.code', defaultContent: '-' },
