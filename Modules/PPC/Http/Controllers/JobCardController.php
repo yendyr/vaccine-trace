@@ -112,7 +112,12 @@ class JobCardController extends Controller
                     $query->where('tags_json' ,'LIKE', "%".$keyword."%");
                 })
                 ->filterColumn('taskcard_type_json', function($query, $keyword) {
-                    $query->where('taskcard_type_json' ,'LIKE', "%".$keyword."%");
+                    // case insensitive
+                    $sql = "LOWER(taskcard_type_json) like ?";
+                    $query->whereRaw($sql, [ strtolower("%{$keyword}%")]);
+
+                    // case sensitive
+                    // $query->where('taskcard_type_json' ,'LIKE', "%".$keyword."%");
                 })
                 ->filterColumn('transaction_status', function($query, $keyword) {
                     $status = array_search(strtolower($keyword), config('ppc.job-card.transaction-status'));
@@ -124,7 +129,11 @@ class JobCardController extends Controller
                 })
                 ->filterColumn('skills', function($query, $keyword) {
                     $query->whereHas('details', function($subquery) use ($keyword) {
-                        $subquery->where('skills_json','LIKE', "%".$keyword."%");
+                        $sql = "LOWER(skills_json) like ?";
+                        $subquery->whereRaw($sql, [ strtolower("%{$keyword}%")]);
+
+                        // case sensitive
+                        // $subquery->where('skills_json','LIKE', "%".$keyword."%");
                     });
                 })
                 ->filterColumn('description', function($query, $keyword) {
