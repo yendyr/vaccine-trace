@@ -44,8 +44,8 @@ $(document).ready(function () {
             $(".text-notes").text("This Action Will Execute all Detailed Instructions in this Taskcard");
         }
 
-        $(".input-notes").hide();
-        $("#notes").attr("required", false);
+        $(".input-notes").show();
+        $("#notes").attr("required", true);
 
         showExecuteModal(actionHref, next_status, detail_id);
     });
