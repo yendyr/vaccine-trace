@@ -79,7 +79,7 @@
 		</div>
 	</section>
     <br>
-    <p class="w-100 text-center text-white">Your Aircraft Reliability, Starts Here! One Stop Solutions and Services for Aviation System. <br><a href="https://smartaircraft.id">© {{date('Y')}} Smartaircraft.id</a></p>
+    <p class="w-100 text-center text-white">Your Aircraft Reliability, Starts Here! One Stop Solutions and Services for Aviation System. <br><a target="_blank" href="https://smartaircraft.id">© {{date('Y')}} Smartaircraft.ID</a></p>
 
     <!-- jQuery -->
     <script src="{{URL::asset('theme/js/jquery.min.js')}}"></script>
