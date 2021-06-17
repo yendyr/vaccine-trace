@@ -105,7 +105,7 @@ body {
     background-color: #fff;
     border-color: #80bdff;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.1);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.2);
 }
 
 .select2-container--bootstrap4.select2-container--focus .select2-selection {
