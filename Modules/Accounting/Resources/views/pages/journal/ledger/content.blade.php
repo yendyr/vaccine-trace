@@ -39,6 +39,7 @@
             <th colspan="2" style="text-align:right" class="text-danger">Total ({{ $Journal->currency->code }}):</th>
             <th class="text-danger"></th>
             <th class="text-danger"></th>
+            <th class="text-danger text-left"></th>
         @endslot
     @endcomponent
 </div>

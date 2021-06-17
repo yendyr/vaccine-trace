@@ -18,7 +18,7 @@ class JournalApproval extends MainModel
     protected $fillable = [
         'uuid',
 
-        'purchase_order_id',
+        'journal_id',
         'approval_notes',
         
         'status',

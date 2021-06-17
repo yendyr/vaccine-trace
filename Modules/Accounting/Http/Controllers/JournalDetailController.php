@@ -83,7 +83,8 @@ class JournalDetailController extends Controller
 
     public function store(Request $request)
     {
-        $Journal = Journal::where('id', $request->journal_id)->first();
+        $journal_id = $request->journal_id;
+        $Journal = Journal::where('id', $journal_id)->first();
 
         if ($Journal->approvals()->count() == 0) {
             $request->validate([
@@ -92,183 +93,78 @@ class JournalDetailController extends Controller
                 'debit' => ['required_without_all:credit'],
                 'credit' => ['required_without_all:debit'],
             ]);
-    
-            DB::beginTransaction();
-            $JournalDetail = JournalDetail::create([
-                'uuid' =>  Str::uuid(),
-    
-                'journal_id' => $request->journal_id,
-                'coa_id' => $request->coa_id,
-                'debit' => $request->debit,
-                'credit' => $request->credit,
-                'description' => $request->description,
-    
-                'owned_by' => $request->user()->company_id,
-                'status' => 1,
-                'created_by' => $request->user()->id,
-            ]);
-            DB::commit();
-    
-            return response()->json(['success' => 'Ledger Detail has been Added']);
+
+            if (!JournalDetail::where('journal_id', '=', $journal_id)->where('coa_id', '=', $request->coa_id)->exists()) {
+                JournalDetail::create([
+                    'uuid' =>  Str::uuid(),
+        
+                    'journal_id' => $journal_id,
+                    'coa_id' => $request->coa_id,
+                    'debit' => $request->debit,
+                    'credit' => $request->credit,
+                    'description' => $request->description,
+        
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => $request->user()->id,
+                ]);
+                return response()->json(['success' => 'Ledger Detail has been Added']);
+            }
+            else {
+                return response()->json(['error' => "Selected COA Already Exists in this Journal, Choose Another COA"]);
+            }
         }
         else {
             return response()->json(['error' => "This Journal and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
-    public function update(Request $request, PurchaseRequisitionDetail $PurchaseRequisitionDetail)
+    public function update(Request $request, JournalDetail $JournalDetail)
     {
-        $currentRow = PurchaseRequisitionDetail::where('id', $PurchaseRequisitionDetail->id)
-                                        ->with('all_childs')
-                                        ->first();
+        $journal_id = $JournalDetail->journal_id;
+        $Journal = Journal::where('id', $journal_id)->first();
 
-        $PurchaseRequisition = PurchaseRequisition::where('id', $currentRow->purchase_requisition_id)->first();
-
-        if ($PurchaseRequisition->approvals()->count() == 0) {
+        if ($Journal->approvals()->count() == 0) {
             $request->validate([
-                'item_id' => ['required'],
+                'journal_id' => ['required'],
+                'coa_id' => ['required'],
+                'debit' => ['required_without_all:credit'],
+                'credit' => ['required_without_all:debit'],
             ]);
 
-            if($request->quantity > 1) {
-                if (sizeof($currentRow->all_childs) > 0) {
-                    return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Set Quantity Larger than 1"]);
-                }
-                else {
-                    $quantity = $request->quantity;
-                    // $serial_number = null;
-                }
-            }
-            else {
-                $quantity = 1;
-                // $serial_number = $request->serial_number;
-            }
+            if (!JournalDetail::where('journal_id', '=', $journal_id)->where('coa_id', '=', $request->coa_id)->where('id', '<>', $JournalDetail->id)->exists()) {
+                $JournalDetail->update([
+                    'coa_id' => $request->coa_id,
+                    'debit' => $request->debit,
+                    'credit' => $request->credit,
+                    'description' => $request->description,
 
-            // if ($request->highlight) {
-            //     $highlight = 1;
-            // } 
-            // else {
-            //     $highlight = 0;
-            // }
-    
-            $parent_coding = null;
-            
-            if ($request->parent_coding) {
-                if (Self::isValidParent($currentRow, $request->parent_coding)) {
-                    if ($request->parent_coding != $currentRow->coding) {
-                        $parent_coding = $request->parent_coding;
-                        // $parentRow = PurchaseRequisitionDetail::where('coding', $parent_coding)->first();
-                        // $detailed_item_location = $parentRow->detailed_item_location;
-                    }
-                }
-                else {
-                    return response()->json(['error' => "The Choosen Parent is Already in Child of this Item"]);
-                }
-            }
-    
-            DB::beginTransaction();
-            $currentRow->update([
-                'item_id' => $request->item_id,
-                'request_quantity' => $request->quantity,
-                'description' => $request->description,
-                'parent_coding' => $parent_coding,
-
-                'updated_by' => Auth::user()->id,
-            ]);
-            // if (sizeof($currentRow->all_childs) > 0) {
-            //     Self::updateChilds($currentRow, $detailed_item_location);
-            // }
-            
-            DB::commit();
-            
-            return response()->json(['success' => 'Item/Component Data has been Updated']);
-        }
-        else {
-            return response()->json(['error' => "This Purchase Requisition and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
-        }
-    }
-
-    // public static function updateChilds($currentRow, $detailed_item_location)
-    // {
-    //     foreach($currentRow->all_childs as $childRow) {
-    //         $childRow->update([
-    //             'detailed_item_location' => $detailed_item_location,
-    //             'updated_by' => Auth::user()->id,
-    //         ]);
-    //         if (sizeof($childRow->all_childs) > 0) {
-    //             Self::updateChilds($childRow, $detailed_item_location);
-    //         }
-    //     }
-    // }
-
-    public static function isValidParent($currentRow, $parent_coding)
-    {
-        $isValid = true;
-        foreach($currentRow->all_childs as $childRow) {
-            if ($parent_coding == $childRow->coding) {
-                $isValid = false;
-                return $isValid;
-                break;
-            }
-            else if (sizeof($childRow->all_childs) > 0) {
-                Self::isValidParent($childRow, $parent_coding);
-            }
-        }
-        return $isValid;
-    }
-
-    public function destroy(PurchaseRequisitionDetail $PurchaseRequisitionDetail)
-    {
-        $currentRow = PurchaseRequisitionDetail::where('id', $PurchaseRequisitionDetail->id)
-                                        ->with(['all_childs'])
-                                        ->first();
-
-        $PurchaseRequisition = PurchaseRequisition::where('id', $currentRow->purchase_requisition_id)->first();
-
-        if ($PurchaseRequisition->approvals()->count() == 0) {
-            if (sizeof($currentRow->all_childs) > 0) {
-                return response()->json(['error' => "This Item/Component has Child(s) Item, You Can't Directly Delete this Item/Component"]);
-            }
-            else {
-                $currentRow
-                ->update([
-                    'deleted_by' => Auth::user()->id,
+                    'updated_by' => $request->user()->id,
                 ]);
-                PurchaseRequisitionDetail::destroy($PurchaseRequisitionDetail->id);
-                return response()->json(['success' => 'Item/Component Data has been Deleted']);
+                return response()->json(['success' => 'Ledger Detail has been Updated']);
+            }
+            else {
+                return response()->json(['error' => "Selected COA Already Exists in this Journal, Choose Another COA"]);
             }
         }
         else {
-            return response()->json(['error' => "This Purchase Requisition and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+            return response()->json(['error' => "This Journal and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
     }
 
-    public function select2Parent(Request $request)
+    public function destroy(JournalDetail $JournalDetail)
     {
-        $search = $request->term;
-        $purchase_requisition_id = $request->purchase_requisition_id;
+        $Journal = Journal::where('id', $JournalDetail->journal_id)->first();
 
-        if($search != '') {
-            $PurchaseRequisitionDetails = PurchaseRequisitionDetail::with(['item' => function($q) use ($search) {
-                                            $q->where('items.code', 'like', '%' .$search. '%')
-                                            ->orWhere('items.name', 'like', '%' .$search. '%');
-                                        }])
-                                        ->whereHas('item', function($q) use ($search) {
-                                            $q->where('items.code', 'like', '%' .$search. '%')
-                                            ->orWhere('items.name', 'like', '%' .$search. '%');
-                                        })
-                                        ->where('purchase_requisition_id', $purchase_requisition_id)
-                                        ->where('request_quantity', 1)
-                                        ->get();
+        if ($Journal->approvals()->count() == 0) {
+            $JournalDetail->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            JournalDetail::destroy($JournalDetail->id);
+            return response()->json(['success' => 'Ledger Detail has been Deleted']);
         }
-
-        $response = [];
-        foreach($PurchaseRequisitionDetails as $PurchaseRequisitionDetail){
-            $response['results'][] = [
-                "id" => $PurchaseRequisitionDetail->coding,
-                "text" => $PurchaseRequisitionDetail->item->code . ' | ' . 
-                $PurchaseRequisitionDetail->item->name
-            ];
+        else {
+            return response()->json(['error' => "This Journal and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
         }
-        return response()->json($response);
     }
 }
