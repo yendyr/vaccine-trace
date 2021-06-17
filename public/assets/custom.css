@@ -179,7 +179,7 @@ body {
     background: #eee;
     background: -moz-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 100%);
     /* background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(239, 197, 202, 1)), color-stop(100%, rgba(239, 197, 202, 1))); */
-    background: -webkit-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 100%);
+    background: -webkit-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 85%, #ddd 86%, #ddd 100%);
     background: -o-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 100%);
     background: -ms-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 100%);
     /* background: linear-gradient(135deg, rgba(186, 39, 55, 1) 0%, rgba(186, 39, 55, 1) 51%, rgba(239, 197, 202, 1) 51%, rgba(239, 197, 202, 1) 100%);
