@@ -8,8 +8,7 @@
     <div class="col">   
         <p  class="m-t-none m-b-none">Transaction Code:</p>         
         <p class="m-t-none font-bold">{{ $Journal->code ?? '' }}</p>
-    </div>
-    <div class="col">
+
         <p  class="m-t-none m-b-none">Transaction Date:</p>
         <p class="m-t-none font-bold">{{ Carbon\Carbon::parse($Journal->transaction_date)->format('Y-F-d') ?? '-' }}</p>
     </div>
@@ -26,7 +25,7 @@
     </div>
     <div class="col">
         <p  class="m-t-none m-b-none">Remark:</p>
-        <h3 class="m-t-none font-bold">{{ $Journal->description ?? '' }}</h3>
+        <p class="m-t-none font-bold">{{ $Journal->description ?? '' }}</p>
     </div>
 </div>
 
@@ -66,15 +65,6 @@
 
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')
-    {{-- <style>
-        thead input {
-            width: 100%;
-        }
-        tr.group,
-        tr.group:hover {
-            background-color: #aaa !important;
-        }
-    </style> --}}
 @endpush
 
 @push('footer-scripts')

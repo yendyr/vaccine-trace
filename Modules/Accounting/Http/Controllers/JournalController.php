@@ -35,7 +35,7 @@ class JournalController extends Controller
                                 'currency:id,code,symbol,name']);
 
             return Datatables::of($data)
-            ->addColumn('reference', function($row){
+            ->addColumn('reference', function($row) {
                 if ($row->purchase_order_details) {
                     $referenceCodeArray = array();
                     $reference_code = '';
@@ -79,12 +79,6 @@ class JournalController extends Controller
             ->addColumn('updater_name', function($row) {
                 return $row->updater->name ?? '-';
             })
-            // ->addColumn('total_price_before_tax', function($row){
-            //     return PurchaseOrderPrice::totalPriceBeforeTax($row->id);
-            // })
-            // ->addColumn('total_price_after_tax', function($row){
-            //     return PurchaseOrderPrice::totalPriceAfterTax($row->id);
-            // })
             ->addColumn('action', function($row) {
                 $noAuthorize = true;
                 $updateable = null;
@@ -139,9 +133,6 @@ class JournalController extends Controller
         ]);
 
         $transaction_date = Carbon::parse($request->transaction_date);
-        $valid_until_date = Carbon::parse($request->valid_until_date);
-
-        DB::beginTransaction();
         $Journal = Journal::create([
             'uuid' =>  Str::uuid(),
 
@@ -164,7 +155,6 @@ class JournalController extends Controller
         $Journal->update([
             'code' => $code
         ]);
-        DB::commit();
     
         return response()->json(['success' => 'Journal Data has been Saved',
                                     'id' => $Journal->id]);
@@ -186,9 +176,7 @@ class JournalController extends Controller
                 'description' => ['required'],
             ]);
 
-            $transaction_date = Carbon::parse($request->transaction_date);
-            $valid_until_date = Carbon::parse($request->valid_until_date);
-        
+            $transaction_date = Carbon::parse($request->transaction_date);        
             $Journal->update([
                 'transaction_date' => $transaction_date,
                 'description' => $request->description,
@@ -198,8 +186,7 @@ class JournalController extends Controller
                 'exchange_rate' => $request->exchange_rate,
 
                 'updated_by' => Auth::user()->id,
-            ]);
-            
+            ]);            
             return response()->json(['success' => 'Journal Data has been Updated',
                                         'id' => $Journal->id]);
         }
@@ -210,43 +197,20 @@ class JournalController extends Controller
 
     public function destroy(Journal $Journal)
     {
-        DB::beginTransaction();
-        $Journal->update([
-            'deleted_by' => Auth::user()->id,
-        ]);
-
-        Journal::destroy($Journal->id);
-        DB::commit();
-
-        return response()->json(['success' => 'Journal Data has been Deleted']);
+        if ($Journal->journal_details()->count() > 0) {
+            $Journal->update([
+                'deleted_by' => Auth::user()->id,
+            ]);
+            Journal::destroy($Journal->id);
+            return response()->json(['success' => 'Journal Data has been Deleted']);
+        }
+        else {
+            return response()->json(['error' => "This Journal and It's Properties Already Approved, You Can't Modify this Data Anymore"]);
+        }
     }
 
     public function approve(Request $request, Journal $Journal)
     {
-        if ($Journal->journal_details()->count() > 0) {
-            if (JournalProcess::isBalance($Journal->id)) {
-                $request->validate([
-                    'approval_notes' => ['required', 'max:30'],
-                ]);
-                
-                JournalApproval::create([
-                    'uuid' =>  Str::uuid(),
-    
-                    'journal_id' =>  $Journal->id,
-                    'approval_notes' =>  $request->approval_notes,
-            
-                    'owned_by' => $request->user()->company_id,
-                    'status' => 1,
-                    'created_by' => Auth::user()->id,
-                ]);
-                return response()->json(['success' => 'Journal Data has been Approved']);
-            }
-            else {
-                return response()->json(['error' => "Debit and Credit not Balance Yet"]);
-            }
-        }
-        else {
-            return response()->json(['error' => "This Journal doesn't Have Any Detail Data"]);
-        }
+        return JournalProcess::approve($request, $Journal);
     }
 }

@@ -346,6 +346,7 @@
 
         $(inputFormId).trigger("reset");
         $('select').not('[name$="_length"]').val(null).trigger('change');
+        $('[class^="invalid-feedback-"]').html('');
     }
 
     function formatNumber(nStr) {
