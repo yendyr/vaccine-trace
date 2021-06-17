@@ -168,10 +168,10 @@ body {
     border-color: #bf0014;
 }
 
-.table-hover tbody tr:hover {
+/* .table-hover tbody tr:hover {
     color: #000;
     background-color: rgb(33 150 243 / 5%);
-}
+} */
 
 div.table-responsive>div.dataTables_wrapper>div.row {
     margin-top: 20px;
@@ -361,3 +361,16 @@ a {
   .nav .current a:after {
     max-width: 60%;
   }
+
+table tbody tr {
+    background: var(--bg);
+    color: var(--color);
+    transition: 1.5s;
+}
+
+.table-hover tbody tr:hover {
+    color: #000;
+    background-color: rgb(33 150 243 / 40%);
+    /* background: var(--info);
+    color: white; */
+}
