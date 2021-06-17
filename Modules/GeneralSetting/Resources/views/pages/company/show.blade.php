@@ -26,7 +26,7 @@
             <div class="profile-image">
                 <label for="logo-input" style="cursor:pointer;" data-toggle="tooltip" title="Change Company Logo">
                     @if($Company->logo)
-                        <img src="{{ URL::asset('uploads/company/' . $Company->id . '/logo/' . $Company->logo) }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
+                        <img src="{{ URL::asset('uploads/company/' . $Company->id . '/logo/' . $Company->logo) }}" class="m-b-md m-t-xs h-100" alt="profile" id="companyLogo">
                     @else
                         <img src="{{ URL::asset('assets/default-company-logo.jpg') }}" class="m-b-md m-t-xs" alt="profile" id="companyLogo">
                     @endif

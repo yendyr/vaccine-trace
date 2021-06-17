@@ -46,7 +46,8 @@
         "files": [
             "app/Helpers/SupplyChain/ItemStockChecker.php",
             "app/Helpers/SupplyChain/ItemStockMutation.php",
-            "app/Helpers/Procurement/PurchaseOrderPrice.php"
+            "app/Helpers/Procurement/PurchaseOrderPrice.php",
+            "app/Helpers/Accounting/JournalProcess.php"
         ],
         "classmap": [
             "database/seeds",

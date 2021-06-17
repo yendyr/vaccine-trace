@@ -1,20 +1,20 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Purchase Order Datalist'])
+    @component('components.delete-modal', ['name' => 'Journal Datalist'])
     @endcomponent
 
-    @component('components.approve-modal', ['name' => 'Purchase Order Datalist'])
+    @component('components.approve-modal', ['name' => 'Journal Datalist'])
     @endcomponent
 
-    @include('procurement::pages.purchase-order.modal')
+    @include('accounting::pages.journal.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Purchase Order Datalist',
-                    'tableId' => 'purchase-order-table'])
+                    'title' => 'Journal Datalist',
+                    'tableId' => 'journal-table'])
 
         @slot('createButton')
-            @can('create', Modules\Procurement\Entities\PurchaseOrder::class)                
+            @can('create', Modules\Accounting\Entities\Journal::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
                 </button>   
@@ -24,15 +24,13 @@
         @slot('tableContent')
             <th>Transaction Code</th>
             <th>Transaction Date</th>
-            <th>Supplier</th>
-            <th>Supplier's Reference</th>
+            <th>Type</th>
             <th>Remark</th>
-            <th>Transaction Reference</th>
             <th>Current Primary/Local Currency</th>
             <th>Transaction Currency</th>
             <th>Exchange Rate</th>
-            <th>Total Before Tax</th>
-            <th>Total After Tax</th>
+            <th>Total Amount</th>
+            <th>Transaction Reference</th>
             <th>Created By</th>
             <th>Created At</th>
             {{-- <th>Last Updated By</th>
@@ -41,7 +39,7 @@
         @endslot
     @endcomponent
 
-    @include('procurement::components.purchase-order._script')
+    @include('accounting::components.journal._script')
 
 @endsection
 
