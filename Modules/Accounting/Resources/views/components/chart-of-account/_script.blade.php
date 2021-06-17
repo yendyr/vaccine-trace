@@ -26,8 +26,8 @@ $(document).ready(function () {
             { data: 'status', defaultContent: '-' },
             { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
-            { data: 'updater_name', defaultContent: '-' },
-            { data: 'updated_at', defaultContent: '-' },
+            // { data: 'updater_name', defaultContent: '-' },
+            // { data: 'updated_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
     });
