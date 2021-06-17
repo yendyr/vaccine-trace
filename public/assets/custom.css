@@ -186,6 +186,10 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ba2737', endColorstr='#efc5ca', GradientType=1); */
 }
 
+.ibox-tools {
+    top: 10px;
+}
+
 .toast {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3) !important;
     border-radius: 7px;
