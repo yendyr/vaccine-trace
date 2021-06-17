@@ -6,16 +6,16 @@
 }
 
 .bg-plane {
-    background-image: url(../theme/img/landing/background_login.jpg);
-    background-size: cover;
+    background-image: url(../theme/img/landing/aircraft-backgrounds.jpg);
+    /* background-size: cover; */
 }
 
 .absolute {
     position: absolute;
     top: 20px;
     left: 20px;
-    width: 158px;
-    height: 44px;
+    width: 249px;
+    height: 70px;
 }
 
 .font-login {

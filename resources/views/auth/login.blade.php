@@ -7,106 +7,89 @@
 
     <title>{{ config('gate.name', 'Laravel') }} | Dashboard</title>
 
-    <link href="{{URL::asset('theme/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('theme/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ URL::asset('/ico.png') }}">
+    <link href="{{ URL::asset('theme/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('theme/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
 
-    <link href="{{URL::asset('theme/css/animate.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('theme/css/style.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/custom.css')}}" rel="stylesheet">
-
-
+    <link href="{{ URL::asset('theme/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('theme/css/style.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/custom.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('theme/css/login-style.css') }}" rel="stylesheet">
 </head>
-<body class="bg-plane">
+
+<body class="img js-fullheight bg-plane">
     <img class="absolute" src="{{URL::asset('theme/img/yems/smartaircraft logo putih.png')}}" alt="">
-
-    <div class="loginColumns animated fadeInUp">
-        <div class="row">
-
-            <div class="col-md-6">
-                <h2 class="font-welcome">Welcome!</h2>
-                <p class="text-left">Your Aircraft Reliability, Starts Here! One Stop Solutions and Services for Aviation System
-                </p>
-                <p class="text-left">We offer customizability for every aviation industry needs, and every uniqueness processessin your organization. Some country has some different aviation industry regulation
-                </p>
-            </div>
-
-            <div class="col-md-6">
-                <div class="ibox-content">
-                    <form class="m-t" role="form" method="POST" action="{{ route('login') }}">
-                        @csrf
-
-{{--                        <div class="form-group">--}}
-{{--                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus placeholder="email / username">--}}
-
-{{--                            @error('email')--}}
-{{--                            <span class="invalid-feedback" role="alert">--}}
-{{--                                        <strong>{{ $message }}</strong>--}}
-{{--                                    </span>--}}
-{{--                            @enderror--}}
-{{--                        </div>--}}
-
-                        <div class="form-group">
-                            <input type="text" class="form-control @error('login') is-invalid @enderror" name="login" value="{{ old('login') }}" required autofocus placeholder="username / email">
-                            @error('login')
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Welcome to SmartAircraft!</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-6 col-lg-4">
+					<div class="login-wrap p-0">
+		      	<h3 class="mb-4 text-center">Have an account?</h3>
+		      	<form action="{{ route('login') }}" class="signin-form" role="form" method="POST">
+                    @csrf
+		      		<div class="form-group">
+                        <input type="text" class="form-control @error('login') is-invalid @enderror" name="login" required autofocus placeholder="username / email">
+                        @error('login')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
-                            @enderror
+                        @enderror
+		      		</div>
+                    <div class="form-group">
+                        <input id="password-field" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required placeholder="password">
 
-{{--                            <input id="login" type="text" class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"--}}
-{{--                                   name="login" value="{{ old('username') ?: old('email') }}" required autofocus placeholder="username / password">--}}
-
-{{--                            @if ($errors->has('username') || $errors->has('email'))--}}
-{{--                                <span class="invalid-feedback">--}}
-{{--                                        <strong>{{ $errors->first('username') ?: $errors->first('email') }}</strong>--}}
-{{--                                    </span>--}}
-{{--                            @endif--}}
-                        </div>
-
-                        <div class="form-group">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required placeholder="password">
-
-                            @error('password')
+                        @error('password')
                             <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        <span toggle="#password-field" class="fa fa-fw fa-2x fa-eye field-icon toggle-password"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+                    </div>
+
+                    <div class="form-group d-md-flex">
+                        <div class="w-50">
+                            <label class="checkbox-wrap checkbox-primary">Remember Me
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                            </label>
                         </div>
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary block full-width m-b">
-                                {{ __('Login') }}
-                            </button>
-{{--                            @if (Route::has('password.request'))--}}
-{{--                                <a href="{{ route('password.request') }}">--}}
-{{--                                    <small>Forgot Your Password?</small>--}}
-{{--                                </a>--}}
-{{--                            @endif--}}
+                        <div class="w-50 text-md-right">
+                            <a href="#" style="color: #fff">Forgot Password</a>
                         </div>
+                    </div>
+	          </form>
 
-                    </form>
+	          {{-- <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
+	          <div class="social d-flex text-center">
+	          	<a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
+	          	<a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>
+	          </div>
+		      </div>
+				</div> --}}
+			</div>
+		</div>
+	</section>
+    <br>
+    <p class="w-100 text-center text-white">Your Aircraft Reliability, Starts Here! One Stop Solutions and Services for Aviation System. <br><a href="https://smartaircraft.id">© {{date('Y')}} Smartaircraft.id</a></p>
 
-                </div>
-            </div>
-        </div>
+    <!-- jQuery -->
+    <script src="{{URL::asset('theme/js/jquery.min.js')}}"></script>
 
-        <hr/>
-        <div class="row">
-            <div class="col-md-6">
-                <a href="#">
-                    <small>Term and Conditions</small>
-                </a>
-            </div>
-            <div class="col-md-6 text-right">
-                <a href="#">
-                    <small>© {{date('Y')}} Smartaircraft.id</small>
-                </a>
-            </div>
-        </div>
+    <!-- jQuery UI -->
+    <script src="{{URL::asset('theme/js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 
-    </div>
-
+    <!-- Main Bootstrap & Theme Engine -->
+    <script src="{{URL::asset('theme/js/popper.min.js')}}"></script>
+    <script src="{{URL::asset('theme/js/bootstrap.min.js')}}"></script>
+    <script src="{{ URL::asset('theme/js/login.js') }}"></script>
 </body>
-
 </html>
-
