@@ -53,7 +53,7 @@ $(document).ready(function () {
 
             if (totalDebit != totalCredit) {
                 $( api.column( 4 ).footer() ).html(
-                    'Debit and Credit not Balance Yet'
+                    '<i class="fa fa-warning"></i>&nbsp;Debit and Credit not Balance Yet'
                 );
             }
             else {
@@ -150,7 +150,7 @@ $(document).ready(function () {
             type: 'hidden',
             name: '_method',
             value: 'patch'
-        }).prependTo('#inputForm');
+        }).prependTo(inputFormId);
 
         $('#debit').val(data.debit);
         $('#credit').val(data.credit);
@@ -162,7 +162,6 @@ $(document).ready(function () {
         } 
 
         $('#saveBtn').val("edit");
-        $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $('#inputModal').modal('show');
     });
     // ----------------- END "EDIT" BUTTON SCRIPT ------------- //
