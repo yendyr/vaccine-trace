@@ -4,6 +4,7 @@ namespace Modules\Accounting\Http\Controllers;
 
 use Modules\Accounting\Entities\Journal;
 use Modules\Accounting\Entities\JournalDetail;
+use Modules\Accounting\Entities\JournalApproval;
 
 use app\Helpers\Accounting\JournalProcess;
 
@@ -223,23 +224,26 @@ class JournalController extends Controller
     public function approve(Request $request, Journal $Journal)
     {
         if ($Journal->journal_details()->count() > 0) {
-            $request->validate([
-                'approval_notes' => ['required', 'max:30'],
-            ]);
+            if (JournalProcess::isBalance($Journal->id)) {
+                $request->validate([
+                    'approval_notes' => ['required', 'max:30'],
+                ]);
+                
+                JournalApproval::create([
+                    'uuid' =>  Str::uuid(),
+    
+                    'journal_id' =>  $Journal->id,
+                    'approval_notes' =>  $request->approval_notes,
             
-            DB::beginTransaction();
-            JournalApproval::create([
-                'uuid' =>  Str::uuid(),
-
-                'journal_id' =>  $Journal->id,
-                'approval_notes' =>  $request->approval_notes,
-        
-                'owned_by' => $request->user()->company_id,
-                'status' => 1,
-                'created_by' => Auth::user()->id,
-            ]);
-            DB::commit();
-            return response()->json(['success' => 'Journal Data has been Approved']);
+                    'owned_by' => $request->user()->company_id,
+                    'status' => 1,
+                    'created_by' => Auth::user()->id,
+                ]);
+                return response()->json(['success' => 'Journal Data has been Approved']);
+            }
+            else {
+                return response()->json(['error' => "Debit and Credit not Balance Yet"]);
+            }
         }
         else {
             return response()->json(['error' => "This Journal doesn't Have Any Detail Data"]);

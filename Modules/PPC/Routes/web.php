@@ -144,6 +144,7 @@ Route::name('ppc.')->group(function () {
             Route::get('/generate', 'JobCardController@generate')->name('generate.index');
             Route::get('/print', 'JobCardController@print')->name('print');
             Route::post('/execute', 'JobCardController@execute')->name('execute');
+            Route::patch('/{job_card}/release', 'JobCardController@release')->name('release');
             Route::post('/{work_order}/generate', 'WorkOrderController@generate')->name('generate');
         });
 

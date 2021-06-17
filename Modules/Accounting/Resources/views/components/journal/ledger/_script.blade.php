@@ -50,6 +50,16 @@ $(document).ready(function () {
             $( api.column( 3 ).footer() ).html(
                 formatNumber(totalCredit)
             );
+
+            if (totalDebit != totalCredit) {
+                $( api.column( 4 ).footer() ).html(
+                    'Debit and Credit not Balance Yet'
+                );
+            }
+            else {
+                $( api.column( 4 ).footer() ).html('');
+            }
+            
         },
         pageLength: 25,
         processing: true,
@@ -83,7 +93,7 @@ $(document).ready(function () {
             { data: 'description', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
             // { data: 'creator_name', defaultContent: '-' },
-            { data: 'created_at', defaultContent: '-' },
+            { data: 'created_at', visible: false },
             { data: 'action', orderable: false },
         ]
     });

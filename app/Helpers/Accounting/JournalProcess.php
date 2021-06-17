@@ -35,6 +35,21 @@ class JournalProcess
         }
     }
 
+    public static function isBalance($JournalId)
+    {
+        $total_debit = JournalDetail::where('journal_id', $JournalId)
+                                ->sum('debit');
+        $total_credit = JournalDetail::where('journal_id', $JournalId)
+                                ->sum('credit');
+
+        if($total_debit == $total_credit) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public static function totalPriceAfterTax($PurchaseOrderId)
     {
         $PurchaseOrder = PurchaseOrder::where('id', $PurchaseOrderId)
