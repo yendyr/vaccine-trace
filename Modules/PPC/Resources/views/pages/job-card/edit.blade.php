@@ -17,7 +17,7 @@
             'closeable' => 'button',
             'closeHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
             'releaseable' => 'button',
-            'releaseHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
+            'releaseHref' => route('ppc.job-card.release', ['job_card' => $job_card->id]),
             ])
             @endcomponent
         @endif
@@ -323,7 +323,7 @@
                                                     'closeHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
                                                     'releaseable' => 'button',
                                                     'releaseValue' => $instruction_detail->id,
-                                                    'releaseHref' => route('ppc.job-card.update', ['job_card' => $job_card->id]),
+                                                    'releaseHref' => route('ppc.job-card.release', ['job_card' => $job_card->id]),
                                                     'releaseText' => $instruction_detail->getNextTaskRelease()->name ?? null
                                                 ])
                                                 @endcomponent

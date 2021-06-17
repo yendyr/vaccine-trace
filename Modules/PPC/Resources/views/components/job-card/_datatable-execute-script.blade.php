@@ -41,7 +41,7 @@ $(document).ready(function () {
         if(detail_id) {
             $(".text-notes").text("This Action Will Execute Instruction");
         }else{
-            $(".text-notes").text("This Action Will Execute all Detailed Instructions in this Taskcard");
+            $(".text-notes").text("Please Enter a Description of the Resume Jobcard");
         }
 
         $(".input-notes").show();
