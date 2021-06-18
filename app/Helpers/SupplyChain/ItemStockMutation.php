@@ -366,6 +366,7 @@ class ItemStockMutation
                     'description' => $item_stock->description,
                     'detailed_item_location' => $transfer_mutation_detail->transfer_detailed_item_location,
                     'parent_coding' => $item_stock->parent_coding,
+                    'each_price_before_vat' => $item_stock->each_price_before_vat,
                     
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
