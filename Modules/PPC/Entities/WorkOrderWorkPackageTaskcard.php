@@ -107,6 +107,26 @@ class WorkOrderWorkPackageTaskcard extends MainModel
         return $latest_progress->transaction_status ?? 1;
     }
 
+    // public function getCurrentTaskRelease(){
+    //     $task_release_level = collect($this->task_release_level);
+    //     $current_task_release = $task_release_level->where('uuid', $this->transaction_status)->first();
+
+    //     return $current_task_release ?? $task_release_level->first();
+    // }
+
+    // public function getNextTaskRelease() {
+    //     $task_release_level = collect($this->task_release_level);
+    //     $current_task_release = $this->getCurrentTaskRelease();
+    //     $next_sequence_level = $current_task_release->sequence_level + 1;
+    //     $next_task_release = $task_release_level->where('sequence_level', $next_sequence_level)->first();
+
+    //     if( strlen($this->transaction_status) == 36 ){
+    //         return $next_task_release;
+    //     }else{
+    //         return $next_task_release ?? $task_release_level->first();
+    //     }
+    // }
+
     public function getTransactionStatusLabelAttribute(){
         $transaction_status = null;
 

@@ -2,11 +2,11 @@
     <div class="ibox-title">
         <h4 class="text-center">Item Requirement</h4> 
         <div class="ibox-tools">
-            <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
+            <a class="collapse-link btn btn-icon btn-circle btn-sm btn-danger">
+                <i class="fa fa-chevron-up text-white"></i>
             </a>
-            <a class="fullscreen-link">
-                <i class="fa fa-expand"></i>
+            <a class="fullscreen-link btn btn-icon btn-circle btn-sm btn-info">
+                <i class="fa fa-expand text-white"></i>
             </a>
         </div>
     </div>

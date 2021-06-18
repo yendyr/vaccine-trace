@@ -50,6 +50,16 @@ $(document).ready(function () {
             $( api.column( 3 ).footer() ).html(
                 formatNumber(totalCredit)
             );
+
+            if (totalDebit != totalCredit) {
+                $( api.column( 4 ).footer() ).html(
+                    '<i class="fa fa-warning"></i>&nbsp;Debit and Credit not Balance Yet'
+                );
+            }
+            else {
+                $( api.column( 4 ).footer() ).html('');
+            }
+            
         },
         pageLength: 25,
         processing: true,
@@ -83,7 +93,7 @@ $(document).ready(function () {
             { data: 'description', defaultContent: '-' },
             // { data: 'status', name: 'Status' },
             // { data: 'creator_name', defaultContent: '-' },
-            { data: 'created_at', defaultContent: '-' },
+            { data: 'created_at', visible: false },
             { data: 'action', orderable: false },
         ]
     });
@@ -140,7 +150,7 @@ $(document).ready(function () {
             type: 'hidden',
             name: '_method',
             value: 'patch'
-        }).prependTo('#inputForm');
+        }).prependTo(inputFormId);
 
         $('#debit').val(data.debit);
         $('#credit').val(data.credit);
@@ -152,7 +162,6 @@ $(document).ready(function () {
         } 
 
         $('#saveBtn').val("edit");
-        $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $('#inputModal').modal('show');
     });
     // ----------------- END "EDIT" BUTTON SCRIPT ------------- //

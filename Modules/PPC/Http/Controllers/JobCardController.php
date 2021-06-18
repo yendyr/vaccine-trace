@@ -55,7 +55,7 @@ class JobCardController extends Controller
                     }
                 })
                 ->addColumn('status', function ($row) {
-                    return ucfirst(config('ppc.work-order.status')[$row->status]) ?? '-';
+                    return ucwords(config('ppc.work-order.status')[$row->status]) ?? '-';
                 })
                 ->addColumn('action', function ($row) use ($request) {
                     $noAuthorize = true;
@@ -94,50 +94,50 @@ class JobCardController extends Controller
                     'work_package',
                 ]);
 
-            if ($request->work_order_id && $request->work_order_id !== "null" ) {
+            if ($request->work_order_id && $request->work_order_id !== "null") {
                 $data = $data->where('work_order_id', $request->work_order_id);
             }
 
             return Datatables::of($data)
-                ->filterColumn('code', function($query, $keyword) {
-                    $query->where('code' ,'LIKE', "%".$keyword."%");
+                ->filterColumn('code', function ($query, $keyword) {
+                    $query->where('code', 'LIKE', "%" . $keyword . "%");
                 })
-                ->filterColumn('taskcard_json', function($query, $keyword) {
-                    $query->where('taskcard_json' ,'LIKE', "%".$keyword."%");
+                ->filterColumn('taskcard_json', function ($query, $keyword) {
+                    $query->where('taskcard_json', 'LIKE', "%" . $keyword . "%");
                 })
-                ->filterColumn('taskcard_group_json', function($query, $keyword) {
-                    $query->where('taskcard_group_json' ,'LIKE', "%".$keyword."%");
+                ->filterColumn('taskcard_group_json', function ($query, $keyword) {
+                    $query->where('taskcard_group_json', 'LIKE', "%" . $keyword . "%");
                 })
-                ->filterColumn('tags_json', function($query, $keyword) {
-                    $query->where('tags_json' ,'LIKE', "%".$keyword."%");
+                ->filterColumn('tags_json', function ($query, $keyword) {
+                    $query->where('tags_json', 'LIKE', "%" . $keyword . "%");
                 })
-                ->filterColumn('taskcard_type_json', function($query, $keyword) {
+                ->filterColumn('taskcard_type_json', function ($query, $keyword) {
                     // case insensitive
                     $sql = "LOWER(taskcard_type_json) like ?";
-                    $query->whereRaw($sql, [ strtolower("%{$keyword}%")]);
+                    $query->whereRaw($sql, [strtolower("%{$keyword}%")]);
 
                     // case sensitive
                     // $query->where('taskcard_type_json' ,'LIKE', "%".$keyword."%");
                 })
-                ->filterColumn('transaction_status', function($query, $keyword) {
+                ->filterColumn('transaction_status', function ($query, $keyword) {
                     $status = array_search(strtolower($keyword), config('ppc.job-card.transaction-status'));
-                    
-                    $query->where('transaction_status' , $status);
+
+                    $query->where('transaction_status', $status);
                 })
-                ->filterColumn('instruction_count', function($query, $keyword) {
-                    $query->has('details' ,'=', $keyword);
+                ->filterColumn('instruction_count', function ($query, $keyword) {
+                    $query->has('details', '=', $keyword);
                 })
-                ->filterColumn('skills', function($query, $keyword) {
-                    $query->whereHas('details', function($subquery) use ($keyword) {
+                ->filterColumn('skills', function ($query, $keyword) {
+                    $query->whereHas('details', function ($subquery) use ($keyword) {
                         $sql = "LOWER(skills_json) like ?";
-                        $subquery->whereRaw($sql, [ strtolower("%{$keyword}%")]);
+                        $subquery->whereRaw($sql, [strtolower("%{$keyword}%")]);
 
                         // case sensitive
                         // $subquery->where('skills_json','LIKE', "%".$keyword."%");
                     });
                 })
-                ->filterColumn('description', function($query, $keyword) {
-                    $query->where('description' ,'LIKE', "%".$keyword."%");
+                ->filterColumn('description', function ($query, $keyword) {
+                    $query->where('description', 'LIKE', "%" . $keyword . "%");
                 })
                 ->addColumn('mpd_number', function ($itemRow) {
                     return "<a href=" . route('ppc.work-order.work-package.taskcard.show', [
@@ -196,7 +196,7 @@ class JobCardController extends Controller
                 ->addColumn('manhours_total', function ($row) {
                     $manhours_estimation = null;
 
-                    if ( $row->details()->count() > 0 ) {
+                    if ($row->details()->count() > 0) {
                         foreach ($row->details as $instruction_detail) {
                             $manhours_estimation += $instruction_detail->manhours_estimation ?? 0;
                         }
@@ -280,7 +280,7 @@ class JobCardController extends Controller
                     return $row->updater->name ?? '-';
                 })
                 ->addColumn('transaction_status_label', function ($row) {
-                    return $row->transaction_status_label;
+                    return ucwords($row->transaction_status_label);
                 })
                 ->addColumn('action', function ($row) use ($request) {
                     $noAuthorize = true;
@@ -302,7 +302,10 @@ class JobCardController extends Controller
                             'closeable' => 'button',
                             'closeHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
                             'releaseable' => 'button',
-                            'releaseHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
+                            'releaseHref' => route('ppc.job-card.release', ['job_card' => $row->id]),
+                            'printable' => true,
+                            'printHref' => route('ppc.job-card.print', ['job_card' => $row->id]),
+                            'obj' => null
                         ]);
                     } else {
                         return '<p class="text-muted font-italic">Not Authorized</p>';
@@ -359,6 +362,7 @@ class JobCardController extends Controller
         $job_card->document_library_details_json = json_decode($job_card->document_library_details_json);
         $job_card->affected_manuals_json = json_decode($job_card->affected_manuals_json);
         $job_card->affected_manual_details_json = json_decode($job_card->affected_manual_details_json);
+        $job_card->task_release_level_json = json_decode($job_card->task_release_level_json);
         $job_card->instruction_details_json = json_decode($job_card->instruction_details_json, true);
         $instruction_details_json = [];
 
@@ -415,6 +419,7 @@ class JobCardController extends Controller
         $job_card->document_library_details_json = json_decode($job_card->document_library_details_json);
         $job_card->affected_manuals_json = json_decode($job_card->affected_manuals_json);
         $job_card->affected_manual_details_json = json_decode($job_card->affected_manual_details_json);
+        $job_card->task_release_level_json = json_decode($job_card->task_release_level_json);
         $job_card->instruction_details_json = json_decode($job_card->instruction_details_json, true);
         $instruction_details_json = [];
 
@@ -482,14 +487,13 @@ class JobCardController extends Controller
             // 2. cek apa yang akan dieksekusi apakah job card atau instruction
             if (empty($request->detail_id)) {
                 if ($last_progress->taskcard_id != $job_card->id) {
-                    return response()->json(['error' => 'You have progress on another job card! ['.$last_progress->taskcard->code.']']);
+                    return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ']']);
                 }
             } else {
                 if ($last_progress->detail_id != $request->detail_id) {
-                    return response()->json(['error' => 'You have progress on another job card! ['.$last_progress->taskcard->code.' -> '.$last_progress->instruction->code.']']);
+                    return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ' -> ' . $last_progress->instruction->code . ']']);
                 }
             }
-
         }
         // end 3. cek progress user apakah ada progress yang sedang berjalan
 
@@ -505,9 +509,9 @@ class JobCardController extends Controller
 
         // update HEADER status row if still open
         if ($job_card->transaction_status == array_search('open', $job_card_transaction_status) || $job_card->transaction_status == array_search('pending', $job_card_transaction_status)) {
-            if( $job_card->is_exec_all ) {
+            if ($job_card->is_exec_all) {
                 $status = 'progress';
-            }else{
+            } else {
                 $status = 'partially progress';
             }
 
@@ -531,14 +535,14 @@ class JobCardController extends Controller
         }
 
         // Progress close
-        if ( strtolower($request->next_status) == 'close') {
+        if (strtolower($request->next_status) == 'close') {
             /** perlu refactor karena harus mengecek 
              * untuk job card yang close itu bukan hanya dari 1 task saja */
             $transaction_status = null;
             $status = 'closed';
             $transaction_status = array_search($status, $job_card_transaction_status);
 
-            if( empty($transaction_status) ){
+            if (empty($transaction_status)) {
                 $status = 'close';
                 $transaction_status = array_search($status, $job_card_transaction_status);
             }
@@ -555,28 +559,26 @@ class JobCardController extends Controller
                 foreach ($job_card->details as $key => $row) {
                     $row->transaction_status =  config('ppc.job-card.transaction-status')[$row->transaction_status] ?? null;
                 }
-                
+
                 // cek kalau semua detail apakah sudah close ?
                 // Update status job card
                 $temp_array = ['open', 'pending', 'pause', 'progress', 'partially progress'];
                 $keys = [];
-                foreach($temp_array as $row){
+                foreach ($temp_array as $row) {
                     $keys[] = collect($job_card_transaction_status)->search($row);
                 }
 
                 // if($job_card->details->whereIn('transaction_status', ['open', 'pending', 'pause', 'progress'])->count() == 0) {
-                if( in_array($job_card->transaction_status, $keys) ) {
+                if (in_array($job_card->transaction_status, $keys)) {
                     $result = $job_card->update([
                         'transaction_status' => array_search('partially closed', $job_card_transaction_status)
                     ]);
-    
+
                     if (!$result) {
                         $flag = false;
                     }
-                // }
+                    // }
                 }
-
-
             } else {
                 // update job card status row 
                 $result = $job_card->update([
@@ -591,8 +593,8 @@ class JobCardController extends Controller
             $next_transaction_status = $transaction_status;
         }
 
-         // Progress PAUSE/PENDING
-         if ( strtolower($request->next_status) == 'pause' || strtolower($request->next_status) == 'pending') {
+        // Progress PAUSE/PENDING
+        if (strtolower($request->next_status) == 'pause' || strtolower($request->next_status) == 'pending') {
             $next_transaction_status = array_search("pending", $job_card_transaction_status);
 
             /** perlu refactor karena harus mengecek 
@@ -611,19 +613,18 @@ class JobCardController extends Controller
                 foreach ($job_card->details as $key => $row) {
                     $row->transaction_status =  config('ppc.job-card.transaction-status')[$row->transaction_status] ?? null;
                 }
-                
+
                 // cek kalau semua detail apakah sudah close ?
-                if($job_card->details()->whereIn('transaction_status', ['pending', 'pause'])->count() == $job_card->details()->count()) {
+                if ($job_card->details()->whereIn('transaction_status', ['pending', 'pause'])->count() == $job_card->details()->count()) {
 
                     $result = $job_card->update([
                         'transaction_status' => array_search($status, $job_card_transaction_status)
                     ]);
-    
+
                     if (!$result) {
                         $flag = false;
                     }
                 }
-
             } else {
                 // update job card status row 
                 $result = $job_card->update([
@@ -635,39 +636,8 @@ class JobCardController extends Controller
                 }
             }
         }
-        
-        // Progress Release
-        if( strtolower($request->next_status) == 'release') {
 
-            if (!empty($request->detail_id)) { // berarti ini update detail/instruction
-
-                $detail = $job_card->details()->where('id', $request->detail_id)->first();
-                $task_release_level = $detail->getNextTaskRelease();
-
-                $result = $detail->update([
-                    'transaction_status' => $task_release_level->uuid
-                ]);
-
-                if (!$result) {
-                    $flag = false;
-                }
-
-                $next_transaction_status = $task_release_level->uuid;
-
-                if($job_card->transaction_status !== array_search('partially released', $job_card_transaction_status)) {
-                    $result = $job_card->update([
-                        'transaction_status' => array_search('partially released', $job_card_transaction_status)
-                    ]);
-    
-                    if (!$result) {
-                        $flag = false;
-                    }
-                }
-            }
-        }
-
-       
-
+  
         $new_progress = WOWPTaskcardDetailProgress::create([
             'uuid' => str::uuid(),
             'work_order_id' => $job_card->work_order_id,
@@ -736,10 +706,10 @@ class JobCardController extends Controller
          *  yang bisa eksekusi jobcard
          */
 
-        if ($job_card->transaction_status > 3) {
-            $view = $this->show($request, $job_card);
-        } else {
+        if ( !in_array($job_card->transaction_status, [5, 6]) ) {
             $view = $this->edit($request, $job_card);
+        } else {
+            $view = $this->show($request, $job_card);
         }
 
         return $view;
@@ -748,5 +718,114 @@ class JobCardController extends Controller
     public function print(Request $request)
     {
         return \PDF::loadView('ppc::pages.job-card.print')->stream();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param $job_card
+     * @return Renderable
+     */
+    public function release(Request $request, WorkOrderWorkPackageTaskcard $job_card)
+    {
+        DB::beginTransaction();
+        $flag = true;
+        $job_card_transaction_status = config('ppc.job-card.transaction-status');
+        $next_transaction_status = array_search($request->next_status, $job_card_transaction_status);
+
+        try {
+            $is_authorized = $this->authorize('release', $job_card);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+
+        // 3. cek progress user apakah ada progress yang sedang berjalan
+        // $last_progress = WOWPTaskcardDetailProgress::with('taskcard', 'instruction')->where('created_by',  $request->user()->id)->latest()->first();
+
+        // if ($last_progress->transaction_status == array_search('progress', $job_card_transaction_status)) {
+        //     // if detail id is empty, user executing job-card, if not user executing task
+        //     // 2. cek apa yang akan dieksekusi apakah job card atau instruction
+        //     if (empty($request->detail_id)) {
+        //         if ($last_progress->taskcard_id != $job_card->id) {
+        //             return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ']']);
+        //         }
+        //     } else {
+        //         if( empty($last_progress->detail_id) ) {
+        //             return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ']']);
+        //         }
+
+        //         if ($last_progress->detail_id != $request->detail_id) {
+        //             return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ' -> ' . $last_progress->instruction->code . ']']);
+        //         }
+        //     }
+        // }
+
+        // Progress Release
+        if (!empty($request->detail_id)) { // berarti ini update detail/instruction
+
+            $detail = $job_card->details()->where('id', $request->detail_id)->first();
+            $task_release_level = $detail->getNextTaskRelease();
+
+            $result = $detail->update([
+                'transaction_status' => $task_release_level->uuid
+            ]);
+
+            if (!$result) {
+                $flag = false;
+            }
+
+            $next_transaction_status = $task_release_level->uuid;
+
+            if ($job_card->transaction_status !== array_search('partially released', $job_card_transaction_status)) {
+                $result = $job_card->update([
+                    'transaction_status' => array_search('partially released', $job_card_transaction_status)
+                ]);
+
+                if (!$result) {
+                    $flag = false;
+                }
+            }
+
+
+        }
+
+        if( $job_card->is_exec_all == true ){
+            $result = $job_card->update([
+                'transaction_status' => array_search('released', $job_card_transaction_status)
+            ]);
+
+            if (!$result) {
+                $flag = false;
+            }
+        }
+
+        $new_progress = WOWPTaskcardDetailProgress::create([
+            'uuid' => str::uuid(),
+            'work_order_id' => $job_card->work_order_id,
+            'work_package_id' => $job_card->work_package_id,
+            'taskcard_id' => $job_card->id,
+            'detail_id' => $request->detail_id ?? null,
+
+            'transaction_status' => $next_transaction_status,
+            'progress_notes' => $request->notes ?? null,
+
+            'owned_by' => $request->user()->company_id,
+            'status' => 1,
+            'created_by' => $request->user()->id,
+        ]);
+
+        if (!get_class($new_progress)) {
+            $flag = false;
+        }
+
+        if ($flag) {
+            DB::commit();
+
+            return response()->json(['success' => 'Job Cards has been released', 'redirectUrl' => route('ppc.job-card.index')]);
+        } else {
+            DB::rollBack();
+
+            return response()->json(['error' => 'Job Cards failed to release', 'redirectUrl' => route('ppc.job-card.index')]);
+        }
     }
 }
