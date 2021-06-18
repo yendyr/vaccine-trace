@@ -26,7 +26,15 @@
 @endisset
 
 @isset($printable)
-
+    @if(isset($printLink))
+        <a href="{{ $printLink }}" target="_blank" class="print btn btn-sm btn-outline btn-info ml-1" data-toggle="tooltip" title="Print">
+            <i class="fa fa-print"></i>
+        </a>
+    @else
+        <button type="button" class="printBtn btn btn-sm btn-outline btn-info pr-2" data-toggle="tooltip" title="Print" value="{{ $printId }}">
+            <i class="fa fa-print"></i>
+        </button>
+    @endif
 @endisset
 
 @isset($approvable)

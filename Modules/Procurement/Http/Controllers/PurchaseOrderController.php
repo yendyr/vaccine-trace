@@ -2,13 +2,14 @@
 
 namespace Modules\Procurement\Http\Controllers;
 
+use Illuminate\Support\Facades\URL;
+use Modules\GeneralSetting\Entities\CompanyDetailAddress;
 use Modules\Procurement\Entities\PurchaseOrder;
 use Modules\Procurement\Entities\PurchaseRequisitionDetail;
 use Modules\Procurement\Entities\PurchaseOrderDetail;
 use Modules\Procurement\Entities\PurchaseOrderApproval;
 
 use app\Helpers\Procurement\PurchaseOrderPrice;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -88,7 +89,18 @@ class PurchaseOrderController extends Controller
                 $approveId = null;
 
                 if ($row->approvals()->count() > 0) {
-                    return '<p class="text-muted font-italic">Already Approved</p>';
+                    if(Auth::user()->can('print', PurchaseOrder::class)) {
+                        $printable = true;
+                        $printId = $row->id;
+                        $printLink = "/procurement/purchase-order/$row->id/print";
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['printable', 'printId', 'printLink']));
+                    }else{
+                        return '<p class="text-muted font-italic">Already Approved</p>';
+                    }
                 }
                 else {
                     if(Auth::user()->can('update', PurchaseOrder::class)) {
@@ -106,9 +118,15 @@ class PurchaseOrderController extends Controller
                         $approveId = $row->id;
                         $noAuthorize = false;
                     }
-                    
+                    if(Auth::user()->can('print', PurchaseOrder::class)) {
+                        $printable = true;
+                        $printId = $row->id;
+                        $printLink = "/procurement/purchase-order/$row->id/print";
+                        $noAuthorize = false;
+                    }
+
                     if ($noAuthorize == false) {
-                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId', 'printable', 'printId', 'printLink']));
                     }
                     else {
                         return '<p class="text-muted font-italic">Not Authorized</p>';
@@ -285,5 +303,37 @@ class PurchaseOrderController extends Controller
             ]);
         }
         DB::commit();
+    }
+
+    public function print(Request $request, PurchaseOrder $PurchaseOrder)
+    {
+        $company = Auth::user()->company;
+        if ($company->logo == null)
+            $company->logo =  './assets/default-company-logo.jpg';
+        else
+            $company->logo = "./uploads/company/$company->id/logo/$company->logo";
+        $companyAddress = CompanyDetailAddress::where('company_id', $company->id)->with('country')->first();
+
+        $purchaseOrder = PurchaseOrder::whereId($PurchaseOrder->id)->with(['currency','purchase_order_details', 'approvals', 'creator', 'supplier', 'supplier.addresses', 'supplier.addresses.country'])->first();
+
+        $details = PurchaseOrderDetail::where('purchase_order_id', $PurchaseOrder->id)
+            ->with(['purchase_requisition_detail.purchase_requisition',
+                'purchase_requisition_detail.item',
+                'purchase_requisition_detail.item.category',
+                'purchase_requisition_detail.item.unit',
+                'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
+            ->get();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $data = ['title' => 'Testing Page Number In Body'];
+        $pdfFile = $pdf->loadView('procurement::pages.purchase-order.print', [
+            'company' => $company,
+            'employee' => Auth::user()->employee,
+            'companyAddress' => $companyAddress,
+            'purchaseOrder' => $purchaseOrder,
+            'details' => $details,
+        ]);
+        return $pdfFile->stream('PO.pdf');
     }
 }
