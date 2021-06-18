@@ -37,12 +37,7 @@ $(document).ready(function () {
         $('#modalTitle').html("Resume Confirmation");
         $('.job-card-modal-icon').removeClass("fa-pause fa-stop fa-check text-warning text-danger").addClass("fa-play text-success");
         $('#saveBtn').html('Resume Job Card').removeClass('btn-danger btn-warning').addClass('btn-primary');
-        
-        if(detail_id) {
-            $(".text-notes").text("This Action Will Execute Instruction");
-        }else{
-            $(".text-notes").text("Please Enter a Description of the Resume Jobcard");
-        }
+        $(".text-notes").text("Please Enter a Description of the Resume Jobcard");
 
         $(".input-notes").show();
         $("#notes").attr("required", true);
