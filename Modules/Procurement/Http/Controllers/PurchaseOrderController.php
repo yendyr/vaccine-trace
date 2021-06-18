@@ -298,13 +298,12 @@ class PurchaseOrderController extends Controller
     {
         $company = Auth::user()->company;
         if ($company->logo == null)
-            $company->logo =  URL::asset('assets/default-company-logo.jpg');
+            $company->logo =  './assets/default-company-logo.jpg';
         else
-            $company->logo = URL::asset( "/uploads/company/$company->id/logo/$company->logo");
+            $company->logo = "./uploads/company/$company->id/logo/$company->logo";
         $companyAddress = CompanyDetailAddress::where('company_id', $company->id)->with('country')->first();
 
-        $purchaseOrder = PurchaseOrder::whereId($PurchaseOrder->id)->with(['currency','purchase_order_details', 'creator'])->first();
-//        $purchaseOrder->transaction_date = Carbon::createFromFormat('Y-m-d H:i:s',$purchaseOrder->transaction_date)->format('d-m-Y');
+        $purchaseOrder = PurchaseOrder::whereId($PurchaseOrder->id)->with(['currency','purchase_order_details', 'creator', 'supplier', 'supplier.addresses', 'supplier.addresses.country'])->first();
 
         $details = PurchaseOrderDetail::where('purchase_order_id', $PurchaseOrder->id)
             ->with(['purchase_requisition_detail.purchase_requisition',
@@ -313,16 +312,17 @@ class PurchaseOrderController extends Controller
                 'purchase_requisition_detail.item.unit',
                 'purchase_requisition_detail.item_group:id,item_id,coding,parent_coding'])
             ->get();
-//        dd($details);
 
-        $pdfFile = \PDF::loadView('procurement::pages.purchase-order.print', [
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $data = ['title' => 'Testing Page Number In Body'];
+        $pdfFile = $pdf->loadView('procurement::pages.purchase-order.print', [
             'company' => $company,
             'employee' => Auth::user()->employee,
             'companyAddress' => $companyAddress,
             'purchaseOrder' => $purchaseOrder,
             'details' => $details,
         ]);
-        return $pdfFile->stream();
-//        return view('procurement::pages.purchase-order.print', compact('company', 'companyAddress'));
+        return $pdfFile->stream('PO.pdf');
     }
 }

@@ -19,7 +19,7 @@
 
         body{
             font-family: 'Segoe UI', "Courier New", sans-serif;
-            margin-top: 6.1cm;
+            margin-top: 4.5cm;
             margin-bottom: 2cm;
         }
 
@@ -28,7 +28,7 @@
             top: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 3cm;
+            height: 1cm;
         }
 
         footer {
@@ -36,32 +36,19 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 1.4cm;
-            font-size:9px;
+            height: 0.7cm;
+            font-size: 9px;
+            margin-bottom: 0px;
         }
         /* ul li{
             display: inline-block;
         } */
 
-        ol,ul {
-            counter-reset: item;
-            padding-left: 0;
-            line-height: 1;
-        }
-
-        ol > li,
-        ul > li{
-            counter-increment: item;
-            padding-left:1.5em;
-            position: relative;
-            page-break-inside: avoid;
-        }
-
         table{
             border-collapse: collapse;
         }
 
-        #body{
+        #bodyHead{
             top:40px;
             left: 36px;
             position: absolute;
@@ -70,11 +57,7 @@
 
         #content1{
             left: 36px;
-            margin: 0 36px;
-        }
-
-        .barcode{
-            margin-left:35%;
+            margin: 0px 36px;
         }
 
         #content2{
@@ -91,31 +74,23 @@
 </head>
 <body style='font-family: "Courier New", Courier, monospace'>
     <header>
-        <div id="body">
+        <div id="bodyHead">
             <table width="80%" style='font-size: 12px;'>
                 <tr>
                     <td width="80%">
                         <table width="100%">
                             <tr>
-                                <td rowspan="7" valign="top" width="50%">
-    {{--                                <img src="{{$company->logo}}" alt="" style="height: 50px">--}}
+                                <td width="50%" style="vertical-align: center; text-align: center; padding-top: 12px;">
+                                    <img src="{{$company->logo}}" alt="" style="max-height: 75px">
                                 </td>
-                                <td width="50%" height="20px" valign="top">FROM:</td>
-                            </tr>
-                            <tr>
-                                <td width="50%" valign="top"><b>{{strtoupper($company->name)}}</b></td>
-                            </tr>
-                            <tr>
-                                <td width="50%" valign="top">{{$companyAddress->street}}</td>
-                            </tr>
-                            <tr>
-                                <td width="50%" valign="top">{{$companyAddress->city}} - {{$companyAddress->post_code}}</td>
-                            </tr>
-                            <tr>
-                                <td width="50%" valign="top">{{$companyAddress->city}} {{$companyAddress->province}} {{$companyAddress->post_code}}</td>
-                            </tr>
-                            <tr>
-                                <td width="50%" valign="top">{{$companyAddress->country->nice_name}}</td>
+                                <td width="50%" valign="top">
+                                    <div class="pb-1" style="font-size: 13px;">FROM:</div>
+                                    <b>{{strtoupper($company->name)}}</b>
+                                    <br>{{$companyAddress->street}}
+                                    <br>{{$companyAddress->city}} - {{$companyAddress->post_code}}
+                                    <br>{{$companyAddress->city}} {{$companyAddress->province}} {{$companyAddress->post_code}}
+                                    <br>{{$companyAddress->country->nice_name}}
+                                </td>
                             </tr>
                         </table>
                     </td>
@@ -130,7 +105,7 @@
                 <tr>
                     <td width="80%" valign="top">Created By: {{$purchaseOrder->creator->name}}; {{$purchaseOrder->created_at->format('d-m-Y') ?? '-' }} &nbsp;&nbsp;&nbsp; Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}; {{ date('d-m-Y H:i:s') }}</span> </td>
                     <td width="10%" valign="top"></td>
-                    <td width="10%" valign="top" align="right">Page 1/1</td>
+{{--                    <td width="10%" valign="top" align="right">Page 1/1</td>--}}
                 </tr>
             </table>
         </div>
@@ -139,26 +114,29 @@
     <div id="content1">
         <table width="100%">
             <tr>
-                <td width="33%" class="border-top border-bottom" style="font-size: 14px; ">
+                <td width="33%" class="border-top border-bottom" style="font-size: 13px;">
                     <span>TO:</span>
                 </td>
                 <td width="24%" valign="top">
                 </td>
-                <td width="33%" class="border-top border-bottom" style="font-size: 14px; text-align: center;">
+                <td width="33%" class="border-top border-bottom" style="font-size: 16px; text-align: center;">
                     <span><b>PURCHASE ORDER:</b></span>
                 </td>
             </tr>
             <tr>
-                <td width="33%">
-                    <br><b>{{strtoupper($company->name)}}</b>
-                    <br>{{$companyAddress->street}}
-                    <br>{{$companyAddress->city}} - {{$companyAddress->post_code}}
-                    <br>{{$companyAddress->city}} {{$companyAddress->province}} {{$companyAddress->post_code}}
-                    <br>{{$companyAddress->country->nice_name}}
+                @php
+                    $toAddress = $purchaseOrder->supplier->addresses[0];
+                @endphp
+                <td width="33%" class="py-0" style="font-size: 13px;">
+                    <span><br><b>{{strtoupper($purchaseOrder->supplier->name)}}</b></span>
+                    <span><br>{{$toAddress->street}}</span>
+                    <span><br>{{$toAddress->city}} - {{$toAddress->post_code}}</span>
+                    <span><br>{{$toAddress->city}} {{$toAddress->province}} {{$toAddress->post_code}}</span>
+                    <span><br>{{$toAddress->country->nice_name}}</span>
                 </td>
                 <td width="34%">
                 </td>
-                <td width="33%">
+                <td width="33%" style="font-size: 13px;">
                     <table>
                         <tr>
                             <td width="40%">Number</td>
@@ -212,7 +190,7 @@
                             <td valign="top" align="left">
                                 {{$detail->purchase_requisition_detail->item->name}}
                             </td>
-                            <td valign="top" align="right">
+                            <td valign="top" align="center">
                                 {{$detail->order_quantity}}
                             </td>
                             <td valign="top" align="left">
@@ -271,7 +249,7 @@
                         </div>
                     </td>
                     <td width="10%"></td>
-                    <td width="15%" valign="top" style="font-size: 12px">Grand Total</td>
+                    <td width="15%" valign="top" style="font-size: 12px"><b>Grand Total</b></td>
                     <td width="25%" valign="top" style="font-size: 12px" align="right">{{$grandTotal}}</td>
                 </tr>
             </table>
@@ -296,6 +274,17 @@
         </div>
     </div>
 
+    <script type="text/php">
+        if (isset($pdf)) {
+            $text = "Page {PAGE_NUM} / {PAGE_COUNT}";
+            $size = 7;
+            $font = $fontMetrics->getFont("Courier New");
+            $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
+            $x = $pdf->get_width() - (($pdf->get_width() - $width) / 8) - 10;
+            $y = $pdf->get_height() - 18;
+            $pdf->page_text($x, $y, $text, $font, $size);
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 </body>
