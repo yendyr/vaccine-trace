@@ -28,18 +28,12 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="login-wrap p-0">
                                 <h3 class="mb-4 text-center">Reset Password</h3>
-                                @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                                @endif
-
                                 <form method="POST" action="{{ route('password.email') }}">
                                     @csrf
 
                                     <div class="form-group">
-                                        <input type="email" class="form-control @error('login') is-invalid @enderror" name="login" required autofocus placeholder="Email Address">
-                                        @error('login')
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" autofocus placeholder="Email Address" value="{{ old('email') }}">
+                                        @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -57,9 +51,6 @@
                 </div>
             </div>
         </div>
-        </div>
-
-               
     </section>
     <br>
 
