@@ -50,6 +50,16 @@ class Warehouse extends MainModel
         return $this->belongsTo(\Modules\PPC\Entities\AircraftConfiguration::class, 'aircraft_configuration_id');
     }
 
+    public function mutation_origins()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\StockMutation::class, 'warehouse_origin');
+    }
+
+    public function mutation_destinations()
+    {
+        return $this->hasMany(\Modules\SupplyChain\Entities\StockMutation::class, 'warehouse_destination');
+    }
+
     public static function boot() {
         parent::boot();
 
