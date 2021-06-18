@@ -87,7 +87,8 @@
 @endswitch
 
 @isset($printable)
-
+    <a href="{{ $printHref ?? '#' }}" class="print btn btn-sm btn-outline btn-success ml-1 white-bg" data-toggle="tooltip" title="Print" target="_blank">
+                <i class="fa fa-print"></i> {{ $printText ?? 'Print' }}</a>
 @endisset
 
 @isset($approvable)

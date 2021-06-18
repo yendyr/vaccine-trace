@@ -303,6 +303,8 @@ class JobCardController extends Controller
                             'closeHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
                             'releaseable' => 'button',
                             'releaseHref' => route('ppc.job-card.release', ['job_card' => $row->id]),
+                            'printable' => true,
+                            'printHref' => route('ppc.job-card.print', ['job_card' => $row->id]),
                             'obj' => null
                         ]);
                     } else {

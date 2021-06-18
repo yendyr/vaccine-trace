@@ -325,6 +325,8 @@
                                                     'releaseValue' => $instruction_detail->id,
                                                     'releaseHref' => route('ppc.job-card.release', ['job_card' => $job_card->id]),
                                                     'releaseText' => $instruction_detail->getNextTaskRelease()->name ?? null,
+                                                    'printable' => true,
+                                                    'printHref' => route('ppc.job-card.print', ['job_card' => $job_card->id]),
                                                     'obj' => $instruction_detail
                                                 ])
                                                 @endcomponent
