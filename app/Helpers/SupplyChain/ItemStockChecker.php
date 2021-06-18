@@ -63,7 +63,7 @@ class ItemStockChecker
         return Datatables::of($table)
                 ->addColumn('warehouse', function($row){
                     if ($row->warehouse->is_aircraft == 1) {
-                        return '<strong>Aircraft:</strong> | ' . $row->warehouse->aircraft_configuration->registration_number . ' | ' . $row->warehouse->aircraft_configuration->serial_number;
+                        return '<strong>Aircraft Registration Number:</strong> ' . $row->warehouse->aircraft_configuration->registration_number . ' | S/N: ' . $row->warehouse->aircraft_configuration->serial_number;
                     } 
                     else {
                         return $row->warehouse->name;
