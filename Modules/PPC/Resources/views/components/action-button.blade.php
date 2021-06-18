@@ -71,7 +71,7 @@
     @endisset
 @break
 
-@case( array_search('closed', config('ppc.job-card.transaction-status')) || strlen($status) == 36)
+@case( array_search('closed', config('ppc.job-card.transaction-status')))
     @isset($releaseable)
         @if($releaseable == 'button')
             <button href="{{ $releaseHref ?? '#' }}" class="{{ $releaseButtonClass ?? 'releaseBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $releaseValue ?? null }}" data-next-status="release" data-toggle="tooltip" title="Release">
@@ -97,4 +97,24 @@
     </button>
 @endif
 @endisset
+
+@if( strlen($status) == 36 )
+    @if( !empty($obj->getNextTaskRelease()->name)  )
+        @isset($releaseable)
+            @if($releaseable == 'button')
+                <button href="{{ $releaseHref ?? '#' }}" class="{{ $releaseButtonClass ?? 'releaseBtn' }} btn btn-sm btn-outline btn-info ml-1 white-bg" value="{{ $releaseValue ?? null }}" data-next-status="release" data-toggle="tooltip" title="Release">
+                    <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</button>
+            @elseif($releaseable == 'a')
+                <a href="{{ $releaseHref ?? '#' }}" class="release btn btn-sm btn-outline btn-info ml-1 white-bg" data-next-status="release" data-toggle="tooltip" title="Release">
+                    <i class="fa fa-check-square"></i> {{ $releaseText ?? 'Release' }}</a>
+
+            @endif
+        @endisset
+    @endif
+
+    @if( empty($obj->getNextTaskRelease()->name)  )
+        {{ $obj->task_release_level->where('uuid', $obj->transaction_status)->first()->name ?? null }}
+    @endif
+@endif
+
 </div>

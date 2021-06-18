@@ -324,7 +324,8 @@
                                                     'releaseable' => 'button',
                                                     'releaseValue' => $instruction_detail->id,
                                                     'releaseHref' => route('ppc.job-card.release', ['job_card' => $job_card->id]),
-                                                    'releaseText' => $instruction_detail->getNextTaskRelease()->name ?? null
+                                                    'releaseText' => $instruction_detail->getNextTaskRelease()->name ?? null,
+                                                    'obj' => $instruction_detail
                                                 ])
                                                 @endcomponent
                                             @endif
@@ -346,7 +347,7 @@
                                             </div>
                                             <div class="col-md-3 p-xs border">Manpower Quantity: <p class="m-b-xs"><strong>{{ $instruction_detail->manpower_quantity ?? '-' }}</strong></p>
                                             </div>
-                                            <div class="col-md-3 p-xs border">Task Release Level: <p class="m-b-xs"><strong>{{ $instruction_detail->task_release_level->name ?? '-' }}</strong></p>
+                                            <div class="col-md-3 p-xs border">Task Release Level: <p class="m-b-xs"><strong> {{ $instruction_detail->task_release_level->last()->name ?? '-' }}</strong></p>
                                             </div>
                                             <div class="col-md-3 p-xs border">Skill Requirement:
                                                 @if ( !empty(json_decode($instruction_detail->skills_json)) )

@@ -280,7 +280,7 @@ class JobCardController extends Controller
                     return $row->updater->name ?? '-';
                 })
                 ->addColumn('transaction_status_label', function ($row) {
-                    return $row->transaction_status_label;
+                    return ucwords($row->transaction_status_label);
                 })
                 ->addColumn('action', function ($row) use ($request) {
                     $noAuthorize = true;
@@ -303,6 +303,7 @@ class JobCardController extends Controller
                             'closeHref' => route('ppc.job-card.update', ['job_card' => $row->id]),
                             'releaseable' => 'button',
                             'releaseHref' => route('ppc.job-card.release', ['job_card' => $row->id]),
+                            'obj' => null
                         ]);
                     } else {
                         return '<p class="text-muted font-italic">Not Authorized</p>';
@@ -359,6 +360,7 @@ class JobCardController extends Controller
         $job_card->document_library_details_json = json_decode($job_card->document_library_details_json);
         $job_card->affected_manuals_json = json_decode($job_card->affected_manuals_json);
         $job_card->affected_manual_details_json = json_decode($job_card->affected_manual_details_json);
+        $job_card->task_release_level_json = json_decode($job_card->task_release_level_json);
         $job_card->instruction_details_json = json_decode($job_card->instruction_details_json, true);
         $instruction_details_json = [];
 
@@ -415,6 +417,7 @@ class JobCardController extends Controller
         $job_card->document_library_details_json = json_decode($job_card->document_library_details_json);
         $job_card->affected_manuals_json = json_decode($job_card->affected_manuals_json);
         $job_card->affected_manual_details_json = json_decode($job_card->affected_manual_details_json);
+        $job_card->task_release_level_json = json_decode($job_card->task_release_level_json);
         $job_card->instruction_details_json = json_decode($job_card->instruction_details_json, true);
         $instruction_details_json = [];
 
@@ -701,10 +704,10 @@ class JobCardController extends Controller
          *  yang bisa eksekusi jobcard
          */
 
-        if ($job_card->transaction_status > 3) {
-            $view = $this->show($request, $job_card);
-        } else {
+        if ( !in_array($job_card->transaction_status, [5, 6]) ) {
             $view = $this->edit($request, $job_card);
+        } else {
+            $view = $this->show($request, $job_card);
         }
 
         return $view;
@@ -779,6 +782,18 @@ class JobCardController extends Controller
                 if (!$result) {
                     $flag = false;
                 }
+            }
+
+
+        }
+
+        if( $job_card->is_exec_all == true ){
+            $result = $job_card->update([
+                'transaction_status' => array_search('released', $job_card_transaction_status)
+            ]);
+
+            if (!$result) {
+                $flag = false;
             }
         }
 

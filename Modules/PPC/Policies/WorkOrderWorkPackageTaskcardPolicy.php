@@ -135,6 +135,8 @@ class WorkOrderWorkPackageTaskcardPolicy
         if( $job_card->transaction_status == array_search('open', config('ppc.job-card.transaction-status')) 
         || $job_card->transaction_status == array_search('progress', config('ppc.job-card.transaction-status')) 
         || $job_card->transaction_status == array_search('partially progress', config('ppc.job-card.transaction-status')) 
+        || $job_card->transaction_status == array_search('partially closed', config('ppc.job-card.transaction-status')) 
+        || $job_card->transaction_status == array_search('partially released', config('ppc.job-card.transaction-status')) 
         || $job_card->transaction_status == array_search('pending', config('ppc.job-card.transaction-status')) )
         {
             $is_open = true;   
