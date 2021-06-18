@@ -22,7 +22,6 @@
 <!-- Inspinia Theming -->
 <link href="{{URL::asset('theme/css/animate.css')}}" rel="stylesheet">
 <link href="{{URL::asset('theme/css/style.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/custom.css')}}" rel="stylesheet">
 
 {{-- <link href="{{URL::asset('theme/css/plugins/steps/jquery.steps.css')}}" rel="stylesheet"> --}}
 
