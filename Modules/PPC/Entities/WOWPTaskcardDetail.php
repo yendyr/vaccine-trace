@@ -221,7 +221,7 @@ class WOWPTaskcardDetail extends MainModel
         if( is_object($this->task_release_level_json) || is_array($this->task_release_level_json) ){
             return $this->task_release_level_json;
         }else{
-            return json_decode($this->task_release_level_json);
+            return collect(json_decode($this->task_release_level_json));
         }
 
     }

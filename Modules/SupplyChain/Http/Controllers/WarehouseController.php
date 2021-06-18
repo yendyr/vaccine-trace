@@ -25,7 +25,8 @@ class WarehouseController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Warehouse::all();
+            $data = Warehouse::with(['mutation_origins', 'mutation_destinations']);
+
             return Datatables::of($data)
                 ->addColumn('status', function($row){
                     if ($row->status == 1){
@@ -50,12 +51,15 @@ class WarehouseController extends Controller
                 ->addColumn('action', function($row){
                     if ($row->is_aircraft == 0) {
                         $noAuthorize = true;
+                        $deleteable = null;
+                        $deleteId = null;
+
                         if(Auth::user()->can('update', Warehouse::class)) {
                             $updateable = 'button';
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if(Auth::user()->can('delete', Warehouse::class)) {
+                        if(Auth::user()->can('delete', Warehouse::class) && (!$row->mutation_origins) && (!$row->mutation_destinations)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;

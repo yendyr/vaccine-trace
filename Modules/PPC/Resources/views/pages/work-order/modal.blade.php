@@ -30,14 +30,14 @@
                                             <div class="row m-b">
                                                 <div class="col">
                                                     <label>Work Order Title</label>
-                                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="">
+                                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="" required>
                                                     <div class="invalid-feedback-name text-danger font-italic"></div>
                                                 </div>
                                             </div>
                                             <div class="row m-b">
                                                 <div class="col">
                                                     <label>Aircraft</label>
-                                                    <select class="aircraft_id form-control @error('aircraft_id') is-invalid @enderror" id="aircraft_id" name="aircraft_id"></select>
+                                                    <select class="aircraft_id form-control @error('aircraft_id') is-invalid @enderror" id="aircraft_id" name="aircraft_id" required></select>
                                                     <div class="invalid-feedback-aircraft_id text-danger font-italic"></div>
                                                 </div>
                                                 <div class="col">
@@ -49,12 +49,12 @@
                                             <div class="row m-b">
                                                 <div class="col">
                                                     <label>Aircraft Serial Number</label>
-                                                    <input type="text" class="form-control @error('aircraft_serial_number') is-invalid @enderror" name="aircraft_serial_number" id="aircraft_serial_number" value="" readonly>
+                                                    <input type="text" class="form-control @error('aircraft_serial_number') is-invalid @enderror" name="aircraft_serial_number" id="aircraft_serial_number" value="" readonly required>
                                                     <div class="invalid-feedback-aircraft_serial_number text-danger font-italic"></div>
                                                 </div>
                                                 <div class="col">
                                                     <label>Aircraft Register</label>
-                                                    <input type="text" class="form-control @error('aircraft_registration_number') is-invalid @enderror" name="aircraft_registration_number" id="aircraft_registration_number" value="" readonly>
+                                                    <input type="text" class="form-control @error('aircraft_registration_number') is-invalid @enderror" name="aircraft_registration_number" id="aircraft_registration_number" value="" readonly required>
                                                     <div class="invalid-feedback-aircraft_registration_number text-danger font-italic"></div>
                                                 </div>
                                             </div>
