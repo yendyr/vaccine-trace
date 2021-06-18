@@ -86,10 +86,14 @@
                                 <td width="50%" valign="top">
                                     <div class="pb-1" style="font-size: 13px;">FROM:</div>
                                     <b>{{strtoupper($company->name)}}</b>
+                                    @if(isset($companyAddress))
                                     <br>{{$companyAddress->street}}
                                     <br>{{$companyAddress->city}} - {{$companyAddress->post_code}}
                                     <br>{{$companyAddress->city}} {{$companyAddress->province}} {{$companyAddress->post_code}}
                                     <br>{{$companyAddress->country->nice_name}}
+                                    @else
+                                    <br><b>-</b>
+                                    @endif
                                 </td>
                             </tr>
                         </table>
