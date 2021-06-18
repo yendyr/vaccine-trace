@@ -9,6 +9,8 @@
     
     @include('layouts.includes._header-script')
     @stack('header-scripts')
+
+    <link href="{{ URL::asset('assets/custom.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="wrapper">
@@ -22,7 +24,6 @@
                     @include('layouts.includes.navbar')
                 </nav>
             </div>
-
 
             @if (Request::is('dashboard'))
                 @yield('content')
@@ -65,18 +66,20 @@
         return true;
     }
 </script>
+
 @include('layouts.includes._footer-script')
 @stack('footer-scripts')
 @if (session('error'))
-<script>
-generateToast ('error', "{{ session('error') }}");                            
-</script>
+    <script>
+        generateToast ('error', "{{ session('error') }}");                            
+    </script>
 @endif
 
 @if (session('success'))
-<script>
-generateToast ('success', "{{ session('success') }}");                            
-</script>
+    <script>
+        generateToast ('success', "{{ session('success') }}");                            
+    </script>
 @endif
+
 </body>
 </html>
