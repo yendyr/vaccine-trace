@@ -18,8 +18,8 @@
         }
 
         body{
-            font-family: 'Segoe UI', "Courier New", sans-serif;
-            margin-top: 4.5cm;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; !important;
+            margin-top: 5cm;
             margin-bottom: 2cm;
         }
 
@@ -36,7 +36,7 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 0.7cm;
+            height: 0.8cm;
             font-size: 9px;
             margin-bottom: 0px;
         }
@@ -46,6 +46,13 @@
 
         table{
             border-collapse: collapse;
+        }
+
+        .helveticaFont {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; !important;
+        }
+        .courierNewFont{
+            font-family: "Courier New", Courier, monospace;
         }
 
         #bodyHead{
@@ -72,31 +79,27 @@
 
     </style>
 </head>
-<body style='font-family: "Courier New", Courier, monospace'>
+<body>
     <header>
         <div id="bodyHead">
-            <table width="80%" style='font-size: 12px;'>
+            <table style='font-size: 12px;'>
                 <tr>
-                    <td width="80%">
-                        <table width="100%">
-                            <tr>
-                                <td width="50%" style="vertical-align: center; text-align: center; padding-top: 12px;">
-                                    <img src="{{$company->logo}}" alt="" style="max-height: 75px">
-                                </td>
-                                <td width="50%" valign="top">
-                                    <div class="pb-1" style="font-size: 13px;">FROM:</div>
-                                    <b>{{strtoupper($company->name)}}</b>
-                                    @if(isset($companyAddress))
-                                    <br>{{$companyAddress->street}}
-                                    <br>{{$companyAddress->city}} - {{$companyAddress->post_code}}
-                                    <br>{{$companyAddress->city}} {{$companyAddress->province}} {{$companyAddress->post_code}}
-                                    <br>{{$companyAddress->country->nice_name}}
-                                    @else
-                                    <br><b>-</b>
-                                    @endif
-                                </td>
-                            </tr>
-                        </table>
+                    <td style="vertical-align: center; text-align: left; padding-top: 12px;">
+                        <img src="{{$company->logo}}" alt="" style="max-height: 75px">
+                    </td>
+                    <td valign="top" class="courierNewFont">
+                        <div style="margin-left: 16px">
+                            <div class="pb-1 helveticaFont" style="font-size: 13px;">FROM:</div>
+                            <b>{{strtoupper($company->name)}}</b>
+                            @if(isset($companyAddress))
+                                <br><b>{{$companyAddress->street}}</b>
+                                <br><b>{{$companyAddress->city}} - {{$companyAddress->post_code}}</b>
+                                <br><b>{{$companyAddress->city}} {{$companyAddress->province}} {{$companyAddress->post_code}}</b>
+                                <br><b>{{$companyAddress->country->nice_name}}</b>
+                            @else
+                                <br><b>-</b>
+                            @endif
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -104,10 +107,15 @@
     </header>
 
     <footer>
-        <div class="container">
+        <div class="container border-top border-3 pt-1">
             <table width="100%">
                 <tr>
-                    <td width="80%" valign="top">Created By: {{$purchaseOrder->creator->name}}; {{$purchaseOrder->created_at->format('d-m-Y') ?? '-' }} &nbsp;&nbsp;&nbsp; Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}; {{ date('d-m-Y H:i:s') }}</span> </td>
+                    <td width="80%" valign="top">
+                        <span class="courierNewFont" style="font-size: 10px">Created By:</span>
+                        <b>{{$purchaseOrder->creator->name}}; {{$purchaseOrder->created_at->format('d-m-Y') ?? '-' }}</b> &nbsp;&nbsp;&nbsp;
+                        <span class="courierNewFont" style="font-size: 10px">Printed By:</span>
+                        <b>{{\Illuminate\Support\Facades\Auth::user()->name}}; {{ date('d-m-Y H:i:s') }}</b>
+                    </td>
                     <td width="10%" valign="top"></td>
 {{--                    <td width="10%" valign="top" align="right">Page 1/1</td>--}}
                 </tr>
@@ -118,13 +126,13 @@
     <div id="content1">
         <table width="100%">
             <tr>
-                <td width="33%" class="border-top border-bottom" style="font-size: 13px;">
+                <td width="36%" class="border-top border-bottom" style="font-size: 13px;">
                     <span>TO:</span>
                 </td>
                 <td width="24%" valign="top">
                 </td>
-                <td width="33%" class="border-top border-bottom" style="font-size: 16px; text-align: center;">
-                    <span><b>PURCHASE ORDER:</b></span>
+                <td width="40%" class="border-top border-bottom" style="font-size: 16px; text-align: center;">
+                    <span>PURCHASE ORDER</span>
                 </td>
             </tr>
             <tr>
@@ -132,40 +140,36 @@
                     if (isset($purchaseOrder->supplier->addresses[0]))
                         $toAddress = $purchaseOrder->supplier->addresses[0];
                 @endphp
-                <td width="33%" class="py-0" style="font-size: 13px;">
+                <td width="36%" class="py-0 my-0 courierNewFont" style="font-size: 13px;">
                     @if(isset($toAddress))
-                        <span><br><b>{{strtoupper($purchaseOrder->supplier->name)}}</b></span>
-                        <span><br>{{$toAddress->street}}</span>
-                        <span><br>{{$toAddress->city}} - {{$toAddress->post_code}}</span>
-                        <span><br>{{$toAddress->city}} {{$toAddress->province}} {{$toAddress->post_code}}</span>
-                        <span><br>{{$toAddress->country->nice_name}}</span>
+                        <br><b>{{strtoupper($purchaseOrder->supplier->name)}}</b>
+                        <br><b>{{$toAddress->street}}</b>
+                        <br><b>{{$toAddress->city}} - {{$toAddress->post_code}}</b>
+                        <br><b>{{$toAddress->city}} {{$toAddress->province}} {{$toAddress->post_code}}</b>
+                        <br><b>{{$toAddress->country->nice_name}}</b>
                     @else
                         <span class="text-center"><b>-</b></span>
                     @endif
                 </td>
-                <td width="34%">
+                <td width="24%">
                 </td>
-                <td width="33%" style="font-size: 13px;">
+                <td width="40%" style="font-size: 13px;">
                     <table>
                         <tr>
                             <td width="40%">Number</td>
-                            <td width="15%">:</td>
-                            <td width="45%">{{$purchaseOrder->code}}</td>
+                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->code}}</td>
                         </tr>
                         <tr>
                             <td width="40%">Date</td>
-                            <td width="15%">:</td>
-                            <td width="45%">{{$purchaseOrder->transaction_date}}</td>
+                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->transaction_date}}</td>
                         </tr>
                         <tr>
                             <td width="40%">Currency</td>
-                            <td width="15%">:</td>
-                            <td width="45%">{{$purchaseOrder->currency->code}}</td>
+                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->currency->code}}</td>
                         </tr>
                         <tr>
                             <td width="40%">Rate</td>
-                            <td width="15%">:</td>
-                            <td width="45%">{{$purchaseOrder->exchange_rate}}</td>
+                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->exchange_rate}}</td>
                         </tr>
                     </table>
                 </td>
@@ -175,7 +179,7 @@
 
     <div id="content2">
         <div class="container">
-            <table width="100%" class="table" cellpadding="3" page-break-inside: auto;>
+            <table width="100%" class="table courierNewFont" cellpadding="3" page-break-inside: auto;>
                 <thead>
                     <tr style="background-color: #0C112E; color: whitesmoke">
                         <th valign="top" class="text-center" width="10%">Item Code</th>
@@ -237,8 +241,8 @@
                                 <b>Remark :</b>
                             </span>
                             <br>
-                            <span>
-                                {!! $purchaseOrder->description !!}
+                            <span class="courierNewFont">
+                                <b>{!! $purchaseOrder->description !!}</b>
                             </span>
                         </div>
                         <div class="mb-2">
@@ -246,8 +250,8 @@
                                 <b>Term And Condition :</b>
                             </span>
                             <br>
-                            <span>
-                                {!! $purchaseOrder->term_and_condition !!}
+                            <span class="courierNewFont">
+                                {!! $purchaseOrder->term_and_condition !!}</span>
                             </span>
                         </div>
                         <div class="mb-2">
@@ -255,14 +259,16 @@
                                 <b>Shipping Address :</b>
                             </span>
                             <br>
-                            <span>
-                                {!! $purchaseOrder->shipping_address !!}
+                            <span class="courierNewFont">
+                                {!! $purchaseOrder->shipping_address !!}</span>
                             </span>
                         </div>
                     </td>
                     <td width="10%"></td>
                     <td width="15%" valign="top" style="font-size: 12px"><b>Grand Total</b></td>
-                    <td width="25%" valign="top" style="font-size: 12px" align="right">{{number_format($grandTotal,2,",",".")}}</td>
+                    <td width="25%" valign="top" class="courierNewFont" align="right" style="font-size: 12px">
+                        {{number_format($grandTotal,2,",",".")}}
+                    </td>
                 </tr>
             </table>
         </div>
@@ -272,14 +278,16 @@
                     <td width="60%"></td>
                     <td width="30%" style="font-size: 12px">
                         <div class="text-center mb-4" style="height: 60px">
-                            <b>Approved By</b>
+                            Approved By
                         </div>
                         <div class="text-center border-bottom border-2">
-                            <span>{{ isset($employee->name) ? $employee->name : \Illuminate\Support\Facades\Auth::user()->name }}</span>
+                            <span class="font-weight-bold courierNewFont">
+                                <b>{{ isset($employee->name) ? $employee->name : \Illuminate\Support\Facades\Auth::user()->name }}</b>
+                            </span>
                         </div>
                         <div class="text-center">
-                            <span>
-                                {{$purchaseOrder->approvals->first()->created_at ?? 'Not Yet Approved'}}
+                            <span class="font-weight-bold courierNewFont">
+                                <b>{{$purchaseOrder->approvals->first()->created_at ?? 'Not Yet Approved'}}</b>
                             </span>
                         </div>
                     </td>
@@ -292,10 +300,10 @@
         if (isset($pdf)) {
             $text = "Page {PAGE_NUM} / {PAGE_COUNT}";
             $size = 7;
-            $font = $fontMetrics->getFont("Courier New");
+            $font = $fontMetrics->getFont("helvetica");
             $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
-            $x = $pdf->get_width() - (($pdf->get_width() - $width) / 8) - 10;
-            $y = $pdf->get_height() - 18;
+            $x = $pdf->get_width() - (($pdf->get_width() - $width) / 8);
+            $y = $pdf->get_height() - 16;
             $pdf->page_text($x, $y, $text, $font, $size);
         }
     </script>
