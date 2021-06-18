@@ -59,7 +59,7 @@ class WarehouseController extends Controller
                             $updateValue = $row->id;
                             $noAuthorize = false;
                         }
-                        if(Auth::user()->can('delete', Warehouse::class) && (!$row->mutation_origins) && (!$row->mutation_destinations)) {
+                        if(Auth::user()->can('delete', Warehouse::class) && ($row->mutation_origins->count() == 0 && $row->mutation_destinations->count() == 0)) {
                             $deleteable = true;
                             $deleteId = $row->id;
                             $noAuthorize = false;
