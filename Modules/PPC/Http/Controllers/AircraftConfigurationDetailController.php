@@ -98,7 +98,11 @@ class AircraftConfigurationDetailController extends Controller
                 }
             }
             else {
-                return '<p class="text-muted font-italic">Already Approved</p>';
+                // return '<p class="text-muted font-italic">Already Approved</p>';
+                $printSingleQr = 'button';
+                $printSingleQrId = $row->uuid;
+    
+                return view('components.action-button', compact(['printSingleQr', 'printSingleQrId']));
             }
         })
         ->escapeColumns([])

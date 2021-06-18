@@ -360,16 +360,14 @@ a {
     padding: 0.5em 0;
     color: rgba(255, 255, 255, 0.5);
     position: relative;
-    /* letter-spacing: 1px; */
     text-decoration: none;
-
     background-image: none;
   }
   .nav a:before,
   .nav a:after {
     position: absolute;
-    -webkit-transition: all 0.35s ease;
-    transition: all 0.35s ease;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
   }
   .nav a:before {
     bottom: 0;
@@ -393,11 +391,11 @@ a {
   .nav a:hover:before,
   .nav .current a:before {
     opacity: 1;
-    width: 60%;
+    width: 70%;
   }
   .nav a:hover:after,
   .nav .current a:after {
-    max-width: 60%;
+    max-width: 70%;
   }
 
 table tbody tr {
@@ -409,6 +407,4 @@ table tbody tr {
 .table-hover tbody tr:hover {
     color: #000;
     background-color: rgb(33 150 243 / 40%);
-    /* background: var(--info);
-    color: white; */
 }
