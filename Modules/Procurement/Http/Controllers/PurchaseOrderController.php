@@ -89,7 +89,18 @@ class PurchaseOrderController extends Controller
                 $approveId = null;
 
                 if ($row->approvals()->count() > 0) {
-                    return '<p class="text-muted font-italic">Already Approved</p>';
+                    if(Auth::user()->can('print', PurchaseOrder::class)) {
+                        $printable = true;
+                        $printId = $row->id;
+                        $printLink = "/procurement/purchase-order/$row->id/print";
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['printable', 'printId', 'printLink']));
+                    }else{
+                        return '<p class="text-muted font-italic">Already Approved</p>';
+                    }
                 }
                 else {
                     if(Auth::user()->can('update', PurchaseOrder::class)) {
@@ -303,7 +314,7 @@ class PurchaseOrderController extends Controller
             $company->logo = "./uploads/company/$company->id/logo/$company->logo";
         $companyAddress = CompanyDetailAddress::where('company_id', $company->id)->with('country')->first();
 
-        $purchaseOrder = PurchaseOrder::whereId($PurchaseOrder->id)->with(['currency','purchase_order_details', 'creator', 'supplier', 'supplier.addresses', 'supplier.addresses.country'])->first();
+        $purchaseOrder = PurchaseOrder::whereId($PurchaseOrder->id)->with(['currency','purchase_order_details', 'approvals', 'creator', 'supplier', 'supplier.addresses', 'supplier.addresses.country'])->first();
 
         $details = PurchaseOrderDetail::where('purchase_order_id', $PurchaseOrder->id)
             ->with(['purchase_requisition_detail.purchase_requisition',

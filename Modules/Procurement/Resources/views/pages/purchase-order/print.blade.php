@@ -197,13 +197,16 @@
                                 {{$detail->description}}
                             </td>
                             <td valign="top" align="right">
-                                {{$detail->each_price_before_vat}}
+                                {{number_format($detail->each_price_before_vat,2,",",".")}}
                             </td>
                             <td valign="top" align="right">
                                 {{($detail->vat * 100)}}
                             </td>
                             <td valign="top" align="right">
-                                {{(($detail->order_quantity * $detail->each_price_before_vat) * $detail->vat) + ($detail->order_quantity * $detail->each_price_before_vat)}}
+                                @php
+                                    $result = (($detail->order_quantity * $detail->each_price_before_vat) * $detail->vat) + ($detail->order_quantity * $detail->each_price_before_vat)
+                                @endphp
+                                {{number_format($result,2,",",".")}}
                             </td>
                         </tr>
                         @php
@@ -250,7 +253,7 @@
                     </td>
                     <td width="10%"></td>
                     <td width="15%" valign="top" style="font-size: 12px"><b>Grand Total</b></td>
-                    <td width="25%" valign="top" style="font-size: 12px" align="right">{{$grandTotal}}</td>
+                    <td width="25%" valign="top" style="font-size: 12px" align="right">{{number_format($grandTotal,2,",",".")}}</td>
                 </tr>
             </table>
         </div>
@@ -266,7 +269,9 @@
                             <span>{{ isset($employee->name) ? $employee->name : \Illuminate\Support\Facades\Auth::user()->name }}</span>
                         </div>
                         <div class="text-center">
-                            <span>Date Approved</span>
+                            <span>
+                                {{$purchaseOrder->approvals->first()->created_at ?? 'Not Yet Approved'}}
+                            </span>
                         </div>
                     </td>
                 </tr>
