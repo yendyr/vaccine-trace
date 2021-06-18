@@ -86,10 +86,14 @@
                                 <td width="50%" valign="top">
                                     <div class="pb-1" style="font-size: 13px;">FROM:</div>
                                     <b>{{strtoupper($company->name)}}</b>
+                                    @if(isset($companyAddress))
                                     <br>{{$companyAddress->street}}
                                     <br>{{$companyAddress->city}} - {{$companyAddress->post_code}}
                                     <br>{{$companyAddress->city}} {{$companyAddress->province}} {{$companyAddress->post_code}}
                                     <br>{{$companyAddress->country->nice_name}}
+                                    @else
+                                    <br><b>-</b>
+                                    @endif
                                 </td>
                             </tr>
                         </table>
@@ -125,14 +129,19 @@
             </tr>
             <tr>
                 @php
-                    $toAddress = $purchaseOrder->supplier->addresses[0];
+                    if (isset($purchaseOrder->supplier->addresses[0]))
+                        $toAddress = $purchaseOrder->supplier->addresses[0];
                 @endphp
                 <td width="33%" class="py-0" style="font-size: 13px;">
-                    <span><br><b>{{strtoupper($purchaseOrder->supplier->name)}}</b></span>
-                    <span><br>{{$toAddress->street}}</span>
-                    <span><br>{{$toAddress->city}} - {{$toAddress->post_code}}</span>
-                    <span><br>{{$toAddress->city}} {{$toAddress->province}} {{$toAddress->post_code}}</span>
-                    <span><br>{{$toAddress->country->nice_name}}</span>
+                    @if(isset($toAddress))
+                        <span><br><b>{{strtoupper($purchaseOrder->supplier->name)}}</b></span>
+                        <span><br>{{$toAddress->street}}</span>
+                        <span><br>{{$toAddress->city}} - {{$toAddress->post_code}}</span>
+                        <span><br>{{$toAddress->city}} {{$toAddress->province}} {{$toAddress->post_code}}</span>
+                        <span><br>{{$toAddress->country->nice_name}}</span>
+                    @else
+                        <span class="text-center"><b>-</b></span>
+                    @endif
                 </td>
                 <td width="34%">
                 </td>
