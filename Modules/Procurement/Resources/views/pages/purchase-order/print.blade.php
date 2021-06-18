@@ -157,19 +157,19 @@
                     <table>
                         <tr>
                             <td width="40%">Number</td>
-                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->code}}</td>
+                            <td width="60%" class="courierNewFont" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->code}}</td>
                         </tr>
                         <tr>
                             <td width="40%">Date</td>
-                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->transaction_date}}</td>
+                            <td width="60%" class="courierNewFont" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->transaction_date}}</td>
                         </tr>
                         <tr>
                             <td width="40%">Currency</td>
-                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->currency->code}}</td>
+                            <td width="60%" class="courierNewFont" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->currency->code}}</td>
                         </tr>
                         <tr>
                             <td width="40%">Rate</td>
-                            <td width="60%" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->exchange_rate}}</td>
+                            <td width="60%" class="courierNewFont" style="font-weight: bolder; padding-left: 8px">:  {{$purchaseOrder->exchange_rate}}</td>
                         </tr>
                     </table>
                 </td>
