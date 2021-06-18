@@ -29,6 +29,7 @@ Route::name('procurement.')->group(function() {
         Route::get('/purchase-order/detail-tree', 'PurchaseOrderDetailController@tree')->name('purchase-order.detail-tree');
 
         Route::resource('/purchase-order', 'PurchaseOrderController');
+        Route::get('/purchase-order/{purchase_order}/print', 'PurchaseOrderController@print')->name('print');
         Route::post('/purchase-order/{purchase_order}/approve', 'PurchaseOrderController@approve');
 
         Route::resource('/purchase-order-detail', 'PurchaseOrderDetailController');        
