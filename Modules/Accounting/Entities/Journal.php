@@ -60,6 +60,11 @@ class Journal extends MainModel
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Currency::class, 'currency_id');
     }
 
+    public function stock_mutation()
+    {
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'transaction_reference_id');
+    }
+
     public function journal_details()
     {
         return $this->hasMany(\Modules\Accounting\Entities\JournalDetail::class, 'journal_id');

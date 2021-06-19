@@ -326,7 +326,6 @@ class PurchaseOrderController extends Controller
 
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $data = ['title' => 'Testing Page Number In Body'];
         $pdfFile = $pdf->loadView('procurement::pages.purchase-order.print', [
             'company' => $company,
             'employee' => Auth::user()->employee,

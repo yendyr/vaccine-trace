@@ -82,6 +82,11 @@ class StockMutation extends MainModel
         return $this->belongsTo(\Modules\GeneralSetting\Entities\Company::class, 'supplier_id');
     }
 
+    public function journal()
+    {
+        return $this->hasOne(\Modules\Accounting\Entities\Journal::class, 'transaction_reference_id');
+    }
+
     public function approvals()
     {
         return $this->hasMany(\Modules\SupplyChain\Entities\StockMutationApproval::class, 'stock_mutation_id');

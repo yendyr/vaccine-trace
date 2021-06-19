@@ -2,6 +2,8 @@
 
 namespace app\Helpers\SupplyChain;
 
+use app\Helpers\Accounting\JournalProcess;
+
 use Modules\SupplyChain\Entities\ItemStock;
 use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\StockMutationApproval;
@@ -23,7 +25,7 @@ class ItemStockMutation
             $item_stock->item_stock_initial_aging()->forceDelete();
         }
         $stockMutationRow->item_stocks()->forceDelete();
-
+        
         foreach($stockMutationRow->inbound_mutation_details as $inbound_mutation_detail) {
             if ($inbound_mutation_detail->purchase_order_detail->purchase_requisition_detail->item->category->item_type != 'Service') {
                 $ItemStock = new ItemStock([
@@ -86,6 +88,8 @@ class ItemStockMutation
             'status' => 1,
             'created_by' => Auth::user()->id,
         ]);
+
+        JournalProcess::stockInboundJournal($stockMutationRow);
         DB::commit();
     }
 
