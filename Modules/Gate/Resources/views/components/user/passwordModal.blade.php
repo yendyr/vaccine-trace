@@ -13,19 +13,19 @@
                 <div class="modal-body">
                     <div class="form-group row"><label class="col-sm-6 col-form-label">Current Password</label>
                         <div class="col-sm-6">
-                            <input type="password" class="form-control " id="fcurrent" name="current">
+                            <input type="password" class="form-control " id="fcurrent" name="current" autocomplete="on">
                             <div class="invalid-feedback-current text-danger"></div>
                         </div>
                     </div>
                     <div class="form-group row"><label class="col-sm-6 col-form-label">New Password</label>
                         <div class="col-sm-6">
-                            <input type="password" class="form-control " id="fnew" name="new">
+                            <input type="password" class="form-control " id="fnew" name="new" autocomplete="on">
                             <div class="invalid-feedback-new text-danger"></div>
                         </div>
                     </div>
                     <div class="form-group row"><label class="col-sm-6 col-form-label">Confirm Password</label>
                         <div class="col-sm-6">
-                            <input type="password" class="form-control " id="fconfirm" name="confirm">
+                            <input type="password" class="form-control " id="fconfirm" name="confirm" autocomplete="on">
                             <div class="invalid-feedback-confirm text-danger"></div>
                         </div>
                     </div>
