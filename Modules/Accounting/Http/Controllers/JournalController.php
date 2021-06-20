@@ -55,7 +55,12 @@ class JournalController extends Controller
                 return JournalProcess::totalDebit($row->id);
             })
             ->addColumn('creator_name', function($row) {
-                return $row->creator->name ?? '-';
+                if ($row->created_by != 0) {
+                    return $row->creator->name;
+                }
+                else {
+                    return 'System';
+                }
             })
             ->addColumn('updater_name', function($row) {
                 return $row->updater->name ?? '-';
@@ -73,7 +78,7 @@ class JournalController extends Controller
                     return '<p class="text-muted font-italic">Already Approved</p>';
                 }
                 else {
-                    if(Auth::user()->can('update', Journal::class)) {
+                    if(Auth::user()->can('update', Journal::class) && $row->created_by != 0) {
                         $updateable = 'button';
                         $updateValue = $row->id;
                         $noAuthorize = false;
