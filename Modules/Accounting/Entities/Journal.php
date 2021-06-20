@@ -12,6 +12,7 @@ class Journal extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
+    protected $appends = ['transaction_reference_code'];
 
     use Notifiable;
 
@@ -62,7 +63,7 @@ class Journal extends MainModel
 
     public function stock_mutation()
     {
-        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'transaction_reference_id');
+        return $this->belongsTo(\Modules\SupplyChain\Entities\StockMutation::class, 'transaction_reference_id', 'id');
     }
 
     public function journal_details()
@@ -73,6 +74,13 @@ class Journal extends MainModel
     public function approvals()
     {
         return $this->hasMany(\Modules\Accounting\Entities\JournalApproval::class, 'journal_id');
+    }
+
+    public function getTransactionReferenceCodeAttribute()
+    {
+        if ($this->transaction_reference_text == 'Warehouse Stock Inbound') {
+            return $this->stock_mutation->code;
+        }
     }
 
     public static function boot() {

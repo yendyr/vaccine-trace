@@ -60,7 +60,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-sm-5 d-flex align-items-center">Set as Local/Primary Currency</label>
                         <div class="col-sm-7">     
                             <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
@@ -72,7 +72,7 @@
                                 <div class="invalid-feedback-is_primary text-danger font-italic"></div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="modal-footer">

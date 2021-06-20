@@ -84,7 +84,7 @@ class StockMutation extends MainModel
 
     public function journal()
     {
-        return $this->hasOne(\Modules\Accounting\Entities\Journal::class, 'transaction_reference_id');
+        return $this->hasOne(\Modules\Accounting\Entities\Journal::class, 'transaction_reference_id', 'id');
     }
 
     public function approvals()

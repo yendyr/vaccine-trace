@@ -36,27 +36,8 @@ class JournalController extends Controller
 
             return Datatables::of($data)
             ->addColumn('reference', function($row) {
-                if ($row->purchase_order_details) {
-                    $referenceCodeArray = array();
-                    $reference_code = '';
-
-                    $PurchaseOrderDetails = PurchaseOrderDetail::where('purchase_order_id', $row->id)->get();
-                    
-                    foreach ($PurchaseOrderDetails as $PurchaseOrderDetail) {
-                        if ($PurchaseOrderDetail->purchase_requisition_detail) {
-                            $temp_code = "<a href='/procurement/purchase-requisition/" . $PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->id . "' target='_blank'>" . $PurchaseOrderDetail->purchase_requisition_detail->purchase_requisition->code . "</a>";
-                            if (!in_array($temp_code, $referenceCodeArray)) {
-                                $referenceCodeArray[] = $temp_code;
-                            }
-                        }
-                    }
-
-                    foreach ($referenceCodeArray as $code) {
-                        $reference_code .= $code . ',<br>';
-                    }
-                    
-                    $reference_code = Str::beforeLast($reference_code, ',');
-                    return $reference_code;
+                if ($row->transaction_reference_text) {
+                    return "<a target='_blank' href='" . $row->transaction_reference_url . "'>" . $row->transaction_reference_code . "</a>";
                 } 
                 else {
                     return "-";
@@ -197,7 +178,7 @@ class JournalController extends Controller
 
     public function destroy(Journal $Journal)
     {
-        if ($Journal->journal_details()->count() > 0) {
+        if ($Journal->approvals()->count() == 0) {
             $Journal->update([
                 'deleted_by' => Auth::user()->id,
             ]);
