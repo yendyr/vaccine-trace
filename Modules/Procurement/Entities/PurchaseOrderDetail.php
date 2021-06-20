@@ -11,6 +11,7 @@ class PurchaseOrderDetail extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
+    protected $appends = ['each_price_before_vat_primary_currency'];
     use Notifiable;
 
     protected $fillable = [
@@ -75,6 +76,11 @@ class PurchaseOrderDetail extends MainModel
     public function approvals()
     {
         return $this->hasMany(\Modules\Procurement\Entities\PurchaseOrderApproval::class, 'purchase_order_id');
+    }
+
+    public function getEachPriceBeforeVatPrimaryCurrencyAttribute()
+    {
+        return ($this->each_price_before_vat * $this->purchase_order->exchange_rate);
     }
 
     // public static function boot() {

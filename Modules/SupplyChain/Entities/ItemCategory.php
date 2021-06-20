@@ -16,6 +16,7 @@ class ItemCategory extends MainModel
     protected $fillable = [
         'uuid',
         'code',
+        
         'name',
         'description',
         'item_type',

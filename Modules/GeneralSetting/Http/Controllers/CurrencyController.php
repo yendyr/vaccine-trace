@@ -55,24 +55,28 @@ class CurrencyController extends Controller
                 $deleteable = null;
                 $deleteId = null;
 
-                if(Auth::user()->can('update', Currency::class)) {
-                    $updateable = 'button';
-                    $updateValue = $row->id;
-                    $noAuthorize = false;
-                }
-                if(Auth::user()->can('delete', Currency::class) && $row->is_primary != 1) {
-                    $deleteable = true;
-                    $deleteId = $row->id;
-                    $noAuthorize = false;
-                }
-
-                if ($noAuthorize == false) {
-                    return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                if ($row->id == 1) {
+                    return "<p class='text-muted font-italic'>Can't Modify Primary/Local Currency</p>";
                 }
                 else {
-                    return '<p class="text-muted font-italic">Not Authorized</p>';
+                    if(Auth::user()->can('update', Currency::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', Currency::class) && $row->is_primary != 1) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+    
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
+                    }
                 }
-                
             })
             ->escapeColumns([])
             ->make(true);

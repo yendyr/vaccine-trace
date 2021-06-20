@@ -151,22 +151,22 @@ body {
 
 .modal-footer {
     background: #eee;
-    background: -moz-linear-gradient(-45deg, #eee 0%, #eee 60%, #ddd 61%, #ddd 100%);
+    background: -moz-linear-gradient(-45deg, #FFF5E8 0%, #FFF5E8 60%, #95C7F1 61%, #95C7F1 100%);
     /* background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(239, 197, 202, 1)), color-stop(100%, rgba(239, 197, 202, 1))); */
-    background: -webkit-linear-gradient(-45deg, #eee 0%, #eee 60%, #ddd 61%, #ddd 100%);
-    background: -o-linear-gradient(-45deg, #eee 0%, #eee 60%, #ddd 61%, #ddd 100%);
-    background: -ms-linear-gradient(-45deg, #eee 0%, #eee 60%, #ddd 61%, #ddd 100%);
+    background: -webkit-linear-gradient(-45deg, #FFF5E8 0%, #FFF5E8 60%, #95C7F1 61%, #95C7F1 100%);
+    background: -o-linear-gradient(-45deg, #FFF5E8 0%, #FFF5E8 60%, #95C7F1 61%, #95C7F1 100%);
+    background: -ms-linear-gradient(-45deg, #FFF5E8 0%, #FFF5E8 60%, #95C7F1 61%, #95C7F1 100%);
     /* background: linear-gradient(135deg, rgba(186, 39, 55, 1) 0%, rgba(186, 39, 55, 1) 51%, rgba(239, 197, 202, 1) 51%, rgba(239, 197, 202, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ba2737', endColorstr='#efc5ca', GradientType=1); */
 }
 
 .modal-header {
     background: #eee;
-    background: -moz-linear-gradient(-45deg, #ddd 0%, #ddd 85%, #eee 86%, #eee 100%);
+    background: -moz-linear-gradient(-45deg, #95C7F1 0%, #95C7F1 85%, #FFF5E8 86%, #FFF5E8 100%);
     /* background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(239, 197, 202, 1)), color-stop(100%, rgba(239, 197, 202, 1))); */
-    background: -webkit-linear-gradient(-45deg, #ddd 0%, #ddd 85%, #eee 86%, #eee 100%);
-    background: -o-linear-gradient(-45deg, #ddd 0%, #ddd 85%, #eee 86%, #eee 100%);
-    background: -ms-linear-gradient(-45deg, #ddd 0%, #ddd 85%, #eee 86%, #eee 100%);
+    background: -webkit-linear-gradient(-45deg, #95C7F1 0%, #95C7F1 85%, #FFF5E8 86%, #FFF5E8 100%);
+    background: -o-linear-gradient(-45deg, #95C7F1 0%, #95C7F1 85%, #FFF5E8 86%, #FFF5E8 100%);
+    background: -ms-linear-gradient(-45deg, #95C7F1 0%, #95C7F1 85%, #FFF5E8 86%, #FFF5E8 100%);
     /* background: linear-gradient(135deg, rgba(186, 39, 55, 1) 0%, rgba(186, 39, 55, 1) 51%, rgba(239, 197, 202, 1) 51%, rgba(239, 197, 202, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ba2737', endColorstr='#efc5ca', GradientType=1); */
 }
@@ -182,11 +182,11 @@ body {
 
 .ibox-title {
     background: #eee;
-    background: -moz-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 100%);
+    background: -moz-linear-gradient(-45deg, #B4C2D6 0%, #B4C2D6 20%, #fff 21%, #fff 100%);
     /* background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(186, 39, 55, 1)), color-stop(51%, rgba(239, 197, 202, 1)), color-stop(100%, rgba(239, 197, 202, 1))); */
-    background: -webkit-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 80%, #ddd 81%, #ddd 100%);
-    background: -o-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 100%);
-    background: -ms-linear-gradient(-45deg, #ddd 0%, #ddd 20%, #fff 21%, #fff 100%);
+    background: -webkit-linear-gradient(-45deg, #FDD6BF 0%, #FDD6BF 20%, #fff 21%, #fff 80%, #FDD6BF 81%, #FDD6BF 100%);
+    background: -o-linear-gradient(-45deg, #B4C2D6 0%, #B4C2D6 20%, #fff 21%, #fff 100%);
+    background: -ms-linear-gradient(-45deg, #B4C2D6 0%, #B4C2D6 20%, #fff 21%, #fff 100%);
     /* background: linear-gradient(135deg, rgba(186, 39, 55, 1) 0%, rgba(186, 39, 55, 1) 51%, rgba(239, 197, 202, 1) 51%, rgba(239, 197, 202, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ba2737', endColorstr='#efc5ca', GradientType=1); */
 }
@@ -405,7 +405,11 @@ table tbody tr {
     transition: 1.25s;
 }
 
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #1ab3941a;
+}
+
 .table-hover tbody tr:hover {
     color: #000;
-    background-color: rgb(33 150 243 / 40%);
+    background-color: #1ab39466;
 }

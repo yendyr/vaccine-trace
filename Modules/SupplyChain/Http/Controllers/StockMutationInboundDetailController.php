@@ -182,7 +182,7 @@ class StockMutationInboundDetailController extends Controller
                 ->first();
 
                 $item_id = $PurchaseOrderDetail->purchase_requisition_detail->item_id;
-                $each_price_before_vat = $PurchaseOrderDetail->each_price_before_vat;
+                $each_price_before_vat = $PurchaseOrderDetail->each_price_before_vat_primary_currency;
 
                 $PurchaseRequisitionDetail = PurchaseRequisitionDetail::with(['all_childs','purchase_order_details'])
                             ->where('id', $PurchaseOrderDetail->purchase_requisition_detail_id)
