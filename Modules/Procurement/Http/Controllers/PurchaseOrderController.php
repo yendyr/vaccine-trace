@@ -310,8 +310,11 @@ class PurchaseOrderController extends Controller
         $company = Auth::user()->company;
         if ($company->logo == null)
             $company->logo =  './assets/default-company-logo.jpg';
-        else
-            $company->logo = "./uploads/company/$company->id/logo/$company->logo";
+        else{
+            $company->logo = file_exists(public_path("/uploads/company/$company->id/logo/$company->logo")) ?
+                "./uploads/company/9/logo/$company->logo" : './assets/default-company-logo.jpg' ;
+        }
+
         $companyAddress = CompanyDetailAddress::where('company_id', $company->id)->with('country')->first();
 
         $purchaseOrder = PurchaseOrder::whereId($PurchaseOrder->id)->with(['currency','purchase_order_details', 'approvals', 'creator', 'supplier', 'supplier.addresses', 'supplier.addresses.country'])->first();
