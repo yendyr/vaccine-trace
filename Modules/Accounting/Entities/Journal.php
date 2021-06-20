@@ -79,7 +79,12 @@ class Journal extends MainModel
     public function getTransactionReferenceCodeAttribute()
     {
         if ($this->transaction_reference_text == 'Warehouse Stock Inbound') {
-            return $this->stock_mutation->code;
+            if ($this->stock_mutation) {
+                return $this->stock_mutation->code;
+            }
+            else {
+                return '-';
+            }
         }
     }
 
@@ -87,8 +92,8 @@ class Journal extends MainModel
         parent::boot();
 
         static::deleting(function($Journal) {
-            $Journal->journal_details()->delete(); 
-            $Journal->approvals()->delete(); 
+            $Journal->journal_details()->delete();
+            $Journal->approvals()->delete();
         });
     }
 }

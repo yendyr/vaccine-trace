@@ -36,13 +36,13 @@ class PurchaseRequisitionDetailController extends Controller
         if ($PurchaseRequisition->approvals()->count() > 0) {
             $approved = true;
         }
-        
+
         $data = PurchaseRequisitionDetail::where('purchase_requisition_id', $purchase_requisition_id)
                                 ->with(['item.unit',
                                         'item.category',
                                         'item_group:id,item_id,coding,parent_coding',
                                         'item_group.item']);
-        
+
         return Datatables::of($data)
         // ->addColumn('highlighted', function($row){
         //     if ($row->highlight == 1){
@@ -56,9 +56,9 @@ class PurchaseRequisitionDetailController extends Controller
         })
         ->addColumn('parent', function($row){
             if ($row->item_group) {
-                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' .
                 'Name: <strong>' . $row->item_group->item->name . '</strong><br>';
-            } 
+            }
             else {
                 return "<span class='text-muted font-italic'>Not Set</span>";
             }
@@ -96,10 +96,10 @@ class PurchaseRequisitionDetailController extends Controller
                                                 ->sum('prepared_to_grn_quantity');
                 $ProcessedGrn = PurchaseOrderDetail::where('purchase_requisition_detail_id', $row->id)
                                                 ->sum('processed_to_grn_quantity');
-                                                
-                return 'Prepared to PO: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
+
+                return 'Prepared to PO: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' .
                 'Processed to PO: <strong>' . $row->processed_to_po_quantity . '</strong><br><br>' .
-                'Prepared to Receiving: <strong>' . $PreparedGrn . '</strong><br>' . 
+                'Prepared to Receiving: <strong>' . $PreparedGrn . '</strong><br>' .
                 'Received: <strong>' . $ProcessedGrn . '</strong><br>';
                 // return '<p class="text-muted font-italic">Already Approved</p>';
             }
@@ -128,7 +128,7 @@ class PurchaseRequisitionDetailController extends Controller
             $response[] = [
                 "id" => $data->coding,
                 "parent" => $parent,
-                "text" => 'P/N: <strong>' . $data->item->code . 
+                "text" => 'P/N: <strong>' . $data->item->code .
                 '</strong> | Item Name: <strong>' . $data->item->name . '</strong>'
             ];
         }
@@ -145,7 +145,7 @@ class PurchaseRequisitionDetailController extends Controller
         if ($PurchaseOrder->approvals()->count() > 0) {
             $approved = true;
         }
-        
+
         $data = PurchaseRequisitionDetail::with(['item.unit',
                                                 'item.category',
                                                 'purchase_requisition',
@@ -155,7 +155,7 @@ class PurchaseRequisitionDetailController extends Controller
                                             $pr->has('approvals');
                                         })
                                         ->whereRaw('purchase_requisition_details.processed_to_po_quantity < purchase_requisition_details.request_quantity');
-        
+
         return Datatables::of($data)
         // ->addColumn('highlighted', function($row){
         //     if ($row->highlight == 1){
@@ -169,9 +169,9 @@ class PurchaseRequisitionDetailController extends Controller
         })
         ->addColumn('parent', function($row){
             if ($row->item_group) {
-                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' .
                 'Name: <strong>' . $row->item_group->item->name . '</strong><br>';
-            } 
+            }
             else {
                 return "<span class='text-muted font-italic'>Not Set</span>";
             }
@@ -183,17 +183,17 @@ class PurchaseRequisitionDetailController extends Controller
             return $row->updater->name ?? '-';
         })
         ->addColumn('purchase_requisition_data', function($row){
-            return "<a href='/procurement/purchase-requisition/" . 
-            $row->purchase_requisition->id . "' target='_blank'>" . 
+            return "<a href='/procurement/purchase-requisition/" .
+            $row->purchase_requisition->id . "' target='_blank'>" .
             $row->purchase_requisition->code . '</a>';
         })
         ->addColumn('purchase_order_status', function($row){
-            return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' . 
+            return 'Prepared: <strong>' . $row->prepared_to_po_quantity . '</strong><br>' .
             'Processed: <strong>' . $row->processed_to_po_quantity . '</strong><br>';
             // return '<p class="text-muted font-italic">Already Approved</p>';
         })
         ->addColumn('goods_received_status', function($row){
-            return 'Prepared: <strong>WIP</strong><br>' . 
+            return 'Prepared: <strong>WIP</strong><br>' .
             'Processed: <strong>WIP</strong><br>';
             // return '<p class="text-muted font-italic">Already Approved</p>';
         })
@@ -204,7 +204,7 @@ class PurchaseRequisitionDetailController extends Controller
                     $idToUse = $row->id;
                     return view('components.action-button', compact(['usable', 'idToUse']));
                 }
-                else if ($row->prepared_to_po_quantity == $row->request_quantity) {
+                else if ($row->prepared_to_po_quantity == $row->request_quantity || (($row->prepared_to_po_quantity + $row->processed_to_po_quantity) == $row->request_quantity)) {
                     return "<span class='text-danger font-italic'>Already Prepared</span>";
                 }
                 else if ($row->parent_coding) {
@@ -238,31 +238,31 @@ class PurchaseRequisitionDetailController extends Controller
             // }
 
             $parent_coding = null;
-            
+
             if ($request->parent_coding) {
                 $parent_coding = $request->parent_coding;
                 // $parentRow = PurchaseRequisitionDetail::where('coding', $parent_coding)->first();
                 // $detailed_item_location = $parentRow->detailed_item_location;
             }
-            
+
             // if ($request->highlight) {
             //     $highlight = 1;
-            // } 
+            // }
             // else {
             //     $highlight = 0;
             // }
-    
+
             DB::beginTransaction();
             $PurchaseRequisitionDetail = PurchaseRequisitionDetail::create([
                 'uuid' =>  Str::uuid(),
-    
+
                 'purchase_requisition_id' => $request->purchase_requisition_id,
                 'item_id' => $request->item_id,
                 'request_quantity' => $request->quantity,
                 'description' => $request->description,
                 // 'detailed_item_location' => $detailed_item_location,
                 'parent_coding' => $parent_coding,
-    
+
                 'owned_by' => $request->user()->company_id,
                 'status' => 1,
                 'created_by' => $request->user()->id,
@@ -271,7 +271,7 @@ class PurchaseRequisitionDetailController extends Controller
                 'coding' => $request->purchase_requisition_id . '-' . $PurchaseRequisitionDetail->id,
             ]);
             DB::commit();
-    
+
             return response()->json(['success' => 'Item/Component Data has been Added']);
         }
         else {
@@ -308,13 +308,13 @@ class PurchaseRequisitionDetailController extends Controller
 
             // if ($request->highlight) {
             //     $highlight = 1;
-            // } 
+            // }
             // else {
             //     $highlight = 0;
             // }
-    
+
             $parent_coding = null;
-            
+
             if ($request->parent_coding) {
                 if (Self::isValidParent($currentRow, $request->parent_coding)) {
                     if ($request->parent_coding != $currentRow->coding) {
@@ -327,7 +327,7 @@ class PurchaseRequisitionDetailController extends Controller
                     return response()->json(['error' => "The Choosen Parent is Already in Child of this Item"]);
                 }
             }
-    
+
             DB::beginTransaction();
             $currentRow->update([
                 'item_id' => $request->item_id,
@@ -340,9 +340,9 @@ class PurchaseRequisitionDetailController extends Controller
             // if (sizeof($currentRow->all_childs) > 0) {
             //     Self::updateChilds($currentRow, $detailed_item_location);
             // }
-            
+
             DB::commit();
-            
+
             return response()->json(['success' => 'Item/Component Data has been Updated']);
         }
         else {
@@ -428,7 +428,7 @@ class PurchaseRequisitionDetailController extends Controller
         foreach($PurchaseRequisitionDetails as $PurchaseRequisitionDetail){
             $response['results'][] = [
                 "id" => $PurchaseRequisitionDetail->coding,
-                "text" => $PurchaseRequisitionDetail->item->code . ' | ' . 
+                "text" => $PurchaseRequisitionDetail->item->code . ' | ' .
                 $PurchaseRequisitionDetail->item->name
             ];
         }

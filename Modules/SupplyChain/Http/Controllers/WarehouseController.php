@@ -197,8 +197,6 @@ class WarehouseController extends Controller
                 "text" => $Warehouse->code . ' | ' . $Warehouse->name
             ];
         }
-
         return response()->json($response);
     }
-
 }

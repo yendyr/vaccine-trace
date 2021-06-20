@@ -7,6 +7,7 @@ use Modules\Accounting\Entities\JournalDetail;
 use Modules\Accounting\Entities\JournalApproval;
 use Modules\Procurement\Entities\PurchaseOrder;
 use Modules\SupplyChain\Entities\StockMutation;
+use Modules\SupplyChain\Entities\InboundMutationDetail;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -62,13 +63,13 @@ class JournalProcess
                 $request->validate([
                     'approval_notes' => ['required', 'max:30'],
                 ]);
-                
+
                 JournalApproval::create([
                     'uuid' =>  Str::uuid(),
-    
+
                     'journal_id' =>  $Journal->id,
                     'approval_notes' =>  $request->approval_notes,
-            
+
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
                     'created_by' => $request->user()->id,
@@ -90,7 +91,7 @@ class JournalProcess
 
         $transaction_date = Carbon::parse($stockMutationRow->transaction_date);
 
-        // ------------------ CREATE JOURNAL HEADER -------------------------
+        // ----------------------- CREATE JOURNAL HEADER -------------------------
         $Journal = Journal::create([
             'uuid' =>  Str::uuid(),
 
@@ -111,14 +112,65 @@ class JournalProcess
             'created_by' => 0,
         ]);
 
-        $code = 'JOURN-' . 
+        $code = 'JOURN-' .
         $transaction_date->year . '-' .
         str_pad($Journal->id, 5, '0', STR_PAD_LEFT);
 
         $Journal->update([
             'code' => $code
         ]);
-        // ------------------ END CREATE JOURNAL HEADER -------------------------
+        // ----------------------- END CREATE JOURNAL HEADER -------------------------
+
+        // ----------------------- CREATE JOURNAL DETAIL -------------------------
+        $target_items = InboundMutationDetail::with(['item.category' => function($q) {
+                                                    $q->where('item_type', '!=', 'Service');
+                                                }])
+                                            ->where('stock_mutation_id', $stockMutationRow->id)
+                                            ->get();
+
+        $total_debit = 0;
+        foreach ($target_items as $target_item) {
+            if ($target_item->item->inventory_coa_id) {
+                $inventory_coa_id = $target_item->item->inventory_coa_id;
+            }
+            else {
+                $inventory_coa_id = $target_item->item->category->inventory_coa_id;
+            }
+
+            if (!JournalDetail::where('journal_id', '=', $Journal->id)->where('coa_id', '=', $inventory_coa_id)->exists()) {
+                JournalDetail::create([
+                    'uuid' =>  Str::uuid(),
+
+                    'journal_id' => $Journal->id,
+                    'coa_id' => $inventory_coa_id,
+                    'debit' => ($target_item->each_price_before_vat * $target_item->quantity),
+                    // 'description' => $request->description,
+
+                    'owned_by' => Auth::user()->company_id,
+                    'status' => 1,
+                    'created_by' => 0,
+                ]);
+            }
+            else {
+                JournalDetail::where('journal_id', '=', $Journal->id)->where('coa_id', '=', $inventory_coa_id)->increment(
+                    'debit', ($target_item->each_price_before_vat * $target_item->quantity)
+                );
+            }
+            $total_debit += ($target_item->each_price_before_vat * $target_item->quantity);
+        }
+        JournalDetail::create([
+            'uuid' =>  Str::uuid(),
+
+            'journal_id' => $Journal->id,
+            'coa_id' => 10,
+            'credit' => $total_debit,
+            // 'description' => $request->description,
+
+            'owned_by' => Auth::user()->company_id,
+            'status' => 1,
+            'created_by' => 0,
+        ]);
+        // ----------------------- END CREATE JOURNAL DETAIL -------------------------
 
         DB::commit();
     }
