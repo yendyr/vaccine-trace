@@ -81,7 +81,7 @@ class JournalProcess
         }
     }
 
-    public function stockInboundJournal (StockMutation $stockMutationRow) {
+    public function stockInboundAutoJournal(StockMutation $stockMutationRow) {
         DB::beginTransaction();
         $stockMutationRow->journal()->delete();
 
@@ -94,7 +94,7 @@ class JournalProcess
 
             'current_primary_currency_id' => $request->current_primary_currency_id,
             'currency_id' => $request->currency_id,
-            'exchange_rate' => $request->exchange_rate,
+            'exchange_rate' => 1,
 
             'status' => 1,
             'owned_by' => $request->user()->company_id,

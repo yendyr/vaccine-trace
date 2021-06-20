@@ -89,7 +89,7 @@ class ItemStockMutation
             'created_by' => Auth::user()->id,
         ]);
 
-        JournalProcess::stockInboundJournal($stockMutationRow);
+        JournalProcess::stockInboundAutoJournal($stockMutationRow);
         DB::commit();
     }
 
