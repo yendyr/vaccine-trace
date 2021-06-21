@@ -16,15 +16,22 @@
                     'title' => 'Trial Balance',
                     'tableId' => 'trial-balance-table'])
 
+        @slot('headerSpan')
+            <tr>
+                <th rowspan="2" class="text-center align-middle">COA Code</th>
+                <th rowspan="2" class="text-center align-middle">COA Name</th>
+                <th colspan="2" class="text-center">Beginning Balance</th>
+                <th colspan="2" class="text-center">In-Period Transaction</th>
+                <th colspan="2" class="text-center">Ending Balance</th>
+            </tr>
+        @endslot
         @slot('tableContent')
-            <th>COA Code</th>
-            <th>COA Name</th>
-            <th>Beginning Debit</th>
-            <th>Beginning Credit</th>
-            <th>In-Period Debit</th>
-            <th>In-Period Credit</th>
-            <th>Ending Debit</th>
-            <th>Ending Credit</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Debit</th>
+            <th>Credit</th>
         @endslot
     @endcomponent
 

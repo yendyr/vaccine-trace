@@ -6,7 +6,7 @@
                 <div class="ribbon-target" style="top: 6px;">
                     {{ $createButton ?? '' }}
                 </div>
-                <h4 class="text-center">{{ $title ?? '' }}</h4> 
+                <h4 class="text-center">{{ $title ?? '' }}</h4>
                 <div class="ibox-tools">
                     <a class="collapse-link btn btn-icon btn-circle btn-sm btn-danger">
                         <i class="fa fa-chevron-up text-white"></i>
@@ -20,6 +20,7 @@
                 <div class="table-responsive">
                     <table id="{{ $tableId ?? '' }}" class="table table-hover table-striped text-center" style="width:100%" data-ajaxsource="{{ $ajaxSource ?? '' }}">
                         <thead>
+                            {{ $headerSpan ?? '' }}
                             <tr>
                                 {{ $tableContent ?? '' }}
                             </tr>
@@ -35,7 +36,7 @@
                 </div>
 
                 {{ $modals ?? '' }}
-                
+
             </div>
         </div>
     </div>
