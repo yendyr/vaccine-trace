@@ -116,7 +116,7 @@ class JournalProcess
         else {
             $primary_currency_id = Self::getPrimaryCurrency();
         }
-        
+
         // ----------------------- CREATE JOURNAL HEADER -------------------------
         $Journal = Journal::create([
             'uuid' =>  Str::uuid(),
@@ -208,7 +208,7 @@ class JournalProcess
 
         $transaction_date = Carbon::parse($stockMutationRow->transaction_date);
         $primary_currency_id = Self::getPrimaryCurrency();
-        
+
         // ----------------------- CREATE JOURNAL HEADER -------------------------
         $Journal = Journal::create([
             'uuid' =>  Str::uuid(),

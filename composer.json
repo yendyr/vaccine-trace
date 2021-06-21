@@ -47,7 +47,8 @@
             "app/Helpers/SupplyChain/ItemStockChecker.php",
             "app/Helpers/SupplyChain/ItemStockMutation.php",
             "app/Helpers/Procurement/PurchaseOrderPrice.php",
-            "app/Helpers/Accounting/JournalProcess.php"
+            "app/Helpers/Accounting/JournalProcess.php",
+            "app/Helpers/Accounting/JournalReport.php"
         ],
         "classmap": [
             "database/seeds",

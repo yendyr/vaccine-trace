@@ -120,7 +120,7 @@ class AccountingMenuSeeder extends Seeder
         Menu::create([
             'menu_link' => 'accounting/trial-balance',
             'menu_text' => 'Trial Balance',
-            'menu_route' => 'supplychain.trial-balance.index',
+            'menu_route' => 'accounting.trial-balance.index',
             'menu_icon' => 'fa-indent',
             'menu_class' => 'Modules\Accounting\Entities\Journal',
             'menu_id' => null,
