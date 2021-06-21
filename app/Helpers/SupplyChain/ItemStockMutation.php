@@ -27,7 +27,7 @@ class ItemStockMutation
         $stockMutationRow->item_stocks()->forceDelete();
         
         foreach($stockMutationRow->inbound_mutation_details as $inbound_mutation_detail) {
-            if ($inbound_mutation_detail->purchase_order_detail->purchase_requisition_detail->item->category->item_type != 'Service') {
+            if ($inbound_mutation_detail->item->category->item_type != 'Service') {
                 $ItemStock = new ItemStock([
                     'uuid' => $inbound_mutation_detail->uuid,
                     'warehouse_id' => $stockMutationRow->warehouse_destination,

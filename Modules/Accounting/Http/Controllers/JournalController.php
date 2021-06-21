@@ -83,7 +83,7 @@ class JournalController extends Controller
                         $updateValue = $row->id;
                         $noAuthorize = false;
                     }
-                    if(Auth::user()->can('delete', Journal::class)) {
+                    if(Auth::user()->can('delete', Journal::class) && $row->created_by != 0) {
                         $deleteable = true;
                         $deleteId = $row->id;
                         $noAuthorize = false;

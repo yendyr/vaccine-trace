@@ -5,6 +5,7 @@ namespace app\Helpers\Accounting;
 use Modules\Accounting\Entities\Journal;
 use Modules\Accounting\Entities\JournalDetail;
 use Modules\Accounting\Entities\JournalApproval;
+use Modules\GeneralSetting\Entities\Currency;
 use Modules\Procurement\Entities\PurchaseOrder;
 use Modules\SupplyChain\Entities\StockMutation;
 use Modules\SupplyChain\Entities\InboundMutationDetail;
@@ -56,6 +57,14 @@ class JournalProcess
         }
     }
 
+    public static function getPrimaryCurrency()
+    {
+        return Currency::where('status', 1)
+        ->where('is_primary', 1)
+        ->pluck('id')
+        ->first();
+    }
+
     public static function approve(Request $request, Journal $Journal)
     {
         if ($Journal->journal_details()->count() > 0) {
@@ -91,6 +100,13 @@ class JournalProcess
 
         $transaction_date = Carbon::parse($stockMutationRow->transaction_date);
 
+        if ($stockMutationRow->inbound_mutation_details()->first()->purchase_order_detail) {
+            $primary_currency_id = $stockMutationRow->inbound_mutation_details()->first()->purchase_order_detail->purchase_order->current_primary_currency_id;
+        }
+        else {
+            $primary_currency_id = Self::getPrimaryCurrency();
+        }
+        
         // ----------------------- CREATE JOURNAL HEADER -------------------------
         $Journal = Journal::create([
             'uuid' =>  Str::uuid(),
@@ -103,8 +119,8 @@ class JournalProcess
             'transaction_reference_text' => 'Warehouse Stock Inbound',
             'transaction_reference_url' => '/supplychain/mutation-inbound/' . $stockMutationRow->id,
 
-            'current_primary_currency_id' => $stockMutationRow->inbound_mutation_details()->first()->purchase_order_detail->purchase_order->current_primary_currency_id,
-            'currency_id' => $stockMutationRow->inbound_mutation_details()->first()->purchase_order_detail->purchase_order->current_primary_currency_id,
+            'current_primary_currency_id' => $primary_currency_id,
+            'currency_id' => $primary_currency_id,
             'exchange_rate' => 1,
 
             'status' => 1,
