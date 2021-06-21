@@ -216,6 +216,8 @@ class ItemStockMutation
                 'updated_by' => Auth::user()->id,
             ]);
         }
+
+        JournalProcess::stockOutboundAutoJournal($stockMutationRow);
         DB::commit();
     }
 
