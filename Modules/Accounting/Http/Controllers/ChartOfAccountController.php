@@ -257,8 +257,10 @@ class ChartOfAccountController extends Controller
         $query = ChartOfAccount::orderby('name','asc')
                     ->select('id', 'code', 'name')
                     ->where('status', 1);
-        if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
+
+        if($search != '') {
+            $query = $query->where('name', 'like', '%' .$search. '%')
+                            ->orWhere('code', 'like', '%' .$search. '%');
         }
         $ChartOfAccounts = $query->get();
 
@@ -288,7 +290,8 @@ class ChartOfAccountController extends Controller
                     ->where('status', 1);
 
         if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
+            $query = $query->where('name', 'like', '%' .$search. '%')
+                            ->orWhere('code', 'like', '%' .$search. '%');
         }
         $ChartOfAccounts = $query->get();
 
@@ -299,7 +302,6 @@ class ChartOfAccountController extends Controller
                 "text"=>$ChartOfAccount->code . ' | ' . $ChartOfAccount->name
             ];
         }
-
         return response()->json($response);
     }
 }
