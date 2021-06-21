@@ -312,7 +312,7 @@ class PurchaseOrderController extends Controller
             $company->logo =  './assets/default-company-logo.jpg';
         else{
             $company->logo = file_exists(public_path("/uploads/company/$company->id/logo/$company->logo")) ?
-                "./uploads/company/9/logo/$company->logo" : './assets/default-company-logo.jpg' ;
+                "./uploads/company/$company->id/logo/$company->logo" : './assets/default-company-logo.jpg' ;
         }
 
         $companyAddress = CompanyDetailAddress::where('company_id', $company->id)->with('country')->first();

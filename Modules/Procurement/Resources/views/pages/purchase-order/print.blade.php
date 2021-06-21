@@ -110,10 +110,10 @@
         <div class="container border-top border-3 pt-1">
             <table width="100%">
                 <tr>
-                    <td width="80%" valign="top">
-                        <span class="courierNewFont" style="font-size: 10px">Created By:</span>
+                    <td width="80%" valign="top" class="courierNewFont">
+                        <span style="font-size: 10px">Created By:</span>
                         <b>{{$purchaseOrder->creator->name}}; {{$purchaseOrder->created_at->format('d-m-Y') ?? '-' }}</b> &nbsp;&nbsp;&nbsp;
-                        <span class="courierNewFont" style="font-size: 10px">Printed By:</span>
+                        <span style="font-size: 10px">Printed By:</span>
                         <b>{{\Illuminate\Support\Facades\Auth::user()->name}}; {{ date('d-m-Y H:i:s') }}</b>
                     </td>
                     <td width="10%" valign="top"></td>
@@ -235,13 +235,13 @@
         <div class="container mt-2">
             <table width="100%">
                 <tr>
-                    <td width="55%" style="font-size: 11px">
+                    <td width="55%" style="font-size: 11px" class="courierNewFont">
                         <div class="mb-2 mt-1">
                             <span>
                                 <b>Remark :</b>
                             </span>
                             <br>
-                            <span class="courierNewFont">
+                            <span>
                                 <b>{!! $purchaseOrder->description !!}</b>
                             </span>
                         </div>
@@ -250,7 +250,7 @@
                                 <b>Term And Condition :</b>
                             </span>
                             <br>
-                            <span class="courierNewFont">
+                            <span>
                                 {!! $purchaseOrder->term_and_condition !!}</span>
                             </span>
                         </div>
@@ -259,7 +259,7 @@
                                 <b>Shipping Address :</b>
                             </span>
                             <br>
-                            <span class="courierNewFont">
+                            <span>
                                 {!! $purchaseOrder->shipping_address !!}</span>
                             </span>
                         </div>
