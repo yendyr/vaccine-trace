@@ -57,7 +57,7 @@ class AccountingMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
-        
+
         Menu::create([
             'menu_link' => 'accounting/item',
             'menu_text' => 'Item COA',
@@ -96,6 +96,45 @@ class AccountingMenuSeeder extends Seeder
             'status' => 1,
             'uuid' => Str::uuid(),
             'parent_id' => null
+        ]);
+
+        $menuReport = Menu::create([
+            'menu_link' => '#',
+            'menu_text' => 'Report',
+            'menu_route' => null,
+            'menu_icon' => 'fa-line-chart',
+            'menu_class' => null,
+            'menu_id' => null,
+            'group' => 'Accounting',
+            'add' => 0,
+            'update' => 0,
+            'delete' => 0,
+            'print' => 0,
+            'approval' => 0,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
+
+        Menu::create([
+            'menu_link' => 'accounting/trial-balance',
+            'menu_text' => 'Trial Balance',
+            'menu_route' => 'supplychain.trial-balance.index',
+            'menu_icon' => 'fa-indent',
+            'menu_class' => 'Modules\Accounting\Entities\Journal',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['accounting/trial-balance', 'accounting/trial-balance/*']),
+            'group' => 'Accounting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuReport->id
         ]);
     }
 }
