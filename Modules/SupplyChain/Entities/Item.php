@@ -11,6 +11,13 @@ class Item extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
+    protected $appends = [
+        'active_sales_coa_id',
+        'active_inventory_coa_id',
+        'active_cost_coa_id',
+        'active_inventory_adjustment_coa_id',
+        'active_work_in_progress_coa_id',
+    ];
     use Notifiable;
 
     protected $fillable = [
@@ -56,9 +63,29 @@ class Item extends MainModel
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'sales_coa_id');
     }
 
+    public function getActiveSalesCoaIdAttribute()
+    {
+        if ($this->sales_coa_id) {
+            return $this->sales_coa_id;
+        }
+        else {
+            return $this->category->sales_coa_id;
+        }
+    }
+
     public function inventory_coa()
     {
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'inventory_coa_id');
+    }
+
+    public function getActiveInventoryCoaIdAttribute()
+    {
+        if ($this->inventory_coa_id) {
+            return $this->inventory_coa_id;
+        }
+        else {
+            return $this->category->inventory_coa_id;
+        }
     }
 
     public function cost_coa()
@@ -66,14 +93,44 @@ class Item extends MainModel
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'cost_coa_id');
     }
 
+    public function getActiveCostCoaIdAttribute()
+    {
+        if ($this->cost_coa_id) {
+            return $this->cost_coa_id;
+        }
+        else {
+            return $this->category->cost_coa_id;
+        }
+    }
+
     public function inventory_adjustment_coa()
     {
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'inventory_adjustment_coa_id');
     }
 
+    public function getActiveInventoryAdjustmentCoaIdAttribute()
+    {
+        if ($this->inventory_adjustment_coa_id) {
+            return $this->inventory_adjustment_coa_id;
+        }
+        else {
+            return $this->category->inventory_adjustment_coa_id;
+        }
+    }
+
     public function work_in_progress_coa()
     {
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'work_in_progress_coa_id');
+    }
+
+    public function getActiveWorkInProgressCoaIdAttribute()
+    {
+        if ($this->work_in_progress_coa_id) {
+            return $this->work_in_progress_coa_id;
+        }
+        else {
+            return $this->category->work_in_progress_coa_id;
+        }
     }
 
     public function unit()

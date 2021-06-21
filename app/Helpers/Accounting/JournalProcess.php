@@ -127,15 +127,9 @@ class JournalProcess
                                                 }])
                                             ->where('stock_mutation_id', $stockMutationRow->id)
                                             ->get();
-
         $total_debit = 0;
         foreach ($target_items as $target_item) {
-            if ($target_item->item->inventory_coa_id) {
-                $inventory_coa_id = $target_item->item->inventory_coa_id;
-            }
-            else {
-                $inventory_coa_id = $target_item->item->category->inventory_coa_id;
-            }
+            $inventory_coa_id = $target_item->item->active_inventory_coa_id;
 
             if (!JournalDetail::where('journal_id', '=', $Journal->id)->where('coa_id', '=', $inventory_coa_id)->exists()) {
                 JournalDetail::create([
