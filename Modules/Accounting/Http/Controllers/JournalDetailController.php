@@ -55,12 +55,12 @@ class JournalDetailController extends Controller
             if ($approved == false) {
                 $noAuthorize = true;
 
-                if(Auth::user()->can('update', Journal::class)) {
+                if(Auth::user()->can('update', Journal::class) && $row->created_by != 0) {
                     $updateable = 'button';
                     $updateValue = $row->id;
                     $noAuthorize = false;
                 }
-                if(Auth::user()->can('delete', Journal::class)) {
+                if(Auth::user()->can('delete', Journal::class) && $row->created_by != 0) {
                     $deleteable = true;
                     $deleteId = $row->id;
                     $noAuthorize = false;
