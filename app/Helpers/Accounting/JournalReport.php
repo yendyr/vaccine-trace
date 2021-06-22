@@ -8,14 +8,12 @@ use Modules\Accounting\Entities\JournalApproval;
 use Modules\Accounting\Entities\ChartOfAccount;
 use Modules\GeneralSetting\Entities\Currency;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\DB;
+// use Carbon\Carbon;
 
 class JournalReport
 {
-    private static $total;
-
     public static function getBeginningDebit($coa_id, $start_date)
     {
         $debit = JournalDetail::with(['journal'])
@@ -68,29 +66,63 @@ class JournalReport
 
     public static function getBeginningDebitParent($coa_id, $start_date)
     {
-        $coa = ChartOfAccount::with(['all_childs'])->where('id', $coa_id)->first();
+        $child_coa = ChartOfAccount::where('parent_id', $coa_id)
+                                    ->select('id');
 
-        Self::$total = 0;
-        $debit = Self::sumBeginningDebitParent($coa, $start_date);
-        return $debit;
-    }
-
-    public static function sumBeginningDebitParent(ChartOfAccount $coa, $start_date)
-    {
-        foreach($coa->all_childs as $childRow) {
-            $subTotal = JournalDetail::with(['journal'])
+        $debit = JournalDetail::with(['journal'])
                             ->whereHas('journal', function ($journal) use ($start_date) {
                                 $journal->has('approvals')
                                 ->whereDate('transaction_date', '<', $start_date);
                             })
-                            ->where('coa_id', $childRow->id)
+                            ->whereIn('coa_id', $child_coa)
                             ->sum('debit');
+        return $debit;
+    }
 
-            Self::$total = Self::$total + $subTotal;
-            if (sizeof($childRow->all_childs) > 0) {
-                Self::sumBeginningDebitParent($childRow, $start_date);
-            }
-        }
-        return Self::$total;
+    public static function getBeginningCreditParent($coa_id, $start_date)
+    {
+        $child_coa = ChartOfAccount::where('parent_id', $coa_id)
+                                    ->select('id');
+
+        $credit = JournalDetail::with(['journal'])
+                            ->whereHas('journal', function ($journal) use ($start_date) {
+                                $journal->has('approvals')
+                                ->whereDate('transaction_date', '<', $start_date);
+                            })
+                            ->whereIn('coa_id', $child_coa)
+                            ->sum('credit');
+        return $credit;
+    }
+
+    public static function getInPeriodDebitParent($coa_id, $start_date, $end_date)
+    {
+        $child_coa = ChartOfAccount::where('parent_id', $coa_id)
+                                    ->select('id');
+
+        $debit = JournalDetail::with(['journal'])
+                            ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
+                                $journal->has('approvals')
+                                ->whereDate('transaction_date', '>=', $start_date)
+                                ->whereDate('transaction_date', '<=', $end_date);
+                            })
+                            ->whereIn('coa_id', $child_coa)
+                            ->sum('debit');
+        return $debit;
+    }
+
+    public static function getInPeriodCreditParent($coa_id, $start_date, $end_date)
+    {
+        $child_coa = ChartOfAccount::where('parent_id', $coa_id)
+                                    ->select('id');
+
+        $credit = JournalDetail::with(['journal'])
+                            ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
+                                $journal->has('approvals')
+                                ->whereDate('transaction_date', '>=', $start_date)
+                                ->whereDate('transaction_date', '<=', $end_date);
+                            })
+                            ->whereIn('coa_id', $child_coa)
+                            ->sum('credit');
+        return $credit;
     }
 }

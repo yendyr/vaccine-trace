@@ -45,7 +45,7 @@ $(document).ready(function () {
     var datatableObject = $(tableId).DataTable({
         // dom: 'Bfrtip',
         // buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-        orderCellsTop: true,
+        // orderCellsTop: true,
         columnDefs: [{
             visible: false,
             targets: groupColumn }
@@ -56,10 +56,36 @@ $(document).ready(function () {
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
 
+            // var endingBalanceDebit = rows
+            //         .data()
+            //         .pluck(7)
+            //         .reduce( function (a, b) {
+            //             if (!b) {
+            //                 return a + 0;
+            //             }
+            //             else {
+            //                 return a + b.replace(/\D/g, "");
+            //             }
+            //         }, 0);
+
+            // var endingBalanceCredit = rows
+            //         .data()
+            //         .pluck(8)
+            //         .reduce( function (a, b) {
+            //             if (!b) {
+            //                 return a + 0;
+            //             }
+            //             else {
+            //                 return a + b.replace(/\D/g, "");
+            //             }
+            //         }, 0);
+
+            // var totalEndingBalanceClass = endingBalanceDebit - endingBalanceCredit;
+
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="9">COA Class: <b>' + group + '</b></td></tr>'
+                        '<tr class="group"><td colspan="9" class="text-left">COA Class: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -78,7 +104,7 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'chart_of_account_class.name' },
-            { data: 'code', defaultContent: '-' },
+            { data: 'code', defaultContent: '-', orderable: false },
             { data: 'coa_name', defaultContent: '-', orderable: false, class: 'text-left' },
             { data: 'beginning_debit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
