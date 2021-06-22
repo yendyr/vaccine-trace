@@ -72,14 +72,12 @@ class ChartOfAccount extends MainModel
         return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id', 'id');
     }
 
-    public function getAllChilds ()
+    public function getAllChilds()
     {
-        $coas = new Collection();
-
-        foreach ($this->children as $coa) {
-            $coas->push($coa);
-            $coas = $coas->merge($coa->getAllChilds()->pluck('id'));
+        $ids =  [$this->id];
+        foreach ($this->children as $child) {
+            $ids = array_merge($ids, $child->getAllChilds());
         }
-        return $coas;
+        return $ids;
     }
 }

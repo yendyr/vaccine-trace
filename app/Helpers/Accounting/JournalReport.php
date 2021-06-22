@@ -66,36 +66,35 @@ class JournalReport
 
     public static function getBeginningDebitParent($coa_id, $start_date)
     {
-        $child_coas = ChartOfAccount::where('parent_id', $coa_id)->first()->getAllChilds();
-
+        $child_coas = ChartOfAccount::where('id', $coa_id)->first()->getAllChilds();
+        // dd($child_coas);
         $debit = JournalDetail::with(['journal'])
                             ->whereHas('journal', function ($journal) use ($start_date) {
                                 $journal->has('approvals')
                                 ->whereDate('transaction_date', '<', $start_date);
                             })
-                            ->whereIn('coa_id', $child_coas->pluck('id'))
+                            ->whereIn('coa_id', $child_coas)
                             ->sum('debit');
         return $debit;
     }
 
     public static function getBeginningCreditParent($coa_id, $start_date)
     {
-        $child_coas = ChartOfAccount::where('parent_id', $coa_id)->first()->getAllChilds();
+        $child_coas = ChartOfAccount::where('id', $coa_id)->first()->getAllChilds();
 
         $credit = JournalDetail::with(['journal'])
                             ->whereHas('journal', function ($journal) use ($start_date) {
                                 $journal->has('approvals')
                                 ->whereDate('transaction_date', '<', $start_date);
                             })
-                            ->whereIn('coa_id', $child_coas->pluck('id'))
+                            ->whereIn('coa_id', $child_coas)
                             ->sum('credit');
         return $credit;
     }
 
     public static function getInPeriodDebitParent($coa_id, $start_date, $end_date)
     {
-        $child_coa = ChartOfAccount::where('parent_id', $coa_id)
-                                    ->select('id');
+        $child_coas = ChartOfAccount::where('id', $coa_id)->first()->getAllChilds();
 
         $debit = JournalDetail::with(['journal'])
                             ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
@@ -103,15 +102,14 @@ class JournalReport
                                 ->whereDate('transaction_date', '>=', $start_date)
                                 ->whereDate('transaction_date', '<=', $end_date);
                             })
-                            ->whereIn('coa_id', $child_coa)
+                            ->whereIn('coa_id', $child_coas)
                             ->sum('debit');
         return $debit;
     }
 
     public static function getInPeriodCreditParent($coa_id, $start_date, $end_date)
     {
-        $child_coa = ChartOfAccount::where('parent_id', $coa_id)
-                                    ->select('id');
+        $child_coas = ChartOfAccount::where('id', $coa_id)->first()->getAllChilds();
 
         $credit = JournalDetail::with(['journal'])
                             ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
@@ -119,7 +117,7 @@ class JournalReport
                                 ->whereDate('transaction_date', '>=', $start_date)
                                 ->whereDate('transaction_date', '<=', $end_date);
                             })
-                            ->whereIn('coa_id', $child_coa)
+                            ->whereIn('coa_id', $child_coas)
                             ->sum('credit');
         return $credit;
     }

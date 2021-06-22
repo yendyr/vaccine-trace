@@ -45,7 +45,6 @@ class TrialBalanceController extends Controller
             ->addColumn('beginning_debit', function($row) use ($start_date) {
                 if (sizeOf($row->all_childs) > 0) {
                     return JournalReport::getBeginningDebitParent($row->id, $start_date);
-                    // return '&nbsp;';
                 }
                 else {
                     return JournalReport::getBeginningDebit($row->id, $start_date);
@@ -63,7 +62,6 @@ class TrialBalanceController extends Controller
             ->addColumn('in_period_debit', function($row) use ($start_date, $end_date) {
                 if (sizeOf($row->all_childs) > 0) {
                     return JournalReport::getInPeriodDebitParent($row->id, $start_date, $end_date);
-                    // return '&nbsp;';
                 }
                 else {
                     return JournalReport::getInPeriodDebit($row->id, $start_date, $end_date);
@@ -72,7 +70,6 @@ class TrialBalanceController extends Controller
             ->addColumn('in_period_credit', function($row) use ($start_date, $end_date) {
                 if (sizeOf($row->all_childs) > 0) {
                     return JournalReport::getInPeriodCreditParent($row->id, $start_date, $end_date);
-                    // return '&nbsp;';
                 }
                 else {
                     return JournalReport::getInPeriodCredit($row->id, $start_date, $end_date);
