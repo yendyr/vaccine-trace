@@ -52,7 +52,7 @@ $(document).ready(function () {
             $(".chart_of_account_class_id").prop("disabled", true);
             $(".info-chart_of_account_class_id").append('<i class="fa fa-info-circle"></i>&nbsp;if you choose parent, class will be same with parent');
         }
-        
+
     });
 
     $('.parent_id').on('select2:clearing', function (e) {
@@ -82,7 +82,7 @@ $(document).ready(function () {
 
     datatableObject.on('click', '.editBtn', function () {
         $('#modalTitle').html("Edit COA Group");
-        $(inputFormId).trigger("reset");                
+        $(inputFormId).trigger("reset");
         rowId= $(this).val();
         let tr = $(this).closest('tr');
         let data = datatableObject.row(tr).data();
@@ -103,14 +103,14 @@ $(document).ready(function () {
 
             $(".chart_of_account_class_id").prop("disabled", true);
             $(".info-chart_of_account_class_id").append('<i class="fa fa-info-circle"></i>&nbsp;if you choose parent, class will be same with parent');
-        }  
+        }
 
         $(".chart_of_account_class_id").val(null).trigger('change');
         if (data.chart_of_account_class_id != null) {
             $('#chart_of_account_class_id').append('<option value="' + data.chart_of_account_class_id + '" selected>' + data.chart_of_account_class.name + '</option>');
-        }   
+        }
 
-        $('#description').val(data.description);                
+        $('#description').val(data.description);
         if (data.status == '<label class="label label-success">Active</label>') {
             $('#status').prop('checked', true);
         }
@@ -125,7 +125,7 @@ $(document).ready(function () {
     });
 
     $(inputFormId).on('submit', function (event) {
-        submitButtonProcess (tableId, inputFormId); 
+        submitButtonProcess (tableId, inputFormId);
     });
 
     deleteButtonProcess (datatableObject, tableId, actionUrl);
