@@ -41,31 +41,30 @@ $(document).ready(function () {
     //     }
     // });
 
-    // var groupColumn = 0;
-
+    var groupColumn = 0;
     var datatableObject = $(tableId).DataTable({
         // dom: 'Bfrtip',
         // buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         orderCellsTop: true,
-        // columnDefs: [{
-        //     visible: false,
-        //     targets: groupColumn }
-        // ],
-        // order: [[ groupColumn, 'asc' ]],
-        // drawCallback: function ( settings ) {
-        //     var api = this.api();
-        //     var rows = api.rows( {page:'current'} ).nodes();
-        //     var last=null;
+        columnDefs: [{
+            visible: false,
+            targets: groupColumn }
+        ],
+        order: [[ groupColumn, 'asc' ], [ 1, 'asc' ]],
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
 
-        //     api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
-        //         if ( last !== group ) {
-        //             $(rows).eq( i ).before(
-        //                 '<tr class="group" style="text-align: left;"><td colspan="14">Warehouse Location: <b>' + group + '</b></td></tr>'
-        //             );
-        //             last = group;
-        //         }
-        //     });
-        // },
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="text-align: left;"><td colspan="9">COA Class: <b>' + group + '</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
         pageLength: 200,
         processing: true,
         serverSide: false,
@@ -78,7 +77,7 @@ $(document).ready(function () {
             }
         },
         columns: [
-            // { data: 'uuid', visible: false },
+            { data: 'chart_of_account_class.name' },
             { data: 'code', defaultContent: '-' },
             { data: 'coa_name', defaultContent: '-', orderable: false, class: 'text-left' },
             { data: 'beginning_debit', orderable: false, class: 'text-right',

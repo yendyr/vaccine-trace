@@ -28,7 +28,7 @@ class TrialBalanceController extends Controller
         $end_date = $request->end_date;
 
         if ($request->ajax()) {
-            $data = ChartOfAccount::with(['parent', 'all_childs']);
+            $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class']);
 
             return Datatables::of($data)
             ->addColumn('coa_name', function($row) {

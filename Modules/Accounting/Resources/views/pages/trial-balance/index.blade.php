@@ -18,6 +18,7 @@
 
         @slot('headerSpan')
             <tr>
+                <th rowspan="2" class="text-center align-middle">COA Class</th>
                 <th rowspan="2" class="text-center align-middle">COA Code</th>
                 <th rowspan="2" class="text-center align-middle">COA Name</th>
                 <th colspan="2" class="text-right">Beginning Balance</th>
@@ -42,15 +43,15 @@
 @push('header-scripts')
     @include('layouts.includes._header-datatable-script')
     <link href="{{ URL::asset('theme/css/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-    {{-- <style>
-        thead input {
+    <style>
+        /* thead input {
             width: 100%;
-        }
+        } */
         tr.group,
         tr.group:hover {
             background-color: #aaa !important;
         }
-    </style> --}}
+    </style>
 @endpush
 @push('footer-scripts')
     @include('layouts.includes._footer-datatable-script')
