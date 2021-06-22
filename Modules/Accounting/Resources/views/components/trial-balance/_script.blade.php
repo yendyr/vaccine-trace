@@ -80,30 +80,60 @@ $(document).ready(function () {
         columns: [
             // { data: 'uuid', visible: false },
             { data: 'code', defaultContent: '-' },
-            { data: 'name', defaultContent: '-', orderable: false, class: 'text-left', },
+            { data: 'coa_name', defaultContent: '-', orderable: false, class: 'text-left' },
             { data: 'beginning_debit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.beginning_debit);
+                    if (row.beginning_debit != '&nbsp;') {
+                        return formatNumber(row.beginning_debit);
+                    }
+                    else {
+                        return row.beginning_debit;
+                    }
                 }},
             { data: 'beginning_credit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.beginning_credit);
+                    if (row.beginning_credit != '&nbsp;') {
+                        return formatNumber(row.beginning_credit);
+                    }
+                    else {
+                        return row.beginning_credit;
+                    }
                 }},
             { data: 'in_period_debit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.in_period_debit);
+                    if (row.in_period_debit != '&nbsp;') {
+                        return formatNumber(row.in_period_debit);
+                    }
+                    else {
+                        return row.in_period_debit;
+                    }
                 }},
             { data: 'in_period_credit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    return formatNumber(row.in_period_credit);
+                    if (row.in_period_credit != '&nbsp;') {
+                        return formatNumber(row.in_period_credit);
+                    }
+                    else {
+                        return row.in_period_credit;
+                    }
                 }},
             { data: 'ending_debit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    return '<strong>' + formatNumber((row.beginning_debit + row.in_period_debit)) + '</strong>';
+                    if (row.beginning_debit != '&nbsp;') {
+                        return formatNumber((row.beginning_debit + row.in_period_debit));
+                    }
+                    else {
+                        return row.beginning_debit;
+                    }
                 }},
             { data: 'ending_credit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    return '<strong>' + formatNumber((row.beginning_credit + row.in_period_credit)) + '</strong>';
+                    if (row.beginning_debit != '&nbsp;') {
+                        return formatNumber((row.beginning_credit + row.in_period_credit));
+                    }
+                    else {
+                        return row.beginning_debit;
+                    }
                 }},
         ]
     });

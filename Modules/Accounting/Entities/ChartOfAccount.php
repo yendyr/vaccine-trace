@@ -60,4 +60,9 @@ class ChartOfAccount extends MainModel
     {
         return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id', 'id')->with('all_childs');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id', 'id');
+    }
 }
