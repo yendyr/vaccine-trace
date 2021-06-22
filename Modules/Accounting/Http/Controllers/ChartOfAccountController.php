@@ -261,8 +261,9 @@ class ChartOfAccountController extends Controller
     public function select2Parent(Request $request)
     {
         $search = $request->q;
-        $query = ChartOfAccount::orderby('name','asc')
-                    ->select('id', 'code', 'name')
+        $query = ChartOfAccount::with(['chart_of_account_class:id,name,position'])
+                    ->orderby('code','asc')
+                    // ->select('id', 'code', 'name')
                     ->doesnthave('journal_details')
                     ->where('status', 1);
 
@@ -275,8 +276,8 @@ class ChartOfAccountController extends Controller
         $response = [];
         foreach($ChartOfAccounts as $ChartOfAccount){
             $response['results'][] = [
-                "id"=>$ChartOfAccount->id,
-                "text"=>$ChartOfAccount->code . ' | ' . $ChartOfAccount->name
+                "id" => $ChartOfAccount->id,
+                "text" => $ChartOfAccount->code . ' | ' . $ChartOfAccount->name . ' | Class: ' . $ChartOfAccount->chart_of_account_class->name
             ];
         }
         return response()->json($response);
