@@ -11,10 +11,10 @@
                     'tableId' => 'item-table'])
 
         {{-- @slot('createButton')
-            @can('create', Modules\SupplyChain\Entities\ItemCategory::class)                
+            @can('create', Modules\SupplyChain\Entities\ItemCategory::class)
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Create New
-                </button>   
+                </button>
             @endcan
         @endslot     --}}
 
@@ -22,6 +22,7 @@
             <th>Code</th>
             <th>Item Name</th>
             <th>Description/Remark</th>
+            <th>Category</th>
             <th>Sales COA</th>
             <th>Inventory COA</th>
             <th>Cost COA</th>

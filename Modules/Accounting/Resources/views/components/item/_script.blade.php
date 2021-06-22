@@ -13,7 +13,7 @@ $(document).ready(function () {
         if ($(this).text() != 'Action') {
             var title = $(this).text();
             $(this).html('<input type="text" placeholder="Search" class="form-control" />');
-    
+
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
                     if (datatableObject.column(i).search() !== this.value) {
@@ -43,6 +43,7 @@ $(document).ready(function () {
             { data: 'code', defaultContent: '-' },
             { data: 'name', defaultContent: '-' },
             { data: 'description', defaultContent: '-' },
+            { data: 'category.name', defaultContent: '-' },
             { data: 'sales_coa.name', defaultContent: "<span class='text-muted font-italic'>Inherits from Category's COA</span>" },
             { data: 'inventory_coa.name', defaultContent: "<span class='text-muted font-italic'>Inherits from Category's COA</span>" },
             { data: 'cost_coa.name', defaultContent: "<span class='text-muted font-italic'>Inherits from Category's COA</span>" },
@@ -114,7 +115,7 @@ $(document).ready(function () {
 
     datatableObject.on('click', '.editBtn', function () {
         $('#modalTitle').html("Edit Item COA");
-        $(inputFormId).trigger("reset");                
+        $(inputFormId).trigger("reset");
         rowId= $(this).val();
         let tr = $(this).closest('tr');
         let data = datatableObject.row(tr).data();
@@ -128,33 +129,34 @@ $(document).ready(function () {
 
         $('#code').val(data.code);
         $('#name').val(data.name);
-        $('#description').val(data.description); 
+        $('#description').val(data.description);
+        $('#category').val(data.category.name);
 
         $(".sales_coa_id").val(null).trigger('change');
         if (data.sales_coa != null){
             $('#sales_coa_id').append('<option value="' + data.sales_coa_id + '" selected>' + data.sales_coa.code + ' | ' + data.sales_coa.name + '</option>');
-        } 
+        }
 
         $(".inventory_coa_id").val(null).trigger('change');
         if (data.inventory_coa != null){
             $('#inventory_coa_id').append('<option value="' + data.inventory_coa_id + '" selected>' + data.inventory_coa.code + ' | ' + data.inventory_coa.name + '</option>');
-        } 
+        }
 
         $(".cost_coa_id").val(null).trigger('change');
         if (data.cost_coa != null){
             $('#cost_coa_id').append('<option value="' + data.cost_coa_id + '" selected>' + data.cost_coa.code + ' | ' + data.cost_coa.name + '</option>');
-        } 
+        }
 
         $(".inventory_adjustment_coa_id").val(null).trigger('change');
         if (data.inventory_adjustment_coa != null){
             $('#inventory_adjustment_coa_id').append('<option value="' + data.inventory_adjustment_coa_id + '" selected>' + data.inventory_adjustment_coa.code + ' | ' + data.inventory_adjustment_coa.name + '</option>');
-        } 
+        }
 
         $(".work_in_progress_coa_id").val(null).trigger('change');
         if (data.work_in_progress_coa_id != null){
             $('#work_in_progress_coa_id').append('<option value="' + data.work_in_progress_coa_id + '" selected>' + data.work_in_progress_coa.code + ' | ' + data.work_in_progress_coa.name + '</option>');
-        } 
-                        
+        }
+
         if (data.status == '<label class="label label-success">Active</label>') {
             $('#status').prop('checked', true);
         }
@@ -168,7 +170,7 @@ $(document).ready(function () {
     });
 
     $(inputFormId).on('submit', function (event) {
-        submitButtonProcess (tableId, inputFormId); 
+        submitButtonProcess (tableId, inputFormId);
     });
 
     deleteButtonProcess (datatableObject, tableId, actionUrl);
