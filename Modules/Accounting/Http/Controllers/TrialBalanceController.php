@@ -28,7 +28,7 @@ class TrialBalanceController extends Controller
         $end_date = $request->end_date;
 
         if ($request->ajax()) {
-            $data = ChartOfAccount::with(['parent', 'chart_of_account_class']);
+            $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class']);
 
             return Datatables::of($data)
             ->addColumn('coa_name', function($row) {
@@ -43,7 +43,7 @@ class TrialBalanceController extends Controller
                 }
             })
             ->addColumn('beginning_debit', function($row) use ($start_date) {
-                if (!$row->parent_id) {
+                if (sizeOf($row->all_childs) > 0) {
                     return JournalReport::getBeginningDebitParent($row->id, $start_date);
                     // return '&nbsp;';
                 }
@@ -52,7 +52,7 @@ class TrialBalanceController extends Controller
                 }
             })
             ->addColumn('beginning_credit', function($row) use ($start_date) {
-                if (!$row->parent_id) {
+                if (sizeOf($row->all_childs) > 0) {
                     return JournalReport::getBeginningCreditParent($row->id, $start_date);
                     // return '&nbsp;';
                 }
@@ -61,7 +61,7 @@ class TrialBalanceController extends Controller
                 }
             })
             ->addColumn('in_period_debit', function($row) use ($start_date, $end_date) {
-                if (!$row->parent_id) {
+                if (sizeOf($row->all_childs) > 0) {
                     return JournalReport::getInPeriodDebitParent($row->id, $start_date, $end_date);
                     // return '&nbsp;';
                 }
@@ -70,7 +70,7 @@ class TrialBalanceController extends Controller
                 }
             })
             ->addColumn('in_period_credit', function($row) use ($start_date, $end_date) {
-                if (!$row->parent_id) {
+                if (sizeOf($row->all_childs) > 0) {
                     return JournalReport::getInPeriodCreditParent($row->id, $start_date, $end_date);
                     // return '&nbsp;';
                 }
