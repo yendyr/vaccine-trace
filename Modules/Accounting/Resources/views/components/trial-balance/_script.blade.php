@@ -80,28 +80,28 @@ $(document).ready(function () {
         columns: [
             // { data: 'uuid', visible: false },
             { data: 'code', defaultContent: '-' },
-            { data: 'name', defaultContent: '-', class: 'text-left', },
-            { data: 'beginning_debit', class: 'text-right',
+            { data: 'name', defaultContent: '-', orderable: false, class: 'text-left', },
+            { data: 'beginning_debit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
                     return formatNumber(row.beginning_debit);
                 }},
-            { data: 'beginning_credit', class: 'text-right',
+            { data: 'beginning_credit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
                     return formatNumber(row.beginning_credit);
                 }},
-            { data: 'in_period_debit', class: 'text-right',
+            { data: 'in_period_debit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
                     return formatNumber(row.in_period_debit);
                 }},
-            { data: 'in_period_credit', class: 'text-right',
+            { data: 'in_period_credit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
                     return formatNumber(row.in_period_credit);
                 }},
-            { data: 'ending_debit', class: 'text-right',
+            { data: 'ending_debit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
                     return '<strong>' + formatNumber((row.beginning_debit + row.in_period_debit)) + '</strong>';
                 }},
-            { data: 'ending_credit', class: 'text-right',
+            { data: 'ending_credit', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
                     return '<strong>' + formatNumber((row.beginning_credit + row.in_period_credit)) + '</strong>';
                 }},

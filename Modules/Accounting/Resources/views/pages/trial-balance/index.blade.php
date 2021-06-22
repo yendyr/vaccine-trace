@@ -1,16 +1,16 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group" id="daterange">
-            <label class="font-normal">Range select</label>
-            <div class="input-daterange input-group" id="datepicker">
-                <input type="text" class="form-control-sm form-control" name="input_range" id="input_range" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group" id="daterange">
+                <label class="font-normal">Period Range</label>
+                <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="form-control-sm form-control" name="input_range" id="input_range" />
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     @component('components.crud-form.index',[
                     'title' => 'Trial Balance',
@@ -20,9 +20,9 @@
             <tr>
                 <th rowspan="2" class="text-center align-middle">COA Code</th>
                 <th rowspan="2" class="text-center align-middle">COA Name</th>
-                <th colspan="2" class="text-center">Beginning Balance</th>
-                <th colspan="2" class="text-center">In-Period Transaction</th>
-                <th colspan="2" class="text-center">Ending Balance</th>
+                <th colspan="2" class="text-right">Beginning Balance</th>
+                <th colspan="2" class="text-right">In-Period Transaction</th>
+                <th colspan="2" class="text-right">Ending Balance</th>
             </tr>
         @endslot
         @slot('tableContent')

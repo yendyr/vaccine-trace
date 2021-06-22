@@ -28,13 +28,16 @@ class TrialBalanceController extends Controller
         $end_date = $request->end_date;
 
         if ($request->ajax()) {
-            $data = ChartOfAccount::with(['journal_details.journal.approvals']);
-                                    // ->whereHas('journal', function ($journal) {
-                                    //     $journal->has('approvals');
-                                    // });
+            $data = ChartOfAccount::with(['all_childs']);
 
             return Datatables::of($data)
             ->addColumn('beginning_debit', function($row) use ($start_date) {
+                // if (sizeof($row->all_childs) > 0) {
+                //     return JournalReport::getBeginningDebitParent($row->id, $start_date);
+                // }
+                // else {
+                //     return JournalReport::getBeginningDebit($row->id, $start_date);
+                // }
                 return JournalReport::getBeginningDebit($row->id, $start_date);
             })
             ->addColumn('beginning_credit', function($row) use ($start_date) {
