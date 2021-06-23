@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="row">
+    <div class="row m-b">
         <div class="col-md-4">
             <div class="form-group" id="daterange">
                 <label class="font-normal">Period Range</label>
@@ -27,6 +27,7 @@
                     'tableId' => 'general-ledger-table'])
 
         @slot('tableContent')
+            <th>COA Name</th>
             <th>Journal Type</th>
             <th>Journal Transaction</th>
             <th>Transaction Reference</th>
