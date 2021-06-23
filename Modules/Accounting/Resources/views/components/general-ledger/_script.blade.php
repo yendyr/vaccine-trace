@@ -3,21 +3,20 @@
 $(document).ready(function () {
     var actionUrl = '/accounting/general-ledger';
     var tableId = '#general-ledger-table';
+    var inputFormId = '#inputForm';
     var start_date = '1970-01-01';
     var end_date = '9999-12-31';
+    var coas = null;
 
     $('#input_range').daterangepicker({
         locale: {
             format: "YYYY-MMMM-DD",
-            separator: " to ",
+            separator: "   to   ",
         },
     });
 
-    $('#input_range').on('apply.daterangepicker', function(ev, picker) {
-        fetchData();
-    });
-
     $('.coas').select2({
+        maximumSelectionLength: 3,
         theme: 'bootstrap4',
         placeholder: 'Choose COA',
         allowClear: true,
@@ -25,7 +24,17 @@ $(document).ready(function () {
             url: "{{ route('accounting.chart-of-account.select2.child') }}",
             dataType: 'json',
         },
-        // dropdownParent: $('#inputModal')
+    });
+
+    $('#input_range').on('apply.daterangepicker', function(ev, picker) {
+        start_date = picker.startDate.format('YYYY-MM-DD');
+        end_date = picker.endDate.format('YYYY-MM-DD');
+
+        $(tableId).DataTable().ajax.reload();
+    });
+
+    $('#coas').on("select2:select select2:unselect", function (e) {
+        coas = $(this).val();;
     });
 
 
@@ -51,7 +60,7 @@ $(document).ready(function () {
                 }
             });
         },
-        order: [ 3, 'asc' ],
+        order: [ 4, 'asc' ],
         pageLength: 200,
         processing: true,
         serverSide: false,
@@ -61,6 +70,7 @@ $(document).ready(function () {
             data: function(d){
                 d.start_date = start_date;
                 d.end_date = end_date;
+                d.coas = coas;
             }
         },
         columns: [
@@ -72,7 +82,7 @@ $(document).ready(function () {
                 }},
             { data: 'reference', defaultContent: '-', orderable: false },
             { data: 'journal.transaction_date', defaultContent: '-', orderable: false },
-            { data: 'debit', orderable: false, class: 'text-right',
+            { data: 'debit', orderable: false, class: 'text-right text-nowrap',
                 "render": function ( data, type, row, meta ) {
                     if (row.debit) {
                         return formatNumber(row.debit);
@@ -81,7 +91,7 @@ $(document).ready(function () {
                         return '-';
                     }
                 }},
-            { data: 'credit', orderable: false, class: 'text-right',
+            { data: 'credit', orderable: false, class: 'text-right text-nowrap',
                 "render": function ( data, type, row, meta ) {
                     if (row.credit) {
                         return formatNumber(row.credit);
@@ -90,7 +100,7 @@ $(document).ready(function () {
                         return '-';
                     }
                 }},
-            { data: 'balance', orderable: false, class: 'text-right',
+            { data: 'balance', orderable: false, class: 'text-right text-nowrap',
                 "render": function ( data, type, row, meta ) {
                     if (row.balance) {
                         return formatNumber(row.balance);
@@ -117,12 +127,9 @@ $(document).ready(function () {
         return 'Rp. ' + x1 + x2;
     }
 
-    function fetchData () {
-        start_date = picker.startDate.format('YYYY-MM-DD');
-        end_date = picker.endDate.format('YYYY-MM-DD');
-
-        $(tableId).DataTable().ajax.reload();
-    }
+    $(inputFormId).on('submit', function (event) {
+        submitButtonProcess (tableId, inputFormId);
+    });
 });
 </script>
 @endpush

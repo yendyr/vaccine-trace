@@ -39,6 +39,7 @@ Route::name('accounting.')->group(function () {
         Route::resource('/journal-detail', 'JournalDetailController');
         Route::post('/journal/{journal}/approve', 'JournalController@approve');
 
+        // Route::post('/general-ledger', 'GeneralLedgerController@index');
         Route::resource('/general-ledger', 'GeneralLedgerController');
         Route::resource('/trial-balance', 'TrialBalanceController');
     });

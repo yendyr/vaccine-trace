@@ -29,23 +29,22 @@ class GeneralLedgerController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
-        $coas = [];
-        if ($request->coas) {
-            foreach ($request->coas as $coa) {
-                $coas = array_merge($coas, $coa);
-            }
-        }
+        $coas = $request->input('coas', []);
 
         if ($request->ajax()) {
-            $data = JournalDetail::with(['journal',
-                                        'coa'])
-                                ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
-                                    $journal->has('approvals')
-                                    ->whereDate('transaction_date', '>=', $start_date)
-                                    ->whereDate('transaction_date', '<=', $end_date);
-                                });
-                                // ->whereIn('coa_id', $coas)
-                                // ->sum('credit');
+            if (!empty($coas)) {
+                $data = JournalDetail::with(['journal',
+                                                'coa'])
+                                    ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
+                                        $journal->has('approvals')
+                                        ->whereDate('transaction_date', '>=', $start_date)
+                                        ->whereDate('transaction_date', '<=', $end_date);
+                                    })
+                                    ->whereIn('coa_id', $coas);
+            }
+            else {
+                $data = JournalDetail::where('id', 'nothing');
+            }
 
             return Datatables::of($data)
             ->addColumn('type', function($row) {
@@ -64,39 +63,6 @@ class GeneralLedgerController extends Controller
                     return "-";
                 }
             })
-            // ->addColumn('beginning_debit', function($row) use ($start_date) {
-            //     if (sizeOf($row->all_childs) > 0) {
-            //         return JournalReport::getBeginningDebitParent($row->id, $start_date);
-            //     }
-            //     else {
-            //         return JournalReport::getBeginningDebit($row->id, $start_date);
-            //     }
-            // })
-            // ->addColumn('beginning_credit', function($row) use ($start_date) {
-            //     if (sizeOf($row->all_childs) > 0) {
-            //         return JournalReport::getBeginningCreditParent($row->id, $start_date);
-            //         // return '&nbsp;';
-            //     }
-            //     else {
-            //         return JournalReport::getBeginningCredit($row->id, $start_date);
-            //     }
-            // })
-            // ->addColumn('in_period_debit', function($row) use ($start_date, $end_date) {
-            //     if (sizeOf($row->all_childs) > 0) {
-            //         return JournalReport::getInPeriodDebitParent($row->id, $start_date, $end_date);
-            //     }
-            //     else {
-            //         return JournalReport::getInPeriodDebit($row->id, $start_date, $end_date);
-            //     }
-            // })
-            // ->addColumn('in_period_credit', function($row) use ($start_date, $end_date) {
-            //     if (sizeOf($row->all_childs) > 0) {
-            //         return JournalReport::getInPeriodCreditParent($row->id, $start_date, $end_date);
-            //     }
-            //     else {
-            //         return JournalReport::getInPeriodCredit($row->id, $start_date, $end_date);
-            //     }
-            // })
             ->escapeColumns([])
             ->make(true);
         }

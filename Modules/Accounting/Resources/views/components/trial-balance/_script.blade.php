@@ -9,7 +9,7 @@ $(document).ready(function () {
     $('#input_range').daterangepicker({
         locale: {
             format: "YYYY-MMMM-DD",
-            separator: " to ",
+            separator: "   to   ",
         },
     });
 
