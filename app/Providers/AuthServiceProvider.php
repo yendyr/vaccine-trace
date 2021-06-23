@@ -173,6 +173,12 @@ use Modules\Accounting\Entities\ChartOfAccount;
 use Modules\Accounting\Policies\JournalPolicy;
 use Modules\Accounting\Entities\Journal;
 
+use Modules\Accounting\Policies\TrialBalancePolicy;
+use Modules\Accounting\Entities\TrialBalance;
+
+use Modules\Accounting\Policies\GeneralLedgerPolicy;
+use Modules\Accounting\Entities\GeneralLedger;
+
 use Modules\FlightOperations\Policies\AfmLogPolicy;
 use Modules\FlightOperations\Entities\AfmLog;
 
@@ -295,6 +301,8 @@ class AuthServiceProvider extends ServiceProvider
         ChartOfAccountClass::class => ChartOfAccountClassPolicy::class,
         ChartOfAccount::class => ChartOfAccountPolicy::class,
         Journal::class => JournalPolicy::class,
+        TrialBalance::class => TrialBalancePolicy::class,
+        GeneralLedger::class => GeneralLedgerPolicy::class,
 
         AfmLog::class => AfmLogPolicy::class,
         AfmlDetailCrew::class => AfmlDetailCrewPolicy::class,

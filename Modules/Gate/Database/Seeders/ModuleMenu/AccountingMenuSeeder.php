@@ -118,6 +118,26 @@ class AccountingMenuSeeder extends Seeder
         ]);
 
         Menu::create([
+            'menu_link' => 'accounting/general-ledger',
+            'menu_text' => 'General Ledger',
+            'menu_route' => 'accounting.general-ledger.index',
+            'menu_icon' => 'fa-window-restore',
+            'menu_class' => 'Modules\Accounting\Entities\GeneralLedger',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['accounting/general-ledger', 'accounting/general-ledger/*']),
+            'group' => 'Accounting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuReport->id
+        ]);
+
+        Menu::create([
             'menu_link' => 'accounting/trial-balance',
             'menu_text' => 'Trial Balance',
             'menu_route' => 'accounting.trial-balance.index',

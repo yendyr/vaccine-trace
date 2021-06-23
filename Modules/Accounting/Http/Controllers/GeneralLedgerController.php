@@ -4,7 +4,8 @@ namespace Modules\Accounting\Http\Controllers;
 
 use Modules\Accounting\Entities\ChartOfAccount;
 use Modules\Accounting\Entities\Journal;
-use Modules\Accounting\Entities\TrialBalance;
+use Modules\Accounting\Entities\JournalDetail;
+use Modules\Accounting\Entities\GeneralLedger;
 
 use app\Helpers\Accounting\JournalReport;
 
@@ -13,13 +14,13 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Yajra\DataTables\Facades\DataTables;
 
-class TrialBalanceController extends Controller
+class GeneralLedgerController extends Controller
 {
     use AuthorizesRequests;
 
     public function __construct()
     {
-        $this->authorizeResource(TrialBalance::class);
+        $this->authorizeResource(GeneralLedger::class);
         $this->middleware('auth');
     }
 
@@ -28,19 +29,31 @@ class TrialBalanceController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
+        $coas = [];
+        if ($request->coas) {
+            foreach ($request->coas as $coa) {
+                $coas = array_merge($coas, $coa);
+            }
+        }
+
         if ($request->ajax()) {
-            $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class']);
+            $data = JournalDetail::with(['journal',
+                                        'chart_of_account'])
+                                ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
+                                    $journal->has('approvals')
+                                    ->whereDate('transaction_date', '>=', $start_date)
+                                    ->whereDate('transaction_date', '<=', $end_date);
+                                })
+                                ->whereIn('coa_id', $coas)
+                                ->sum('credit');
 
             return Datatables::of($data)
-            ->addColumn('coa_name', function($row) {
-                if ($row->parent_id) {
-                    if ($row->parent->parent_id) {
-                        return '&emsp;&emsp;&emsp;&emsp;' . $row->name;
-                    }
-                    return '&emsp;&emsp;' . $row->name;
+            ->addColumn('type', function($row) {
+                if ($row->journal->transaction_reference_text) {
+                    return $row->journal->transaction_reference_text;
                 }
                 else {
-                    return $row->name;
+                    return 'Manual Journal Entry';
                 }
             })
             ->addColumn('beginning_debit', function($row) use ($start_date) {
