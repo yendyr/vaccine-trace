@@ -49,7 +49,7 @@ class TaskcardController extends Controller
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
-                                'affected_items:id,code,name',
+                                'affected_items',
                                 'accesses:id,name',
                                 'zones:id,name',
                                 'document_libraries:id,name',
@@ -67,7 +67,7 @@ class TaskcardController extends Controller
                                 'taskcard_type:id,name',
                                 'taskcard_workarea:id,name',
                                 'aircraft_types:id,name',
-                                'affected_items:id,code,name',
+                                'affected_items',
                                 'accesses:id,name',
                                 'zones:id,name',
                                 'document_libraries:id,name',
@@ -81,194 +81,194 @@ class TaskcardController extends Controller
                     'taskcard_type:id,name',
                     'taskcard_workarea:id,name',
                     'aircraft_types:id,name',
-                    'affected_items:id,code,name',
+                    'affected_items',
                     'accesses:id,name',
                     'zones:id,name',
                     'document_libraries:id,name',
                     'affected_manuals:id,name',
                 ]);
             }
-            
+
             return Datatables::of($data)
-                ->addColumn('group_structure', function($row) {
-                    if ($row->taskcard_group_id) {
-                        $currentRow = TaskcardGroup::where('id', $row->taskcard_group_id)
-                                                    ->withTrashed()
-                                                    ->first();
-                        $group_structure = '';
+            ->addColumn('group_structure', function($row) {
+                if ($row->taskcard_group_id) {
+                    $currentRow = TaskcardGroup::where('id', $row->taskcard_group_id)
+                                                ->withTrashed()
+                                                ->first();
+                    $group_structure = '';
 
-                        while (true) {
-                            if ($currentRow) {
-                                $group_structure = $currentRow->name . ' -> ' . $group_structure;
-                                $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)
-                                                            ->withTrashed()
-                                                            ->first();
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        $group_structure = Str::beforeLast($group_structure, '->');
-                        return $group_structure;
-                    } 
-                    else {
-                        return '-';
-                    }
-                })
-                // ->addColumn('status', function($row){
-                //     if ($row->status == 1) {
-                //         return '<label class="label label-success">Active</label>';
-                //     } 
-                //     else {
-                //         return '<label class="label label-danger">Inactive</label>';
-                //     }
-                // })
-                // ->addColumn('interval_group', function($row){
-                //     $interval_group_name = null;
-                //     foreach ($row->interval_groups as $interval_group) {
-                //         $interval_group_name .= $interval_group->name . ', ';
-                //     }
-
-                //     $interval_group_name = Str::beforeLast($interval_group_name, ',');
-                //     return $interval_group_name;
-                // })
-                ->addColumn('tag', function($row){
-                    $tag_name = null;
-                    foreach ($row->tags as $tag) {
-                        $tag_name .= $tag->name . ', ';
-                    }
-
-                    $tag_name = Str::beforeLast($tag_name, ',');
-                    return $tag_name;
-                })
-                ->addColumn('instruction_count', function($row){
-                    return $row->instruction_details()->count();
-                })
-                ->addColumn('manhours_total', function($row){
-                    return number_format($row->instruction_details()->sum('manhours_estimation'), 2, '.', '');
-                })
-                ->addColumn('aircraft_type_name', function($row){
-                    $aircraft_type_name = null;
-                    foreach ($row->aircraft_types as $aircraft_type) {
-                        $aircraft_type_name .= $aircraft_type->name . ', ';
-                    }
-
-                    $aircraft_type_name = Str::beforeLast($aircraft_type_name, ',');
-                    return $aircraft_type_name;
-                })
-                ->addColumn('skills', function($row){
-                    $skillsArray = array();
-                    $skill_name = '';
-
-                    $TaskcardDetailInstructions = TaskcardDetailInstruction::where('taskcard_id', $row->id)->get();
-                    
-                    foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
-                        $TaskcardDetailInstructionSkills = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id)->get();
-
-                        foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
-                            if (!in_array($TaskcardDetailInstructionSkill->skill->name, $skillsArray)) {
-                                $skillsArray[] = $TaskcardDetailInstructionSkill->skill->name;
-                            }
-                        }
-                    }
-
-                    foreach ($skillsArray as $skill) {
-                        $skill_name .= $skill . ', ';
-                    }
-                    
-                    $skill_name = Str::beforeLast($skill_name, ',');
-                    return $skill_name;
-                })
-                ->addColumn('threshold_interval', function($row){
-                    $threshold_interval = '';
-                    if ($row->threshold_flight_hour) {
-                        $threshold_interval .= $row->threshold_flight_hour . ' FH / ';
-                    }
-                    else {
-                        $threshold_interval .= '- FH / ';
-                    }
-
-                    if ($row->threshold_flight_cycle) {
-                        $threshold_interval .= $row->threshold_flight_cycle . ' FC / ';
-                    }
-                    else {
-                        $threshold_interval .= '- FC / ';
-                    }
-
-                    if ($row->threshold_daily) {
-                        $threshold_interval .= $row->threshold_daily . ' ' . $row->threshold_daily_unit . '(s)';
-                    }
-                    else {
-                        $threshold_interval .= '- Day';
-                    }
-
-                    return $threshold_interval;
-                })
-                ->addColumn('repeat_interval', function($row){
-                    $repeat_interval = '';
-                    if ($row->repeat_flight_hour) {
-                        $repeat_interval .= $row->repeat_flight_hour . ' FH / ';
-                    }
-                    else {
-                        $repeat_interval .= '- FH / ';
-                    }
-
-                    if ($row->repeat_flight_cycle) {
-                        $repeat_interval .= $row->repeat_flight_cycle . ' FC / ';
-                    }
-                    else {
-                        $repeat_interval .= '- FC / ';
-                    }
-
-                    if ($row->repeat_daily) {
-                        $repeat_interval .= $row->repeat_daily . ' ' . $row->repeat_daily_unit . '(s)';
-                    }
-                    else {
-                        $repeat_interval .= '- Day';
-                    }
-
-                    return $repeat_interval;
-                })
-                // ->addColumn('creator_name', function($row){
-                //     return $row->creator->name . ', ' . $row->created_at;
-                // })
-                // ->addColumn('updater_name', function($row){
-                //     return $row->updater->name ?? '-';
-                // })
-                ->addColumn('action', function($row) use ($request) {
-                    if(!$request->aircraft_type_id) {
-                        $noAuthorize = true;
-                        $updateable = null;
-                        $updateValue = null;
-                        $deleteable = null;
-                        $deleteId = null;
-
-                        if(Auth::user()->can('update', Taskcard::class)) {
-                            $updateable = 'button';
-                            $updateValue = $row->id;
-                            $noAuthorize = false;
-                        }
-                        if(Auth::user()->can('delete', Taskcard::class)) {
-                            $deleteable = true;
-                            $deleteId = $row->id;
-                            $noAuthorize = false;
-                        }
-
-                        if ($noAuthorize == false) {
-                            return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    while (true) {
+                        if ($currentRow) {
+                            $group_structure = $currentRow->name . ' -> ' . $group_structure;
+                            $currentRow = TaskcardGroup::where('id', $currentRow->parent_id)
+                                                        ->withTrashed()
+                                                        ->first();
                         }
                         else {
-                            return '<p class="text-muted font-italic">Not Authorized</p>';
+                            break;
                         }
                     }
-                    else if($request->create_maintenance_program) {
-                        $usable = true;
-                        $idToUse = $row->id;
-                        return view('components.action-button', compact(['usable', 'idToUse']));
+                    $group_structure = Str::beforeLast($group_structure, '->');
+                    return $group_structure;
+                }
+                else {
+                    return '-';
+                }
+            })
+            // ->addColumn('status', function($row){
+            //     if ($row->status == 1) {
+            //         return '<label class="label label-success">Active</label>';
+            //     }
+            //     else {
+            //         return '<label class="label label-danger">Inactive</label>';
+            //     }
+            // })
+            // ->addColumn('interval_group', function($row){
+            //     $interval_group_name = null;
+            //     foreach ($row->interval_groups as $interval_group) {
+            //         $interval_group_name .= $interval_group->name . ', ';
+            //     }
+
+            //     $interval_group_name = Str::beforeLast($interval_group_name, ',');
+            //     return $interval_group_name;
+            // })
+            ->addColumn('tag', function($row){
+                $tag_name = null;
+                foreach ($row->tags as $tag) {
+                    $tag_name .= $tag->name . ', ';
+                }
+
+                $tag_name = Str::beforeLast($tag_name, ',');
+                return $tag_name;
+            })
+            ->addColumn('instruction_count', function($row){
+                return $row->instruction_details()->count();
+            })
+            ->addColumn('manhours_total', function($row){
+                return number_format($row->instruction_details()->sum('manhours_estimation'), 2, '.', '');
+            })
+            ->addColumn('aircraft_type_name', function($row){
+                $aircraft_type_name = null;
+                foreach ($row->aircraft_types as $aircraft_type) {
+                    $aircraft_type_name .= $aircraft_type->name . ', ';
+                }
+
+                $aircraft_type_name = Str::beforeLast($aircraft_type_name, ',');
+                return $aircraft_type_name;
+            })
+            ->addColumn('skills', function($row){
+                $skillsArray = array();
+                $skill_name = '';
+
+                $TaskcardDetailInstructions = TaskcardDetailInstruction::where('taskcard_id', $row->id)->get();
+
+                foreach ($TaskcardDetailInstructions as $TaskcardDetailInstruction) {
+                    $TaskcardDetailInstructionSkills = TaskcardDetailInstructionSkill::where('taskcard_detail_instruction_id', $TaskcardDetailInstruction->id)->get();
+
+                    foreach ($TaskcardDetailInstructionSkills as $TaskcardDetailInstructionSkill) {
+                        if (!in_array($TaskcardDetailInstructionSkill->skill->name, $skillsArray)) {
+                            $skillsArray[] = $TaskcardDetailInstructionSkill->skill->name;
+                        }
                     }
-                })
-                ->escapeColumns([])
-                ->make(true);
+                }
+
+                foreach ($skillsArray as $skill) {
+                    $skill_name .= $skill . ', ';
+                }
+
+                $skill_name = Str::beforeLast($skill_name, ',');
+                return $skill_name;
+            })
+            ->addColumn('threshold_interval', function($row){
+                $threshold_interval = '';
+                if ($row->threshold_flight_hour) {
+                    $threshold_interval .= $row->threshold_flight_hour . ' FH / ';
+                }
+                else {
+                    $threshold_interval .= '- FH / ';
+                }
+
+                if ($row->threshold_flight_cycle) {
+                    $threshold_interval .= $row->threshold_flight_cycle . ' FC / ';
+                }
+                else {
+                    $threshold_interval .= '- FC / ';
+                }
+
+                if ($row->threshold_daily) {
+                    $threshold_interval .= $row->threshold_daily . ' ' . $row->threshold_daily_unit . '(s)';
+                }
+                else {
+                    $threshold_interval .= '- Day';
+                }
+
+                return $threshold_interval;
+            })
+            ->addColumn('repeat_interval', function($row){
+                $repeat_interval = '';
+                if ($row->repeat_flight_hour) {
+                    $repeat_interval .= $row->repeat_flight_hour . ' FH / ';
+                }
+                else {
+                    $repeat_interval .= '- FH / ';
+                }
+
+                if ($row->repeat_flight_cycle) {
+                    $repeat_interval .= $row->repeat_flight_cycle . ' FC / ';
+                }
+                else {
+                    $repeat_interval .= '- FC / ';
+                }
+
+                if ($row->repeat_daily) {
+                    $repeat_interval .= $row->repeat_daily . ' ' . $row->repeat_daily_unit . '(s)';
+                }
+                else {
+                    $repeat_interval .= '- Day';
+                }
+
+                return $repeat_interval;
+            })
+            // ->addColumn('creator_name', function($row){
+            //     return $row->creator->name . ', ' . $row->created_at;
+            // })
+            // ->addColumn('updater_name', function($row){
+            //     return $row->updater->name ?? '-';
+            // })
+            ->addColumn('action', function($row) use ($request) {
+                if(!$request->aircraft_type_id) {
+                    $noAuthorize = true;
+                    $updateable = null;
+                    $updateValue = null;
+                    $deleteable = null;
+                    $deleteId = null;
+
+                    if(Auth::user()->can('update', Taskcard::class)) {
+                        $updateable = 'button';
+                        $updateValue = $row->id;
+                        $noAuthorize = false;
+                    }
+                    if(Auth::user()->can('delete', Taskcard::class)) {
+                        $deleteable = true;
+                        $deleteId = $row->id;
+                        $noAuthorize = false;
+                    }
+
+                    if ($noAuthorize == false) {
+                        return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
+                    }
+                    else {
+                        return '<p class="text-muted font-italic">Not Authorized</p>';
+                    }
+                }
+                else if($request->create_maintenance_program) {
+                    $usable = true;
+                    $idToUse = $row->id;
+                    return view('components.action-button', compact(['usable', 'idToUse']));
+                }
+            })
+            ->escapeColumns([])
+            ->make(true);
         }
         if(!$request->aircraft_type_id) {
             return view('ppc::pages.taskcard.index');
@@ -301,42 +301,42 @@ class TaskcardController extends Controller
 
         if ($request->on_condition) {
             $on_condition = 1;
-        } 
+        }
         else {
             $on_condition = 0;
         }
 
         if ($request->status) {
             $status = 1;
-        } 
+        }
         else {
             $status = 0;
         }
 
         if ($request->threshold_daily_unit) {
             $threshold_daily_unit = $request->threshold_daily_unit;
-        } 
+        }
         else {
             $threshold_daily_unit = 'Year';
         }
 
         if ($request->repeat_daily_unit) {
             $repeat_daily_unit = $request->repeat_daily_unit;
-        } 
+        }
         else {
             $repeat_daily_unit = 'Year';
         }
 
         if ($request->scheduled_priority) {
             $scheduled_priority = $request->scheduled_priority;
-        } 
+        }
         else {
             $scheduled_priority = 'As Scheduled';
         }
 
         if ($request->recurrence) {
             $recurrence = $request->recurrence;
-        } 
+        }
         else {
             $recurrence = 'As Required';
         }
@@ -344,7 +344,7 @@ class TaskcardController extends Controller
         $threshold_date = $request->threshold_date;
         $repeat_date = $request->repeat_date;
         $issued_date = $request->issued_date;
-        
+
         DB::beginTransaction();
         $Taskcard = Taskcard::create([
             'uuid' =>  Str::uuid(),
@@ -479,7 +479,7 @@ class TaskcardController extends Controller
         DB::commit();
 
         return response()->json(['success' => 'Task Card Data has been Added']);
-    
+
     }
 
     public function show(Taskcard $Taskcard)
@@ -513,42 +513,42 @@ class TaskcardController extends Controller
 
         if ($request->on_condition) {
             $on_condition = 1;
-        } 
+        }
         else {
             $on_condition = 0;
         }
 
         if ($request->status) {
             $status = 1;
-        } 
+        }
         else {
             $status = 0;
         }
 
         if ($request->threshold_daily_unit) {
             $threshold_daily_unit = $request->threshold_daily_unit;
-        } 
+        }
         else {
             $threshold_daily_unit = 'Year';
         }
 
         if ($request->repeat_daily_unit) {
             $repeat_daily_unit = $request->repeat_daily_unit;
-        } 
+        }
         else {
             $repeat_daily_unit = 'Year';
         }
 
         if ($request->scheduled_priority) {
             $scheduled_priority = $request->scheduled_priority;
-        } 
+        }
         else {
             $scheduled_priority = 'As Scheduled';
         }
 
         if ($request->recurrence) {
             $recurrence = $request->recurrence;
-        } 
+        }
         else {
             $recurrence = 'As Required';
         }
@@ -735,14 +735,14 @@ class TaskcardController extends Controller
 
         if ($request->threshold_daily_unit) {
             $threshold_daily_unit = $request->threshold_daily_unit;
-        } 
+        }
         else {
             $threshold_daily_unit = 'Year';
         }
 
         if ($request->repeat_daily_unit) {
             $repeat_daily_unit = $request->repeat_daily_unit;
-        } 
+        }
         else {
             $repeat_daily_unit = 'Year';
         }
@@ -814,7 +814,7 @@ class TaskcardController extends Controller
             $extension = $data->getClientOriginalExtension();
             $filename = 'taskcard_attachment_' . $Taskcard->id . '.' . $extension;
             $path = public_path('uploads/company/' . $Taskcard->owned_by . '/taskcard/');
-            
+
             $usersImage = public_path('uploads/company/' . $Taskcard->owned_by . '/taskcard/' . $filename);
 
             if (File::exists($usersImage)) {

@@ -7,7 +7,7 @@
                         'tableId' => 'taskcard-table'])
 
             @slot('createButton')
-                @can('update', $MaintenanceProgram)                
+                @can('update', $MaintenanceProgram)
                     <button type="button" class="useBtnAll btn btn-sm btn-outline btn-success text-nowrap pr-2" data-toggle="tooltip" title="Use All" value="{{ $MaintenanceProgram->id }}">
                         <i class="fa fa-check-square-o"></i> Use All
                     </button>
