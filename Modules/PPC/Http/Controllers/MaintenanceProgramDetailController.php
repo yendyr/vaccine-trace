@@ -321,7 +321,7 @@ class MaintenanceProgramDetailController extends Controller
 
 
         $request->merge(['maintenance_program_id' => $MaintenanceProgram->id]);
-        
+
         if ($taskcards_query->count() !== 0) {
 
             $taskcards = $taskcards_query->pluck('id');
@@ -340,12 +340,18 @@ class MaintenanceProgramDetailController extends Controller
                 DB::commit();
 
                 return response()->json([
-                    'success' => 'All Task Card has been added to Maintenance Program'
+                    'success' => 'All Task Card has been added to Maintenance Program',
+                    'flag' => $flag,
+                    'result' => $result
                 ]);
             } else {
                 DB::rollBack();
 
-                return response()->json(['error' => 'Failed to add all task card to Maintenance Program', 'flag' => $flag]);
+                return response()->json([
+                    'error' => 'Failed to add all task card to Maintenance Program', 
+                    'flag' => $flag,
+                    'result' => $result
+            ]);
             }
         }
     }
