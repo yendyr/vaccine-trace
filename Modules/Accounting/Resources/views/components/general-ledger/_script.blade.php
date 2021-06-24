@@ -13,6 +13,14 @@ $(document).ready(function () {
             format: "YYYY-MMMM-DD",
             separator: "   to   ",
         },
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
     });
 
     $('.coas').select2({
@@ -54,7 +62,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="3" class="text-left">COA Name: ' + group + '</td></tr>'
+                        '<tr class="group"><td colspan="3" class="text-left">COA: ' + group + '</td></tr>'
                     );
                     last = group;
                 }

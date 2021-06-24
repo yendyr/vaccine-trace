@@ -51,7 +51,7 @@ class GeneralLedgerController extends Controller
                 $beginningBalance = JournalReport::getBeginningBalance($row->coa->id, $start_date);
                 $endingBalance = JournalReport::getEndingBalance($row->coa->id, $start_date, $end_date);
 
-                return '<b>' . $row->coa->name . '</b></td><td colspan="4" class="text-right">Beginning Balance = <b>Rp. ' . number_format($beginningBalance, 0) . '</b>&emsp;&emsp;Ending Balance = <b>Rp. ' . number_format($endingBalance, 0);
+                return '<b>' . $row->coa->code . ' | ' . $row->coa->name . '</b></td><td colspan="4" class="text-right">Beginning Balance = <b>Rp. ' . number_format($beginningBalance, 0) . '</b>&emsp;&emsp;Ending Balance = <b>Rp. ' . number_format($endingBalance, 0);
             })
             ->addColumn('type', function($row) {
                 if ($row->journal->transaction_reference_text) {
