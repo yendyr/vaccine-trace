@@ -501,7 +501,7 @@ class WorkOrderController extends Controller
                     foreach($jobcard_row->details as $detail_row) {
 
                         $new_insctruction_code = $detail_row->update([
-                            'code' => 'INSTR-' .  $transaction_date->year . '-' . str_pad(dechex($detail_row->id), 9, '0', STR_PAD_LEFT)
+                            'instruction_code' => 'INSTR-' .  $transaction_date->year . '-' . str_pad(dechex($detail_row->id), 9, '0', STR_PAD_LEFT)
                         ]);
         
                         if( !$new_insctruction_code ) {
