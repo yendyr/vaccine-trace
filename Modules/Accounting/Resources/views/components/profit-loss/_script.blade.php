@@ -62,12 +62,12 @@ $(document).ready(function () {
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
-            var last=null;
+            var last = null;
 
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="5" class="text-left">COA Class: <b>' + group + '</b></td></tr>'
+                        '<tr class="group"><td colspan="5" class="text-center" id="grouping_header" name="grouping_header"><b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -82,7 +82,7 @@ $(document).ready(function () {
             data: function(d){
                 d.start_date = start_date;
                 d.end_date = end_date;
-            }
+            },
         },
         columns: [
             { data: 'chart_of_account_class.name' },
@@ -97,20 +97,23 @@ $(document).ready(function () {
                         return row.in_period_balance;
                     }
                 }},
-            { data: 'in_period_balance', orderable: false, class: 'text-right',
+            { data: 'all_time_balance', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    if (row.in_period_balance != '&nbsp;') {
-                        return formatNumber(row.in_period_balance);
+                    if (row.all_time_balance != '&nbsp;') {
+                        return formatNumber(row.all_time_balance);
                     }
                     else {
-                        return row.in_period_balance;
+                        return row.all_time_balance;
                     }
                 }
             },
         ]
     });
 
-
+    datatableObject.on('xhr', function () {
+        var json = datatableObject.ajax.json();
+        $("#header").html('<h3>In-Period Calculated Return: ' + formatNumber(json.in_period_return) + '</h3>');
+    });
 
     function formatNumber(nStr) {
         nStr += '';

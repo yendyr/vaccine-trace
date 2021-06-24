@@ -29,6 +29,20 @@ class ProfitLossController extends Controller
         $end_date = $request->end_date;
 
         if ($request->ajax()) {
+            $coas_income = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
+                                ->whereHas('chart_of_account_class', function ($class) {
+                                    $class->where('name', 'Income');
+                                })
+                                ->pluck('id');
+
+            $coas_expense = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
+                                ->whereHas('chart_of_account_class', function ($class) {
+                                    $class->where('name', 'Expense');
+                                })
+                                ->pluck('id');
+
+            $in_period_return = JournalReport::getInPeriodReturn($coas_income, $coas_expense, $start_date, $end_date);
+
             $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
                                 ->whereHas('chart_of_account_class', function ($class) {
                                     $class->where('name', 'Income')
@@ -36,6 +50,7 @@ class ProfitLossController extends Controller
                                 });
 
             return Datatables::of($data)
+            ->with('in_period_return', $in_period_return)
             ->addColumn('coa_name', function($row) {
                 if ($row->parent_id) {
                     if ($row->parent->parent_id) {
@@ -55,14 +70,14 @@ class ProfitLossController extends Controller
                     return JournalReport::getInPeriodBalance($row->id, $start_date, $end_date);
                 }
             })
-            // ->addColumn('in_period_credit', function($row) use ($start_date, $end_date) {
-            //     if (sizeOf($row->all_childs) > 0) {
-            //         return JournalReport::getInPeriodCreditParent($row->id, $start_date, $end_date);
-            //     }
-            //     else {
-            //         return JournalReport::getInPeriodCredit($row->id, $start_date, $end_date);
-            //     }
-            // })
+            ->addColumn('all_time_balance', function($row) {
+                if (sizeOf($row->all_childs) > 0) {
+                    return JournalReport::getInPeriodBalanceParent($row->id, '1970-01-01', '2999-12-31');
+                }
+                else {
+                    return JournalReport::getInPeriodBalance($row->id, '1970-01-01', '2999-12-31');
+                }
+            })
             ->escapeColumns([])
             ->make(true);
         }

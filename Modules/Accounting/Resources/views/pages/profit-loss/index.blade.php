@@ -16,14 +16,17 @@
                     'title' => 'Profit & Loss',
                     'tableId' => 'profit-loss-table'])
 
+        @slot('headerSpan')
+            <tr>
+                <th colspan="5" class="text-center" id="header"></th>
+            </tr>
+        @endslot
         @slot('tableContent')
             <th>COA Class</th>
             <th>COA Code</th>
             <th>COA Name</th>
             <th>In-Period Balance</th>
             <th>All Time Balance</th>
-            {{-- <th>Debit</th>
-            <th>Credit</th> --}}
         @endslot
     @endcomponent
 

@@ -161,4 +161,37 @@ class JournalReport
     {
         return Self::getBeginningBalanceParent($coa_id, $start_date) + Self::getInPeriodBalanceParent($coa_id, $start_date, $end_date);
     }
+
+    public static function getInPeriodReturn($coas_income, $coas_expense, $start_date, $end_date)
+    {
+        $in_period = JournalDetail::with(['journal'])
+                                ->whereHas('journal', function ($journal) use ($coas_income, $coas_expense, $start_date, $end_date) {
+                                    $journal->has('approvals')
+                                    ->whereDate('transaction_date', '>=', $start_date)
+                                    ->whereDate('transaction_date', '<=', $end_date);
+                                });
+
+        $in_period_income_debit = $in_period->whereIn('coa_id', $coas_income)
+                                ->sum('debit');
+        $in_period_income_credit = $in_period->whereIn('coa_id', $coas_income)
+                                ->sum('credit');
+
+        $in_period_income_total = $in_period_income_debit - $in_period_income_credit;
+
+        $in_period = JournalDetail::with(['journal'])
+                                ->whereHas('journal', function ($journal) use ($coas_income, $coas_expense, $start_date, $end_date) {
+                                    $journal->has('approvals')
+                                    ->whereDate('transaction_date', '>=', $start_date)
+                                    ->whereDate('transaction_date', '<=', $end_date);
+                                });
+
+        $in_period_expense_debit = $in_period->whereIn('coa_id', $coas_expense)
+                                            ->sum('debit');
+        $in_period_expense_credit = $in_period->whereIn('coa_id', $coas_expense)
+                                            ->sum('credit');
+
+        $in_period_expense_total = $in_period_expense_debit - $in_period_expense_credit;
+
+        return $in_period_income_total + $in_period_expense_total;
+    }
 }
