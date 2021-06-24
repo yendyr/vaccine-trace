@@ -54,7 +54,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="8" class="text-left">COA Name: <b>' + group + '</b></td></tr>'
+                        '<tr class="group"><td colspan="3" class="text-left">COA Name: ' + group + '</td></tr>'
                     );
                     last = group;
                 }
@@ -74,7 +74,7 @@ $(document).ready(function () {
             }
         },
         columns: [
-            { data: 'coa.name' },
+            { data: 'coa_title' },
             { data: 'type' },
             { data: 'journal.code', defaultContent: '-', orderable: false,
                 "render": function ( data, type, row, meta ) {
@@ -100,15 +100,15 @@ $(document).ready(function () {
                         return '-';
                     }
                 }},
-            { data: 'balance', orderable: false, class: 'text-right text-nowrap',
-                "render": function ( data, type, row, meta ) {
-                    if (row.balance) {
-                        return formatNumber(row.balance);
-                    }
-                    else {
-                        return '-';
-                    }
-                }},
+            // { data: 'balance', orderable: false, class: 'text-right text-nowrap',
+            //     "render": function ( data, type, row, meta ) {
+            //         if (row.balance) {
+            //             return formatNumber(row.balance);
+            //         }
+            //         else {
+            //             return '-';
+            //         }
+            //     }},
             { data: 'journal.description', defaultContent: '-', orderable: false },
         ]
     });

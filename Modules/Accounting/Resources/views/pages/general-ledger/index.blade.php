@@ -43,7 +43,7 @@
             <th>Transaction Date</th>
             <th>Debit</th>
             <th>Credit</th>
-            <th>Balance</th>
+            {{-- <th>Balance</th> --}}
             <th>Remark</th>
         @endslot
     @endcomponent

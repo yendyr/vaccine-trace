@@ -38,6 +38,13 @@ class JournalReport
         return $credit;
     }
 
+    public static function getBeginningBalance($coa_id, $start_date)
+    {
+        $debit = Self::getBeginningDebit($coa_id, $start_date);
+        $credit = Self::getBeginningCredit($coa_id, $start_date);
+        return ($debit - $credit);
+    }
+
     public static function getInPeriodDebit($coa_id, $start_date, $end_date)
     {
         $debit = JournalDetail::with(['journal'])
@@ -62,6 +69,14 @@ class JournalReport
                             ->where('coa_id', $coa_id)
                             ->sum('credit');
         return $credit;
+    }
+
+    public static function getEndingBalance($coa_id, $start_date, $end_date)
+    {
+        $in_period_debit = Self::getInPeriodDebit($coa_id, $start_date, $end_date);
+        $in_period_credit = Self::getInPeriodCredit($coa_id, $start_date, $end_date);
+
+        return Self::getBeginningBalance($coa_id, $start_date) + ($in_period_debit - $in_period_credit);
     }
 
     public static function getBeginningDebitParent($coa_id, $start_date)
