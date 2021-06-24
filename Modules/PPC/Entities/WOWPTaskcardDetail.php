@@ -186,6 +186,16 @@ class WOWPTaskcardDetail extends MainModel
 
     }
 
+    public function getOriginInstructionAttribute()
+    {
+        if( is_object($this->skills_json) || is_array($this->skills_json) ){
+            return $this->skills_json;
+        }else{
+            return json_decode($this->skills_json);
+        }
+
+    }
+
     public function getSkillsAttribute()
     {
         if( is_object($this->skills_json) || is_array($this->skills_json) ){
