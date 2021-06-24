@@ -110,6 +110,23 @@
             <label class="text-success">-</label>
         </p>
         @endif
+
+        @if ( !empty($job_card->tags_json) )
+        <p class="m-b-xs">
+            @foreach ($job_card->tags_json as $tag)
+            <label class="label label-warning">{{ $tag->name }}</label>
+            @endforeach
+        </p>
+        @else
+        <p class="m-b-xs">
+            <label class="text-success">-</label>
+        </p>
+        @endif
+
+        <p class="m-b-xs">
+            Job Card No. : 
+            <label class="text-success"> {{ $job_card->code ?? '-' }} </label>
+        </p>
     </div>
     <div class="col-lg-8">
         <div class="row">
@@ -303,7 +320,10 @@
                                                 Instruction Sequence: <label class="label label-danger m-b-none">{{ $instruction_detail->sequence ?? '-' }}</label>
                                             </div>
                                             <div class="col">
-                                                Task Code: <label class="label label-danger m-b-none">{{ $instruction_detail->code ?? '-' }}</label>
+                                                Task Code: <label class="label label-danger m-b-none">{{ $instruction_detail->origin_instruction[0]->code ?? '-' }}</label>
+                                            </div>
+                                            <div class="col">
+                                                Job Card Instruction No. : <label class="label label-danger m-b-none">{{ $instruction_detail->code ?? '-' }}</label>
                                             </div>
                                             <div class="col text-right">
                                             @if( $job_card->is_exec_all == null || $job_card->is_exec_all == false )
