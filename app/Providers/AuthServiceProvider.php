@@ -179,6 +179,9 @@ use Modules\Accounting\Entities\TrialBalance;
 use Modules\Accounting\Policies\GeneralLedgerPolicy;
 use Modules\Accounting\Entities\GeneralLedger;
 
+use Modules\Accounting\Policies\ProfitLossPolicy;
+use Modules\Accounting\Entities\ProfitLoss;
+
 use Modules\FlightOperations\Policies\AfmLogPolicy;
 use Modules\FlightOperations\Entities\AfmLog;
 
@@ -303,6 +306,7 @@ class AuthServiceProvider extends ServiceProvider
         Journal::class => JournalPolicy::class,
         TrialBalance::class => TrialBalancePolicy::class,
         GeneralLedger::class => GeneralLedgerPolicy::class,
+        ProfitLoss::class => ProfitLossPolicy::class,
 
         AfmLog::class => AfmLogPolicy::class,
         AfmlDetailCrew::class => AfmlDetailCrewPolicy::class,

@@ -138,6 +138,26 @@ class AccountingMenuSeeder extends Seeder
         ]);
 
         Menu::create([
+            'menu_link' => 'accounting/profit-loss',
+            'menu_text' => 'Profit & Loss',
+            'menu_route' => 'accounting.profit-loss.index',
+            'menu_icon' => 'fa-adjust',
+            'menu_class' => 'Modules\Accounting\Entities\ProfitLoss',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['accounting/profit-loss', 'accounting/profit-loss/*']),
+            'group' => 'Accounting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuReport->id
+        ]);
+
+        Menu::create([
             'menu_link' => 'accounting/trial-balance',
             'menu_text' => 'Trial Balance',
             'menu_route' => 'accounting.trial-balance.index',
