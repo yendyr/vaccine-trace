@@ -319,6 +319,9 @@ class MaintenanceProgramDetailController extends Controller
         )
             ->whereNotIn('id', $existed_taskcard);
 
+
+        $request->merge(['maintenance_program_id' => $MaintenanceProgram->id]);
+        
         if ($taskcards_query->count() !== 0) {
 
             $taskcards = $taskcards_query->pluck('id');
