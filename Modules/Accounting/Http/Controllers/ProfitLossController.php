@@ -29,7 +29,11 @@ class ProfitLossController extends Controller
         $end_date = $request->end_date;
 
         if ($request->ajax()) {
-            $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class']);
+            $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
+                                ->whereHas('chart_of_account_class', function ($class) {
+                                    $class->where('name', 'Income')
+                                        ->orWhere('name', 'Expense');
+                                });
 
             return Datatables::of($data)
             ->addColumn('coa_name', function($row) {
@@ -43,42 +47,25 @@ class ProfitLossController extends Controller
                     return $row->name;
                 }
             })
-            ->addColumn('beginning_debit', function($row) use ($start_date) {
+            ->addColumn('in_period_balance', function($row) use ($start_date, $end_date) {
                 if (sizeOf($row->all_childs) > 0) {
-                    return JournalReport::getBeginningDebitParent($row->id, $start_date);
+                    return JournalReport::getInPeriodBalanceParent($row->id, $start_date, $end_date);
                 }
                 else {
-                    return JournalReport::getBeginningDebit($row->id, $start_date);
+                    return JournalReport::getInPeriodBalance($row->id, $start_date, $end_date);
                 }
             })
-            ->addColumn('beginning_credit', function($row) use ($start_date) {
-                if (sizeOf($row->all_childs) > 0) {
-                    return JournalReport::getBeginningCreditParent($row->id, $start_date);
-                    // return '&nbsp;';
-                }
-                else {
-                    return JournalReport::getBeginningCredit($row->id, $start_date);
-                }
-            })
-            ->addColumn('in_period_debit', function($row) use ($start_date, $end_date) {
-                if (sizeOf($row->all_childs) > 0) {
-                    return JournalReport::getInPeriodDebitParent($row->id, $start_date, $end_date);
-                }
-                else {
-                    return JournalReport::getInPeriodDebit($row->id, $start_date, $end_date);
-                }
-            })
-            ->addColumn('in_period_credit', function($row) use ($start_date, $end_date) {
-                if (sizeOf($row->all_childs) > 0) {
-                    return JournalReport::getInPeriodCreditParent($row->id, $start_date, $end_date);
-                }
-                else {
-                    return JournalReport::getInPeriodCredit($row->id, $start_date, $end_date);
-                }
-            })
+            // ->addColumn('in_period_credit', function($row) use ($start_date, $end_date) {
+            //     if (sizeOf($row->all_childs) > 0) {
+            //         return JournalReport::getInPeriodCreditParent($row->id, $start_date, $end_date);
+            //     }
+            //     else {
+            //         return JournalReport::getInPeriodCredit($row->id, $start_date, $end_date);
+            //     }
+            // })
             ->escapeColumns([])
             ->make(true);
         }
-        return view('accounting::pages.trial-balance.index');
+        return view('accounting::pages.profit-loss.index');
     }
 }

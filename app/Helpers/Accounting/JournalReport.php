@@ -71,18 +71,23 @@ class JournalReport
         return $credit;
     }
 
-    public static function getEndingBalance($coa_id, $start_date, $end_date)
+    public static function getInPeriodBalance($coa_id, $start_date, $end_date)
     {
         $in_period_debit = Self::getInPeriodDebit($coa_id, $start_date, $end_date);
         $in_period_credit = Self::getInPeriodCredit($coa_id, $start_date, $end_date);
 
-        return Self::getBeginningBalance($coa_id, $start_date) + ($in_period_debit - $in_period_credit);
+        return ($in_period_debit - $in_period_credit);
+    }
+
+    public static function getEndingBalance($coa_id, $start_date, $end_date)
+    {
+        return Self::getBeginningBalance($coa_id, $start_date) + Self::getInPeriodBalance($coa_id, $start_date, $end_date);
     }
 
     public static function getBeginningDebitParent($coa_id, $start_date)
     {
         $child_coas = ChartOfAccount::where('id', $coa_id)->first()->getAllChilds();
-        // dd($child_coas);
+
         $debit = JournalDetail::with(['journal'])
                             ->whereHas('journal', function ($journal) use ($start_date) {
                                 $journal->has('approvals')
@@ -105,6 +110,13 @@ class JournalReport
                             ->whereIn('coa_id', $child_coas)
                             ->sum('credit');
         return $credit;
+    }
+
+    public static function getBeginningBalanceParent($coa_id, $start_date)
+    {
+        $debit = Self::getBeginningDebitParent($coa_id, $start_date);
+        $credit = Self::getBeginningCreditParent($coa_id, $start_date);
+        return ($debit - $credit);
     }
 
     public static function getInPeriodDebitParent($coa_id, $start_date, $end_date)
@@ -135,5 +147,18 @@ class JournalReport
                             ->whereIn('coa_id', $child_coas)
                             ->sum('credit');
         return $credit;
+    }
+
+    public static function getInPeriodBalanceParent($coa_id, $start_date, $end_date)
+    {
+        $in_period_debit = Self::getInPeriodDebitParent($coa_id, $start_date, $end_date);
+        $in_period_credit = Self::getInPeriodCreditParent($coa_id, $start_date, $end_date);
+
+        return ($in_period_debit - $in_period_credit);
+    }
+
+    public static function getEndingBalanceParent($coa_id, $start_date, $end_date)
+    {
+        return Self::getBeginningBalanceParent($coa_id, $start_date) + Self::getInPeriodBalanceParent($coa_id, $start_date, $end_date);
     }
 }

@@ -13,30 +13,21 @@
     </div>
 
     @component('components.crud-form.index',[
-                    'title' => 'Trial Balance',
-                    'tableId' => 'trial-balance-table'])
+                    'title' => 'Profit & Loss',
+                    'tableId' => 'profit-loss-table'])
 
-        @slot('headerSpan')
-            <tr>
-                <th rowspan="2" class="text-center align-middle">COA Class</th>
-                <th rowspan="2" class="text-center align-middle">COA Code</th>
-                <th rowspan="2" class="text-center align-middle">COA Name</th>
-                <th colspan="2" class="text-right">Beginning Balance</th>
-                <th colspan="2" class="text-right">In-Period Transaction</th>
-                <th colspan="2" class="text-right">Ending Balance</th>
-            </tr>
-        @endslot
         @slot('tableContent')
-            <th>Debit</th>
-            <th>Credit</th>
-            <th>Debit</th>
-            <th>Credit</th>
-            <th>Debit</th>
-            <th>Credit</th>
+            <th>COA Class</th>
+            <th>COA Code</th>
+            <th>COA Name</th>
+            <th>In-Period Balance</th>
+            <th>All Time Balance</th>
+            {{-- <th>Debit</th>
+            <th>Credit</th> --}}
         @endslot
     @endcomponent
 
-    @include('accounting::components.trial-balance._script')
+    @include('accounting::components.profit-loss._script')
 
 @endsection
 
@@ -44,9 +35,6 @@
     @include('layouts.includes._header-datatable-script')
     <link href="{{ URL::asset('theme/css/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <style>
-        /* thead input {
-            width: 100%;
-        } */
         tr.group,
         tr.group:hover {
             background-color: #aaa !important;

@@ -1,8 +1,8 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = '/accounting/trial-balance';
-    var tableId = '#trial-balance-table';
+    var actionUrl = '/accounting/profit-loss';
+    var tableId = '#profit-loss-table';
     var start_date = '1970-01-01';
     var end_date = '9999-12-31';
 
@@ -58,42 +58,16 @@ $(document).ready(function () {
             visible: false,
             targets: groupColumn }
         ],
-        order: [ 1, 'asc' ],
+        order: [[ 0, 'desc' ], [ 1, 'asc' ]],
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
 
-            // var endingBalanceDebit = rows
-            //         .data()
-            //         .pluck(7)
-            //         .reduce( function (a, b) {
-            //             if (!b) {
-            //                 return a + 0;
-            //             }
-            //             else {
-            //                 return a + b.replace(/\D/g, "");
-            //             }
-            //         }, 0);
-
-            // var endingBalanceCredit = rows
-            //         .data()
-            //         .pluck(8)
-            //         .reduce( function (a, b) {
-            //             if (!b) {
-            //                 return a + 0;
-            //             }
-            //             else {
-            //                 return a + b.replace(/\D/g, "");
-            //             }
-            //         }, 0);
-
-            // var totalEndingBalanceClass = endingBalanceDebit - endingBalanceCredit;
-
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="9" class="text-left">COA Class: <b>' + group + '</b></td></tr>'
+                        '<tr class="group"><td colspan="5" class="text-left">COA Class: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -104,7 +78,7 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "{{ route('accounting.trial-balance.index') }}",
+            url: "{{ route('accounting.profit-loss.index') }}",
             data: function(d){
                 d.start_date = start_date;
                 d.end_date = end_date;
@@ -114,60 +88,25 @@ $(document).ready(function () {
             { data: 'chart_of_account_class.name' },
             { data: 'code', defaultContent: '-', orderable: false },
             { data: 'coa_name', defaultContent: '-', orderable: false, class: 'text-left' },
-            { data: 'beginning_debit', orderable: false, class: 'text-right',
+            { data: 'in_period_balance', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    if (row.beginning_debit != '&nbsp;') {
-                        return formatNumber(row.beginning_debit);
+                    if (row.in_period_balance != '&nbsp;') {
+                        return formatNumber(row.in_period_balance);
                     }
                     else {
-                        return row.beginning_debit;
+                        return row.in_period_balance;
                     }
                 }},
-            { data: 'beginning_credit', orderable: false, class: 'text-right',
+            { data: 'in_period_balance', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
-                    if (row.beginning_credit != '&nbsp;') {
-                        return formatNumber(row.beginning_credit);
+                    if (row.in_period_balance != '&nbsp;') {
+                        return formatNumber(row.in_period_balance);
                     }
                     else {
-                        return row.beginning_credit;
+                        return row.in_period_balance;
                     }
-                }},
-            { data: 'in_period_debit', orderable: false, class: 'text-right',
-                "render": function ( data, type, row, meta ) {
-                    if (row.in_period_debit != '&nbsp;') {
-                        return formatNumber(row.in_period_debit);
-                    }
-                    else {
-                        return row.in_period_debit;
-                    }
-                }},
-            { data: 'in_period_credit', orderable: false, class: 'text-right',
-                "render": function ( data, type, row, meta ) {
-                    if (row.in_period_credit != '&nbsp;') {
-                        return formatNumber(row.in_period_credit);
-                    }
-                    else {
-                        return row.in_period_credit;
-                    }
-                }},
-            { data: 'ending_debit', orderable: false, class: 'text-right',
-                "render": function ( data, type, row, meta ) {
-                    if (row.beginning_debit != '&nbsp;') {
-                        return formatNumber((row.beginning_debit + row.in_period_debit));
-                    }
-                    else {
-                        return row.beginning_debit;
-                    }
-                }},
-            { data: 'ending_credit', orderable: false, class: 'text-right',
-                "render": function ( data, type, row, meta ) {
-                    if (row.beginning_debit != '&nbsp;') {
-                        return formatNumber((row.beginning_credit + row.in_period_credit));
-                    }
-                    else {
-                        return row.beginning_debit;
-                    }
-                }},
+                }
+            },
         ]
     });
 
