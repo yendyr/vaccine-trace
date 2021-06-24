@@ -68,7 +68,7 @@ $(document).ready(function () {
                 }
             });
         },
-        order: [ 4, 'asc' ],
+        order: [[ 0, 'asc' ], [ 4, 'asc' ]],
         pageLength: 200,
         processing: true,
         serverSide: false,
