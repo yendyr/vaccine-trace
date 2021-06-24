@@ -41,6 +41,8 @@
             <th>Journal Transaction</th>
             <th>Transaction Reference</th>
             <th>Transaction Date</th>
+            <th>Transaction Currency</th>
+            <th>Exchange Rate</th>
             <th>Debit</th>
             <th>Credit</th>
             {{-- <th>Balance</th> --}}

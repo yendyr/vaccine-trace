@@ -90,6 +90,16 @@ $(document).ready(function () {
                 }},
             { data: 'reference', defaultContent: '-', orderable: false },
             { data: 'journal.transaction_date', defaultContent: '-', orderable: false },
+            { data: 'journal.currency.code', defaultContent: '-', orderable: false },
+            { data: 'journal.exchange_rate', defaultContent: '-', orderable: false,
+                "render": function ( data, type, row, meta ) {
+                    if (row.journal.exchange_rate) {
+                        return formatNumber(row.journal.exchange_rate);
+                    }
+                    else {
+                        return '-';
+                    }
+                }},
             { data: 'debit', orderable: false, class: 'text-right text-nowrap',
                 "render": function ( data, type, row, meta ) {
                     if (row.debit) {
