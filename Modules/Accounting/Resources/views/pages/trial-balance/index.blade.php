@@ -23,7 +23,8 @@
                 <th rowspan="2" class="text-center align-middle">COA Name</th>
                 <th colspan="2" class="text-right">Beginning Balance</th>
                 <th colspan="2" class="text-right">In-Period Transaction</th>
-                <th colspan="2" class="text-right">Ending Balance</th>
+                <th colspan="2" class="text-center">Balance</th>
+                <th rowspan="2" class="text-center align-middle">Ending Balance</th>
             </tr>
         @endslot
         @slot('tableContent')

@@ -93,7 +93,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="9" class="text-left">COA Class: <b>' + group + '</b></td></tr>'
+                        '<tr class="group"><td colspan="10" class="text-left">COA Class: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -163,6 +163,15 @@ $(document).ready(function () {
                 "render": function ( data, type, row, meta ) {
                     if (row.beginning_debit != '&nbsp;') {
                         return formatNumber((row.beginning_credit + row.in_period_credit));
+                    }
+                    else {
+                        return row.beginning_debit;
+                    }
+                }},
+            { data: 'ending_balance', orderable: false, class: 'text-right',
+                "render": function ( data, type, row, meta ) {
+                    if (row.beginning_debit != '&nbsp;') {
+                        return formatNumber((row.beginning_debit + row.in_period_debit) - (row.beginning_credit + row.in_period_credit));
                     }
                     else {
                         return row.beginning_debit;
