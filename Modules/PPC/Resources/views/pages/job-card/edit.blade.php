@@ -110,6 +110,23 @@
             <label class="text-success">-</label>
         </p>
         @endif
+
+        @if ( !empty($job_card->tags_json) )
+        <p class="m-b-xs">
+            @foreach ($job_card->tags_json as $tag)
+            <label class="label label-warning">{{ $tag->name }}</label>
+            @endforeach
+        </p>
+        @else
+        <p class="m-b-xs">
+            <label class="text-success">-</label>
+        </p>
+        @endif
+
+        <p class="m-b-xs">
+            Job Card No. : 
+            <label class="text-success"> {{ $job_card->code ?? '-' }} </label>
+        </p>
     </div>
     <div class="col-lg-8">
         <div class="row">

@@ -87,6 +87,11 @@
             <label class="text-success">-</label>
         </p>
         @endif
+
+        <p class="m-b-xs">
+            Job Card No. : 
+            <label class="text-success"> {{ $job_card->code ?? '-' }} </label>
+        </p>
     </div>
     <div class="col-lg-8">
         <div class="row">
