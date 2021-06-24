@@ -21,7 +21,7 @@ $(document).ready(function () {
         if ($(this).text() != 'Action') {
             var title = $(this).text();
             $(this).html('<input type="text" placeholder="Search" class="form-control" />');
-    
+
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
                     if (datatableObject.column(i).search() !== this.value) {
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
     var datatableObject = $(tableId).DataTable({
         columnDefs: [{
-            visible: false, 
+            visible: false,
             targets: groupColumn }
         ],
         order: [[ groupColumn, 'asc' ]],
@@ -50,7 +50,7 @@ $(document).ready(function () {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
- 
+
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
@@ -72,7 +72,7 @@ $(document).ready(function () {
             url: "/ppc/taskcard/?aircraft_type_id=" + "{{ $MaintenanceProgram->aircraft_type->id }}" + "&create_maintenance_program=true",
         },
         columns: [
-            { data: 'mpd_number', 
+            { data: 'mpd_number',
                     "render": function ( data, type, row, meta ) {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.id + '">' + row.mpd_number + '</a>'; }},
             { data: 'title', defaultContent: '-' },
@@ -117,7 +117,7 @@ $(document).ready(function () {
         if ($(this).text() != 'Action') {
             var title = $(this).text();
             $(this).html('<input type="text" placeholder="Search" class="form-control" />');
-    
+
             $('input', this).on('keypress', function (e) {
                 if(e.which == 13) {
                     if (datatableObject2.column(i).search() !== this.value) {
@@ -138,7 +138,7 @@ $(document).ready(function () {
 
     var datatableObject2 = $(tableId2).DataTable({
         columnDefs: [{
-            visible: false, 
+            visible: false,
             targets: groupColumn2 }
         ],
         order: [[ groupColumn2, 'asc' ]],
@@ -146,7 +146,7 @@ $(document).ready(function () {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
- 
+
             api.column(groupColumn2, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
@@ -168,7 +168,7 @@ $(document).ready(function () {
             url: "/ppc/maintenance-program-detail/?maintenance_program_id=" + "{{ $MaintenanceProgram->id }}",
         },
         columns: [
-            { data: 'taskcard.mpd_number', 
+            { data: 'taskcard.mpd_number',
                     "render": function ( data, type, row, meta ) {
                     return '<a target="_blank" href="/ppc/taskcard/' + row.taskcard.id + '">' + row.taskcard.mpd_number + '</a>'; }},
             { data: 'taskcard.title', name: 'Title' },
@@ -190,10 +190,10 @@ $(document).ready(function () {
         ]
     });
 
-    
 
 
-    
+
+
 
 
 
@@ -202,7 +202,7 @@ $(document).ready(function () {
         $('#modalTitle').html("Edit Remark");
         $(inputFormId).trigger("reset");
 
-        $("input[value='post']").remove();   
+        $("input[value='post']").remove();
 
         rowId= $(this).val();
         let tr = $(this).closest('tr');
@@ -239,7 +239,7 @@ $(document).ready(function () {
         $('#modalTitle').html("Use Task Card");
 
         $("input[value='patch']").remove();
-        $(inputFormId).trigger("reset"); 
+        $(inputFormId).trigger("reset");
 
         rowId= $(this).val();
         let tr = $(this).closest('tr');
@@ -270,7 +270,7 @@ $(document).ready(function () {
         $('#modalTitle').html("Use All Task Card");
 
         $("input[value='patch']").remove();
-        $(inputFormId).trigger("reset"); 
+        $(inputFormId).trigger("reset");
 
         rowId= $(this).val();
         let tr = $(this).closest('tr');
@@ -322,15 +322,15 @@ $(document).ready(function () {
             success: function (data) {
                 $('#inputModal').modal('hide');
                 if (data.success) {
-                    generateToast ('success', data.success);  
-                    $(tableId2).DataTable().ajax.reload();                          
+                    generateToast ('success', data.success);
+                    $(tableId2).DataTable().ajax.reload();
                 }
                 else if (data.error) {
                     swal.fire({
                         titleText: "Action Failed",
                         text: data.error,
                         icon: "error",
-                    });   
+                    });
                 }
             },
             complete: function () {
@@ -338,7 +338,7 @@ $(document).ready(function () {
                 l.ladda( 'stop' );
                 $('#saveBtn'). prop('disabled', false);
             }
-        }); 
+        });
     });
     // ----------------- END "SUBMIT" BUTTON SCRIPT ------------- //
 

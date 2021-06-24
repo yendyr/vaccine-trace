@@ -35,14 +35,14 @@ class AircraftConfigurationDetailController extends Controller
         }
 
         $warehouse_id = $AircraftConfiguration->warehouse->id;
-        
+
         $data = ItemStock::where('warehouse_id', $warehouse_id)
-                        ->with(['item:id,code,name',
+                        ->with(['item',
                                 'item_stock_initial_aging',
                                 'item_group:id,item_id,serial_number,alias_name,coding,parent_coding',
                                 'item_group.item'])
                         ->orderBy('created_at','desc');
-        
+
         return Datatables::of($data)
         ->addColumn('status', function($row){
             if ($row->status == 1){
@@ -60,11 +60,11 @@ class AircraftConfigurationDetailController extends Controller
         })
         ->addColumn('parent', function($row){
             if ($row->item_group) {
-                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' . 
+                return 'P/N: <strong>' . $row->item_group->item->code . '</strong><br>' .
                 'S/N: <strong>' . $row->item_group->serial_number . '</strong><br>' .
                 'Name: <strong>' . $row->item_group->item->name . '</strong><br>' .
                 'Alias: <strong>' . $row->item_group->alias_name . '</strong><br>';
-            } 
+            }
             else {
                 return "<span class='text-muted font-italic'>Not Set</span>";
             }
@@ -101,7 +101,7 @@ class AircraftConfigurationDetailController extends Controller
                 // return '<p class="text-muted font-italic">Already Approved</p>';
                 $printSingleQr = 'button';
                 $printSingleQrId = $row->uuid;
-    
+
                 return view('components.action-button', compact(['printSingleQr', 'printSingleQrId']));
             }
         })
@@ -114,7 +114,7 @@ class AircraftConfigurationDetailController extends Controller
         $aircraft_configuration_id = $request->id;
         $AircraftConfiguration = AircraftConfiguration::where('id', $aircraft_configuration_id)->first();
         $warehouse_id = $AircraftConfiguration->warehouse->id;
-        
+
         $datas = ItemStock::where('warehouse_id', $warehouse_id)
                                 ->with(['item:id,code,name',
                                         'item_group:id,item_id,alias_name,coding,parent_coding'])
@@ -134,8 +134,8 @@ class AircraftConfigurationDetailController extends Controller
             $response[] = [
                 "id" => $data->coding,
                 "parent" => $parent,
-                "text" => 'P/N: <strong>' . $data->item->code . 
-                '</strong> | Item Name: <strong>' . $data->item->name . 
+                "text" => 'P/N: <strong>' . $data->item->code .
+                '</strong> | Item Name: <strong>' . $data->item->name .
                 '</strong> | Alias Name: <strong>' . $data->alias_name . '</strong>'
             ];
         }
@@ -152,28 +152,28 @@ class AircraftConfigurationDetailController extends Controller
             $request->validate([
                 'item_id' => ['required'],
             ]);
-    
+
             if ($request->status) {
                 $status = 1;
-            } 
+            }
             else {
                 $status = 0;
             }
-    
+
             if ($request->highlight) {
                 $highlight = 1;
-            } 
+            }
             else {
                 $highlight = 0;
             }
-    
+
             $initial_start_date = $request->initial_start_date;
             $expired_date = $request->expired_date;
-    
+
             DB::beginTransaction();
             $AircraftConfigurationDetail = ItemStock::create([
                 'uuid' =>  Str::uuid(),
-    
+
                 'warehouse_id' => $warehouse_id,
                 'item_id' => $request->item_id,
                 'serial_number' => $request->serial_number,
@@ -181,7 +181,7 @@ class AircraftConfigurationDetailController extends Controller
                 'highlight' => $highlight,
                 'description' => $request->description,
                 'parent_coding' => $request->parent_coding,
-    
+
                 'owned_by' => $request->user()->company_id,
                 'status' => $status,
                 'created_by' => $request->user()->id,
@@ -199,13 +199,13 @@ class AircraftConfigurationDetailController extends Controller
                     'initial_flight_event' => $request->initial_flight_event,
                     'initial_start_date' => $initial_start_date,
                     'expired_date' => $expired_date,
-                    
+
                     'owned_by' => $request->user()->company_id,
                     'status' => 1,
                     'created_by' => $request->user()->id,
                 ]));
             DB::commit();
-    
+
             return response()->json(['success' => 'Item/Component Data has been Added']);
         }
         else {
@@ -225,30 +225,30 @@ class AircraftConfigurationDetailController extends Controller
             $request->validate([
                 'item_id' => ['required'],
             ]);
-    
+
             if ($request->status) {
-                $status = 1; 
-                
+                $status = 1;
+
                 if ($currentRow->parent_coding != null) {
                     if ($currentRow->item_group->status == 0) {
                         return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
                     }
                 }
-            } 
+            }
             else {
                 $status = 0;
             }
-    
+
             if ($request->highlight) {
                 $highlight = 1;
-            } 
+            }
             else {
                 $highlight = 0;
             }
-    
+
             $initial_start_date = $request->initial_start_date;
             $expired_date = $request->expired_date;
-            
+
             if (Self::isValidParent($currentRow, $request->parent_coding)) {
                 if ($request->parent_coding == $currentRow->coding) {
                     $parent_coding = null;
@@ -260,7 +260,7 @@ class AircraftConfigurationDetailController extends Controller
             else {
                 return response()->json(['error' => "The Choosen Parent is Already in Child of this Item"]);
             }
-    
+
             DB::beginTransaction();
             $currentRow->update([
                 'item_id' => $request->item_id,
@@ -285,12 +285,12 @@ class AircraftConfigurationDetailController extends Controller
                 'initial_flight_event' => $request->initial_flight_event,
                 'initial_start_date' => $initial_start_date,
                 'expired_date' => $expired_date,
-                
+
                 'status' => 1,
                 'updated_by' => $request->user()->id,
             ]);
             DB::commit();
-            
+
             return response()->json(['success' => 'Item/Component Data has been Updated']);
         }
         else {
@@ -381,7 +381,7 @@ class AircraftConfigurationDetailController extends Controller
             $response['results'][] = [
                 "id" => $AircraftConfigurationDetail->coding,
                 "text" => $AircraftConfigurationDetail->item->code . ' | ' .
-                $AircraftConfigurationDetail->serial_number . ' | ' . 
+                $AircraftConfigurationDetail->serial_number . ' | ' .
                 $AircraftConfigurationDetail->item->name . ' | ' . $AircraftConfigurationDetail->alias_name
             ];
         }

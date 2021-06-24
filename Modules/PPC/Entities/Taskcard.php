@@ -15,7 +15,7 @@ class Taskcard extends MainModel
 
     protected $fillable = [
         'uuid',
-        
+
         'mpd_number',
         'title',
         'taskcard_group_id',
@@ -29,7 +29,7 @@ class Taskcard extends MainModel
         'threshold_daily',
         'threshold_daily_unit',
         'threshold_date',
-        
+
         'repeat_flight_hour',
         'repeat_flight_cycle',
         'repeat_daily',
@@ -85,7 +85,7 @@ class Taskcard extends MainModel
 
     public function aircraft_types()
     {
-        return $this->belongsToMany(\Modules\PPC\Entities\AircraftType::class, 'taskcard_detail_aircraft_types');
+        return $this->belongsToMany(\Modules\PPC\Entities\AircraftType::class, 'taskcard_detail_aircraft_types')->withTrashed();
     }
 
     public function aircraft_type_details()
@@ -97,7 +97,7 @@ class Taskcard extends MainModel
     {
         return $this->belongsToMany(\Modules\SupplyChain\Entities\Item::class, 'taskcard_detail_affected_items','taskcard_id','affected_item_id');
     }
-    
+
 
     public function affected_item_details()
     {

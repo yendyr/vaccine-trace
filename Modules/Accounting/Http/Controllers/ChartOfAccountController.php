@@ -44,6 +44,11 @@ class ChartOfAccountController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $noAuthorize = true;
+                    $updateable = null;
+                    $updateValue = null;
+                    $deleteable = null;
+                    $deleteId = null;
+
                     if(Auth::user()->can('update', ChartOfAccount::class)) {
                         $updateable = 'button';
                         $updateValue = $row->id;
@@ -55,13 +60,15 @@ class ChartOfAccountController extends Controller
                         $noAuthorize = false;
                     }
 
-                    if ($noAuthorize == false) {
+                    if ($row->journal_details()->count() > 0) {
+                        return '<p class="text-muted font-italic">Already Used in Transaction</p>';
+                    }
+                    else if ($noAuthorize == false) {
                         return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId']));
                     }
                     else {
                         return '<p class="text-muted font-italic">Not Authorized</p>';
                     }
-                    
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -104,7 +111,7 @@ class ChartOfAccountController extends Controller
 
         if ($request->status) {
             $status = 1;
-        } 
+        }
         else {
             $status = 0;
         }
@@ -131,7 +138,7 @@ class ChartOfAccountController extends Controller
             'created_by' => $request->user()->id,
         ]);
         return response()->json(['success' => 'Chart of Account Data has been Added']);
-    
+
     }
 
     public function update(Request $request, ChartOfAccount $ChartOfAccount)
@@ -146,14 +153,14 @@ class ChartOfAccountController extends Controller
                                     ->first();
 
         if ($request->status) {
-            $status = 1; 
-            
+            $status = 1;
+
             if ($currentRow->parent_id != null) {
                 if ($currentRow->chart_of_account->status == 0) {
                     return response()->json(['error' => "This Item's Parent Status Still Deactivated, so You Can't Activate this Item"]);
                 }
             }
-        } 
+        }
         else {
             $status = 0;
         }
@@ -254,22 +261,25 @@ class ChartOfAccountController extends Controller
     public function select2Parent(Request $request)
     {
         $search = $request->q;
-        $query = ChartOfAccount::orderby('name','asc')
-                    ->select('id', 'code', 'name')
+        $query = ChartOfAccount::with(['chart_of_account_class:id,name,position'])
+                    ->orderby('code','asc')
+                    // ->select('id', 'code', 'name')
+                    ->doesnthave('journal_details')
                     ->where('status', 1);
-        if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
+
+        if($search != '') {
+            $query = $query->where('name', 'like', '%' .$search. '%')
+                            ->orWhere('code', 'like', '%' .$search. '%');
         }
         $ChartOfAccounts = $query->get();
 
         $response = [];
         foreach($ChartOfAccounts as $ChartOfAccount){
             $response['results'][] = [
-                "id"=>$ChartOfAccount->id,
-                "text"=>$ChartOfAccount->code . ' | ' . $ChartOfAccount->name
+                "id" => $ChartOfAccount->id,
+                "text" => $ChartOfAccount->code . ' | ' . $ChartOfAccount->name . ' | Class: ' . $ChartOfAccount->chart_of_account_class->name
             ];
         }
-
         return response()->json($response);
     }
 
@@ -288,7 +298,8 @@ class ChartOfAccountController extends Controller
                     ->where('status', 1);
 
         if($search != ''){
-            $query = $query->where('name', 'like', '%' .$search. '%');
+            $query = $query->where('name', 'like', '%' .$search. '%')
+                            ->orWhere('code', 'like', '%' .$search. '%');
         }
         $ChartOfAccounts = $query->get();
 
@@ -299,7 +310,6 @@ class ChartOfAccountController extends Controller
                 "text"=>$ChartOfAccount->code . ' | ' . $ChartOfAccount->name
             ];
         }
-
         return response()->json($response);
     }
 }

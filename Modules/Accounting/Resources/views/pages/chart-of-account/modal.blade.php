@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"></h4>
@@ -12,45 +12,45 @@
             <form method="post" id="inputForm">
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Code</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code">                            
-                            <div class="invalid-feedback-code text-danger font-italic"></div>                            
+                        <label class="col-sm-4 d-flex align-items-center">Code</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" id="code">
+                            <div class="invalid-feedback-code text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">COA Name</label>
-                        <div class="col-sm-7">
+                        <label class="col-sm-4 d-flex align-items-center">COA Name</label>
+                        <div class="col-sm-8">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
                             <div class="invalid-feedback-name text-danger font-italic"></div>
                         </div>
-                    </div>            
+                    </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Parent Group Name</label>
-                        <div class="col-sm-7">
+                        <label class="col-sm-4 d-flex align-items-center">Parent Group Name</label>
+                        <div class="col-sm-8">
                             <select class="parent_id form-control @error('parent_id') is-invalid @enderror" id="parent_id" name="parent_id"></select>
                             <div class="invalid-feedback-parent_id text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Class</label>
-                        <div class="col-sm-7">
+                        <label class="col-sm-4 d-flex align-items-center">Class</label>
+                        <div class="col-sm-8">
                             <select class="chart_of_account_class_id form-control @error('chart_of_account_class_id') is-invalid @enderror" id="chart_of_account_class_id" name="chart_of_account_class_id" required></select>
                             <div class="invalid-feedback-chart_of_account_class_id text-danger font-italic"></div>
                             <div class="info-chart_of_account_class_id text-info font-italic"></div>
                         </div>
-                    </div>              
+                    </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Remark</label>
-                        <div class="col-sm-7">
+                        <label class="col-sm-4 d-flex align-items-center">Remark</label>
+                        <div class="col-sm-8">
                             <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description">
                             <div class="invalid-feedback-description text-danger font-italic"></div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 d-flex align-items-center">Active</label>
-                        <div class="col-sm-7">     
-                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">   
+                        <label class="col-sm-4 d-flex align-items-center">Active</label>
+                        <div class="col-sm-8">
+                            <div class="pretty p-icon p-round p-jelly p-bigger" style="font-size: 15pt;">
                                 <input type="checkbox" class="form-control @error('status') is-invalid @enderror" name="status" id="status" />
                                 <div class="state p-primary">
                                     <i class="icon fa fa-check"></i>
@@ -65,7 +65,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><strong>Close</strong></button>
                     <button class="ladda-button ladda-button-submit btn btn-primary" data-style="zoom-in" type="submit" id="saveBtn">
-                        <strong>Save Changes</strong>
+                        <strong>Save</strong>
                     </button>
                 </div>
             </form>

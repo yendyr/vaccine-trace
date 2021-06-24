@@ -38,5 +38,9 @@ Route::name('accounting.')->group(function () {
         Route::resource('/journal', 'JournalController');
         Route::resource('/journal-detail', 'JournalDetailController');
         Route::post('/journal/{journal}/approve', 'JournalController@approve');
+
+        Route::resource('/general-ledger', 'GeneralLedgerController');
+        Route::resource('/trial-balance', 'TrialBalanceController');
+        Route::resource('/profit-loss', 'ProfitLossController');
     });
-}); 
+});

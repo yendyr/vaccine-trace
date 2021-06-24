@@ -5,6 +5,7 @@ namespace Modules\Accounting\Entities;
 use App\MainModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -51,8 +52,32 @@ class ChartOfAccount extends MainModel
         return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id');
     }
 
+    public function journal_details()
+    {
+        return $this->hasMany(\Modules\Accounting\Entities\JournalDetail::class, 'coa_id', 'id');
+    }
+
     public function all_childs()
     {
         return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id', 'id')->with('all_childs');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id', 'id');
+    }
+
+    public function children ()
+    {
+        return $this->hasMany(\Modules\Accounting\Entities\ChartOfAccount::class, 'parent_id', 'id');
+    }
+
+    public function getAllChilds()
+    {
+        $ids =  [$this->id];
+        foreach ($this->children as $child) {
+            $ids = array_merge($ids, $child->getAllChilds());
+        }
+        return $ids;
     }
 }

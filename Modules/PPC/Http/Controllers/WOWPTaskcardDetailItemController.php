@@ -29,12 +29,12 @@ class WOWPTaskcardDetailItemController extends Controller
                                         ->where('work_order_id', $work_order->id)
                                         ->where('work_package_id', $work_package->id)
                                         ->with([
-                                            'item:id,code,name',
+                                            'item',
                                             'unit:id,name',
                                             'category:id,name',
                                         ]);
-                                        
-            return Datatables::of($data)  
+
+            return Datatables::of($data)
                 ->addColumn('unit_json', function($itemRow) {
                     return json_decode($itemRow->unit_json, true);
                 })
@@ -68,7 +68,7 @@ class WOWPTaskcardDetailItemController extends Controller
                     else {
                         return '<p class="text-muted font-italic">Not Authorized</p>';
                     }
-                    
+
                 })
                 ->addColumn('taskcard_number', function($itemRow) use ($work_order, $work_package) {
                     return "<a href=".route('ppc.work-order.work-package.taskcard.show', [
