@@ -18,7 +18,10 @@
 
         @slot('headerSpan')
             <tr>
-                <th colspan="5" class="text-center" id="header"></th>
+                <th colspan="5" class="text-center" id="header_calculated_return"></th>
+            </tr>
+            <tr>
+                <th colspan="5" class="text-center"></th>
             </tr>
         @endslot
         @slot('tableContent')
@@ -26,7 +29,7 @@
             <th>COA Code</th>
             <th>COA Name</th>
             <th>In-Period Balance</th>
-            <th>All Time Balance</th>
+            {{-- <th>All Time Balance</th> --}}
         @endslot
     @endcomponent
 

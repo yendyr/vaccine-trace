@@ -41,16 +41,41 @@ class BalanceSheetController extends Controller
                                 })
                                 ->pluck('id');
 
+            $coas_asset = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
+                                ->whereHas('chart_of_account_class', function ($class) {
+                                    $class->where('name', 'Assets');
+                                })
+                                ->pluck('id');
+
+            $coas_liability = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
+                                ->whereHas('chart_of_account_class', function ($class) {
+                                    $class->where('name', 'Liabilities');
+                                })
+                                ->pluck('id');
+
+            $coas_equity = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
+                                ->whereHas('chart_of_account_class', function ($class) {
+                                    $class->where('name', 'Equity');
+                                })
+                                ->pluck('id');
+
             $in_period_return = JournalReport::getInPeriodReturn($coas_income, $coas_expense, $start_date, $end_date);
+            $in_period_assets = JournalReport::getInPeriodAssets($coas_asset, $start_date, $end_date);
+            $in_period_liabilities = 0;
+            $in_period_equity = 0;
 
             $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
                                 ->whereHas('chart_of_account_class', function ($class) {
-                                    $class->where('name', 'Income')
-                                        ->orWhere('name', 'Expense');
+                                    $class->where('name', 'Assets')
+                                        ->orWhere('name', 'Liabilities')
+                                        ->orWhere('name', 'Equity');
                                 });
 
             return Datatables::of($data)
             ->with('in_period_return', $in_period_return)
+            ->with('in_period_assets', $in_period_assets)
+            ->with('in_period_liabilities', $in_period_liabilities)
+            ->with('in_period_equity', $in_period_equity)
             ->addColumn('coa_name', function($row) {
                 if ($row->parent_id) {
                     if ($row->parent->parent_id) {
@@ -70,17 +95,17 @@ class BalanceSheetController extends Controller
                     return JournalReport::getInPeriodBalance($row->id, $start_date, $end_date);
                 }
             })
-            ->addColumn('all_time_balance', function($row) {
-                if (sizeOf($row->all_childs) > 0) {
-                    return JournalReport::getInPeriodBalanceParent($row->id, '1970-01-01', '2999-12-31');
-                }
-                else {
-                    return JournalReport::getInPeriodBalance($row->id, '1970-01-01', '2999-12-31');
-                }
-            })
+            // ->addColumn('all_time_balance', function($row) {
+            //     if (sizeOf($row->all_childs) > 0) {
+            //         return JournalReport::getInPeriodBalanceParent($row->id, '1970-01-01', '2999-12-31');
+            //     }
+            //     else {
+            //         return JournalReport::getInPeriodBalance($row->id, '1970-01-01', '2999-12-31');
+            //     }
+            // })
             ->escapeColumns([])
             ->make(true);
         }
-        return view('accounting::pages.profit-loss.index');
+        return view('accounting::pages.balance-sheet.index');
     }
 }

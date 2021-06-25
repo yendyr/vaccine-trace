@@ -194,4 +194,22 @@ class JournalReport
 
         return $in_period_income_total + $in_period_expense_total;
     }
+
+    public static function getInPeriodAssets($coas_asset, $start_date, $end_date)
+    {
+        $in_period = JournalDetail::with(['journal'])
+                                ->whereHas('journal', function ($journal) use ($coas_asset, $start_date, $end_date) {
+                                    $journal->has('approvals')
+                                    ->whereDate('transaction_date', '>=', $start_date)
+                                    ->whereDate('transaction_date', '<=', $end_date);
+                                })
+                                ->whereIn('coa_id', $coas_asset);
+
+        $in_period_asset_debit = $in_period->sum('debit');
+        $in_period_asset_credit = $in_period->sum('credit');
+
+        $in_period_asset_total = $in_period_asset_debit - $in_period_asset_credit;
+
+        return $in_period_asset_total;
+    }
 }

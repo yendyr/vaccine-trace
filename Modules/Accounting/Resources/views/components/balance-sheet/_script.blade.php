@@ -58,7 +58,7 @@ $(document).ready(function () {
             visible: false,
             targets: groupColumn }
         ],
-        order: [[ 0, 'desc' ], [ 1, 'asc' ]],
+        order: [ 1, 'asc' ],
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
@@ -67,7 +67,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="5" class="text-center" id="grouping_header" name="grouping_header"><b>' + group + '</b></td></tr>'
+                        '<tr class="group"><td colspan="2" class="text-center"><b>' + group + '</b></td><td colspan="2" class="text-center" id="header_total_assets"><b></b></td></tr>'
                     );
                     last = group;
                 }
@@ -97,22 +97,13 @@ $(document).ready(function () {
                         return row.in_period_balance;
                     }
                 }},
-            { data: 'all_time_balance', orderable: false, class: 'text-right',
-                "render": function ( data, type, row, meta ) {
-                    if (row.all_time_balance != '&nbsp;') {
-                        return formatNumber(row.all_time_balance);
-                    }
-                    else {
-                        return row.all_time_balance;
-                    }
-                }
-            },
         ]
     });
 
     datatableObject.on('xhr', function () {
         var json = datatableObject.ajax.json();
-        $("#header").html('<h3>In-Period Calculated Return: ' + formatNumber(json.in_period_return) + '</h3>');
+        $("#header_calculated_return").html('<h3>In-Period Calculated Return: ' + formatNumber(json.in_period_return) + '</h3>');
+        $("#header_total_assets").html('<h3>In-Period Total Assets: ' + formatNumber(json.in_period_assets) + '</h3>');
     });
 
     function formatNumber(nStr) {
