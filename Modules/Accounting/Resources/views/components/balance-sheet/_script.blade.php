@@ -67,7 +67,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="2" class="text-center"><b>' + group + '</b></td><td colspan="2" class="text-center" id="header_total_assets"><b></b></td></tr>'
+                        '<tr class="group"><td colspan="4" class="text-center"><b>' + group + '</b></td><</tr>'
                     );
                     last = group;
                 }
@@ -85,8 +85,8 @@ $(document).ready(function () {
             },
         },
         columns: [
-            { data: 'chart_of_account_class.name' },
-            { data: 'code', defaultContent: '-', orderable: false },
+            { data: 'coa_class' },
+            { data: 'code', defaultContent: '-', orderable: false, class: 'text-left', width: '20%' },
             { data: 'coa_name', defaultContent: '-', orderable: false, class: 'text-left' },
             { data: 'in_period_balance', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
@@ -100,10 +100,10 @@ $(document).ready(function () {
         ]
     });
 
-    datatableObject.on('xhr', function () {
+    datatableObject.on('draw', function () {
         var json = datatableObject.ajax.json();
-        $("#header_calculated_return").html('<h3>In-Period Calculated Return: ' + formatNumber(json.in_period_return) + '</h3>');
-        $("#header_total_assets").html('<h3>In-Period Total Assets: ' + formatNumber(json.in_period_assets) + '</h3>');
+        $("#footer_calculated_return").html('In-Period Calculated Return: ' + formatNumber(json.in_period_return));
+        $("#footer_total_liabilites_equity").html('In-Period Total Liabilities and Equity: ' + formatNumber(json.total_liabilites_equity));
     });
 
     function formatNumber(nStr) {

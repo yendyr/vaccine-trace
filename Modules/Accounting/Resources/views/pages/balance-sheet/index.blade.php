@@ -16,20 +16,22 @@
                     'title' => 'Balance Sheet',
                     'tableId' => 'balance-sheet-table'])
 
-        @slot('headerSpan')
-            <tr>
-                <th colspan="5" class="text-center" id="header_calculated_return"></th>
-            </tr>
+        {{-- @slot('headerSpan')
             <tr>
                 <th colspan="5" class="text-center"></th>
             </tr>
-        @endslot
+        @endslot --}}
         @slot('tableContent')
             <th>COA Class</th>
             <th>COA Code</th>
             <th>COA Name</th>
             <th>In-Period Balance</th>
-            {{-- <th>All Time Balance</th> --}}
+        @endslot
+        @slot('tableFooter')
+            <th colspan="4" class="text-right">
+                <span id="footer_calculated_return"></span><br>
+                <span id="footer_total_liabilites_equity"></span>
+            </th>
         @endslot
     @endcomponent
 

@@ -41,12 +41,6 @@ class BalanceSheetController extends Controller
                                 })
                                 ->pluck('id');
 
-            $coas_asset = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
-                                ->whereHas('chart_of_account_class', function ($class) {
-                                    $class->where('name', 'Assets');
-                                })
-                                ->pluck('id');
-
             $coas_liability = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
                                 ->whereHas('chart_of_account_class', function ($class) {
                                     $class->where('name', 'Liabilities');
@@ -60,9 +54,9 @@ class BalanceSheetController extends Controller
                                 ->pluck('id');
 
             $in_period_return = JournalReport::getInPeriodReturn($coas_income, $coas_expense, $start_date, $end_date);
-            $in_period_assets = JournalReport::getInPeriodAssets($coas_asset, $start_date, $end_date);
-            $in_period_liabilities = 0;
-            $in_period_equity = 0;
+            $in_period_liabilities = JournalReport::getEndingBalanceClass($coas_liability, $start_date, $end_date);
+            $in_period_equity = JournalReport::getEndingBalanceClass($coas_equity, $start_date, $end_date);
+            $total_liabilites_equity = $in_period_liabilities + $in_period_equity;
 
             $data = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
                                 ->whereHas('chart_of_account_class', function ($class) {
@@ -73,9 +67,16 @@ class BalanceSheetController extends Controller
 
             return Datatables::of($data)
             ->with('in_period_return', $in_period_return)
-            ->with('in_period_assets', $in_period_assets)
-            ->with('in_period_liabilities', $in_period_liabilities)
-            ->with('in_period_equity', $in_period_equity)
+            ->with('total_liabilites_equity', $total_liabilites_equity)
+            ->addColumn('coa_class', function($row) use ($start_date, $end_date) {
+                $coas_class = ChartOfAccount::with(['parent', 'all_childs', 'chart_of_account_class'])
+                                ->whereHas('chart_of_account_class', function ($class) use ($row) {
+                                    $class->where('id', $row->chart_of_account_class_id);
+                                })
+                                ->pluck('id');
+
+                return $row->chart_of_account_class->name . ', Total: Rp. ' . number_format(JournalReport::getEndingBalanceClass($coas_class, $start_date, $end_date),0);
+            })
             ->addColumn('coa_name', function($row) {
                 if ($row->parent_id) {
                     if ($row->parent->parent_id) {
