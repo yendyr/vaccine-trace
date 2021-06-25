@@ -18,9 +18,10 @@ Route::name('procurement.')->group(function() {
         Route::get('/purchase-requisition/detail-tree', 'PurchaseRequisitionDetailController@tree')->name('purchase-requisition.detail-tree');
         
         Route::resource('/purchase-requisition', 'PurchaseRequisitionController');
+        Route::get('/purchase-requisition/{purchase_requisition}/print', 'PurchaseRequisitionController@print')->name('purchase-requisition.print');
         Route::post('/purchase-requisition/{purchase_requisition}/approve', 'PurchaseRequisitionController@approve');
         
-        Route::resource('/purchase-requisition-detail', 'PurchaseRequisitionDetailController');        
+        Route::resource('/purchase-requisition-detail', 'PurchaseRequisitionDetailController');
         Route::name('purchase-requisition-detail.')->group(function() {
             Route::get('procurement/purchase-requisition-detail/select2', 'PurchaseRequisitionDetailController@select2Parent')->name('select2');
         });
@@ -29,7 +30,7 @@ Route::name('procurement.')->group(function() {
         Route::get('/purchase-order/detail-tree', 'PurchaseOrderDetailController@tree')->name('purchase-order.detail-tree');
 
         Route::resource('/purchase-order', 'PurchaseOrderController');
-        Route::get('/purchase-order/{purchase_order}/print', 'PurchaseOrderController@print')->name('print');
+        Route::get('/purchase-order/{purchase_order}/print', 'PurchaseOrderController@print')->name('purchase-order.print');
         Route::post('/purchase-order/{purchase_order}/approve', 'PurchaseOrderController@approve');
 
         Route::resource('/purchase-order-detail', 'PurchaseOrderDetailController');        

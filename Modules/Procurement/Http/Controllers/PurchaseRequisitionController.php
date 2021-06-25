@@ -2,6 +2,7 @@
 
 namespace Modules\Procurement\Http\Controllers;
 
+use Modules\GeneralSetting\Entities\CompanyDetailAddress;
 use Modules\Procurement\Entities\PurchaseRequisition;
 use Modules\Procurement\Entities\PurchaseRequisitionApproval;
 
@@ -12,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Procurement\Entities\PurchaseRequisitionDetail;
 use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseRequisitionController extends Controller
@@ -54,7 +56,18 @@ class PurchaseRequisitionController extends Controller
                     $approveId = null;
 
                     if ($row->approvals()->count() > 0) {
-                        return '<p class="text-muted font-italic">Already Approved</p>';
+                        if(Auth::user()->can('print', PurchaseRequisition::class)) {
+                            $printable = true;
+                            $printId = $row->id;
+                            $printLink = "/procurement/purchase-requisition/$row->id/print";
+                            $noAuthorize = false;
+                        }
+
+                        if ($noAuthorize == false) {
+                            return view('components.action-button', compact(['printable', 'printId', 'printLink']));
+                        }else{
+                            return '<p class="text-muted font-italic">Already Approved</p>';
+                        }
                     }
                     else {
                         if(Auth::user()->can('update', PurchaseRequisition::class)) {
@@ -72,9 +85,15 @@ class PurchaseRequisitionController extends Controller
                             $approveId = $row->id;
                             $noAuthorize = false;
                         }
+                        if(Auth::user()->can('print', PurchaseRequisition::class)) {
+                            $printable = true;
+                            $printId = $row->id;
+                            $printLink = "/procurement/purchase-requisition/$row->id/print";
+                            $noAuthorize = false;
+                        }
                         
                         if ($noAuthorize == false) {
-                            return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId']));
+                            return view('components.action-button', compact(['updateable', 'updateValue','deleteable', 'deleteId', 'approvable', 'approveId', 'printable', 'printId', 'printLink']));
                         }
                         else {
                             return '<p class="text-muted font-italic">Not Authorized</p>';
@@ -189,5 +208,38 @@ class PurchaseRequisitionController extends Controller
         else {
             return response()->json(['error' => "This Purchase Requisition doesn't Have Any Detail Data"]);
         }
+    }
+
+    public function print(Request $request, PurchaseRequisition $PurchaseRequisition)
+    {
+        $company = Auth::user()->company;
+        if ($company->logo == null)
+            $company->logo =  './assets/default-company-logo.jpg';
+        else{
+            $company->logo = file_exists(public_path("/uploads/company/$company->id/logo/$company->logo")) ?
+                "./uploads/company/$company->id/logo/$company->logo" : './assets/default-company-logo.jpg' ;
+        }
+
+        $companyAddress = CompanyDetailAddress::where('company_id', $company->id)->with('country')->first();
+
+        $purchaseRequisition = PurchaseRequisition::whereId($PurchaseRequisition->id)->with(['purchase_requisition_details', 'approvals', 'creator'])->first();
+
+        $details = PurchaseRequisitionDetail::where('purchase_requisition_id', $PurchaseRequisition->id)
+            ->with(['item.unit',
+                'item.category',
+                'item_group:id,item_id,coding,parent_coding',
+                'item_group.item'])
+            ->get();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdfFile = $pdf->loadView('procurement::pages.purchase-requisition.print', [
+            'company' => $company,
+            'employee' => Auth::user()->employee,
+            'companyAddress' => $companyAddress,
+            'purchaseRequisition' => $purchaseRequisition,
+            'details' => $details,
+        ]);
+        return $pdfFile->stream('PO.pdf');
     }
 }

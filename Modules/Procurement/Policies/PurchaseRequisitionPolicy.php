@@ -111,6 +111,22 @@ class PurchaseRequisitionPolicy
         }
     }
 
+    public function print()
+    {
+        $queryRoleMenu = RoleMenu::where(
+            'role_id', Auth::user()->role_id
+        )->where('menu_link', 'procurement/purchase-requisition')->whereHas('role', function($role){
+            $role->where('status', 1);
+        })->first();
+
+        if ($queryRoleMenu == null) {
+            return false;
+        }
+        else {
+            return $queryRoleMenu->print == 1;
+        }
+    }
+
     public function forceDelete()
     {
         $queryRoleMenu = RoleMenu::where(
