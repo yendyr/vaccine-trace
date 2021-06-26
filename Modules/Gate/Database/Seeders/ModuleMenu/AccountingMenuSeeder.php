@@ -176,5 +176,25 @@ class AccountingMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => $menuReport->id
         ]);
+
+        Menu::create([
+            'menu_link' => 'accounting/balance-sheet',
+            'menu_text' => 'Balance Sheet',
+            'menu_route' => 'accounting.balance-sheet.index',
+            'menu_icon' => 'fa-balance-scale',
+            'menu_class' => 'Modules\Accounting\Entities\BalanceSheet',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['accounting/balance-sheet', 'accounting/balance-sheet/*']),
+            'group' => 'Accounting',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => $menuReport->id
+        ]);
     }
 }

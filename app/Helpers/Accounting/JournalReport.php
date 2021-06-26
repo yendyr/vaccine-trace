@@ -194,4 +194,93 @@ class JournalReport
 
         return $in_period_income_total + $in_period_expense_total;
     }
+
+    public static function getInPeriodAssets($coas_asset, $start_date, $end_date)
+    {
+        $in_period = JournalDetail::with(['journal'])
+                                ->whereHas('journal', function ($journal) use ($coas_asset, $start_date, $end_date) {
+                                    $journal->has('approvals')
+                                    ->whereDate('transaction_date', '>=', $start_date)
+                                    ->whereDate('transaction_date', '<=', $end_date);
+                                })
+                                ->whereIn('coa_id', $coas_asset);
+
+        $in_period_asset_debit = $in_period->sum('debit');
+        $in_period_asset_credit = $in_period->sum('credit');
+
+        $in_period_asset_total = $in_period_asset_debit - $in_period_asset_credit;
+
+        return $in_period_asset_total;
+    }
+
+    // Calculate Group of COA from Class
+    public static function getBeginningDebitClass($coa_id, $start_date)
+    {
+        $debit = JournalDetail::with(['journal'])
+                            ->whereHas('journal', function ($journal) use ($start_date) {
+                                $journal->has('approvals')
+                                ->whereDate('transaction_date', '<', $start_date);
+                            })
+                            ->whereIn('coa_id', $coa_id)
+                            ->sum('debit');
+        return $debit;
+    }
+
+    public static function getBeginningCreditClass($coa_id, $start_date)
+    {
+        $credit = JournalDetail::with(['journal'])
+                            ->whereHas('journal', function ($journal) use ($start_date) {
+                                $journal->has('approvals')
+                                ->whereDate('transaction_date', '<', $start_date);
+                            })
+                            ->whereIn('coa_id', $coa_id)
+                            ->sum('credit');
+        return $credit;
+    }
+
+    public static function getBeginningBalanceClass($coa_id, $start_date)
+    {
+        $debit = Self::getBeginningDebitClass($coa_id, $start_date);
+        $credit = Self::getBeginningCreditClass($coa_id, $start_date);
+        return ($debit - $credit);
+    }
+
+    public static function getInPeriodDebitClass($coa_id, $start_date, $end_date)
+    {
+        $debit = JournalDetail::with(['journal'])
+                            ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
+                                $journal->has('approvals')
+                                ->whereDate('transaction_date', '>=', $start_date)
+                                ->whereDate('transaction_date', '<=', $end_date);
+                            })
+                            ->whereIn('coa_id', $coa_id)
+                            ->sum('debit');
+        return $debit;
+    }
+
+    public static function getInPeriodCreditClass($coa_id, $start_date, $end_date)
+    {
+        $credit = JournalDetail::with(['journal'])
+                            ->whereHas('journal', function ($journal) use ($start_date, $end_date) {
+                                $journal->has('approvals')
+                                ->whereDate('transaction_date', '>=', $start_date)
+                                ->whereDate('transaction_date', '<=', $end_date);
+                            })
+                            ->whereIn('coa_id', $coa_id)
+                            ->sum('credit');
+        return $credit;
+    }
+
+    public static function getInPeriodBalanceClass($coa_id, $start_date, $end_date)
+    {
+        $in_period_debit = Self::getInPeriodDebitClass($coa_id, $start_date, $end_date);
+        $in_period_credit = Self::getInPeriodCreditClass($coa_id, $start_date, $end_date);
+
+        return ($in_period_debit - $in_period_credit);
+    }
+
+    public static function getEndingBalanceClass($coa_id, $start_date, $end_date)
+    {
+        return Self::getBeginningBalanceClass($coa_id, $start_date) + Self::getInPeriodBalanceClass($coa_id, $start_date, $end_date);
+    }
 }

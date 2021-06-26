@@ -42,5 +42,6 @@ Route::name('accounting.')->group(function () {
         Route::resource('/general-ledger', 'GeneralLedgerController');
         Route::resource('/trial-balance', 'TrialBalanceController');
         Route::resource('/profit-loss', 'ProfitLossController');
+        Route::resource('/balance-sheet', 'BalanceSheetController');
     });
 });

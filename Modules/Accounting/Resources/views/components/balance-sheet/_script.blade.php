@@ -1,8 +1,8 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = '/accounting/profit-loss';
-    var tableId = '#profit-loss-table';
+    var actionUrl = '/accounting/balance-sheet';
+    var tableId = '#balance-sheet-table';
     var start_date = '1970-01-01';
     var end_date = '9999-12-31';
 
@@ -58,7 +58,7 @@ $(document).ready(function () {
             visible: false,
             targets: groupColumn }
         ],
-        order: [[ 0, 'desc' ], [ 1, 'asc' ]],
+        order: [ 1, 'asc' ],
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
@@ -67,7 +67,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="5" class="text-center"><b>' + group + '</b></td></tr>'
+                        '<tr class="group"><td colspan="4" class="text-center"><b>' + group + '</b></td><</tr>'
                     );
                     last = group;
                 }
@@ -78,15 +78,15 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "{{ route('accounting.profit-loss.index') }}",
+            url: "{{ route('accounting.balance-sheet.index') }}",
             data: function(d){
                 d.start_date = start_date;
                 d.end_date = end_date;
             },
         },
         columns: [
-            { data: 'chart_of_account_class.name' },
-            { data: 'code', defaultContent: '-', orderable: false },
+            { data: 'coa_class' },
+            { data: 'code', defaultContent: '-', orderable: false, class: 'text-left', width: '20%' },
             { data: 'coa_name', defaultContent: '-', orderable: false, class: 'text-left' },
             { data: 'in_period_balance', orderable: false, class: 'text-right',
                 "render": function ( data, type, row, meta ) {
@@ -97,22 +97,13 @@ $(document).ready(function () {
                         return row.in_period_balance;
                     }
                 }},
-            { data: 'all_time_balance', orderable: false, class: 'text-right',
-                "render": function ( data, type, row, meta ) {
-                    if (row.all_time_balance != '&nbsp;') {
-                        return formatNumber(row.all_time_balance);
-                    }
-                    else {
-                        return row.all_time_balance;
-                    }
-                }
-            },
         ]
     });
 
-    datatableObject.on('xhr', function () {
+    datatableObject.on('draw', function () {
         var json = datatableObject.ajax.json();
-        $("#header").html('<h3>In-Period Calculated Return: ' + formatNumber(json.in_period_return) + '</h3>');
+        $("#footer_calculated_return").html('In-Period Calculated Return: ' + formatNumber(json.in_period_return));
+        $("#footer_total_liabilites_equity").html('In-Period Total Liabilities and Equity: ' + formatNumber(json.total_liabilites_equity));
     });
 
     function formatNumber(nStr) {
