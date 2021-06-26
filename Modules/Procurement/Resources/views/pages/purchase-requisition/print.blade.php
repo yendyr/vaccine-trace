@@ -132,18 +132,11 @@
     <div id="mainContent" class="border-bottom border-3">
         <div class="container">
             <div class="contentTitle">
-                <span>PURCHASE REQUEST</span>
+                <span style="padding-left: 4px">PURCHASE REQUEST</span>
                 <span class="barcode">
                     <img src="data:image/png;base64, {!! $qrcode !!}" alt="" style="height: 60px; width: 60px">
                 </span>
             </div>
-{{--            <table width="100%">--}}
-{{--                <tr>--}}
-{{--                    <td align="center" style="font-size: 24px">--}}
-{{--                        PURCHASE REQUEST--}}
-{{--                    </td>--}}
-{{--                </tr>--}}
-{{--            </table>--}}
             <table width="100%">
                 <tr style="font-size: 16px">
                     <td width="50%">
@@ -184,7 +177,7 @@
                             <td valign="top" align="center">
                                 {{$detail->request_quantity}}
                             </td>
-                            <td valign="top" align="left">
+                            <td valign="top" align="center">
                                 {{$detail->item->unit->name}}
                             </td>
                             <td valign="top" align="left">
