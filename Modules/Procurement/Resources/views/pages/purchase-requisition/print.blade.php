@@ -65,7 +65,7 @@
             font-size: 24px;
             text-align: center;
             margin-top: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             /*display: table;*/
         }
         .contentTitle .barcode{
@@ -134,7 +134,7 @@
             <div class="contentTitle">
                 <span>PURCHASE REQUEST</span>
                 <span class="barcode">
-                    <img src="{{$company->logo}}" alt="" style="height: 50px; width: 50px">
+                    <img src="data:image/png;base64, {!! $qrcode !!}" alt="" style="height: 60px; width: 60px">
                 </span>
             </div>
 {{--            <table width="100%">--}}

@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Procurement\Entities\PurchaseRequisitionDetail;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseRequisitionController extends Controller
@@ -238,8 +239,9 @@ class PurchaseRequisitionController extends Controller
             'employee' => Auth::user()->employee,
             'companyAddress' => $companyAddress,
             'purchaseRequisition' => $purchaseRequisition,
+            'qrcode' => base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($purchaseRequisition->uuid)),
             'details' => $details,
         ]);
-        return $pdfFile->stream('PO.pdf');
+        return $pdfFile->stream('PR.pdf');
     }
 }
