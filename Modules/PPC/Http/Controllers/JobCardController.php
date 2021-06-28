@@ -2,6 +2,7 @@
 
 namespace Modules\PPC\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -17,6 +18,7 @@ use Modules\PPC\Entities\WorkOrderWorkPackageTaskcard;
 use Modules\PPC\Entities\WOWPTaskcardDetailProgress;
 use Modules\QualityAssurance\Entities\TaskReleaseLevel;
 use Yajra\DataTables\Facades\DataTables;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class JobCardController extends Controller
 {
@@ -394,7 +396,7 @@ class JobCardController extends Controller
         ]);
     }
 
-    /**
+    /*
      * Show the form for editing the specified resource.
      * @param $job_card
      * @return Renderable
@@ -717,7 +719,187 @@ class JobCardController extends Controller
 
     public function print(Request $request)
     {
-        return \PDF::loadView('ppc::pages.job-card.print')->stream();
+        
+        // PR pisahkan yang jobcard dan (?)instruksi(?)
+        $job_card = WorkOrderWorkPackageTaskcard::find($request->job_card);
+
+        $work_areas = $tags = $document_libraries = $affected_manuals = $zones = $accesses = $instruction_details_json = $affected_items = $ac_type_applicability = $item_details_json = [];
+
+        $job_card->taskcard_json = json_decode($job_card->taskcard_json);
+        $job_card->taskcard_group_json = collect(json_decode($job_card->taskcard_group_json));
+        $job_card->taskcard_type_json = json_decode($job_card->taskcard_type_json);
+        $job_card->taskcard_workarea_json = json_decode($job_card->taskcard_workarea_json);
+        $job_card->aircraft_types_json = json_decode($job_card->aircraft_types_json);
+        $job_card->aircraft_type_details_json = json_decode($job_card->aircraft_type_details_json);
+        $job_card->affected_items_json = json_decode($job_card->affected_items_json);
+        $job_card->affected_item_details_json = json_decode($job_card->affected_item_details_json);
+        $job_card->tags_json = json_decode($job_card->tags_json);
+        $job_card->tag_details_json = json_decode($job_card->tag_details_json);
+        $job_card->accesses_json = json_decode($job_card->accesses_json);
+        $job_card->access_details_json = json_decode($job_card->access_details_json);
+        $job_card->zones_json = json_decode($job_card->zones_json);
+        $job_card->zone_details_json = json_decode($job_card->zone_details_json);
+        $job_card->document_libraries_json = json_decode($job_card->document_libraries_json);
+        $job_card->document_library_details_json = json_decode($job_card->document_library_details_json);
+        $job_card->affected_manuals_json = json_decode($job_card->affected_manuals_json);
+        $job_card->affected_manual_details_json = json_decode($job_card->affected_manual_details_json);
+        $job_card->task_release_level_json = json_decode($job_card->task_release_level_json);
+        $job_card->instruction_details_json = json_decode($job_card->instruction_details_json, true);
+
+        if (!empty($job_card->instruction_details_json)) {
+            foreach ($job_card->instruction_details_json as $key => $instruction_array) {
+                $instruction_details_json[] = new TaskcardDetailInstruction($instruction_array);
+            }
+        }
+
+        $instruction_details_json = collect($instruction_details_json);
+        $job_card->items_json = json_decode($job_card->items_json);
+        $job_card->item_details_json = json_decode($job_card->item_details_json, true);
+
+        if (!empty($job_card->item_details_json)) {
+            foreach ($job_card->item_details_json as $key => $item_detail_row) {
+                $item_details_json[] = new TaskcardDetailItem($item_detail_row);
+            }
+        }
+
+        // Affected Items
+        if ( !empty($job_card->affected_items) ) {
+            foreach ($job_card->affected_items_json as $affected_item) {
+                $itemRow = $affected_item->code ?? null;
+                $itemRow .= " | ". $affected_item->name ?? null;
+                $affected_items[] = $itemRow;
+            }
+        }
+
+        $affected_items = join(',', $affected_items);
+
+        // Accesses
+        if ( !empty($job_card->accesses) ) {
+            foreach ($job_card->accesses_json as $access) {
+                $itemRow = $access->name ?? null;
+                $accesses[] = $itemRow;
+            }
+        }
+
+        $accesses = join(',', $accesses);
+
+        // Zones
+        if ( !empty($job_card->zones) ) {
+            foreach ($job_card->zones_json as $zone) {
+                $itemRow = $zone->name ?? null;
+                $zones[] = $itemRow;
+            }
+        }
+
+        $zones = join(',', $zones);
+
+        // Aircraft Type
+        if ( !empty($job_card->aircraft_types_json) ) {
+            foreach ($job_card->aircraft_types_json as $aircraft_type) {
+                $ac_type_applicability[] = $aircraft_type->name ?? null;
+            }
+        }       
+
+        $ac_type_applicability = join(',', $ac_type_applicability);
+
+        // Document Libraries
+        if ( !empty($job_card->document_libraries_json) ) {
+            foreach ($job_card->document_libraries_json as $document_library) {
+                $document_libraries[] = $document_library->name ?? null;
+            }
+        }       
+
+        $document_libraries = join(',', $document_libraries);
+
+        // Affected Manuals
+        if ( !empty($job_card->affected_manuals_json) ) {
+            foreach ($job_card->affected_manuals_json as $affected_manual) {
+                $affected_manuals[] = $affected_manual->name ?? null;
+            }
+        }       
+
+        $affected_manuals = join(',', $affected_manuals);
+
+        // Tags
+        if ( !empty($job_card->tags) ) {
+            foreach ($job_card->tags_json as $tag) {
+                $itemRow = $tag->name ?? null;
+                $tags[] = $itemRow;
+            }
+        }
+
+        $tags = join(',', $tags);
+
+        // Work Areas
+        if ( !empty($job_card->work_areas) ) {
+            foreach ($job_card->work_areas_json as $work_area) {
+                $itemRow = $work_area->name ?? null;
+                $work_areas[] = $itemRow;
+            }
+        }
+
+        $work_areas = join(',', $work_areas);
+
+        $threshold = $repeat = null;
+        
+        // Threshold
+        if( $job_card->taskcard_json->threshold_flight_hour ) {
+            $threshold = $job_card->taskcard_json->threshold_flight_hour." FH";
+        }
+        
+        if( $job_card->taskcard_json->threshold_flight_cycle ) {
+            $threshold = $job_card->taskcard_json->threshold_flight_cycle." FH";
+        }
+
+        if( $job_card->taskcard_json->threshold_daily ) {
+            $threshold = $job_card->taskcard_json->threshold_daily." ".$job_card->taskcard_json->threshold_daily_unit;
+        }
+
+        if( $job_card->taskcard_json->threshold_date ) {
+            $threshold = Carbon::parse($job_card->taskcard_json->threshold_date)->format('Y-F-d');
+        }
+
+        // Repeat 
+        if( $job_card->taskcard_json->repeat_flight_hour ) {
+            $repeat = $job_card->taskcard_json->repeat_flight_hour." FH";
+        }
+        
+        if( $job_card->taskcard_json->repeat_flight_cycle ) {
+            $repeat = $job_card->taskcard_json->repeat_flight_cycle." FH";
+        }
+
+        if( $job_card->taskcard_json->repeat_daily ) {
+            $repeat = $job_card->taskcard_json->repeat_daily." ".$job_card->taskcard_json->repeat_daily_unit;
+        }
+
+        if( $job_card->taskcard_json->repeat_date ) {
+            $repeat = Carbon::parse($job_card->taskcard_json->repeat_date)->format('Y-F-d');
+        }
+
+        $job_card_progresses = $job_card->progresses->groupBy(function ($progress) {
+            return $progress->created_at->format('Y');
+        });
+        
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+
+        $pdfFile = $pdf->loadView('ppc::pages.job-card.print', [
+            'tags' => $tags,
+            'zones' => $zones,
+            'repeat' => $repeat,
+            'job_card' => $job_card,
+            'accesses' => $accesses,
+            'threshold' => $threshold,
+            'work_areas' => $work_areas,
+            'affected_items' => $affected_items,
+            'affected_manuals' => $affected_manuals,
+            'document_libraries' => $document_libraries,
+            'print_by' => $request->user()->name ?? null,
+            'ac_type_applicability' => $ac_type_applicability,
+            'qrcode' => base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($job_card->code)),
+        ]);
+
+        return $pdfFile->stream('Job Card.pdf');
     }
 
     /**
