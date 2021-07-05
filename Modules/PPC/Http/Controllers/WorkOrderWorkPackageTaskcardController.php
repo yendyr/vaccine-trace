@@ -255,10 +255,9 @@ class WorkOrderWorkPackageTaskcardController extends Controller
             }
         }
 
-        DB::beginTransaction();
-        // if ($is_use_all_taskcard == false) {
-        //     DB::beginTransaction();
-        // }
+        if ( !$is_use_all_taskcard ) {
+            DB::beginTransaction();
+        }
 
         $existRow = WorkOrderWorkPackageTaskcard::query()
             ->where('work_order_id', $work_order->id)
