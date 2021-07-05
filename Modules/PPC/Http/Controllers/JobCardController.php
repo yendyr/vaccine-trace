@@ -484,19 +484,22 @@ class JobCardController extends Controller
         // 3. cek progress user apakah ada progress yang sedang berjalan
         $last_progress = WOWPTaskcardDetailProgress::with('taskcard', 'instruction')->where('created_by',  $request->user()->id)->latest()->first();
 
-        if ($last_progress->transaction_status == array_search('progress', $job_card_transaction_status)) {
-            // if detail id is empty, user executing job-card, if not user executing task
-            // 2. cek apa yang akan dieksekusi apakah job card atau instruction
-            if (empty($request->detail_id)) {
-                if ($last_progress->taskcard_id != $job_card->id) {
-                    return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ']']);
-                }
-            } else {
-                if ($last_progress->detail_id != $request->detail_id) {
-                    return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ' -> ' . $last_progress->instruction->code . ']']);
+        if( WOWPTaskcardDetailProgress::with('taskcard', 'instruction')->where('created_by',  $request->user()->id)->latest()->exists() ) {
+            if ($last_progress->transaction_status == array_search('progress', $job_card_transaction_status)) {
+                // if detail id is empty, user executing job-card, if not user executing task
+                // 2. cek apa yang akan dieksekusi apakah job card atau instruction
+                if (empty($request->detail_id)) {
+                    if ($last_progress->taskcard_id != $job_card->id) {
+                        return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ']']);
+                    }
+                } else {
+                    if ($last_progress->detail_id != $request->detail_id) {
+                        return response()->json(['error' => 'You have progress on another job card! [' . $last_progress->taskcard->code . ' -> ' . $last_progress->instruction->code . ']']);
+                    }
                 }
             }
         }
+
         // end 3. cek progress user apakah ada progress yang sedang berjalan
 
         if ($job_card->is_exec_all == null) {
