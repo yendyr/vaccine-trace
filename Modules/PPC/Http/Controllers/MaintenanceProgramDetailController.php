@@ -205,7 +205,9 @@ class MaintenanceProgramDetailController extends Controller
 
         if($existRow == false) {
             $flag = true;
-            DB::beginTransaction();
+            if( !$is_use_all_taskcard ) {
+                DB::beginTransaction();
+            }
 
             $maintenanceProgramDetail = MaintenanceProgramDetail::create([
                 'uuid' =>  Str::uuid(),
