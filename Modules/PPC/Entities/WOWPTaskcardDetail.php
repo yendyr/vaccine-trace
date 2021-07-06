@@ -80,6 +80,21 @@ class WOWPTaskcardDetail extends MainModel
         return $this->belongsTo(\Modules\PPC\Entities\TaskcardWorkarea::class, 'taskcard_workarea_id');
     }
 
+    public function headerTask()
+    {
+        return $this->belongsTo(\Modules\PPC\Entities\WOWPTaskcardDetail::class, 'parent_id');
+    }
+
+    public function subTasks()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\WOWPTaskcardDetail::class, 'parent_id', 'id');
+    }
+
+    public function all_childs()
+    {
+        return $this->hasMany(\Modules\PPC\Entities\WOWPTaskcardDetail::class, 'parent_id', 'id')->with('all_childs');
+    }
+
     public function engineering_level()
     {
         return $this->belongsTo(\Modules\QualityAssurance\Entities\EngineeringLevel::class, 'engineering_level_id');

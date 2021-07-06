@@ -61,6 +61,26 @@
             font-family: "Courier New", Courier, monospace;
         }
 
+        .td-border {
+            border: 1px solid black;
+        }
+
+        .border-top{
+            border-top: 1px solid black;
+        }
+
+        .border-bottom{
+            border-bottom: 1px solid black;
+        }
+
+        .border-left{
+            border-left: 1px solid black;
+        }
+        
+        .border-right{
+            border-right: 1px solid black;
+        }
+
         #bodyHead {
             top: 40px;
             left: 36px;
@@ -208,6 +228,391 @@
                 </td>
             </tr>
         </table>
+
+        @foreach($instructions as $instructionRow)
+        <table width="100%" style="border: 1px solid black">
+            <thead>
+                <tr style="background-color:black; color: white;">
+                    <th width="50%"> 
+                        <span>Task Code </span> <b class="courierNewFont">: {{ $instructionRow->origin_instruction[0]->code ?? '-' }} </b>
+                    </th>
+                    <th width="50%" style="text-align:right;"> 
+                        <span>Instruction Sequence </span> <b class="courierNewFont">: {{ $instructionRow->sequence ?? '-' }} </b>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td-border" width="50%">
+                        <span>Work Area </span> <b class="courierNewFont">: {{ $instructionRow->taskcard_workarea->name ?? '-' }} </b>
+                    </td>
+                    <td class="td-border" width="50%">
+                        <span>Skill </span> <b class="courierNewFont">: 
+                        @if ( !empty(json_decode($instructionRow->skills_json)) )
+                           {{ collect(json_decode($instructionRow->skills_json))->pluck('name')->join(', ') }}
+                        @endif
+                        </b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+            
+            <tbody>
+                <tr>
+                    <td class="td-border" width="33%">
+                        <span>Performance Factor </span> <b class="courierNewFont">: {{ $instructionRow->performance_factor ?? '-' }} </b>
+                    </td>
+                    <td class="td-border" width="33%">
+                        <span>Minimum Engineering Level </span> <b class="courierNewFont">: {{ $instructionRow->engineering_level->name ?? '-' }} </b>
+                    </td>
+                    <td class="td-border" width="33%">
+                        <span>Task Release Level </span> <b class="courierNewFont">: {{ $instructionRow->task_release_level->last()->name ?? '-' }} </b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+            <tbody>
+                <tr>
+                    <td class="td-border" width="80%">
+                        <span>Job Instruction </span>
+                    </td>
+                    <td class="td-border" width="10%" style="text-align: center;">
+                        <span>MECH</span>
+                    </td>
+                    <td class="td-border" width="10%" style="text-align: center;">
+                        <span>INSP</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-border" width="80%">
+                    @if ($instructionRow->instruction)
+                        <b class="courierNewFont">{!! $instructionRow->instruction !!}</b>
+                    @endif
+
+                    <br>
+                    <span>Item Requirement(s):</span>
+                    @if ( $instructionRow->items()->count() > 0 )
+                    <table style="border-top:1px solid black;" style="width:100%">
+                        <thead>
+                            <tr style="border-top:1px solid black;">
+                                <th style="font-weight: normal;">Code/Part Number</th>
+                                <th style="font-weight: normal;">Item Name</th>
+                                <th style="font-weight: normal;">Qty</th>
+                                <th style="font-weight: normal;">Unit</th>
+                                <th style="font-weight: normal;">Category</th>
+                                <th style="font-weight: normal;">Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody style="border-top:1px solid black;">
+                                @foreach ($instructionRow->items as $item_detail)
+                                <tr>
+                                    <td>{{ $item_detail->item->code ?? '' }}</td>
+                                    <td>{{ $item_detail->item->name ?? '' }}</td>
+                                    <td>{{ $item_detail->quantity ?? '' }}</td>
+                                    <td>{{ $item_detail->unit->name ?? '' }}</td>
+                                    <td>{{ $item_detail->category->name ?? '' }}</td>
+                                    <td>{{ $item_detail->description ?? '' }}</td>
+                                </tr>
+                                @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                    <div style="text-align:center" >
+                        <b><i>- NONE -</i></b>
+                    </div>
+                    @endif
+                    <br>
+                    <div style="text-align:center; border-top:1px solid black;" >
+                        <b><i>- End Of Task -</i></b>
+                    </div>
+                    </td>
+                    <td class="td-border" width="10%">
+                    </td>
+                    <td class="td-border" width="10%">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+            <tbody>
+                <tr>
+                    <td width="25%">
+                        <span>Manhours Estimation</span><b class="courierNewFont">: {{ $instructionRow->manhours_estimation ?? '-' }}</b>
+                    </td>
+                    <td width="25%">
+                        <span>Manhours Actual</span><b class="courierNewFont">: {{ $instructionRow->actual_manhour ?? '-' }}</b>
+                    </td>
+                    <td width="25%">
+                        <span>Manpower Estimation</span><b class="courierNewFont">: {{ $instructionRow->manpower_quantity ?? '-' }}</b>
+                    </td>
+                    <td width="25%">
+                        <span>Manpower Actual</span><b class="courierNewFont">: {{ $instructionRow->manpower_quantity ?? '-' }}</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- TO DO IF INSTRUCTION HAS SUB-TASKS -->
+        @if( $instructionRow->subTasks()->count() > 0 )
+            @foreach($instructionRow->subTasks as $subTask)
+            <div style="margin-left: 6cm;">
+                <table width="100%" style="border: 1px solid black">
+                    <thead>
+                        <tr style="background-color:black; color: white;">
+                            <th width="50%"> 
+                                <span>Task Code </span> <b class="courierNewFont">: {{ $subTask->origin_instruction[0]->code ?? '-' }} </b>
+                            </th>
+                            <th width="50%" style="text-align:right;"> 
+                                <span>Instruction Sequence </span> <b class="courierNewFont">: {{ $subTask->sequence ?? '-' }} </b>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="td-border" width="50%">
+                                <span>Work Area </span> <b class="courierNewFont">: {{ $subTask->taskcard_workarea->name ?? '-' }} </b>
+                            </td>
+                            <td class="td-border" width="50%">
+                                <span>Skill </span> <b class="courierNewFont">: 
+                                @if ( !empty(json_decode($subTask->skills_json)) )
+                                {{ collect(json_decode($subTask->skills_json))->pluck('name')->join(', ') }}
+                                @endif
+                                </b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+                    
+                    <tbody>
+                        <tr>
+                            <td class="td-border" width="33%">
+                                <span>Performance Factor </span> <b class="courierNewFont">: {{ $subTask->performance_factor ?? '-' }} </b>
+                            </td>
+                            <td class="td-border" width="33%">
+                                <span>Minimum Engineering Level </span> <b class="courierNewFont">: {{ $subTask->engineering_level->name ?? '-' }} </b>
+                            </td>
+                            <td class="td-border" width="33%">
+                                <span>Task Release Level </span> <b class="courierNewFont">: {{ $subTask->task_release_level->last()->name ?? '-' }} </b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+                    <tbody>
+                        <tr>
+                            <td class="td-border" width="80%">
+                                <span>Job Instruction </span>
+                            </td>
+                            <td class="td-border" width="10%" style="text-align: center;">
+                                <span>MECH</span>
+                            </td>
+                            <td class="td-border" width="10%" style="text-align: center;">
+                                <span>INSP</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-border" width="80%">
+                            @if ($subTask->instruction)
+                                <b class="courierNewFont">{!! $subTask->instruction !!}</b>
+                            @endif
+
+                            <br>
+                            <span>Item Requirement(s):</span>
+                            @if ( $subTask->items()->count() > 0 )
+                            <table style="border-top:1px solid black;" style="width:100%">
+                                <thead>
+                                    <tr style="border-top:1px solid black;">
+                                        <th style="font-weight: normal;">Code/Part Number</th>
+                                        <th style="font-weight: normal;">Item Name</th>
+                                        <th style="font-weight: normal;">Qty</th>
+                                        <th style="font-weight: normal;">Unit</th>
+                                        <th style="font-weight: normal;">Category</th>
+                                        <th style="font-weight: normal;">Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="border-top:1px solid black;">
+                                        @foreach ($subTask->items as $item_detail)
+                                        <tr>
+                                            <td>{{ $item_detail->item->code ?? '' }}</td>
+                                            <td>{{ $item_detail->item->name ?? '' }}</td>
+                                            <td>{{ $item_detail->quantity ?? '' }}</td>
+                                            <td>{{ $item_detail->unit->name ?? '' }}</td>
+                                            <td>{{ $item_detail->category->name ?? '' }}</td>
+                                            <td>{{ $item_detail->description ?? '' }}</td>
+                                        </tr>
+                                        @endforeach
+                                </tbody>
+                            </table>
+                            @else
+                            <div style="text-align:center" >
+                                <b><i>- NONE -</i></b>
+                            </div>
+                            @endif
+                            <br>
+                            <div style="text-align:center; border-top:1px solid black;" >
+                                <b><i>- End Of Task -</i></b>
+                            </div>
+                            </td>
+                            <td class="td-border" width="10%">
+                            </td>
+                            <td class="td-border" width="10%">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+                    <tbody>
+                        <tr>
+                            <td width="25%">
+                                <span>Manhours Estimation</span><b class="courierNewFont">: {{ $subTask->manhours_estimation ?? '-' }}</b>
+                            </td>
+                            <td width="25%">
+                                <span>Manhours Actual</span><b class="courierNewFont">: {{ $subTask->actual_manhour ?? '-' }}</b>
+                            </td>
+                            <td width="25%">
+                                <span>Manpower Estimation</span><b class="courierNewFont">: {{ $subTask->manpower_quantity ?? '-' }}</b>
+                            </td>
+                            <td width="25%">
+                                <span>Manpower Actual</span><b class="courierNewFont">: {{ $subTask->manpower_quantity ?? '-' }}</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @endforeach
+            @if( $subTask->subTasks()->count() > 0)
+                @foreach( $subTask->subTasks as $subTaskChildRow)
+                    <div style="margin-left: 3cm;">
+                        <table width="100%" style="border: 1px solid black">
+                            <thead>
+                                <tr style="background-color:black; color: white;">
+                                    <th width="50%"> 
+                                        <span>Task Code </span> <b class="courierNewFont">: {{ $subTaskChildRow->origin_instruction[0]->code ?? '-' }} </b>
+                                    </th>
+                                    <th width="50%" style="text-align:right;"> 
+                                        <span>Instruction Sequence </span> <b class="courierNewFont">: {{ $subTaskChildRow->sequence ?? '-' }} </b>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="td-border" width="50%">
+                                        <span>Work Area </span> <b class="courierNewFont">: {{ $subTaskChildRow->taskcard_workarea->name ?? '-' }} </b>
+                                    </td>
+                                    <td class="td-border" width="50%">
+                                        <span>Skill </span> <b class="courierNewFont">: 
+                                        @if ( !empty(json_decode($subTaskChildRow->skills_json)) )
+                                        {{ collect(json_decode($subTaskChildRow->skills_json))->pluck('name')->join(', ') }}
+                                        @endif
+                                        </b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+                            
+                            <tbody>
+                                <tr>
+                                    <td class="td-border" width="33%">
+                                        <span>Performance Factor </span> <b class="courierNewFont">: {{ $subTaskChildRow->performance_factor ?? '-' }} </b>
+                                    </td>
+                                    <td class="td-border" width="33%">
+                                        <span>Minimum Engineering Level </span> <b class="courierNewFont">: {{ $subTaskChildRow->engineering_level->name ?? '-' }} </b>
+                                    </td>
+                                    <td class="td-border" width="33%">
+                                        <span>Task Release Level </span> <b class="courierNewFont">: {{ $subTaskChildRow->task_release_level->last()->name ?? '-' }} </b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+                            <tbody>
+                                <tr>
+                                    <td class="td-border" width="80%">
+                                        <span>Job Instruction </span>
+                                    </td>
+                                    <td class="td-border" width="10%" style="text-align: center;">
+                                        <span>MECH</span>
+                                    </td>
+                                    <td class="td-border" width="10%" style="text-align: center;">
+                                        <span>INSP</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-border" width="80%">
+                                    @if ($subTaskChildRow->instruction)
+                                        <b class="courierNewFont">{!! $subTaskChildRow->instruction !!}</b>
+                                    @endif
+
+                                    <br>
+                                    <span>Item Requirement(s):</span>
+                                    @if ( $subTaskChildRow->items()->count() > 0 )
+                                    <table style="border-top:1px solid black;" style="width:100%">
+                                        <thead>
+                                            <tr style="border-top:1px solid black;">
+                                                <th style="font-weight: normal;">Code/Part Number</th>
+                                                <th style="font-weight: normal;">Item Name</th>
+                                                <th style="font-weight: normal;">Qty</th>
+                                                <th style="font-weight: normal;">Unit</th>
+                                                <th style="font-weight: normal;">Category</th>
+                                                <th style="font-weight: normal;">Remark</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="border-top:1px solid black;">
+                                                @foreach ($subTask->items as $item_detail)
+                                                <tr>
+                                                    <td>{{ $item_detail->item->code ?? '' }}</td>
+                                                    <td>{{ $item_detail->item->name ?? '' }}</td>
+                                                    <td>{{ $item_detail->quantity ?? '' }}</td>
+                                                    <td>{{ $item_detail->unit->name ?? '' }}</td>
+                                                    <td>{{ $item_detail->category->name ?? '' }}</td>
+                                                    <td>{{ $item_detail->description ?? '' }}</td>
+                                                </tr>
+                                                @endforeach
+                                        </tbody>
+                                    </table>
+                                    @else
+                                    <div style="text-align:center" >
+                                        <b><i>- NONE -</i></b>
+                                    </div>
+                                    @endif
+                                    <br>
+                                    <div style="text-align:center; border-top:1px solid black;" >
+                                        <b><i>- End Of Task -</i></b>
+                                    </div>
+                                    </td>
+                                    <td class="td-border" width="10%">
+                                    </td>
+                                    <td class="td-border" width="10%">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="border: 1px solid black; border-top: none; margin-top: 0cm;">
+                            <tbody>
+                                <tr>
+                                    <td width="25%">
+                                        <span>Manhours Estimation</span><b class="courierNewFont">: {{ $subTask->manhours_estimation ?? '-' }}</b>
+                                    </td>
+                                    <td width="25%">
+                                        <span>Manhours Actual</span><b class="courierNewFont">: {{ $subTask->actual_manhour ?? '-' }}</b>
+                                    </td>
+                                    <td width="25%">
+                                        <span>Manpower Estimation</span><b class="courierNewFont">: {{ $subTask->manpower_quantity ?? '-' }}</b>
+                                    </td>
+                                    <td width="25%">
+                                        <span>Manpower Actual</span><b class="courierNewFont">: {{ $subTask->manpower_quantity ?? '-' }}</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endforeach
+            @endif
+        @endif
+        @endforeach
     </div>
 
     <script type="text/php">

@@ -886,6 +886,8 @@ class JobCardController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
 
+        $instructions = $job_card->details()->whereNull('parent_id')->get();
+
         $pdfFile = $pdf->loadView('ppc::pages.job-card.print', [
             'tags' => $tags,
             'zones' => $zones,
@@ -894,6 +896,7 @@ class JobCardController extends Controller
             'accesses' => $accesses,
             'threshold' => $threshold,
             'work_areas' => $work_areas,
+            'instructions' => $instructions,
             'affected_items' => $affected_items,
             'affected_manuals' => $affected_manuals,
             'document_libraries' => $document_libraries,
