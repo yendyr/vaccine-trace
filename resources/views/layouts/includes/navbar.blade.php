@@ -8,13 +8,13 @@
 </div>
 <ul class="nav navbar-top-links navbar-right">
     <li>
-        <span class="m-r-sm welcome-message">Welcome to SmartAircraft.ID</span>
+        <span class="m-r-sm welcome-message">Welcome to {{ config('app.name') }}</span>
     </li>
-    <li>
+    {{-- <li>
         <span class="m-r-sm welcome-message">
             <img src={{URL::asset('/Logo-Web.png')}} height="40px">
         </span>
-    </li>
+    </li> --}}
     <li>
         @guest
             <li class="nav-item">

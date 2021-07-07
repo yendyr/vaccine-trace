@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>{{ config('gate.name', 'Laravel') }} | Dashboard</title>
+    <title>{{ config('app.name') }} | Login</title>
 
     <link rel="icon" type="image/png" href="{{ URL::asset('/ico.png') }}">
     <link href="{{ URL::asset('theme/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -18,18 +18,18 @@
 </head>
 
 <body class="img js-fullheight bg-plane">
-    <img class="absolute" src="{{URL::asset('theme/img/yems/smartaircraft logo putih.png')}}" alt="">
+    {{-- <img class="absolute" src="{{URL::asset('theme/img/yems/smartaircraft logo putih.png')}}" alt=""> --}}
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Welcome to SmartAircraft!</h2>
+					<h2 class="heading-section">Welcome to {{ config('app.name') }}</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
-		      	<h3 class="mb-4 text-center">Have an account?</h3>
+		      	{{-- <h3 class="mb-4 text-center">Have an account?</h3> --}}
 		      	<form action="{{ route('login') }}" class="signin-form" role="form" method="POST">
                     @csrf
 		      		<div class="form-group">
@@ -62,9 +62,9 @@
                                 <span class="checkmark"></span>
                             </label>
                         </div>
-                        <div class="w-50 text-md-right">
+                        {{-- <div class="w-50 text-md-right">
                             <a href="{{ route('password.request') }}" style="color: #fff">Forgot Password</a>
-                        </div>
+                        </div> --}}
                     </div>
 	          </form>
 
@@ -78,8 +78,8 @@
 			</div>
 		</div>
 	</section>
-    <br>
-    <p class="w-100 text-center text-white">Your Aircraft Reliability, Starts Here! One Stop Solutions and Services for Aviation System. <br><a target="_blank" href="https://smartaircraft.id">© {{date('Y')}} Smartaircraft.ID</a></p>
+    {{-- <br>
+    <p class="w-100 text-center text-white">Your Aircraft Reliability, Starts Here! One Stop Solutions and Services for Aviation System. <br><a target="_blank" href="https://smartaircraft.id">© {{date('Y')}} Smartaircraft.ID</a></p> --}}
 
     <!-- jQuery -->
     <script src="{{URL::asset('theme/js/jquery.min.js')}}"></script>

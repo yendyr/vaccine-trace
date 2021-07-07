@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>SmartAircraft 2021</title>
+    <title>{{ config('app.name') }}</title>
     
     @include('layouts.includes._header-script')
     @stack('header-scripts')
@@ -49,7 +49,7 @@
             @endif
 
             <div class="footer d-print-none">
-                <strong>Copyright</strong> SmartAircraft.ID &copy; {{ date('Y') }}
+                <strong>Copyright</strong> {{ config('app.name') }} &copy; {{ date('Y') }}
             </div>            
 
             @include('components.toast.toast')

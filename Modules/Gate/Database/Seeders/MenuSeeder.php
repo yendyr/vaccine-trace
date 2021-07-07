@@ -18,14 +18,14 @@ class MenuSeeder extends Seeder
 
         $this->call([
             ModuleMenu\GateMenuSeeder::class,
-            ModuleMenu\HumanResourcesMenuSeeder::class,
-            ModuleMenu\GeneralSettingMenuSeeder::class,
-            ModuleMenu\AccountingMenuSeeder::class,
-            ModuleMenu\QualityAssuranceMenuSeeder::class,
-            ModuleMenu\SupplyChainMenuSeeder::class,
-            ModuleMenu\PPCMenuSeeder::class,
-            ModuleMenu\FlightOperationsMenuSeeder::class,
-            ModuleMenu\ProcurementMenuSeeder::class,
+            // ModuleMenu\HumanResourcesMenuSeeder::class,
+            // ModuleMenu\GeneralSettingMenuSeeder::class,
+            // ModuleMenu\AccountingMenuSeeder::class,
+            // ModuleMenu\QualityAssuranceMenuSeeder::class,
+            // ModuleMenu\SupplyChainMenuSeeder::class,
+            // ModuleMenu\PPCMenuSeeder::class,
+            // ModuleMenu\FlightOperationsMenuSeeder::class,
+            // ModuleMenu\ProcurementMenuSeeder::class,
         ]);
     }
 }
