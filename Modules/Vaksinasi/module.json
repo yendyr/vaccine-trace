@@ -1,0 +1,13 @@
+{
+    "name": "Vaksinasi",
+    "alias": "vaksinasi",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Vaksinasi\\Providers\\VaksinasiServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

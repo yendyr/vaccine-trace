@@ -7,5 +7,6 @@
     "SupplyChain": true,
     "Accounting": true,
     "FlightOperations": true,
-    "Procurement": true
+    "Procurement": true,
+    "Vaksinasi": true
 }
