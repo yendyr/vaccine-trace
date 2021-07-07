@@ -18,5 +18,7 @@ Route::name('vaksinasi.')->group(function () {
         });   
         
         Route::resource('/vaccination-participant', 'VaccinationParticipantController');
+
+        Route::resource('/participant-daily', 'ParticipantDailyCountController');
     });
 });

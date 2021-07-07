@@ -4,12 +4,12 @@
 @push('footer-scripts')
 <script>
 $(document).ready(function () {
-    var actionUrl = '/vaksinasi/vaccination-participant';
-    var tableId = '#vaccination-participant-table';
+    var actionUrl = '/vaksinasi/participant-daily';
+    var tableId = '#participant-daily-table';
     var inputFormId = '#inputForm';
 
-    $('#vaccination-participant-table thead tr').clone(true).appendTo('#vaccination-participant-table thead');
-    $('#vaccination-participant-table thead tr:eq(1) th').each( function (i) {
+    $('#participant-daily-table thead tr').clone(true).appendTo('#participant-daily-table thead');
+    $('#participant-daily-table thead tr:eq(1) th').each( function (i) {
         if ($(this).text() != 'Action') {
             var title = $(this).text();
             $(this).html('<input type="text" placeholder="Search" class="form-control" />');
@@ -30,16 +30,6 @@ $(document).ready(function () {
         }
     });
 
-    $('#vaccination-participant-table tbody').on( 'click', 'tr.group', function () {
-        var currentOrder = datatableObject.order()[0];
-        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
-            datatableObject.order( [ groupColumn, 'desc' ] ).draw();
-        }
-        else {
-            datatableObject.order( [ groupColumn, 'asc' ] ).draw();
-        }
-    });
-
     var groupColumn = 1;
 
     var datatableObject = $(tableId).DataTable({
@@ -56,7 +46,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group" style="text-align: left;"><td colspan="11">Satuan: <b>' + group + '</b></td></tr>'
+                        '<tr class="group" style="text-align: left;"><td colspan="7">Satuan: <b>' + group + '</b></td></tr>'
                     );
                     last = group;
                 }
@@ -71,17 +61,13 @@ $(document).ready(function () {
         serverSide: false,
         searchDelay: 1500,
         ajax: {
-            url: "{{ route('vaksinasi.vaccination-participant.index') }}",
+            url: "{{ route('vaksinasi.participant-daily.index') }}",
         },
         columns: [
             { data: 'date', defaultContent: '-'  },
             { data: 'squad.name', defaultContent: '-'  },
-            { data: 'id_type', defaultContent: '-'  },
-            { data: 'id_number', defaultContent: '-'  },
             { data: 'category', defaultContent: '-'  },
-            { data: 'name', defaultContent: '-' },
-            { data: 'address', defaultContent: '-' },
-            { data: 'vaccine_used', defaultContent: '-' },
+            { data: 'total', defaultContent: '-' },
             // { data: 'status', defaultContent: '-' },
             // { data: 'creator_name', defaultContent: '-' },
             { data: 'created_at', defaultContent: '-' },
@@ -89,6 +75,16 @@ $(document).ready(function () {
             { data: 'updated_at', defaultContent: '-' },
             { data: 'action', orderable: false },
         ]
+    });
+
+    $('#participant-daily-table tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = datatableObject.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            datatableObject.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            datatableObject.order( [ groupColumn, 'asc' ] ).draw();
+        }
     });
 
 
@@ -105,25 +101,9 @@ $(document).ready(function () {
         dropdownParent: $('#inputModal')
     });
 
-    $('.id_type').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Pilih Jenis Identitas',
-        allowClear: false,
-        minimumResultsForSearch: -1,
-        dropdownParent: $('#inputModal')
-    });
-
     $('.category').select2({
         theme: 'bootstrap4',
         placeholder: 'Pilih Kategori',
-        allowClear: false,
-        minimumResultsForSearch: -1,
-        dropdownParent: $('#inputModal')
-    });
-
-    $('.vaccine_used').select2({
-        theme: 'bootstrap4',
-        placeholder: 'Pilih Jenis Vaksin',
         allowClear: false,
         minimumResultsForSearch: -1,
         dropdownParent: $('#inputModal')
@@ -135,11 +115,11 @@ $(document).ready(function () {
 
 
     $('#create').click(function () {
-        showCreateModal ('Buat Data Partisipan Baru', inputFormId, actionUrl);
+        showCreateModal ('Buat Data Total Vaksinasi Harian Baru', inputFormId, actionUrl);
     });
 
     datatableObject.on('click', '.editBtn', function () {
-        $('#modalTitle').html("Ubah Data Partisipan");
+        $('#modalTitle').html("Ubah Data Total Vaksinasi Harian");
         $(inputFormId).trigger("reset");                
         rowId= $(this).val();
         let tr = $(this).closest('tr');
@@ -153,12 +133,8 @@ $(document).ready(function () {
         }).prependTo(inputFormId);
 
         $('.date').val(data.date);
-        $('#id_type').val(data.id_type).trigger('change');
-        $('#id_number').val(data.id_number);
         $('#category').val(data.category).trigger('change');
-        $('#name').val(data.name);
-        $('#address').val(data.address); 
-        $('#vaccine_used').val(data.vaccine_used).trigger('change'); 
+        $('#total').val(data.total);
 
         $('#squad_id').append('<option value="' + data.squad_id + '" selected>' + data.squad.name + '</option>');
 

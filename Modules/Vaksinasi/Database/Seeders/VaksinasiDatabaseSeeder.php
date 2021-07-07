@@ -16,6 +16,8 @@ class VaksinasiDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call([
+            SquadSeeder::class,
+        ]);
     }
 }

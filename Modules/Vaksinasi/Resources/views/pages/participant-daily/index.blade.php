@@ -1,17 +1,17 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('components.delete-modal', ['name' => 'Data Partisipan Vaksinasi'])
+    @component('components.delete-modal', ['name' => 'Data Total Vaksinasi Harian'])
     @endcomponent
 
-    @include('vaksinasi::pages.vaccination-participant.modal')
+    @include('vaksinasi::pages.participant-daily.modal')
 
     @component('components.crud-form.index',[
-                    'title' => 'Data Partisipan Vaksinasi',
-                    'tableId' => 'vaccination-participant-table'])
+                    'title' => 'Data Total Vaksinasi Harian',
+                    'tableId' => 'participant-daily-table'])
 
         @slot('createButton')
-            @can('create', Modules\Vaksinasi\Entities\VaccinationParticipant::class)                
+            @can('create', Modules\Vaksinasi\Entities\ParticipantDailyCount::class)                
                 <button type="button" id="create" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus-circle"></i>&nbsp;Tambah Baru
                 </button>   
@@ -21,12 +21,8 @@
         @slot('tableContent')
             <th>Tanggal</th>
             <th>Nama Satuan</th>
-            <th>Jenis Identitas</th>
-            <th>Nomor Identitas</th>
             <th>Kategori</th>
-            <th>Nama</th>
-            <th>Alamat</th>
-            <th>Jenis Vaksin</th>
+            <th>Total</th>
             {{-- <th>Created By</th> --}}
             <th>Created At</th>
             {{-- <th>Last Updated By</th> --}}
@@ -35,7 +31,7 @@
         @endslot
     @endcomponent
 
-    @include('vaksinasi::components.vaccination-participant._script')
+    @include('vaksinasi::components.participant-daily._script')
 
 @endsection
 

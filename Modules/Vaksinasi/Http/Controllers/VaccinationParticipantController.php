@@ -29,17 +29,17 @@ class VaccinationParticipantController extends Controller
             $data = VaccinationParticipant::with(['squad']);
 
             return Datatables::of($data)
-            ->addColumn('status', function($row) {
-                if ($row->status == 1) {
-                    return '<label class="label label-success">Active</label>';
-                } 
-                else {
-                    return '<label class="label label-danger">Inactive</label>';
-                }
-            })
-            ->addColumn('creator_name', function($row) {
-                return $row->creator->name ?? '-';
-            })
+            // ->addColumn('status', function($row) {
+            //     if ($row->status == 1) {
+            //         return '<label class="label label-success">Active</label>';
+            //     } 
+            //     else {
+            //         return '<label class="label label-danger">Inactive</label>';
+            //     }
+            // })
+            // ->addColumn('creator_name', function($row) {
+            //     return $row->creator->name ?? '-';
+            // })
             ->addColumn('updater_name', function($row) {
                 return $row->updater->name ?? '-';
             })
@@ -72,15 +72,15 @@ class VaccinationParticipantController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date' => ['required', 'max:30', 'unique:vaccination_participants,squad_id, id_type, id_number'],
-            'squad_id' => ['required', 'max:30', 'unique:date, vaccination_participants, id_type, id_number'],
-            'id_type' => ['required', 'max:30', 'unique:date, vaccination_participants, squad_id, id_number'],
-            'id_number' => ['required', 'max:30', 'unique:date, vaccination_participants, squad_id, id_type'],
+            'date' => ['required', 'max:30', 'unique:vaccination_participants,squad_id,id_type,id_number'],
+            'squad_id' => ['required', 'max:30', 'unique:vaccination_participants,date,id_type,id_number'],
+            'id_type' => ['required', 'max:30', 'unique:vaccination_participants,date,squad_id,id_number'],
+            'id_number' => ['required', 'max:30', 'unique:vaccination_participants,date,squad_id,id_type'],
 
             'name' => ['required', 'max:30'],
         ]);
 
-        $date = Carbon::parse($request->date);
+        $date = Carbon::parse($request->date)->format('Y-m-d');
 
         if ($request->status) {
             $status = 1;
@@ -118,7 +118,7 @@ class VaccinationParticipantController extends Controller
             'name' => ['required', 'max:30'],
         ]);
 
-        $date = Carbon::parse($request->date);
+        $date = Carbon::parse($request->date)->format('Y-m-d');
 
         if ($request->status) {
             $status = 1;
@@ -127,8 +127,8 @@ class VaccinationParticipantController extends Controller
             $status = 0;
         }
 
-        if ( $Squad->date == $date && $Squad->squad_id == $request->squad_id && $Squad->id_type == $request->id_type && $Squad->id_number == $request->id_number) {
-            $Squad->update([
+        if ( $VaccinationParticipant->date == $date && $VaccinationParticipant->squad_id == $request->squad_id && $VaccinationParticipant->id_type == $request->id_type && $VaccinationParticipant->id_number == $request->id_number) {
+            $VaccinationParticipant->update([
                 'name' => $request->name,
                 'address' => $request->address,
                 'vaccine_used' => $request->vaccine_used,
@@ -138,16 +138,14 @@ class VaccinationParticipantController extends Controller
             ]);
         }
         else {
-            $request->validate([
-                'date' => ['required', 'max:30', 'unique:vaccination_participants,squad_id, id_type, id_number'],
-                'squad_id' => ['required', 'max:30', 'unique:date, vaccination_participants, id_type, id_number'],
-                'id_type' => ['required', 'max:30', 'unique:date, vaccination_participants, squad_id, id_number'],
-                'id_number' => ['required', 'max:30', 'unique:date, vaccination_participants, squad_id, id_type'],
-    
-                'name' => ['required', 'max:30'],
+            $validate = $request->validate([
+                'date' => ['required', 'max:30', 'unique:vaccination_participants,squad_id,id_type,id_number'],
+                'squad_id' => ['required', 'max:30', 'unique:vaccination_participants,date,id_type,id_number'],
+                'id_type' => ['required', 'max:30', 'unique:vaccination_participants,date,squad_id,id_number'],
+                'id_number' => ['required', 'max:30', 'unique:vaccination_participants,date,squad_id,id_type'],
             ]);
 
-            $Squad->update([
+            $VaccinationParticipant->update([
                 'date' => $date,
                 'squad_id' => $request->squad_id,
                 'id_type' => $request->id_type,
@@ -161,7 +159,7 @@ class VaccinationParticipantController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
         }
-        return response()->json(['success' => 'Data Partisipan Vaksinasi Berhasil Ditambahkan Diubah']);    
+        return response()->json(['success' => 'Data Partisipan Vaksinasi Berhasil Diubah']);    
     }
     
     public function destroy(VaccinationParticipant $VaccinationParticipant)
@@ -170,7 +168,7 @@ class VaccinationParticipantController extends Controller
             'deleted_by' => Auth::user()->id,
         ]);
 
-        VaccinationParticipant::destroy($Squad->id);
+        VaccinationParticipant::destroy($VaccinationParticipant->id);
         return response()->json(['success' => 'Data Partisipan Vaksinasi Berhasil Dihapus']);
     }
 }

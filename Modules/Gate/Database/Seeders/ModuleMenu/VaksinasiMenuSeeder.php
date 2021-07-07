@@ -57,5 +57,25 @@ class VaksinasiMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        Menu::create([
+            'menu_link' => 'vaksinasi/participant-daily',
+            'menu_text' => 'Input Total Harian',
+            'menu_route' => 'vaksinasi.participant-daily.index',
+            'menu_icon' => 'fa-users',
+            'menu_class' => 'Modules\Vaksinasi\Entities\ParticipantDailyCount',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['vaksinasi/participant-daily', 'vaksinasi/participant-daily/*']),
+            'group' => 'Vaksinasi',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }

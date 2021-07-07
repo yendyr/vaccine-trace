@@ -230,6 +230,9 @@ use Modules\Vaksinasi\Policies\SquadPolicy;
 use Modules\Vaksinasi\Entities\VaccinationParticipant;
 use Modules\Vaksinasi\Policies\VaccinationParticipantPolicy;
 
+use Modules\Vaksinasi\Entities\ParticipantDailyCount;
+use Modules\Vaksinasi\Policies\ParticipantDailyCountPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -330,6 +333,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Squad::class => SquadPolicy::class,
         VaccinationParticipant::class => VaccinationParticipantPolicy::class,
+        ParticipantDailyCount::class => ParticipantDailyCountPolicy::class,
     ];
 
     /**
