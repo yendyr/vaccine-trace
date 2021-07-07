@@ -26,6 +26,7 @@ class MenuSeeder extends Seeder
             // ModuleMenu\PPCMenuSeeder::class,
             // ModuleMenu\FlightOperationsMenuSeeder::class,
             // ModuleMenu\ProcurementMenuSeeder::class,
+            ModuleMenu\VaksinasiMenuSeeder::class,
         ]);
     }
 }

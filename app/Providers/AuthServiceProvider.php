@@ -224,6 +224,9 @@ use Modules\Procurement\Policies\PurchaseRequisitionPolicy;
 use Modules\Procurement\Entities\PurchaseOrder;
 use Modules\Procurement\Policies\PurchaseOrderPolicy;
 
+use Modules\Vaksinasi\Entities\Squad;
+use Modules\Vaksinasi\Policies\SquadPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -321,6 +324,8 @@ class AuthServiceProvider extends ServiceProvider
 
         PurchaseRequisition::class => PurchaseRequisitionPolicy::class,
         PurchaseOrder::class => PurchaseOrderPolicy::class,
+
+        Squad::class => SquadPolicy::class,
     ];
 
     /**

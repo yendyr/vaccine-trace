@@ -32,20 +32,21 @@ class ItemCategoryController extends Controller
                                         'work_in_progress_coa:code,id,name',]);
 
             return Datatables::of($data)
-            ->addColumn('status', function($row){
-                if ($row->status == 1){
+            ->addColumn('status', function($row) {
+                if ($row->status == 1) {
                     return '<label class="label label-success">Active</label>';
-                } else{
+                } 
+                else {
                     return '<label class="label label-danger">Inactive</label>';
                 }
             })
-            ->addColumn('creator_name', function($row){
+            ->addColumn('creator_name', function($row) {
                 return $row->creator->name ?? '-';
             })
-            ->addColumn('updater_name', function($row){
+            ->addColumn('updater_name', function($row) {
                 return $row->updater->name ?? '-';
             })
-            ->addColumn('action', function($row){
+            ->addColumn('action', function($row) {
                 $noAuthorize = true;
                 if(Auth::user()->can('update', ItemCategory::class)) {
                     $updateable = 'button';
@@ -81,7 +82,6 @@ class ItemCategoryController extends Controller
     {
         $request->validate([
             'code' => ['required', 'max:30', 'unique:item_categories,code'],
-            'name' => ['required', 'max:30'],
             'name' => ['required', 'max:30'],
         ]);
 

@@ -35,9 +35,9 @@
                 <img class="absolute2" src="{{URL::asset('theme/img/yems/asset-1.png')}}" alt="">
             </div>
         </li>
-        <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
+        {{-- <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
             <a href="{{ route('dashboard')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboard</span></a>
-        </li>
+        </li> --}}
         @include('layouts/includes/sidebar-item')
     </ul>
 </div>
