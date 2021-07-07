@@ -17,6 +17,7 @@ class MenuSeeder extends Seeder
         Model::unguard();
 
         $this->call([
+            ModuleMenu\VaksinasiMenuSeeder::class,
             ModuleMenu\GateMenuSeeder::class,
             // ModuleMenu\HumanResourcesMenuSeeder::class,
             // ModuleMenu\GeneralSettingMenuSeeder::class,
@@ -25,8 +26,7 @@ class MenuSeeder extends Seeder
             // ModuleMenu\SupplyChainMenuSeeder::class,
             // ModuleMenu\PPCMenuSeeder::class,
             // ModuleMenu\FlightOperationsMenuSeeder::class,
-            // ModuleMenu\ProcurementMenuSeeder::class,
-            ModuleMenu\VaksinasiMenuSeeder::class,
+            // ModuleMenu\ProcurementMenuSeeder::class,            
         ]);
     }
 }

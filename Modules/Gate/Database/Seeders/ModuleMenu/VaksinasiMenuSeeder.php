@@ -37,5 +37,25 @@ class VaksinasiMenuSeeder extends Seeder
             'uuid' => Str::uuid(),
             'parent_id' => null
         ]);
+
+        Menu::create([
+            'menu_link' => 'vaksinasi/vaccination-participant',
+            'menu_text' => 'Input Detil Partisipan',
+            'menu_route' => 'vaksinasi.vaccination-participant.index',
+            'menu_icon' => 'fa-user-circle-o',
+            'menu_class' => 'Modules\Vaksinasi\Entities\VaccinationParticipant',
+            'menu_id' => null,
+            'menu_actives' => json_encode(['vaksinasi/vaccination-participant', 'vaksinasi/vaccination-participant/*']),
+            'group' => 'Vaksinasi',
+            'add' => 1,
+            'update' => 1,
+            'delete' => 1,
+            'print' => 1,
+            'approval' => 1,
+            'process' => 0,
+            'status' => 1,
+            'uuid' => Str::uuid(),
+            'parent_id' => null
+        ]);
     }
 }

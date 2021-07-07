@@ -31,19 +31,6 @@ $(document).ready(function () {
         ]
     });
 
-
-
-    // $('.item_type').select2({
-    //     theme: 'bootstrap4',
-    //     placeholder: 'Choose Type',
-    //     allowClear: false,
-    //     minimumResultsForSearch: -1,
-    //     dropdownParent: $('#inputModal')
-    // });
-
-
-
-
     $('#create').click(function () {
         showCreateModal ('Buat Data Satuan Baru', inputFormId, actionUrl);
     });
@@ -60,18 +47,13 @@ $(document).ready(function () {
             type: 'hidden',
             name: '_method',
             value: 'patch'
-        }).prependTo('#inputForm');
+        }).prependTo(inputFormId);
 
         $('#code').val(data.code);
         $('#name').val(data.name);
         $('#description').val(data.description); 
         $('#address').val(data.address); 
         $('#vaccine_target').val(data.vaccine_target); 
-
-        // $(".unit_class_id").val(null).trigger('change');
-        // if (data.unit_class != null){
-        //     $('#unit_class_id').append('<option value="' + data.unit_class_id + '" selected>' + data.unit_class.name + '</option>');
-        // } 
 
         if (data.status == '<label class="label label-success">Active</label>') {
             $('#status').prop('checked', true);
@@ -81,7 +63,6 @@ $(document).ready(function () {
         }
 
         $('#saveBtn').val("edit");
-        $('[class^="invalid-feedback-"]').html('');  // clearing validation
         $('#inputModal').modal('show');
     });
 

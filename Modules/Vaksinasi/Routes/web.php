@@ -15,6 +15,8 @@ Route::name('vaksinasi.')->group(function () {
         Route::resource('/squad', 'SquadController');   
         Route::name('squad.')->group(function() {
             Route::get('vaksinasi/squad/select2', 'SquadController@select2')->name('select2');
-        });     
+        });   
+        
+        Route::resource('/vaccination-participant', 'VaccinationParticipantController');
     });
 });

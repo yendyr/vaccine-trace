@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class Squad extends MainModel
+class VaccinationParticipant extends MainModel
 {
     use softDeletes;
     protected $dates = ['deleted_at'];
@@ -15,12 +15,15 @@ class Squad extends MainModel
 
     protected $fillable = [
         'uuid',
-        'code',
         
+        'date',
+        'squad_id',
+        'id_type',
+        'id_number',
+        'category',
         'name',
-        'description',
         'address',
-        'vaccine_target',
+        'vaccine_used',
 
         'status',
         'created_by',
@@ -37,10 +40,10 @@ class Squad extends MainModel
     public function updater()
     {
         return $this->belongsTo(\Modules\Gate\Entities\User::class, 'updated_by');
-    } 
+    }
     
-    public function vaccination_participans()
+    public function squad()
     {
-        return $this->hasMany(\Modules\Vaksinasi\Entities\VaccinationParticipan::class, 'squad_id');
+        return $this->belongsTo(\Modules\Vaksinasi\Entities\Squad::class, 'squad_id');
     }
 }
